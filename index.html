@@ -3,128 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VALTARA | Executive Therapy & Restauración Biomecánica CDMX</title>
-    <meta name="description" content="Clínica de élite en Reforma 195. Especialistas en masoterapia deportiva, liberación miofascial y triaje predictivo.">
-    <meta name="author" content="Grupo Gevizz S.A.S.">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <title>VALTARA | Executive Therapy & Restauración Biomecánica</title>
+    <meta name="description" content="Santuario clínico en Reforma 195.">
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <!-- Tipografías -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-    <!-- SOLUCIÓN: Rutas estrictamente en MINÚSCULAS para que Linux las lea -->
-    <link rel="stylesheet" href="css/main.css?v=4">
-    <link rel="stylesheet" href="css/components.css?v=4">
+    <!-- RUTAS BLINDADAS (Anti-Caché V10.3) -->
+    <link rel="stylesheet" href="css/main.css?v=10.3">
+    <link rel="stylesheet" href="css/components.css?v=10.3">
 </head>
-<body class="system-loading">
+<body>
 
-    <a href="#main-content" class="sr-only skip-link">Saltar al contenido principal</a>
-    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando sistema Valtara Sovereign...</div>
+    <!-- =========================================================
+         1. PANTALLA DE BIENVENIDA INMERSIVA (ONBOARDING)
+         Esta pantalla cubre todo hasta que el usuario pone su nombre
+         ========================================================= -->
+    <div id="onboarding-screen" class="full-screen-overlay" aria-hidden="false">
+        <div class="onboarding-content">
+            <i aria-hidden="true" class="fa-solid fa-leaf gold-icon" style="font-size: 4rem; margin-bottom: 2rem;"></i>
+            <h1 style="font-family: var(--font-accent); font-size: 3rem; margin-bottom: 1rem;">Bienvenido a Valtara</h1>
+            <p style="color: #bbb; font-size: 1.1rem; margin-bottom: 3rem; font-weight: 300;">Para personalizar su expediente clínico y su experiencia, por favor indíquenos cómo desea ser llamado.</p>
+            
+            <div class="input-group">
+                <label for="welcome-name-input" class="sr-only">Su nombre o título</label>
+                <input type="text" id="welcome-name-input" placeholder="Ej. Licenciado, Doctor, Ángel..." autocomplete="off">
+                <button id="welcome-start-btn" class="btn-primary" style="margin-top: 1.5rem; width: 100%;">Ingresar al Santuario</button>
+            </div>
+            <button id="welcome-skip-btn" class="btn-text-only" style="margin-top: 2rem; color: #777; font-size: 0.9rem; text-decoration: underline;">Prefiero entrar como invitado</button>
+        </div>
+    </div>
 
+    <!-- ANUNCIADOR DE ACCESIBILIDAD OCULTO -->
+    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer"></div>
+
+    <!-- FONDOS ANIMADOS -->
     <div aria-hidden="true" class="ambient-engine" id="ambient-bg">
         <div class="aurora-layer"></div>
     </div>
 
+    <!-- =========================================================
+         2. CABECERA MINIMALISTA
+         ========================================================= -->
     <header class="system-header" role="banner">
-        <button aria-label="Ir al inicio. Logotipo Valtara." class="header-logo" id="logo-btn" onclick="Router.navigate('home')">
+        <button aria-label="Ir al inicio" class="header-logo" onclick="Router.navigate('home')">
             <i aria-hidden="true" class="fa-solid fa-leaf"></i> <span>VALTARA</span>
         </button>
 
         <div class="header-controls">
-            <button aria-label="Abrir perfil de usuario y preferencias" aria-haspopup="dialog" class="user-avatar-btn" id="avatar-toggle-btn">
-                <i aria-hidden="true" class="fa-solid fa-user-circle"></i>
-                <span id="header-user-name">Invitado</span>
-            </button>
-            <button aria-label="Abrir menú principal de navegación" aria-expanded="false" aria-controls="main-nav" class="menu-toggle-btn" id="menu-toggle-btn">
-                Menú <i aria-hidden="true" class="fa-solid fa-grid-2"></i>
+            <!-- Menú de Hamburguesa (Tres rayitas) -->
+            <button aria-label="Abrir panel de control y menú" aria-expanded="false" aria-controls="main-nav" class="hamburger-btn" id="menu-toggle-btn">
+                <i aria-hidden="true" class="fa-solid fa-bars"></i>
             </button>
         </div>
     </header>
 
-    <nav aria-label="Navegación Principal" class="side-menu" id="main-nav" role="navigation">
-        <button aria-label="Cerrar menú principal" class="close-btn" id="menu-close-btn">
-            <i aria-hidden="true" class="fa-solid fa-xmark"></i>
-        </button>
-        <h2 class="menu-title">Portal Valtara</h2>
-        <ul class="nav-list" role="menubar">
-            <li role="none"><button role="menuitem" class="nav-item" data-target="home" aria-label="Sección Inicio"><i aria-hidden="true" class="fa-solid fa-house"></i> <span>Sede y Triaje</span></button></li>
-            <li role="none"><button role="menuitem" class="nav-item" data-target="restoration" aria-label="Catálogo de Restauración"><i aria-hidden="true" class="fa-solid fa-spa"></i> <span>Catálogo Clínico</span></button></li>
-            <li role="none"><button role="menuitem" class="nav-item" data-target="codex" aria-label="Leer Manifiesto Codex"><i aria-hidden="true" class="fa-solid fa-scroll"></i> <span>Manifiesto Codex</span></button></li>
-            <li role="none"><button role="menuitem" class="nav-item" data-target="science" aria-label="Biblioteca Científica y Videoteca"><i aria-hidden="true" class="fa-solid fa-book-medical"></i> <span>Ciencia y Botánica</span></button></li>
-            <li role="none"><button role="menuitem" class="nav-item" data-target="ergonomics" aria-label="Reglas de Ergonomía"><i aria-hidden="true" class="fa-solid fa-wheelchair"></i> <span>Ergonomía Universal</span></button></li>
-            <li role="none"><button role="menuitem" class="nav-item" data-target="legal" aria-label="Marco Legal y Privacidad"><i aria-hidden="true" class="fa-solid fa-shield-halved"></i> <span>Marco Legal</span></button></li>
-            <li role="none">
-                <a role="menuitem" href="https://wa.me/5213348572070" target="_blank" class="nav-item btn-ws" aria-label="Contactar al Concierge humano">
-                    <i aria-hidden="true" class="fa-brands fa-whatsapp"></i> <span>Contactar Concierge</span>
-                </a>
-            </li>
-        </ul>
+    <!-- =========================================================
+         3. MENÚ LATERAL EXPANDIBLE (PANEL DE CONTROL DEL PACIENTE)
+         ========================================================= -->
+    <nav aria-label="Navegación y Perfil" class="side-menu" id="main-nav" role="navigation">
+        <div class="menu-header">
+            <!-- Área de Perfil del Paciente dentro del Menú -->
+            <div class="patient-profile-card">
+                <div class="profile-avatar"><i class="fa-solid fa-user-tie"></i></div>
+                <div class="profile-info">
+                    <span class="profile-greeting" id="menu-greeting">Buenas tardes,</span>
+                    <strong class="profile-name" id="menu-user-name">Paciente</strong>
+                </div>
+            </div>
+            <button aria-label="Cerrar panel" class="close-btn" id="menu-close-btn">
+                <i aria-hidden="true" class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        
+        <div class="menu-scroll-area">
+            <h3 class="menu-section-title">Navegación Clínica</h3>
+            <ul class="nav-list" role="menubar">
+                <li role="none"><button role="menuitem" class="nav-item" data-target="home"><i class="fa-solid fa-house"></i> <span>Sede y Triaje</span></button></li>
+                <li role="none"><button role="menuitem" class="nav-item" data-target="restoration"><i class="fa-solid fa-spa"></i> <span>Catálogo Clínico</span></button></li>
+                <li role="none"><button role="menuitem" class="nav-item" data-target="codex"><i class="fa-solid fa-scroll"></i> <span>Manifiesto Codex</span></button></li>
+                <li role="none"><button role="menuitem" class="nav-item" data-target="science"><i class="fa-solid fa-microscope"></i> <span>Ciencia y Botánica</span></button></li>
+                <li role="none"><button role="menuitem" class="nav-item" data-target="ergonomics"><i class="fa-solid fa-wheelchair"></i> <span>Ergonomía Universal</span></button></li>
+                <li role="none"><button role="menuitem" class="nav-item" data-target="legal"><i class="fa-solid fa-shield-halved"></i> <span>Marco Legal</span></button></li>
+            </ul>
+
+            <h3 class="menu-section-title" style="margin-top: 2rem;">Personalización</h3>
+            <ul class="nav-list" role="menu">
+                <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-change-name"><i class="fa-solid fa-pen"></i> <span>Editar mi nombre</span></button></li>
+                <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-toggle-contrast"><i class="fa-solid fa-circle-half-stroke"></i> <span>Alto Contraste</span></button></li>
+                <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-toggle-dyslexia"><i class="fa-solid fa-font"></i> <span>Modo Dislexia</span></button></li>
+            </ul>
+
+            <a role="menuitem" href="https://wa.me/5213348572070" target="_blank" class="btn-ws-massive" style="margin-top: 2rem;">
+                <i aria-hidden="true" class="fa-brands fa-whatsapp"></i> Contactar Concierge
+            </a>
+        </div>
     </nav>
 
-    <!-- MODALES -->
-    <dialog aria-label="Perfil y Preferencias del Usuario" class="modal-dialog" id="user-modal">
+    <!-- =========================================================
+         4. MODALES REFINADOS (Aura IA y Audio)
+         ========================================================= -->
+    <!-- Modal para editar nombre (Si se llama desde el menú) -->
+    <dialog aria-label="Actualizar Identidad" class="modal-dialog small-modal" id="edit-name-modal">
         <div class="modal-content">
             <header class="modal-header">
-                <h3><i aria-hidden="true" class="fa-solid fa-id-badge"></i> Identidad Clínica</h3>
-                <button aria-label="Cerrar perfil" class="close-modal-btn" data-close="user-modal"><i aria-hidden="true" class="fa-solid fa-xmark"></i></button>
+                <h3>Identidad Clínica</h3>
+                <button aria-label="Cerrar" class="close-modal-btn" data-close="edit-name-modal"><i class="fa-solid fa-xmark"></i></button>
             </header>
             <div class="modal-body">
-                <label for="user-name-input" class="a11y-label">Actualizar su nombre en el sistema:</label>
-                <input type="text" id="user-name-input" placeholder="Ej. Lic. Carlos..." aria-required="true">
-                <button aria-label="Guardar nuevo nombre" class="btn-primary" id="save-name-btn" style="width:100%; border-color:var(--valtara-oro); color:var(--valtara-oro);">Actualizar Identidad</button>
-                <hr>
-                <p style="color:var(--valtara-gris-texto); font-size:0.9rem; text-align:center;">Sus datos se guardan de forma local en su dispositivo según normativas LFPDPPP.</p>
+                <input type="text" id="edit-name-input" placeholder="Nuevo nombre...">
+                <button id="save-edit-name-btn" class="btn-primary" style="width: 100%; margin-top: 1rem;">Guardar Cambios</button>
             </div>
         </div>
     </dialog>
 
-    <dialog aria-label="Panel Avanzado de Accesibilidad" class="modal-dialog" id="a11y-modal"></dialog>
     <dialog aria-label="Reproductor de Audio Oasis" class="modal-dialog" id="audio-modal"></dialog>
 
-    <dialog aria-label="Asistente de Inteligencia Artificial Aura" class="modal-dialog" id="aura-modal">
+    <dialog aria-label="Inteligencia Artificial Aura" class="modal-dialog mega-modal" id="aura-modal">
         <div class="modal-content aura-container">
             <header class="modal-header">
-                <h3><i aria-hidden="true" class="fa-solid fa-sparkles"></i> Aura AI</h3>
-                <button aria-label="Cerrar asistente Aura" class="close-modal-btn" data-close="aura-modal"><i aria-hidden="true" class="fa-solid fa-xmark"></i></button>
+                <h3><i class="fa-solid fa-sparkles"></i> Aura AI</h3>
+                <button aria-label="Cerrar Aura" class="close-modal-btn" data-close="aura-modal"><i class="fa-solid fa-xmark"></i></button>
             </header>
             <div aria-live="polite" class="aura-chat-window" id="aura-chat"></div>
             <div class="aura-controls">
-                <label for="aura-input" class="sr-only">Escriba su mensaje para Aura IA</label>
-                <input type="text" id="aura-input" placeholder="Describa su tensión..." inputmode="text" enterkeyhint="send">
-                <button aria-label="Enviar mensaje" id="aura-send-btn"><i aria-hidden="true" class="fa-solid fa-paper-plane"></i></button>
+                <input type="text" id="aura-input" placeholder="Describa su tensión (Ej. Me duele la ciática)..." inputmode="text" enterkeyhint="send">
+                <button aria-label="Enviar mensaje" id="aura-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
     </dialog>
 
     <!-- BOTONES FLOTANTES -->
     <aside aria-label="Controles Rápidos Izquierdos" class="float-controls float-left">
-        <button aria-label="Abrir opciones de accesibilidad" aria-haspopup="dialog" class="fab-btn" id="fab-a11y"><i aria-hidden="true" class="fa-solid fa-universal-access"></i></button>
-        <button aria-label="Abrir terapias sonoras" aria-haspopup="dialog" class="fab-btn" id="fab-audio"><i aria-hidden="true" class="fa-solid fa-music"></i></button>
+        <button aria-label="Abrir terapias sonoras" aria-haspopup="dialog" class="fab-btn" id="fab-audio"><i class="fa-solid fa-music"></i></button>
     </aside>
 
     <aside aria-label="Controles Rápidos Derechos" class="float-controls float-right">
-        <button aria-label="Abrir Inteligencia Artificial Aura" aria-haspopup="dialog" class="fab-btn fab-aura" id="fab-aura"><i aria-hidden="true" class="fa-solid fa-robot"></i></button>
-        <a aria-label="Hablar con el Concierge por WhatsApp" href="https://wa.me/5213348572070" target="_blank" class="fab-btn fab-ws"><i aria-hidden="true" class="fa-brands fa-whatsapp"></i></a>
+        <button aria-label="Abrir Inteligencia Artificial Aura" aria-haspopup="dialog" class="fab-btn fab-aura" id="fab-aura"><i class="fa-solid fa-robot"></i></button>
     </aside>
 
+    <!-- CONTENEDOR PRINCIPAL -->
     <main id="main-content" role="main">
-        <section aria-label="Página de Inicio" class="view-section active" id="view-home"></section>
-        <section aria-label="Catálogo de Restauración" class="view-section" id="view-restoration"></section>
-        <section aria-label="Manifiesto Codex" class="view-section" id="view-codex"></section>
-        <section aria-label="Biblioteca Científica" class="view-section" id="view-science"></section>
-        <section aria-label="Ergonomía Universal" class="view-section" id="view-ergonomics"></section>
-        <section aria-label="Marco Legal" class="view-section" id="view-legal"></section>
+        <section class="view-section active" id="view-home"></section>
+        <section class="view-section" id="view-restoration"></section>
+        <section class="view-section" id="view-codex"></section>
+        <section class="view-section" id="view-science"></section>
+        <section class="view-section" id="view-ergonomics"></section>
+        <section class="view-section" id="view-legal"></section>
     </main>
 
-    <footer aria-label="Pie de página corporativo" class="mega-footer" id="main-footer"></footer>
+    <footer class="mega-footer" id="main-footer"></footer>
 
-    <!-- SOLUCIÓN: Rutas estrictamente en MINÚSCULAS -->
-    <script src="js/data.js?v=4" defer></script>
-    <script src="js/a11y.js?v=4" defer></script>
-    <script src="js/user.js?v=4" defer></script>
-    <script src="js/aura-ai.js?v=4" defer></script>
-    <script src="js/oasis.js?v=4" defer></script>
-    <script src="js/router.js?v=4" defer></script>
-    <script src="js/core.js?v=4" defer></script>
+    <!-- SCRIPTS EN MINÚSCULAS CON VERSIÓN ANTI-CACHÉ -->
+    <script src="js/data.js?v=10.3" defer></script>
+    <script src="js/a11y.js?v=10.3" defer></script>
+    <script src="js/user.js?v=10.3" defer></script>
+    <script src="js/aura-ai.js?v=10.3" defer></script>
+    <script src="js/oasis.js?v=10.3" defer></script>
+    <script src="js/router.js?v=10.3" defer></script>
+    <script src="js/core.js?v=10.3" defer></script>
 
 </body>
 </html>
