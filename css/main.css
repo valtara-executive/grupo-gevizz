@@ -1,0 +1,491 @@
+@charset "UTF-8";
+/* ====================================================================================
+   BLOQUE 2: MOTOR VISUAL PRINCIPAL (V 10.1 SOVEREIGN)
+   Arquitectura CSS: BEM Modificado + Diseño de Tokens (Design Tokens)
+   ==================================================================================== */
+
+/* ------------------------------------------------------------------------------------
+   1. TOKENS DE DISEÑO CORPORATIVO (VARIABLES GLOBALES)
+   ------------------------------------------------------------------------------------ */
+:root { 
+    /* Paleta Corporativa Principal: Lujo, Prestigio y Salud */
+    --valtara-oro: #F2C94C; 
+    --valtara-oro-suave: #FCEABB; 
+    --valtara-oro-oscuro: #B58529; 
+    --valtara-oro-rojizo: #E58C3A;
+    
+    /* Paleta Oscura Matte Premium (Estructura y Profundidad) */
+    --valtara-negro: #040406; 
+    --valtara-negro-profundo: #010102; 
+    --valtara-negro-cristal: rgba(6, 6, 10, 0.85); 
+    --valtara-negro-modal: rgba(12, 12, 16, 0.98);
+    --valtara-negro-elevado: #121218;
+    
+    /* Tipografía y Lectura */
+    --valtara-blanco: #ffffff; 
+    --valtara-blanco-roto: #f8f8fa;
+    --valtara-gris-texto: #dcdce6; 
+    --valtara-gris-claro: #f0f0f5;
+    --valtara-gris-oscuro: #2a2a35;
+    --valtara-gris-plomo: rgba(40, 40, 45, 0.4); 
+    
+    /* Paleta de Colores Vivos e Interactivos (IA, Accesibilidad, Sanación) */
+    --valtara-verde-ws: #00E676; 
+    --valtara-verde-ws-oscuro: #00B259;
+    --valtara-purpura-aura: #B200FF;
+    --valtara-purpura-intenso: #6A0DAD;
+    --valtara-magenta-neon: #F72585;
+    --valtara-azul-electrico: #4361EE;
+    --valtara-cian-fluor: #4CC9F0;
+    --valtara-rojo-alerta: #FF3366;
+    
+    /* Gradientes Cinemáticos */
+    --valtara-aura-gradient: linear-gradient(135deg, #6A0DAD, #4361EE); 
+    --valtara-btn-gradient: linear-gradient(90deg, #F2C94C, #E58C3A);
+    --valtara-magic-gradient: linear-gradient(135deg, #B200FF, #F72585);
+    --valtara-menu-bg-gradient: linear-gradient(180deg, rgba(10,10,18,0.98) 0%, rgba(4,4,8,0.98) 100%);
+    --valtara-card-gradient: linear-gradient(135deg, rgba(20,20,25,0.7), rgba(10,10,15,0.8));
+    --valtara-glass-gradient: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+    
+    /* Efectos de Cristal (Glassmorphism 2.0) */
+    --valtara-cristal-fondo: rgba(18, 18, 24, 0.65); 
+    --valtara-cristal-fondo-hover: rgba(25, 25, 35, 0.85); 
+    --valtara-cristal-borde: rgba(242, 201, 76, 0.25); 
+    --valtara-cristal-sombra: 0 2rem 5rem rgba(0, 0, 0, 0.8);
+    --valtara-cristal-resplandor: inset 0 0 2rem rgba(255,255,255,0.05);
+    
+    /* Orbes Ambientales (Colores extremadamente vivos pero difuminados) */
+    --orb-color-1: rgba(106, 13, 173, 0.6);   
+    --orb-color-2: rgba(247, 37, 133, 0.5);   
+    --orb-color-3: rgba(67, 97, 238, 0.5);   
+    --orb-color-4: rgba(76, 201, 240, 0.4);  
+    
+    /* Tipografías Maestras */
+    --font-main: 'Lato', sans-serif;
+    --font-accent: 'Playfair Display', serif;
+    --font-clinical: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Para Modo Lectura Clínica */
+    
+    /* Dimensiones y Espaciados Escalares */
+    --radius-sm: 0.8rem;
+    --radius-md: 1.5rem;
+    --radius-lg: 2.5rem;
+    --radius-pill: 50rem;
+    
+    --space-xs: 0.5rem;
+    --space-sm: 1.5rem;
+    --space-md: 3rem;
+    --space-lg: 6rem;
+    --space-xl: 10rem;
+    
+    --max-width: 1280px;
+    --nav-height: 6.5rem;
+    
+    /* Transiciones Fluídas */
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-in-out-circ: cubic-bezier(0.85, 0, 0.15, 1);
+    --transition-fast: 0.2s var(--ease-out-expo);
+    --transition-medium: 0.4s var(--ease-out-expo);
+    --transition-slow: 0.8s var(--ease-out-expo);
+    
+    /* Z-Index Estandarizado */
+    --z-base: 1;
+    --z-header: 2000;
+    --z-menu: 3000;
+    --z-floating: 10000;
+    --z-modal: 10005;
+    --z-preloader: 99999;
+}
+
+/* ------------------------------------------------------------------------------------
+   2. RESET ARQUITECTÓNICO ABSOLUTO Y ACCESIBILIDAD BASE
+   ------------------------------------------------------------------------------------ */
+*, *::before, *::after { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+}
+
+html { 
+    /* El font-size base es 16px. No usamos % para no romper el zoom de accesibilidad nativo */
+    font-size: 16px; 
+    scroll-behavior: smooth; 
+    -webkit-tap-highlight-color: transparent; 
+}
+
+body { 
+    background-color: var(--valtara-negro); 
+    color: var(--valtara-blanco); 
+    font-family: var(--font-main); 
+    overflow-x: hidden; 
+    line-height: 1.8; 
+    /* Text rendering optimizado para pantallas Retina y 4K */
+    -webkit-font-smoothing: antialiased; 
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Tipografía de Encabezados */
+h1, h2, h3, h4, h5, h6 { 
+    font-family: var(--font-accent); 
+    font-weight: 400; 
+    line-height: 1.2;
+    margin-bottom: var(--space-sm);
+}
+
+/* Elementos Interactivos */
+a, button, input, textarea, select { 
+    font-family: inherit; 
+    font-size: inherit;
+    outline: none; 
+    border: none; 
+    background: transparent; 
+    transition: all var(--transition-medium);
+}
+a { color: var(--valtara-oro); text-decoration: none; }
+button { cursor: pointer; }
+ul, ol { list-style: none; }
+
+/* ------------------------------------------------------------------------------------
+   3. ESTADOS DE ENFOQUE (ACCESIBILIDAD PARA NAVEGACIÓN POR TECLADO)
+   ------------------------------------------------------------------------------------ */
+/* Esto garantiza que los usuarios que usen la tecla TAB vean exactamente dónde están */
+*:focus-visible { 
+    outline: 3px solid var(--valtara-cian-fluor) !important; 
+    outline-offset: 4px !important; 
+    border-radius: 4px;
+    transition: outline 0.1s;
+}
+
+/* Clases de Utilidad de Accesibilidad */
+.sr-only { 
+    position: absolute; width: 1px; height: 1px; padding: 0; 
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; 
+}
+
+.skip-link {
+    position: absolute; top: -40px; left: 0; background: var(--valtara-cian-fluor);
+    color: var(--valtara-negro-profundo); padding: 1rem; z-index: 100000;
+    font-weight: bold; font-size: 1.2rem;
+    transition: top 0.3s;
+}
+.skip-link:focus { top: 0; }
+
+/* ------------------------------------------------------------------------------------
+   4. ESTILIZACIÓN DE BARRAS DE DESPLAZAMIENTO (SCROLLBARS)
+   ------------------------------------------------------------------------------------ */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--valtara-negro-profundo); border-left: 1px solid rgba(255,255,255,0.05); }
+::-webkit-scrollbar-thumb { 
+    background: var(--valtara-gris-oscuro); 
+    border-radius: var(--radius-pill); 
+    border: 3px solid var(--valtara-negro-profundo); 
+}
+::-webkit-scrollbar-thumb:hover { background: var(--valtara-oro-oscuro); }
+::selection { background: var(--valtara-magenta-neon); color: var(--valtara-blanco); }
+
+/* ------------------------------------------------------------------------------------
+   5. MOTOR AMBIENTAL Y FONDOS ANIMADOS
+   ------------------------------------------------------------------------------------ */
+.ambient-engine { 
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+    z-index: -2; background: var(--valtara-negro); overflow: hidden; 
+    pointer-events: none; will-change: transform, opacity;
+}
+
+/* Efecto de Nube Viva (Sustituye al video pesado, 0 impacto en rendimiento) */
+.aurora-layer {
+    position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: 
+        radial-gradient(circle at 20% 30%, var(--orb-color-1) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, var(--orb-color-2) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, var(--orb-color-3) 0%, transparent 50%),
+        radial-gradient(circle at 90% 10%, var(--orb-color-4) 0%, transparent 40%);
+    filter: blur(10rem); 
+    animation: auroraCinematic 40s linear infinite alternate;
+    opacity: 0.85; mix-blend-mode: screen;
+    will-change: transform;
+}
+
+@keyframes auroraCinematic { 
+    0% { transform: rotate(0deg) scale(1) translateX(0); } 
+    50% { transform: rotate(5deg) scale(1.05) translateX(-2%); }
+    100% { transform: rotate(-5deg) scale(1.1) translateX(2%); } 
+}
+
+/* ------------------------------------------------------------------------------------
+   6. ARQUITECTURA DE CONTENIDO (GRIDS FLUIDOS Y SECCIONES)
+   ------------------------------------------------------------------------------------ */
+#main-content { 
+    width: 100%; min-height: 100vh; 
+    padding-top: var(--nav-height); 
+    position: relative;
+    z-index: var(--z-base);
+}
+
+.content-wrapper { 
+    max-width: var(--max-width); 
+    margin: 0 auto; 
+    padding: var(--space-lg) 2rem; 
+}
+
+/* Vistas de la SPA */
+.view-section { 
+    display: none; 
+    opacity: 0; 
+    transform: translateY(40px); 
+    /* Transición suave al cambiar de vista */
+    transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo); 
+}
+.view-section.active { 
+    display: block; 
+    opacity: 1; 
+    transform: translateY(0); 
+}
+
+/* Sistema de Grids Auto-escalables (Resuelve el problema de compresión móvil) */
+.grid-container {
+    display: grid;
+    gap: var(--space-md);
+    width: 100%;
+    margin-top: var(--space-md);
+}
+
+/* El truco mágico: auto-fit y minmax evitan el uso de mil media queries */
+.grid-2-cols { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
+.grid-3-cols { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.grid-4-cols { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+/* ------------------------------------------------------------------------------------
+   7. CABECERA (HEADER) Y NAVEGACIÓN
+   ------------------------------------------------------------------------------------ */
+.system-header { 
+    position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); 
+    z-index: var(--z-header); display: flex; justify-content: space-between; align-items: center; 
+    background: rgba(4, 4, 8, 0.85); border-bottom: 1px solid rgba(255,255,255,0.05); 
+    padding: 0 4rem; backdrop-filter: blur(2rem); box-shadow: 0 1rem 3rem rgba(0,0,0,0.5);
+    transition: background 0.4s ease, height 0.4s ease;
+}
+
+/* Efecto al hacer scroll */
+.system-header.scrolled {
+    background: rgba(2, 2, 4, 0.95);
+    height: 5.5rem;
+    border-bottom: 1px solid var(--valtara-oro-mate);
+}
+
+.header-logo { 
+    color: var(--valtara-oro); font-size: 1.6rem; letter-spacing: 0.3rem; 
+    text-transform: uppercase; font-family: var(--font-accent); 
+    display: flex; align-items: center; gap: 1rem;
+    text-shadow: 0 0 2rem rgba(242,201,76,0.3);
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* Menú Toggle Button */
+.menu-toggle-btn { 
+    background: var(--valtara-glass-gradient); border: 1px solid var(--valtara-oro); 
+    color: var(--valtara-blanco); padding: 0.8rem 2rem; border-radius: var(--radius-pill); 
+    font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15rem; 
+    display: flex; align-items: center; gap: 1rem; 
+    box-shadow: inset 0 0 1.5rem rgba(242,201,76,0.1); 
+}
+.menu-toggle-btn:hover { 
+    background: var(--valtara-oro); color: var(--valtara-negro-profundo); 
+    box-shadow: 0 0 2rem rgba(242,201,76,0.4); transform: translateY(-2px); 
+}
+
+/* Avatar de Usuario */
+.user-avatar-btn {
+    display: flex; align-items: center; gap: 0.8rem;
+    color: var(--valtara-gris-texto); font-size: 1.1rem;
+    padding: 0.5rem 1rem; border-radius: var(--radius-pill);
+    border: 1px solid transparent;
+}
+.user-avatar-btn i { font-size: 1.8rem; color: var(--valtara-cian-fluor); }
+.user-avatar-btn:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); color: var(--valtara-blanco); }
+
+/* ------------------------------------------------------------------------------------
+   8. MENÚ LATERAL (SIDE MENU OVERLAY)
+   ------------------------------------------------------------------------------------ */
+.side-menu { 
+    position: fixed; top: 0; right: -100%; width: 40rem; max-width: 100vw; height: 100vh; 
+    background: var(--valtara-menu-bg-gradient); border-left: 1px solid var(--valtara-cian-fluor); 
+    z-index: var(--z-menu); box-shadow: -2rem 0 5rem rgba(0,0,0,0.9); 
+    transition: right 0.7s var(--ease-out-expo); 
+    display: flex; flex-direction: column; padding: 4rem 3rem; overflow-y: auto; 
+    backdrop-filter: blur(3rem); 
+}
+.side-menu.open { right: 0; }
+
+.close-btn { 
+    align-self: flex-end; background: rgba(0,0,0,0.5); border: 1px solid var(--valtara-cian-fluor); 
+    color: var(--valtara-blanco); width: 3.5rem; height: 3.5rem; border-radius: 50%; 
+    font-size: 1.5rem; display: flex; justify-content: center; align-items: center; 
+    margin-bottom: 3rem; 
+}
+.close-btn:hover { background: var(--valtara-cian-fluor); color: var(--valtara-negro-profundo); transform: rotate(90deg); }
+
+.menu-title { font-size: 2.5rem; color: var(--valtara-blanco); text-align: center; margin-bottom: 3rem; letter-spacing: 0.1rem;}
+
+.nav-list { display: flex; flex-direction: column; gap: 1rem; width: 100%; }
+
+.nav-item { 
+    width: 100%; text-align: left; padding: 1.5rem 2rem; border-radius: var(--radius-sm); 
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); 
+    color: var(--valtara-blanco); font-size: 1.2rem; font-weight: bold; letter-spacing: 0.05rem;
+    display: flex; align-items: center; gap: 1.5rem;
+}
+.nav-item i { font-size: 1.8rem; width: 2.5rem; text-align: center; color: var(--valtara-oro); transition: transform 0.4s ease;}
+.nav-item:hover, .nav-item.active { 
+    background: rgba(242,201,76,0.1); border-color: var(--valtara-oro); 
+    transform: translateX(-10px); box-shadow: 0 1rem 3rem rgba(0,0,0,0.4);
+}
+.nav-item:hover i { transform: scale(1.2); }
+
+/* Excepción para WhatsApp */
+.nav-item.btn-ws { background: var(--valtara-verde-ws); border-color: var(--valtara-verde-ws-oscuro); color: var(--valtara-negro-profundo); margin-top: 2rem;}
+.nav-item.btn-ws i { color: var(--valtara-negro-profundo); font-size: 2.2rem; }
+.nav-item.btn-ws:hover { background: var(--valtara-blanco); border-color: var(--valtara-blanco); transform: translateY(-5px) translateX(0);}
+
+
+/* ------------------------------------------------------------------------------------
+   9. MODOS DE ACCESIBILIDAD EXTREMA (WCAG 2.2 OVERRIDES)
+   ------------------------------------------------------------------------------------ */
+/* MODO ALTO CONTRASTE (Ceguera al color o baja visión) */
+body.high-contrast { 
+    background-color: #000000 !important; color: #ffffff !important; 
+    --valtara-oro: #ffff00 !important; --valtara-oro-suave: #ffff00 !important; 
+    --valtara-cian-fluor: #ffff00 !important; --valtara-purpura-aura: #ffff00 !important;
+    --valtara-magenta-neon: #ffff00 !important; --valtara-verde-ws: #00ff00 !important;
+    --valtara-cristal-fondo: #000000 !important; --valtara-cristal-borde: #ffff00 !important; 
+    --valtara-negro-modal: #000000 !important;
+}
+body.high-contrast .ambient-engine { display: none !important; }
+body.high-contrast .glass-card, body.high-contrast .modal-dialog, body.high-contrast .side-menu { 
+    background: #000 !important; border: 2px solid #ffff00 !important; 
+    backdrop-filter: none !important; box-shadow: none !important; 
+}
+body.high-contrast img, body.high-contrast iframe { filter: grayscale(100%) contrast(150%); }
+
+/* MODO INVERSIÓN DE COLOR (Fotofobia severa) */
+body.invert-colors { filter: invert(1) hue-rotate(180deg); background-color: #ffffff; }
+body.invert-colors img, body.invert-colors iframe, body.invert-colors .video-wrapper { filter: invert(1) hue-rotate(180deg); }
+
+/* MODO DISLEXIA (OpenDyslexic o similar) */
+body.dyslexia-font, body.dyslexia-font * { 
+    font-family: 'Comic Sans MS', 'OpenDyslexic', sans-serif !important; 
+    letter-spacing: 0.15em !important; 
+    word-spacing: 0.3em !important;
+    line-height: 2 !important; 
+}
+
+/* ESPACIADO COGNITIVO */
+body.text-spacing * { letter-spacing: 0.2em !important; word-spacing: 0.4em !important; line-height: 2.2 !important; }
+
+/* LECTURA CLÍNICA (Modo papel académico) */
+body.clinical-reading-mode { 
+    background-color: #fcfcfc !important; color: #111111 !important; 
+    font-family: var(--font-clinical) !important; 
+}
+body.clinical-reading-mode .ambient-engine { display: none !important; }
+body.clinical-reading-mode .glass-card, body.clinical-reading-mode .mega-footer {
+    background: #ffffff !important; border: 1px solid #cccccc !important; 
+    box-shadow: none !important; color: #111111 !important;
+}
+body.clinical-reading-mode h1, body.clinical-reading-mode h2, body.clinical-reading-mode h3 { color: #000 !important; }
+
+/* REDUCCIÓN DE ANIMACIONES (Sensibilidad vestibular / Epilepsia) */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { 
+        animation-duration: 0.01ms !important; 
+        animation-iteration-count: 1 !important; 
+        transition-duration: 0.01ms !important; 
+        scroll-behavior: auto !important; 
+    }
+    .ambient-engine { display: none !important; }
+    .glass-card:hover { transform: none !important; }
+}
+/* Clase manual si el usuario la activa desde el panel */
+body.reduced-motion *, body.reduced-motion *::before, body.reduced-motion *::after { 
+    animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; 
+}
+body.reduced-motion .ambient-engine { display: none !important; }
+
+
+/* ------------------------------------------------------------------------------------
+   10. MEGA FOOTER (PIE DE PÁGINA CORPORATIVO)
+   ------------------------------------------------------------------------------------ */
+.mega-footer { 
+    background: var(--valtara-negro-modal); 
+    border-top: 1px solid rgba(242,201,76,0.3); 
+    padding: 8rem 2rem 3rem 2rem; 
+    margin-top: 10rem; 
+    position: relative; 
+    z-index: 10; 
+}
+
+.footer-grid { 
+    max-width: var(--max-width); 
+    margin: 0 auto; 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 4rem; 
+    margin-bottom: 5rem; 
+}
+
+.footer-col h4 { color: var(--valtara-oro); font-family: var(--font-accent); font-size: 1.8rem; margin-bottom: 2rem; letter-spacing: 0.1rem; }
+.footer-col p, .footer-col a { color: var(--valtara-gris-texto); font-size: 1.1rem; line-height: 2; margin-bottom: 1rem; text-decoration: none; display: block; font-weight: 300; }
+.footer-col a:hover { color: var(--valtara-blanco); text-decoration: underline; }
+
+.social-icons { display: flex; gap: 2rem; margin-top: 2rem; font-size: 2.2rem; }
+.social-icons a { color: var(--valtara-gris-texto); transition: 0.4s; }
+.social-icons a:hover { color: var(--valtara-cian-fluor); transform: translateY(-5px) scale(1.1); }
+
+.footer-bottom { text-align: center; padding-top: 3rem; border-top: 1px solid rgba(255,255,255,0.1); color: #888; font-size: 1rem; letter-spacing: 0.05rem; }
+
+/* ------------------------------------------------------------------------------------
+   11. RESPONSIVIDAD EXTREMA (MEDIA QUERIES)
+   ------------------------------------------------------------------------------------ */
+
+/* Pantallas Laptops Pequeñas y Tablets Horizontales */
+@media (max-width: 1024px) {
+    :root { 
+        --space-xl: 6rem;
+        --space-lg: 4rem;
+    }
+    .system-header { padding: 0 2rem; }
+    .content-wrapper { padding-top: 6rem; padding-bottom: 6rem; }
+}
+
+/* Tablets Verticales y Móviles Grandes */
+@media (max-width: 850px) {
+    :root {
+        --nav-height: 5.5rem;
+    }
+    
+    .header-logo span { display: none; } /* Ocultar texto del logo en móvil para ahorrar espacio */
+    .header-logo i { font-size: 2rem; }
+    
+    .menu-toggle-btn { padding: 0.6rem 1.5rem; font-size: 0.9rem; }
+    .user-avatar-btn span { display: none; } /* Solo dejar el icono del usuario */
+    
+    #side-menu-overlay { width: 100vw; padding: 2rem; border-left: none; }
+    .grid-2-cols, .grid-3-cols, .grid-4-cols { grid-template-columns: 1fr; }
+    
+    .footer-grid { gap: 3rem; text-align: center; }
+    .social-icons { justify-content: center; }
+}
+
+/* Móviles Pequeños (Ajustes Finos) */
+@media (max-width: 480px) {
+    .content-wrapper { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .mega-footer { padding-top: 5rem; padding-left: 1.5rem; padding-right: 1.5rem; }
+    
+    /* Adaptar botones flotantes que vendrán en components.css */
+    .system-header { padding: 0 1.5rem; }
+  }
