@@ -1,0 +1,429 @@
+@charset "UTF-8";
+/* ====================================================================================
+   BLOQUE 3: COMPONENTES VISUALES E INTERACTIVOS (V 10.1 SOVEREIGN)
+   Tarjetas, Botones Flotantes, Modales, IA Aura y Mapa Biomecánico
+   ==================================================================================== */
+
+/* ------------------------------------------------------------------------------------
+   1. BOTONES (BUTTONS) - DISEÑO BASE Y ACCESIBILIDAD
+   ------------------------------------------------------------------------------------ */
+.btn-primary, .btn-secondary, .btn-agenda-ahora {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 2.5rem;
+    border-radius: var(--radius-pill);
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    transition: all var(--transition-medium);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Botón Principal (Oro / Llamados a la Acción) */
+.btn-primary, .btn-agenda-ahora {
+    background: transparent;
+    color: var(--valtara-blanco);
+    border: 1px solid rgba(255,255,255,0.4);
+    box-shadow: 0 1rem 2rem rgba(0,0,0,0.3);
+}
+
+.btn-primary:hover, .btn-agenda-ahora:hover {
+    background: var(--valtara-oro);
+    color: var(--valtara-negro-profundo);
+    border-color: var(--valtara-oro);
+    transform: translateY(-5px);
+    box-shadow: 0 1.5rem 3rem rgba(242,201,76,0.3);
+}
+
+/* Botón Secundario (Avisos, Privacidad, Secundarios) */
+.btn-secondary {
+    background: rgba(255,255,255,0.05);
+    color: var(--valtara-gris-texto);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.btn-secondary:hover {
+    background: rgba(255,255,255,0.1);
+    color: var(--valtara-blanco);
+    border-color: var(--valtara-blanco);
+    transform: translateY(-3px);
+}
+
+/* ------------------------------------------------------------------------------------
+   2. GLASS-CARDS (TARJETAS DE MASAJES Y CIENCIA)
+   ------------------------------------------------------------------------------------ */
+.glass-card { 
+    background: var(--valtara-cristal-fondo); 
+    backdrop-filter: blur(2.5rem); 
+    -webkit-backdrop-filter: blur(2.5rem);
+    border: 1px solid var(--valtara-cristal-borde); 
+    border-radius: var(--radius-md); 
+    padding: 4rem 3rem; 
+    display: flex; 
+    flex-direction: column; 
+    box-shadow: var(--valtara-cristal-sombra); 
+    transition: all var(--transition-medium);
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card:hover {
+    border-color: var(--valtara-oro);
+    box-shadow: 0 3rem 6rem rgba(0,0,0,0.9), var(--valtara-cristal-resplandor);
+    transform: translateY(-10px);
+}
+
+/* Encabezado de la Tarjeta (Icono) */
+.card-icon-wrapper { 
+    width: 100%; 
+    height: 9rem; 
+    background: var(--valtara-card-gradient); 
+    border-radius: var(--radius-sm); 
+    border: 1px solid rgba(255,255,255,0.1); 
+    margin-bottom: 2rem; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    box-shadow: inset 0 0 3rem rgba(0,0,0,0.8); 
+    font-size: 3.5rem; 
+    color: var(--valtara-oro); 
+    transition: all var(--transition-slow); 
+}
+
+.glass-card:hover .card-icon-wrapper {
+    color: var(--valtara-blanco);
+    background: rgba(30,30,35,0.9);
+    border-color: var(--valtara-oro);
+    transform: scale(1.05);
+    box-shadow: inset 0 0 4rem rgba(242,201,76,0.3);
+}
+
+.glass-card h3 { 
+    font-size: 2.2rem; 
+    color: var(--valtara-blanco); 
+    margin-bottom: 1.5rem; 
+    text-align: center; 
+}
+
+/* Metadatos (Precio y Tiempo) */
+.card-meta-info { 
+    display: flex; 
+    justify-content: space-between; 
+    background: rgba(0,0,0,0.5); 
+    padding: 1.2rem; 
+    border-radius: var(--radius-sm); 
+    border: 1px solid rgba(255,255,255,0.05); 
+    color: var(--valtara-cian-fluor); 
+    font-weight: bold; 
+    font-size: 1.1rem; 
+    margin-bottom: 2rem; 
+}
+.card-meta-info .precio { color: var(--valtara-oro); }
+
+.marketing-text { 
+    font-size: 1.15rem; 
+    color: var(--valtara-gris-claro); 
+    line-height: 2; 
+    margin-bottom: 3rem; 
+    text-align: justify; 
+    font-weight: 300; 
+    flex-grow: 1; /* Empuja el botón al fondo */
+}
+
+/* ------------------------------------------------------------------------------------
+   3. BOTONES FLOTANTES (FAB - Floating Action Buttons)
+   ------------------------------------------------------------------------------------ */
+.float-controls {
+    position: fixed;
+    bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    z-index: var(--z-floating);
+}
+
+.float-left { left: 2.5rem; }
+.float-right { right: 2.5rem; }
+
+.fab-btn {
+    width: 4.5rem; 
+    height: 4.5rem; 
+    border-radius: 50%; 
+    background: var(--valtara-negro-modal); 
+    border: 1px solid rgba(255,255,255,0.2); 
+    color: var(--valtara-blanco); 
+    font-size: 1.8rem; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    box-shadow: 0 1rem 3rem rgba(0,0,0,0.8); 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all var(--transition-fast);
+}
+
+.fab-btn:hover, .fab-btn:focus-visible {
+    transform: scale(1.15) translateY(-5px);
+    border-color: var(--valtara-blanco);
+    background: var(--valtara-negro-profundo);
+}
+
+/* Botones Flotantes Específicos */
+.fab-ws { background: var(--valtara-verde-ws); color: var(--valtara-negro-profundo); border-color: var(--valtara-verde-ws-oscuro); }
+.fab-ws:hover { background: var(--valtara-blanco); border-color: var(--valtara-blanco); color: var(--valtara-negro-profundo); }
+
+.fab-aura { border-color: var(--valtara-purpura-aura); color: var(--valtara-purpura-aura); }
+.fab-aura:hover { background: var(--valtara-purpura-aura); color: var(--valtara-blanco); border-color: var(--valtara-purpura-aura); }
+
+/* ------------------------------------------------------------------------------------
+   4. MODALES (DIALOG HTML5 NATIVO) - LA FORMA MÁS ACCESIBLE
+   ------------------------------------------------------------------------------------ */
+.modal-dialog {
+    margin: auto;
+    background: var(--valtara-negro-modal);
+    border: 1px solid var(--valtara-oro);
+    border-radius: var(--radius-md);
+    padding: 0;
+    width: calc(100vw - 4rem);
+    max-width: 500px;
+    max-height: 85vh;
+    box-shadow: 0 3rem 6rem rgba(0,0,0,0.95);
+    color: var(--valtara-blanco);
+    /* Oculto por defecto, se maneja vía JS */
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Cuando el modal está abierto (HTML5 lo hace automático con open) */
+.modal-dialog[open] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* El fondo oscuro detrás del modal */
+.modal-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+.modal-dialog[open]::backdrop { opacity: 1; }
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: 85vh;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.modal-header h3 { margin: 0; font-size: 1.6rem; color: var(--valtara-cian-fluor); display: flex; align-items: center; gap: 1rem;}
+
+.close-modal-btn {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: var(--valtara-blanco);
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.close-modal-btn:hover { background: var(--valtara-blanco); color: var(--valtara-negro-profundo); transform: rotate(90deg); }
+
+.modal-body { padding: 2.5rem; overflow-y: auto; }
+
+/* Posicionamiento específico (Aura a la derecha, Resto a la izquierda) */
+#aura-modal { margin-right: 2.5rem; margin-bottom: 8.5rem; border-color: var(--valtara-purpura-intenso); }
+#aura-modal .modal-header h3 { color: var(--valtara-purpura-aura); }
+
+#audio-modal, #a11y-modal { margin-left: 2.5rem; margin-bottom: 8.5rem; border-color: var(--valtara-cian-fluor); }
+
+/* ------------------------------------------------------------------------------------
+   5. AURA AI (INTERFAZ DE CHAT Y RED NEURONAL)
+   ------------------------------------------------------------------------------------ */
+.aura-container { display: flex; flex-direction: column; height: 60vh; min-height: 400px; }
+
+.aura-chat-window {
+    flex-grow: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    scroll-behavior: smooth;
+}
+
+/* Burbujas de Chat */
+.chat-msg {
+    max-width: 90%;
+    padding: 1.2rem 1.8rem;
+    border-radius: 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    animation: fadeInMsg 0.4s var(--ease-out-expo);
+}
+@keyframes fadeInMsg { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.chat-msg.bot {
+    background: rgba(255,255,255,0.05);
+    color: var(--valtara-blanco);
+    align-self: flex-start;
+    border-bottom-left-radius: 0.2rem;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.chat-msg.user {
+    background: rgba(178,0,255,0.15);
+    color: var(--valtara-blanco);
+    align-self: flex-end;
+    border-bottom-right-radius: 0.2rem;
+    font-weight: bold;
+    border: 1px solid var(--valtara-purpura-intenso);
+}
+
+/* Input y Controles de Aura */
+.aura-controls {
+    padding: 1.5rem 2rem;
+    background: rgba(0,0,0,0.8);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+#aura-input {
+    flex-grow: 1;
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    color: var(--valtara-blanco);
+    font-size: 1.1rem;
+}
+#aura-input:focus { border-color: var(--valtara-purpura-aura); background: rgba(106,13,173,0.1); }
+
+#aura-send-btn {
+    background: var(--valtara-purpura-intenso);
+    color: var(--valtara-blanco);
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#aura-send-btn:hover { background: var(--valtara-purpura-aura); transform: scale(1.1); }
+
+/* Chips de Sugerencia Rápida */
+.aura-chips-container { display: flex; flex-wrap: wrap; gap: 0.8rem; padding: 0 2rem 1rem 2rem; }
+.aura-chip {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--valtara-blanco);
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.9rem;
+}
+.aura-chip:hover { background: var(--valtara-purpura-intenso); border-color: var(--valtara-purpura-aura); }
+
+/* ------------------------------------------------------------------------------------
+   6. MAPA CORPORAL INTERACTIVO Y VISTAS ESPECÍFICAS
+   ------------------------------------------------------------------------------------ */
+.body-map-container { 
+    display: grid; 
+    grid-template-columns: 1fr 1.5fr; 
+    gap: 4rem; 
+    background: rgba(12,12,16,0.9); 
+    border-radius: var(--radius-lg); 
+    border: 1px solid var(--valtara-cian-fluor); 
+    padding: 5rem 4rem; 
+    margin-top: 6rem; 
+    box-shadow: inset 0 0 5rem rgba(0,0,0,0.8); 
+}
+
+.body-zones { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.zone-btn { 
+    background: rgba(255,255,255,0.03); 
+    border: 1px solid rgba(255,255,255,0.1); 
+    color: var(--valtara-blanco); 
+    padding: 1.5rem 2rem; 
+    border-radius: var(--radius-sm); 
+    text-align: left; 
+    font-size: 1.15rem; 
+    font-weight: bold; 
+    display: flex; 
+    align-items: center; 
+    gap: 1.5rem; 
+}
+.zone-btn:hover, .zone-btn[aria-pressed="true"] { 
+    background: rgba(76,201,240,0.15); 
+    border-color: var(--valtara-cian-fluor); 
+    color: var(--valtara-cian-fluor); 
+    transform: translateX(15px); 
+    box-shadow: 0 1rem 2rem rgba(0,0,0,0.5); 
+}
+.zone-btn i { font-size: 2rem; width: 3rem; text-align: center; }
+
+.zone-info { 
+    background: rgba(0,0,0,0.6); 
+    padding: 4rem 3rem; 
+    border-radius: var(--radius-md); 
+    border-left: 5px solid var(--valtara-cian-fluor); 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+}
+
+/* ------------------------------------------------------------------------------------
+   7. INPUTS GENERALES (FORMULARIOS / PERFIL)
+   ------------------------------------------------------------------------------------ */
+.a11y-label { display: block; margin-bottom: 0.8rem; color: var(--valtara-gris-texto); font-weight: bold; }
+input[type="text"] {
+    width: 100%;
+    padding: 1.2rem 1.5rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--valtara-blanco);
+    border-radius: var(--radius-sm);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+input[type="text"]:focus { border-color: var(--valtara-oro); background: rgba(242,201,76,0.05); }
+
+hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 2rem 0; }
+
+/* ------------------------------------------------------------------------------------
+   8. RESPONSIVIDAD PARA COMPONENTES (MÓVIL)
+   ------------------------------------------------------------------------------------ */
+@media (max-width: 850px) {
+    .body-map-container { grid-template-columns: 1fr; padding: 3rem 2rem; }
+    .zone-info { padding: 3rem 2rem; }
+    
+    .float-left { flex-direction: row; bottom: 1.5rem; left: 1.5rem; }
+    .float-right { flex-direction: row; bottom: 1.5rem; right: 1.5rem; }
+    
+    .fab-btn { width: 4rem; height: 4rem; font-size: 1.5rem; }
+    
+    .modal-dialog { margin-bottom: 6.5rem; width: calc(100vw - 3rem); }
+    #aura-modal { margin-right: 0; }
+    #audio-modal, #a11y-modal { margin-left: 0; }
+                              }
