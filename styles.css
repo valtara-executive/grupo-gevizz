@@ -1,251 +1,108 @@
 /* ====================================================================================
-   MÓDULO 1: TOKENS DE DISEÑO CORPORATIVO Y COLORIMETRÍA 9.2 SOVEREIGN
+   MOTOR VISUAL VALTARA V 10.0 | FIX RENDERIZADO MÓVIL
    ==================================================================================== */
 :root { 
-    /* Paleta Oro / Lujo / Prestigio */
-    --oro: #F2C94C; 
-    --oro-suave: #FCEABB; 
-    --oro-oscuro: #B58529; 
-    --oro-rojizo: #E58C3A;
-    --oro-mate: rgba(181, 133, 41, 0.2); 
-    --oro-borde: rgba(181, 133, 41, 0.5);
+    --oro: #F2C94C; --oro-suave: #FCEABB; 
+    --negro: #040406; --negro-profundo: #010102; --negro-modal: rgba(12,12,16,0.98);
+    --blanco: #ffffff; --gris-texto: #dcdce6; 
+    --verde-ws: #00E676; --cian-fluor: #4CC9F0; --magenta-neon: #F72585; --purpura-aura: #B200FF;
     
-    /* Paleta Oscura / Estructura Clínica */
-    --negro: #040406; 
-    --negro-profundo: #010102; 
-    --negro-cristal: rgba(6, 6, 10, 0.85); 
-    --negro-modal: rgba(12, 12, 16, 0.96);
-    --negro-elevado: #121218;
-    
-    /* Textos y Accesibilidad Visual */
-    --blanco: #ffffff; 
-    --gris-texto: #dcdce6; 
-    --gris-claro: #f0f0f5;
-    --gris-oscuro: #2a2a35;
-    --gris-plomo: rgba(40, 40, 45, 0.4); 
-    
-    /* Colores Funcionales (IA, Audio, WhatsApp) */
-    --verde-ws: #00E676; 
-    --verde-ws-oscuro: #00B259;
-    --purpura-aura: #B200FF;
-    --purpura-intenso: #6A0DAD;
-    --magenta-neon: #F72585;
-    --azul-electrico: #4361EE;
-    --cian-fluor: #4CC9F0;
-    
-    /* Gradientes Sovereign 9.2 */
-    --aura-gradient: linear-gradient(135deg, #6A0DAD, #4361EE); 
-    --btn-gradient: linear-gradient(90deg, #F2C94C, #E58C3A);
-    --magic-gradient: linear-gradient(135deg, #B200FF, #F72585);
     --menu-bg-gradient: linear-gradient(180deg, rgba(8,8,18,0.98) 0%, rgba(2,2,4,0.98) 100%);
-    --card-gradient: linear-gradient(135deg, rgba(20,20,25,0.9), rgba(10,10,15,0.8));
-    
-    /* Cristal y Profundidad (Glassmorphism 2.0) */
     --cristal-fondo: rgba(15, 15, 22, 0.65); 
-    --cristal-fondo-hover: rgba(25, 25, 35, 0.85); 
     --cristal-borde: rgba(242, 201, 76, 0.25); 
-    --cristal-sombra: 0 1.5rem 4rem rgba(0, 0, 0, 0.8);
-    
-    /* Orbes Ambientales */
-    --orb-color-1: rgba(106, 13, 173, 0.55);   
-    --orb-color-2: rgba(247, 37, 133, 0.45);   
-    --orb-color-3: rgba(67, 97, 238, 0.45);   
-    --orb-color-4: rgba(76, 201, 240, 0.35);  
-    
-    /* Tipografías y Espaciados */
+
     --font-main: 'Lato', sans-serif;
     --font-accent: 'Playfair Display', serif;
-    --radius-sm: 1rem;
-    --radius-md: 2rem;
-    --radius-pill: 50rem;
-    --space-sm: 1.8rem;
-    --space-md: 3.5rem;
-    --space-lg: 7rem;
-    --space-xl: 12rem;
-    --nav-height: 7.5rem;
+    --nav-height: 5rem;
     --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-/* ====================================================================================
-   MÓDULO 2: RESET Y ARQUITECTURA BASE
-   ==================================================================================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 15px; -webkit-tap-highlight-color: transparent; }
-body { 
-    background-color: var(--negro); color: var(--blanco); 
-    font-family: var(--font-main); overflow-x: hidden; 
-    -webkit-font-smoothing: antialiased; 
-    transition: background 1.2s ease, font-size 0.3s ease; 
-    line-height: 1.8; 
-}
+html { font-size: 16px; scroll-behavior: smooth; }
+body { background-color: var(--negro); color: var(--blanco); font-family: var(--font-main); overflow-x: hidden; line-height: 1.6; }
 
-h1, h2, h3, h4, h5, h6 { font-family: var(--font-accent); font-weight: 400; }
-a, button, input { transition: all 0.3s var(--ease-out-expo); font-family: inherit; cursor: pointer; outline: none; border: none; background: transparent; }
-a { color: var(--oro); text-decoration: none; }
-ul { list-style: none; }
-
-*:focus-visible { outline: 0.3rem solid var(--oro) !important; outline-offset: 0.4rem !important; border-radius: var(--radius-sm); }
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-
-::-webkit-scrollbar { width: 1rem; }
-::-webkit-scrollbar-track { background: var(--negro-profundo); }
-::-webkit-scrollbar-thumb { background: var(--gris-oscuro); border-radius: var(--radius-pill); border: 2px solid var(--negro-profundo); }
-::-webkit-scrollbar-thumb:hover { background: var(--oro); }
-::selection { background: var(--magenta-neon); color: var(--blanco); }
-
-/* SISTEMA DE CUADRÍCULAS */
-.grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--space-md); margin-bottom: 3rem; }
-.grid-gemela { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md); margin-bottom: 3rem; }
-.grid-triple { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); margin-bottom: 3rem; }
-
-/* ====================================================================================
-   MÓDULO 3: FONDOS GENERATIVOS Y PRELOADER
-   ==================================================================================== */
-.ambient-engine { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; background: var(--negro); overflow: hidden; pointer-events: none; }
-.aurora-layer {
-    position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-    background: radial-gradient(ellipse at 50% 50%, var(--orb-color-1) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, var(--orb-color-2) 0%, transparent 50%),
-                radial-gradient(ellipse at 20% 80%, var(--orb-color-3) 0%, transparent 50%);
-    background-size: 150% 150%; animation: auroraFlow 35s infinite alternate;
-    opacity: 0.85; filter: blur(7rem); mix-blend-mode: screen;
-}
-@keyframes auroraFlow { 0% { background-position: 0% 0%; } 100% { background-position: 100% 100%; } }
-
-#os-preloader { 
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-    background: var(--negro-profundo); z-index: 99999; display: flex; flex-direction: column; 
-    justify-content: center; align-items: center; transition: opacity 1.2s var(--ease-out-expo), visibility 1.2s; 
-}
-.lotus-svg { width: 16rem; height: 16rem; filter: drop-shadow(0 0 4rem rgba(242,201,76,0.7)); }
-.lotus-path { stroke-dasharray: 600; stroke-dashoffset: 600; animation: drawLotus 4s ease forwards; fill: transparent; stroke: var(--oro); stroke-width: 1.2; }
-@keyframes drawLotus { 0% { stroke-dashoffset: 600; } 100% { stroke-dashoffset: 0; fill: rgba(242,201,76,0.18); } }
-body.system-ready #os-preloader { opacity: 0; visibility: hidden; pointer-events: none; }
-
-/* ====================================================================================
-   MÓDULO 4: CABECERA Y MENÚ LATERAL MATTE PREMIUM
-   ==================================================================================== */
+/* CABECERA */
 .system-header { 
-    position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); z-index: 2000; 
-    display: flex; justify-content: space-between; align-items: center; 
-    background: var(--negro-cristal); border-bottom: 1px solid rgba(242,201,76,0.15); 
-    padding: 0 4.5rem; backdrop-filter: blur(3rem); box-shadow: 0 1.5rem 4rem rgba(0,0,0,0.95);
+    position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); 
+    z-index: 2000; display: flex; justify-content: space-between; align-items: center; 
+    background: rgba(6,6,10,0.9); border-bottom: 1px solid var(--cristal-borde); 
+    padding: 0 2rem; backdrop-filter: blur(1rem);
 }
-.header-logo { color: var(--oro); font-size: 1.8rem; letter-spacing: 0.7rem; text-transform: uppercase; font-family: var(--font-accent); text-shadow: 0 0 2.5rem rgba(242,201,76,0.6); }
-.menu-toggle-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--oro); color: var(--blanco); padding: 1rem 3rem; border-radius: var(--radius-pill); font-size: 1.15rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.25rem; box-shadow: inset 0 0 1.5rem rgba(242,201,76,0.1); }
-.menu-toggle-btn:hover { background: var(--oro); color: var(--negro-profundo); transform: translateY(-3px); }
+.header-logo { color: var(--oro); font-size: 1.5rem; letter-spacing: 0.2rem; font-family: var(--font-accent); text-transform: uppercase; background:none; border:none; cursor:pointer;}
+.menu-toggle-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--oro); color: var(--blanco); padding: 0.6rem 1.5rem; border-radius: 2rem; cursor:pointer; }
 
+/* MENÚ LATERAL */
 #side-menu-overlay {
-    position: fixed; top: 0; right: -100%; width: 52rem; max-width: 100vw; height: 100vh;
-    background: var(--menu-bg-gradient); border-left: 1px solid rgba(242,201,76,0.5); z-index: 3000;
-    box-shadow: -4rem 0 8rem rgba(0,0,0,0.98); transition: right 0.8s var(--ease-out-expo), visibility 0.8s;
-    display: flex; flex-direction: column; backdrop-filter: blur(5rem); overflow-y: auto; padding-bottom: 12rem; visibility: hidden; 
+    position: fixed; top: 0; right: -100%; width: 100vw; max-width: 400px; height: 100vh;
+    background: var(--menu-bg-gradient); z-index: 3000; transition: right 0.5s ease;
+    overflow-y: auto; padding: 2rem; border-left: 1px solid var(--oro);
 }
-#side-menu-overlay.open { right: 0; visibility: visible; }
+#side-menu-overlay.open { right: 0; }
+.close-menu-btn { background: transparent; color: white; border: 1px solid white; font-size: 2rem; padding: 0.5rem 1rem; border-radius: 50%; cursor: pointer; float: right; margin-bottom: 2rem;}
+.side-nav-grid { display: flex; flex-direction: column; gap: 1rem; clear: both;}
+.menu-link { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 1.5rem; border-radius: 1rem; text-align: left; cursor: pointer; display: flex; flex-direction: column; gap: 0.5rem;}
+.menu-link i { font-size: 1.5rem; color: var(--oro);}
+.side-nav-desc { font-size: 0.9rem; color: #aaa; }
 
-.side-nav-grid button, .side-nav-grid a {
-    border-radius: var(--radius-sm); padding: 2.8rem 1.8rem; text-align: center; cursor: pointer; 
-    display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
-    border-width: 1px; border-style: solid; text-decoration: none; box-shadow: 0 1rem 3rem rgba(0,0,0,0.5);
-}
-.side-nav-grid button span:not(.side-nav-desc) { font-family: var(--font-accent); font-size: 1.45rem; font-weight: 700; color: var(--blanco); }
-.side-nav-desc { font-size: 0.95rem; color: #d0d0d8; font-weight: 300; }
-.side-nav-grid button i { font-size: 2.8rem; color: var(--blanco); }
-.side-nav-grid button:not(.whatsapp-cta-menu):hover { transform: translateY(-0.6rem); box-shadow: 0 2rem 4rem rgba(0,0,0,0.7); filter: brightness(1.3); border-color: var(--blanco) !important; }
+/* GRID FIX (ESTO ARREGLA EL PROBLEMA DEL AMONTONAMIENTO) */
+.content-wrapper { max-width: 1200px; margin: 0 auto; padding: 6rem 1rem 2rem 1rem; }
+.grid-gemela, .grid-triple { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); width: 100%; margin-top: 2rem;}
 
-/* ====================================================================================
-   MÓDULO 5: UI PRINCIPAL (GLASSMORPHISM, HERO Y VISTAS)
-   ==================================================================================== */
-#app-root { position: relative; width: 100%; min-height: 100vh; padding-top: var(--nav-height); }
-.view-container { display: none; opacity: 0; transform: translateY(5rem) scale(0.97); transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo); width: 100%; }
-.view-container.active { display: block; opacity: 1; transform: translateY(0) scale(1); }
-.content-wrapper { max-width: var(--max-width); margin: auto; padding: var(--space-xl) var(--space-sm); }
-
-.hero-view { text-align: center; padding: var(--space-xl) var(--space-sm) var(--space-lg); min-height: 95vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-.hero-view h1 { font-size: 7.5rem; letter-spacing: 2.2rem; color: var(--blanco); text-transform: uppercase; margin-bottom: 1rem; text-shadow: 0 2.5rem 6rem rgba(0,0,0,0.95); } 
-.hero-slogan { color:var(--oro); font-family:var(--font-accent); font-size:2.5rem; font-style:italic; margin-top:-2rem; margin-bottom:4rem; text-shadow: 0 0.8rem 2.5rem rgba(0,0,0,0.9); }
+/* HERO Y CARDS */
+.hero-view { text-align: center; padding: 4rem 1rem; }
+.hero-view h1 { font-size: 3.5rem; color: var(--blanco); font-family: var(--font-accent); letter-spacing: 0.2rem;}
+.hero-slogan { color: var(--oro); font-size: 1.5rem; font-style: italic; margin-bottom: 2rem;}
+.view-title { text-align: center; font-size: 2.5rem; color: var(--blanco); margin-bottom: 1rem; font-family: var(--font-accent);}
+.view-subtitle { text-align: center; color: var(--gris-texto); margin-bottom: 3rem;}
 
 .glass-card { 
-    background: var(--cristal-fondo); backdrop-filter: blur(3.5rem); border: 1px solid var(--cristal-borde); 
-    border-radius: var(--radius-md); box-shadow: var(--cristal-sombra); padding: 4rem 3.5rem; 
-    position: relative; overflow: hidden; display: flex; flex-direction: column;
+    background: var(--cristal-fondo); border: 1px solid var(--cristal-borde); 
+    border-radius: 1rem; padding: 2rem; display: flex; flex-direction: column;
+    box-shadow: 0 1rem 2rem rgba(0,0,0,0.5); height: 100%;
 }
-.glass-card:hover { border-color: var(--oro); box-shadow: 0 3rem 7rem rgba(0,0,0,0.95), inset 0 0 4rem rgba(242,201,76,0.08); transform: translateY(-10px); }
-.card-icon-wrapper { width: 100%; height: 10rem; background: var(--card-gradient); border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.15); margin-bottom: 3rem; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 5rem rgba(0,0,0,0.85); }
-.glass-card:hover .card-icon-wrapper i { transform: scale(1.18); color: var(--oro); }
-.glass-card h3 { font-size: 2.4rem; color: var(--blanco); margin-bottom: 1.2rem; text-align: center; }
-.marketing-text { font-size: 1.2rem; color: var(--gris-texto); line-height: 1.95; margin-bottom: 3rem; text-align: justify; }
+.card-icon-wrapper { font-size: 3rem; color: var(--oro); text-align: center; margin-bottom: 1rem;}
+.glass-card h3 { font-size: 1.5rem; text-align: center; margin-bottom: 1rem; color: var(--blanco);}
+.card-meta-info { display: flex; justify-content: space-between; color: var(--cian-fluor); margin-bottom: 1rem; font-weight: bold;}
+.marketing-text { flex-grow: 1; margin-bottom: 1.5rem; text-align: justify;}
+.btn-agenda-ahora { background: var(--verde-ws); color: var(--negro); padding: 1rem; text-align: center; border-radius: 2rem; font-weight: bold; text-decoration: none; cursor: pointer; border: none;}
 
-.btn-agenda-ahora { display: inline-flex; justify-content: center; align-items: center; background: transparent; color: var(--blanco); padding: 1.6rem 2.5rem; border-radius: 4rem; font-weight: 700; margin-top: auto; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.6); }
-.btn-agenda-ahora:hover { background: var(--blanco); color: var(--negro-profundo); border-color: var(--blanco); transform: translateY(-5px); }
-
-/* SECCIÓN DE AGENDA (CALENDAR) */
-.calendar-integration-box { margin-top: 6rem; width: 100%; max-width: 100rem; background: var(--negro-modal); padding: 5rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 4rem 9rem rgba(0,0,0,0.98); }
-
-/* ====================================================================================
-   MÓDULO 6: MODALES Y ELEMENTOS FLOTANTES (AURA IA & OASIS)
-   ==================================================================================== */
-.system-float-right { position: fixed; bottom: 3.5rem; right: 3.5rem; display: flex; flex-direction: column; gap: 1.8rem; z-index: 10000; }
-.system-float-left { position: fixed; bottom: 3.5rem; left: 3.5rem; display: flex; flex-direction: column; gap: 1.8rem; z-index: 10001; }
-.sys-btn { width: 5.5rem; height: 5.5rem; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2.2rem; color: var(--blanco); box-shadow: 0 1.5rem 4rem rgba(0,0,0,0.9); border: 1px solid rgba(255,255,255,0.18); backdrop-filter: blur(12px); }
-.sys-btn:hover { transform: scale(1.18) translateY(-0.6rem); border-color: var(--blanco); }
+/* MODALES Y BOTONES FLOTANTES FIX */
+.system-float-left, .system-float-right { position: fixed; z-index: 10000; display: flex; gap: 1rem; bottom: 1rem;}
+.system-float-left { left: 1rem; }
+.system-float-right { right: 1rem; }
+.sys-btn { width: 3.5rem; height: 3.5rem; border-radius: 50%; background: var(--negro-modal); border: 1px solid var(--oro); color: white; font-size: 1.5rem; cursor: pointer; display: flex; justify-content: center; align-items: center;}
+.btn-ws { background: var(--verde-ws); color: black; border-color: black;}
 
 #aura-modal, #audio-modal, #a11y-menu {
-    position: fixed !important; bottom: 11rem; max-width: 90vw; background: var(--negro-modal); 
-    border-radius: var(--radius-md); box-shadow: 0 5rem 12rem rgba(0,0,0,0.98); 
-    opacity: 0; transform: translateY(2.5rem) scale(0.95); pointer-events: none; 
-    transition: all 0.7s var(--ease-out-expo); backdrop-filter: blur(5rem); visibility: hidden; z-index: 10005 !important;
+    position: fixed !important; bottom: 5rem; background: var(--negro-modal); 
+    border-radius: 1rem; padding: 1.5rem; border: 1px solid var(--oro);
+    width: calc(100vw - 2rem); max-width: 400px; max-height: 70vh; overflow-y: auto;
+    opacity: 0; visibility: hidden; transition: 0.3s ease; z-index: 10005;
 }
-#aura-modal.active, #audio-modal.active, #a11y-menu.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; visibility: visible; }
+#aura-modal { right: 1rem; }
+#audio-modal, #a11y-menu { left: 1rem; }
+#aura-modal.active, #audio-modal.active, #a11y-menu.active { opacity: 1; visibility: visible; }
 
-#aura-modal { right: 3.5rem; width: 45rem; height: 65rem; border: 1px solid var(--oro); display: flex; flex-direction: column; }
-#audio-modal, #a11y-menu { left: 3.5rem; width: 60rem; border: 1px solid var(--cian-fluor); }
+.modal-close-btn { float: right; background: transparent; border: 1px solid white; color: white; border-radius: 50%; width: 2rem; height: 2rem; cursor: pointer;}
+.aura-input-area { display: flex; gap: 0.5rem; margin-top: 1rem;}
+.aura-input { flex-grow: 1; padding: 0.8rem; border-radius: 2rem; border: 1px solid var(--oro); background: transparent; color: white;}
+.aura-send { background: var(--oro); color: black; border: none; border-radius: 50%; width: 3rem; height: 3rem; cursor: pointer;}
+.msg { padding: 1rem; border-radius: 1rem; margin-bottom: 1rem; width: 90%;}
+.msg.bot { background: rgba(255,255,255,0.1); }
+.msg.user { background: rgba(242,201,76,0.2); margin-left: auto; border: 1px solid var(--oro);}
 
-.aura-header, .audio-header { background: linear-gradient(135deg, rgba(20,20,28,1), rgba(10,10,18,1)); border-bottom: 1px solid var(--oro); padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; color: var(--blanco); }
-.aura-body { flex-grow: 1; padding: 3rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.8rem; scroll-behavior: smooth; }
-.msg { max-width: 92%; padding: 1.6rem 2rem; border-radius: 1.8rem; font-size: 1.2rem; line-height: 1.8; }
-.msg.bot { background: rgba(255,255,255,0.06); color: var(--blanco); align-self: flex-start; border-bottom-left-radius: 0.4rem; border: 1px solid rgba(255,255,255,0.12); }
-.msg.user { background: rgba(242,201,76,0.18); border: 1px solid var(--oro); color: var(--blanco); align-self: flex-end; border-bottom-right-radius: 0.4rem; font-weight: 700; }
+.a11y-grid { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;}
+.a11y-option { background: transparent; border: 1px solid white; color: white; padding: 1rem; border-radius: 0.5rem; cursor: pointer; text-align: left;}
 
-.aura-input-area { padding: 2.5rem 3rem; border-top: 1px solid rgba(255,255,255,0.15); display: flex; gap: 1.8rem; background: rgba(0,0,0,0.98); }
-.aura-input { flex-grow: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.25); color: var(--blanco); font-size: 1.25rem; padding: 1.4rem 2.5rem; border-radius: var(--radius-pill); outline: none; }
-.aura-send { background: transparent; border: 1px solid var(--oro); width: 5.5rem; height: 5.5rem; border-radius: 50%; color: var(--oro); font-size: 2rem; display: flex; justify-content: center; align-items: center; }
+/* VISTAS SPA */
+.view-container { display: none; opacity: 0; transition: opacity 0.5s ease; }
+.view-container.active { display: block; opacity: 1; }
 
-/* ====================================================================================
-   MÓDULO 7: ACCESIBILIDAD (A11Y OVERRIDES)
-   ==================================================================================== */
-body.high-contrast { background-color: #000 !important; color: #fff !important; --oro: #ffff00 !important; --cristal-fondo: #000 !important; --cristal-borde: #ffff00 !important; --negro-modal: #000 !important; }
-body.high-contrast .ambient-engine { display: none !important; }
-body.high-contrast .glass-card, body.high-contrast #a11y-menu, body.high-contrast #side-menu-overlay { background: #000 !important; border: 2px solid #ffff00 !important; backdrop-filter: none !important; box-shadow: none !important; }
-body.invert-colors { filter: invert(1) hue-rotate(180deg); background-color: #fff; }
-body.invert-colors .system-float-left, body.invert-colors .system-float-right { filter: invert(1) hue-rotate(180deg) !important; }
-body.dyslexia-font * { font-family: 'OpenDyslexic', sans-serif !important; letter-spacing: 0.18em !important; line-height: 2.4 !important; }
-body.clinical-reading-mode { background: #080808 !important; color: #f0f0f0 !important; font-family: var(--font-clinical) !important; }
+/* TOASTS */
+#toast-container { position: fixed; top: 1rem; right: 1rem; z-index: 99999; display: flex; flex-direction: column; gap: 0.5rem;}
+.toast { background: var(--verde-ws); color: black; padding: 1rem; border-radius: 0.5rem; font-weight: bold;}
 
-/* ====================================================================================
-   MÓDULO 8: MEDIA QUERIES (RESPONSIVIDAD MÓVIL EXTREMA)
-   ==================================================================================== */
-@media(max-width: 1050px) { 
-    html { font-size: 14px; } 
-    .hero-view h1 { font-size: 6rem; letter-spacing: 1.5rem; } 
-}
-@media(max-width: 800px) {
-    html { font-size: 13px; }
-    .system-header { padding: 0 2.5rem; } 
-    .header-logo { font-size: 1.6rem; }
-    #side-menu-overlay { width: 100vw; padding: 0; padding-bottom: 9rem; border-left: none;}
-    .hero-view h1 { font-size: 4.5rem; letter-spacing: 1rem; }
-    .glass-card { padding: 3.5rem 2.5rem; transform: none !important; box-shadow: 0 1.5rem 4rem rgba(0,0,0,0.65) !important;} 
-    .content-wrapper { padding: 5rem 2rem; }
-    .grid-container, .grid-gemela, .grid-triple, .grid-cuadruple { grid-template-columns: 1fr; }
-    #a11y-menu, #audio-modal { width: 95vw; left: 2.5vw; bottom: 9rem; padding: 2.5rem;}
-    .system-float-left { left: 2rem; bottom: 2rem; } 
-    .system-float-right { right: 2rem; bottom: 2rem; }
-    #aura-modal { width: 95vw; right: 2.5vw; bottom: 9rem; height: 78vh; }
-}
-@media (max-width: 600px) {
-    .system-float-left { flex-direction: row !important; bottom: 2rem !important; left: 1.5rem !important; }
-    .system-float-right { flex-direction: row !important; bottom: 2rem !important; right: 1.5rem !important; }
-    .sys-btn { width: 4.5rem !important; height: 4.5rem !important; font-size: 1.8rem !important; }
-    .hero-view h1 { font-size: 3.5rem !important; letter-spacing: 0.5rem !important; }
-              }
+/* ACCESIBILIDAD OVERRIDES */
+body.high-contrast { background: black !important; color: white !important; }
+body.high-contrast .glass-card, body.high-contrast .menu-link { border: 2px solid yellow !important; background: black !important;}
+body.invert-colors { filter: invert(1); background: white; }
