@@ -4,179 +4,235 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>VALTARA | Executive Therapy & Restauración Biomecánica CDMX</title>
-    <meta name="description" content="Clínica de élite en Reforma 195, CDMX. Masoterapia deportiva, liberación miofascial y manejo del estrés corporativo. Revierta el burnout con protocolos de ciencia anatómica.">
+    <meta name="description" content="VALTARA: Clínica de élite en Reforma 195. Especialistas en masoterapia deportiva, liberación miofascial y triaje clínico predictivo para altos ejecutivos.">
     <meta name="author" content="Grupo Gevizz S.A.S.">
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <!-- Tipografías de Alta Gama -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
+    <!-- ====================================================================================
+         MÓDULO DE ESTILOS: MATTE PREMIUM & GLASSMORPHISM 2.0 (CSS)
+         ==================================================================================== -->
     <style>
-        /* ====================================================================================
-           MÓDULO VISUAL: MATTE PREMIUM & GLASSMORPHISM 2.0
-           ==================================================================================== */
         :root { 
+            /* Colorimetría Sovereign */
             --oro: #F2C94C; --oro-suave: #FCEABB; --oro-oscuro: #B58529; 
-            --negro: #040406; --negro-profundo: #010102; --negro-modal: rgba(12,12,16,0.98);
-            --blanco: #ffffff; --gris-texto: #dcdce6; --gris-claro: #f0f0f5;
+            --negro: #040406; --negro-profundo: #010102; --negro-cristal: rgba(8, 8, 12, 0.85); 
+            --blanco: #ffffff; --gris-texto: #dcdce6; --gris-claro: #f4f4f6;
             --verde-ws: #00E676; --cian-fluor: #4CC9F0; --magenta-neon: #F72585; --purpura-aura: #B200FF;
-            --cristal-fondo: rgba(15, 15, 22, 0.65); --cristal-borde: rgba(242, 201, 76, 0.25); 
+            
+            /* Gradientes y Cristal */
+            --menu-bg-gradient: linear-gradient(180deg, rgba(10,10,18,0.98) 0%, rgba(4,4,8,0.98) 100%);
+            --card-gradient: linear-gradient(135deg, rgba(20,20,25,0.7), rgba(10,10,15,0.8));
+            --cristal-fondo: rgba(18, 18, 24, 0.65); 
+            --cristal-borde: rgba(242, 201, 76, 0.35); 
+            --cristal-sombra: 0 2rem 5rem rgba(0, 0, 0, 0.8);
+            
+            /* Fuentes y Constantes */
             --font-main: 'Lato', sans-serif; --font-accent: 'Playfair Display', serif;
-            --nav-height: 6rem; --ease-out: cubic-bezier(0.19, 1, 0.22, 1);
+            --nav-height: 6.5rem; --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
         }
 
+        /* RESET ARQUITECTÓNICO */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { font-size: 16px; scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; font-size: 16px; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--negro); color: var(--blanco); font-family: var(--font-main); overflow-x: hidden; line-height: 1.8; }
-        a, button { cursor: pointer; outline: none; border: none; font-family: inherit; transition: 0.3s var(--ease-out); }
-        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+        h1, h2, h3, h4 { font-family: var(--font-accent); font-weight: 400; }
+        a, button, input { transition: all 0.4s var(--ease-out-expo); font-family: inherit; outline: none; border: none; background: transparent; cursor: pointer;}
         ::-webkit-scrollbar { width: 0.8rem; } ::-webkit-scrollbar-track { background: var(--negro-profundo); } ::-webkit-scrollbar-thumb { background: var(--oro-oscuro); border-radius: 1rem; }
 
-        /* FONDOS Y AMBIENTE */
+        /* FONDOS AMBIENTALES GENERATIVOS */
         .ambient-engine { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; background: var(--negro); pointer-events: none; }
-        .aurora-layer { position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 50% 50%, rgba(106, 13, 173, 0.15) 0%, transparent 60%), radial-gradient(circle at 80% 20%, rgba(242, 201, 76, 0.08) 0%, transparent 50%); filter: blur(8rem); animation: aurora 40s linear infinite alternate; }
-        @keyframes aurora { 0% { transform: rotate(0deg) scale(1); } 100% { transform: rotate(10deg) scale(1.1); } }
+        .aurora-layer { position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 50% 50%, rgba(106, 13, 173, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(247, 37, 133, 0.1) 0%, transparent 50%); filter: blur(8rem); animation: auroraFlow 40s linear infinite alternate; }
+        @keyframes auroraFlow { 0% { transform: rotate(0deg) scale(1); } 100% { transform: rotate(15deg) scale(1.1); } }
 
-        /* HEADER & MENÚ */
-        .system-header { position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); z-index: 2000; display: flex; justify-content: space-between; align-items: center; background: rgba(4,4,6,0.85); border-bottom: 1px solid var(--cristal-borde); padding: 0 3rem; backdrop-filter: blur(2rem); }
-        .header-logo { color: var(--oro); font-size: 1.4rem; letter-spacing: 0.4rem; font-family: var(--font-accent); text-transform: uppercase; background: transparent; }
-        .menu-toggle-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--oro); color: var(--blanco); padding: 0.8rem 2rem; border-radius: 2rem; text-transform: uppercase; letter-spacing: 0.1rem; font-weight: bold;}
-        .menu-toggle-btn:hover { background: var(--oro); color: var(--negro); }
+        /* CABECERA (HEADER) */
+        .system-header { position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); z-index: 2000; display: flex; justify-content: space-between; align-items: center; background: var(--negro-cristal); border-bottom: 1px solid rgba(242,201,76,0.2); padding: 0 4rem; backdrop-filter: blur(2rem); box-shadow: 0 1rem 3rem rgba(0,0,0,0.8); transition: 0.4s; }
+        .header-logo { color: var(--oro); font-size: 1.6rem; letter-spacing: 0.4rem; text-transform: uppercase; font-family: var(--font-accent); display: flex; align-items: center; gap: 1rem; }
+        .menu-toggle-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--cian-fluor); color: var(--blanco); padding: 0.8rem 2.5rem; border-radius: 3rem; font-size: 1.05rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15rem; display: flex; align-items: center; gap: 1rem; box-shadow: inset 0 0 1.5rem rgba(76,201,240,0.1); }
+        .menu-toggle-btn:hover { background: var(--cian-fluor); color: var(--negro-profundo); box-shadow: 0 0 2rem rgba(76,201,240,0.4); transform: translateY(-2px); }
 
-        #side-menu-overlay { position: fixed; top: 0; right: -100%; width: 100vw; max-width: 450px; height: 100vh; background: rgba(8,8,12,0.98); z-index: 3000; transition: right 0.6s var(--ease-out); overflow-y: auto; padding: 2rem; border-left: 1px solid var(--oro); backdrop-filter: blur(3rem);}
+        /* MENÚ LATERAL SIMÉTRICO */
+        #side-menu-overlay { position: fixed; top: 0; right: -100%; width: 35rem; max-width: 100vw; height: 100vh; background: var(--menu-bg-gradient); border-left: 1px solid var(--cian-fluor); z-index: 3000; box-shadow: -2rem 0 5rem rgba(0,0,0,0.9); transition: right 0.7s var(--ease-out-expo); display: flex; flex-direction: column; padding: 3rem; overflow-y: auto; backdrop-filter: blur(3rem); }
         #side-menu-overlay.open { right: 0; }
-        .close-menu-btn { background: transparent; color: white; border: 1px solid white; width: 3rem; height: 3rem; border-radius: 50%; font-size: 1.5rem; float: right; margin-bottom: 2rem;}
-        .side-nav-grid { display: flex; flex-direction: column; gap: 1rem; clear: both;}
-        .menu-link { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 1.5rem; border-radius: 1rem; text-align: left; display: flex; flex-direction: column; gap: 0.5rem;}
-        .menu-link:hover, .menu-link.active { border-color: var(--oro); background: rgba(242,201,76,0.05); transform: translateX(-5px); }
-        .menu-link i { font-size: 1.8rem; color: var(--oro); }
+        .close-menu-btn { align-self: flex-end; background: rgba(0,0,0,0.5); border: 1px solid var(--cian-fluor); color: var(--blanco); width: 3.5rem; height: 3.5rem; border-radius: 50%; font-size: 1.5rem; display: flex; justify-content: center; align-items: center; margin-bottom: 2rem; }
+        .close-menu-btn:hover { background: var(--cian-fluor); color: var(--negro-profundo); transform: rotate(90deg); }
+        
+        .side-nav-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; width: 100%; }
+        .side-nav-grid button, .side-nav-grid a { border-radius: 1rem; padding: 2rem 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem; border: 1px solid rgba(255,255,255,0.1); text-decoration: none; background: rgba(255,255,255,0.03); }
+        .side-nav-grid button span.title { font-family: var(--font-accent); font-size: 1.2rem; font-weight: 700; color: var(--blanco); }
+        .side-nav-grid button span.desc { font-family: var(--font-main); font-size: 0.85rem; color: var(--gris-texto); font-weight: 300; line-height: 1.4; }
+        .side-nav-grid button i { font-size: 2.5rem; transition: 0.4s; }
+        
+        /* Colores Botones Menú */
+        .btn-menu-resto { border-color: rgba(242,201,76,0.4) !important; } .btn-menu-resto i { color: var(--oro); }
+        .btn-menu-codex { border-color: rgba(247,37,133,0.4) !important; } .btn-menu-codex i { color: var(--magenta-neon); }
+        .btn-menu-science { border-color: rgba(76,201,240,0.4) !important; } .btn-menu-science i { color: var(--cian-fluor); }
+        .btn-menu-ergo { border-color: rgba(0,230,118,0.4) !important; } .btn-menu-ergo i { color: var(--verde-ws); }
+        .side-nav-grid button:hover { transform: translateY(-5px); background: rgba(255,255,255,0.08); box-shadow: 0 1rem 3rem rgba(0,0,0,0.5); border-color: var(--blanco) !important; }
+        .whatsapp-cta-menu { grid-column: 1 / -1; background: var(--verde-ws) !important; color: var(--negro-profundo) !important; border: none !important; }
+        .whatsapp-cta-menu:hover { background: var(--blanco) !important; transform: translateY(-5px); }
 
-        /* ESTRUCTURA SPA Y GRIDS */
-        .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 8rem 2rem 4rem 2rem; }
-        .view-container { display: none; opacity: 0; transform: translateY(30px); transition: 0.6s var(--ease-out); }
-        .view-container.active { display: block; opacity: 1; transform: translateY(0); }
-        .grid-gemela { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); margin-top: 3rem; }
+        /* ARQUITECTURA SPA Y GRIDS ESPACIOSOS */
+        #app-root { width: 100%; min-height: 100vh; padding-top: var(--nav-height); }
+        .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem 8rem 2rem; }
+        .view-container { display: none; opacity: 0; }
+        .view-container.active { display: block; opacity: 1; }
+        
+        /* Animación Cinemática Reveal */
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 1s var(--ease-out-expo); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        .grid-gemela { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; margin-top: 3rem; }
 
-        /* HERO & TARJETAS */
-        .hero-view { text-align: center; padding: 4rem 0; min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center;}
-        .hero-view h1 { font-size: 5rem; color: var(--blanco); font-family: var(--font-accent); letter-spacing: 1rem; margin-bottom: 1rem;}
-        .hero-slogan { color: var(--oro); font-size: 1.8rem; font-style: italic; margin-bottom: 2rem; font-weight: 300;}
-        .hero-desc { color: var(--gris-texto); font-size: 1.2rem; max-width: 800px; line-height: 2;}
+        /* PORTADA (HERO) */
+        .hero-view { text-align: center; min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem 0;}
+        .hero-view h1 { font-size: 6rem; letter-spacing: 2rem; color: var(--blanco); text-transform: uppercase; margin-bottom: 0.5rem; text-shadow: 0 2rem 5rem rgba(0,0,0,0.9); margin-left: 1rem;}
+        .hero-slogan { color: var(--oro); font-size: 2.2rem; font-style: italic; margin-bottom: 3rem; font-weight: 400; text-shadow: 0 1rem 2rem rgba(0,0,0,0.8); }
+        .hero-desc { font-size: 1.35rem; color: var(--gris-texto); max-width: 800px; line-height: 2; font-weight: 300; margin-bottom: 4rem; }
+        .cortesia-box { background: rgba(242,201,76,0.1); border: 1px solid var(--oro); padding: 1.5rem 3rem; border-radius: 3rem; color: var(--oro-suave); font-weight: bold; font-size: 1.2rem; letter-spacing: 0.1rem; box-shadow: 0 1rem 3rem rgba(242,201,76,0.15); display: inline-flex; align-items: center; gap: 1rem;}
 
-        .glass-card { background: var(--cristal-fondo); border: 1px solid var(--cristal-borde); border-radius: 1.5rem; padding: 3rem; display: flex; flex-direction: column; backdrop-filter: blur(2rem); box-shadow: 0 1.5rem 3rem rgba(0,0,0,0.5); }
-        .glass-card:hover { border-color: var(--oro); transform: translateY(-10px); box-shadow: 0 2rem 4rem rgba(0,0,0,0.8); }
-        .card-icon-wrapper { font-size: 3.5rem; color: var(--oro); text-align: center; margin-bottom: 1.5rem; }
-        .glass-card h3 { font-size: 1.8rem; text-align: center; margin-bottom: 1rem; color: var(--blanco); }
-        .card-meta-info { display: flex; justify-content: space-between; color: var(--cian-fluor); margin-bottom: 1.5rem; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem;}
-        .marketing-text { flex-grow: 1; margin-bottom: 2rem; text-align: justify; color: var(--gris-claro); font-weight: 300;}
-        .btn-agenda-ahora { background: var(--verde-ws); color: var(--negro-profundo); padding: 1.2rem; text-align: center; border-radius: 3rem; font-weight: bold; text-decoration: none; display: block; text-transform: uppercase; letter-spacing: 0.1rem;}
-        .btn-agenda-ahora:hover { background: var(--blanco); }
+        /* TARJETAS GLASSMORPHISM (TILT 3D) */
+        .glass-card { background: var(--cristal-fondo); backdrop-filter: blur(2.5rem); border: 1px solid var(--cristal-borde); border-radius: 1.5rem; padding: 4rem 3rem; display: flex; flex-direction: column; box-shadow: var(--cristal-sombra); transform-style: preserve-3d; perspective: 1000px; }
+        .card-icon-wrapper { width: 100%; height: 9rem; background: var(--card-gradient); border-radius: 1rem; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 2rem; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 3rem rgba(0,0,0,0.8); font-size: 3.5rem; color: var(--oro); transition: 0.5s; transform: translateZ(30px); }
+        .glass-card:hover .card-icon-wrapper { border-color: var(--oro); background: rgba(30,30,35,0.9); transform: translateZ(50px) scale(1.05); color: var(--blanco); box-shadow: inset 0 0 4rem rgba(242,201,76,0.3); }
+        .glass-card h3 { font-size: 2.2rem; color: var(--blanco); margin-bottom: 1rem; text-align: center; transform: translateZ(20px); }
+        .card-meta-info { display: flex; justify-content: space-between; background: rgba(0,0,0,0.5); padding: 1.2rem; border-radius: 0.8rem; border: 1px solid rgba(255,255,255,0.05); color: var(--cian-fluor); font-weight: bold; font-size: 1.1rem; margin-bottom: 2rem; transform: translateZ(15px); }
+        .card-meta-info .precio { color: var(--oro); }
+        .marketing-text { font-size: 1.15rem; color: var(--gris-claro); line-height: 2; margin-bottom: 3rem; text-align: justify; font-weight: 300; transform: translateZ(10px); flex-grow: 1; }
+        
+        .btn-agenda-ahora { display: inline-flex; justify-content: center; align-items: center; gap: 1rem; background: transparent; color: var(--blanco); padding: 1.5rem; border-radius: 4rem; font-weight: 700; font-size: 1.1rem; border: 1px solid rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.1rem; transform: translateZ(20px); text-decoration: none;}
+        .btn-agenda-ahora:hover { background: var(--verde-ws); color: var(--negro-profundo); border-color: var(--verde-ws); transform: translateZ(30px) translateY(-5px); box-shadow: 0 1rem 3rem rgba(0,230,118,0.4); }
 
-        /* SECCIÓN MAPA CORPORAL INTERACTIVO */
-        .body-map-container { display: grid; grid-template-columns: 1fr 1.5fr; gap: 3rem; background: var(--negro-modal); border-radius: 1.5rem; border: 1px solid rgba(67,97,238,0.4); padding: 3rem; margin-top: 4rem; }
-        .body-zones { display: flex; flex-direction: column; gap: 1rem; }
-        .zone-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 1.2rem; border-radius: 1rem; text-align: left; font-weight: bold; display: flex; align-items: center; gap: 1rem; }
-        .zone-btn:hover, .zone-btn.active { background: rgba(67,97,238,0.2); border-color: var(--cian-fluor); color: var(--cian-fluor); transform: translateX(10px); }
-        .zone-info { background: rgba(0,0,0,0.5); padding: 2.5rem; border-radius: 1rem; border-left: 4px solid var(--cian-fluor); }
-
-        /* SECCIÓN TÓTEM (VIDEO E INSTALACIONES) */
-        .totem-section { margin-top: 5rem; background: linear-gradient(135deg, rgba(20,20,25,0.9), rgba(5,5,8,0.9)); border-radius: 1.5rem; border: 1px solid var(--oro); padding: 4rem; text-align: center; }
-        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000; border-radius: 1rem; margin: 3rem 0; border: 2px solid rgba(242,201,76,0.3); }
+        /* TÓTEM DIGITAL (VIDEO Y CABINAS) */
+        .totem-section { background: linear-gradient(135deg, rgba(20,20,25,0.9), rgba(5,5,8,0.95)); border: 1px solid var(--oro); border-radius: 2rem; padding: 6rem 4rem; text-align: center; margin: 6rem 0; box-shadow: 0 3rem 6rem rgba(0,0,0,0.9); }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; width: 100%; max-width: 900px; margin: 4rem auto; background: #000; border-radius: 1.5rem; overflow: hidden; border: 2px solid rgba(242,201,76,0.3); box-shadow: 0 2rem 5rem rgba(242,201,76,0.15); }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-        /* BOTONES FLOTANTES Y MODALES */
-        .system-float-left, .system-float-right { position: fixed; z-index: 10000; display: flex; flex-direction: column; gap: 1.5rem; bottom: 2rem;}
-        .system-float-left { left: 2rem; } .system-float-right { right: 2rem; }
-        .sys-btn { width: 4.5rem; height: 4.5rem; border-radius: 50%; background: var(--negro-modal); border: 1px solid var(--oro); color: white; font-size: 1.8rem; display: flex; justify-content: center; align-items: center; box-shadow: 0 1rem 3rem rgba(0,0,0,0.8); backdrop-filter: blur(10px);}
-        .sys-btn:hover { transform: scale(1.1) translateY(-5px); background: var(--oro); color: black;}
-        .btn-ws { background: var(--verde-ws); color: black; border-color: black;}
+        /* MAPA CORPORAL BIOMECÁNICO */
+        .body-map-container { display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; background: rgba(12,12,16,0.9); border-radius: 2rem; border: 1px solid var(--cian-fluor); padding: 5rem 4rem; margin-top: 6rem; box-shadow: inset 0 0 5rem rgba(0,0,0,0.8); }
+        .body-zones { display: flex; flex-direction: column; gap: 1.5rem; }
+        .zone-btn { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: var(--blanco); padding: 1.5rem 2rem; border-radius: 1rem; text-align: left; font-size: 1.15rem; font-weight: bold; display: flex; align-items: center; gap: 1.5rem; letter-spacing: 0.05rem; }
+        .zone-btn:hover, .zone-btn.active { background: rgba(76,201,240,0.15); border-color: var(--cian-fluor); color: var(--cian-fluor); transform: translateX(15px); box-shadow: 0 1rem 2rem rgba(0,0,0,0.5); }
+        .zone-btn i { font-size: 2rem; width: 3rem; text-align: center; }
+        .zone-info { background: rgba(0,0,0,0.6); padding: 4rem 3rem; border-radius: 1.5rem; border-left: 5px solid var(--cian-fluor); display: flex; flex-direction: column; justify-content: center; }
 
-        .floating-modal { position: fixed; bottom: 8rem; background: var(--negro-modal); border-radius: 1.5rem; padding: 2rem; border: 1px solid var(--oro); width: calc(100vw - 4rem); max-width: 450px; max-height: 75vh; overflow-y: auto; opacity: 0; visibility: hidden; transition: 0.4s var(--ease-out); z-index: 10005; box-shadow: 0 2rem 5rem rgba(0,0,0,0.9); backdrop-filter: blur(2rem);}
+        /* MANIFIESTO CODEX */
+        .codex-container { background: rgba(10,10,15,0.8); border: 1px solid var(--oro); padding: 6rem 5rem; border-radius: 2rem; backdrop-filter: blur(2rem); box-shadow: inset 0 0 5rem rgba(0,0,0,0.9); }
+        .drop-cap { float: left; font-size: 6rem; font-family: var(--font-accent); color: var(--magenta-neon); line-height: 0.8; margin-right: 1.5rem; margin-top: 0.5rem; text-shadow: 0 0 2rem rgba(247,37,133,0.5); }
+        .codex-text { font-size: 1.25rem; color: var(--gris-claro); line-height: 2.2; text-align: justify; margin-bottom: 2rem; font-weight: 300; }
+
+        /* ELEMENTOS FLOTANTES Y MODALES */
+        .system-float-left, .system-float-right { position: fixed; z-index: 10000; display: flex; flex-direction: column; gap: 1.5rem; bottom: 2.5rem; }
+        .system-float-left { left: 2.5rem; } .system-float-right { right: 2.5rem; }
+        .sys-btn { width: 5rem; height: 5rem; border-radius: 50%; background: rgba(12,12,16,0.95); border: 1px solid rgba(255,255,255,0.2); color: var(--blanco); font-size: 2rem; display: flex; justify-content: center; align-items: center; box-shadow: 0 1.5rem 3rem rgba(0,0,0,0.8); backdrop-filter: blur(10px); }
+        .sys-btn:hover { transform: scale(1.15) translateY(-5px); border-color: var(--blanco); }
+        .btn-ws { background: var(--verde-ws); color: var(--negro-profundo); border-color: var(--verde-ws); }
+        .btn-aura { border-color: var(--purpura-aura); color: var(--purpura-aura); }
+
+        .floating-modal { position: fixed; bottom: 9rem; background: var(--negro-modal); border-radius: 1.5rem; padding: 2.5rem; width: calc(100vw - 5rem); max-width: 480px; max-height: 75vh; overflow-y: auto; opacity: 0; visibility: hidden; transition: 0.5s var(--ease-out-expo); z-index: 10005; box-shadow: 0 3rem 6rem rgba(0,0,0,0.95); backdrop-filter: blur(3rem); }
         .floating-modal.active { opacity: 1; visibility: visible; transform: translateY(0); }
-        #aura-modal { right: 2rem; border-color: var(--purpura-aura); }
-        #audio-modal, #a11y-menu { left: 2rem; border-color: var(--cian-fluor); }
+        #aura-modal { right: 2.5rem; border: 1px solid var(--purpura-intenso); display: flex; flex-direction: column; }
+        #audio-modal, #a11y-menu { left: 2.5rem; border: 1px solid var(--cian-fluor); }
 
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1.5rem; margin-bottom: 1.5rem;}
-        .aura-input-area { display: flex; gap: 1rem; margin-top: 2rem; background: rgba(0,0,0,0.5); padding: 1rem; border-radius: 3rem;}
-        .aura-input { flex-grow: 1; padding: 1rem 1.5rem; border-radius: 2rem; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: white; font-size: 1rem;}
-        .aura-send { background: var(--purpura-aura); color: white; border: none; border-radius: 50%; width: 3.5rem; height: 3.5rem;}
-        .msg { padding: 1.2rem 1.5rem; border-radius: 1rem; margin-bottom: 1rem; width: 85%; font-size: 1rem; line-height: 1.5;}
-        .msg.bot { background: rgba(255,255,255,0.08); border-bottom-left-radius: 0; }
-        .msg.user { background: rgba(178,0,255,0.2); margin-left: auto; border: 1px solid var(--purpura-aura); border-bottom-right-radius: 0;}
-        .chips-container { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;}
-        .chip { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 0.6rem 1rem; border-radius: 2rem; font-size: 0.85rem; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
+        .modal-close-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.3); color: var(--blanco); width: 3rem; height: 3rem; border-radius: 50%; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; }
+        .modal-close-btn:hover { background: var(--blanco); color: var(--negro-profundo); transform: rotate(90deg); }
+
+        /* AURA IA CHAT */
+        .aura-body { flex-grow: 1; padding: 1rem 0; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; }
+        .msg { max-width: 90%; padding: 1.5rem 2rem; border-radius: 1.5rem; font-size: 1.1rem; line-height: 1.6; }
+        .msg.bot { background: rgba(255,255,255,0.05); color: var(--blanco); align-self: flex-start; border-bottom-left-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.1); }
+        .msg.user { background: rgba(178,0,255,0.15); color: var(--blanco); align-self: flex-end; border-bottom-right-radius: 0.5rem; font-weight: bold; border: 1px solid var(--purpura-intenso); }
+        .aura-input-area { display: flex; gap: 1rem; margin-top: 1rem; background: rgba(0,0,0,0.6); padding: 1rem; border-radius: 4rem; border: 1px solid rgba(255,255,255,0.1); }
+        .aura-input { flex-grow: 1; padding: 1rem 2rem; border-radius: 3rem; border: none; background: transparent; color: var(--blanco); font-size: 1.1rem; outline: none; }
+        .aura-send { background: var(--purpura-intenso); color: var(--blanco); border-radius: 50%; width: 4rem; height: 4rem; font-size: 1.5rem; display: flex; justify-content: center; align-items: center; }
+        .chips-container { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1rem; }
+        .chip { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: var(--blanco); padding: 0.8rem 1.5rem; border-radius: 2rem; font-size: 0.95rem; cursor: pointer; }
+        .chip:hover { background: var(--purpura-intenso); border-color: var(--purpura-intenso); transform: translateY(-3px); }
 
         /* MEGA FOOTER */
-        .mega-footer { background: var(--negro-modal); border-top: 1px solid var(--oro); padding: 6rem 2rem 2rem 2rem; margin-top: 5rem; }
-        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-bottom: 4rem;}
-        .footer-col h4 { color: var(--oro); font-family: var(--font-accent); font-size: 1.5rem; margin-bottom: 1.5rem; }
-        .footer-col p, .footer-col a { color: var(--gris-texto); text-decoration: none; line-height: 2; display: block; margin-bottom: 0.5rem;}
-        .social-icons { display: flex; gap: 1.5rem; margin-top: 1.5rem; font-size: 1.8rem; }
-        .social-icons a:hover { color: var(--cian-fluor); transform: translateY(-3px); }
-        .footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); color: #888; font-size: 0.9rem;}
+        .mega-footer { background: rgba(6,6,10,0.95); border-top: 1px solid rgba(242,201,76,0.3); padding: 8rem 2rem 3rem 2rem; margin-top: 8rem; position: relative; z-index: 10; }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 4rem; margin-bottom: 5rem; }
+        .footer-col h4 { color: var(--oro); font-family: var(--font-accent); font-size: 1.8rem; margin-bottom: 2rem; letter-spacing: 0.1rem; }
+        .footer-col p, .footer-col a { color: var(--gris-texto); font-size: 1.1rem; line-height: 2; margin-bottom: 1rem; text-decoration: none; display: block; font-weight: 300; }
+        .social-icons { display: flex; gap: 2rem; margin-top: 2rem; font-size: 2.2rem; }
+        .social-icons a { color: var(--gris-texto); transition: 0.4s; }
+        .social-icons a:hover { color: var(--cian-fluor); transform: translateY(-5px) scale(1.1); }
+        .footer-bottom { text-align: center; padding-top: 3rem; border-top: 1px solid rgba(255,255,255,0.1); color: #888; font-size: 1rem; letter-spacing: 0.05rem; }
 
-        /* COOKIE & NAME MODAL */
-        #welcome-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 100000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.5s; backdrop-filter: blur(10px);}
+        /* MODAL BIENVENIDA (COOKIES & NOMBRE) */
+        #welcome-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 100000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.8s; backdrop-filter: blur(2rem); padding: 2rem; }
         #welcome-modal.show { opacity: 1; visibility: visible; }
-        .welcome-box { background: var(--negro-modal); border: 1px solid var(--oro); padding: 4rem; border-radius: 1.5rem; text-align: center; max-width: 500px; width: 90%; }
-        .welcome-input { width: 100%; padding: 1.2rem; border-radius: 1rem; border: 1px solid var(--cian-fluor); background: rgba(255,255,255,0.05); color: white; font-size: 1.2rem; margin: 2rem 0; text-align: center;}
+        .welcome-box { background: var(--negro-modal); border: 1px solid var(--oro); padding: 5rem 4rem; border-radius: 2rem; text-align: center; max-width: 600px; width: 100%; box-shadow: 0 3rem 6rem rgba(0,0,0,0.9); }
+        .welcome-input { width: 100%; padding: 1.5rem; border-radius: 1.5rem; border: 1px solid var(--cian-fluor); background: rgba(255,255,255,0.05); color: var(--blanco); font-size: 1.3rem; margin: 3rem 0; text-align: center; outline: none; transition: 0.3s; }
+        .welcome-input:focus { background: rgba(76,201,240,0.1); box-shadow: 0 0 2rem rgba(76,201,240,0.2); }
 
-        /* RESPONSIVE MÓVIL */
-        @media(max-width: 800px) {
+        /* RESPONSIVO MÓVIL EXTREMO */
+        @media(max-width: 850px) {
             html { font-size: 13px; }
-            .hero-view h1 { font-size: 3rem; letter-spacing: 0.3rem; }
-            .system-header { padding: 0 1.5rem; }
-            .body-map-container { grid-template-columns: 1fr; padding: 1.5rem; }
-            .system-float-left { flex-direction: row; bottom: 1.5rem; left: 1.5rem; }
-            .system-float-right { flex-direction: row; bottom: 1.5rem; right: 1.5rem; }
-            .sys-btn { width: 3.5rem; height: 3.5rem; font-size: 1.4rem; }
-            .floating-modal { bottom: 6rem; width: calc(100vw - 3rem); left: 1.5rem; right: auto;}
-            #aura-modal { left: auto; right: 1.5rem; }
-            .totem-section { padding: 2rem 1rem; }
+            .hero-view h1 { font-size: 4rem; letter-spacing: 1rem; }
+            .system-header { padding: 0 2rem; }
+            .body-map-container { grid-template-columns: 1fr; padding: 3rem 2rem; }
+            .zone-info { padding: 3rem 2rem; }
+            .system-float-left { flex-direction: row; bottom: 2rem; left: 2rem; }
+            .system-float-right { flex-direction: row; bottom: 2rem; right: 2rem; }
+            .sys-btn { width: 4.5rem; height: 4.5rem; font-size: 1.8rem; }
+            .floating-modal { bottom: 8rem; width: calc(100vw - 4rem); left: 2rem; right: auto; max-width: none; }
+            #aura-modal { left: auto; right: 2rem; }
+            .totem-section { padding: 4rem 2rem; }
+            .glass-card { padding: 3rem 2rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- MODAL BIENVENIDA Y COOKIES -->
+    <!-- MODAL DE BIENVENIDA Y PRIVACIDAD -->
     <div id="welcome-modal">
         <div class="welcome-box">
-            <i class="fa-solid fa-leaf" style="font-size: 4rem; color: var(--oro); margin-bottom: 1rem;"></i>
-            <h2 style="color: white; font-family: var(--font-accent); font-size: 2rem;">Santuario Valtara</h2>
-            <p style="color: var(--gris-texto); margin-top: 1rem;">Para brindarle una experiencia clínica personalizada y cumplir con las normativas de privacidad, ¿cómo prefiere que le llamemos?</p>
+            <i class="fa-solid fa-leaf" style="font-size: 5rem; color: var(--oro); margin-bottom: 2rem;"></i>
+            <h2 style="font-family: var(--font-accent); font-size: 3rem; color: var(--blanco); margin-bottom: 1rem;">Santuario Valtara</h2>
+            <p style="color: var(--gris-texto); font-size: 1.2rem; line-height: 1.8;">Para personalizar su expediente clínico y cumplir con la LFPDPPP, ¿cómo prefiere que nuestro sistema se dirija a usted?</p>
             <input type="text" id="user-name-input" class="welcome-input" placeholder="Ej. Lic. Carlos, Dra. Ana...">
-            <button class="btn-agenda-ahora" id="btn-enter-site" style="width: 100%; border:none; cursor:pointer;">Ingresar al Sistema</button>
-            <p style="color: #666; font-size: 0.8rem; margin-top: 2rem;">Al ingresar, acepta el uso de cookies funcionales locales según la LFPDPPP.</p>
+            <button class="btn-agenda-ahora" id="btn-enter-site" style="width: 100%; background: var(--oro); color: var(--negro-profundo); border: none; font-size: 1.2rem;">Ingresar al Sistema Privado</button>
+            <p style="color: #666; font-size: 0.95rem; margin-top: 3rem;">Al ingresar, acepta el uso de cookies funcionales locales de Accesibilidad y Sesión.</p>
         </div>
-    </div>
-
-    <!-- PRELOADER -->
-    <div id="os-preloader" style="position:fixed; top:0; left:0; width:100%; height:100%; background:black; z-index:999999; display:flex; justify-content:center; align-items:center; transition:0.8s;">
-        <h2 style="color:var(--oro); font-family:var(--font-accent); letter-spacing: 5px;">VALTARA OS 10.0</h2>
     </div>
 
     <!-- AMBIENT ENGINE -->
     <div class="ambient-engine"><div class="aurora-layer"></div></div>
 
-    <!-- HEADER -->
+    <!-- CABECERA CORPORATIVA -->
     <header class="system-header">
         <button class="header-logo" onclick="AppRouter.navigate('hero-section')" id="dynamic-greeting">VALTARA</button>
-        <button class="menu-toggle-btn" id="menu-open-btn">Menú <i class="fa-solid fa-bars"></i></button>
+        <button class="menu-toggle-btn" id="menu-open-btn">Menú <i class="fa-solid fa-grid-2"></i></button>
     </header>
 
-    <!-- MENÚ LATERAL -->
+    <!-- MENÚ LATERAL SIMÉTRICO -->
     <nav id="side-menu-overlay">
         <button class="close-menu-btn" id="menu-close-btn"><i class="fa-solid fa-xmark"></i></button>
-        <h2 style="font-family: var(--font-accent); color: var(--blanco); font-size: 2rem; margin-bottom: 2rem; text-align: center;">Portal Valtara</h2>
+        <h2 style="font-family: var(--font-accent); color: var(--oro); font-size: 3rem; margin-bottom: 3rem; text-align: center;">Portal Valtara</h2>
         <div class="side-nav-grid">
-            <button class="menu-link active" data-view="hero-section"><i class="fa-solid fa-house"></i> Inicio & Sede</button>
-            <button class="menu-link" data-view="view-restoration"><i class="fa-solid fa-spa"></i> Restauración Biomecánica</button>
-            <button class="menu-link" data-view="view-codex"><i class="fa-solid fa-scroll"></i> Manifiesto Codex</button>
-            <button class="menu-link" data-view="view-science"><i class="fa-solid fa-book-medical"></i> Biblioteca Científica</button>
-            <a class="menu-link" href="https://wa.me/5213348572070" target="_blank" style="background: rgba(0,230,118,0.1); border-color: var(--verde-ws);"><i class="fa-brands fa-whatsapp" style="color:var(--verde-ws);"></i> Contactar Concierge</a>
+            <button class="menu-link btn-menu-resto active" data-view="view-restoration">
+                <i class="fa-solid fa-spa"></i> <span class="title">Biomecánica</span><span class="desc">Catálogo de masajes.</span>
+            </button>
+            <button class="menu-link btn-menu-codex" data-view="view-codex">
+                <i class="fa-solid fa-scroll"></i> <span class="title">Codex</span><span class="desc">Manifiesto estructural.</span>
+            </button>
+            <button class="menu-link btn-menu-science" data-view="view-science">
+                <i class="fa-solid fa-book-medical"></i> <span class="title">Ciencia</span><span class="desc">Videoteca y botánica.</span>
+            </button>
+            <button class="menu-link btn-menu-ergo" data-view="view-ergonomics">
+                <i class="fa-solid fa-wheelchair"></i> <span class="title">Ergonomía</span><span class="desc">Posturas e inclusión.</span>
+            </button>
+            <a class="menu-link whatsapp-cta-menu" href="https://wa.me/5213348572070" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i> <span class="title" style="color:var(--negro-profundo);">Concierge Humano</span><span class="desc" style="color:var(--negro-profundo); font-weight:bold;">Agendar vía WhatsApp.</span>
+            </a>
         </div>
     </nav>
 
-    <!-- FLOTANTES IZQUIERDA -->
+    <!-- CONTROLES FLOTANTES IZQUIERDA -->
     <aside class="system-float-left">
         <button class="sys-btn" id="a11y-toggle"><i class="fa-solid fa-universal-access"></i></button>
         <button class="sys-btn" id="audio-toggle"><i class="fa-solid fa-music"></i></button>
@@ -184,170 +240,190 @@
         <!-- MODAL ACCESIBILIDAD -->
         <div class="floating-modal" id="a11y-menu">
             <div class="modal-header">
-                <h3 style="color:var(--cian-fluor);"><i class="fa-solid fa-eye"></i> Accesibilidad WCAG</h3>
+                <h3 style="color:var(--cian-fluor); font-family: var(--font-accent); font-size: 1.8rem;"><i class="fa-solid fa-eye"></i> Panel WCAG 2.2</h3>
                 <button class="modal-close-btn" id="a11y-close-btn"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div style="display:flex; flex-direction:column; gap:1rem;">
-                <button class="btn-agenda-ahora" style="background:transparent; border:1px solid white; color:white;" onclick="document.body.classList.toggle('high-contrast')">Alto Contraste</button>
-                <button class="btn-agenda-ahora" style="background:transparent; border:1px solid white; color:white;" onclick="document.body.style.fontSize = '18px'">Aumentar Texto</button>
-                <button class="btn-agenda-ahora" style="background:transparent; border:1px solid white; color:white;" onclick="document.body.style.fontSize = '16px'">Restaurar Texto</button>
+            <div style="display:flex; flex-direction:column; gap:1.5rem; margin-top:2rem;">
+                <button class="btn-agenda-ahora" style="background:transparent; border-color:var(--blanco);" onclick="document.body.classList.toggle('high-contrast')"><i class="fa-solid fa-circle-half-stroke"></i> Activar Alto Contraste</button>
+                <button class="btn-agenda-ahora" style="background:transparent; border-color:var(--blanco);" onclick="document.documentElement.style.fontSize = '18px'"><i class="fa-solid fa-magnifying-glass-plus"></i> Aumentar Tamaño Letra</button>
+                <button class="btn-agenda-ahora" style="background:transparent; border-color:var(--blanco);" onclick="document.documentElement.style.fontSize = '16px'"><i class="fa-solid fa-rotate-left"></i> Restaurar Tipografía</button>
             </div>
         </div>
 
-        <!-- MODAL AUDIO -->
+        <!-- MODAL AUDIO OASIS -->
         <div class="floating-modal" id="audio-modal">
             <div class="modal-header">
-                <h3 style="color:var(--cian-fluor);"><i class="fa-solid fa-compact-disc"></i> Oasis Atmos</h3>
+                <h3 style="color:var(--cian-fluor); font-family: var(--font-accent); font-size: 1.8rem;"><i class="fa-solid fa-compact-disc"></i> Oasis Atmos</h3>
                 <button class="modal-close-btn" id="audio-close-btn"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <p style="color:var(--gris-texto); margin-bottom:1rem;">Sintetizador Solfeggio (432Hz) para relajación profunda.</p>
-            <button class="btn-agenda-ahora" style="width:100%; border:none; margin-top:1rem;" id="master-play" onclick="OasisEngine.togglePlay()"><i class="fa-solid fa-play" id="play-icon"></i> Iniciar Terapia Sonora</button>
+            <p style="color:var(--gris-texto); font-size:1.1rem; line-height: 1.8; margin-bottom:2rem;">Algoritmo sintetizador de frecuencias Solfeggio (432Hz) para inducción a relajación profunda en oficina.</p>
+            <div style="width:100%; height:100px; background:rgba(0,0,0,0.5); border-radius:1rem; border:1px solid var(--cian-fluor); margin-bottom:2rem; display:flex; justify-content:center; align-items:center; color:var(--cian-fluor); font-style:italic;">[ Visualizador de Ondas ]</div>
+            <button class="btn-agenda-ahora" style="width:100%; background:var(--cian-fluor); color:var(--negro-profundo); border:none;" id="master-play" onclick="OasisEngine.togglePlay()"><i class="fa-solid fa-play" id="play-icon"></i> Activar Terapia Sonora</button>
         </div>
     </aside>
 
-    <!-- FLOTANTES DERECHA -->
+    <!-- CONTROLES FLOTANTES DERECHA -->
     <nav class="system-float-right">
-        <button class="sys-btn" id="aura-toggle"><i class="fa-solid fa-robot"></i></button>
+        <button class="sys-btn btn-aura" id="aura-toggle"><i class="fa-solid fa-robot"></i></button>
         <a class="sys-btn btn-ws" href="https://wa.me/5213348572070" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
         
         <!-- MODAL AURA IA -->
         <div class="floating-modal" id="aura-modal">
             <div class="modal-header">
-                <h3 style="color:var(--purpura-aura);"><i class="fa-solid fa-sparkles"></i> Aura AI Concierge</h3>
+                <h3 style="color:var(--purpura-aura); font-family: var(--font-accent); font-size: 1.8rem;"><i class="fa-solid fa-sparkles"></i> Aura AI Triaje</h3>
                 <button class="modal-close-btn" id="aura-close-btn"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div id="aura-chat-log" style="max-height: 350px; overflow-y: auto; padding-right:1rem;">
-                <div class="msg bot">Iniciando Red Neuronal... Bienvenido a Valtara. ¿Desea que evaluemos su estado fascial hoy?</div>
+            <div id="aura-chat-log" class="aura-body">
+                <div class="msg bot">Conexión encriptada Sovereign establecida. Soy Aura. ¿Desea que evaluemos su tensión muscular o estrés corporativo?</div>
             </div>
             <div class="chips-container" id="aura-chips">
-                <button class="chip" onclick="AuraAI.handleInput('Tensión en Espalda')">Tensión en Espalda</button>
-                <button class="chip" onclick="AuraAI.handleInput('Estrés y Burnout')">Estrés y Burnout</button>
-                <button class="chip" onclick="AuraAI.handleInput('Agendar Cita')">Agendar Cita</button>
+                <button class="chip" onclick="AuraAI.handleInput('Tensión en Trapecios')">Tensión en Trapecios</button>
+                <button class="chip" onclick="AuraAI.handleInput('Fatiga y Burnout')">Fatiga y Burnout</button>
+                <button class="chip" onclick="AuraAI.handleInput('Parálisis Facial')">Parálisis Facial</button>
             </div>
             <div class="aura-input-area">
-                <!-- Se quitó el autofocus automático para no afectar móviles -->
-                <input type="text" class="aura-input" id="aura-input-text" placeholder="Describa su síntoma...">
+                <input type="text" class="aura-input" id="aura-input-text" placeholder="Describa su síntoma aquí...">
                 <button class="aura-send" onclick="AuraAI.processInput()"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
     </nav>
 
-    <!-- SPA ROOT -->
+    <!-- MOTOR SPA (VISTAS) -->
     <div id="app-root">
         <main class="content-wrapper">
             
-            <!-- SECCIÓN 1: INICIO & SEDE -->
+            <!-- VISTA 1: HERO, TÓTEM Y MAPA CORPORAL -->
             <section class="view-container active" id="hero-section">
-                <div class="hero-view">
-                    <i class="fa-solid fa-leaf" style="font-size: 5rem; color: var(--oro); margin-bottom: 2rem;"></i>
+                
+                <div class="hero-view reveal">
+                    <i class="fa-solid fa-leaf" style="font-size: 6rem; color: var(--oro); margin-bottom: 2rem; filter: drop-shadow(0 0 2rem rgba(242,201,76,0.5));"></i>
                     <h1>VALTARA</h1>
                     <h2 class="hero-slogan">Executive Therapy & Biomechanics</h2>
-                    <p class="hero-desc">La ingeniería del cuerpo humano al servicio de su liderazgo. Decodificamos la tensión acumulada por la alta exigencia corporativa.</p>
-                    <div style="background: rgba(242,201,76,0.1); border: 1px solid var(--oro); padding: 1rem 3rem; border-radius: 3rem; margin-top: 3rem; font-weight: bold; color: var(--oro);" id="cortesia-dinamica">
-                        Analizando privilegios disponibles...
+                    <p class="hero-desc">El éxito exige un cuerpo capaz de sostenerlo. En nuestro santuario en Paseo de la Reforma, decodificamos la tensión acumulada por la alta exigencia corporativa mediante ciencia anatómica profunda.</p>
+                    
+                    <div class="cortesia-box" id="cortesia-dinamica">
+                        <i class="fa-solid fa-gem" style="font-size: 1.5rem;"></i> Analizando privilegios corporativos...
                     </div>
                 </div>
 
-                <!-- TÓTEM DIGITAL (INSTALACIONES & VIDEO) -->
-                <div class="totem-section">
-                    <h2 style="font-family: var(--font-accent); font-size: 3rem; color: var(--blanco);">La Experiencia Valtara</h2>
-                    <p style="color: var(--gris-texto); font-size: 1.2rem; margin-top: 1rem;">Conozca nuestras instalaciones en Reforma 195. Un refugio diseñado con rigor clínico para blindar su sistema nervioso.</p>
+                <!-- TÓTEM DIGITAL (INSTALACIONES & VIDEO YOUTUBE) -->
+                <div class="totem-section reveal">
+                    <h2 style="font-family: var(--font-accent); font-size: 3.5rem; color: var(--blanco);">La Experiencia Valtara</h2>
+                    <p style="color: var(--gris-texto); font-size: 1.3rem; margin-top: 1.5rem; font-weight: 300;">Conozca nuestras instalaciones en Reforma 195. Un refugio blindado acústicamente, diseñado para aislar su sistema nervioso del caos de la ciudad.</p>
                     
                     <div class="video-wrapper">
-                        <!-- IFRAME DE YOUTUBE: Si el video de blogger está en YT, aquí va el ID. Puse un placeholder elegante. -->
-                        <iframe src="https://www.youtube.com/embed/qmRr05954h4?autoplay=1&mute=1&loop=1&playlist=qmRr05954h4" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <!-- Integración del Video de YouTube que proporcionaste -->
+                        <iframe src="https://www.youtube.com/embed/qmRr05954h4?autoplay=0&rel=0" allowfullscreen></iframe>
                     </div>
 
-                    <a href="https://valtara-executive.blogspot.com/2026/03/conoce-nuestras-instalaciones-en-reforma.html" target="_blank" class="btn-agenda-ahora" style="display: inline-block; background: transparent; border: 1px solid var(--oro); color: var(--oro);">Ver Galería de Cabinas VIP</a>
+                    <a href="https://valtara-executive.blogspot.com/2026/03/conoce-nuestras-instalaciones-en-reforma.html" target="_blank" class="btn-agenda-ahora" style="display: inline-flex; width: auto; background: transparent; border: 1px solid var(--oro); color: var(--oro); padding: 1.5rem 4rem;">
+                        <i class="fa-solid fa-building"></i> Ver Galería Fotográfica de la Sede
+                    </a>
                 </div>
 
                 <!-- MAPA CORPORAL INTERACTIVO -->
-                <div class="body-map-container">
-                    <div style="text-align: center; border-right: 1px solid rgba(255,255,255,0.1); padding-right: 2rem;">
-                        <h3 style="font-family: var(--font-accent); color: var(--cian-fluor); font-size: 2rem; margin-bottom: 2rem;"><i class="fa-solid fa-microscope"></i> Triaje Biomecánico</h3>
-                        <p style="color: var(--gris-texto); margin-bottom: 2rem;">Seleccione la zona de tensión principal para que nuestro sistema prescriba la intervención exacta.</p>
+                <div class="body-map-container reveal">
+                    <div>
+                        <h3 style="font-family: var(--font-accent); color: var(--cian-fluor); font-size: 2.8rem; margin-bottom: 2rem; line-height: 1.2;">Triaje Clínico Biomecánico</h3>
+                        <p style="color: var(--gris-texto); font-size: 1.15rem; margin-bottom: 3rem; line-height: 2;">Seleccione la zona de tensión muscular principal. Nuestro sistema diagnosticará el conflicto anatómico y prescribirá la intervención exacta.</p>
                         <div class="body-zones">
-                            <button class="zone-btn" onclick="BodyMap.selectZone('craneo')"><i class="fa-solid fa-head-side-virus" style="width:30px;"></i> Cráneo y Fascia Facial</button>
-                            <button class="zone-btn" onclick="BodyMap.selectZone('cervical')"><i class="fa-solid fa-user-injured" style="width:30px;"></i> Cervicales y Trapecio</button>
-                            <button class="zone-btn" onclick="BodyMap.selectZone('lumbar')"><i class="fa-solid fa-child" style="width:30px;"></i> Región Lumbar (Ciática)</button>
-                            <button class="zone-btn" onclick="BodyMap.selectZone('linfa')"><i class="fa-solid fa-shoe-prints" style="width:30px;"></i> Extremidades Inferiores</button>
+                            <button class="zone-btn" onclick="BodyMap.selectZone('craneo')"><i class="fa-solid fa-head-side-virus"></i> Cráneo y Fascia Facial</button>
+                            <button class="zone-btn" onclick="BodyMap.selectZone('cervical')"><i class="fa-solid fa-user-injured"></i> Cervicales y Trapecios</button>
+                            <button class="zone-btn" onclick="BodyMap.selectZone('lumbar')"><i class="fa-solid fa-child"></i> Región Lumbar (Compresión)</button>
+                            <button class="zone-btn" onclick="BodyMap.selectZone('linfa')"><i class="fa-solid fa-shoe-prints"></i> Drenaje Extremidades</button>
                         </div>
                     </div>
                     <div class="zone-info" id="zone-display">
-                        <i class="fa-solid fa-heart-pulse" style="font-size: 3rem; color: var(--cian-fluor); margin-bottom: 1rem;"></i>
-                        <h4 style="font-size: 1.8rem; color: white; margin-bottom: 1rem;">Esperando selección...</h4>
-                        <p style="color: var(--gris-claro); line-height: 1.8;">El mapa corporal está listo para analizar sus síntomas y traducir el dolor en un diagnóstico estructural claro.</p>
+                        <i class="fa-solid fa-microscope" style="font-size: 4rem; color: var(--cian-fluor); margin-bottom: 2rem;"></i>
+                        <h4 style="font-size: 2.2rem; color: var(--blanco); margin-bottom: 1.5rem; font-family: var(--font-accent);">Esperando selección anatómica...</h4>
+                        <p style="color: var(--gris-claro); line-height: 2; font-size: 1.2rem; font-weight: 300;">El mapa corporal está listo para traducir su dolor en un diagnóstico estructural claro.</p>
                     </div>
                 </div>
+
             </section>
 
-            <!-- SECCIÓN 2: RESTAURACIÓN -->
+            <!-- VISTA 2: RESTAURACIÓN BIOMECÁNICA (TARJETAS 3D) -->
             <section class="view-container" id="view-restoration">
-                <h2 style="font-family: var(--font-accent); font-size: 3.5rem; text-align: center; color: white; margin-bottom: 1rem;">Restauración Biomecánica</h2>
-                <p style="text-align: center; color: var(--gris-texto); font-size: 1.2rem; margin-bottom: 3rem;">Intervenciones clínicas activas. Cada sesión presencial incluye análisis postural previo.</p>
+                <h2 style="font-family: var(--font-accent); font-size: 4rem; text-align: center; color: var(--blanco); margin-bottom: 1.5rem;" class="reveal">Restauración Biomecánica</h2>
+                <p style="text-align: center; color: var(--gris-texto); font-size: 1.3rem; margin-bottom: 4rem; font-weight: 300;" class="reveal">Intervenciones clínicas y estéticas activas. Cada sesión incluye análisis postural.</p>
+                
                 <div class="grid-gemela">
-                    <div class="glass-card">
+                    <!-- Tarjeta 1 -->
+                    <article class="glass-card tilt-card reveal">
                         <div class="card-icon-wrapper"><i class="fa-solid fa-dumbbell"></i></div>
                         <h3>Masaje Deportivo y Descompresión</h3>
-                        <div class="card-meta-info"><span>60-90 Min</span><span>$949 MXN</span></div>
-                        <p class="marketing-text">Protocolo estructural intenso para ejecutivos con "armadura" de estrés. Utilizamos ventosas de silicón médico para oxigenar la sangre y derretir rigidez severa.</p>
-                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora">Agendar Protocolo</a>
-                    </div>
-                    <div class="glass-card">
-                        <div class="card-icon-wrapper"><i class="fa-solid fa-child-reaching"></i></div>
+                        <div class="card-meta-info"><span class="duracion"><i class="fa-solid fa-clock"></i> 60-90 Min</span><span class="precio">$949 MXN</span></div>
+                        <p class="marketing-text">Protocolo estructural intenso para profesionales con "armadura" de estrés. Utilizamos antebrazos, codos y ventosas de silicón médico (sin marcas) para derretir la rigidez fascial y oxigenar la sangre oscura.</p>
+                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora"><i class="fa-brands fa-whatsapp"></i> Reservar Intervención</a>
+                    </article>
+                    
+                    <!-- Tarjeta 2 -->
+                    <article class="glass-card tilt-card reveal">
+                        <div class="card-icon-wrapper" style="border-color: var(--cian-fluor); color: var(--cian-fluor);"><i class="fa-solid fa-child-reaching"></i></div>
                         <h3>Masaje Reductivo Estructural</h3>
-                        <div class="card-meta-info"><span>50 Min</span><span>$899 MXN</span></div>
-                        <p class="marketing-text">Intervención estética sin bisturí. Maderoterapia clínica y geles térmicos para romper nódulos de celulitis y acelerar el metabolismo linfático.</p>
-                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora">Agendar Protocolo</a>
-                    </div>
-                    <div class="glass-card">
-                        <div class="card-icon-wrapper"><i class="fa-solid fa-crown"></i></div>
-                        <h3>Ritual Lomi-Lomi Supremo</h3>
-                        <div class="card-meta-info"><span>90 Min</span><span>$1,419 MXN</span></div>
-                        <p class="marketing-text">Experiencia magna. Olas de presión ininterrumpidas con antebrazos que inducen ondas cerebrales Theta, apagándolo del estrés corporativo.</p>
-                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora">Agendar Protocolo</a>
-                    </div>
-                    <div class="glass-card">
-                        <div class="card-icon-wrapper"><i class="fa-solid fa-spa"></i></div>
-                        <h3>Masaje Holístico Integrativo</h3>
-                        <div class="card-meta-info"><span>90 Min</span><span>$1,199 MXN</span></div>
-                        <p class="marketing-text">Aborda al cuerpo como unidad inquebrantable tras crisis de ansiedad severa, fusionando amasamiento y sedación parasimpática profunda.</p>
-                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora">Agendar Protocolo</a>
-                    </div>
+                        <div class="card-meta-info" style="color: var(--blanco);"><span><i class="fa-solid fa-clock"></i> 50 Min</span><span class="precio" style="color: var(--cian-fluor);">$899 MXN</span></div>
+                        <p class="marketing-text">Intervención estética de alto impacto sin bisturí. Fricción térmica con geles activos y Maderoterapia anatómica para romper nódulos de celulitis y acelerar el metabolismo local.</p>
+                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--cian-fluor); color: var(--negro-profundo); border-color: var(--cian-fluor);"><i class="fa-brands fa-whatsapp"></i> Reservar Intervención</a>
+                    </article>
+
+                    <!-- Tarjeta 3 -->
+                    <article class="glass-card tilt-card reveal">
+                        <div class="card-icon-wrapper" style="border-color: var(--purpura-aura); color: var(--purpura-aura);"><i class="fa-solid fa-crown"></i></div>
+                        <h3>Ritual Lomi Lomi Supremo</h3>
+                        <div class="card-meta-info" style="color: var(--blanco);"><span><i class="fa-solid fa-clock"></i> 90 Min</span><span class="precio" style="color: var(--purpura-aura);">$1,419 MXN</span></div>
+                        <p class="marketing-text">Nuestra experiencia magna. Danza ininterrumpida de antebrazos que simulan el vaivén del océano. Induce ondas cerebrales Theta, apagando su mente del ruido corporativo.</p>
+                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--purpura-aura); color: var(--blanco); border-color: var(--purpura-aura);"><i class="fa-brands fa-whatsapp"></i> Reservar Intervención</a>
+                    </article>
+
+                    <!-- Tarjeta 4 -->
+                    <article class="glass-card tilt-card reveal">
+                        <div class="card-icon-wrapper" style="border-color: #ffaa00; color: #ffaa00;"><i class="fa-solid fa-candle-holder"></i></div>
+                        <h3>Masaje con Velas Térmicas</h3>
+                        <div class="card-meta-info" style="color: var(--blanco);"><span><i class="fa-solid fa-clock"></i> 60 Min</span><span class="precio" style="color: #ffaa00;">$1,199 MXN</span></div>
+                        <p class="marketing-text">Técnica de sedación muscular. Vertemos manteca de karité tibia (bajo punto de fusión) directamente sobre la piel. El calor derrite la tensión mecánica al instante, nutriendo la dermis.</p>
+                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: #ffaa00; color: var(--negro-profundo); border-color: #ffaa00;"><i class="fa-brands fa-whatsapp"></i> Reservar Intervención</a>
+                    </article>
                 </div>
             </section>
 
-            <!-- SECCIÓN 3: CODEX -->
+            <!-- VISTA 3: CODEX VALTARA -->
             <section class="view-container" id="view-codex">
-                <div class="glass-card" style="padding: 5rem 4rem;">
-                    <h2 style="font-family: var(--font-accent); font-size: 3.5rem; color: var(--oro); margin-bottom: 2rem; border-bottom: 1px solid rgba(242,201,76,0.3); padding-bottom: 1rem;">Manifiesto Codex Valtara</h2>
-                    <p style="font-size: 1.3rem; color: var(--gris-claro); line-height: 2; margin-bottom: 2rem; text-align: justify;"><strong style="font-size: 3rem; color: var(--magenta-neon); float:left; line-height: 0.8; margin-right: 1rem; font-family: var(--font-accent);">E</strong>n el umbral de la era moderna, el cuerpo humano se ha convertido en el depósito silencioso de una velocidad sin precedentes. El estrés corporativo no solo habita en la mente; se esculpe en el tejido, se anuda en la fascia y se solidifica en la postura.</p>
-                    <p style="font-size: 1.2rem; color: var(--gris-texto); line-height: 2; text-align: justify; margin-bottom: 2rem;">Valtara nace de una premisa disruptiva: <strong>el bienestar no es un estado pasivo, es una obra de ingeniería constante.</strong> Aquí, la compasión ancestral se encuentra con el rigor de la anatomía clínica para restaurar su arquitectura original.</p>
-                    <h3 style="color: var(--cian-fluor); margin-top: 3rem; font-size: 1.8rem;">ADN Corporativo Grupo Gevizz</h3>
-                    <ul style="color: var(--gris-texto); font-size: 1.1rem; line-height: 2.2; margin-top: 1rem; margin-left: 1.5rem;">
-                        <li><i class="fa-solid fa-check" style="color:var(--verde-ws); margin-right:10px;"></i> <strong>Rigor Clínico:</strong> Cada técnica es resultado de un estudio anatómico exhaustivo.</li>
-                        <li><i class="fa-solid fa-check" style="color:var(--verde-ws); margin-right:10px;"></i> <strong>Neutralidad Ética:</strong> Nuestras cabinas son zonas libres de juicios.</li>
-                        <li><i class="fa-solid fa-check" style="color:var(--verde-ws); margin-right:10px;"></i> <strong>Transparencia:</strong> Creemos en el paciente informado. Educamos sobre su postura.</li>
+                <div class="codex-container reveal">
+                    <h2 style="font-family: var(--font-accent); font-size: 4rem; color: var(--oro); margin-bottom: 3rem; border-bottom: 1px solid rgba(242,201,76,0.3); padding-bottom: 2rem;">Manifiesto Codex Valtara</h2>
+                    
+                    <p class="codex-text"><span class="drop-cap">E</span>n el umbral de la era moderna, el cuerpo humano se ha convertido en el depósito silencioso de una velocidad sin precedentes. El estrés, la responsabilidad corporativa y la exigencia del alto rendimiento no solo habitan en la mente; se esculpen en el tejido, se anudan en la fascia y se solidifican en la postura.</p>
+                    <p class="codex-text">Valtara nace de una premisa disruptiva: <strong>el bienestar no es un estado pasivo, es una obra de ingeniería constante.</strong> No entendemos el masaje como un lujo efímero, sino como una intervención biomecánica necesaria. Aquí, la compasión de las tradiciones milenarias se encuentra con el rigor de la anatomía clínica para restaurar la arquitectura original del ser humano.</p>
+                    
+                    <h3 style="color: var(--cian-fluor); font-size: 2.2rem; font-family: var(--font-accent); margin-top: 4rem; margin-bottom: 2rem;">I. El Ecosistema Gevizz</h3>
+                    <p class="codex-text">Detrás de cada protocolo de Valtara se encuentra el pensamiento estratégico de Grupo Gevizz S.A.S., una entidad dedicada a la creación de ecosistemas de bienestar que fusionan el desarrollo tecnológico con la profundidad del contacto humano.</p>
+                    
+                    <ul style="color: var(--gris-texto); font-size: 1.2rem; line-height: 2.2; margin-top: 2rem; list-style: none;">
+                        <li style="margin-bottom: 1.5rem;"><i class="fa-solid fa-check" style="color:var(--verde-ws); margin-right:15px; font-size: 1.5rem;"></i> <strong>Rigor Clínico:</strong> No hay movimiento sin fundamento anatómico.</li>
+                        <li style="margin-bottom: 1.5rem;"><i class="fa-solid fa-check" style="color:var(--verde-ws); margin-right:15px; font-size: 1.5rem;"></i> <strong>Neutralidad Ética:</strong> Somos un refugio libre de juicios; protegemos su identidad.</li>
+                        <li style="margin-bottom: 1.5rem;"><i class="fa-solid fa-check" style="color:var(--verde-ws); margin-right:15px; font-size: 1.5rem;"></i> <strong>Transparencia:</strong> Educamos a la comunidad sobre las raíces de su tensión.</li>
                     </ul>
                 </div>
             </section>
 
-            <!-- SECCIÓN 4: CIENCIA -->
+            <!-- VISTA 4: CIENCIA (VIDEOTECA) -->
             <section class="view-container" id="view-science">
-                <h2 style="font-family: var(--font-accent); font-size: 3.5rem; text-align: center; color: white; margin-bottom: 3rem;">Biblioteca Científica</h2>
+                <h2 style="font-family: var(--font-accent); font-size: 4rem; text-align: center; color: var(--blanco); margin-bottom: 1.5rem;" class="reveal">Biblioteca Científica</h2>
+                <p style="text-align: center; color: var(--gris-texto); font-size: 1.3rem; margin-bottom: 4rem; font-weight: 300;" class="reveal">Videoteca de divulgación botánica y neurológica.</p>
+                
                 <div class="grid-gemela">
-                    <div class="glass-card">
-                        <i class="fa-brands fa-youtube" style="font-size: 3rem; color: #ff0000; text-align: center; margin-bottom: 1rem;"></i>
-                        <h3 style="color: var(--blanco);">El Poder de la Aromaterapia</h3>
-                        <p class="marketing-text">Documental: Descubra cómo el sistema límbico procesa moléculas olfativas para alterar el estado emocional físico, respaldado por neurociencia.</p>
-                        <a href="https://youtu.be/qmRr05954h4" target="_blank" class="btn-agenda-ahora" style="background: transparent; border: 1px solid var(--blanco); color: var(--blanco);">Ver en YouTube</a>
-                    </div>
-                    <div class="glass-card">
-                        <i class="fa-brands fa-youtube" style="font-size: 3rem; color: #ff0000; text-align: center; margin-bottom: 1rem;"></i>
-                        <h3 style="color: var(--blanco);">Chocolaterapia y Botánica</h3>
-                        <p class="marketing-text">Documental: Entienda cómo la anandamida y la teobromina del cacao regeneran la piel y combaten el estrés celular oxidativo.</p>
-                        <a href="https://youtu.be/Uc5wVxOW46o" target="_blank" class="btn-agenda-ahora" style="background: transparent; border: 1px solid var(--blanco); color: var(--blanco);">Ver en YouTube</a>
-                    </div>
+                    <article class="glass-card tilt-card reveal">
+                        <i class="fa-brands fa-youtube" style="font-size: 4.5rem; color: #ff0000; text-align: center; margin-bottom: 2rem; filter: drop-shadow(0 0 1rem rgba(255,0,0,0.4));"></i>
+                        <h3>La Neurociencia del Aroma</h3>
+                        <p class="marketing-text" style="text-align: center;">Descubra cómo el sistema límbico procesa las moléculas olfativas de nuestros aceites esenciales para alterar instantáneamente el estado emocional y reducir el cortisol.</p>
+                        <a href="https://youtu.be/qmRr05954h4" target="_blank" class="btn-agenda-ahora" style="background: transparent; border-color: #ff0000; color: #ff0000;"><i class="fa-solid fa-play"></i> Ver Documental Oficial</a>
+                    </article>
+
+                    <article class="glass-card tilt-card reveal">
+                        <i class="fa-brands fa-youtube" style="font-size: 4.5rem; color: #ff0000; text-align: center; margin-bottom: 2rem; filter: drop-shadow(0 0 1rem rgba(255,0,0,0.4));"></i>
+                        <h3>Chocolaterapia: ¿Lujo o Medicina?</h3>
+                        <p class="marketing-text" style="text-align: center;">Exploramos el uso del cacao desde los Olmecas. Entienda cómo la anandamida y la teobromina regeneran la piel y combaten agresivamente el estrés oxidativo celular.</p>
+                        <a href="https://youtu.be/Uc5wVxOW46o" target="_blank" class="btn-agenda-ahora" style="background: transparent; border-color: #ff0000; color: #ff0000;"><i class="fa-solid fa-play"></i> Ver Documental Oficial</a>
+                    </article>
                 </div>
             </section>
 
@@ -358,42 +434,77 @@
     <footer class="mega-footer">
         <div class="footer-grid">
             <div class="footer-col">
-                <h4 style="font-size: 2.5rem; letter-spacing: 2px;">VALTARA</h4>
-                <p style="font-style: italic; color: var(--oro-suave);">Executive Therapy & Biomechanics</p>
-                <p style="margin-top: 1rem; font-size: 0.9rem;">Plataforma SPA Monolítica V 10.0 Sovereign. Desarrollado in-house con tecnología de vanguardia.</p>
+                <h4 style="font-size: 3rem; letter-spacing: 0.3rem;">VALTARA</h4>
+                <p style="font-style: italic; color: var(--oro-suave); font-size: 1.3rem; margin-bottom: 2rem;">Executive Therapy & Biomechanics</p>
+                <p style="font-size: 1.05rem;">Plataforma SPA Monolítica V 10.0 Sovereign. Arquitectura de software desarrollada 100% in-house.</p>
             </div>
             <div class="footer-col">
-                <h4>Sede y Contacto</h4>
-                <p><i class="fa-solid fa-map-location-dot" style="color:var(--oro); width:20px;"></i> Av. Paseo de la Reforma 195, Piso 3. CDMX.</p>
-                <p><i class="fa-solid fa-phone" style="color:var(--oro); width:20px;"></i> 33 4857 2070 (Atención Concierge)</p>
+                <h4>Contacto y Logística</h4>
+                <a href="https://maps.app.goo.gl/zvrD44iVseA7zVQZ9" target="_blank"><i class="fa-solid fa-map-location-dot" style="color:var(--oro); width:25px;"></i> Paseo de la Reforma 195, Piso 3. CDMX.</a>
+                <a href="tel:+523348572070"><i class="fa-solid fa-phone" style="color:var(--oro); width:25px;"></i> 33 4857 2070 (Concierge)</a>
+                <a href="mailto:clientes.valtara@gmail.com"><i class="fa-solid fa-envelope" style="color:var(--oro); width:25px;"></i> clientes.valtara@gmail.com</a>
                 <div class="social-icons">
                     <a href="https://www.instagram.com/valtara.mx" target="_blank"><i class="fa-brands fa-instagram"></i></a>
                     <a href="https://www.facebook.com/Valtara.mx" target="_blank"><i class="fa-brands fa-facebook"></i></a>
                     <a href="https://www.tiktok.com/@valtara.mx" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://youtube.com/@valtaramexico" target="_blank"><i class="fa-brands fa-youtube"></i></a>
                 </div>
             </div>
             <div class="footer-col">
-                <h4>Marco Legal y Avales</h4>
-                <p>Cumplimiento estricto COFEPRIS y LFPDPPP.</p>
-                <a href="https://drive.google.com/file/d/1sxHLBQF8Lj_GF4GzJipXAxx5256BWAIr/view" target="_blank" style="color: var(--cian-fluor); margin-top: 1rem; text-decoration: underline;"><i class="fa-solid fa-certificate"></i> Consultar Cédula REPS y Título SISAE</a>
-                <p style="font-size: 0.8rem; margin-top: 1rem; color: #777;">*No somos clínica hospitalaria médica. Toda terapia es complementaria.*</p>
+                <h4>Avales Legales (LFPDPPP)</h4>
+                <p>Operamos bajo protocolos estrictos de bioseguridad COFEPRIS.</p>
+                <a href="https://drive.google.com/file/d/1sxHLBQF8Lj_GF4GzJipXAxx5256BWAIr/view" target="_blank" style="color: var(--cian-fluor); margin-top: 1.5rem; text-decoration: underline; font-weight: bold;"><i class="fa-solid fa-file-pdf"></i> Consultar Cédula REPS y Título SISAE</a>
+                <p style="font-size: 0.9rem; margin-top: 2rem; color: #777;">*Deslinde: No somos clínica hospitalaria ni expedimos recetas médicas. Toda intervención es holística y complementaria.*</p>
             </div>
         </div>
         <div class="footer-bottom">
-            &copy; 2026 GRUPO GEVIZZ S.A.S. DE C.V. Todos los derechos reservados.
+            &copy; 2026 GRUPO GEVIZZ S.A.S. DE C.V. Todos los derechos intelectuales reservados.
         </div>
     </footer>
 
-    <!-- CEREBRO JAVASCRIPT (TODO EN UNO) -->
+    <!-- ====================================================================================
+         CEREBRO JAVASCRIPT: LÓGICA MONOLÍTICA
+         ==================================================================================== -->
     <script>
-        // 1. SISTEMA DE RUTAS (SPA)
+        // 1. MOTOR SPA Y REVEAL SCROLL
+        const UXEngine = {
+            init: () => {
+                const reveals = document.querySelectorAll('.reveal');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if(entry.isIntersecting) {
+                            entry.target.classList.add('active');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+                reveals.forEach(r => observer.observe(r));
+
+                // Efecto Tilt 3D para Desktop
+                if(window.innerWidth > 800) {
+                    document.querySelectorAll('.tilt-card').forEach(card => {
+                        card.addEventListener('mousemove', (e) => {
+                            const rect = card.getBoundingClientRect();
+                            const x = e.clientX - rect.left; 
+                            const y = e.clientY - rect.top;
+                            const centerX = rect.width / 2; 
+                            const centerY = rect.height / 2;
+                            card.style.transform = `perspective(1500px) rotateX(${(y - centerY) / centerY * -6}deg) rotateY(${(x - centerX) / centerX * 6}deg) translateY(-10px)`;
+                        });
+                        card.addEventListener('mouseleave', () => {
+                            card.style.transform = `perspective(1500px) rotateX(0deg) rotateY(0deg) translateY(0)`;
+                        });
+                    });
+                }
+            }
+        };
+
         const AppRouter = {
             navigate: (viewId) => {
                 document.querySelectorAll('.view-container').forEach(v => {
                     v.style.opacity = 0;
-                    setTimeout(() => { v.classList.remove('active'); }, 300);
+                    setTimeout(() => v.classList.remove('active'), 400);
                 });
-                document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
                 
                 setTimeout(() => {
                     const target = document.getElementById(viewId);
@@ -402,35 +513,14 @@
                         setTimeout(() => target.style.opacity = 1, 50);
                     }
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                }, 300);
+                }, 400);
 
                 const overlay = document.getElementById('side-menu-overlay');
                 if(overlay.classList.contains('open')) overlay.classList.remove('open');
             }
         };
 
-        // 2. MODALES Y EVENTOS BÁSICOS
-        const setupModals = () => {
-            const toggleModal = (btnId, modalId, closeId) => {
-                document.getElementById(btnId).addEventListener('click', () => document.getElementById(modalId).classList.add('active'));
-                document.getElementById(closeId).addEventListener('click', () => document.getElementById(modalId).classList.remove('active'));
-            };
-            toggleModal('a11y-toggle', 'a11y-menu', 'a11y-close-btn');
-            toggleModal('audio-toggle', 'audio-modal', 'audio-close-btn');
-            toggleModal('aura-toggle', 'aura-modal', 'aura-close-btn');
-
-            document.getElementById('menu-open-btn').addEventListener('click', () => document.getElementById('side-menu-overlay').classList.add('open'));
-            document.getElementById('menu-close-btn').addEventListener('click', () => document.getElementById('side-menu-overlay').classList.remove('open'));
-
-            document.querySelectorAll('.menu-link').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    if(link.getAttribute('data-view')) AppRouter.navigate(link.getAttribute('data-view'));
-                    e.currentTarget.classList.add('active');
-                });
-            });
-        };
-
-        // 3. COOKIES, SALUDO Y CORTESÍAS
+        // 2. MOTOR DE PERSONALIZACIÓN Y COOKIES
         const PersonalizationEngine = {
             init: () => {
                 const savedName = localStorage.getItem('valtara_user_name');
@@ -453,38 +543,40 @@
                 if(hour >= 5 && hour < 12) greeting = "Buenos días";
                 else if(hour >= 12 && hour < 19) greeting = "Buenas tardes";
 
-                document.getElementById('dynamic-greeting').innerHTML = `${greeting}, ${name} <i class="fa-solid fa-leaf" style="color:var(--oro); margin-left:10px;"></i>`;
+                document.getElementById('dynamic-greeting').innerHTML = `${greeting}, ${name}`;
                 
-                // Cortesía dinámica
-                let cortesia = "Privilegio de Temporada: Análisis Postural y Biomecánico en cortesía.";
-                if(hour < 12) cortesia = "Cortesía Matutina (9AM-12PM): 20% a su favor en Masaje Deportivo.";
-                else if(hour > 18) cortesia = "Ritual del Ocaso (Post 7PM): Culmine con degustación de Té Orgánico.";
-                document.getElementById('cortesia-dinamica').innerHTML = `<i class="fa-solid fa-gift"></i> ${cortesia}`;
+                // Cortesía Dinámica
+                let cortesia = "Beneficio VIP: Análisis Biomecánico y Postural en cortesía.";
+                if(hour >= 5 && hour < 12) cortesia = "Privilegio Matutino: 20% a su favor en intervenciones antes del mediodía.";
+                else if(hour >= 18 || hour < 5) cortesia = "Ritual del Ocaso: Culmine su terapia nocturna con Té Orgánico de Frutos Rojos.";
+                
+                const cBox = document.getElementById('cortesia-dinamica');
+                if(cBox) cBox.innerHTML = `<i class="fa-solid fa-gem" style="font-size:1.5rem; margin-right:1rem;"></i> ${cortesia}`;
             }
         };
 
-        // 4. MAPA CORPORAL BIOMECÁNICO
+        // 3. MAPA CORPORAL INTERACTIVO
         const BodyMap = {
             data: {
-                craneo: { title: "Cráneo y Fascia Facial", desc: "La tensión del nervio trigémino genera bruxismo, migrañas y fatiga visual por pantallas. <strong>Solución:</strong> Rehabilitación Facial por Estrés ($519 MXN).", icon: "fa-head-side-virus" },
-                cervical: { title: "Cervicales y Trapecio", desc: "El 'Text Neck' multiplica el peso del cráneo, bloqueando el oxígeno al cerebro. <strong>Solución:</strong> Terapia Cervical Exprés o Masaje Deportivo Nivel I.", icon: "fa-user-injured" },
-                lumbar: { title: "Región Lumbar (Compresión)", desc: "Estar sentado más de 6 horas acorta los flexores de la cadera y comprime los discos (riesgo de ciática). <strong>Solución:</strong> Masaje Tailandés / Estiramientos Pasivos.", icon: "fa-child" },
-                linfa: { title: "Sistema Linfático Inferior", desc: "Las piernas pesadas son síntoma de que la bomba natural ha fallado. Acumulación de toxinas. <strong>Solución:</strong> Drenaje Linfático Manual.", icon: "fa-shoe-prints" }
+                craneo: { title: "Cráneo y Fascia Facial", desc: "El estrés somatizado comprime el nervio trigémino, causando bruxismo nocturno, migrañas y fatiga visual severa. <br><br><strong>Prescripción:</strong> Rehabilitación Facial por Estrés ($519 MXN).", icon: "fa-head-side-virus" },
+                cervical: { title: "Cervicales y Trapecios", desc: "El 'Text Neck' o cuello de texto multiplica el peso del cráneo hasta 27kg, creando nódulos duros que bloquean el oxígeno al cerebro. <br><br><strong>Prescripción:</strong> Terapia Cervical Exprés o Masaje Deportivo.", icon: "fa-user-injured" },
+                lumbar: { title: "Región Lumbar y Ciática", desc: "Permanecer sentado más de 6 horas acorta los flexores de la cadera y comprime los discos intervertebrales, amenazando el nervio ciático. <br><br><strong>Prescripción:</strong> Masaje Tailandés de estiramiento pasivo.", icon: "fa-child" },
+                linfa: { title: "Drenaje de Extremidades", desc: "Las piernas pesadas o edemas indican que la bomba natural del sistema linfático ha fallado por falta de movimiento. <br><br><strong>Prescripción:</strong> Terapia de Drenaje Linfático Manual.", icon: "fa-shoe-prints" }
             },
             selectZone: (zoneId) => {
                 const info = BodyMap.data[zoneId];
                 document.querySelectorAll('.zone-btn').forEach(b => b.classList.remove('active'));
                 event.currentTarget.classList.add('active');
                 document.getElementById('zone-display').innerHTML = `
-                    <i class="fa-solid ${info.icon}" style="font-size: 3rem; color: var(--cian-fluor); margin-bottom: 1rem;"></i>
-                    <h4 style="font-size: 1.8rem; color: white; margin-bottom: 1rem;">${info.title}</h4>
-                    <p style="color: var(--gris-claro); line-height: 1.8; font-size: 1.1rem;">${info.desc}</p>
-                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="margin-top:2rem; width:fit-content; padding: 1rem 2rem;">Contactar Especialista</a>
+                    <i class="fa-solid ${info.icon}" style="font-size: 4rem; color: var(--cian-fluor); margin-bottom: 1.5rem;"></i>
+                    <h4 style="font-size: 2.2rem; color: var(--blanco); margin-bottom: 1.5rem; font-family: var(--font-accent);">${info.title}</h4>
+                    <p style="color: var(--gris-claro); line-height: 2; font-size: 1.2rem; font-weight: 300;">${info.desc}</p>
+                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="margin-top:2.5rem; width:fit-content; background:transparent; border-color:var(--cian-fluor); color:var(--cian-fluor);">Consultar Disponibilidad</a>
                 `;
             }
         };
 
-        // 5. AURA IA FIX (Sin autofocus para proteger móviles)
+        // 4. AURA IA NLP
         const AuraAI = {
             processInput: () => {
                 const input = document.getElementById('aura-input-text');
@@ -496,23 +588,52 @@
             handleInput: (text) => {
                 const log = document.getElementById('aura-chat-log');
                 log.innerHTML += `<div class="msg user">${text}</div>`;
-                log.innerHTML += `<div class="msg bot">Analizando su requerimiento clínico en base de datos Sovereign... Recomiendo agendar directamente con el Concierge humano para una valoración precisa.<br><br><a href="https://wa.me/5213348572070" style="color:var(--purpura-aura); font-weight:bold;">Tocar aquí para WhatsApp</a></div>`;
+                
+                // Simulación de Typing
+                log.innerHTML += `<div class="msg bot" id="temp-typing"><i class="fa-solid fa-circle-notch fa-spin"></i> Analizando biometría...</div>`;
                 log.scrollTop = log.scrollHeight;
+
+                setTimeout(() => {
+                    const temp = document.getElementById('temp-typing');
+                    if(temp) temp.remove();
+                    
+                    let reply = "He analizado su sintomatología cruzada en la base de datos Sovereign. Recomiendo una valoración holística presencial. ¿Desea que el Concierge humano le asista para reservar su espacio?";
+                    if(text.includes('Trapecio') || text.includes('Espalda')) reply = "La tensión en el trapecio es una alerta roja de estrés postural. Sugiero el <strong>Masaje Deportivo</strong> para desmantelar esa armadura fascial. ¿Lo transfiero al Concierge?";
+                    if(text.includes('Fatiga') || text.includes('Burnout')) reply = "Sus niveles de cortisol están afectando su ciclo de sueño. El <strong>Ritual Lomi Lomi Supremo</strong> es la intervención exacta para inducir el estado Theta. ¿Le reservo un espacio?";
+
+                    log.innerHTML += `<div class="msg bot">${reply}<br><br><a href="https://wa.me/5213348572070" target="_blank" style="color:var(--purpura-intenso); font-weight:bold; text-decoration:underline;"><i class="fa-brands fa-whatsapp"></i> Hablar con Concierge Humano</a></div>`;
+                    log.scrollTop = log.scrollHeight;
+                }, 1500);
             }
         };
 
-        // 6. OASIS AUDIO (Básico/Visual)
-        const OasisEngine = {
-            togglePlay: () => {
-                const icon = document.getElementById('play-icon');
-                if(icon.classList.contains('fa-play')) {
-                    icon.classList.replace('fa-play', 'fa-pause');
-                    document.getElementById('audio-status-text').innerText = "Frecuencia Solfeggio 432Hz Activa";
-                } else {
-                    icon.classList.replace('fa-pause', 'fa-play');
-                    document.getElementById('audio-status-text').innerText = "Sistema Detenido";
-                }
-            }
+        // 5. ASIGNACIÓN DE MODALES Y BOTONES
+        const bindEvents = () => {
+            const toggleModal = (btnId, modalId, closeId) => {
+                const btn = document.getElementById(btnId);
+                const modal = document.getElementById(modalId);
+                const closeBtn = document.getElementById(closeId);
+                if(btn) btn.addEventListener('click', () => modal.classList.add('active'));
+                if(closeBtn) closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+            };
+            
+            toggleModal('a11y-toggle', 'a11y-menu', 'a11y-close-btn');
+            toggleModal('audio-toggle', 'audio-modal', 'audio-close-btn');
+            toggleModal('aura-toggle', 'aura-modal', 'aura-close-btn');
+
+            document.getElementById('menu-open-btn').addEventListener('click', () => document.getElementById('side-menu-overlay').classList.add('open'));
+            document.getElementById('menu-close-btn').addEventListener('click', () => document.getElementById('side-menu-overlay').classList.remove('open'));
+
+            document.querySelectorAll('.menu-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const view = link.getAttribute('data-view');
+                    if(view) {
+                        AppRouter.navigate(view);
+                        document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
+                        e.currentTarget.classList.add('active');
+                    }
+                });
+            });
         };
 
         // BOOT SYSTEM
@@ -521,9 +642,10 @@
                 document.getElementById('os-preloader').style.opacity = '0';
                 setTimeout(() => document.getElementById('os-preloader').style.display = 'none', 800);
                 PersonalizationEngine.init();
-                setupModals();
-            }, 1000);
+                UXEngine.init();
+                bindEvents();
+            }, 1200);
         });
     </script>
 </body>
-                                                                                                                                                                                                     </html>
+                            </html>
