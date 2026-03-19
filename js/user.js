@@ -1,90 +1,116 @@
 /**
  * ====================================================================================
- * BLOQUE 8: GESTOR DE IDENTIDAD (USER ENGINE)
- * Controla el Avatar, las Cookies LFPDPPP, y los saludos / cortesías dinámicas por hora.
+ * BLOQUE 8: USER ENGINE V10.3 (GESTOR DE IDENTIDAD)
+ * Controla el Onboarding inmersivo, privacidad local (LFPDPPP) y perfil del paciente.
  * ====================================================================================
  */
 
 const UserEngine = {
-    userName: 'Apreciable visitante', // Nombre por defecto
+    userName: 'Apreciable visitante',
     
     init: function() {
-        this.loadIdentity();
         this.bindEvents();
-        
-        // Esperamos a que CoreEngine inyecte el HTML (0.2s) para sobreescribir los textos
-        setTimeout(() => {
-            this.updateDynamicContent();
-        }, 200);
+        // Esperamos un segundo para que cargue la interfaz antes de decidir si mostrar el Onboarding
+        setTimeout(() => { this.checkIdentity(); }, 500);
     },
 
-    loadIdentity: function() {
+    // ================================================================================
+    // FLUJO DE ONBOARDING Y RECONOCIMIENTO
+    // ================================================================================
+    checkIdentity: function() {
         const savedName = localStorage.getItem('valtara_identity');
+        const onboardingScreen = document.getElementById('onboarding-screen');
         
         if (savedName) {
+            // Usuario recurrente: Quitar pantalla negra inmediatamente
             this.userName = savedName;
-            this.updateAvatar();
+            if(onboardingScreen) onboardingScreen.classList.add('fade-out');
+            
+            this.updateUI();
+            if(window.A11yEngine) A11yEngine.announce(`Bienvenido de nuevo, ${this.userName}. El santuario está listo.`);
         } else {
-            // Si es un visitante nuevo, abrimos la ventana del Avatar automáticamente
-            setTimeout(() => {
-                const userModal = document.getElementById('user-modal');
-                if(userModal && !userModal.open) {
-                    userModal.showModal();
-                    if(window.A11yEngine) {
-                        A11yEngine.announce("Bienvenido al Santuario. Por favor, escriba su nombre o título para personalizar su expediente clínico.");
-                    }
-                }
-            }, 1500);
-        }
-    },
-
-    updateAvatar: function() {
-        const headerNameSpan = document.getElementById('header-user-name');
-        if (headerNameSpan) {
-            headerNameSpan.textContent = this.userName;
+            // Usuario nuevo: La pantalla negra ya está visible por defecto, enfocamos el input
+            if(onboardingScreen) {
+                onboardingScreen.setAttribute('aria-hidden', 'false');
+                const nameInput = document.getElementById('welcome-name-input');
+                if(nameInput) nameInput.focus();
+                if(window.A11yEngine) A11yEngine.announce("Pantalla de bienvenida. Por favor, introduzca su nombre para personalizar su expediente clínico.");
+            }
         }
     },
 
     bindEvents: function() {
-        const saveBtn = document.getElementById('save-name-btn');
-        const nameInput = document.getElementById('user-name-input');
+        // 1. Botones del Onboarding (Pantalla Negra)
+        const startBtn = document.getElementById('welcome-start-btn');
+        const skipBtn = document.getElementById('welcome-skip-btn');
+        const welcomeInput = document.getElementById('welcome-name-input');
         
-        if (saveBtn && nameInput) {
-            saveBtn.addEventListener('click', () => {
-                const newName = nameInput.value.trim();
-                if (newName) {
-                    this.userName = newName;
-                    localStorage.setItem('valtara_identity', this.userName); // Cookie segura local
+        if(startBtn && welcomeInput) {
+            startBtn.addEventListener('click', () => {
+                const val = welcomeInput.value.trim();
+                if(val) this.saveAndEnter(val);
+                else welcomeInput.focus();
+            });
+            welcomeInput.addEventListener('keypress', (e) => {
+                if(e.key === 'Enter') startBtn.click();
+            });
+        }
+        
+        if(skipBtn) {
+            skipBtn.addEventListener('click', () => {
+                this.saveAndEnter('Invitado');
+            });
+        }
+
+        // 2. Botones de Edición (En el menú lateral)
+        const saveEditBtn = document.getElementById('save-edit-name-btn');
+        const editInput = document.getElementById('edit-name-input');
+        
+        if(saveEditBtn && editInput) {
+            saveEditBtn.addEventListener('click', () => {
+                const val = editInput.value.trim();
+                if(val) {
+                    this.userName = val;
+                    localStorage.setItem('valtara_identity', val);
+                    this.updateUI();
                     
-                    this.updateAvatar();
-                    this.updateDynamicContent();
+                    const modal = document.getElementById('edit-name-modal');
+                    if(modal) { modal.close(); document.body.style.overflow = 'auto'; }
                     
-                    // Cerrar el Modal
-                    const dialog = document.getElementById('user-modal');
-                    if(dialog && dialog.open) {
-                        dialog.close();
-                        document.body.style.overflow = 'auto';
-                    }
-                    
-                    if(window.A11yEngine) {
-                        A11yEngine.announce(`Identidad actualizada. Es un honor recibirle, ${this.userName}.`);
-                    }
+                    if(window.A11yEngine) A11yEngine.announce(`Identidad actualizada a ${val}.`);
                 }
             });
-            
-            // Permitir guardar con la tecla Enter
-            nameInput.addEventListener('keypress', (e) => {
-                if(e.key === 'Enter') saveBtn.click();
+            editInput.addEventListener('keypress', (e) => {
+                if(e.key === 'Enter') saveEditBtn.click();
             });
         }
     },
 
-    updateDynamicContent: function() {
+    saveAndEnter: function(name) {
+        this.userName = name;
+        if(name !== 'Invitado') {
+            localStorage.setItem('valtara_identity', name);
+        }
+        
+        // Desaparecer pantalla de onboarding
+        const onboardingScreen = document.getElementById('onboarding-screen');
+        if(onboardingScreen) {
+            onboardingScreen.classList.add('fade-out');
+            onboardingScreen.setAttribute('aria-hidden', 'true');
+        }
+        
+        this.updateUI();
+        if(window.A11yEngine) A11yEngine.announce(`Ingresando al santuario. Es un honor recibirle, ${this.userName}.`);
+    },
+
+    // ================================================================================
+    // ACTUALIZACIÓN DE INTERFAZ (Textos dinámicos)
+    // ================================================================================
+    updateUI: function() {
         const hour = new Date().getHours();
         let greeting = "Buenas noches";
         let cortesia = "Ritual del Ocaso (Post 7PM): Culmine con degustación de Té Orgánico de Frutos Rojos.";
 
-        // Lógica de Tiempos
         if (hour >= 4 && hour < 12) {
             greeting = "Buenos días";
             cortesia = "Cortesía Matutina (9AM-12PM): 20% de privilegio corporativo en Masaje Deportivo.";
@@ -93,23 +119,27 @@ const UserEngine = {
             cortesia = "Privilegio Corporativo: Análisis Postural y Biomecánico en cortesía.";
         }
 
-        // 1. Reemplazamos el título principal con un saludo súper elegante
+        // A. Actualizar el menú lateral (Perfil del Paciente)
+        const menuGreeting = document.getElementById('menu-greeting');
+        const menuName = document.getElementById('menu-user-name');
+        if(menuGreeting) menuGreeting.textContent = greeting + ",";
+        if(menuName) menuName.textContent = this.userName;
+
+        // B. Actualizar el Hero (Portada)
         const heroTitle = document.querySelector('.hero-view h1');
         if (heroTitle) {
-            // Lo cambiamos de 'VALTARA' a 'Buenos días, [Nombre]' pero en tamaño elegante
             heroTitle.style.fontSize = '3.5rem';
-            heroTitle.style.letterSpacing = '0.5rem';
-            heroTitle.style.textTransform = 'none'; // Para que respete mayúsculas/minúsculas
+            heroTitle.style.letterSpacing = '0.1rem';
+            heroTitle.style.textTransform = 'none';
             heroTitle.innerHTML = `${greeting}, <br><span style="color: var(--valtara-oro);">${this.userName}.</span>`;
         }
 
-        // 2. Inyectamos la cortesía correspondiente a la hora
+        // C. Actualizar la tarjeta de cortesía
         const cortesiaDiv = document.getElementById('cortesia-dinamica');
         if (cortesiaDiv) {
-            cortesiaDiv.innerHTML = `<i class="fa-solid fa-gem" style="font-size: 1.5rem;" aria-hidden="true"></i> ${cortesia}`;
+            cortesiaDiv.innerHTML = `<i class="fa-solid fa-gem" style="margin-right: 15px;" aria-hidden="true"></i> ${cortesia}`;
         }
     }
 };
 
-// Iniciar Motor de Identidad
 window.addEventListener('DOMContentLoaded', () => UserEngine.init());
