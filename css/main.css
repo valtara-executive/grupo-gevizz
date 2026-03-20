@@ -1,11 +1,9 @@
 @charset "UTF-8";
 /* ====================================================================================
-   BLOQUE 2: MOTOR VISUAL SOVEREIGN 11.0 (COLORIMETRÍA VIVA & GLASSMORPHISM)
-   Orbes flotantes, escala tipográfica fina y arquitectura del Onboarding de Avatares.
+   BLOQUE 2: MOTOR VISUAL SOVEREIGN 11.1 (GLASSMORPHISM CORREGIDO)
    ==================================================================================== */
 
 :root { 
-    /* 1. Paleta Corporativa y Vivid Colorimetry */
     --valtara-oro: #F2C94C; 
     --valtara-oro-suave: #FCEABB; 
     --valtara-negro-fondo: #040406; 
@@ -13,7 +11,6 @@
     --valtara-blanco: #ffffff; 
     --valtara-gris-texto: #c8c8d0; 
     
-    /* Colores Neón (Para los Orbes y Detalles) */
     --valtara-cian-fluor: #4CC9F0;
     --valtara-magenta-neon: #F72585;
     --valtara-purpura-aura: #B200FF;
@@ -21,16 +18,13 @@
     --valtara-verde-ws: #00E676;
     --valtara-azul-profundo: #4361EE;
 
-    /* Gradientes Soberanos */
     --grad-magic: linear-gradient(135deg, var(--valtara-purpura-aura), var(--valtara-magenta-neon));
     --grad-ocean: linear-gradient(135deg, var(--valtara-azul-profundo), var(--valtara-cian-fluor));
     
-    /* 2. Glassmorphism Tokens */
-    --cristal-fondo: rgba(20, 20, 30, 0.45); /* Más transparente para ver los orbes */
+    --cristal-fondo: rgba(20, 20, 30, 0.45); 
     --cristal-borde: rgba(255, 255, 255, 0.08); 
     --cristal-sombra: 0 2rem 4rem rgba(0, 0, 0, 0.6);
     
-    /* 3. Escala y Tipografía */
     --font-main: 'Lato', sans-serif;
     --font-accent: 'Playfair Display', serif;
     --nav-height: 5.5rem; 
@@ -38,22 +32,15 @@
     --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-/* ------------------------------------------------------------------------------------
-   A. RESET ARQUITECTÓNICO Y ESCALA FLUIDA
-   ------------------------------------------------------------------------------------ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { 
-    font-size: 14px; /* Tamaño base elegante para PC */
-    scroll-behavior: smooth; 
-}
+html { font-size: 14px; scroll-behavior: smooth; }
 
-@media (max-width: 850px) {
-    html { font-size: 12px; } /* Ajuste fino para móviles (elimina lo agigantado) */
-}
+@media (max-width: 850px) { html { font-size: 12px; } }
 
 body { 
-    background-color: var(--valtara-negro-fondo); 
+    /* ¡AQUÍ ESTABA EL ERROR! Ahora es transparente para dejar ver las luces */
+    background-color: transparent; 
     color: var(--valtara-blanco); 
     font-family: var(--font-main); 
     line-height: 1.7; 
@@ -65,11 +52,14 @@ body {
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 
 /* ------------------------------------------------------------------------------------
-   B. MOTOR AMBIENTAL (ORBES VIVOS Y CRISTAL)
+   MOTOR AMBIENTAL (ORBES VIVOS Y CRISTAL)
    ------------------------------------------------------------------------------------ */
-.ambient-engine { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden; background: var(--valtara-negro-fondo); }
+.ambient-engine { 
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+    z-index: -1; /* Lo subimos a -1 para asegurarnos de que se renderiza */
+    overflow: hidden; background: var(--valtara-negro-fondo); 
+}
 
-/* Esferas de luz animadas */
 .orb { position: absolute; border-radius: 50%; filter: blur(8rem); opacity: 0.6; mix-blend-mode: screen; animation: floatOrb 25s infinite ease-in-out alternate; }
 .orb-1 { width: 50vw; height: 50vw; background: var(--valtara-purpura-intenso); top: -10%; left: -10%; }
 .orb-2 { width: 60vw; height: 60vw; background: var(--valtara-azul-profundo); bottom: -20%; right: -10%; animation-delay: -5s; }
@@ -81,11 +71,10 @@ body {
     100% { transform: translate(10vw, 15vh) scale(1.2); }
 }
 
-/* El cristal que difumina las luces de fondo */
-.glass-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; backdrop-filter: blur(60px); -webkit-backdrop-filter: blur(60px); z-index: -1; }
+.glass-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; backdrop-filter: blur(60px); -webkit-backdrop-filter: blur(60px); z-index: 1; }
 
 /* ------------------------------------------------------------------------------------
-   C. ONBOARDING INMERSIVO Y SELECTOR DE AVATARES
+   ONBOARDING INMERSIVO Y SELECTOR DE AVATARES
    ------------------------------------------------------------------------------------ */
 .full-screen-overlay {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -102,10 +91,9 @@ body {
 
 .input-group { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 3rem; border-radius: 1.5rem; backdrop-filter: blur(20px); box-shadow: 0 2rem 5rem rgba(0,0,0,0.8); }
 
-/* Diseño de Avatares (Radio Buttons Estilizados) */
 .avatar-grid { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; margin-bottom: 1.5rem; }
 .avatar-option { cursor: pointer; text-align: center; }
-.avatar-option input { display: none; /* Ocultamos el circulito feo nativo */ }
+.avatar-option input { display: none; }
 
 .avatar-icon {
     display: flex; justify-content: center; align-items: center;
@@ -116,7 +104,6 @@ body {
 }
 .avatar-name { font-size: 0.9rem; color: #777; font-weight: bold; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.1rem;}
 
-/* Estado Seleccionado del Avatar */
 .avatar-option input:checked + .avatar-icon {
     border-color: var(--valtara-oro); color: var(--valtara-oro);
     background: rgba(242, 201, 76, 0.1);
@@ -133,7 +120,7 @@ body {
 .input-group input[type="text"]:focus { border-color: var(--valtara-oro); box-shadow: 0 0 2rem rgba(242, 201, 76, 0.2); background: rgba(242, 201, 76, 0.05); }
 
 /* ------------------------------------------------------------------------------------
-   D. CABECERA (HEADER) Y CONTROLES
+   CABECERA (HEADER) Y CONTROLES
    ------------------------------------------------------------------------------------ */
 .system-header { 
     position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); 
@@ -151,7 +138,6 @@ body {
 
 .header-controls { display: flex; align-items: center; gap: 1.5rem; }
 
-/* Botones Superiores (A11y y Hamburger) */
 .header-action-btn, .hamburger-btn {
     background: transparent; border: 1px solid rgba(255,255,255,0.2);
     width: 3.5rem; height: 3.5rem; border-radius: 50%;
@@ -161,7 +147,7 @@ body {
 .header-action-btn:hover, .hamburger-btn:hover { background: var(--valtara-blanco); color: var(--valtara-negro-fondo); box-shadow: 0 0 1.5rem rgba(255,255,255,0.3); }
 
 /* ------------------------------------------------------------------------------------
-   E. MENÚ LATERAL (PANEL DEL PACIENTE)
+   MENÚ LATERAL (PANEL DEL PACIENTE)
    ------------------------------------------------------------------------------------ */
 .side-menu { 
     position: fixed; top: 0; right: -100%; width: 35rem; max-width: 100vw; height: 100vh; 
@@ -177,7 +163,6 @@ body {
 .close-btn { position: absolute; top: 2rem; right: 2rem; background: rgba(255,255,255,0.1); border: none; color: var(--valtara-blanco); width: 2.8rem; height: 2.8rem; border-radius: 50%; cursor: pointer; transition: 0.3s; }
 .close-btn:hover { background: var(--valtara-magenta-neon); transform: rotate(90deg); box-shadow: 0 0 1.5rem rgba(247,37,133,0.5); }
 
-/* Tarjeta del Paciente en Menú */
 .patient-profile-card { display: flex; align-items: center; gap: 1.5rem; }
 .profile-avatar { width: 5rem; height: 5rem; background: var(--grad-ocean); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2.2rem; color: var(--valtara-blanco); box-shadow: 0 0.5rem 1.5rem rgba(67, 97, 238, 0.4); border: 2px solid var(--valtara-cian-fluor); }
 .profile-info { display: flex; flex-direction: column; }
@@ -198,7 +183,7 @@ body {
 .btn-ws-massive:hover { background: var(--valtara-blanco); transform: translateY(-3px); box-shadow: 0 1rem 3rem rgba(0,230,118,0.4); }
 
 /* ------------------------------------------------------------------------------------
-   F. GRID Y CONTENEDOR SPA
+   GRID Y CONTENEDOR SPA
    ------------------------------------------------------------------------------------ */
 #main-content { padding-top: var(--nav-height); width: 100%; min-height: 100vh; position: relative; z-index: 1;}
 .view-section { display: none; opacity: 0; padding: 5rem 2rem; max-width: var(--max-width); margin: 0 auto; }
@@ -211,7 +196,7 @@ body {
 .grid-3-cols { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 
 /* ------------------------------------------------------------------------------------
-   G. MEGA FOOTER Y RESPONSIVIDAD
+   MEGA FOOTER Y RESPONSIVIDAD
    ------------------------------------------------------------------------------------ */
 .mega-footer { background: rgba(2,2,3,0.95); border-top: 1px solid rgba(255,255,255,0.05); padding: 6rem 2rem 3rem 2rem; margin-top: 5rem; position: relative; z-index: 1;}
 
@@ -221,4 +206,4 @@ body {
     .input-group { padding: 2rem 1.5rem; }
     .avatar-icon { width: 3.5rem; height: 3.5rem; font-size: 1.5rem; }
     .grid-2-cols, .grid-3-cols { grid-template-columns: 1fr; }
-}
+                                                                                                                                         }
