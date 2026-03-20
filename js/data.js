@@ -2,12 +2,13 @@
  * ====================================================================================
  * BLOQUE 4: LA ENCICLOPEDIA VALTARA (DATA & RENDER ENGINE V11.1)
  * Textos íntegros, Catálogo en Zig-Zag, Redes Sociales en Inicio y Legalidad.
+ * PRECIOS ACTUALIZADOS
  * ====================================================================================
  */
 
 window.ValtaraData = {
     /* --------------------------------------------------------------------------------
-       1. SECCIÓN INICIO Y MAPA CORPORAL EXPANDIBLE (CON REDES SOCIALES INYECTADAS)
+       1. SECCIÓN INICIO Y MAPA CORPORAL EXPANDIBLE
        -------------------------------------------------------------------------------- */
     home: `
         <div class="hero-view reveal" style="text-align: center; padding: 4rem 0;">
@@ -85,7 +86,7 @@ window.ValtaraData = {
         <div style="text-align: center; max-width: 950px; margin: 0 auto 5rem auto;">
             <h2 style="font-family: var(--font-accent); font-size: 4rem; color: var(--valtara-blanco); margin-bottom: 2rem;" class="reveal">Catálogo de Masajes</h2>
             <p style="color: var(--valtara-gris-texto); font-size: 1.4rem; line-height: 1.9; font-weight: 300;" class="reveal">Toda sesión presencial incluye un análisis postural preliminar. Nuestras tarifas y duraciones están diseñadas para ofrecerte el máximo rigor clínico.</p>
-            <p style="font-size: 1.1rem; color: var(--valtara-oro); margin-top: 1rem; font-style: italic;">* Para agendar las terapias bajo valoración o "Próximamente", consulta directamente con el Concierge.</p>
+            <p style="font-size: 1.1rem; color: var(--valtara-oro); margin-top: 1rem; font-style: italic;">* Para agendar las terapias "Próximamente", consulta directamente con el Concierge.</p>
         </div>
         
         <div class="grid-container">
@@ -109,7 +110,7 @@ window.ValtaraData = {
                     <h3>Masaje Deportivo y Descompresión</h3>
                     <div class="card-meta-info">
                         <span class="duracion"><i class="fa-solid fa-clock"></i> Máximo 50 Minutos</span>
-                        <span class="precio">$978 MXN</span>
+                        <span class="precio">$829 MXN</span>
                     </div>
                     <p class="marketing-text"><strong>El antídoto contra la "armadura" de estrés.</strong> Diseñado para quienes exigen lo máximo de sus músculos. Utilizamos antebrazos, codos y ventosas de silicón médico de alta succión (sin dejar hematomas feos) para romper la tensión extrema y oxigenar tejidos asfixiados.</p>
                     <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: #ff5555; color: white; border-color: #ff5555;"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
@@ -122,7 +123,7 @@ window.ValtaraData = {
                     <h3>Masaje Tailandés (Yoga Pasivo)</h3>
                     <div class="card-meta-info">
                         <span class="duracion"><i class="fa-solid fa-clock"></i> Máximo 50 Minutos</span>
-                        <span class="precio">$1,478 MXN</span>
+                        <span class="precio">$829 MXN</span>
                     </div>
                     <p class="marketing-text"><strong>Yoga asistido para combatir el sedentarismo.</strong> Tú no haces esfuerzo. Nosotros utilizamos nuestro peso, palancas y pies para estirar tus cadenas musculares posteriores al límite seguro, descomprimiendo el espacio entre las vértebras lumbares para salvar a tu nervio ciático.</p>
                     <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-verde-menta); color: var(--valtara-negro-fondo); border-color: var(--valtara-verde-menta);"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
@@ -135,7 +136,7 @@ window.ValtaraData = {
                     <h3>Masaje Ayurveda</h3>
                     <div class="card-meta-info">
                         <span class="duracion"><i class="fa-solid fa-clock"></i> 50 Minutos</span>
-                        <span class="precio">$919 MXN</span>
+                        <span class="precio">$929 MXN</span>
                     </div>
                     <p class="marketing-text"><strong>La Ciencia de la Vida.</strong> Más que un masaje, es un tratamiento personalizado con aceites tibios que nutren profundamente la piel y el sistema nervioso. Busca equilibrar tu energía vital y es sumamente efectivo para calmar la sensibilidad extrema.</p>
                     <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
@@ -148,7 +149,7 @@ window.ValtaraData = {
                     <h3>Masaje Holístico Integrativo</h3>
                     <div class="card-meta-info">
                         <span class="duracion"><i class="fa-solid fa-clock"></i> 50 Minutos</span>
-                        <span class="precio">$919 MXN</span>
+                        <span class="precio">$929 MXN</span>
                     </div>
                     <p class="marketing-text"><strong>Restauración tras crisis o luto.</strong> Fusión precisa que amalgama la fluidez de las manipulaciones para bajar la presión arterial, con presiones medias en puntos específicos para liberar bloqueos emocionales somatizados en el pecho y el diafragma.</p>
                     <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: #FFD700; color: var(--valtara-negro-fondo); border-color: #FFD700;"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
@@ -174,7 +175,7 @@ window.ValtaraData = {
                     <h3>Ritual Lomi Lomi Supremo</h3>
                     <div class="card-meta-info">
                         <span class="duracion"><i class="fa-solid fa-clock"></i> Sesión Profunda</span>
-                        <span class="precio">$1,289 MXN</span>
+                        <span class="precio">$1,199 MXN</span>
                     </div>
                     <p class="marketing-text"><strong>La Danza de Aloha.</strong> Un cortocircuito al Burnout. Protocolo ininterrumpido usando antebrazos que simula el oleaje del océano Pacífico. Induce ondas Theta de sueño profundo y regeneración absoluta.</p>
                     <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: #ffaa00; color: var(--valtara-negro-fondo); border-color: #ffaa00;"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
@@ -220,29 +221,29 @@ window.ValtaraData = {
                 </div>
             </article>
 
-            <article class="glass-card zig-zag reveal" style="opacity: 0.8;">
-                <div class="card-icon-wrapper" style="color: var(--valtara-gris-texto); filter: grayscale(1);"><i class="fa-solid fa-droplet"></i></div>
+            <article class="glass-card zig-zag reveal">
+                <div class="card-icon-wrapper" style="color: var(--valtara-blanco); border-color: var(--valtara-blanco);"><i class="fa-solid fa-droplet"></i></div>
                 <div class="card-content-wrapper">
                     <h3>Drenaje Linfático Manual</h3>
                     <div class="card-meta-info">
                         <span class="duracion"><i class="fa-solid fa-clock"></i> 60 Minutos</span>
-                        <span class="precio" style="color: var(--valtara-blanco);">Bajo Valoración Clínica</span>
+                        <span class="precio">$849 MXN</span>
                     </div>
-                    <p class="marketing-text">El fluir de la vida. Ayuda a movilizar líquidos y toxinas post-quirúrgicas con toques tan suaves como el aleteo de una mariposa. Requiere valoración del especialista previo a agendar.</p>
-                    <button class="btn-agenda-ahora" style="background: rgba(255,255,255,0.1); border-color: var(--valtara-gris-texto); color: var(--valtara-gris-texto); cursor: not-allowed;"><i class="fa-solid fa-user-doctor"></i> Requiere Consulta Previa</button>
+                    <p class="marketing-text">El fluir de la vida. Ayuda a movilizar líquidos y toxinas post-quirúrgicas con toques tan suaves como el aleteo de una mariposa. <strong>*Requiere autorización médica en condiciones específicas.</strong></p>
+                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-blanco); color: var(--valtara-negro-fondo); border-color: var(--valtara-blanco);"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
                 </div>
             </article>
             
-            <article class="glass-card zig-zag reveal" style="opacity: 0.8;">
-                <div class="card-icon-wrapper" style="color: var(--valtara-gris-texto); filter: grayscale(1);"><i class="fa-solid fa-circle-notch"></i></div>
+            <article class="glass-card zig-zag reveal">
+                <div class="card-icon-wrapper" style="color: var(--valtara-blanco); border-color: var(--valtara-blanco);"><i class="fa-solid fa-circle-notch"></i></div>
                 <div class="card-content-wrapper">
                     <h3>Esferas Chinas (Baoding)</h3>
                     <div class="card-meta-info">
                         <span class="duracion"><i class="fa-solid fa-clock"></i> 60 Minutos</span>
-                        <span class="precio" style="color: var(--valtara-blanco);">Bajo Valoración Clínica</span>
+                        <span class="precio">$929 MXN</span>
                     </div>
                     <p class="marketing-text">La vibración sonora y el contacto circular estimulan puntos reflejos induciendo ondas cerebrales Alfa. El estímulo sonoro es fantástico para pacientes neurodivergentes o con discapacidad visual.</p>
-                    <button class="btn-agenda-ahora" style="background: rgba(255,255,255,0.1); border-color: var(--valtara-gris-texto); color: var(--valtara-gris-texto); cursor: not-allowed;"><i class="fa-solid fa-user-doctor"></i> Requiere Consulta Previa</button>
+                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-blanco); color: var(--valtara-negro-fondo); border-color: var(--valtara-blanco);"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
                 </div>
             </article>
 
@@ -295,7 +296,7 @@ window.ValtaraData = {
             <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 3rem;">En Valtara, comprendemos que el cuerpo guarda la memoria de nuestras emociones. La somatización es el proceso por el cual una tensión emocional (como la angustia o el duelo) se "ancla" en un músculo. Al trabajar el cuerpo, estamos permitiendo que la mente procese y libere esa carga acumulada en lo que llamamos la "armadura muscular".</p>
 
             <h3 style="color: var(--valtara-verde-menta); font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0,255,170,0.3); padding-bottom: 1rem;">II. El Herbario Valtara: Botánica Aplicada</h3>
-            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">La botánica en nuestras sesiones no es decorativa; es Fitoterapia. Utilizamos extractos de plantas que poseen principios activos capaces de atravesar la barrera cutánea.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">La botánica en nuestras sessions no es decorativa; es Fitoterapia. Utilizamos extractos de plantas que poseen principios activos capaces de atravesar la barrera cutánea.</p>
             <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;"><strong>Aromaterapia: La Vía Directa al Cerebro.</strong> El sentido del olfato es el único que no pasa por el tálamo; va directo al Sistema Límbico, el centro de tus emociones.</p>
             <ul style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 2rem; margin-left: 2rem; list-style-type: square;">
                 <li><strong>Linalool (Lavanda):</strong> Reduce la excitabilidad neuronal.</li>
