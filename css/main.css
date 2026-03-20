@@ -1,80 +1,104 @@
 @charset "UTF-8";
 /* ====================================================================================
-   BLOQUE 2: MOTOR VISUAL SOVEREIGN 11.1 (GLASSMORPHISM CORREGIDO)
+   BLOQUE 2: MOTOR VISUAL SOVEREIGN 11.1 (COLORIMETRÍA VÍVIDA & ANIMACIONES)
+   Colores brillantes, scroll reparado, Avatares vivos y filtro Invertir inteligente.
    ==================================================================================== */
 
 :root { 
+    /* 1. Paleta Corporativa de Lujo (Textos y Bordes) */
     --valtara-oro: #F2C94C; 
     --valtara-oro-suave: #FCEABB; 
-    --valtara-negro-fondo: #040406; 
+    --valtara-negro-fondo: #050508; /* Un negro menos abisal, ligeramente azulado */
     --valtara-negro-modal: rgba(10, 10, 15, 0.95);
     --valtara-blanco: #ffffff; 
-    --valtara-gris-texto: #c8c8d0; 
+    --valtara-gris-texto: #e2e2e8; /* Gris más claro para mejor lectura */
     
-    --valtara-cian-fluor: #4CC9F0;
-    --valtara-magenta-neon: #F72585;
-    --valtara-purpura-aura: #B200FF;
-    --valtara-purpura-intenso: #6A0DAD;
-    --valtara-verde-ws: #00E676;
-    --valtara-azul-profundo: #4361EE;
+    /* 2. Colorimetría Vívida (Para botones flotantes y luces) */
+    --valtara-cian-brillante: #00FFFF;
+    --valtara-morado-vivo: #B200FF;
+    --valtara-verde-menta: #00FFAA;
+    --valtara-dorado-arena: #FFD700;
+    --valtara-whatsapp: #25D366; /* Verde exacto de WhatsApp para identificación rápida */
+    --valtara-alerta: #FF3366;
 
-    --grad-magic: linear-gradient(135deg, var(--valtara-purpura-aura), var(--valtara-magenta-neon));
-    --grad-ocean: linear-gradient(135deg, var(--valtara-azul-profundo), var(--valtara-cian-fluor));
+    /* Gradientes */
+    --grad-magic: linear-gradient(135deg, var(--valtara-morado-vivo), #F72585);
     
-    --cristal-fondo: rgba(20, 20, 30, 0.45); 
-    --cristal-borde: rgba(255, 255, 255, 0.08); 
-    --cristal-sombra: 0 2rem 4rem rgba(0, 0, 0, 0.6);
+    /* 3. Glassmorphism Tokens */
+    --cristal-fondo: rgba(15, 15, 25, 0.55); /* Más translúcido para dejar pasar los colores vivos */
+    --cristal-borde: rgba(255, 255, 255, 0.12); 
+    --cristal-sombra: 0 1.5rem 4rem rgba(0, 0, 0, 0.5);
     
+    /* 4. Escala y Tipografía */
     --font-main: 'Lato', sans-serif;
     --font-accent: 'Playfair Display', serif;
     --nav-height: 5.5rem; 
-    --max-width: 1250px;
+    --max-width: 1200px;
     --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
+/* ------------------------------------------------------------------------------------
+   A. RESET ARQUITECTÓNICO Y SOLUCIÓN DE ZOOM
+   ------------------------------------------------------------------------------------ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { font-size: 14px; scroll-behavior: smooth; }
-
-@media (max-width: 850px) { html { font-size: 12px; } }
-
-body { 
-    /* ¡AQUÍ ESTABA EL ERROR! Ahora es transparente para dejar ver las luces */
-    background-color: transparent; 
-    color: var(--valtara-blanco); 
-    font-family: var(--font-main); 
-    line-height: 1.7; 
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+html { 
+    font-size: 15px; /* Tamaño base más amigable y grande */
+    scroll-behavior: smooth; 
 }
 
-*:focus-visible { outline: 2px solid var(--valtara-cian-fluor); outline-offset: 4px; border-radius: 4px; }
+@media (max-width: 850px) {
+    html { font-size: 13px; } /* Ajuste responsivo */
+}
+
+body { 
+    background-color: var(--valtara-negro-fondo); 
+    color: var(--valtara-blanco); 
+    font-family: var(--font-main); 
+    line-height: 1.8; /* Más espacio entre líneas para lectura fácil */
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    /* SOLUCIÓN SCROLL: Permitimos el scroll en Y siempre en el body */
+    overflow-y: auto; 
+}
+
+/* Contenedor Maestro para el Zoom Seguro (Evita que se rompan las tarjetas) */
+#app-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    transform-origin: top center;
+    transition: transform 0.3s var(--ease-out-expo);
+}
+
+*:focus-visible { outline: 3px solid var(--valtara-cian-brillante); outline-offset: 4px; border-radius: 4px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 
 /* ------------------------------------------------------------------------------------
-   MOTOR AMBIENTAL (ORBES VIVOS Y CRISTAL)
+   B. MOTOR AMBIENTAL (ORBES VÍVIDOS)
    ------------------------------------------------------------------------------------ */
 .ambient-engine { 
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-    z-index: -1; /* Lo subimos a -1 para asegurarnos de que se renderiza */
-    overflow: hidden; background: var(--valtara-negro-fondo); 
+    z-index: -1; 
+    overflow: hidden; 
+    background: var(--valtara-negro-fondo); 
 }
 
-.orb { position: absolute; border-radius: 50%; filter: blur(8rem); opacity: 0.6; mix-blend-mode: screen; animation: floatOrb 25s infinite ease-in-out alternate; }
-.orb-1 { width: 50vw; height: 50vw; background: var(--valtara-purpura-intenso); top: -10%; left: -10%; }
-.orb-2 { width: 60vw; height: 60vw; background: var(--valtara-azul-profundo); bottom: -20%; right: -10%; animation-delay: -5s; }
-.orb-3 { width: 40vw; height: 40vw; background: var(--valtara-magenta-neon); top: 30%; left: 40%; animation-delay: -10s; opacity: 0.4; }
-.orb-4 { width: 45vw; height: 45vw; background: var(--valtara-cian-fluor); bottom: 10%; left: -5%; animation-delay: -15s; }
+/* Esferas de luz con colores vibrantes */
+.orb { position: absolute; border-radius: 50%; filter: blur(7rem); opacity: 0.75; mix-blend-mode: screen; animation: floatOrb 20s infinite ease-in-out alternate; }
+.orb-1 { width: 55vw; height: 55vw; background: var(--valtara-morado-vivo); top: -10%; left: -10%; }
+.orb-2 { width: 65vw; height: 65vw; background: var(--valtara-verde-menta); bottom: -15%; right: -15%; animation-delay: -5s; opacity: 0.6;}
+.orb-3 { width: 45vw; height: 45vw; background: var(--valtara-dorado-arena); top: 35%; left: 35%; animation-delay: -10s; opacity: 0.5; }
+.orb-4 { width: 50vw; height: 50vw; background: var(--valtara-cian-brillante); bottom: 5%; left: -5%; animation-delay: -15s; opacity: 0.6;}
 
 @keyframes floatOrb {
     0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(10vw, 15vh) scale(1.2); }
+    100% { transform: translate(8vw, 12vh) scale(1.15); }
 }
 
-.glass-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; backdrop-filter: blur(60px); -webkit-backdrop-filter: blur(60px); z-index: 1; }
+.glass-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px); z-index: 1; pointer-events: none;}
 
 /* ------------------------------------------------------------------------------------
-   ONBOARDING INMERSIVO Y SELECTOR DE AVATARES
+   C. ONBOARDING Y AVATARES ANIMADOS
    ------------------------------------------------------------------------------------ */
 .full-screen-overlay {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -84,106 +108,120 @@ body {
 }
 .full-screen-overlay.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
 
-.onboarding-content { text-align: center; max-width: 600px; padding: 3rem; animation: floatUp 1s var(--ease-out-expo) forwards; }
+.onboarding-content { text-align: center; max-width: 650px; padding: 3rem 2rem; animation: floatUp 1s var(--ease-out-expo) forwards; }
 @keyframes floatUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
-.gold-icon { text-shadow: 0 0 3rem rgba(242, 201, 76, 0.5); }
+/* Animación de "Respiración" para el icono central y avatares */
+.glow-icon-wrapper i {
+    animation: breathe 3s infinite ease-in-out;
+    color: var(--valtara-verde-menta);
+    text-shadow: 0 0 3rem rgba(0, 255, 170, 0.6);
+}
 
-.input-group { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 3rem; border-radius: 1.5rem; backdrop-filter: blur(20px); box-shadow: 0 2rem 5rem rgba(0,0,0,0.8); }
+@keyframes breathe {
+    0% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.1); filter: brightness(1.3); text-shadow: 0 0 4rem rgba(0, 255, 170, 0.9); }
+    100% { transform: scale(1); filter: brightness(1); }
+}
 
-.avatar-grid { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; margin-bottom: 1.5rem; }
+.input-group { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 3rem; border-radius: 2rem; backdrop-filter: blur(25px); box-shadow: 0 2rem 6rem rgba(0,0,0,0.9); }
+
+/* Diseño y Animación de Avatares */
+.avatar-grid { display: flex; flex-wrap: wrap; gap: 1.8rem; justify-content: center; margin-bottom: 2rem; }
 .avatar-option { cursor: pointer; text-align: center; }
 .avatar-option input { display: none; }
 
 .avatar-icon {
     display: flex; justify-content: center; align-items: center;
-    width: 4.5rem; height: 4.5rem; border-radius: 50%;
+    width: 5rem; height: 5rem; border-radius: 50%;
     background: rgba(255,255,255,0.05); border: 2px solid transparent;
-    font-size: 2rem; color: #777; transition: 0.3s var(--ease-out-expo);
+    font-size: 2.2rem; color: #888; transition: 0.4s var(--ease-out-expo);
     margin: 0 auto 0.8rem auto;
 }
-.avatar-name { font-size: 0.9rem; color: #777; font-weight: bold; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.1rem;}
+.avatar-name { font-size: 0.95rem; color: #888; font-weight: 900; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.1rem;}
 
+/* Hover del Avatar */
+.avatar-option:hover .avatar-icon { background: rgba(255,255,255,0.1); color: var(--valtara-blanco); transform: translateY(-5px); }
+
+/* Estado Seleccionado del Avatar (Colorimetría Vívida) */
 .avatar-option input:checked + .avatar-icon {
-    border-color: var(--valtara-oro); color: var(--valtara-oro);
-    background: rgba(242, 201, 76, 0.1);
-    box-shadow: 0 0 2rem rgba(242, 201, 76, 0.4), inset 0 0 1rem rgba(242, 201, 76, 0.2);
-    transform: scale(1.1);
+    border-color: var(--valtara-cian-brillante); color: var(--valtara-negro-fondo);
+    background: var(--valtara-cian-brillante);
+    box-shadow: 0 0 2.5rem rgba(0, 255, 255, 0.6);
+    transform: scale(1.15);
 }
-.avatar-option input:checked ~ .avatar-name { color: var(--valtara-oro); }
+.avatar-option input:checked ~ .avatar-name { color: var(--valtara-cian-brillante); }
 
 .input-group input[type="text"] {
-    width: 100%; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2);
-    color: var(--valtara-blanco); padding: 1.2rem 1.5rem; font-size: 1.2rem;
-    border-radius: 0.8rem; text-align: center; outline: none; transition: 0.3s ease;
+    width: 100%; background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.3);
+    color: var(--valtara-blanco); padding: 1.5rem; font-size: 1.3rem;
+    border-radius: 1rem; text-align: center; outline: none; transition: 0.3s ease;
 }
-.input-group input[type="text"]:focus { border-color: var(--valtara-oro); box-shadow: 0 0 2rem rgba(242, 201, 76, 0.2); background: rgba(242, 201, 76, 0.05); }
+.input-group input[type="text"]:focus { border-color: var(--valtara-cian-brillante); box-shadow: 0 0 2rem rgba(0, 255, 255, 0.3); background: rgba(0, 255, 255, 0.05); }
 
 /* ------------------------------------------------------------------------------------
-   CABECERA (HEADER) Y CONTROLES
+   D. CABECERA (HEADER)
    ------------------------------------------------------------------------------------ */
 .system-header { 
     position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); 
     z-index: 2000; display: flex; justify-content: space-between; align-items: center; 
-    background: rgba(6, 6, 10, 0.7); border-bottom: 1px solid var(--cristal-borde); 
-    padding: 0 3rem; backdrop-filter: blur(2rem); -webkit-backdrop-filter: blur(2rem);
+    background: rgba(4, 4, 8, 0.8); border-bottom: 1px solid var(--cristal-borde); 
+    padding: 0 3rem; backdrop-filter: blur(2.5rem); -webkit-backdrop-filter: blur(2.5rem);
 }
 
 .header-logo { 
-    color: var(--valtara-oro); font-size: 1.5rem; letter-spacing: 0.3rem; 
-    text-transform: uppercase; font-family: var(--font-accent);
-    background: transparent; border: none; cursor: pointer; display: flex; align-items: center; gap: 1rem;
+    color: var(--valtara-oro); font-size: 1.6rem; letter-spacing: 0.3rem; 
+    text-transform: uppercase; font-family: var(--font-accent); font-weight: 700;
+    background: transparent; border: none; cursor: pointer; display: flex; align-items: center; gap: 1.2rem;
 }
-.header-logo i { filter: drop-shadow(0 0 1rem rgba(242,201,76,0.5)); }
 
 .header-controls { display: flex; align-items: center; gap: 1.5rem; }
 
 .header-action-btn, .hamburger-btn {
-    background: transparent; border: 1px solid rgba(255,255,255,0.2);
-    width: 3.5rem; height: 3.5rem; border-radius: 50%;
-    font-size: 1.4rem; display: flex; justify-content: center; align-items: center;
+    background: transparent; border: 2px solid rgba(255,255,255,0.3);
+    width: 3.8rem; height: 3.8rem; border-radius: 50%;
+    font-size: 1.5rem; display: flex; justify-content: center; align-items: center;
     transition: 0.3s ease; cursor: pointer; color: var(--valtara-blanco);
 }
-.header-action-btn:hover, .hamburger-btn:hover { background: var(--valtara-blanco); color: var(--valtara-negro-fondo); box-shadow: 0 0 1.5rem rgba(255,255,255,0.3); }
+.header-action-btn:hover, .hamburger-btn:hover { background: var(--valtara-blanco); color: var(--valtara-negro-fondo); box-shadow: 0 0 2rem rgba(255,255,255,0.5); transform: scale(1.1); }
 
 /* ------------------------------------------------------------------------------------
-   MENÚ LATERAL (PANEL DEL PACIENTE)
+   E. MENÚ LATERAL (SOLUCIÓN SCROLL)
    ------------------------------------------------------------------------------------ */
 .side-menu { 
-    position: fixed; top: 0; right: -100%; width: 35rem; max-width: 100vw; height: 100vh; 
-    background: rgba(4, 4, 6, 0.95); border-left: 1px solid var(--valtara-cian-fluor); 
+    position: fixed; top: 0; right: -100%; width: 38rem; max-width: 100vw; height: 100vh; 
+    background: rgba(4, 4, 8, 0.98); border-left: 1px solid var(--valtara-cian-brillante); 
     z-index: 3000; transition: right 0.6s var(--ease-out-expo); 
     display: flex; flex-direction: column; backdrop-filter: blur(3rem);
-    box-shadow: -2rem 0 5rem rgba(0,0,0,0.9);
+    box-shadow: -2rem 0 6rem rgba(0,0,0,0.9);
 }
 .side-menu.open { right: 0; }
 
-.menu-header { padding: 3rem 2.5rem 2rem 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); position: relative; background: rgba(255,255,255,0.02); }
+.menu-header { padding: 3rem 2.5rem 2rem 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; background: rgba(255,255,255,0.03); flex-shrink: 0; }
 
-.close-btn { position: absolute; top: 2rem; right: 2rem; background: rgba(255,255,255,0.1); border: none; color: var(--valtara-blanco); width: 2.8rem; height: 2.8rem; border-radius: 50%; cursor: pointer; transition: 0.3s; }
-.close-btn:hover { background: var(--valtara-magenta-neon); transform: rotate(90deg); box-shadow: 0 0 1.5rem rgba(247,37,133,0.5); }
+.close-btn { position: absolute; top: 2rem; right: 2.5rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: var(--valtara-blanco); width: 3.2rem; height: 3.2rem; border-radius: 50%; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; font-size: 1.2rem;}
+.close-btn:hover { background: var(--valtara-alerta); border-color: var(--valtara-alerta); transform: rotate(90deg); box-shadow: 0 0 2rem rgba(255, 51, 102, 0.6); }
 
 .patient-profile-card { display: flex; align-items: center; gap: 1.5rem; }
-.profile-avatar { width: 5rem; height: 5rem; background: var(--grad-ocean); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2.2rem; color: var(--valtara-blanco); box-shadow: 0 0.5rem 1.5rem rgba(67, 97, 238, 0.4); border: 2px solid var(--valtara-cian-fluor); }
+.profile-avatar { width: 5.5rem; height: 5.5rem; background: var(--valtara-negro-fondo); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; color: var(--valtara-cian-brillante); box-shadow: 0 0.5rem 2rem rgba(0, 255, 255, 0.3); border: 2px solid var(--valtara-cian-brillante); }
 .profile-info { display: flex; flex-direction: column; }
-.profile-greeting { font-size: 1.1rem; color: var(--valtara-gris-texto); font-style: italic; }
-.profile-name { font-size: 1.8rem; color: var(--valtara-blanco); font-family: var(--font-accent); }
+.profile-greeting { font-size: 1.15rem; color: var(--valtara-gris-texto); font-style: italic; }
+.profile-name { font-size: 2rem; color: var(--valtara-blanco); font-family: var(--font-accent); }
 
-.menu-scroll-area { padding: 2rem 2.5rem; overflow-y: auto; flex-grow: 1; }
-.menu-section-title { font-size: 0.95rem; color: var(--valtara-cian-fluor); text-transform: uppercase; letter-spacing: 0.15rem; margin-bottom: 1rem; margin-top: 1.5rem; font-weight: 700; }
+/* SOLUCIÓN SCROLL: Esta área sí debe tener auto para poder bajar con el dedo */
+.menu-scroll-area { padding: 2rem 2.5rem 5rem 2.5rem; overflow-y: auto; flex-grow: 1; }
+.menu-section-title { font-size: 1rem; color: var(--valtara-verde-menta); text-transform: uppercase; letter-spacing: 0.15rem; margin-bottom: 1.2rem; margin-top: 1.5rem; font-weight: 900; }
 
-.nav-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-.nav-item { width: 100%; text-align: left; padding: 1.2rem 1.5rem; border-radius: 0.8rem; background: transparent; border: 1px solid transparent; color: var(--valtara-blanco); font-size: 1.15rem; display: flex; align-items: center; gap: 1.5rem; transition: 0.3s; cursor: pointer;}
-.nav-item i { font-size: 1.5rem; color: var(--valtara-oro); width: 2rem; text-align: center; }
-.nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.15); transform: translateX(8px); box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.3);}
+.nav-list { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+.nav-item { width: 100%; text-align: left; padding: 1.4rem 1.5rem; border-radius: 1rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); color: var(--valtara-blanco); font-size: 1.2rem; display: flex; align-items: center; gap: 1.5rem; transition: 0.3s; cursor: pointer; font-weight: 700;}
+.nav-item i { font-size: 1.6rem; color: var(--valtara-oro); width: 2rem; text-align: center; }
+.nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.1); border-color: var(--valtara-oro); transform: translateX(8px); box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.4);}
 
-.btn-tool i { color: #aaa; }
-
-.btn-ws-massive { display: flex; align-items: center; justify-content: center; gap: 1rem; background: var(--valtara-verde-ws); color: var(--valtara-negro-fondo); padding: 1.5rem; border-radius: 1rem; text-decoration: none; font-weight: 900; font-size: 1.2rem; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.1rem;}
-.btn-ws-massive:hover { background: var(--valtara-blanco); transform: translateY(-3px); box-shadow: 0 1rem 3rem rgba(0,230,118,0.4); }
+.btn-ws-massive { display: flex; align-items: center; justify-content: center; gap: 1rem; background: var(--valtara-whatsapp); color: var(--valtara-negro-fondo); padding: 1.8rem; border-radius: 1rem; text-decoration: none; font-weight: 900; font-size: 1.3rem; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.1rem;}
+.btn-ws-massive:hover { background: var(--valtara-blanco); transform: translateY(-4px); box-shadow: 0 1.5rem 3rem rgba(37, 211, 102, 0.5); }
 
 /* ------------------------------------------------------------------------------------
-   GRID Y CONTENEDOR SPA
+   F. GRID Y CONTENEDOR SPA
    ------------------------------------------------------------------------------------ */
 #main-content { padding-top: var(--nav-height); width: 100%; min-height: 100vh; position: relative; z-index: 1;}
 .view-section { display: none; opacity: 0; padding: 5rem 2rem; max-width: var(--max-width); margin: 0 auto; }
@@ -191,19 +229,39 @@ body {
 
 @keyframes fadeInView { from { opacity: 0; transform: translateY(30px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 
-.grid-container { display: grid; gap: 2.5rem; margin-top: 3rem; }
+/* Clases base para la estructura en Zig-Zag que haremos en components */
+.grid-container { display: grid; gap: 3rem; margin-top: 3rem; }
 .grid-2-cols { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
 .grid-3-cols { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 
 /* ------------------------------------------------------------------------------------
-   MEGA FOOTER Y RESPONSIVIDAD
+   G. SOLUCIÓN MÁGICA: INVERTIR COLORES SIN ROMPER FOTOS NI LUCES
    ------------------------------------------------------------------------------------ */
-.mega-footer { background: rgba(2,2,3,0.95); border-top: 1px solid rgba(255,255,255,0.05); padding: 6rem 2rem 3rem 2rem; margin-top: 5rem; position: relative; z-index: 1;}
+body.invert-colors {
+    /* Invierte el fondo y el texto de la página */
+    filter: invert(1) hue-rotate(180deg);
+    background-color: #fff;
+}
+/* Re-invertimos (lo devolvemos a la normalidad) las cosas que NO queremos feas */
+body.invert-colors img, 
+body.invert-colors video, 
+body.invert-colors iframe,
+body.invert-colors .ambient-engine,
+body.invert-colors .avatar-icon,
+body.invert-colors .fab-btn,
+body.invert-colors .card-icon-wrapper {
+    filter: invert(1) hue-rotate(180deg) !important;
+}
+
+/* ------------------------------------------------------------------------------------
+   H. MEGA FOOTER Y RESPONSIVIDAD
+   ------------------------------------------------------------------------------------ */
+.mega-footer { background: rgba(2,2,3,0.98); border-top: 1px solid var(--valtara-morado-vivo); padding: 6rem 2rem 3rem 2rem; margin-top: 5rem; position: relative; z-index: 1;}
 
 @media (max-width: 850px) {
     .system-header { padding: 0 1.5rem; }
     .side-menu { width: 100vw; }
-    .input-group { padding: 2rem 1.5rem; }
-    .avatar-icon { width: 3.5rem; height: 3.5rem; font-size: 1.5rem; }
+    .input-group { padding: 2.5rem 1.5rem; }
+    .avatar-icon { width: 4rem; height: 4rem; font-size: 1.8rem; }
     .grid-2-cols, .grid-3-cols { grid-template-columns: 1fr; }
-                                                                                                                                         }
+   }
