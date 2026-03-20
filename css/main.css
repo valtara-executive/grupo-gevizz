@@ -265,3 +265,26 @@ body.invert-colors .card-icon-wrapper {
     .avatar-icon { width: 4rem; height: 4rem; font-size: 1.8rem; }
     .grid-2-cols, .grid-3-cols { grid-template-columns: 1fr; }
    }
+/* ==========================================
+   PARCHE QUIRÚRGICO: MÓVIL Y SCROLL LIBRE
+   ========================================== */
+body { 
+    overflow-x: hidden !important; 
+    overflow-y: auto !important; 
+    overscroll-behavior-y: none; /* Evita que el scroll se trabe en iOS/Android */
+}
+#app-wrapper { 
+    min-height: auto !important; 
+    overflow: hidden; 
+}
+
+/* Reducción masiva para celulares */
+@media (max-width: 850px) {
+    html { font-size: 10px !important; } /* Reduce todo un 33% automáticamente */
+    .glass-card { padding: 1.5rem !important; gap: 1.5rem !important; }
+    .card-icon-wrapper { font-size: 3.5rem !important; min-height: 120px !important; margin-bottom: 1rem !important;}
+    .hero-view h1 { font-size: 3.5rem !important; }
+    .body-map-container { padding: 2rem 1.5rem !important; gap: 2rem !important; }
+    .zone-info { padding: 2rem 1.5rem !important; }
+    .btn-primary, .btn-agenda-ahora { padding: 1.2rem 1.5rem !important; font-size: 1.1rem !important; }
+}
