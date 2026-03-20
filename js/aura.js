@@ -1,7 +1,7 @@
 /**
  * ====================================================================================
  * BLOQUE 8: AURA AI ENGINE V11.1 (NLP, TRIAJE INTERACTIVO Y CLOSER DE VENTAS)
- * Motor de lenguaje natural, Empatía con Emojis y Redirección automática.
+ * Motor de lenguaje natural, Empatía con Emojis, Redirección y Precios Actualizados.
  * ====================================================================================
  */
 
@@ -37,8 +37,9 @@ const AuraEngine = {
         { id: "logistica", weight: 3, words: ["donde", "ubicacion", "direccion", "lugar", "domicilio", "hotel", "encuentran", "zona", "reforma", "cdmx"], 
           response: "Nuestro santuario está en: <strong>Av. Paseo de la Reforma 195, Piso 3, CDMX</strong>. 📍 Por estrictos protocolos de bioseguridad, <strong>NO ofrecemos masajes a domicilio ni en hoteles</strong>. 🛑" },
         
+        // PRECIOS ACTUALIZADOS 11.1
         { id: "precios", weight: 3, words: ["precio", "costo", "cuanto", "vale", "cobran", "tarifa", "catalogo", "pago"], 
-          response: "¡Claro! 💳 Nuestras terapias inician en <strong>$799 MXN</strong> (Relajante), <strong>$899 MXN</strong> (Reductivo), <strong>$978 MXN</strong> (Deportivo con Ventosas), hasta el exclusivo Lomi Lomi por <strong>$1,289 MXN</strong>. ¿Quieres que te ayude a elegir uno?" },
+          response: "¡Claro! 💳 Nuestras terapias inician en <strong>$799 MXN</strong> (Relajante). Tenemos opciones clínicas como el Deportivo o Tailandés por <strong>$829 MXN</strong>, terapias energéticas (Holístico/Ayurveda) por <strong>$929 MXN</strong>, hasta nuestra experiencia magna, el Lomi Lomi Hawaiano por <strong>$1,199 MXN</strong>. ¿Te gustaría que te ayude a elegir el ideal para ti?" },
         
         { id: "contacto_humano", weight: 10, words: ["humano", "operador", "persona", "asesor", "hablar", "cita", "agendar", "whatsapp", "telefono", "marcar"], 
           response: "¡Por supuesto! 👤 Nuestro Concierge Clínico está listo para atenderte en WhatsApp ahora mismo.<br><br><button class='btn-ws' onclick='window.open(\"https://wa.me/5213348572070\", \"_blank\")' style='margin-top:10px; border-radius:30px; padding:10px 20px; font-weight:bold;'><i class='fa-brands fa-whatsapp'></i> Hablar con el Concierge</button>" }
@@ -202,6 +203,13 @@ const AuraEngine = {
         
         if(scores.length > 0) {
             scores.sort((a, b) => b.score - a.score);
+            
+            // Lógica de "Exceso de Síntomas"
+            const wordCount = txtLower.split(/\s+/).length;
+            if(wordCount > 25 && scores.length > 1 && scores[0].id !== "pregnancy") {
+                return this.appendMsg("He analizado su extenso caso. Presenta una acumulación de síntomas sistémicos cruzados. La complejidad de su tensión amerita una valoración presencial cuidadosa. Le sugiero agendar un <strong>Masaje Holístico Integrativo</strong> para que nuestro especialista diagnostique su cuerpo en cabina.<br><br><a href='https://wa.me/5213348572070' target='_blank' class='btn-ws' style='text-decoration:none;'><i class='fa-brands fa-whatsapp'></i> Agendar Valoración</a>", 'bot', true);
+            }
+            
             this.appendMsg(scores[0].response, 'bot', true);
             return;
         }
