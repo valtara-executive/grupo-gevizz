@@ -1,13 +1,13 @@
 /**
  * ====================================================================================
  * BLOQUE 4: LA ENCICLOPEDIA VALTARA (DATA & RENDER ENGINE V11.1)
- * Textos íntegros, Catálogo en Zig-Zag, Redes Sociales y Legalidad S.A.S.
+ * Textos íntegros, Catálogo en Zig-Zag, Redes Sociales en Inicio y Legalidad.
  * ====================================================================================
  */
 
 window.ValtaraData = {
     /* --------------------------------------------------------------------------------
-       1. SECCIÓN INICIO Y MAPA CORPORAL EXPANDIBLE
+       1. SECCIÓN INICIO Y MAPA CORPORAL EXPANDIBLE (CON REDES SOCIALES INYECTADAS)
        -------------------------------------------------------------------------------- */
     home: `
         <div class="hero-view reveal" style="text-align: center; padding: 4rem 0;">
@@ -53,6 +53,27 @@ window.ValtaraData = {
                 <i class="fa-solid fa-hand-holding-medical" style="font-size: 6rem; color: var(--valtara-cian-brillante); margin-bottom: 2rem; opacity: 0.5;"></i>
                 <h4 style="font-size: 2.5rem; color: var(--valtara-blanco); margin-bottom: 1.5rem; font-family: var(--font-accent);">Tu diagnóstico aparecerá aquí</h4>
                 <p style="color: var(--valtara-gris-texto); line-height: 1.8; font-size: 1.25rem; font-weight: 300;">Selecciona una zona a tu izquierda para entender la ciencia detrás de tu dolor.</p>
+            </div>
+        </div>
+
+        <div class="reveal" style="margin-top: 6rem; background: rgba(20,20,30,0.8); border: 1px solid var(--valtara-blanco); border-radius: 2rem; padding: 4rem 2rem; text-align: center;">
+            <h3 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--valtara-blanco); font-family: var(--font-accent);">Únete a nuestra Comunidad</h3>
+            <p style="color: var(--valtara-gris-texto); font-size: 1.2rem; margin-bottom: 3rem;">Sigue nuestro contenido de educación biomecánica y bienestar.</p>
+            
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-bottom: 4rem;">
+                <a href="https://www.facebook.com/Valtara.mx" target="_blank" class="btn-primary" style="background: #1877F2; border-color: #1877F2; color: white;"><i class="fa-brands fa-facebook"></i> Facebook</a>
+                <a href="https://www.instagram.com/valtara.mx" target="_blank" class="btn-primary" style="background: #E1306C; border-color: #E1306C; color: white;"><i class="fa-brands fa-instagram"></i> Instagram</a>
+                <a href="https://www.tiktok.com/@valtara.mx" target="_blank" class="btn-primary" style="background: #000; border-color: #333; color: white;"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+                <a href="https://youtube.com/@valtaramexico" target="_blank" class="btn-primary" style="background: #FF0000; border-color: #FF0000; color: white;"><i class="fa-brands fa-youtube"></i> YouTube</a>
+            </div>
+
+            <div style="background: rgba(242, 201, 76, 0.1); border: 2px solid var(--valtara-oro); padding: 2.5rem; border-radius: 1.5rem; max-width: 800px; margin: 0 auto;">
+                <h3 style="color: var(--valtara-oro); font-size: 2.2rem; margin-bottom: 1rem;"><i class="fa-solid fa-hand-sparkles"></i> Art and Nails</h3>
+                <p style="color: var(--valtara-gris-texto); font-size: 1.1rem; margin-bottom: 2rem;">Nuestra división experta de manicurismo. (Servicio independiente de la clínica, agenda directamente con nuestra socia).</p>
+                <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
+                    <a href="https://wa.me/525525248816" target="_blank" class="btn-agenda-ahora" style="width: auto; background: var(--valtara-whatsapp); border-color: var(--valtara-whatsapp); color: #000;"><i class="fa-brands fa-whatsapp"></i> 55 2524 8816</a>
+                    <a href="https://www.instagram.com/art.nails02?igsh=MTk0YnF1aDMwN3gybg==" target="_blank" class="btn-agenda-ahora" style="width: auto; background: #E1306C; border-color: #E1306C; color: white;"><i class="fa-brands fa-instagram"></i> Instagram Art & Nails</a>
+                </div>
             </div>
         </div>
     `,
@@ -306,7 +327,7 @@ window.ValtaraData = {
     `,
 
     /* --------------------------------------------------------------------------------
-       4. HISTORIA, MARCO LEGAL, LOGÍSTICA Y REDES
+       4. HISTORIA, MARCO LEGAL Y LOGÍSTICA
        -------------------------------------------------------------------------------- */
     legal: `
         <div style="text-align: center; max-width: 900px; margin: 0 auto 5rem auto;">
@@ -370,29 +391,9 @@ window.ValtaraData = {
             </article>
 
             <article class="glass-card reveal" style="grid-column: 1 / -1; border-color: var(--valtara-blanco); background: rgba(20,20,30,0.8); text-align: center;">
-                <h3 style="font-size: 2.8rem; margin-bottom: 2rem;">Únete a nuestra Comunidad Digital</h3>
-                <p class="marketing-text" style="text-align: center; font-size: 1.3rem;">¡Síguenos en todos nuestros canales digitales para contenido exclusivo y educación biomecánica!</p>
-                
-                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-bottom: 4rem;">
-                    <a href="https://www.facebook.com/Valtara.mx" target="_blank" class="btn-primary" style="background: #1877F2; border-color: #1877F2; color: white;"><i class="fa-brands fa-facebook"></i> Facebook</a>
-                    <a href="https://www.instagram.com/valtara.mx" target="_blank" class="btn-primary" style="background: #E1306C; border-color: #E1306C; color: white;"><i class="fa-brands fa-instagram"></i> Instagram</a>
-                    <a href="https://www.tiktok.com/@valtara.mx" target="_blank" class="btn-primary" style="background: #000; border-color: #333; color: white;"><i class="fa-brands fa-tiktok"></i> TikTok</a>
-                    <a href="https://youtube.com/@valtaramexico" target="_blank" class="btn-primary" style="background: #FF0000; border-color: #FF0000; color: white;"><i class="fa-brands fa-youtube"></i> YouTube</a>
-                    <a href="https://www.linkedin.com/in/valtara?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="btn-primary" style="background: #0A66C2; border-color: #0A66C2; color: white;"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
-                </div>
-
                 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-bottom: 4rem;">
                     <a href="https://drive.google.com/file/d/1sxHLBQF8Lj_GF4GzJipXAxx5256BWAIr/view?usp=drivesdk" target="_blank" class="btn-agenda-ahora" style="width: auto; background: transparent; border: 2px solid var(--valtara-oro); color: var(--valtara-oro);"><i class="fa-solid fa-file-certificate"></i> Certificación como Masajista</a>
                     <a href="https://docs.google.com/presentation/d/1lce4UQqLAPvG-pVT0P_mm_5UMEk4GRmY/edit?usp=drivesdk" target="_blank" class="btn-agenda-ahora" style="width: auto; background: transparent; border: 2px solid var(--valtara-cian-brillante); color: var(--valtara-cian-brillante);"><i class="fa-solid fa-desktop"></i> Proyecto de Desarrollo Web</a>
-                </div>
-
-                <div style="background: rgba(242, 201, 76, 0.1); border: 2px solid var(--valtara-oro); padding: 3rem; border-radius: 2rem;">
-                    <h3 style="color: var(--valtara-oro); font-size: 2.5rem; margin-bottom: 1rem;"><i class="fa-solid fa-hand-sparkles"></i> Art and Nails</h3>
-                    <p class="marketing-text" style="text-align: center; font-size: 1.25rem;">Nuestra división experta de manicurismo y pedicure. Al ser servicios independientes de la clínica, la agenda debe solicitarse directamente con nuestra socia manicurista. No ofrecemos este servicio en las instalaciones de Reforma.</p>
-                    <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 2rem;">
-                        <a href="https://wa.me/525525248816" target="_blank" class="btn-agenda-ahora" style="width: auto; background: var(--valtara-whatsapp); border-color: var(--valtara-whatsapp); color: #000;"><i class="fa-brands fa-whatsapp"></i> 55 2524 8816</a>
-                        <a href="https://www.instagram.com/art.nails02?igsh=MTk0YnF1aDMwN3gybg==" target="_blank" class="btn-agenda-ahora" style="width: auto; background: #E1306C; border-color: #E1306C; color: white;"><i class="fa-brands fa-instagram"></i> Instagram Art & Nails</a>
-                    </div>
                 </div>
 
                 <h3 style="margin-top: 5rem; margin-bottom: 2rem; font-size: 2.5rem; color: var(--valtara-blanco);">Sede Reforma (No atendemos sin cita)</h3>
@@ -447,14 +448,13 @@ window.ValtaraData = {
         if(restDiv) restDiv.innerHTML = this.restoration;
         
         const codexDiv = document.getElementById('view-codex');
-        // Lo dejamos vacío intencionalmente porque lo fusionamos en Logística/Legal y Ciencia
         if(codexDiv) codexDiv.innerHTML = ""; 
         
         const sciDiv = document.getElementById('view-science');
         if(sciDiv) sciDiv.innerHTML = this.science;
         
         const ergoDiv = document.getElementById('view-ergonomics');
-        if(ergoDiv) ergoDiv.innerHTML = ""; // Fusionado
+        if(ergoDiv) ergoDiv.innerHTML = ""; 
         
         const legalDiv = document.getElementById('view-legal');
         if(legalDiv) legalDiv.innerHTML = this.legal;
