@@ -1,7 +1,7 @@
 /**
  * ====================================================================================
- * BLOQUE 9: OASIS AUDIO ENGINE V11.0 (SÍNTESIS GENERATIVA Y BINAURAL)
- * Motor de música matemática de 7 potencias con visualizador en vivo.
+ * BLOQUE 9: OASIS AUDIO ENGINE V11.1 (SÍNTESIS GENERATIVA Y BINAURAL)
+ * Motor de música matemática de 7 potencias con visualizador de colores vívidos.
  * ====================================================================================
  */
 
@@ -14,8 +14,9 @@ const OasisEngine = {
     nodes: [], 
     intervals: [],
     animFrame: null, 
-    performanceMode: false,
+    performanceMode: false, // Se activa si el paciente usa el Modo Vestibular
 
+    // Las 7 Potencias Clínicas (Frecuencias de Sanación)
     tracks: [
         { id: 1, name: "I. Vitalidad (Frecuencia 396Hz)", icon: "fa-mountain", alg: "drone" },
         { id: 2, name: "II. Flujo (Frecuencia 417Hz)", icon: "fa-water", alg: "marimba" },
@@ -32,7 +33,7 @@ const OasisEngine = {
     },
 
     // ================================================================================
-    // INICIALIZACIÓN PEREZOSA (LAZY LOAD) DEL AUDIO CONTEXT
+    // INICIALIZACIÓN PEREZOSA (Evita alertas del navegador hasta que el usuario haga clic)
     // ================================================================================
     lazyInitAudio: function() {
         if(this.ctx) return;
@@ -54,7 +55,7 @@ const OasisEngine = {
             playBtn.addEventListener('click', () => this.togglePlay());
         }
         
-        // Interceptar cuando se abre/cierra el modal para el visualizador
+        // Interceptar cuando se abre/cierra la ventana del reproductor para ahorrar batería
         const modal = document.getElementById('audio-modal');
         if(modal) {
             const observer = new MutationObserver((mutations) => {
@@ -92,7 +93,7 @@ const OasisEngine = {
     },
 
     // ================================================================================
-    // MOTOR VISUALIZADOR DE ONDAS (CANVAS)
+    // MOTOR VISUALIZADOR DE ONDAS (Colores Vívidos 11.1)
     // ================================================================================
     startVisualizer: function() {
         if(this.performanceMode || !this.analyser) return;
@@ -101,7 +102,6 @@ const OasisEngine = {
         if(!canvas) return;
         
         const canvasCtx = canvas.getContext('2d');
-        // Ajustar resolución interna del canvas a su tamaño real
         canvas.width = canvas.offsetWidth;
         canvas.height = canvas.offsetHeight;
         
@@ -114,7 +114,7 @@ const OasisEngine = {
             
             this.analyser.getByteFrequencyData(dataArray);
             
-            // Fondo con rastro (Glow effect)
+            // Fondo con rastro para efecto "Glow"
             canvasCtx.fillStyle = 'rgba(0, 0, 0, 0.2)';
             canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
             
@@ -125,12 +125,13 @@ const OasisEngine = {
             for(let i = 0; i < bufferLength; i++) {
                 barHeight = dataArray[i] / 1.5;
                 
-                // Colores dinámicos basados en la altura (Cian a Púrpura)
-                const r = barHeight + 70;
-                const g = 100 - (barHeight / 2);
-                const b = 250;
+                // Degradado de color dinámico: Cian Brillante (#00FFFF) a Morado Vivo (#B200FF)
+                // Dependiendo de la altura de la onda (frecuencia)
+                const r = Math.min(255, barHeight + 50); // Tiende al morado/rosa
+                const g = Math.max(0, 255 - barHeight * 2); // Tiende al cian
+                const b = 255; // Siempre azul dominante
                 
-                canvasCtx.fillStyle = `rgb(${r},${g},${b})`;
+                canvasCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
                 canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
                 
                 x += barWidth + 1;
@@ -140,13 +141,13 @@ const OasisEngine = {
     },
 
     // ================================================================================
-    // LÓGICA DE REPRODUCCIÓN
+    // LÓGICA DE REPRODUCCIÓN Y CONTROL DE NODOS
     // ================================================================================
     togglePlay: function() {
         if(this.isPlaying) {
             this.stopAll();
         } else {
-            // Si le dan play sin elegir pista, pone la número 4 (Compasión) por defecto
+            // Inicia la pista 4 (Compasión) por defecto si no ha elegido ninguna
             this.selectTrack(this.currentTrack === -1 ? 4 : this.currentTrack);
         }
     },
@@ -154,11 +155,10 @@ const OasisEngine = {
     stopAll: function() {
         if(!this.ctx) return;
         
-        // Limpiar ciclos de tiempo
         this.intervals.forEach(i => { clearInterval(i); clearTimeout(i); });
         this.intervals = [];
 
-        // Apagar nodos con Fade Out suave para no lastimar los oídos
+        // Apagar nodos con Fade Out suave de 1.5 segundos
         this.nodes.forEach(n => {
             if(n.gain) n.gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 1.5);
             setTimeout(() => {
@@ -185,9 +185,8 @@ const OasisEngine = {
     },
 
     selectTrack: function(trackId) {
-        // Bloqueo de seguridad si el paciente activó el modo Vestibular/Rendimiento
         if(this.performanceMode || document.body.classList.contains('reduced-motion')) {
-            if(window.A11yEngine) A11yEngine.announce("El audio está desactivado por el modo de reducción de animaciones.");
+            if(window.A11yEngine) A11yEngine.announce("El audio está desactivado por su configuración de reducción de movimiento y estímulos.");
             return;
         }
 
@@ -198,7 +197,7 @@ const OasisEngine = {
         this.currentTrack = trackId;
         this.isPlaying = true;
         
-        // Actualizar UI
+        // UI
         document.querySelectorAll('.track-btn').forEach(b => b.classList.remove('playing'));
         const activeBtn = document.querySelector(`.track-btn[data-id="${trackId}"]`);
         if(activeBtn) activeBtn.classList.add('playing');
@@ -206,7 +205,6 @@ const OasisEngine = {
         const playBtnIcon = document.querySelector('#btn-master-play i');
         if(playBtnIcon) playBtnIcon.className = 'fa-solid fa-pause';
         
-        // Enrutar al algoritmo correcto
         const trackObj = this.tracks.find(t => t.id === trackId);
         if(trackObj) {
             if(trackObj.alg === "drone") this.playDrone();
@@ -217,20 +215,18 @@ const OasisEngine = {
             else if(trackObj.alg === "piano") this.playPiano();
             else if(trackObj.alg === "binaural") this.playBinaural();
             
-            if(window.A11yEngine) A11yEngine.announce(`Reproduciendo frecuencia: ${trackObj.name}`);
+            if(window.A11yEngine) A11yEngine.announce(`Sintetizando frecuencia matemática: ${trackObj.name}`);
         }
 
         this.startVisualizer();
     },
 
     // ================================================================================
-    // EFECTOS DE ESTUDIO (REVERB / DELAY)
+    // EFECTOS DE ESTUDIO (REVERB ACÚSTICO SIMULADO)
     // ================================================================================
     _applyReverb: function(sourceGain) {
-        // Simulador de Reverberación expansiva usando Delays cruzados
         const delay = this.ctx.createDelay();
         delay.delayTime.value = 0.4;
-        
         const feedback = this.ctx.createGain();
         feedback.gain.value = 0.35;
         
@@ -243,12 +239,12 @@ const OasisEngine = {
     },
 
     // ================================================================================
-    // ALGORITMOS MATEMÁTICOS DE SÍNTESIS SONORA (7 POTENCIAS)
+    // ALGORITMOS MATEMÁTICOS DE SÍNTESIS
     // ================================================================================
     
-    playDrone: function() { // 1. Vitalidad
+    playDrone: function() { // 1. Vitalidad (Frecuencias Bajas)
         const o = this.ctx.createOscillator(); const g = this.ctx.createGain();
-        o.type = 'sawtooth'; o.frequency.value = 65; // Frecuencia baja profunda
+        o.type = 'sawtooth'; o.frequency.value = 65; 
         
         const filter = this.ctx.createBiquadFilter(); 
         filter.type = 'lowpass'; filter.frequency.value = 150;
@@ -265,8 +261,8 @@ const OasisEngine = {
         this.nodes.push({osc: o, gain: g}, {osc: lfo});
     },
 
-    playMarimba: function() { // 2. Flujo (Agua)
-        const scale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25]; // Pentatónica
+    playMarimba: function() { // 2. Flujo (Agua/Gotas)
+        const scale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25]; 
         const drip = () => {
             if(!this.isPlaying || this.currentTrack !== 2) return;
             const o = this.ctx.createOscillator(); const g = this.ctx.createGain();
@@ -284,7 +280,7 @@ const OasisEngine = {
         drip();
     },
 
-    playArpeggio: function() { // 3. Fuego
+    playArpeggio: function() { // 3. Fuego (Movimiento Constante)
         const scale = [196.00, 233.08, 261.63, 293.66, 349.23]; 
         let idx = 0;
         const step = () => {
@@ -306,16 +302,15 @@ const OasisEngine = {
         step();
     },
 
-    playPad: function() { // 4. Compasión (Corazón)
-        const freqs = [349.23, 440.00, 523.25]; // Acorde F Mayor brillante
+    playPad: function() { // 4. Compasión (Acordes Sostenidos)
+        const freqs = [349.23, 440.00, 523.25]; 
         freqs.forEach(f => {
             const o = this.ctx.createOscillator(); const g = this.ctx.createGain();
             o.type = 'triangle'; o.frequency.value = f;
             
             g.gain.setValueAtTime(0.001, this.ctx.currentTime); 
-            g.gain.linearRampToValueAtTime(0.025, this.ctx.currentTime + 5); // Fade in muy lento
+            g.gain.linearRampToValueAtTime(0.025, this.ctx.currentTime + 5); 
             
-            // LFO para efecto de "respiración" (Chorus natural)
             const lfo = this.ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 0.15 + (Math.random()*0.1);
             const lg = this.ctx.createGain(); lg.gain.value = 0.01;
             
@@ -326,11 +321,11 @@ const OasisEngine = {
         });
     },
 
-    playCrystals: function() { // 5. Éter (Cuencos)
+    playCrystals: function() { // 5. Éter (Cuencos de Cuarzo Simulados)
         const chime = () => {
             if(!this.isPlaying || this.currentTrack !== 5) return;
             const o = this.ctx.createOscillator(); const g = this.ctx.createGain();
-            o.type = 'sine'; o.frequency.value = 600 + (Math.random() * 1200); // Frecuencias altas cristalinas
+            o.type = 'sine'; o.frequency.value = 600 + (Math.random() * 1200); 
             
             g.gain.setValueAtTime(0.001, this.ctx.currentTime); 
             g.gain.linearRampToValueAtTime(0.02, this.ctx.currentTime + 0.1); 
@@ -344,14 +339,13 @@ const OasisEngine = {
         chime();
     },
 
-    playPiano: function() { // 6. Luz
+    playPiano: function() { // 6. Luz (Notas Espaciadas)
         const notes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00]; 
         const strike = () => {
             if(!this.isPlaying || this.currentTrack !== 6) return;
             const o = this.ctx.createOscillator(); const g = this.ctx.createGain();
-            // Mezcla de triangle y sine para simular un piano eléctrico suave
             o.type = 'triangle'; o.frequency.value = notes[Math.floor(Math.random() * notes.length)];
-            if(Math.random() > 0.6) o.frequency.value *= 2; // Octava arriba
+            if(Math.random() > 0.6) o.frequency.value *= 2; 
             
             g.gain.setValueAtTime(0.001, this.ctx.currentTime); 
             g.gain.exponentialRampToValueAtTime(0.05, this.ctx.currentTime + 0.05); 
@@ -365,23 +359,23 @@ const OasisEngine = {
         strike();
     },
 
-    playBinaural: function() { // 7. Trascendencia (Pulsos Binaurales Theta)
-        const baseFreq = 432; // Frecuencia del Universo
-        const beat = 6; // Frecuencia Theta (6Hz) para sueño profundo
+    playBinaural: function() { // 7. Trascendencia (Pulsos Binaurales Ondas Theta)
+        const baseFreq = 432; 
+        const beat = 6; // Diferencia de 6Hz crea una onda Theta en el cerebro
         
-        // Oído Izquierdo
+        // Canal Izquierdo
         const oL = this.ctx.createOscillator(); const gL = this.ctx.createGain(); 
         oL.type = 'sine'; oL.frequency.value = baseFreq - (beat/2);
-        const panL = this.ctx.createStereoPanner(); panL.pan.value = -1; // 100% Izquierda
+        const panL = this.ctx.createStereoPanner(); panL.pan.value = -1; 
         
         gL.gain.setValueAtTime(0.001, this.ctx.currentTime); 
         gL.gain.linearRampToValueAtTime(0.04, this.ctx.currentTime + 3);
         oL.connect(gL); gL.connect(panL); this._applyReverb(panL); oL.start();
         
-        // Oído Derecho
+        // Canal Derecho
         const oR = this.ctx.createOscillator(); const gR = this.ctx.createGain(); 
         oR.type = 'sine'; oR.frequency.value = baseFreq + (beat/2);
-        const panR = this.ctx.createStereoPanner(); panR.pan.value = 1; // 100% Derecha
+        const panR = this.ctx.createStereoPanner(); panR.pan.value = 1; 
         
         gR.gain.setValueAtTime(0.001, this.ctx.currentTime); 
         gR.gain.linearRampToValueAtTime(0.04, this.ctx.currentTime + 3);
