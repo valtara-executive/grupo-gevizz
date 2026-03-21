@@ -346,3 +346,33 @@ body {
 header, .top-nav-bar {
     gap: 1rem !important;
 }
+/* ==========================================
+   PARCHE QUIRÚRGICO 4: RECUPERACIÓN DE 'X' Y ENCABEZADOS EN EDGE
+   ========================================== */
+
+/* Forzamos a la 'X' a anclarse en la esquina superior derecha de la pantalla/modal */
+.close-btn, #aura-close-btn, #menu-close-btn {
+    position: absolute !important;
+    top: 15px !important;
+    right: 15px !important;
+    z-index: 9999 !important; /* Capa de prioridad máxima absoluta */
+    background: rgba(20, 20, 30, 0.9) !important; /* Fondo oscuro para que resalte */
+    border: 1px solid rgba(0, 255, 255, 0.3) !important; /* Borde cian sutil */
+    border-radius: 50% !important; /* Botón circular perfecto */
+}
+
+/* Protegemos los títulos de los modales para que no los tape la X ni desaparezcan */
+.glass-modal h2, .glass-modal h3, #audio-modal h2, #a11y-modal h2 {
+    position: relative !important;
+    z-index: 9000 !important;
+    padding-right: 3.5rem !important; /* Empuja el texto un poco para que no choque con la X */
+    flex-shrink: 0 !important; /* Prohíbe que el navegador aplaste el título */
+    margin-top: 1rem !important;
+}
+
+/* Aseguramos que el contenedor del modal no oculte elementos desbordados por error */
+.glass-modal, #a11y-modal, #audio-modal, #aura-modal {
+    position: fixed !important; 
+    overflow-y: auto !important; /* Permite scroll interno si la pantalla es enana */
+    overflow-x: hidden !important;
+}
