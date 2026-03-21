@@ -311,3 +311,38 @@ body {
     .avatar-icon { width: 4.5rem !important; height: 4.5rem !important; margin-bottom: 0.5rem !important; }
     #welcome-start-btn { padding: 1.2rem !important; font-size: 1.1rem !important; }
 }
+/* ==========================================
+   PARCHE QUIRÚRGICO 3: TOUCH TARGETS (DEDOS) Y ZOOM BUG (EDGE/CHROME)
+   ========================================== */
+
+/* 1. Botones superiores y "X" tamaño ultra-cómodo para móviles */
+#menu-btn, #aura-close-btn, #menu-close-btn, .close-btn, .top-bar-btn {
+    min-width: 48px !important;
+    min-height: 48px !important;
+    padding: 12px !important;
+    font-size: 1.8rem !important; /* Hace la "X" y el menú visualmente más grandes */
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* 2. Reparar el desbordamiento de íconos al hacer zoom */
+.card-icon-wrapper, .glow-icon-wrapper {
+    flex-shrink: 0 !important; /* Evita que la caja se deforme con el zoom */
+    min-width: 80px !important; 
+    min-height: 80px !important;
+    height: auto !important;
+    width: auto !important;
+}
+
+/* Candado para mantener el ícono en su centro sin romperse */
+.card-icon-wrapper i, .glow-icon-wrapper i {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+}
+
+/* 3. Asegurar que los botones de interacción no se encimen */
+header, .top-nav-bar {
+    gap: 1rem !important;
+}
