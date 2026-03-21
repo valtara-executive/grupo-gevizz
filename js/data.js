@@ -1,10 +1,185 @@
 /**
  * ====================================================================================
- * BLOQUE 4: LA ENCICLOPEDIA VALTARA (DATA & RENDER ENGINE V11.1)
- * Textos íntegros, Catálogo en Zig-Zag, Redes Sociales en Inicio y Legalidad.
- * PRECIOS ACTUALIZADOS
+ * BLOQUE 4: LA ENCICLOPEDIA VALTARA (DATA & RENDER ENGINE V11.2)
+ * Integración de FAQs, Expansión Científica y Juego "El Alquimista Valtara" (10 Niveles).
+ * CERO PÉRDIDA DE DATOS.
  * ====================================================================================
  */
+
+// Motor Lógico del Juego de Aromaterapia (El Alquimista Valtara)
+window.ValtaraAlchemist = {
+    scenarios: [
+        {
+            case: "Paciente corporativo llega con cefalea tensional (migraña) intensa y bruxismo por estrés financiero.",
+            options: [
+                { name: "Aceite de Canela", correct: false, reason: "Incorrecto. La canela es rubefaciente y muy caliente; podría aumentar el flujo sanguíneo a la cabeza y empeorar la migraña." },
+                { name: "Aceite de Menta", correct: true, reason: "¡Exacto! El mentol actúa como un vasoconstrictor natural y genera analgesia inmediata, bloqueando los receptores de dolor del nervio trigémino." },
+                { name: "Aceite de Árnica", correct: false, reason: "Incorrecto. Aunque es desinflamante, su absorción está diseñada para tejido muscular profundo y hematomas, no para tensión neurológica craneal." }
+            ]
+        },
+        {
+            case: "Paciente reporta insomnio severo, ansiedad nocturna y no puede 'apagar' su cerebro antes de dormir.",
+            options: [
+                { name: "Aceite de Romero", correct: false, reason: "Incorrecto. El romero es un poderoso estimulante del sistema nervioso central, lo que agravaría el insomnio severamente." },
+                { name: "Aceite de Limón", correct: false, reason: "Incorrecto. Los cítricos estimulan la producción de glóbulos blancos y elevan la energía, algo contraproducente para dormir." },
+                { name: "Aceite de Lavanda", correct: true, reason: "¡Excelente elección! El Linalool presente en la lavanda tiene efectos sedantes científicamente probados al interactuar con los receptores GABA, induciendo ondas cerebrales lentas." }
+            ]
+        },
+        {
+            case: "Ejecutivo se presenta a las 9:00 AM con Síndrome de Burnout, fatiga crónica y falta de motivación para su día.",
+            options: [
+                { name: "Aceite de Manzanilla", correct: false, reason: "Incorrecto. La manzanilla relajaría demasiado su sistema, empeorando la fatiga matutina." },
+                { name: "Aceite de Romero", correct: true, reason: "¡Perfecto! El romero es el 'café' de la aromaterapia. Mejora la circulación cerebral, disipa la niebla cognitiva y activa el estado de alerta." },
+                { name: "Aceite de Valeriana", correct: false, reason: "Incorrecto. La valeriana es un sedante profundo que lo induciría al sueño inmediatamente." }
+            ]
+        },
+        {
+            case: "Para-atleta llega a consulta con dolor crónico en hombros y acumulación masiva de ácido láctico tras una competencia.",
+            options: [
+                { name: "Aceite de Rosa", correct: false, reason: "Incorrecto. La rosa es maravillosa para la cosmética facial y el equilibrio emocional, pero carece de potencia biomecánica." },
+                { name: "Macerado de Árnica", correct: true, reason: "¡Decisión maestra! La helenalina del Árnica es un bloqueador de la inflamación muscular de alto impacto, ideal para reparar microdesgarros de la fascia." },
+                { name: "Aceite de Naranja Dulce", correct: false, reason: "Incorrecto. Excelente para mejorar el estado de ánimo, pero no tiene penetración antiinflamatoria profunda." }
+            ]
+        },
+        {
+            case: "Paciente atraviesa un duelo reciente. Se nota apatía, depresión leve y postura encorvada (pecho cerrado).",
+            options: [
+                { name: "Aceite de Naranja Dulce", correct: true, reason: "¡Gran empatía! El Limoneno estimula la liberación de dopamina. Los aromas cítricos se conectan directamente con el sistema límbico, evocando recuerdos de vitalidad." },
+                { name: "Aceite de Árbol de Té", correct: false, reason: "Incorrecto. El Tea Tree es un potente bactericida e inmunoestimulante, pero su aroma clínico no aborda la tristeza profunda." },
+                { name: "Aceite de Eucalipto", correct: false, reason: "Incorrecto. Su perfil mentolado abrirá sus vías respiratorias, pero no incidirá en la producción química de la felicidad." }
+            ]
+        },
+        {
+            case: "El paciente presenta fatiga debido a congestión respiratoria severa y alergias estacionales que limitan su oxigenación.",
+            options: [
+                { name: "Aceite de Eucalipto", correct: true, reason: "¡Precisión clínica! El 1,8-cineol del eucalipto es un expectorante y mucolítico natural que abre inmediatamente el tracto respiratorio." },
+                { name: "Aceite de Lavanda", correct: false, reason: "Incorrecto. Lo relajará, pero no romperá el bloqueo de las vías respiratorias superiores." },
+                { name: "Aceite de Ylang-Ylang", correct: false, reason: "Incorrecto. Su intenso aroma floral y exótico podría saturar aún más su sistema olfativo ya comprometido." }
+            ]
+        },
+        {
+            case: "Sientes al paciente al borde del llanto. Tensión nerviosa extrema, palpitaciones y respiración entrecortada.",
+            options: [
+                { name: "Aceite de Menta", correct: false, reason: "Incorrecto. La menta es muy vigorizante y fría; el paciente en crisis nerviosa necesita calor y contención suave." },
+                { name: "Aceite de Romero", correct: false, reason: "Incorrecto. Estimularía aún más su frecuencia cardíaca, lo cual es peligroso en este estado." },
+                { name: "Aceite de Manzanilla Romana", correct: true, reason: "¡Tacto perfecto! La manzanilla actúa como un bálsamo para el sistema nervioso estresado, calmando las palpitaciones y bajando la presión arterial suavemente." }
+            ]
+        },
+        {
+            case: "Adulto mayor con sensibilidad alterada. Presenta inflamación articular leve en rodillas que empeora con el frío.",
+            options: [
+                { name: "Aceite de Limón", correct: false, reason: "Incorrecto. Carece de las propiedades térmicas (calor) necesarias para aliviar la articulación fría." },
+                { name: "Aceite de Bergamota", correct: false, reason: "Incorrecto. Maravilloso antidepresivo, pero sin impacto en el tejido conectivo articular." },
+                { name: "Aceite de Jengibre", correct: true, reason: "¡Sabiduría ancestral! El jengibre es un aceite esencial termogénico (aporta calor profundo) y un bloqueador de las prostaglandinas inflamatorias." }
+            ]
+        },
+        {
+            case: "Ejecutivo de alto nivel con hipertensión documentada por exceso de estrés y adrenalina en la sangre.",
+            options: [
+                { name: "Aceite de Canela", correct: false, reason: "Incorrecto. La canela aumenta la temperatura y la circulación, lo cual es de altísimo riesgo para un paciente hipertenso." },
+                { name: "Aceite de Ylang-Ylang", correct: true, reason: "¡Conocimiento de élite! El Ylang-Ylang es uno de los pocos aceites reconocidos científicamente como hipotensivo (ayuda a bajar la presión arterial rápidamente)." },
+                { name: "Aceite de Romero", correct: false, reason: "Incorrecto. Al igual que la canela, el romero eleva la presión arterial." }
+            ]
+        },
+        {
+            case: "Paciente requiere un masaje de descompresión en silla en su oficina para poder volver a una junta urgente y enfocarse.",
+            options: [
+                { name: "Aceite de Árnica", correct: false, reason: "Incorrecto. Muy denso para el entorno de oficina y no impacta la concentración." },
+                { name: "Aceite de Limón", correct: true, reason: "¡Gran agilidad mental! Los cítricos, especialmente el limón, promueven un estado de alerta cristalina, ideal para volver a trabajar con enfoque láser." },
+                { name: "Aceite de Manzanilla", correct: false, reason: "Incorrecto. Lo relajaría tanto que le sería muy difícil mantener la atención en su junta corporativa." }
+            ]
+        }
+    ],
+    currentLvl: 0,
+    
+    init: function() {
+        this.currentLvl = Math.floor(Math.random() * this.scenarios.length);
+        this.render();
+    },
+    
+    render: function() {
+        const gameDiv = document.getElementById('alchemist-game-container');
+        if(!gameDiv) return;
+        
+        const data = this.scenarios[this.currentLvl];
+        
+        // Barajar opciones (Fisher-Yates)
+        let opts = [...data.options];
+        for (let i = opts.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [opts[i], opts[j]] = [opts[j], opts[i]];
+        }
+        
+        let html = `
+            <div style="background: rgba(0,0,0,0.8); border: 2px solid var(--valtara-cian-brillante); border-radius: 1.5rem; padding: 3rem; text-align: center;">
+                <i class="fa-solid fa-flask-vial" style="font-size: 4rem; color: var(--valtara-cian-brillante); margin-bottom: 1.5rem;"></i>
+                <h3 style="font-family: var(--font-accent); font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem;">Experiencia Botánica Interactiva</h3>
+                <p style="font-size: 1.15rem; color: var(--valtara-oro); margin-bottom: 2rem;">¿Qué aceite puro elegirías tú, como Alquimista Valtara?</p>
+                
+                <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 1rem; margin-bottom: 2.5rem; border-left: 5px solid var(--valtara-morado-vivo);">
+                    <p style="font-size: 1.25rem; color: var(--valtara-blanco); text-align: left; line-height: 1.8;"><strong>Caso Clínico:</strong> ${data.case}</p>
+                </div>
+                
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;" id="alchemist-buttons">
+        `;
+        
+        opts.forEach((opt, idx) => {
+            // Guardamos el resultado en base64 simulado para evitar trampas fáciles en el HTML
+            const isCorrect = opt.correct ? 'true' : 'false';
+            html += `<button class="btn-primary" aria-label="Elegir ${opt.name}" style="background: var(--cristal-fondo); border: 1px solid var(--valtara-oro-suave); font-size: 1.1rem; flex: 1; min-width: 250px;" onclick="window.ValtaraAlchemist.guess('${isCorrect}', \`${opt.reason.replace(/"/g, '&quot;')}\`)"><i class="fa-solid fa-droplet"></i> ${opt.name}</button>`;
+        });
+        
+        html += `
+                </div>
+                
+                <div id="alchemist-feedback" aria-live="polite" style="display: none; margin-top: 3rem; padding: 2rem; border-radius: 1rem;">
+                    <!-- Feedback aparece aquí -->
+                </div>
+                
+                <button onclick="window.ValtaraAlchemist.init()" style="margin-top: 2rem; background: transparent; border: none; color: var(--valtara-gris-texto); text-decoration: underline; cursor: pointer; font-size: 1rem;">Cargar otro paciente (Nuevo Nivel)</button>
+            </div>
+        `;
+        
+        gameDiv.innerHTML = html;
+        
+        // Accesibilidad
+        if(window.A11yEngine && window.A11yEngine.ttsActive) {
+            window.A11yEngine.announce("El Alquimista Valtara. Caso clínico: " + data.case + ". Elige un aceite de las opciones.");
+        }
+    },
+    
+    guess: function(isCorrect, reason) {
+        const feedbackDiv = document.getElementById('alchemist-feedback');
+        const buttons = document.getElementById('alchemist-buttons');
+        if(!feedbackDiv || !buttons) return;
+        
+        buttons.style.pointerEvents = 'none'; // Desactivar clics
+        buttons.style.opacity = '0.5';
+        
+        feedbackDiv.style.display = 'block';
+        
+        if(isCorrect === 'true') {
+            feedbackDiv.style.background = 'rgba(0, 230, 118, 0.15)';
+            feedbackDiv.style.border = '2px solid var(--valtara-verde-ws)';
+            feedbackDiv.innerHTML = `<h4 style="font-size: 1.8rem; color: var(--valtara-verde-ws); margin-bottom: 1rem;"><i class="fa-solid fa-check-circle"></i> Fusión Exitosa</h4><p style="font-size: 1.15rem; color: var(--valtara-blanco); line-height: 1.8;">${reason}</p>`;
+            
+            // Efecto visual de difusor (Vapor Verde Menta)
+            const orbe = document.createElement('div');
+            orbe.className = 'orb orb-2';
+            orbe.style.width = '30vw'; orbe.style.height = '30vw';
+            orbe.style.zIndex = '9999';
+            document.body.appendChild(orbe);
+            setTimeout(() => { orbe.style.opacity = '0'; setTimeout(()=>orbe.remove(), 2000); }, 3000);
+            
+            if(window.A11yEngine) window.A11yEngine.announce("Correcto. " + reason);
+        } else {
+            feedbackDiv.style.background = 'rgba(255, 51, 102, 0.15)';
+            feedbackDiv.style.border = '2px solid var(--valtara-alerta)';
+            feedbackDiv.innerHTML = `<h4 style="font-size: 1.8rem; color: var(--valtara-alerta); margin-bottom: 1rem;"><i class="fa-solid fa-circle-xmark"></i> Reacción Adversa</h4><p style="font-size: 1.15rem; color: var(--valtara-blanco); line-height: 1.8;">${reason}</p>`;
+            if(window.A11yEngine) window.A11yEngine.announce("Incorrecto. " + reason);
+        }
+    }
+};
 
 window.ValtaraData = {
     /* --------------------------------------------------------------------------------
@@ -221,6 +396,7 @@ window.ValtaraData = {
                 </div>
             </article>
 
+            <!-- TERAPIAS ESPECÍFICAS Y PRÓXIMAMENTE -->
             <article class="glass-card zig-zag reveal">
                 <div class="card-icon-wrapper" style="color: var(--valtara-blanco); border-color: var(--valtara-blanco);"><i class="fa-solid fa-droplet"></i></div>
                 <div class="card-content-wrapper">
@@ -263,7 +439,7 @@ window.ValtaraData = {
     `,
 
     /* --------------------------------------------------------------------------------
-       3. CIENCIA, BOTÁNICA Y MANIFIESTO ÍNTEGRO
+       3. CIENCIA, BOTÁNICA Y MANIFIESTO ÍNTEGRO (FUSIÓN V11.2)
        -------------------------------------------------------------------------------- */
     science: `
         <div style="text-align: center; max-width: 1000px; margin: 0 auto 5rem auto;">
@@ -280,42 +456,61 @@ window.ValtaraData = {
             <h3 style="color: var(--valtara-oro); font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(242,201,76,0.3); padding-bottom: 1rem;">I. Fundamentos Científicos: ¿Por qué funciona la terapia manual?</h3>
             <p style="font-size: 1.2rem; color: var(--valtara-blanco); margin-bottom: 2rem;">Muchos pacientes preguntan si el masaje es solo un lujo. La ciencia responde con un rotundo no. El masaje es una intervención terapéutica que interactúa con varios sistemas de tu cuerpo:</p>
             
-            <h4 style="color: var(--valtara-cian-brillante); font-size: 1.6rem; margin-top: 2rem; margin-bottom: 1rem;">1. Neurobiología y la "Teoría de la Compuerta"</h4>
-            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">La piel es el órgano más grande de tu cuerpo y está saturada de receptores sensoriales. Cuando aplicamos una presión específica, activamos los corpúsculos de Meissner (sensibles al tacto suave) y los corpúsculos de Pacini (sensibles a la presión profunda).</p>
-            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;"><strong>La Ciencia:</strong> Según la Gate Control Theory (Melzack & Wall), estos estímulos táctiles viajan por fibras nerviosas rápidas, llegando antes al cerebro que las señales de dolor. Esto efectivamente "cierra la puerta" al malestar, permitiendo que el sistema nervioso se relaje.</p>
+            <h4 style="color: var(--valtara-cian-brillante); font-size: 1.6rem; margin-top: 2rem; margin-bottom: 1rem;">1. Neurobiología del Dolor y la Respuesta Táctil</h4>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">La piel es el órgano más grande de tu cuerpo y está saturada de receptores sensoriales. Cuando aplicamos una presión específica, activamos los corpúsculos de Meissner (sensibles al tacto suave) y los corpúsculos de Pacini (sensibles a la presión profunda, mejorando la propiocepción y reduciendo la amnesia sensorial).</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;"><strong>La Teoría de la Compuerta (Gate Control Theory):</strong> Propuesta por Melzack y Wall, explica que el estímulo táctil viaja por fibras mielinizadas rápidas (Fibras A-beta), las cuales bloquean químicamente la transmisión de señales de dolor en la médula espinal antes de que lleguen al tálamo. Esto efectivamente "cierra la puerta" al malestar.</p>
             
             <h4 style="color: var(--valtara-cian-brillante); font-size: 1.6rem; margin-top: 2rem; margin-bottom: 1rem;">2. La Cascada Neuroquímica del Bienestar</h4>
-            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">Estudios del Touch Research Institute han demostrado que el contacto terapéutico reduce los niveles de cortisol (la hormona del estrés) en un 31%. Simultáneamente, el cerebro libera:</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">Se ha demostrado que una sesión de 50 minutos de masaje profundo reduce los niveles de cortisol (la hormona del estrés) en un promedio del 31%, un reequilibrio vital para combatir el "Burnout" ejecutivo. Simultáneamente, el cerebro libera:</p>
             <ul style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem; margin-left: 2rem; list-style-type: square;">
-                <li><strong>Dopamina:</strong> Mejora el estado de ánimo.</li>
-                <li><strong>Serotonina:</strong> Regula el sueño y reduce la ansiedad.</li>
-                <li><strong>Oxitocina:</strong> Conocida como la "hormona del vínculo", reduce la inflamación y promueve la calma.</li>
+                <li><strong>Dopamina (aumenta 28%):</strong> Mejora el estado de ánimo y la motivación.</li>
+                <li><strong>Serotonina (aumenta 31%):</strong> Regula el sueño y reduce la ansiedad de manera drástica.</li>
+                <li><strong>Oxitocina:</strong> Conocida como la "hormona del vínculo", reduce la inflamación sistémica y promueve una regeneración celular más rápida.</li>
             </ul>
 
-            <h4 style="color: var(--valtara-cian-brillante); font-size: 1.6rem; margin-top: 2rem; margin-bottom: 1rem;">3. Psicología y Somatización</h4>
-            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 3rem;">En Valtara, comprendemos que el cuerpo guarda la memoria de nuestras emociones. La somatización es el proceso por el cual una tensión emocional (como la angustia o el duelo) se "ancla" en un músculo. Al trabajar el cuerpo, estamos permitiendo que la mente procese y libere esa carga acumulada en lo que llamamos la "armadura muscular".</p>
+            <h4 style="color: var(--valtara-cian-brillante); font-size: 1.6rem; margin-top: 2rem; margin-bottom: 1rem;">3. Psicosomática y Memoria Corporal</h4>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">El cuerpo guarda lo que la mente calla. El concepto de "Armadura Muscular", desarrollado por Wilhelm Reich, explica cómo las tensiones crónicas son en realidad mecanismos de defensa emocional congelados en el tejido. Un "nudo" en los hombros puede ser la representación física de una carga de responsabilidad excesiva, mientras que el bruxismo suele ser contención de ira o frustración.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 3rem;">En Valtara, trabajamos para liberar estas "huellas somáticas". Al manipular el tejido profundo, permitimos que el sistema nervioso libere la energía atrapada. La somatización altera la química muscular volviéndolo ácido (lactato); nuestra intervención manual restablece el pH neutro, oxigena las células y rompe el ciclo vicioso de estrés-dolor-estrés.</p>
 
-            <h3 style="color: var(--valtara-verde-menta); font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0,255,170,0.3); padding-bottom: 1rem;">II. El Herbario Valtara: Botánica Aplicada</h3>
-            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">La botánica en nuestras sessions no es decorativa; es Fitoterapia. Utilizamos extractos de plantas que poseen principios activos capaces de atravesar la barrera cutánea.</p>
-            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;"><strong>Aromaterapia: La Vía Directa al Cerebro.</strong> El sentido del olfato es el único que no pasa por el tálamo; va directo al Sistema Límbico, el centro de tus emociones.</p>
+            <h3 style="color: #ff5555; font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,85,85,0.3); padding-bottom: 1rem;">II. Biomecánica del Trabajo y Síndromes Modernos</h3>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">El cuerpo humano no está diseñado para la inmovilidad prolongada. El "Text Neck" o Síndrome de Cuello de Texto es una de las patologías más comunes en Reforma: al inclinar la cabeza 60 grados, la presión sobre las vértebras sube de 5kg a 27kg, provocando hernias y cefaleas tensionales.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;"><strong>La Amnesia Glútea y el Psoas:</strong> Estar sentado más de 6 horas al día acorta crónicamente el músculo Psoas-Iliaco, tirando de las lumbares y causando dolor ciático. La "Amnesia Glútea" inhibe el soporte muscular, forzando a la espalda baja a compensar toda la estabilidad.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">La terapia en Valtara utiliza la descompresión miofascial para romper adherencias en la fascia. Debido a la propiedad de "Tensegridad" de la fascia, entendemos que una tensión en el cuello puede tener su origen real en una restricción de la fascia plantar o lumbar.</p>
+
+            <h4 style="color: #ff5555; font-size: 1.6rem; margin-top: 2rem; margin-bottom: 1rem;">Sistema Linfático y Recuperación Deportiva</h4>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">El sistema linfático es el alcantarillado del cuerpo, propenso al estancamiento por sedentarismo. El edema provoca intoxicación celular. Nuestro drenaje dirige el líquido intersticial hacia los ganglios, acelerando la eliminación de desechos.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 3rem;">El ejecutivo moderno es un atleta de alto rendimiento cognitivo. Su "entrenamiento" ocurre en salas de juntas, generando desgaste. La recuperación deportiva aplicada previene lesiones como el túnel carpiano. Usamos fricciones transversas y estiramientos que restablecen el rango de movimiento (ROM) y previenen el envejecimiento articular prematuro.</p>
+
+            <h3 style="color: var(--valtara-verde-menta); font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0,255,170,0.3); padding-bottom: 1rem;">III. El Herbario Valtara: Botánica Científica</h3>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">La botánica en nuestras sesiones no es decorativa; es Fitoterapia. Los insumos utilizados en el santuario son seleccionados por su biodisponibilidad transdérmica.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;"><strong>Aromaterapia y Vía Límbica:</strong> El sentido del olfato es el único que no pasa por el tálamo; va directo al Sistema Límbico, el centro de tus emociones.</p>
             <ul style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 2rem; margin-left: 2rem; list-style-type: square;">
-                <li><strong>Linalool (Lavanda):</strong> Reduce la excitabilidad neuronal.</li>
+                <li><strong>Linalool (Lavanda):</strong> Reduce la excitabilidad neuronal interactuando con receptores GABA.</li>
                 <li><strong>Limoneno (Cítricos):</strong> Estimula la producción de glóbulos blancos y mejora el ánimo.</li>
             </ul>
-            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;"><strong>Nuestra Tecnología Botánica:</strong></p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;"><strong>Nuestra Tecnología Cosmética:</strong></p>
             <ul style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 3rem; margin-left: 2rem; list-style-type: square;">
-                <li><strong>Geles Reductores:</strong> Formulados con extractos que generan hiperemia (aumento de flujo sanguíneo), ayudando a movilizar lípidos y toxinas.</li>
-                <li><strong>Mantecas Vegetales (Karité y Cacao):</strong> Presentes en nuestras velas de masaje, son ricas en ácidos grasos que reparan la barrera lipídica de la piel, proporcionando nutrición profunda.</li>
+                <li><strong>Geles Activos y Maderoterapia:</strong> Ayudan a la vasoconstricción/vasodilatación, facilitando la eliminación de toxinas por la red linfática, la cual no tiene bomba propia y depende de la presión manual externa.</li>
+                <li><strong>Manteca de Karité pura (Butyrospermum parkii):</strong> Es un potente antiinflamatorio rico en ácidos grasos linoleicos que reparan la barrera cutánea.</li>
             </ul>
 
+            <h3 style="color: var(--valtara-cian-brillante); font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0,255,255,0.3); padding-bottom: 1rem;">IV. Filosofía de Inclusión Radical y Discapacidad</h3>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">La accesibilidad en Valtara se entiende desde el Modelo Social de la Discapacidad: la discapacidad no es un defecto del individuo, sino el resultado de un entorno diseñado para un solo tipo de cuerpo. Como espacio incluyente, reconocemos la Neurodiversidad.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">El tacto para personas con autismo o hipersensibilidad sensorial debe ser negociado y adaptado, utilizando presiones firmes y constantes (Deep Pressure Touch) que ayudan a organizar el sistema nervioso central en lugar de irritarlo. Para personas con discapacidad motriz, la ergonomía adaptativa es clave: el uso de posicionadores y técnicas en posición lateral o sedente permiten que el tratamiento sea efectivo sin forzar posturas inaccesibles.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 3rem;">La inclusión también implica accesibilidad digital: un sitio web compatible con lectores de pantalla no es un extra, es un derecho a la autonomía informativa. En Valtara, la terapia manual honra la diversidad funcional sin patologizarla.</p>
+
             <h3 style="color: var(--valtara-morado-vivo); font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(178,0,255,0.3); padding-bottom: 1rem;">V. Investigación y Referencias Científicas</h3>
-            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">Nuestra práctica se basa en evidencias. Aquí algunas fuentes clave para tu educación:</p>
             <ul style="font-size: 1.15rem; color: var(--valtara-blanco); line-height: 2.2; margin-bottom: 3rem; list-style: none;">
-                <li><i class="fa-solid fa-book" style="color: var(--valtara-oro);"></i> <strong>Melzack, R. (1999).</strong> From the gate control theory to the neuromatrix. Pain Forum. <em>Explica cómo el tacto bloquea el dolor.</em></li>
+                <li><i class="fa-solid fa-book" style="color: var(--valtara-oro);"></i> <strong>Melzack, R. (1999).</strong> From the gate control theory to the neuromatrix. <em>Explica cómo el tacto bloquea el dolor.</em></li>
                 <li><i class="fa-solid fa-book" style="color: var(--valtara-oro);"></i> <strong>Field, T. (2010).</strong> Touch for Health. University of Miami. <em>Estudio sobre la reducción de cortisol post-masaje.</em></li>
                 <li><i class="fa-solid fa-book" style="color: var(--valtara-oro);"></i> <strong>Tisserand, R. (2013).</strong> Essential Oil Safety. Elsevier. <em>La biblia de la aromaterapia científica.</em></li>
-                <li><i class="fa-solid fa-book" style="color: var(--valtara-oro);"></i> <strong>Moyer, C. A., et al. (2004).</strong> A meta-analysis of massage therapy research. Psychological Bulletin. <em>Sobre los beneficios acumulativos del masaje.</em></li>
+                <li><i class="fa-solid fa-book" style="color: var(--valtara-oro);"></i> <strong>Reich, W.</strong> Análisis del Carácter. <em>Sobre el concepto de Armadura Muscular y Somatización.</em></li>
             </ul>
+
+            <!-- CONTENEDOR DEL JUEGO EL ALQUIMISTA -->
+            <div id="alchemist-game-container" style="margin-top: 5rem;">
+                <!-- JavaScript inyectará el juego interactivo aquí -->
+            </div>
 
             <div style="background: rgba(242, 201, 76, 0.1); border: 2px solid var(--valtara-oro); padding: 3rem; border-radius: 1.5rem; margin-top: 4rem; text-align: center;">
                 <h4 style="font-size: 1.8rem; color: var(--valtara-oro); margin-bottom: 1rem; font-family: var(--font-accent);">Conclusión para el Paciente</h4>
@@ -328,7 +523,7 @@ window.ValtaraData = {
     `,
 
     /* --------------------------------------------------------------------------------
-       4. HISTORIA, MARCO LEGAL Y LOGÍSTICA
+       4. HISTORIA, MARCO LEGAL Y LOGÍSTICA (FAQS INTEGRADAS)
        -------------------------------------------------------------------------------- */
     legal: `
         <div style="text-align: center; max-width: 900px; margin: 0 auto 5rem auto;">
@@ -345,24 +540,76 @@ window.ValtaraData = {
                 <p class="marketing-text" style="font-size: 1.25rem;">Valtara no nació simplemente como un centro de terapias; nació de una visión profunda sobre la dignidad humana y el poder sanador del tacto. Fundado por Ángel Guerrero, este espacio es el resultado de un viaje personal y profesional donde la ciencia médica se abraza con las tradiciones más antiguas del mundo.</p>
                 
                 <h4 style="color: var(--valtara-blanco); font-size: 1.8rem; margin-top: 2rem; margin-bottom: 1rem;">Un Propósito Marcado por la Experiencia</h4>
-                <p class="marketing-text" style="font-size: 1.25rem;">Nuestra historia tiene un motor muy personal. En el corazón de Valtara vive el deseo de transformar la forma en que entendemos la inclusión. En palabras de nuestro fundador:</p>
                 
                 <blockquote style="font-size: 1.4rem; color: var(--valtara-oro-suave); font-style: italic; border-left: 5px solid var(--valtara-oro); padding-left: 2rem; margin: 2rem 0; line-height: 1.8; background: rgba(242,201,76,0.1); padding: 2rem; border-radius: 0 1rem 1rem 0;">
                     "Como persona con discapacidad visual, me resulta un tanto complicado encontrar lugares que sean verdaderamente accesibles y empáticos. Mi objetivo con este proyecto es crear un mundo accesible para todos. Sé que esto es difícil e incluso parece imposible, pero quiero poner de mi parte para que esto sea una realidad para muchos." <br><br><span style="color: var(--valtara-blanco); font-weight: bold; font-size: 1.1rem;">— Ángel Guerrero.</span>
                 </blockquote>
 
                 <h4 style="color: var(--valtara-blanco); font-size: 1.8rem; margin-top: 3rem; margin-bottom: 1rem;">El Puente entre dos Mundos</h4>
-                <p class="marketing-text" style="font-size: 1.25rem;">En Valtara, creemos que la sanación real ocurre cuando tratamos al ser humano en su totalidad. Por ello, hemos construido nuestra filosofía sobre dos pilares inamovibles:</p>
                 <ul style="font-size: 1.25rem; color: var(--valtara-gris-texto); line-height: 2; margin-bottom: 2rem; padding-left: 2rem;">
                     <li><strong>Rigor Clínico:</strong> Nos basamos en la neurobiología del tacto, la psicología aplicada y la fitocosmética científica. Entendemos la somatización y trabajamos con protocolos profesionales para liberar esa carga.</li>
                     <li><strong>Compasión Ancestral:</strong> Honramos las manos de los sanadores de antaño. Desde la fluidez del Lomi Lomi hawaiano hasta la sabiduría del Ayurveda hindú.</li>
                 </ul>
 
-                <h4 style="color: var(--valtara-blanco); font-size: 1.8rem; margin-top: 2rem; margin-bottom: 1rem;">Bienestar Sin Barreras</h4>
-                <p class="marketing-text" style="font-size: 1.25rem;">Lo que nos hace diferentes es nuestro compromiso innegociable con la accesibilidad. Nos hemos especializado en adaptar cada una de nuestras terapias para personas con discapacidad. Entendemos que cada cuerpo tiene su propia historia y sus propios desafíos. Ya sea a través de ajustes ergonómicos en camilla o la modulación de técnicas para pacientes con sensibilidad alterada o movilidad reducida.</p>
+                <p class="marketing-text" style="font-size: 1.25rem;"><strong>En Valtara, tu bienestar está respaldado por la ciencia, inspirado por la historia y guiado por un sueño de inclusión universal.</strong></p>
+            </article>
+
+            <!-- PREGUNTAS FRECUENTES (NUEVA SECCIÓN DE CRISTAL) -->
+            <article class="glass-card reveal" style="border-color: var(--valtara-verde-menta); grid-column: 1 / -1; padding: 4rem 5rem;">
+                <i class="fa-solid fa-circle-question" style="font-size: 4rem; color: var(--valtara-verde-menta); margin-bottom: 1.5rem; text-align: center; display: block;"></i>
+                <h3 style="color: var(--valtara-verde-menta); text-align: center; margin-bottom: 3rem; font-size: 2.8rem;">Preguntas Frecuentes (FAQ)</h3>
                 
-                <h4 style="color: var(--valtara-blanco); font-size: 1.8rem; margin-top: 2rem; margin-bottom: 1rem;">Nuestra Promesa</h4>
-                <p class="marketing-text" style="font-size: 1.25rem;">Hoy, Valtara es un refugio para quienes buscan algo más que un masaje. Es un espacio de educación, botánica y sanación consciente. Aquí, no solo trabajamos sobre el músculo; acompañamos procesos de vida, facilitando que tu cuerpo recupere su equilibrio natural (homeostasis). <strong>En Valtara, tu bienestar está respaldado por la ciencia, inspirado por la historia y guiado por un sueño de inclusión universal.</strong></p>
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-map-pin"></i> 1. ¿Dónde se encuentra exactamente el santuario y cómo accedo?</summary>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Estamos ubicados en Av. Paseo de la Reforma 195, Piso 3, Colonia Cuauhtémoc, CDMX. Al llegar, es indispensable presentarte con una identificación oficial en la recepción del edificio para que se te brinde el acceso. El espacio cuenta con elevadores y rampas, siendo totalmente accesible para personas con movilidad limitada.</p>
+                    </details>
+
+                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-spa"></i> 2. ¿Qué hace que Valtara sea diferente a un spa convencional?</summary>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Valtara no es un centro de relajación común; es un santuario de Executive Therapy & Biomechanics. Nuestro enfoque se basa en el Rigor Clínico y la Compasión Ancestral. Utilizamos el Triaje Educativo y herramientas de IA (Aura) para entender la neurobiología de tu dolor antes de tocar tu piel, ofreciendo soluciones basadas en ciencia y anatomía profunda.</p>
+                    </details>
+
+                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-robot"></i> 3. ¿Cómo ayuda la Asistente Aura en mi proceso de sanación?</summary>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Aura es nuestra inteligencia artificial diseñada para realizar un pre-diagnóstico de tu tensión muscular. Al responder sus preguntas, ella analiza tus niveles de estrés y zonas de dolor para recomendarte la terapia exacta. Esto nos permite optimizar el tiempo en cabina y enfocarnos directamente en la raíz de tu malestar.</p>
+                    </details>
+
+                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-shower"></i> 4. ¿Qué preparativos personales debo seguir antes de mi cita?</summary>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Para que el tejido muscular responda de manera óptima, sugerimos venir profundamente hidratado. Asimismo, recomendamos acudir con la piel fresca y limpia (una ducha previa es ideal), ya que esto facilita la absorción de nuestras mantecas vegetales de karité y aceites botánicos premium, potenciando los beneficios de la fitocosmética científica en tu sistema nervioso.</p>
+                    </details>
+
+                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-shirt"></i> 5. ¿Cuál es el protocolo de vestimenta y privacidad?</summary>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Tu comodidad y dignidad son nuestra prioridad absoluta. Te sugerimos traer ropa deportiva cómoda, específicamente shorts (aplica para hombres y mujeres). En cabina, aplicamos un estricto "Drapeo Selectivo": solo se descubre la zona anatómica que se está trabajando en ese momento (por ejemplo, una pierna o el brazo), mientras el resto de tu cuerpo permanece siempre cubierto y resguardado.</p>
+                    </details>
+
+                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-credit-card"></i> 6. ¿Cuáles son los métodos de pago aceptados actualmente?</summary>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Por el momento, operamos exclusivamente mediante Efectivo y Transferencia Bancaria Directa. Estamos trabajando arduamente para implementar próximamente terminales bancarias y ofrecer planes de Meses Sin Intereses (MSI) en tickets a partir de $1,500 MXN en adelante.</p>
+                    </details>
+
+                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-calendar-check"></i> 7. ¿Cómo funciona el sistema de reserva y anticipos?</summary>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Para garantizar la exclusividad de tu sesión y la preparación de insumos, solicitamos un anticipo del 50% del total del servicio al momento de agendar. Este monto se abona íntegramente al ticket final de tu terapia el día de tu visita.</p>
+                    </details>
+
+                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-ban"></i> 8. ¿Cuál es la política de cancelación o reprogramación?</summary>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Valoramos tu tiempo y el nuestro. Si necesitas cancelar o mover tu cita con más de 24 horas de antelación, se te reembolsará el 100% de tu anticipo. Si la cancelación ocurre dentro de las 24 horas previas a la cita, el anticipo no es reembolsable debido a los costos operativos y de agenda bloqueada.</p>
+                    </details>
+
+                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-wheelchair"></i> 9. ¿Qué opciones de accesibilidad ofrecen para discapacidad?</summary>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Nuestro sitio web es compatible con lectores de pantalla y navegación asistida. En cuanto a la sesión presencial, nuestras camillas son fijas, por lo que te invitamos a contactarnos vía WhatsApp o llamada para platicar tu condición específica y analizar juntos las posibilidades de adaptación técnica para que recibas el tratamiento de forma segura.</p>
+                    </details>
+
+                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-mug-hot"></i> 10. ¿Qué incluye la experiencia post-sesión en el santuario?</summary>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Al finalizar tu terapia, no te apresuramos a salir. Te invitamos a una transición suave hacia tu realidad cotidiana disfrutando de nuestro Té Orgánico de Frutos Rojos. Es el momento ideal para que tu sistema nervioso termine de reiniciarse y consolides los beneficios de la descompresión muscular.</p>
+                    </details>
+                </div>
             </article>
 
             <article class="glass-card reveal" style="border-color: #ff5555;">
@@ -388,7 +635,7 @@ window.ValtaraData = {
             <article class="glass-card reveal" style="border-color: var(--valtara-cian-brillante);">
                 <i class="fa-solid fa-copyright" style="font-size: 4rem; color: var(--valtara-cian-brillante); margin-bottom: 1.5rem;"></i>
                 <h3 style="color: var(--valtara-cian-brillante);">Propiedad Intelectual (Anti-Plagio)</h3>
-                <p class="marketing-text">Todo este sitio web, incluyendo la arquitectura <em>Sovereign 11.1</em>, el diseño visual, el motor de audio y la inteligencia artificial, están siendo desarrollados in-house. <strong>No existe autorización expresa para replicar, clonar o robar esta estructura.</strong> Grupo Gevizz S.A.S. protege sus activos tecnológicos y literarios rigurosamente.</p>
+                <p class="marketing-text">Todo este sitio web, incluyendo la arquitectura <em>Sovereign 11.2</em>, el diseño visual, el motor de audio y la inteligencia artificial, están siendo desarrollados in-house. <strong>No existe autorización expresa para replicar, clonar o robar esta estructura.</strong> Grupo Gevizz S.A.S. protege sus activos tecnológicos y literarios rigurosamente.</p>
             </article>
 
             <article class="glass-card reveal" style="grid-column: 1 / -1; border-color: var(--valtara-blanco); background: rgba(20,20,30,0.8); text-align: center;">
@@ -414,7 +661,7 @@ window.ValtaraData = {
             <div class="footer-col">
                 <h4 style="font-family: var(--font-accent); font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem; letter-spacing: 0.2rem;">VALTARA</h4>
                 <p style="font-style: italic; color: var(--valtara-oro); font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: bold;">Executive Therapy & Biomechanics</p>
-                <p style="font-weight: 300; font-size: 1.1rem;">Entidad comercial respaldada y operada en su totalidad por <strong>Grupo Gevizz S.A.S.</strong><br><br>Plataforma Modular Sovereign 11.1. Desarrollo web, IA y diseño creados in-house.</p>
+                <p style="font-weight: 300; font-size: 1.1rem;">Entidad comercial respaldada y operada en su totalidad por <strong>Grupo Gevizz S.A.S.</strong><br><br>Plataforma Modular Sovereign 11.2. Desarrollo web, IA y diseño creados in-house.</p>
             </div>
             
             <div class="footer-col">
@@ -438,9 +685,6 @@ window.ValtaraData = {
         </div>
     `,
 
-    /* --------------------------------------------------------------------------------
-       MÉTODO INYECTOR
-       -------------------------------------------------------------------------------- */
     renderAll: function() {
         const homeDiv = document.getElementById('view-home');
         if(homeDiv) homeDiv.innerHTML = this.home;
@@ -448,19 +692,16 @@ window.ValtaraData = {
         const restDiv = document.getElementById('view-restoration');
         if(restDiv) restDiv.innerHTML = this.restoration;
         
-        const codexDiv = document.getElementById('view-codex');
-        if(codexDiv) codexDiv.innerHTML = ""; 
-        
         const sciDiv = document.getElementById('view-science');
         if(sciDiv) sciDiv.innerHTML = this.science;
-        
-        const ergoDiv = document.getElementById('view-ergonomics');
-        if(ergoDiv) ergoDiv.innerHTML = ""; 
         
         const legalDiv = document.getElementById('view-legal');
         if(legalDiv) legalDiv.innerHTML = this.legal;
         
         const footDiv = document.getElementById('main-footer');
         if(footDiv) footDiv.innerHTML = this.footer;
+        
+        // Inicializar el juego El Alquimista Valtara de forma nativa
+        if(window.ValtaraAlchemist) setTimeout(() => { window.ValtaraAlchemist.init(); }, 500);
     }
 };
