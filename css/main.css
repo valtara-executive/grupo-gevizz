@@ -288,3 +288,26 @@ body {
     .zone-info { padding: 2rem 1.5rem !important; }
     .btn-primary, .btn-agenda-ahora { padding: 1.2rem 1.5rem !important; font-size: 1.1rem !important; }
 }
+/* ==========================================
+   PARCHE QUIRÚRGICO 2: REPARACIÓN ONBOARDING IPHONE (SAFARI)
+   ========================================== */
+.full-screen-overlay {
+    height: 100% !important;
+    min-height: 100dvh !important; /* Medida dinámica que respeta la barra de Apple */
+    overflow-y: auto !important; /* Permite deslizar el dedo si el contenido es largo */
+    align-items: flex-start !important; /* Evita que el contenedor aplaste el texto */
+    padding: 3rem 1rem !important; 
+}
+
+.onboarding-content {
+    margin: auto !important; /* Vuelve a centrar todo pero de forma elástica */
+    padding: 1.5rem !important;
+    width: 100% !important;
+}
+
+@media (max-width: 850px) {
+    .input-group { padding: 2rem 1.5rem !important; }
+    .avatar-grid { gap: 1rem !important; }
+    .avatar-icon { width: 4.5rem !important; height: 4.5rem !important; margin-bottom: 0.5rem !important; }
+    #welcome-start-btn { padding: 1.2rem !important; font-size: 1.1rem !important; }
+}
