@@ -1,7 +1,7 @@
 /**
  * ====================================================================================
- * BLOQUE 9: OASIS AUDIO ENGINE V11.1 (SÍNTESIS GENERATIVA Y BINAURAL)
- * Motor de música matemática de 7 potencias con visualizador de colores vívidos.
+ * BLOQUE 9: OASIS AUDIO ENGINE V11.4 (SÍNTESIS GENERATIVA Y BINAURAL)
+ * Motor de música matemática con "Electroshock" para desbloquear Chrome/Safari Móvil.
  * ====================================================================================
  */
 
@@ -14,7 +14,7 @@ const OasisEngine = {
     nodes: [], 
     intervals: [],
     animFrame: null, 
-    performanceMode: false, // Se activa si el paciente usa el Modo Vestibular
+    performanceMode: false,
 
     // Las 7 Potencias Clínicas (Frecuencias de Sanación)
     tracks: [
@@ -32,9 +32,7 @@ const OasisEngine = {
         this.bindEvents();
     },
 
-    // ================================================================================
-    // INICIALIZACIÓN PEREZOSA (Evita alertas del navegador hasta que el usuario haga clic)
-    // ================================================================================
+    // INICIALIZACIÓN PEREZOSA Y DESBLOQUEO (ELECTROSHOCK)
     lazyInitAudio: function() {
         if(this.ctx) return;
         const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -49,13 +47,32 @@ const OasisEngine = {
         this.masterGain.connect(this.analyser);
     },
 
+    // PARCHE: Desbloquear el contexto de audio en móviles con un sonido inaudible
+    unlockAudioContext: function() {
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') {
+            this.ctx.resume();
+        }
+        // Crear un oscilador silencioso de 1ms para forzar el permiso del navegador
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        gain.gain.value = 0; // Silencio absoluto
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(0);
+        osc.stop(this.ctx.currentTime + 0.001);
+    },
+
     bindEvents: function() {
         const playBtn = document.getElementById('btn-master-play');
         if(playBtn) {
-            playBtn.addEventListener('click', () => this.togglePlay());
+            playBtn.addEventListener('click', () => {
+                this.lazyInitAudio();
+                this.unlockAudioContext();
+                this.togglePlay();
+            });
         }
         
-        // Interceptar cuando se abre/cierra la ventana del reproductor para ahorrar batería
         const modal = document.getElementById('audio-modal');
         if(modal) {
             const observer = new MutationObserver((mutations) => {
@@ -85,6 +102,8 @@ const OasisEngine = {
             btn.innerHTML = `<i class="fa-solid ${t.icon}"></i> <span>${t.name}</span>`;
             
             btn.addEventListener('click', () => {
+                this.lazyInitAudio();
+                this.unlockAudioContext(); // Electroshock en cada clic
                 this.selectTrack(t.id);
             });
             
@@ -93,7 +112,7 @@ const OasisEngine = {
     },
 
     // ================================================================================
-    // MOTOR VISUALIZADOR DE ONDAS (Colores Vívidos 11.1)
+    // MOTOR VISUALIZADOR DE ONDAS (Bucle Resistente para Chrome)
     // ================================================================================
     startVisualizer: function() {
         if(this.performanceMode || !this.analyser) return;
@@ -125,11 +144,10 @@ const OasisEngine = {
             for(let i = 0; i < bufferLength; i++) {
                 barHeight = dataArray[i] / 1.5;
                 
-                // Degradado de color dinámico: Cian Brillante (#00FFFF) a Morado Vivo (#B200FF)
-                // Dependiendo de la altura de la onda (frecuencia)
-                const r = Math.min(255, barHeight + 50); // Tiende al morado/rosa
-                const g = Math.max(0, 255 - barHeight * 2); // Tiende al cian
-                const b = 255; // Siempre azul dominante
+                // Degradado de color: Cian Brillante (#00FFFF) a Morado Vivo (#B200FF)
+                const r = Math.min(255, barHeight + 50); 
+                const g = Math.max(0, 255 - barHeight * 2); 
+                const b = 255; 
                 
                 canvasCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
                 canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
@@ -137,17 +155,15 @@ const OasisEngine = {
                 x += barWidth + 1;
             }
         };
+        // Forzar inicio del bucle
+        cancelAnimationFrame(this.animFrame);
         draw();
     },
 
-    // ================================================================================
-    // LÓGICA DE REPRODUCCIÓN Y CONTROL DE NODOS
-    // ================================================================================
     togglePlay: function() {
         if(this.isPlaying) {
             this.stopAll();
         } else {
-            // Inicia la pista 4 (Compasión) por defecto si no ha elegido ninguna
             this.selectTrack(this.currentTrack === -1 ? 4 : this.currentTrack);
         }
     },
@@ -158,7 +174,6 @@ const OasisEngine = {
         this.intervals.forEach(i => { clearInterval(i); clearTimeout(i); });
         this.intervals = [];
 
-        // Apagar nodos con Fade Out suave de 1.5 segundos
         this.nodes.forEach(n => {
             if(n.gain) n.gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 1.5);
             setTimeout(() => {
@@ -169,7 +184,6 @@ const OasisEngine = {
         this.nodes = [];
         this.isPlaying = false;
         
-        // Actualizar UI
         const playBtnIcon = document.querySelector('#btn-master-play i');
         if(playBtnIcon) playBtnIcon.className = 'fa-solid fa-play';
         document.querySelectorAll('.track-btn').forEach(b => b.classList.remove('playing'));
@@ -186,18 +200,19 @@ const OasisEngine = {
 
     selectTrack: function(trackId) {
         if(this.performanceMode || document.body.classList.contains('reduced-motion')) {
-            if(window.A11yEngine) A11yEngine.announce("El audio está desactivado por su configuración de reducción de movimiento y estímulos.");
+            if(window.A11yEngine) A11yEngine.announce("El audio está desactivado por su configuración.");
             return;
         }
 
-        this.lazyInitAudio();
-        if(this.ctx.state === 'suspended') this.ctx.resume();
+        // Forzamos que despierte sí o sí antes de reproducir
+        if(this.ctx.state === 'suspended') {
+            this.ctx.resume();
+        }
         
         this.stopAll();
         this.currentTrack = trackId;
         this.isPlaying = true;
         
-        // UI
         document.querySelectorAll('.track-btn').forEach(b => b.classList.remove('playing'));
         const activeBtn = document.querySelector(`.track-btn[data-id="${trackId}"]`);
         if(activeBtn) activeBtn.classList.add('playing');
@@ -218,12 +233,10 @@ const OasisEngine = {
             if(window.A11yEngine) A11yEngine.announce(`Sintetizando frecuencia matemática: ${trackObj.name}`);
         }
 
-        this.startVisualizer();
+        // Retrasamos el visualizador 100ms para asegurar que los datos ya están fluyendo
+        setTimeout(() => this.startVisualizer(), 100);
     },
 
-    // ================================================================================
-    // EFECTOS DE ESTUDIO (REVERB ACÚSTICO SIMULADO)
-    // ================================================================================
     _applyReverb: function(sourceGain) {
         const delay = this.ctx.createDelay();
         delay.delayTime.value = 0.4;
@@ -238,11 +251,9 @@ const OasisEngine = {
         delay.connect(this.masterGain);
     },
 
-    // ================================================================================
     // ALGORITMOS MATEMÁTICOS DE SÍNTESIS
-    // ================================================================================
     
-    playDrone: function() { // 1. Vitalidad (Frecuencias Bajas)
+    playDrone: function() { 
         const o = this.ctx.createOscillator(); const g = this.ctx.createGain();
         o.type = 'sawtooth'; o.frequency.value = 65; 
         
@@ -261,7 +272,7 @@ const OasisEngine = {
         this.nodes.push({osc: o, gain: g}, {osc: lfo});
     },
 
-    playMarimba: function() { // 2. Flujo (Agua/Gotas)
+    playMarimba: function() { 
         const scale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25]; 
         const drip = () => {
             if(!this.isPlaying || this.currentTrack !== 2) return;
@@ -280,7 +291,7 @@ const OasisEngine = {
         drip();
     },
 
-    playArpeggio: function() { // 3. Fuego (Movimiento Constante)
+    playArpeggio: function() { 
         const scale = [196.00, 233.08, 261.63, 293.66, 349.23]; 
         let idx = 0;
         const step = () => {
@@ -302,7 +313,7 @@ const OasisEngine = {
         step();
     },
 
-    playPad: function() { // 4. Compasión (Acordes Sostenidos)
+    playPad: function() { 
         const freqs = [349.23, 440.00, 523.25]; 
         freqs.forEach(f => {
             const o = this.ctx.createOscillator(); const g = this.ctx.createGain();
@@ -321,7 +332,7 @@ const OasisEngine = {
         });
     },
 
-    playCrystals: function() { // 5. Éter (Cuencos de Cuarzo Simulados)
+    playCrystals: function() { 
         const chime = () => {
             if(!this.isPlaying || this.currentTrack !== 5) return;
             const o = this.ctx.createOscillator(); const g = this.ctx.createGain();
@@ -339,7 +350,7 @@ const OasisEngine = {
         chime();
     },
 
-    playPiano: function() { // 6. Luz (Notas Espaciadas)
+    playPiano: function() { 
         const notes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00]; 
         const strike = () => {
             if(!this.isPlaying || this.currentTrack !== 6) return;
@@ -359,11 +370,10 @@ const OasisEngine = {
         strike();
     },
 
-    playBinaural: function() { // 7. Trascendencia (Pulsos Binaurales Ondas Theta)
+    playBinaural: function() { 
         const baseFreq = 432; 
-        const beat = 6; // Diferencia de 6Hz crea una onda Theta en el cerebro
+        const beat = 6; 
         
-        // Canal Izquierdo
         const oL = this.ctx.createOscillator(); const gL = this.ctx.createGain(); 
         oL.type = 'sine'; oL.frequency.value = baseFreq - (beat/2);
         const panL = this.ctx.createStereoPanner(); panL.pan.value = -1; 
@@ -372,7 +382,6 @@ const OasisEngine = {
         gL.gain.linearRampToValueAtTime(0.04, this.ctx.currentTime + 3);
         oL.connect(gL); gL.connect(panL); this._applyReverb(panL); oL.start();
         
-        // Canal Derecho
         const oR = this.ctx.createOscillator(); const gR = this.ctx.createGain(); 
         oR.type = 'sine'; oR.frequency.value = baseFreq + (beat/2);
         const panR = this.ctx.createStereoPanner(); panR.pan.value = 1; 
