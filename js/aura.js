@@ -1,6 +1,6 @@
 /**
  * ====================================================================================
- * BLOQUE 8: AURA AI ENGINE V12.6 (BOTÓN WHATSAPP NATIVO Y MEMORIA)
+ * BLOQUE 8: AURA AI ENGINE V12.7 (PARCHE DE MEMORIA Y ERROR 400 CORREGIDO)
  * Motor de IA Front-end de Valtara.
  * ====================================================================================
  */
@@ -9,10 +9,10 @@ const AuraEngine = {
     isOpen: false,
     hasGrit: false, 
     isTyping: false, 
-    chatHistory: [], 
+    chatHistory: [], // Memoria limpia y lista
     userName: "",    
     
-    // 🔗 TU PUENTE DE COMUNICACIÓN CON VERCEL
+    // 🔗 TU PUENTE CON VERCEL
     apiUrl: "https://aura-server-sandy.vercel.app/api/chat",
 
     init: function() {
@@ -71,10 +71,9 @@ const AuraEngine = {
                     saludoPersonalizado = `¡${timeGreeting}! ${emoji}`;
                 }
 
-                const initialGreetingText = `${saludoPersonalizado} Soy Aura, la IA de Valtara. Estoy lista para realizarte una valoración biomecánica pre-clínica. ¿En qué parte de tu cuerpo sientes mayor tensión o molestia el día de hoy?`;
                 const initialGreetingHtml = `${saludoPersonalizado} Soy Aura, la IA de Valtara. Estoy lista para realizarte una <strong>Valoración Biomecánica pre-clínica</strong>. ¿En qué parte de tu cuerpo sientes mayor tensión o molestia el día de hoy?`;
                 
-                this.chatHistory.push({ role: "model", parts: [{ text: initialGreetingText }] });
+                // PARCHE APLICADO: Ya no guardamos este saludo en la memoria para que Google no marque error.
                 this.appendMsg(initialGreetingHtml, 'bot', true);
             }
         }
@@ -110,35 +109,27 @@ const AuraEngine = {
         this.sendMessageToAI(query);
     },
 
-    // ================================================================================
-    // SISTEMA DE DEEP LINK (ABRIR WHATSAPP NATIVO)
-    // ================================================================================
     openNativeWhatsApp: function() {
         const phone = "5213348572070";
         let mensaje = "Hola Concierge de Valtara, Aura IA me realizó una valoración y deseo consultar disponibilidad en la agenda.";
         
-        // Si conocemos el nombre del paciente, lo agregamos al mensaje de WhatsApp
         if (this.userName !== "Apreciable visitante" && this.userName.trim() !== "") {
             mensaje = `Hola Concierge de Valtara, soy ${this.userName}. Aura IA me realizó una valoración y deseo consultar disponibilidad en la agenda.`;
         }
 
         const text = encodeURIComponent(mensaje);
-        
-        // El Deep Link fuerza al celular a abrir la App instalada.
         const appUrl = `whatsapp://send?phone=${phone}&text=${text}`;
         const webUrl = `https://wa.me/${phone}?text=${text}`;
 
         window.location.href = appUrl;
-
-        setTimeout(() => {
-            window.open(webUrl, '_blank');
-        }, 1500);
+        setTimeout(() => { window.open(webUrl, '_blank'); }, 1500);
     },
 
     sendMessageToAI: async function(userText) {
         this.isTyping = true;
         const chatLog = document.getElementById('aura-chat');
         
+        // 1. Guardamos el mensaje del paciente (El historial ahora sí empieza con el humano)
         this.chatHistory.push({ role: "user", parts: [{ text: userText }] });
 
         const typingDiv = document.createElement('div');
@@ -175,8 +166,6 @@ const AuraEngine = {
             auraFormateada = auraFormateada.replace(/\*(.*?)\*/g, '<em>$1</em>');
             auraFormateada = auraFormateada.replace(/\n/g, '<br>');
 
-            // 🎯 INYECCIÓN DEL BOTÓN MÁGICO DE WHATSAPP
-            // Si Aura detecta que ya cerró el triaje (menciona el número), pone el botón
             if (auraFormateada.includes("52 1 33 4857 2070")) {
                 const botonWhatsApp = `
                     <br><br>
@@ -216,7 +205,6 @@ const AuraEngine = {
         log.scrollTo({ top: log.scrollHeight, behavior: 'smooth' });
         
         if(sender === 'bot' && window.A11yEngine) {
-            // Quitamos el texto HTML del botón para que el lector de pantalla no lea código basura
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = txtOrHtml;
             A11yEngine.announce("Aura dice: " + tempDiv.innerText);
