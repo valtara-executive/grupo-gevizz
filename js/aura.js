@@ -1,6 +1,6 @@
 /**
  * ====================================================================================
- * BLOQUE 8: AURA AI ENGINE V12.7 (PARCHE DE MEMORIA Y ERROR 400 CORREGIDO)
+ * BLOQUE 8: AURA AI ENGINE V12.5 (MEMORIA, NOMBRE DEL PACIENTE Y VERCEL)
  * Motor de IA Front-end de Valtara.
  * ====================================================================================
  */
@@ -9,13 +9,14 @@ const AuraEngine = {
     isOpen: false,
     hasGrit: false, 
     isTyping: false, 
-    chatHistory: [], // Memoria limpia y lista
-    userName: "",    
+    chatHistory: [], // 🧠 La memoria a corto plazo de Aura
+    userName: "",    // 👤 El nombre del paciente
     
-    // 🔗 TU PUENTE CON VERCEL
+    // 🔗 TU PUENTE DE COMUNICACIÓN CON VERCEL
     apiUrl: "https://aura-server-sandy.vercel.app/api/chat",
 
     init: function() {
+        // Buscamos si el paciente ya se registró antes en la página
         this.userName = localStorage.getItem('valtara_identity_name_v11') || "Apreciable visitante";
         this.bindEvents();
     },
@@ -52,6 +53,7 @@ const AuraEngine = {
         
         this.isOpen = !this.isOpen;
         
+        // Saludo proactivo inicial
         if(this.isOpen && !this.hasGrit) {
             this.hasGrit = true;
             const chatLog = document.getElementById('aura-chat');
@@ -64,6 +66,7 @@ const AuraEngine = {
                 if (hour >= 4 && hour < 12) { timeGreeting = "Buenos días"; emoji = "☀️"; } 
                 else if (hour >= 12 && hour < 19) { timeGreeting = "Buenas tardes"; emoji = "🌤️"; }
 
+                // Saludo condicionado al nombre
                 let saludoPersonalizado = "";
                 if (this.userName !== "Apreciable visitante" && this.userName.trim() !== "") {
                     saludoPersonalizado = `¡${timeGreeting}, ${this.userName}! ${emoji}`;
@@ -71,9 +74,11 @@ const AuraEngine = {
                     saludoPersonalizado = `¡${timeGreeting}! ${emoji}`;
                 }
 
+                const initialGreetingText = `${saludoPersonalizado} Soy Aura, la IA de Valtara. Estoy lista para realizarte una valoración biomecánica pre-clínica. ¿En qué parte de tu cuerpo sientes mayor tensión o molestia el día de hoy?`;
                 const initialGreetingHtml = `${saludoPersonalizado} Soy Aura, la IA de Valtara. Estoy lista para realizarte una <strong>Valoración Biomecánica pre-clínica</strong>. ¿En qué parte de tu cuerpo sientes mayor tensión o molestia el día de hoy?`;
                 
-                // PARCHE APLICADO: Ya no guardamos este saludo en la memoria para que Google no marque error.
+                // Guardar el saludo en la memoria
+                this.chatHistory.push({ role: "model", parts: [{ text: initialGreetingText }] });
                 this.appendMsg(initialGreetingHtml, 'bot', true);
             }
         }
@@ -109,29 +114,17 @@ const AuraEngine = {
         this.sendMessageToAI(query);
     },
 
-    openNativeWhatsApp: function() {
-        const phone = "5213348572070";
-        let mensaje = "Hola Concierge de Valtara, Aura IA me realizó una valoración y deseo consultar disponibilidad en la agenda.";
-        
-        if (this.userName !== "Apreciable visitante" && this.userName.trim() !== "") {
-            mensaje = `Hola Concierge de Valtara, soy ${this.userName}. Aura IA me realizó una valoración y deseo consultar disponibilidad en la agenda.`;
-        }
-
-        const text = encodeURIComponent(mensaje);
-        const appUrl = `whatsapp://send?phone=${phone}&text=${text}`;
-        const webUrl = `https://wa.me/${phone}?text=${text}`;
-
-        window.location.href = appUrl;
-        setTimeout(() => { window.open(webUrl, '_blank'); }, 1500);
-    },
-
+    // ================================================================================
+    // MOTOR DE COMUNICACIÓN CON VERCEL (ENVIANDO MEMORIA Y NOMBRE)
+    // ================================================================================
     sendMessageToAI: async function(userText) {
         this.isTyping = true;
         const chatLog = document.getElementById('aura-chat');
         
-        // 1. Guardamos el mensaje del paciente (El historial ahora sí empieza con el humano)
+        // 1. Guardar el mensaje del paciente en la memoria
         this.chatHistory.push({ role: "user", parts: [{ text: userText }] });
 
+        // Animación de Aura pensando
         const typingDiv = document.createElement('div');
         typingDiv.className = 'typing-indicator active';
         typingDiv.id = 'temp-typing';
@@ -142,6 +135,7 @@ const AuraEngine = {
         if(window.A11yEngine) A11yEngine.announce("Aura está analizando tu caso...");
 
         try {
+            // 2. Enviar TODO (Memoria y Nombre) a tu servidor seguro en Vercel
             const response = await fetch(this.apiUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -160,22 +154,15 @@ const AuraEngine = {
             const data = await response.json();
             let auraRespuesta = data.reply;
 
+            // 3. Guardar la respuesta de Aura en la memoria
             this.chatHistory.push({ role: "model", parts: [{ text: auraRespuesta }] });
             
+            // 4. Formatear el texto (Convertir asteriscos en negritas y saltos de línea)
             let auraFormateada = auraRespuesta.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             auraFormateada = auraFormateada.replace(/\*(.*?)\*/g, '<em>$1</em>');
             auraFormateada = auraFormateada.replace(/\n/g, '<br>');
 
-            if (auraFormateada.includes("52 1 33 4857 2070")) {
-                const botonWhatsApp = `
-                    <br><br>
-                    <button onclick='AuraEngine.openNativeWhatsApp()' style='background: #25D366; color: white; border: none; padding: 12px 20px; border-radius: 20px; font-weight: bold; font-size: 1rem; cursor: pointer; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; gap: 8px;'>
-                        📲 Enviar a WhatsApp
-                    </button>
-                `;
-                auraFormateada += botonWhatsApp;
-            }
-
+            // Mostrar en pantalla
             this.appendMsg(auraFormateada, 'bot', true);
 
         } catch (error) {
@@ -185,6 +172,7 @@ const AuraEngine = {
             const errorMsg = "Por una leve interrupción en nuestra red segura corporativa, no he podido procesar tu solicitud. Por favor, comunícate directamente con nuestro Concierge en WhatsApp: <strong>52 1 33 4857 2070</strong>.";
             this.appendMsg(errorMsg, 'bot', true);
             
+            // En caso de error, borramos el último mensaje para no romper la memoria
             this.chatHistory.pop();
         } finally {
             this.isTyping = false;
@@ -207,7 +195,7 @@ const AuraEngine = {
         if(sender === 'bot' && window.A11yEngine) {
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = txtOrHtml;
-            A11yEngine.announce("Aura dice: " + tempDiv.innerText);
+            A11yEngine.announce("Aura dice: " + tempDiv.textContent);
         }
     }
 };
