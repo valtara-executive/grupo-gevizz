@@ -1,19 +1,23 @@
 /**
  * ====================================================================================
- * BLOQUE 8: AURA AI ENGINE V12.0 (INTEGRACIÓN LLM EN LA NUBE - VERCEL)
- * Motor de IA Generativa de Valtara, conectado a la bóveda segura de Vercel.
+ * BLOQUE 8: AURA AI ENGINE V12.5 (MEMORIA, NOMBRE DEL PACIENTE Y VERCEL)
+ * Motor de IA Front-end de Valtara.
  * ====================================================================================
  */
 
 const AuraEngine = {
     isOpen: false,
-    hasGrit: false, // Controla si ya saludó proactivamente
-    isTyping: false, // Evita que el usuario mande 20 mensajes seguidos
+    hasGrit: false, 
+    isTyping: false, 
+    chatHistory: [], // 🧠 La memoria a corto plazo de Aura
+    userName: "",    // 👤 El nombre del paciente
     
-    // 🔗 TU NUEVO PUENTE DE COMUNICACIÓN CON VERCEL
+    // 🔗 TU PUENTE DE COMUNICACIÓN CON VERCEL
     apiUrl: "https://aura-server-sandy.vercel.app/api/chat",
 
     init: function() {
+        // Buscamos si el paciente ya se registró antes en la página
+        this.userName = localStorage.getItem('valtara_identity_name_v11') || "Apreciable visitante";
         this.bindEvents();
     },
 
@@ -34,7 +38,6 @@ const AuraEngine = {
             });
         }
 
-        // Si el usuario toca un "chip" (botones de opciones rápidas)
         chips.forEach(chip => {
             chip.addEventListener('click', (e) => {
                 const query = e.target.getAttribute('data-query');
@@ -50,13 +53,12 @@ const AuraEngine = {
         
         this.isOpen = !this.isOpen;
         
-        // Saludo proactivo la primera vez que se abre el chat
+        // Saludo proactivo inicial
         if(this.isOpen && !this.hasGrit) {
             this.hasGrit = true;
             const chatLog = document.getElementById('aura-chat');
             
             if(chatLog && chatLog.children.length === 0) {
-                const userName = localStorage.getItem('valtara_identity_name_v11') || 'Apreciable visitante';
                 const hour = new Date().getHours();
                 let timeGreeting = "Buenas noches";
                 let emoji = "🌙";
@@ -64,8 +66,20 @@ const AuraEngine = {
                 if (hour >= 4 && hour < 12) { timeGreeting = "Buenos días"; emoji = "☀️"; } 
                 else if (hour >= 12 && hour < 19) { timeGreeting = "Buenas tardes"; emoji = "🌤️"; }
 
-                const initialGreeting = `¡${timeGreeting} ${userName}! ${emoji} Soy Aura, la IA de Valtara. Estoy lista para realizarte una <strong>Valoración Biomecánica pre-clínica</strong>. ¿En qué parte de tu cuerpo sientes mayor tensión, estrés o molestia el día de hoy?`;
-                this.appendMsg(initialGreeting, 'bot', true);
+                // Saludo condicionado al nombre
+                let saludoPersonalizado = "";
+                if (this.userName !== "Apreciable visitante" && this.userName.trim() !== "") {
+                    saludoPersonalizado = `¡${timeGreeting}, ${this.userName}! ${emoji}`;
+                } else {
+                    saludoPersonalizado = `¡${timeGreeting}! ${emoji}`;
+                }
+
+                const initialGreetingText = `${saludoPersonalizado} Soy Aura, la IA de Valtara. Estoy lista para realizarte una valoración biomecánica pre-clínica. ¿En qué parte de tu cuerpo sientes mayor tensión o molestia el día de hoy?`;
+                const initialGreetingHtml = `${saludoPersonalizado} Soy Aura, la IA de Valtara. Estoy lista para realizarte una <strong>Valoración Biomecánica pre-clínica</strong>. ¿En qué parte de tu cuerpo sientes mayor tensión o molestia el día de hoy?`;
+                
+                // Guardar el saludo en la memoria
+                this.chatHistory.push({ role: "model", parts: [{ text: initialGreetingText }] });
+                this.appendMsg(initialGreetingHtml, 'bot', true);
             }
         }
     },
@@ -80,7 +94,7 @@ const AuraEngine = {
     },
 
     handleInput: function() {
-        if(this.isTyping) return; // Si Aura está pensando, no deja enviar otro mensaje
+        if(this.isTyping) return; 
 
         const inputField = document.getElementById('aura-input');
         if (!inputField) return;
@@ -101,13 +115,16 @@ const AuraEngine = {
     },
 
     // ================================================================================
-    // EL NUEVO CEREBRO: CONEXIÓN CON VERCEL
+    // MOTOR DE COMUNICACIÓN CON VERCEL (ENVIANDO MEMORIA Y NOMBRE)
     // ================================================================================
     sendMessageToAI: async function(userText) {
         this.isTyping = true;
         const chatLog = document.getElementById('aura-chat');
         
-        // Mostrar indicador de "Aura está escribiendo..."
+        // 1. Guardar el mensaje del paciente en la memoria
+        this.chatHistory.push({ role: "user", parts: [{ text: userText }] });
+
+        // Animación de Aura pensando
         const typingDiv = document.createElement('div');
         typingDiv.className = 'typing-indicator active';
         typingDiv.id = 'temp-typing';
@@ -115,43 +132,48 @@ const AuraEngine = {
         chatLog.appendChild(typingDiv);
         chatLog.scrollTop = chatLog.scrollHeight;
 
-        if(window.A11yEngine) A11yEngine.announce("Aura está analizando tu mensaje...");
+        if(window.A11yEngine) A11yEngine.announce("Aura está analizando tu caso...");
 
         try {
-            // Enviamos el mensaje por el tubo seguro a Vercel
+            // 2. Enviar TODO (Memoria y Nombre) a tu servidor seguro en Vercel
             const response = await fetch(this.apiUrl, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ message: userText })
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ 
+                    history: this.chatHistory,
+                    userName: this.userName 
+                })
             });
 
-            // Borramos los puntitos de "Escribiendo..."
             if(document.getElementById('temp-typing')) document.getElementById('temp-typing').remove();
 
             if (!response.ok) {
-                throw new Error("Error en la conexión con el servidor de Valtara.");
+                throw new Error("Error en la conexión con el servidor.");
             }
 
             const data = await response.json();
-            
-            // Formatear el texto de la IA (Convertir asteriscos en Negritas y saltos de línea)
             let auraRespuesta = data.reply;
-            auraRespuesta = auraRespuesta.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Negritas
-            auraRespuesta = auraRespuesta.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Cursivas
-            auraRespuesta = auraRespuesta.replace(/\n/g, '<br>'); // Saltos de línea
 
-            // Mostrar la respuesta final
-            this.appendMsg(auraRespuesta, 'bot', true);
+            // 3. Guardar la respuesta de Aura en la memoria
+            this.chatHistory.push({ role: "model", parts: [{ text: auraRespuesta }] });
+            
+            // 4. Formatear el texto (Convertir asteriscos en negritas y saltos de línea)
+            let auraFormateada = auraRespuesta.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            auraFormateada = auraFormateada.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            auraFormateada = auraFormateada.replace(/\n/g, '<br>');
+
+            // Mostrar en pantalla
+            this.appendMsg(auraFormateada, 'bot', true);
 
         } catch (error) {
             console.error("Error del Motor AI:", error);
             if(document.getElementById('temp-typing')) document.getElementById('temp-typing').remove();
             
-            // Mensaje de emergencia si falla el internet o el servidor
             const errorMsg = "Por una leve interrupción en nuestra red segura corporativa, no he podido procesar tu solicitud. Por favor, comunícate directamente con nuestro Concierge en WhatsApp: <strong>52 1 33 4857 2070</strong>.";
             this.appendMsg(errorMsg, 'bot', true);
+            
+            // En caso de error, borramos el último mensaje para no romper la memoria
+            this.chatHistory.pop();
         } finally {
             this.isTyping = false;
         }
@@ -164,21 +186,12 @@ const AuraEngine = {
         const div = document.createElement('div'); 
         div.className = `msg ${sender}`;
         
-        if(isHtml) { 
-            div.innerHTML = txtOrHtml; 
-        } else { 
-            div.textContent = txtOrHtml; 
-        }
+        if(isHtml) { div.innerHTML = txtOrHtml; } 
+        else { div.textContent = txtOrHtml; }
         
         log.appendChild(div);
+        log.scrollTo({ top: log.scrollHeight, behavior: 'smooth' });
         
-        // Animación suave de scroll hacia abajo
-        log.scrollTo({
-            top: log.scrollHeight,
-            behavior: 'smooth'
-        });
-        
-        // Anuncio para tu Lector de Pantalla
         if(sender === 'bot' && window.A11yEngine) {
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = txtOrHtml;
@@ -187,5 +200,4 @@ const AuraEngine = {
     }
 };
 
-// Encender el motor cuando la página web termine de cargar
 window.addEventListener('DOMContentLoaded', () => AuraEngine.init());
