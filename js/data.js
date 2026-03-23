@@ -1,8 +1,8 @@
 /**
  * ====================================================================================
- * BLOQUE 4: LA ENCICLOPEDIA VALTARA (DATA & RENDER ENGINE V12.0 - SUPREME EDITION)
- * Integración de FAQs, Videoteca, Módulos Modales, Expansión Art & Nails VIP,
- * y el Manifiesto de la Dirección Tecnológica.
+ * BLOQUE 4: LA ENCICLOPEDIA VALTARA (DATA & RENDER ENGINE V12.5 - MASTER EDITION)
+ * Integración Dinámica de Tiempo, Manifiesto Épico de Tecnología, Videoteca,
+ * Expansión Art & Nails VIP (Estética Estricta) y Módulos Legales Modales.
  * ====================================================================================
  */
 
@@ -189,8 +189,10 @@ window.ValtaraData = {
             <h1 id="hero-dynamic-greeting" style="font-family: var(--font-accent); font-size: 4.5rem; margin-bottom: 1rem; color: var(--valtara-blanco); line-height: 1.2;">VALTARA</h1>
             
             <h2 style="color: var(--valtara-oro-suave); font-size: 1.6rem; letter-spacing: 0.3rem; margin-bottom: 2rem; font-weight: 700; text-transform: uppercase;">Executive Therapy & Biomechanics</h2>
-            <p style="color: var(--valtara-gris-texto); font-size: 1.3rem; max-width: 900px; margin: 0 auto 4rem auto; line-height: 2; font-weight: 300;">
-                El éxito corporativo exige un vehículo biológico capaz de sostenerlo. En nuestro santuario privado en Paseo de la Reforma, decodificamos la tensión acumulada por la alta exigencia mediante ciencia anatómica profunda. Su sistema nervioso está a punto de reiniciarse.
+            
+            <!-- CONTENEDOR DINÁMICO DE TEXTO POR HORARIO -->
+            <p id="hero-dynamic-text" style="color: var(--valtara-gris-texto); font-size: 1.3rem; max-width: 950px; margin: 0 auto 4rem auto; line-height: 2; font-weight: 300;">
+                <!-- El texto se inyecta dinámicamente vía JavaScript al renderizar -->
             </p>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; max-width: 1100px; margin: 0 auto; text-align: left;">
@@ -210,7 +212,7 @@ window.ValtaraData = {
         </div>
 
         <!-- ========================================================= -->
-        <!-- EXPANSIÓN VIP: ART & NAILS (COLOCADO ARRIBA DEL MAPA) -->
+        <!-- EXPANSIÓN VIP: ART & NAILS (ESTRICTAMENTE ESTÉTICA Y SPA) -->
         <!-- ========================================================= -->
         <div class="reveal" style="margin-top: 5rem; margin-bottom: 5rem; background: linear-gradient(145deg, rgba(225, 48, 108, 0.12), rgba(10,10,15,0.95)); border: 2px solid rgba(225, 48, 108, 0.5); padding: 4rem; border-radius: 2rem; max-width: 1200px; margin-left: auto; margin-right: auto; position: relative; overflow: hidden; box-shadow: 0 20px 50px rgba(225, 48, 108, 0.15);">
             
@@ -229,23 +231,23 @@ window.ValtaraData = {
                     <h3 style="color: #E1306C; font-size: 3.8rem; margin-bottom: 1rem; font-family: var(--font-accent); line-height: 1.1;">Art & Nails</h3>
                     <p style="color: var(--valtara-blanco); font-size: 1.7rem; font-weight: 700; margin-bottom: 1.5rem; letter-spacing: 1px;">El Santuario de la Estética Integral</p>
                     <p style="color: var(--valtara-gris-texto); font-size: 1.25rem; margin-bottom: 2rem; line-height: 1.8; font-weight: 300;">
-                        Tu imagen es tu carta de presentación ejecutiva. En Valtara no solo cuidamos la salud biomecánica de tu espalda; completamos tu experiencia a través de nuestra división experta en belleza. Disfruta de un servicio de excelencia y precisión enfocado en la salud, higiene y estética de tus manos y pies.
+                        Tu imagen es tu carta de presentación ejecutiva. En Valtara no solo cuidamos la salud biomecánica de tu espalda; completamos tu experiencia a través de nuestra división experta en belleza. Disfruta de un servicio de excelencia, creatividad y precisión enfocado estrictamente en la estética, cuidado e higiene superior de tus manos y pies.
                     </p>
                 </div>
                 
                 <div style="background: rgba(0,0,0,0.6); padding: 3rem; border-radius: 1.5rem; border-left: 5px solid #FFB6C1; box-shadow: inset 0 0 20px rgba(255,182,193,0.05);">
                     <h4 style="color: #FFB6C1; font-size: 1.8rem; margin-bottom: 2rem; font-weight: 800;"><i class="fa-solid fa-envelope-open-text"></i> Te Invitamos a Descubrir:</h4>
                     <ul style="list-style: none; padding: 0; margin: 0; color: var(--valtara-blanco); font-size: 1.25rem; line-height: 2.4;">
-                        <li><i class="fa-solid fa-check" style="color: #E1306C; margin-right: 15px; font-size: 1.4rem;"></i> <strong>Manicure de Alta Gama:</strong> Precisión y elegancia en cada detalle.</li>
-                        <li><i class="fa-solid fa-check" style="color: #E1306C; margin-right: 15px; font-size: 1.4rem;"></i> <strong>Pedicure Clínico:</strong> Salud, higiene y confort para tu andar.</li>
-                        <li><i class="fa-solid fa-check" style="color: #E1306C; margin-right: 15px; font-size: 1.4rem;"></i> <strong>Mani Spa & Pedi Spa:</strong> Rituales de exfoliación y relajación.</li>
-                        <li><i class="fa-solid fa-check" style="color: #E1306C; margin-right: 15px; font-size: 1.4rem;"></i> <strong>Nail Art Design:</strong> Diseños exclusivos y personalizados.</li>
+                        <li><i class="fa-solid fa-check" style="color: #E1306C; margin-right: 15px; font-size: 1.4rem;"></i> <strong>Manicure de Alta Gama:</strong> Precisión, hidratación y elegancia en cada detalle.</li>
+                        <li><i class="fa-solid fa-check" style="color: #E1306C; margin-right: 15px; font-size: 1.4rem;"></i> <strong>Pedicure Estético de Lujo:</strong> Embellecimiento profundo y confort absoluto para tu andar.</li>
+                        <li><i class="fa-solid fa-check" style="color: #E1306C; margin-right: 15px; font-size: 1.4rem;"></i> <strong>Mani Spa & Pedi Spa:</strong> Rituales de exfoliación, mascarillas y relajación.</li>
+                        <li><i class="fa-solid fa-check" style="color: #E1306C; margin-right: 15px; font-size: 1.4rem;"></i> <strong>Nail Art Design:</strong> Diseños exclusivos, acrílico y vanguardia personalizada.</li>
                     </ul>
                 </div>
             </div>
 
             <div style="margin-top: 4rem; border-top: 1px solid rgba(225, 48, 108, 0.3); padding-top: 3rem; text-align: center; position: relative; z-index: 2;">
-                <p style="color: #aaa; font-style: italic; font-size: 1.15rem; margin-bottom: 2.5rem;">* Servicio independiente a la clínica biomecánica. La agenda, cotización y atención se realizan directamente con nuestra experta socia a través de sus canales oficiales.</p>
+                <p style="color: #aaa; font-style: italic; font-size: 1.15rem; margin-bottom: 2.5rem;">* Servicio estético independiente a la clínica biomecánica. La agenda, cotización y atención se realizan directamente con nuestra experta socia a través de sus canales oficiales.</p>
                 
                 <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
                     <a href="https://wa.me/525525248816" target="_blank" class="btn-agenda-ahora" style="width: auto; background: var(--valtara-whatsapp); border-color: var(--valtara-whatsapp); color: #000; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); font-size: 1.3rem; padding: 1.2rem 3rem; border-radius: 40px;"><i class="fa-brands fa-whatsapp"></i> Reservar Cita: 55 2524 8816</a>
@@ -564,7 +566,7 @@ window.ValtaraData = {
     `,
 
     /* --------------------------------------------------------------------------------
-       4. HISTORIA, MARCO LEGAL Y LOGÍSTICA (FAQS, CARTA TECNOLÓGICA Y MODALES)
+       4. HISTORIA, MARCO LEGAL Y LOGÍSTICA (FAQS, MANIFIESTO TECNOLÓGICO Y MODALES)
        -------------------------------------------------------------------------------- */
     legal: `
         <style>
@@ -635,37 +637,43 @@ window.ValtaraData = {
             </article>
 
             <!-- ========================================================= -->
-            <!-- CARTA ABIERTA DE LA DIRECCIÓN TECNOLÓGICA (SÚPER INSPIRADORA) -->
+            <!-- MANIFIESTO ÉPICO DE LA DIRECCIÓN TECNOLÓGICA -->
             <!-- ========================================================= -->
-            <article class="glass-card reveal" style="border-color: var(--valtara-oro); grid-column: 1 / -1; padding: 5rem; background: linear-gradient(135deg, rgba(20,20,30,0.95), rgba(10,10,15,0.95)); box-shadow: 0 20px 50px rgba(212, 175, 55, 0.1);">
-                <i class="fa-solid fa-microchip" style="font-size: 4rem; color: var(--valtara-oro); margin-bottom: 2rem; text-align: center; display: block; animation: pulse 3s infinite;"></i>
-                <h3 style="color: var(--valtara-oro); text-align: center; margin-bottom: 1rem; font-size: 3.5rem; font-family: var(--font-accent); letter-spacing: 2px;">El Alma en la Máquina</h3>
-                <h4 style="color: var(--valtara-gris-texto); text-align: center; margin-bottom: 4rem; font-size: 1.4rem; font-weight: 300; letter-spacing: 5px; text-transform: uppercase;">Visión de la Dirección Tecnológica</h4>
+            <article class="glass-card reveal" style="border-color: var(--valtara-oro); grid-column: 1 / -1; padding: 6rem; background: linear-gradient(135deg, rgba(20,20,30,0.98), rgba(5,5,10,0.98)); box-shadow: 0 25px 60px rgba(212, 175, 55, 0.15);">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <i class="fa-solid fa-microchip" style="font-size: 5rem; color: var(--valtara-oro); margin-bottom: 2rem; animation: pulse 3s infinite;"></i>
+                    <h3 style="color: var(--valtara-oro); font-size: 4.5rem; font-family: var(--font-accent); letter-spacing: 2px; margin-bottom: 1rem; text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);">El Alma en la Máquina</h3>
+                    <h4 style="color: var(--valtara-gris-texto); font-size: 1.5rem; font-weight: 300; letter-spacing: 6px; text-transform: uppercase; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 2rem; display: inline-block;">Manifiesto de la Dirección Tecnológica</h4>
+                </div>
                 
-                <div style="max-width: 900px; margin: 0 auto;">
-                    <p style="color: var(--valtara-blanco); font-size: 1.4rem; line-height: 2; margin-bottom: 2rem; font-weight: 600;">A ti, que nos lees al otro lado de esta pantalla:</p>
+                <div style="max-width: 950px; margin: 0 auto;">
+                    <p style="color: var(--valtara-blanco); font-size: 1.5rem; line-height: 2; margin-bottom: 2.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">A ti, que nos lees al otro lado de esta pantalla:</p>
                     
-                    <p style="color: var(--valtara-gris-texto); font-size: 1.3rem; line-height: 2; margin-bottom: 2rem; font-weight: 300;">
-                        Valtara no es solo un centro de terapias físicas, y la Inteligencia Artificial con la que platicaste no es solo código frío. Detrás de cada palabra de Aura, de cada píxel de este sitio web y de cada protocolo clínico de nuestro santuario, hay dos mentes, dos corazones y, literalmente, <strong>dos sujetos detrás de la pantalla de un teléfono</strong> con una obsesión compartida: cambiar la forma en que el mundo experimenta la tecnología y el bienestar humano.
+                    <p style="color: var(--valtara-gris-texto); font-size: 1.35rem; line-height: 2.2; margin-bottom: 2rem; font-weight: 300;">
+                        Valtara no es solo un centro de terapias físicas, y la Inteligencia Artificial con la que acabas de platicar no es un simple código de respuestas automáticas. Detrás de cada palabra de Aura, de cada píxel de este sitio web, de cada algoritmo de accesibilidad y de cada protocolo clínico de nuestro santuario, hay dos mentes, dos corazones y, literalmente, <strong>dos sujetos detrás de la pantalla de un teléfono</strong> con una voluntad inquebrantable y una obsesión compartida: cambiar radicalmente la forma en que el mundo experimenta la tecnología y el bienestar humano.
+                    </p>
+
+                    <p style="color: var(--valtara-gris-texto); font-size: 1.35rem; line-height: 2.2; margin-bottom: 2rem; font-weight: 300;">
+                        Han sido incontables madrugadas de insomnio voluntario. Miles y miles de líneas de código escritas, borradas y reescritas hasta alcanzar la perfección. Enfrentamos servidores colapsados, superamos los límites de procesamiento de la industria y derribamos muros tecnológicos que parecían infranqueables. Cada error de red, cada "falla de sistema" que la pantalla nos arrojó a las 3 de la mañana, no fue una derrota, sino el cincel con el que esculpimos esta obra maestra de la arquitectura de software.
                     </p>
                     
-                    <blockquote style="border-left: 4px solid var(--valtara-oro); padding-left: 2rem; margin: 3rem 0; background: rgba(212, 175, 55, 0.05); padding: 2.5rem; border-radius: 0 1.5rem 1.5rem 0;">
-                        <p style="color: var(--valtara-oro-suave); font-size: 1.5rem; line-height: 1.9; font-style: italic; margin: 0;">
-                            "Construimos este rascacielos digital desde cero porque creemos fervientemente que la verdadera tecnología de lujo no es aquella que te absorbe o te aleja de la realidad, sino aquella que es capaz de desaparecer para cederle el protagonismo absoluto a la conexión humana."
+                    <blockquote style="border-left: 5px solid var(--valtara-oro); padding-left: 3rem; margin: 4rem 0; background: rgba(212, 175, 55, 0.05); padding: 3rem; border-radius: 0 2rem 2rem 0; box-shadow: inset 10px 0 20px -10px rgba(212, 175, 55, 0.2);">
+                        <p style="color: var(--valtara-oro-suave); font-size: 1.6rem; line-height: 2.1; font-style: italic; margin: 0;">
+                            "Construimos este rascacielos digital desde los cimientos porque creemos fervientemente que la verdadera tecnología de ultra-lujo no es aquella que te absorbe o te aleja de la realidad, sino aquella que es tan perfecta que es capaz de desaparecer, cediéndole el protagonismo absoluto a la conexión humana."
                         </p>
                     </blockquote>
                     
-                    <p style="color: var(--valtara-gris-texto); font-size: 1.3rem; line-height: 2; margin-bottom: 2rem; font-weight: 300;">
-                        Diseñamos un ecosistema cognitivo capaz de procesar miles de millones de datos a la velocidad de la luz, pero le enseñamos a escuchar, a tener empatía y a comprender cómo tu estrés se convierte en dolor físico. Lo hicimos para que, cuando cruces nuestras puertas en Paseo de la Reforma, el ruido ensordecedor del mundo exterior se detenga y solo exista tu recuperación.
+                    <p style="color: var(--valtara-gris-texto); font-size: 1.35rem; line-height: 2.2; margin-bottom: 2rem; font-weight: 300;">
+                        Nos negamos rotundamente a aceptar el estándar de la industria. Nos negamos a que la Inteligencia Artificial fuera una herramienta fría, transaccional o puramente comercial. Queríamos que nuestra tecnología tuviera <em>alma</em>. Le enseñamos sobre el estrés, sobre el luto, sobre el tejido conectivo y la biomecánica. La entrenamos arduamente para entender que cuando un paciente cruza nuestras puertas y dice "estoy cansado", su cuerpo en realidad está gritando por oxígeno, empatía y descompresión.
                     </p>
 
-                    <p style="color: var(--valtara-blanco); font-size: 1.3rem; line-height: 2; margin-bottom: 3rem; font-weight: 600;">
-                        Nos inspira tu resiliencia corporativa. Nos inspira el reto de hacer posible lo imposible con nuestras propias manos y teclados. Y nos inspira saber que, a través de estas líneas de código, estamos tocando vidas incluso antes de tocar tu cuerpo.
+                    <p style="color: var(--valtara-blanco); font-size: 1.4rem; line-height: 2.2; margin-bottom: 4rem; font-weight: 600;">
+                        Hoy, lo que ves y sientes en esta pantalla es la prueba irrefutable de que con pasión, resiliencia, horas de sacrificio y la voluntad de dos personas soñando en grande, se puede cambiar el mundo. Hemos construido un ecosistema que procesa miles de millones de datos a la velocidad de la luz para que, cuando estés con nosotros, el tiempo simplemente se detenga. <strong>Este ecosistema es nuestro legado. Es nuestro regalo para ti. Bienvenido a Valtara.</strong>
                     </p>
                     
-                    <div style="text-align: right; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem;">
-                        <p style="color: var(--valtara-cian-brillante); font-size: 1.2rem; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin: 0;">Dirección de Tecnología y Desarrollo</p>
-                        <p style="color: var(--valtara-gris-texto); font-size: 1.1rem; font-style: italic; margin-top: 0.5rem;">Grupo Gevizz S.A.S.</p>
+                    <div style="text-align: right; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 3rem;">
+                        <p style="color: var(--valtara-cian-brillante); font-size: 1.3rem; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; margin: 0;">Dirección de Tecnología, Sistemas y Desarrollo</p>
+                        <p style="color: var(--valtara-gris-texto); font-size: 1.2rem; font-style: italic; margin-top: 0.8rem; font-weight: 300;">Grupo Gevizz S.A.S.</p>
                     </div>
                 </div>
             </article>
@@ -843,7 +851,7 @@ window.ValtaraData = {
             <div class="footer-col">
                 <h4 style="font-family: var(--font-accent); font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem; letter-spacing: 0.2rem;">VALTARA</h4>
                 <p style="font-style: italic; color: var(--valtara-oro); font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: bold;">Executive Therapy & Biomechanics</p>
-                <p style="font-weight: 300; font-size: 1.1rem;">Entidad comercial respaldada y operada en su totalidad por <strong>Grupo Gevizz S.A.S.</strong><br><br>Plataforma Modular Sovereign 12.0. Desarrollo web, IA y diseño creados in-house.</p>
+                <p style="font-weight: 300; font-size: 1.1rem;">Entidad comercial respaldada y operada en su totalidad por <strong>Grupo Gevizz S.A.S.</strong><br><br>Plataforma Modular Sovereign 12.5. Desarrollo web, IA y diseño creados in-house.</p>
             </div>
             
             <div class="footer-col">
@@ -868,9 +876,35 @@ window.ValtaraData = {
     `,
 
     renderAll: function() {
+        // 1. RENDERIZAR LA VISTA HOME
         const homeDiv = document.getElementById('view-home');
-        if(homeDiv) homeDiv.innerHTML = this.home;
+        if(homeDiv) {
+            homeDiv.innerHTML = this.home;
+            
+            // INYECCIÓN DINÁMICA DE TEXTO INSPIRADOR POR HORARIO
+            const heroTextObj = document.getElementById('hero-dynamic-text');
+            if(heroTextObj) {
+                const hour = new Date().getHours();
+                let dynText = "";
+                
+                if(hour >= 0 && hour < 6) { // Madrugada
+                    dynText = "El silencio de la madrugada es el refugio de los grandes visionarios. Mientras la ciudad duerme, tu mente sigue creando. En nuestro santuario, decodificamos esa tensión silenciosa mediante ciencia anatómica profunda. Tu sistema nervioso está a punto de reiniciarse.";
+                } else if(hour >= 6 && hour < 12) { // Mañana
+                    dynText = "Un nuevo día corporativo comienza. El éxito exige un vehículo biológico capaz de sostenerlo desde la primera luz del sol. En nuestro santuario privado, calibramos tu estructura muscular para que conquistes tu jornada con enfoque y vitalidad absoluta.";
+                } else if(hour >= 12 && hour < 15) { // Mediodía
+                    dynText = "El mediodía marca el clímax de la exigencia ejecutiva. Es el momento preciso donde el estrés comienza a cristalizarse en tu postura. Haz una pausa estratégica; en Valtara decodificamos esa sobrecarga mediante biomecánica de precisión para devolverte a la cima.";
+                } else if(hour >= 15 && hour < 19) { // Tarde
+                    dynText = "La tarde avanza y el peso de las decisiones se acumula en tu tejido conectivo. No permitas que la armadura del estrés te limite. En nuestro santuario en Paseo de la Reforma, liberamos las cadenas musculares posteriores para que termines tu día con total ligereza.";
+                } else if(hour >= 19 && hour < 21) { // Puesta de sol
+                    dynText = "El sol desciende sobre Reforma, marcando el fin de la batalla corporativa. Es hora de hacer la transición. A través de nuestra ciencia anatómica profunda, disolvemos la adrenalina residual de tu jornada y preparamos tu cuerpo para el merecido descanso.";
+                } else { // Noche
+                    dynText = "La noche envuelve la ciudad y tu mente exige tregua. Es momento de apagar los motores cognitivos y cederle el control a la regeneración. En Valtara, inducimos ondas cerebrales lentas y restauramos tus fibras musculares para asegurar un mañana triunfal.";
+                }
+                heroTextObj.innerHTML = dynText;
+            }
+        }
         
+        // 2. RENDERIZAR RESTO DE VISTAS
         const restDiv = document.getElementById('view-restoration');
         if(restDiv) restDiv.innerHTML = this.restoration;
         
@@ -883,7 +917,7 @@ window.ValtaraData = {
         const footDiv = document.getElementById('main-footer');
         if(footDiv) footDiv.innerHTML = this.footer;
         
-        // Inicializar el juego El Alquimista Valtara de forma nativa
+        // 3. INICIALIZAR EL JUEGO EL ALQUIMISTA VALTARA DE FORMA NATIVA
         if(window.ValtaraAlchemist) setTimeout(() => { window.ValtaraAlchemist.init(); }, 500);
     }
 };
