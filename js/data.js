@@ -1,8 +1,8 @@
 /**
  * ====================================================================================
- * BLOQUE 4: LA ENCICLOPEDIA VALTARA (DATA & RENDER ENGINE V11.5)
- * Integración de FAQs, Expansión Científica, Juego "El Alquimista", 
- * Videoteca, Expansión Art & Nails y Módulos Legales Emergentes (Modales).
+ * BLOQUE 4: LA ENCICLOPEDIA VALTARA (DATA & RENDER ENGINE V12.0 - SUPREME EDITION)
+ * Integración de FAQs, Videoteca, Módulos Modales, Expansión Art & Nails VIP,
+ * y el Manifiesto de la Dirección Tecnológica.
  * ====================================================================================
  */
 
@@ -103,7 +103,7 @@ window.ValtaraAlchemist = {
         
         const data = this.scenarios[this.currentLvl];
         
-        // Barajar opciones (Fisher-Yates)
+        // Barajar opciones
         let opts = [...data.options];
         for (let i = opts.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -132,7 +132,6 @@ window.ValtaraAlchemist = {
                 </div>
                 
                 <div id="alchemist-feedback" aria-live="polite" style="display: none; margin-top: 3rem; padding: 2rem; border-radius: 1rem;">
-                    <!-- Feedback aparece aquí -->
                 </div>
                 
                 <button onclick="window.ValtaraAlchemist.init()" style="margin-top: 2rem; background: transparent; border: none; color: var(--valtara-gris-texto); text-decoration: underline; cursor: pointer; font-size: 1rem;">Cargar otro paciente (Nuevo Nivel)</button>
@@ -141,7 +140,6 @@ window.ValtaraAlchemist = {
         
         gameDiv.innerHTML = html;
         
-        // Accesibilidad
         if(window.A11yEngine && window.A11yEngine.ttsActive) {
             window.A11yEngine.announce("El Alquimista Valtara. Caso clínico: " + data.case + ". Elige un aceite de las opciones.");
         }
@@ -180,7 +178,7 @@ window.ValtaraAlchemist = {
 
 window.ValtaraData = {
     /* --------------------------------------------------------------------------------
-       1. SECCIÓN INICIO Y MAPA CORPORAL EXPANDIBLE + EXPANSIÓN ART & NAILS
+       1. SECCIÓN INICIO, ART & NAILS VIP Y MAPA CORPORAL EXPANDIBLE
        -------------------------------------------------------------------------------- */
     home: `
         <div class="hero-view reveal" style="text-align: center; padding: 4rem 0;">
@@ -211,7 +209,52 @@ window.ValtaraData = {
             </div>
         </div>
 
-        <div class="body-map-container reveal" style="margin-top: 5rem; background: rgba(0,0,0,0.6); border: 2px solid rgba(0, 255, 255, 0.2); border-radius: 2rem; padding: 4rem 3rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 4rem; backdrop-filter: blur(20px); box-shadow: 0 2rem 5rem rgba(0,0,0,0.8);">
+        <!-- ========================================================= -->
+        <!-- EXPANSIÓN VIP: ART & NAILS (COLOCADO ARRIBA DEL MAPA) -->
+        <!-- ========================================================= -->
+        <div class="reveal" style="margin-top: 5rem; margin-bottom: 5rem; background: linear-gradient(145deg, rgba(225, 48, 108, 0.12), rgba(10,10,15,0.95)); border: 2px solid rgba(225, 48, 108, 0.5); padding: 4rem; border-radius: 2rem; max-width: 1200px; margin-left: auto; margin-right: auto; position: relative; overflow: hidden; box-shadow: 0 20px 50px rgba(225, 48, 108, 0.15);">
+            
+            <!-- Burbujas Flotantes Decorativas -->
+            <div style="position: absolute; top: -30px; right: -30px; width: 150px; height: 150px; background: #E1306C; border-radius: 50%; opacity: 0.2; filter: blur(30px);"></div>
+            <div style="position: absolute; bottom: -50px; left: -50px; width: 200px; height: 200px; background: #ffaa00; border-radius: 50%; opacity: 0.1; filter: blur(40px);"></div>
+            
+            <!-- Etiqueta Partner -->
+            <div style="position: absolute; top: 30px; right: 30px; animation: pulse 2.5s infinite;">
+                <span style="background: linear-gradient(45deg, #E1306C, #bc1888); color: white; padding: 0.6rem 1.5rem; border-radius: 30px; font-weight: 800; font-size: 1rem; box-shadow: 0 4px 20px rgba(225, 48, 108, 0.5); letter-spacing: 1px; text-transform: uppercase;"><i class="fa-solid fa-crown"></i> Beauty Partner Oficial</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 4rem; align-items: center; position: relative; z-index: 2;">
+                <div>
+                    <i class="fa-solid fa-hands-bubbles" style="font-size: 5rem; color: #E1306C; margin-bottom: 2rem;"></i>
+                    <h3 style="color: #E1306C; font-size: 3.8rem; margin-bottom: 1rem; font-family: var(--font-accent); line-height: 1.1;">Art & Nails</h3>
+                    <p style="color: var(--valtara-blanco); font-size: 1.7rem; font-weight: 700; margin-bottom: 1.5rem; letter-spacing: 1px;">El Santuario de la Estética Integral</p>
+                    <p style="color: var(--valtara-gris-texto); font-size: 1.25rem; margin-bottom: 2rem; line-height: 1.8; font-weight: 300;">
+                        Tu imagen es tu carta de presentación ejecutiva. En Valtara no solo cuidamos la salud biomecánica de tu espalda; completamos tu experiencia a través de nuestra división experta en belleza. Disfruta de un servicio de excelencia y precisión enfocado en la salud, higiene y estética de tus manos y pies.
+                    </p>
+                </div>
+                
+                <div style="background: rgba(0,0,0,0.6); padding: 3rem; border-radius: 1.5rem; border-left: 5px solid #FFB6C1; box-shadow: inset 0 0 20px rgba(255,182,193,0.05);">
+                    <h4 style="color: #FFB6C1; font-size: 1.8rem; margin-bottom: 2rem; font-weight: 800;"><i class="fa-solid fa-envelope-open-text"></i> Te Invitamos a Descubrir:</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; color: var(--valtara-blanco); font-size: 1.25rem; line-height: 2.4;">
+                        <li><i class="fa-solid fa-check" style="color: #E1306C; margin-right: 15px; font-size: 1.4rem;"></i> <strong>Manicure de Alta Gama:</strong> Precisión y elegancia en cada detalle.</li>
+                        <li><i class="fa-solid fa-check" style="color: #E1306C; margin-right: 15px; font-size: 1.4rem;"></i> <strong>Pedicure Clínico:</strong> Salud, higiene y confort para tu andar.</li>
+                        <li><i class="fa-solid fa-check" style="color: #E1306C; margin-right: 15px; font-size: 1.4rem;"></i> <strong>Mani Spa & Pedi Spa:</strong> Rituales de exfoliación y relajación.</li>
+                        <li><i class="fa-solid fa-check" style="color: #E1306C; margin-right: 15px; font-size: 1.4rem;"></i> <strong>Nail Art Design:</strong> Diseños exclusivos y personalizados.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-top: 4rem; border-top: 1px solid rgba(225, 48, 108, 0.3); padding-top: 3rem; text-align: center; position: relative; z-index: 2;">
+                <p style="color: #aaa; font-style: italic; font-size: 1.15rem; margin-bottom: 2.5rem;">* Servicio independiente a la clínica biomecánica. La agenda, cotización y atención se realizan directamente con nuestra experta socia a través de sus canales oficiales.</p>
+                
+                <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                    <a href="https://wa.me/525525248816" target="_blank" class="btn-agenda-ahora" style="width: auto; background: var(--valtara-whatsapp); border-color: var(--valtara-whatsapp); color: #000; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); font-size: 1.3rem; padding: 1.2rem 3rem; border-radius: 40px;"><i class="fa-brands fa-whatsapp"></i> Reservar Cita: 55 2524 8816</a>
+                    <a href="https://www.instagram.com/art.nails02?igsh=MTk0YnF1aDMwN3gybg==" target="_blank" class="btn-agenda-ahora" style="width: auto; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border: none; color: white; box-shadow: 0 8px 25px rgba(225, 48, 108, 0.4); font-size: 1.3rem; padding: 1.2rem 3rem; border-radius: 40px;"><i class="fa-brands fa-instagram"></i> Ver Galería en Instagram</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="body-map-container reveal" style="margin-top: 2rem; background: rgba(0,0,0,0.6); border: 2px solid rgba(0, 255, 255, 0.2); border-radius: 2rem; padding: 4rem 3rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 4rem; backdrop-filter: blur(20px); box-shadow: 0 2rem 5rem rgba(0,0,0,0.8);">
             <div>
                 <h3 style="font-family: var(--font-accent); color: var(--valtara-cian-brillante); font-size: 3rem; margin-bottom: 1.5rem;"><i class="fa-solid fa-microscope"></i> Triaje Educativo</h3>
                 <p style="color: var(--valtara-gris-texto); font-size: 1.25rem; margin-bottom: 3rem; line-height: 1.8;">Haz clic en la zona principal donde sientes estrés. Te educaremos sobre lo que ocurre dentro de tu cuerpo desplegando información profunda.</p>
@@ -229,48 +272,17 @@ window.ValtaraData = {
             </div>
         </div>
 
+        <!-- REDES SOCIALES HASTA ABAJO -->
         <div class="reveal" style="margin-top: 6rem; background: rgba(20,20,30,0.8); border: 1px solid var(--valtara-blanco); border-radius: 2rem; padding: 4rem 2rem; text-align: center;">
             <h3 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--valtara-blanco); font-family: var(--font-accent);">Únete a nuestra Comunidad</h3>
-            <p style="color: var(--valtara-gris-texto); font-size: 1.2rem; margin-bottom: 3rem;">Sigue nuestro contenido de educación biomecánica y bienestar.</p>
+            <p style="color: var(--valtara-gris-texto); font-size: 1.2rem; margin-bottom: 3rem;">Sigue nuestro contenido de educación biomecánica y bienestar digital.</p>
             
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-bottom: 5rem;">
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-bottom: 2rem;">
                 <a href="https://www.facebook.com/Valtara.mx" target="_blank" class="btn-primary" style="background: #1877F2; border-color: #1877F2; color: white;"><i class="fa-brands fa-facebook"></i> Facebook</a>
                 <a href="https://www.instagram.com/valtara.mx" target="_blank" class="btn-primary" style="background: #E1306C; border-color: #E1306C; color: white;"><i class="fa-brands fa-instagram"></i> Instagram</a>
                 <a href="https://www.tiktok.com/@valtara.mx" target="_blank" class="btn-primary" style="background: #000; border-color: #333; color: white;"><i class="fa-brands fa-tiktok"></i> TikTok</a>
                 <a href="https://youtube.com/@valtaramexico" target="_blank" class="btn-primary" style="background: #FF0000; border-color: #FF0000; color: white;"><i class="fa-brands fa-youtube"></i> YouTube</a>
             </div>
-
-            <!-- EXPANSIÓN: ART & NAILS (SOCIA MANICURISTA) -->
-            <div style="background: linear-gradient(145deg, rgba(225, 48, 108, 0.1), rgba(0,0,0,0.8)); border: 2px solid #E1306C; padding: 3.5rem; border-radius: 2rem; max-width: 900px; margin: 0 auto; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(225, 48, 108, 0.2);">
-                
-                <!-- Burbuja Flotante Animada -->
-                <div style="position: absolute; top: -20px; right: -20px; width: 120px; height: 120px; background: #E1306C; border-radius: 50%; opacity: 0.15; filter: blur(20px);"></div>
-                <div style="position: absolute; top: 20px; right: 20px; animation: pulse 2s infinite;">
-                    <span style="background: #E1306C; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: bold; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(225, 48, 108, 0.4);"><i class="fa-solid fa-star"></i> Beauty Partner</span>
-                </div>
-
-                <i class="fa-solid fa-hands-bubbles" style="font-size: 4rem; color: #E1306C; margin-bottom: 1.5rem;"></i>
-                <h3 style="color: #E1306C; font-size: 2.8rem; margin-bottom: 1rem; font-family: var(--font-accent);">Art and Nails</h3>
-                <p style="color: var(--valtara-blanco); font-size: 1.4rem; font-weight: 600; margin-bottom: 1rem;">El Santuario de la Estética y Cuidado Integral</p>
-                <p style="color: var(--valtara-gris-texto); font-size: 1.15rem; margin-bottom: 2rem; line-height: 1.8;">
-                    Completamos tu experiencia de bienestar a través de nuestra división experta en belleza. Disfruta de un servicio de excelencia enfocado en la salud y estética de tus extremidades. <br><span style="color: #aaa; font-style: italic; font-size: 1rem;">(Servicio independiente. La agenda, cotización y atención se realizan directamente con nuestra experta socia).</span>
-                </p>
-                
-                <!-- Etiquetas de Servicios -->
-                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-bottom: 3rem;">
-                    <span style="background: rgba(225,48,108,0.2); color: #FFB6C1; padding: 0.5rem 1.5rem; border-radius: 30px; font-weight: 600; border: 1px solid rgba(225,48,108,0.5);">Manicure</span>
-                    <span style="background: rgba(225,48,108,0.2); color: #FFB6C1; padding: 0.5rem 1.5rem; border-radius: 30px; font-weight: 600; border: 1px solid rgba(225,48,108,0.5);">Pedicure Clínico</span>
-                    <span style="background: rgba(225,48,108,0.2); color: #FFB6C1; padding: 0.5rem 1.5rem; border-radius: 30px; font-weight: 600; border: 1px solid rgba(225,48,108,0.5);">Pedi Spa</span>
-                    <span style="background: rgba(225,48,108,0.2); color: #FFB6C1; padding: 0.5rem 1.5rem; border-radius: 30px; font-weight: 600; border: 1px solid rgba(225,48,108,0.5);">Mani Spa</span>
-                    <span style="background: rgba(225,48,108,0.2); color: #FFB6C1; padding: 0.5rem 1.5rem; border-radius: 30px; font-weight: 600; border: 1px solid rgba(225,48,108,0.5);">Nail Art Design</span>
-                </div>
-
-                <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
-                    <a href="https://wa.me/525525248816" target="_blank" class="btn-agenda-ahora" style="width: auto; background: var(--valtara-whatsapp); border-color: var(--valtara-whatsapp); color: #000; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);"><i class="fa-brands fa-whatsapp"></i> Reservar: 55 2524 8816</a>
-                    <a href="https://www.instagram.com/art.nails02?igsh=MTk0YnF1aDMwN3gybg==" target="_blank" class="btn-agenda-ahora" style="width: auto; background: #E1306C; border-color: #E1306C; color: white; box-shadow: 0 5px 15px rgba(225, 48, 108, 0.3);"><i class="fa-brands fa-instagram"></i> Galería Art & Nails</a>
-                </div>
-            </div>
-            
         </div>
     `,
 
@@ -552,7 +564,7 @@ window.ValtaraData = {
     `,
 
     /* --------------------------------------------------------------------------------
-       4. HISTORIA, MARCO LEGAL Y LOGÍSTICA (FAQS Y MODALES DE TRANSPARENCIA)
+       4. HISTORIA, MARCO LEGAL Y LOGÍSTICA (FAQS, CARTA TECNOLÓGICA Y MODALES)
        -------------------------------------------------------------------------------- */
     legal: `
         <style>
@@ -622,13 +634,40 @@ window.ValtaraData = {
                 <p class="marketing-text" style="font-size: 1.25rem;"><strong>En Valtara, tu bienestar está respaldado por la ciencia, inspirado por la historia y guiado por un sueño de inclusión universal.</strong></p>
             </article>
 
-            <!-- PÁRRAFO INSPIRADOR DE LA DIRECCIÓN TECNOLÓGICA -->
-            <article class="glass-card reveal" style="border-color: var(--valtara-oro); grid-column: 1 / -1; padding: 4rem 5rem; background: linear-gradient(to right, rgba(20,20,30,0.9), rgba(0,0,0,0.9));">
-                <i class="fa-solid fa-microchip" style="font-size: 3.5rem; color: var(--valtara-oro); margin-bottom: 1.5rem; text-align: center; display: block;"></i>
-                <h3 style="color: var(--valtara-oro); text-align: center; margin-bottom: 2rem; font-size: 2.5rem; font-family: var(--font-accent);">Visión de la Dirección Tecnológica</h3>
-                <p style="color: var(--valtara-gris-texto); font-size: 1.3rem; line-height: 1.9; text-align: center; font-style: italic;">
-                    "En Grupo Gevizz, creemos que la verdadera tecnología de lujo no es aquella que deslumbra con pantallas o luces, sino la que es capaz de desaparecer para cederle el protagonismo a la conexión humana. Hemos construido un ecosistema digital de Inteligencia Artificial que no busca reemplazar el tacto sanador, sino protegerlo, administrarlo y comprenderlo. Nuestra infraestructura procesa información a la velocidad de la luz para que, cuando cruces nuestras puertas, el mundo exterior se detenga y solo exista tu bienestar."
-                </p>
+            <!-- ========================================================= -->
+            <!-- CARTA ABIERTA DE LA DIRECCIÓN TECNOLÓGICA (SÚPER INSPIRADORA) -->
+            <!-- ========================================================= -->
+            <article class="glass-card reveal" style="border-color: var(--valtara-oro); grid-column: 1 / -1; padding: 5rem; background: linear-gradient(135deg, rgba(20,20,30,0.95), rgba(10,10,15,0.95)); box-shadow: 0 20px 50px rgba(212, 175, 55, 0.1);">
+                <i class="fa-solid fa-microchip" style="font-size: 4rem; color: var(--valtara-oro); margin-bottom: 2rem; text-align: center; display: block; animation: pulse 3s infinite;"></i>
+                <h3 style="color: var(--valtara-oro); text-align: center; margin-bottom: 1rem; font-size: 3.5rem; font-family: var(--font-accent); letter-spacing: 2px;">El Alma en la Máquina</h3>
+                <h4 style="color: var(--valtara-gris-texto); text-align: center; margin-bottom: 4rem; font-size: 1.4rem; font-weight: 300; letter-spacing: 5px; text-transform: uppercase;">Visión de la Dirección Tecnológica</h4>
+                
+                <div style="max-width: 900px; margin: 0 auto;">
+                    <p style="color: var(--valtara-blanco); font-size: 1.4rem; line-height: 2; margin-bottom: 2rem; font-weight: 600;">A ti, que nos lees al otro lado de esta pantalla:</p>
+                    
+                    <p style="color: var(--valtara-gris-texto); font-size: 1.3rem; line-height: 2; margin-bottom: 2rem; font-weight: 300;">
+                        Valtara no es solo un centro de terapias físicas, y la Inteligencia Artificial con la que platicaste no es solo código frío. Detrás de cada palabra de Aura, de cada píxel de este sitio web y de cada protocolo clínico de nuestro santuario, hay dos mentes, dos corazones y, literalmente, <strong>dos sujetos detrás de la pantalla de un teléfono</strong> con una obsesión compartida: cambiar la forma en que el mundo experimenta la tecnología y el bienestar humano.
+                    </p>
+                    
+                    <blockquote style="border-left: 4px solid var(--valtara-oro); padding-left: 2rem; margin: 3rem 0; background: rgba(212, 175, 55, 0.05); padding: 2.5rem; border-radius: 0 1.5rem 1.5rem 0;">
+                        <p style="color: var(--valtara-oro-suave); font-size: 1.5rem; line-height: 1.9; font-style: italic; margin: 0;">
+                            "Construimos este rascacielos digital desde cero porque creemos fervientemente que la verdadera tecnología de lujo no es aquella que te absorbe o te aleja de la realidad, sino aquella que es capaz de desaparecer para cederle el protagonismo absoluto a la conexión humana."
+                        </p>
+                    </blockquote>
+                    
+                    <p style="color: var(--valtara-gris-texto); font-size: 1.3rem; line-height: 2; margin-bottom: 2rem; font-weight: 300;">
+                        Diseñamos un ecosistema cognitivo capaz de procesar miles de millones de datos a la velocidad de la luz, pero le enseñamos a escuchar, a tener empatía y a comprender cómo tu estrés se convierte en dolor físico. Lo hicimos para que, cuando cruces nuestras puertas en Paseo de la Reforma, el ruido ensordecedor del mundo exterior se detenga y solo exista tu recuperación.
+                    </p>
+
+                    <p style="color: var(--valtara-blanco); font-size: 1.3rem; line-height: 2; margin-bottom: 3rem; font-weight: 600;">
+                        Nos inspira tu resiliencia corporativa. Nos inspira el reto de hacer posible lo imposible con nuestras propias manos y teclados. Y nos inspira saber que, a través de estas líneas de código, estamos tocando vidas incluso antes de tocar tu cuerpo.
+                    </p>
+                    
+                    <div style="text-align: right; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem;">
+                        <p style="color: var(--valtara-cian-brillante); font-size: 1.2rem; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin: 0;">Dirección de Tecnología y Desarrollo</p>
+                        <p style="color: var(--valtara-gris-texto); font-size: 1.1rem; font-style: italic; margin-top: 0.5rem;">Grupo Gevizz S.A.S.</p>
+                    </div>
+                </div>
             </article>
 
             <!-- SECCIÓN DE TRANSPARENCIA Y DOCUMENTACIÓN MASIVA (MODALES) -->
@@ -804,7 +843,7 @@ window.ValtaraData = {
             <div class="footer-col">
                 <h4 style="font-family: var(--font-accent); font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem; letter-spacing: 0.2rem;">VALTARA</h4>
                 <p style="font-style: italic; color: var(--valtara-oro); font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: bold;">Executive Therapy & Biomechanics</p>
-                <p style="font-weight: 300; font-size: 1.1rem;">Entidad comercial respaldada y operada en su totalidad por <strong>Grupo Gevizz S.A.S.</strong><br><br>Plataforma Modular Sovereign 11.5. Desarrollo web, IA y diseño creados in-house.</p>
+                <p style="font-weight: 300; font-size: 1.1rem;">Entidad comercial respaldada y operada en su totalidad por <strong>Grupo Gevizz S.A.S.</strong><br><br>Plataforma Modular Sovereign 12.0. Desarrollo web, IA y diseño creados in-house.</p>
             </div>
             
             <div class="footer-col">
