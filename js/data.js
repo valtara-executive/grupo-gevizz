@@ -1,8 +1,8 @@
 /**
  * ====================================================================================
- * BLOQUE 4: LA ENCICLOPEDIA VALTARA (DATA & RENDER ENGINE V11.2)
- * Integración de FAQs, Expansión Científica y Juego "El Alquimista Valtara" (10 Niveles).
- * CERO PÉRDIDA DE DATOS.
+ * BLOQUE 4: LA ENCICLOPEDIA VALTARA (DATA & RENDER ENGINE V11.5)
+ * Integración de FAQs, Expansión Científica, Juego "El Alquimista", 
+ * Videoteca, Expansión Art & Nails y Módulos Legales Emergentes (Modales).
  * ====================================================================================
  */
 
@@ -124,7 +124,6 @@ window.ValtaraAlchemist = {
         `;
         
         opts.forEach((opt, idx) => {
-            // Guardamos el resultado en base64 simulado para evitar trampas fáciles en el HTML
             const isCorrect = opt.correct ? 'true' : 'false';
             html += `<button class="btn-primary" aria-label="Elegir ${opt.name}" style="background: var(--cristal-fondo); border: 1px solid var(--valtara-oro-suave); font-size: 1.1rem; flex: 1; min-width: 250px;" onclick="window.ValtaraAlchemist.guess('${isCorrect}', \`${opt.reason.replace(/"/g, '&quot;')}\`)"><i class="fa-solid fa-droplet"></i> ${opt.name}</button>`;
         });
@@ -153,9 +152,8 @@ window.ValtaraAlchemist = {
         const buttons = document.getElementById('alchemist-buttons');
         if(!feedbackDiv || !buttons) return;
         
-        buttons.style.pointerEvents = 'none'; // Desactivar clics
+        buttons.style.pointerEvents = 'none';
         buttons.style.opacity = '0.5';
-        
         feedbackDiv.style.display = 'block';
         
         if(isCorrect === 'true') {
@@ -163,7 +161,6 @@ window.ValtaraAlchemist = {
             feedbackDiv.style.border = '2px solid var(--valtara-verde-ws)';
             feedbackDiv.innerHTML = `<h4 style="font-size: 1.8rem; color: var(--valtara-verde-ws); margin-bottom: 1rem;"><i class="fa-solid fa-check-circle"></i> Fusión Exitosa</h4><p style="font-size: 1.15rem; color: var(--valtara-blanco); line-height: 1.8;">${reason}</p>`;
             
-            // Efecto visual de difusor (Vapor Verde Menta)
             const orbe = document.createElement('div');
             orbe.className = 'orb orb-2';
             orbe.style.width = '30vw'; orbe.style.height = '30vw';
@@ -183,7 +180,7 @@ window.ValtaraAlchemist = {
 
 window.ValtaraData = {
     /* --------------------------------------------------------------------------------
-       1. SECCIÓN INICIO Y MAPA CORPORAL EXPANDIBLE
+       1. SECCIÓN INICIO Y MAPA CORPORAL EXPANDIBLE + EXPANSIÓN ART & NAILS
        -------------------------------------------------------------------------------- */
     home: `
         <div class="hero-view reveal" style="text-align: center; padding: 4rem 0;">
@@ -236,26 +233,49 @@ window.ValtaraData = {
             <h3 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--valtara-blanco); font-family: var(--font-accent);">Únete a nuestra Comunidad</h3>
             <p style="color: var(--valtara-gris-texto); font-size: 1.2rem; margin-bottom: 3rem;">Sigue nuestro contenido de educación biomecánica y bienestar.</p>
             
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-bottom: 4rem;">
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-bottom: 5rem;">
                 <a href="https://www.facebook.com/Valtara.mx" target="_blank" class="btn-primary" style="background: #1877F2; border-color: #1877F2; color: white;"><i class="fa-brands fa-facebook"></i> Facebook</a>
                 <a href="https://www.instagram.com/valtara.mx" target="_blank" class="btn-primary" style="background: #E1306C; border-color: #E1306C; color: white;"><i class="fa-brands fa-instagram"></i> Instagram</a>
                 <a href="https://www.tiktok.com/@valtara.mx" target="_blank" class="btn-primary" style="background: #000; border-color: #333; color: white;"><i class="fa-brands fa-tiktok"></i> TikTok</a>
                 <a href="https://youtube.com/@valtaramexico" target="_blank" class="btn-primary" style="background: #FF0000; border-color: #FF0000; color: white;"><i class="fa-brands fa-youtube"></i> YouTube</a>
             </div>
 
-            <div style="background: rgba(242, 201, 76, 0.1); border: 2px solid var(--valtara-oro); padding: 2.5rem; border-radius: 1.5rem; max-width: 800px; margin: 0 auto;">
-                <h3 style="color: var(--valtara-oro); font-size: 2.2rem; margin-bottom: 1rem;"><i class="fa-solid fa-hand-sparkles"></i> Art and Nails</h3>
-                <p style="color: var(--valtara-gris-texto); font-size: 1.1rem; margin-bottom: 2rem;">Nuestra división experta de manicurismo. (Servicio independiente de la clínica, agenda directamente con nuestra socia).</p>
+            <!-- EXPANSIÓN: ART & NAILS (SOCIA MANICURISTA) -->
+            <div style="background: linear-gradient(145deg, rgba(225, 48, 108, 0.1), rgba(0,0,0,0.8)); border: 2px solid #E1306C; padding: 3.5rem; border-radius: 2rem; max-width: 900px; margin: 0 auto; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(225, 48, 108, 0.2);">
+                
+                <!-- Burbuja Flotante Animada -->
+                <div style="position: absolute; top: -20px; right: -20px; width: 120px; height: 120px; background: #E1306C; border-radius: 50%; opacity: 0.15; filter: blur(20px);"></div>
+                <div style="position: absolute; top: 20px; right: 20px; animation: pulse 2s infinite;">
+                    <span style="background: #E1306C; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: bold; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(225, 48, 108, 0.4);"><i class="fa-solid fa-star"></i> Beauty Partner</span>
+                </div>
+
+                <i class="fa-solid fa-hands-bubbles" style="font-size: 4rem; color: #E1306C; margin-bottom: 1.5rem;"></i>
+                <h3 style="color: #E1306C; font-size: 2.8rem; margin-bottom: 1rem; font-family: var(--font-accent);">Art and Nails</h3>
+                <p style="color: var(--valtara-blanco); font-size: 1.4rem; font-weight: 600; margin-bottom: 1rem;">El Santuario de la Estética y Cuidado Integral</p>
+                <p style="color: var(--valtara-gris-texto); font-size: 1.15rem; margin-bottom: 2rem; line-height: 1.8;">
+                    Completamos tu experiencia de bienestar a través de nuestra división experta en belleza. Disfruta de un servicio de excelencia enfocado en la salud y estética de tus extremidades. <br><span style="color: #aaa; font-style: italic; font-size: 1rem;">(Servicio independiente. La agenda, cotización y atención se realizan directamente con nuestra experta socia).</span>
+                </p>
+                
+                <!-- Etiquetas de Servicios -->
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-bottom: 3rem;">
+                    <span style="background: rgba(225,48,108,0.2); color: #FFB6C1; padding: 0.5rem 1.5rem; border-radius: 30px; font-weight: 600; border: 1px solid rgba(225,48,108,0.5);">Manicure</span>
+                    <span style="background: rgba(225,48,108,0.2); color: #FFB6C1; padding: 0.5rem 1.5rem; border-radius: 30px; font-weight: 600; border: 1px solid rgba(225,48,108,0.5);">Pedicure Clínico</span>
+                    <span style="background: rgba(225,48,108,0.2); color: #FFB6C1; padding: 0.5rem 1.5rem; border-radius: 30px; font-weight: 600; border: 1px solid rgba(225,48,108,0.5);">Pedi Spa</span>
+                    <span style="background: rgba(225,48,108,0.2); color: #FFB6C1; padding: 0.5rem 1.5rem; border-radius: 30px; font-weight: 600; border: 1px solid rgba(225,48,108,0.5);">Mani Spa</span>
+                    <span style="background: rgba(225,48,108,0.2); color: #FFB6C1; padding: 0.5rem 1.5rem; border-radius: 30px; font-weight: 600; border: 1px solid rgba(225,48,108,0.5);">Nail Art Design</span>
+                </div>
+
                 <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
-                    <a href="https://wa.me/525525248816" target="_blank" class="btn-agenda-ahora" style="width: auto; background: var(--valtara-whatsapp); border-color: var(--valtara-whatsapp); color: #000;"><i class="fa-brands fa-whatsapp"></i> 55 2524 8816</a>
-                    <a href="https://www.instagram.com/art.nails02?igsh=MTk0YnF1aDMwN3gybg==" target="_blank" class="btn-agenda-ahora" style="width: auto; background: #E1306C; border-color: #E1306C; color: white;"><i class="fa-brands fa-instagram"></i> Instagram Art & Nails</a>
+                    <a href="https://wa.me/525525248816" target="_blank" class="btn-agenda-ahora" style="width: auto; background: var(--valtara-whatsapp); border-color: var(--valtara-whatsapp); color: #000; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);"><i class="fa-brands fa-whatsapp"></i> Reservar: 55 2524 8816</a>
+                    <a href="https://www.instagram.com/art.nails02?igsh=MTk0YnF1aDMwN3gybg==" target="_blank" class="btn-agenda-ahora" style="width: auto; background: #E1306C; border-color: #E1306C; color: white; box-shadow: 0 5px 15px rgba(225, 48, 108, 0.3);"><i class="fa-brands fa-instagram"></i> Galería Art & Nails</a>
                 </div>
             </div>
+            
         </div>
     `,
 
     /* --------------------------------------------------------------------------------
-       2. CATÁLOGO DE RESTAURACIÓN BIOMECÁNICA (ZIG-ZAG)
+       2. CATÁLOGO DE RESTAURACIÓN BIOMECÁNICA (CON VIDEOTECA INTEGRADA)
        -------------------------------------------------------------------------------- */
     restoration: `
         <div style="text-align: center; max-width: 950px; margin: 0 auto 5rem auto;">
@@ -305,16 +325,20 @@ window.ValtaraData = {
                 </div>
             </article>
 
+            <!-- AROMATERAPIA AÑADIDA A AYURVEDA -->
             <article class="glass-card zig-zag reveal">
                 <div class="card-icon-wrapper" style="color: var(--valtara-oro); border-color: var(--valtara-oro);"><i class="fa-solid fa-leaf"></i></div>
                 <div class="card-content-wrapper">
-                    <h3>Masaje Ayurveda</h3>
+                    <h3>Masaje Ayurveda & Aromaterapia</h3>
                     <div class="card-meta-info">
                         <span class="duracion"><i class="fa-solid fa-clock"></i> 50 Minutos</span>
                         <span class="precio">$929 MXN</span>
                     </div>
-                    <p class="marketing-text"><strong>La Ciencia de la Vida.</strong> Más que un masaje, es un tratamiento personalizado con aceites tibios que nutren profundamente la piel y el sistema nervioso. Busca equilibrar tu energía vital y es sumamente efectivo para calmar la sensibilidad extrema.</p>
-                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
+                    <p class="marketing-text"><strong>La Ciencia de la Vida.</strong> Tratamiento personalizado con aceites tibios y esencias botánicas que nutren profundamente la piel, interactuando con tu sistema límbico. Efectivo para calmar la sensibilidad extrema y la ansiedad.</p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="flex: 1;"><i class="fa-brands fa-whatsapp"></i> Agendar</a>
+                        <a href="https://youtu.be/qmRr05954h4?si=JlWdpbQ0gsquRJZp" target="_blank" class="btn-agenda-ahora" style="background: transparent; border: 1px solid var(--valtara-oro); color: var(--valtara-oro); width: auto;"><i class="fa-brands fa-youtube"></i> Ver Experiencia</a>
+                    </div>
                 </div>
             </article>
 
@@ -370,16 +394,20 @@ window.ValtaraData = {
                 </div>
             </article>
 
+            <!-- CHOCOLATERAPIA AÑADIDA -->
             <article class="glass-card zig-zag reveal">
                 <div class="card-icon-wrapper" style="color: #FFB6C1; border-color: #FFB6C1;"><i class="fa-solid fa-masks-theater"></i></div>
                 <div class="card-content-wrapper">
-                    <h3>Relajación Facial + Mascarilla</h3>
+                    <h3>Relajación Facial (Chocolaterapia)</h3>
                     <div class="card-meta-info">
                         <span class="duracion"><i class="fa-solid fa-clock"></i> 45 Minutos</span>
                         <span class="precio">$419 MXN</span>
                     </div>
-                    <p class="marketing-text"><strong>Borra las huellas del cansancio.</strong> Una limpieza y relajación que incluye una mascarilla especializada (Chocolate o Barro personalizado) para revitalizar la musculatura de tu rostro e hidratarlo profundamente.</p>
-                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: #FFB6C1; color: var(--valtara-negro-fondo); border-color: #FFB6C1;"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
+                    <p class="marketing-text"><strong>Borra las huellas del cansancio.</strong> Limpieza y relajación que incluye una mascarilla especializada de Cacao puro para revitalizar la musculatura de tu rostro, hidratarlo y desatar endorfinas de felicidad.</p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: #FFB6C1; color: var(--valtara-negro-fondo); border-color: #FFB6C1; flex: 1;"><i class="fa-brands fa-whatsapp"></i> Agendar</a>
+                        <a href="https://youtu.be/Uc5wVxOW46o?si=XKjptVUjcshkAAY9" target="_blank" class="btn-agenda-ahora" style="background: transparent; border: 1px solid #FFB6C1; color: #FFB6C1; width: auto;"><i class="fa-brands fa-youtube"></i> Ver Experiencia</a>
+                    </div>
                 </div>
             </article>
 
@@ -396,7 +424,6 @@ window.ValtaraData = {
                 </div>
             </article>
 
-            <!-- TERAPIAS ESPECÍFICAS Y PRÓXIMAMENTE -->
             <article class="glass-card zig-zag reveal">
                 <div class="card-icon-wrapper" style="color: var(--valtara-blanco); border-color: var(--valtara-blanco);"><i class="fa-solid fa-droplet"></i></div>
                 <div class="card-content-wrapper">
@@ -410,16 +437,20 @@ window.ValtaraData = {
                 </div>
             </article>
             
+            <!-- ESFERAS CHINAS CON VIDEO Y VELA -->
             <article class="glass-card zig-zag reveal">
                 <div class="card-icon-wrapper" style="color: var(--valtara-blanco); border-color: var(--valtara-blanco);"><i class="fa-solid fa-circle-notch"></i></div>
                 <div class="card-content-wrapper">
-                    <h3>Esferas Chinas (Baoding)</h3>
+                    <h3>Esferas Chinas & Luz Cálida</h3>
                     <div class="card-meta-info">
                         <span class="duracion"><i class="fa-solid fa-clock"></i> 60 Minutos</span>
                         <span class="precio">$929 MXN</span>
                     </div>
-                    <p class="marketing-text">La vibración sonora y el contacto circular estimulan puntos reflejos induciendo ondas cerebrales Alfa. El estímulo sonoro es fantástico para pacientes neurodivergentes o con discapacidad visual.</p>
-                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-blanco); color: var(--valtara-negro-fondo); border-color: var(--valtara-blanco);"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
+                    <p class="marketing-text">La vibración sonora y el contacto circular estimulan puntos reflejos induciendo ondas cerebrales Alfa, acompañadas por la calidez de velas aromáticas. El estímulo sonoro es fantástico para pacientes neurodivergentes o con discapacidad visual.</p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-blanco); color: var(--valtara-negro-fondo); border-color: var(--valtara-blanco); flex: 1;"><i class="fa-brands fa-whatsapp"></i> Agendar</a>
+                        <a href="https://youtube.com/shorts/DjxDYgBbgic?si=FoJQmCf9Wi3JXR7F" target="_blank" class="btn-agenda-ahora" style="background: transparent; border: 1px solid var(--valtara-blanco); color: var(--valtara-blanco); width: auto;"><i class="fa-brands fa-youtube"></i> Ver Experiencia</a>
+                    </div>
                 </div>
             </article>
 
@@ -439,7 +470,7 @@ window.ValtaraData = {
     `,
 
     /* --------------------------------------------------------------------------------
-       3. CIENCIA, BOTÁNICA Y MANIFIESTO ÍNTEGRO (FUSIÓN V11.2)
+       3. CIENCIA, BOTÁNICA Y MANIFIESTO ÍNTEGRO
        -------------------------------------------------------------------------------- */
     science: `
         <div style="text-align: center; max-width: 1000px; margin: 0 auto 5rem auto;">
@@ -508,9 +539,7 @@ window.ValtaraData = {
             </ul>
 
             <!-- CONTENEDOR DEL JUEGO EL ALQUIMISTA -->
-            <div id="alchemist-game-container" style="margin-top: 5rem;">
-                <!-- JavaScript inyectará el juego interactivo aquí -->
-            </div>
+            <div id="alchemist-game-container" style="margin-top: 5rem;"></div>
 
             <div style="background: rgba(242, 201, 76, 0.1); border: 2px solid var(--valtara-oro); padding: 3rem; border-radius: 1.5rem; margin-top: 4rem; text-align: center;">
                 <h4 style="font-size: 1.8rem; color: var(--valtara-oro); margin-bottom: 1rem; font-family: var(--font-accent);">Conclusión para el Paciente</h4>
@@ -523,9 +552,48 @@ window.ValtaraData = {
     `,
 
     /* --------------------------------------------------------------------------------
-       4. HISTORIA, MARCO LEGAL Y LOGÍSTICA (FAQS INTEGRADAS)
+       4. HISTORIA, MARCO LEGAL Y LOGÍSTICA (FAQS Y MODALES DE TRANSPARENCIA)
        -------------------------------------------------------------------------------- */
     legal: `
+        <style>
+            /* ESTILOS NATIVOS PARA MODALES DE TRANSPARENCIA */
+            dialog {
+                background: var(--valtara-negro-fondo);
+                color: var(--valtara-blanco);
+                border: 2px solid var(--valtara-oro);
+                border-radius: 20px;
+                padding: 3rem;
+                max-width: 900px;
+                width: 90%;
+                max-height: 85vh;
+                overflow-y: auto;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+                margin: auto;
+            }
+            dialog::backdrop {
+                background: rgba(0, 0, 0, 0.85);
+                backdrop-filter: blur(10px);
+            }
+            dialog h2 { color: var(--valtara-oro); font-family: var(--font-accent); font-size: 2.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 1rem;}
+            dialog h3 { color: var(--valtara-cian-brillante); font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem; }
+            dialog h4 { color: var(--valtara-verde-menta); font-size: 1.3rem; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+            dialog p, dialog li { color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8; margin-bottom: 1rem; }
+            dialog .btn-close {
+                background: #ff5555;
+                color: white;
+                border: none;
+                padding: 1rem 2rem;
+                border-radius: 30px;
+                font-weight: bold;
+                cursor: pointer;
+                font-size: 1.1rem;
+                margin-top: 2rem;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+        </style>
+
         <div style="text-align: center; max-width: 900px; margin: 0 auto 5rem auto;">
             <h2 style="font-family: var(--font-accent); font-size: 4rem; color: var(--valtara-blanco); margin-bottom: 2rem;" class="reveal">Conócenos y Políticas Oficiales</h2>
             <p style="color: var(--valtara-gris-texto); font-size: 1.4rem; line-height: 1.9; font-weight: 300;" class="reveal">Nuestra historia de inclusión, nuestra transparencia corporativa y los enlaces para que formes parte de nuestra comunidad digital.</p>
@@ -554,7 +622,37 @@ window.ValtaraData = {
                 <p class="marketing-text" style="font-size: 1.25rem;"><strong>En Valtara, tu bienestar está respaldado por la ciencia, inspirado por la historia y guiado por un sueño de inclusión universal.</strong></p>
             </article>
 
-            <!-- PREGUNTAS FRECUENTES (NUEVA SECCIÓN DE CRISTAL) -->
+            <!-- PÁRRAFO INSPIRADOR DE LA DIRECCIÓN TECNOLÓGICA -->
+            <article class="glass-card reveal" style="border-color: var(--valtara-oro); grid-column: 1 / -1; padding: 4rem 5rem; background: linear-gradient(to right, rgba(20,20,30,0.9), rgba(0,0,0,0.9));">
+                <i class="fa-solid fa-microchip" style="font-size: 3.5rem; color: var(--valtara-oro); margin-bottom: 1.5rem; text-align: center; display: block;"></i>
+                <h3 style="color: var(--valtara-oro); text-align: center; margin-bottom: 2rem; font-size: 2.5rem; font-family: var(--font-accent);">Visión de la Dirección Tecnológica</h3>
+                <p style="color: var(--valtara-gris-texto); font-size: 1.3rem; line-height: 1.9; text-align: center; font-style: italic;">
+                    "En Grupo Gevizz, creemos que la verdadera tecnología de lujo no es aquella que deslumbra con pantallas o luces, sino la que es capaz de desaparecer para cederle el protagonismo a la conexión humana. Hemos construido un ecosistema digital de Inteligencia Artificial que no busca reemplazar el tacto sanador, sino protegerlo, administrarlo y comprenderlo. Nuestra infraestructura procesa información a la velocidad de la luz para que, cuando cruces nuestras puertas, el mundo exterior se detenga y solo exista tu bienestar."
+                </p>
+            </article>
+
+            <!-- SECCIÓN DE TRANSPARENCIA Y DOCUMENTACIÓN MASIVA (MODALES) -->
+            <article class="glass-card reveal" style="border-color: #4361EE; grid-column: 1 / -1; padding: 4rem; text-align: center;">
+                <h3 style="color: #4361EE; font-size: 2.5rem; margin-bottom: 1.5rem;"><i class="fa-solid fa-scale-balanced"></i> Portal de Legalidad y Transparencia Corporativa</h3>
+                <p style="color: var(--valtara-gris-texto); font-size: 1.25rem; margin-bottom: 3rem;">En Valtara, la claridad es nuestro estándar de lujo. Consulta nuestra documentación técnica, políticas de privacidad y términos de servicio haciendo clic en los siguientes botones.</p>
+                
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem;">
+                    <!-- Botón Modal Términos -->
+                    <button onclick="document.getElementById('modal-terminos').showModal()" class="btn-agenda-ahora" style="width: auto; background: transparent; border: 2px solid #4361EE; color: #4361EE;">
+                        <i class="fa-solid fa-file-contract"></i> Términos y Privacidad (LFPDPPP)
+                    </button>
+                    <!-- Botón Modal Whitepaper -->
+                    <button onclick="document.getElementById('modal-whitepaper').showModal()" class="btn-agenda-ahora" style="width: auto; background: transparent; border: 2px solid var(--valtara-oro); color: var(--valtara-oro);">
+                        <i class="fa-solid fa-network-wired"></i> Arquitectura AURA AI (Whitepaper)
+                    </button>
+                    <!-- Botón PDF Externo -->
+                    <a href="https://drive.google.com/file/d/1W-L8tP43S12ce_t9zmr5eWw6LFVrCwQm/view?usp=drivesdk" target="_blank" class="btn-agenda-ahora" style="width: auto; background: transparent; border: 2px solid var(--valtara-cian-brillante); color: var(--valtara-cian-brillante);">
+                        <i class="fa-solid fa-file-pdf"></i> Presentación Ejecutiva AI (PDF)
+                    </a>
+                </div>
+            </article>
+
+            <!-- PREGUNTAS FRECUENTES (FAQ) -->
             <article class="glass-card reveal" style="border-color: var(--valtara-verde-menta); grid-column: 1 / -1; padding: 4rem 5rem;">
                 <i class="fa-solid fa-circle-question" style="font-size: 4rem; color: var(--valtara-verde-menta); margin-bottom: 1.5rem; text-align: center; display: block;"></i>
                 <h3 style="color: var(--valtara-verde-menta); text-align: center; margin-bottom: 3rem; font-size: 2.8rem;">Preguntas Frecuentes (FAQ)</h3>
@@ -564,78 +662,23 @@ window.ValtaraData = {
                         <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-map-pin"></i> 1. ¿Dónde se encuentra exactamente el santuario y cómo accedo?</summary>
                         <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Estamos ubicados en Av. Paseo de la Reforma 195, Piso 3, Colonia Cuauhtémoc, CDMX. Al llegar, es indispensable presentarte con una identificación oficial en la recepción del edificio para que se te brinde el acceso. El espacio cuenta con elevadores y rampas, siendo totalmente accesible para personas con movilidad limitada.</p>
                     </details>
-
                     <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
                         <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-spa"></i> 2. ¿Qué hace que Valtara sea diferente a un spa convencional?</summary>
                         <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Valtara no es un centro de relajación común; es un santuario de Executive Therapy & Biomechanics. Nuestro enfoque se basa en el Rigor Clínico y la Compasión Ancestral. Utilizamos el Triaje Educativo y herramientas de IA (Aura) para entender la neurobiología de tu dolor antes de tocar tu piel, ofreciendo soluciones basadas en ciencia y anatomía profunda.</p>
                     </details>
-
                     <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
                         <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-robot"></i> 3. ¿Cómo ayuda la Asistente Aura en mi proceso de sanación?</summary>
                         <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Aura es nuestra inteligencia artificial diseñada para realizar un pre-diagnóstico de tu tensión muscular. Al responder sus preguntas, ella analiza tus niveles de estrés y zonas de dolor para recomendarte la terapia exacta. Esto nos permite optimizar el tiempo en cabina y enfocarnos directamente en la raíz de tu malestar.</p>
                     </details>
-
                     <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
-                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-shower"></i> 4. ¿Qué preparativos personales debo seguir antes de mi cita?</summary>
-                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Para que el tejido muscular responda de manera óptima, sugerimos venir profundamente hidratado. Asimismo, recomendamos acudir con la piel fresca y limpia (una ducha previa es ideal), ya que esto facilita la absorción de nuestras mantecas vegetales de karité y aceites botánicos premium, potenciando los beneficios de la fitocosmética científica en tu sistema nervioso.</p>
-                    </details>
-
-                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
-                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-shirt"></i> 5. ¿Cuál es el protocolo de vestimenta y privacidad?</summary>
-                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Tu comodidad y dignidad son nuestra prioridad absoluta. Te sugerimos traer ropa deportiva cómoda, específicamente shorts (aplica para hombres y mujeres). En cabina, aplicamos un estricto "Drapeo Selectivo": solo se descubre la zona anatómica que se está trabajando en ese momento (por ejemplo, una pierna o el brazo), mientras el resto de tu cuerpo permanece siempre cubierto y resguardado.</p>
-                    </details>
-
-                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
-                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-credit-card"></i> 6. ¿Cuáles son los métodos de pago aceptados actualmente?</summary>
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-credit-card"></i> 4. ¿Cuáles son los métodos de pago aceptados actualmente?</summary>
                         <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Por el momento, operamos exclusivamente mediante Efectivo y Transferencia Bancaria Directa. Estamos trabajando arduamente para implementar próximamente terminales bancarias y ofrecer planes de Meses Sin Intereses (MSI) en tickets a partir de $1,500 MXN en adelante.</p>
                     </details>
-
                     <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
-                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-calendar-check"></i> 7. ¿Cómo funciona el sistema de reserva y anticipos?</summary>
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-calendar-check"></i> 5. ¿Cómo funciona el sistema de reserva y anticipos?</summary>
                         <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Para garantizar la exclusividad de tu sesión y la preparación de insumos, solicitamos un anticipo del 50% del total del servicio al momento de agendar. Este monto se abona íntegramente al ticket final de tu terapia el día de tu visita.</p>
                     </details>
-
-                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
-                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-ban"></i> 8. ¿Cuál es la política de cancelación o reprogramación?</summary>
-                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Valoramos tu tiempo y el nuestro. Si necesitas cancelar o mover tu cita con más de 24 horas de antelación, se te reembolsará el 100% de tu anticipo. Si la cancelación ocurre dentro de las 24 horas previas a la cita, el anticipo no es reembolsable debido a los costos operativos y de agenda bloqueada.</p>
-                    </details>
-
-                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
-                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-wheelchair"></i> 9. ¿Qué opciones de accesibilidad ofrecen para discapacidad?</summary>
-                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Nuestro sitio web es compatible con lectores de pantalla y navegación asistida. En cuanto a la sesión presencial, nuestras camillas son fijas, por lo que te invitamos a contactarnos vía WhatsApp o llamada para platicar tu condición específica y analizar juntos las posibilidades de adaptación técnica para que recibas el tratamiento de forma segura.</p>
-                    </details>
-
-                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
-                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-mug-hot"></i> 10. ¿Qué incluye la experiencia post-sesión en el santuario?</summary>
-                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Al finalizar tu terapia, no te apresuramos a salir. Te invitamos a una transición suave hacia tu realidad cotidiana disfrutando de nuestro Té Orgánico de Frutos Rojos. Es el momento ideal para que tu sistema nervioso termine de reiniciarse y consolides los beneficios de la descompresión muscular.</p>
-                    </details>
                 </div>
-            </article>
-
-            <article class="glass-card reveal" style="border-color: #ff5555;">
-                <i class="fa-solid fa-ban" style="font-size: 4rem; color: #ff5555; margin-bottom: 1.5rem;"></i>
-                <h3 style="color: #ff5555;">Política Estricta de Cancelación</h3>
-                <p class="marketing-text"><strong>El tiempo en cabina es el activo más valioso.</strong><br>
-                1. <strong>Reembolso del 100% del anticipo:</strong> Si la cancelación o reprogramación se notifica con un mínimo de 24 horas de anticipación a la cita.<br>
-                2. <strong>Sin Reembolso (Penalización Total):</strong> Las cancelaciones realizadas dentro de las 24 horas previas a la cita, o el no presentarse, resultarán en la pérdida automática y sin excepciones del 100% de su anticipo.</p>
-            </article>
-
-            <article class="glass-card reveal" style="border-color: var(--valtara-oro);">
-                <i class="fa-solid fa-gavel" style="font-size: 4rem; color: var(--valtara-oro); margin-bottom: 1.5rem;"></i>
-                <h3 style="color: var(--valtara-oro);">Ética y Tolerancia Cero</h3>
-                <p class="marketing-text">Nuestra práctica es <strong>estrictamente clínica y biomecánica</strong>. Grupo Gevizz S.A.S. mantiene tolerancia cero frente al acoso. Cualquier insinuación de índole sexual o falta de respeto resultará en la <strong>terminación inmediata de la sesión, cobro total e íntegro</strong>, el veto permanente y el reporte directo a las autoridades pertinentes.</p>
-            </article>
-
-            <article class="glass-card reveal" style="border-color: var(--valtara-morado-vivo);">
-                <i class="fa-solid fa-shield-halved" style="font-size: 4rem; color: var(--valtara-morado-vivo); margin-bottom: 1.5rem;"></i>
-                <h3 style="color: var(--valtara-morado-vivo);">Privacidad Digital (LFPDPPP)</h3>
-                <p class="marketing-text">Operamos bajo <em>Privacidad por Diseño</em>. <strong>NO guardamos tu ubicación GPS y NO vendemos tus datos.</strong> Tu nombre, el avatar que escogiste y tus ajustes de contraste visual se guardan exclusivamente en la memoria local de tu propio dispositivo. Tu navegación aquí es sagrada y confidencial.</p>
-            </article>
-
-            <article class="glass-card reveal" style="border-color: var(--valtara-cian-brillante);">
-                <i class="fa-solid fa-copyright" style="font-size: 4rem; color: var(--valtara-cian-brillante); margin-bottom: 1.5rem;"></i>
-                <h3 style="color: var(--valtara-cian-brillante);">Propiedad Intelectual (Anti-Plagio)</h3>
-                <p class="marketing-text">Todo este sitio web, incluyendo la arquitectura <em>Sovereign 11.2</em>, el diseño visual, el motor de audio y la inteligencia artificial, están siendo desarrollados in-house. <strong>No existe autorización expresa para replicar, clonar o robar esta estructura.</strong> Grupo Gevizz S.A.S. protege sus activos tecnológicos y literarios rigurosamente.</p>
             </article>
 
             <article class="glass-card reveal" style="grid-column: 1 / -1; border-color: var(--valtara-blanco); background: rgba(20,20,30,0.8); text-align: center;">
@@ -650,6 +693,106 @@ window.ValtaraData = {
                 </div>
             </article>
         </div>
+
+        <!-- ========================================== -->
+        <!-- MODALES DE TEXTO MASIVO (TARJETAS EMERGENTES) -->
+        <!-- ========================================== -->
+        
+        <!-- MODAL 1: TÉRMINOS Y PRIVACIDAD -->
+        <dialog id="modal-terminos">
+            <h2>Términos, Condiciones y Aviso de Privacidad Integral</h2>
+            <p><strong>Valtara: Executive Therapy & Biomechanics | Grupo Gevizz S.A.S.</strong><br><em>Última actualización: Marzo 2026</em></p>
+            
+            <h3>1. DECLARACIÓN INICIAL Y ACEPTACIÓN</h3>
+            <p>El presente documento establece los Términos y Condiciones de Uso, así como el Aviso de Privacidad Integral, aplicables a los servicios presenciales y digitales ofrecidos por Grupo Gevizz S.A.S., operando bajo el nombre comercial "Valtara: Executive Therapy & Biomechanics" (en adelante "Valtara"), con domicilio operativo en Paseo de la Reforma 195, Piso 3, Ciudad de México.</p>
+            <p>Al interactuar con nuestros canales de comunicación digitales (incluyendo nuestra Inteligencia Artificial "Aura", sitio web y WhatsApp) o al reservar y hacer uso de nuestras instalaciones, el usuario (en adelante "El Paciente" o "El Usuario") acepta incondicionalmente las políticas aquí descritas.</p>
+            
+            <h3>2. USO DE NUESTRA INTELIGENCIA ARTIFICIAL ("AURA")</h3>
+            <p>Valtara pone a disposición del usuario un asistente cognitivo de triaje biomecánico denominado "Aura". El uso de esta tecnología está estrictamente sujeto a las siguientes cláusulas:</p>
+            <h4>2.1. Naturaleza del Servicio</h4>
+            <p>Aura es un sistema de Inteligencia Artificial diseñado exclusivamente para orientar y perfilar al usuario hacia la terapia biomecánica más adecuada de nuestro catálogo, basándose en la información proporcionada por el propio usuario sobre su tensión muscular, estrés o hábitos.</p>
+            <h4>2.2. Exención de Responsabilidad Médica</h4>
+            <p>Bajo ninguna circunstancia, las recomendaciones, respuestas o análisis proporcionados por Aura constituyen un "diagnóstico médico", "prescripción" o "tratamiento clínico". Valtara ofrece terapias biomecánicas de apoyo. Ante la presencia de fiebre, infecciones, fracturas, enfermedades oncológicas, embarazos de alto riesgo o emergencias médicas, el usuario tiene la obligación de consultar a un médico especialista. Valtara y Grupo Gevizz S.A.S. se deslindan de cualquier complicación derivada de la omisión de información vital por parte del usuario.</p>
+            <h4>2.3. Limitaciones Tecnológicas</h4>
+            <p>Aura no tiene capacidad para procesar cobros, confirmar citas en el calendario ni modificar reservas existentes. Cualquier gestión administrativa debe finalizarse exclusivamente con nuestro equipo humano a través de los canales oficiales.</p>
+            
+            <h3>3. POLÍTICA DE RESERVAS, PAGOS Y CANCELACIONES</h3>
+            <p>Para garantizar la exclusividad y la preparación de nuestras cabinas, Valtara opera bajo un esquema estricto de agenda, el cual se rige por las siguientes normativas:</p>
+            <h4>3.1. Gestión de Pagos y Anticipos</h4>
+            <p>Por seguridad financiera, Valtara NO procesa pagos con tarjeta de crédito, débito o transferencias a través de nuestro chat automatizado o sitio web público. Toda reserva requiere un anticipo, el cual será gestionado única y exclusivamente por nuestro Concierge Humano a través de nuestro WhatsApp oficial (+52 1 33 4857 2070).</p>
+            <h4>3.2. Política de Cancelación y Reembolsos</h4>
+            <ul>
+                <li><strong>Cancelación con más de 24 horas de anticipación:</strong> El reembolso del anticipo otorgado por el paciente está 100% garantizado, sin penalizaciones.</li>
+                <li><strong>Cancelación con menos de 24 horas de anticipación:</strong> Debido a la exclusividad del espacio reservado, el caso deberá ser evaluado directamente por nuestro departamento de Atención al Cliente (vía WhatsApp) para buscar una solución o reprogramación sujeta a disponibilidad.</li>
+                <li><strong>Ausencia sin previo aviso (No-Show):</strong> Si el paciente no se presenta a su cita sin haber notificado previamente, el anticipo otorgado no será reembolsable bajo ninguna circunstancia, cubriendo los gastos operativos de la cabina y el tiempo del terapeuta. No se cobrará el 100% de la sesión, limitando la penalización únicamente a la pérdida del anticipo.</li>
+            </ul>
+
+            <h3>4. ÉTICA, CONDUCTA Y TOLERANCIA CERO</h3>
+            <p>Valtara es un santuario corporativo de bienestar estrictamente profesional. Nos reservamos el derecho de admisión y el derecho a interrumpir cualquier servicio (digital o presencial) bajo las siguientes condiciones:</p>
+            <h4>4.1. Cero Tolerancia al Acoso</h4>
+            <p>Queda estrictamente prohibido solicitar servicios de naturaleza sexual, erótica, "finales felices" o realizar insinuaciones inapropiadas, ya sea a nuestro personal humano o a nuestra Inteligencia Artificial.</p>
+            <h4>4.2. Consecuencias</h4>
+            <p>Cualquier violación a esta cláusula resultará en la terminación inmediata de la conversación digital o de la sesión presencial en cabina, sin derecho a reembolso alguno y el bloqueo permanente del usuario de nuestros sistemas.</p>
+
+            <h3>5. INCLUSIÓN Y ACCESIBILIDAD</h3>
+            <p>Valtara está profundamente comprometida con el bienestar de todas las personas. Entendemos que cada individuo tiene necesidades únicas.</p>
+            <h4>5.1. Ajustes Razonables</h4>
+            <p>Si el paciente requiere atención especial debido a una discapacidad motriz, visual, auditiva o condiciones del espectro autista, le solicitamos comunicarse directamente a nuestro WhatsApp oficial. Nuestro equipo humano evaluará con total transparencia y empatía los ajustes razonables que nuestra infraestructura física actual permita, para garantizar una experiencia segura, cómoda y digna.</p>
+
+            <h3>6. AVISO DE PRIVACIDAD INTEGRAL</h3>
+            <p>En cumplimiento con la Ley Federal de Protección de Datos Personales en Posesión de los Particulares de los Estados Unidos Mexicanos, Grupo Gevizz S.A.S. emite el siguiente aviso:</p>
+            <h4>6.1. Recopilación de Datos a través de IA (Arquitectura Serverless)</h4>
+            <p>Las conversaciones mantenidas con nuestra Inteligencia Artificial "Aura" operan bajo una infraestructura tecnológica sin servidor (Serverless). Esto significa que el sistema no almacena historiales médicos, no guarda su nombre de forma permanente en bases de datos de terceros y no conserva el registro de la conversación una vez que usted cierra la ventana del navegador. El procesamiento de sus síntomas se realiza en milisegundos de forma volátil y encriptada con el único fin de sugerir un tratamiento en tiempo real.</p>
+            <h4>6.2. Datos Recabados por el Equipo Humano</h4>
+            <p>Únicamente cuando el usuario transfiere su solicitud a nuestro WhatsApp oficial, nuestro equipo humano recopilará datos de identificación (nombre, número de teléfono) y datos de salud (tensión muscular declarada) con la finalidad exclusiva de agendar y preparar su sesión biomecánica.</p>
+            <h4>6.3. Uso de la Información</h4>
+            <p>Sus datos no serán vendidos, alquilados ni compartidos con agencias de marketing externas.</p>
+            <h4>6.4. Ejercicio de Derechos ARCO</h4>
+            <p>Usted tiene derecho a Acceder, Rectificar, Cancelar u Oponerse (Derechos ARCO) al uso de sus datos personales en nuestros registros de WhatsApp y agenda. Para ejercer estos derechos, puede enviar su solicitud directamente a nuestro WhatsApp de atención (+52 1 33 4857 2070).</p>
+
+            <button class="btn-close" onclick="this.closest('dialog').close()"><i class="fa-solid fa-times"></i> Cerrar Documento</button>
+        </dialog>
+
+        <!-- MODAL 2: WHITEPAPER TECNOLÓGICO -->
+        <dialog id="modal-whitepaper">
+            <h2>AURA AI: Arquitectura y Evolución Tecnológica</h2>
+            <p><strong>Documento Técnico de Implementación Cognitiva | Grupo Gevizz S.A.S.</strong><br><em>Clasificación: Público / Informativo</em></p>
+            
+            <h3>1. Resumen Ejecutivo</h3>
+            <p>En Valtara: Executive Therapy & Biomechanics, concebimos el bienestar como una ciencia exacta. Para elevar la experiencia de nuestros pacientes en Paseo de la Reforma a un estándar de ultra-lujo sin precedentes, Grupo Gevizz ha desplegado Aura, un sistema de Inteligencia Artificial de Triaje Biomecánico.</p>
+            <p>Este documento detalla la infraestructura tecnológica sin servidor (Serverless), los modelos de procesamiento de lenguaje natural de escala masiva y los protocolos de seguridad ética que operan en milisegundos detrás de nuestra interfaz de usuario. Aura no es un asistente virtual convencional; es un ecosistema cognitivo diseñado para escuchar, analizar y preparar el camino hacia la sanación física.</p>
+
+            <h3>2. Arquitectura Cognitiva de Escala Masiva</h3>
+            <p>Para lograr una interacción que se sienta profundamente humana y cálida, decidimos abandonar las soluciones de "bots de botones" tradicionales. En su lugar, construimos a Aura sobre un Modelo de Lenguaje Grande (LLM) de 70 Mil Millones de Parámetros Sinápticos.</p>
+            <h4>2.1. Procesamiento a la Velocidad de la Luz (Infraestructura LPU)</h4>
+            <p>A diferencia de los sistemas estándar que utilizan Unidades de Procesamiento Gráfico (GPU) y sufren de latencia o "tiempos de carga", la red de Aura está soportada por infraestructura de Unidades de Procesamiento de Lenguaje (LPU). Esta innovación de hardware permite que nuestro sistema decodifique la intención del paciente, cruce los datos con nuestro catálogo biomecánico y genere una respuesta hiper-personalizada en fracciones de segundo. El resultado es una conversación fluida, natural y en tiempo real.</p>
+            <h4>2.2. Ecosistema "Serverless" y Privacidad Cero-Datos</h4>
+            <p>La privacidad de nuestros ejecutivos y pacientes es innegociable. Aura opera bajo una arquitectura descentralizada Serverless (sin servidor estático). Esto significa que la memoria computacional se destruye al cerrar la sesión. No almacenamos historiales médicos, no guardamos cookies invasivas y no retenemos conversaciones en servidores de terceros. Todo el procesamiento se ejecuta en túneles encriptados de un solo uso.</p>
+
+            <h3>3. Triaje Biomecánico y Protocolo de Somatización</h3>
+            <p>El núcleo lógico de Aura fue entrenado con la filosofía terapéutica de Valtara. Su objetivo principal es realizar una valoración pre-clínica inteligente antes de que el paciente llegue a cabina.</p>
+            <h4>3.1. Algoritmos de Escucha Activa y Empatía</h4>
+            <p>El estrés corporativo no solo afecta la mente; destruye el cuerpo. Hemos programado a Aura con un "Modo de Escucha" avanzado capaz de detectar patrones de estrés, ansiedad o tristeza en el lenguaje del paciente. Al detectar estos marcadores, la IA pausa cualquier protocolo de agenda para validar la emoción del usuario, explicándole de manera científica cómo el estrés crónico se somatiza (se cristaliza) en el tejido conectivo y las fascias.</p>
+            <h4>3.2. Perfilado de Tejido Dinámico</h4>
+            <p>Mediante el análisis de dos variables críticas —la zona de la molestia y el detonante del dolor— el motor de inferencia matemática de Aura selecciona la terapia exacta requerida. El sistema es capaz de discernir de forma autónoma cuándo un paciente requiere la elongación de un Yoga Pasivo Tailandés por sedentarismo, y cuándo necesita la presión absoluta de una Descompresión Deportiva por desgaste agudo.</p>
+
+            <h3>4. Cortafuegos Ético y Seguridad Operativa</h3>
+            <p>Para proteger la integridad de nuestra marca y de nuestros terapeutas, Aura está encapsulada dentro de múltiples anillos de seguridad lógica conocidos como "Cortafuegos Éticos".</p>
+            <ul>
+                <li><strong>Bloqueo Clínico:</strong> La IA tiene estrictamente prohibido emitir "diagnósticos médicos". Su código fuente la obliga a reconocer emergencias (fiebre, infecciones, lesiones agudas) y derivar inmediatamente al paciente a la medicina alópata.</li>
+                <li><strong>Protocolo Anti-Acoso:</strong> Contamos con un filtro de validación semántica de tolerancia cero. Cualquier insinuación o solicitud de servicios eróticos desencadena un cierre automático y profesional de la conversación.</li>
+                <li><strong>Protección Financiera en Tiempo Real:</strong> El núcleo de Aura tiene bloqueada la capacidad de procesar transacciones. La IA jamás solicitará números de tarjetas de crédito en su ventana de chat.</li>
+            </ul>
+
+            <h3>5. Accesibilidad Inclusiva y Transparencia</h3>
+            <p>La tecnología debe ser un puente, no una barrera. Hemos integrado un módulo de accesibilidad honesta. Si un paciente indica tener alguna necesidad especial o discapacidad motriz/visual, Aura suspende los flujos automatizados de venta y conecta de inmediato al paciente con un humano capacitado para evaluar los "ajustes razonables" necesarios en nuestras instalaciones.</p>
+
+            <h3>6. La Transición Omnicanal (El "Handoff" Perfecto)</h3>
+            <p>El éxito de la Inteligencia Artificial de ultra-lujo radica en saber exactamente cuándo debe dar un paso atrás. Aura no reemplaza el contacto humano; lo optimiza. Una vez concluida la valoración biomecánica, nuestro sistema empaqueta la información del paciente y genera un puente de comunicación nativo de un solo clic hacia nuestro Concierge Humano en WhatsApp.</p>
+            <p style="margin-top: 2rem; font-style: italic; color: #aaa;">Grupo Gevizz S.A.S. Innovando en la intersección de la biomecánica, la anatomía y el código computacional. [Fin del Documento]</p>
+            
+            <button class="btn-close" onclick="this.closest('dialog').close()"><i class="fa-solid fa-times"></i> Cerrar Documento</button>
+        </dialog>
     `,
 
     /* --------------------------------------------------------------------------------
@@ -661,7 +804,7 @@ window.ValtaraData = {
             <div class="footer-col">
                 <h4 style="font-family: var(--font-accent); font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem; letter-spacing: 0.2rem;">VALTARA</h4>
                 <p style="font-style: italic; color: var(--valtara-oro); font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: bold;">Executive Therapy & Biomechanics</p>
-                <p style="font-weight: 300; font-size: 1.1rem;">Entidad comercial respaldada y operada en su totalidad por <strong>Grupo Gevizz S.A.S.</strong><br><br>Plataforma Modular Sovereign 11.2. Desarrollo web, IA y diseño creados in-house.</p>
+                <p style="font-weight: 300; font-size: 1.1rem;">Entidad comercial respaldada y operada en su totalidad por <strong>Grupo Gevizz S.A.S.</strong><br><br>Plataforma Modular Sovereign 11.5. Desarrollo web, IA y diseño creados in-house.</p>
             </div>
             
             <div class="footer-col">
