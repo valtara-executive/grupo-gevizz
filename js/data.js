@@ -1,55 +1,92 @@
 /**
  * ====================================================================================
- * BLOQUE 4: LA ENCICLOPEDIA VALTARA (DATA & RENDER ENGINE V14.0 - OMNI EXPANDED EDITION)
- * Integración Dinámica de Tiempo, Manifiesto Épico de Tecnología, Expansión Art & Nails VIP,
- * Literatura Clínica Exhaustiva, Marco Legal Grupo Gevizz S.A.S, Corrección de Mapa
- * e Integración de Doble Motor Lógico de Juegos Educativos.
+ * BLOQUE 4: LA ENCICLOPEDIA VALTARA (DATA & RENDER ENGINE V12.5 - MASTER EDITION)
+ * Integración Dinámica de Tiempo, Manifiesto Épico de Tecnología, Videoteca,
+ * Expansión Art & Nails VIP (Estética Estricta) y Módulos Legales Modales.
  * ====================================================================================
  */
 
-// ====================================================================================
-// MOTOR LÓGICO 1: EL ALQUIMISTA VALTARA (BOTÁNICA Y AROMATERAPIA)
-// ====================================================================================
+// Motor Lógico del Juego de Aromaterapia (El Alquimista Valtara)
 window.ValtaraAlchemist = {
     scenarios: [
         {
-            case: "Paciente corporativo de 42 años llega con cefalea tensional aguda (migraña en racimos) y un bruxismo severo derivado de un cierre fiscal estresante. Presenta fotofobia y rigidez en el masetero.",
+            case: "Paciente corporativo llega con cefalea tensional (migraña) intensa y bruxismo por estrés financiero.",
             options: [
-                { name: "Extracto de Canela", correct: false, reason: "Incompatible. La canela es una especia rubefaciente y altamente termogénica. Aplicarla en una crisis de migraña sería el equivalente a arrojar gasolina al fuego, aumentando drásticamente la vasodilatación craneal y empeorando las punzadas." },
-                { name: "Mentha Piperita (Menta)", correct: true, reason: "¡Intervención Magistral! El alto porcentaje de mentol puro actúa como un vasoconstrictor criogénico natural. Funciona como una bolsa de hielo molecular aplicada directamente sobre los cables de tensión del cráneo, bloqueando los canales de sodio y adormeciendo los receptores de dolor del nervio trigémino casi al instante." },
-                { name: "Oleato de Árnica", correct: false, reason: "Ineficaz para este cuadro. Aunque es un portento desinflamante, su peso molecular está diseñado para reparar macro-tejido muscular profundo, derrames y hematomas por impacto, no para mitigar una tormenta neurológica craneal." }
+                { name: "Aceite de Canela", correct: false, reason: "Incorrecto. La canela es rubefaciente y muy caliente; podría aumentar el flujo sanguíneo a la cabeza y empeorar la migraña." },
+                { name: "Aceite de Menta", correct: true, reason: "¡Exacto! El mentol actúa como un vasoconstrictor natural y genera analgesia inmediata, bloqueando los receptores de dolor del nervio trigémino." },
+                { name: "Aceite de Árnica", correct: false, reason: "Incorrecto. Aunque es desinflamante, su absorción está diseñada para tejido muscular profundo y hematomas, no para tensión neurológica craneal." }
             ]
         },
         {
-            case: "Paciente reporta insomnio crónico de 3 meses, ansiedad nocturna paralizante y un estado de 'alerta perpetua' que le impide apagar su cerebro antes de dormir, afectando su memoria a corto plazo.",
+            case: "Paciente reporta insomnio severo, ansiedad nocturna y no puede 'apagar' su cerebro antes de dormir.",
             options: [
-                { name: "Quimiotipo Romero Alcanfor", correct: false, reason: "Altamente contraindicado. El romero es un estimulante neurológico masivo del sistema nervioso simpático. Utilizarlo en un paciente con insomnio provocaría una sobreestimulación cerebral, agravando la taquicardia nocturna." },
-                { name: "Prensado de Limón Siciliano", correct: false, reason: "Elección errónea. Los terpenos cítricos son fotosensibles y brillantes; estimulan la segregación de dopamina y elevan la energía corporal, lo cual es el efecto opuesto al que buscamos para el descanso." },
-                { name: "Lavandula Angustifolia", correct: true, reason: "¡Sabiduría Clínica! El Linalool y el Acetato de Linalilo presentes en la lavanda pura tienen efectos sedantes comprobados por resonancia magnética. Funcionan como un 'interruptor maestro', interactuando con los receptores GABA del cerebro para inducir las ondas Delta y Theta necesarias para el sueño profundo." }
+                { name: "Aceite de Romero", correct: false, reason: "Incorrecto. El romero es un poderoso estimulante del sistema nervioso central, lo que agravaría el insomnio severamente." },
+                { name: "Aceite de Limón", correct: false, reason: "Incorrecto. Los cítricos estimulan la producción de glóbulos blancos y elevan la energía, algo contraproducente para dormir." },
+                { name: "Aceite de Lavanda", correct: true, reason: "¡Excelente elección! El Linalool presente en la lavanda tiene efectos sedantes científicamente probados al interactuar con los receptores GABA, induciendo ondas cerebrales lentas." }
             ]
         },
         {
-            case: "Directora Ejecutiva se presenta a las 8:30 AM diagnosticada con Síndrome de Burnout Grado 2, fatiga adrenal crónica, letargo y una profunda niebla cognitiva que le impide enfocarse en sus juntas.",
+            case: "Ejecutivo se presenta a las 9:00 AM con Síndrome de Burnout, fatiga crónica y falta de motivación para su día.",
             options: [
-                { name: "Manzanilla Romana", correct: false, reason: "Contraproducente. La manzanilla posee un perfil químico profundamente neurosedante. Aplicarla a esta hora la sumiría en un estado de letargo aún mayor, boicoteando por completo su rendimiento laboral diurno." },
-                { name: "Romero Cineol 1,8", correct: true, reason: "¡Elección de Élite! El romero es el equivalente botánico a un 'café espresso intravenoso'. Su molécula Cineol oxigena masivamente el córtex prefrontal, disipa la niebla mental, estimula la retención de memoria a corto plazo y reactiva el estado de alerta cristalino." },
-                { name: "Raíz de Valeriana", correct: false, reason: "Peligroso para su jornada. La valeriana es un hipnótico y sedante central profundo. Su aplicación la induciría a un estado de somnolencia inmanejable en el entorno corporativo." }
+                { name: "Aceite de Manzanilla", correct: false, reason: "Incorrecto. La manzanilla relajaría demasiado su sistema, empeorando la fatiga matutina." },
+                { name: "Aceite de Romero", correct: true, reason: "¡Perfecto! El romero es el 'café' de la aromaterapia. Mejora la circulación cerebral, disipa la niebla cognitiva y activa el estado de alerta." },
+                { name: "Aceite de Valeriana", correct: false, reason: "Incorrecto. La valeriana es un sedante profundo que lo induciría al sueño inmediatamente." }
             ]
         },
         {
-            case: "Triatleta llega a cabina post-competencia con dolor crónico en deltoides, microdesgarros en la fascia lumbar y acumulación tóxica masiva de ácido láctico en miembros inferiores.",
+            case: "Para-atleta llega a consulta con dolor crónico en hombros y acumulación masiva de ácido láctico tras una competencia.",
             options: [
-                { name: "Absoluto de Rosa Damascena", correct: false, reason: "Incorrecto. La rosa es el epítome del lujo en la cosmética antienvejecimiento y reconforta el sistema emocional, pero carece de la potencia biomecánica y química necesaria para reparar el músculo estriado." },
-                { name: "Macerado Profundo de Árnica", correct: true, reason: "¡Decisión Biomecánica Perfecta! La Helenalina, el compuesto activo del Árnica Montana, es un bloqueador de la inflamación muscular de altísimo impacto. Funciona como un escuadrón de micro-reparación que penetra la barrera transdérmica para sanar la fascia rota y disolver el lactato." },
-                { name: "Naranja Dulce Prensada", correct: false, reason: "Insuficiente. Aunque es excelente para mejorar el estado de ánimo tras el agotamiento, no posee penetración antiinflamatoria profunda para tratar microdesgarros musculares." }
+                { name: "Aceite de Rosa", correct: false, reason: "Incorrecto. La rosa es maravillosa para la cosmética facial y el equilibrio emocional, pero carece de potencia biomecánica." },
+                { name: "Macerado de Árnica", correct: true, reason: "¡Decisión maestra! La helenalina del Árnica es un bloqueador de la inflamación muscular de alto impacto, ideal para reparar microdesgarros de la fascia." },
+                { name: "Aceite de Naranja Dulce", correct: false, reason: "Incorrecto. Excelente para mejorar el estado de ánimo, pero no tiene penetración antiinflamatoria profunda." }
             ]
         },
         {
-            case: "Paciente atraviesa un proceso de duelo reciente. Presenta postura encorvada (cierre de pecho para proteger el corazón), apatía, respiración superficial y una depresión leve y silenciosa.",
+            case: "Paciente atraviesa un duelo reciente. Se nota apatía, depresión leve y postura encorvada (pecho cerrado).",
             options: [
-                { name: "Cáscara de Naranja Dulce", correct: true, reason: "¡Magnífica empatía clínica! La molécula D-Limoneno estimula la liberación natural de dopamina. Los aromas cítricos bypassan la mente lógica y se conectan directo con la amígdala y el sistema límbico, evocando recuerdos de infancia, luz solar y vitalidad. Es un abrazo químico para el alma." },
-                { name: "Melaleuca (Árbol de Té)", correct: false, reason: "Inadecuado. El Tea Tree es un bactericida y fungicida formidable, pero su aroma clínico, medicinal y alcanforado no ofrece ningún consuelo emocional para un corazón que atraviesa la tristeza." },
-                { name: "Eucalipto Globulus", correct: false, reason: "Incompleto. Su perfil alcanforado abrirá mecánicamente sus vías respiratorias para ayudarle a respirar, pero es demasiado frío y carece de la chispa cálida necesaria para estimular la química de la felicidad." }
+                { name: "Aceite de Naranja Dulce", correct: true, reason: "¡Gran empatía! El Limoneno estimula la liberación de dopamina. Los aromas cítricos se conectan directamente con el sistema límbico, evocando recuerdos de vitalidad." },
+                { name: "Aceite de Árbol de Té", correct: false, reason: "Incorrecto. El Tea Tree es un potente bactericida e inmunoestimulante, pero su aroma clínico no aborda la tristeza profunda." },
+                { name: "Aceite de Eucalipto", correct: false, reason: "Incorrecto. Su perfil mentolado abrirá sus vías respiratorias, pero no incidirá en la producción química de la felicidad." }
+            ]
+        },
+        {
+            case: "El paciente presenta fatiga debido a congestión respiratoria severa y alergias estacionales que limitan su oxigenación.",
+            options: [
+                { name: "Aceite de Eucalipto", correct: true, reason: "¡Precisión clínica! El 1,8-cineol del eucalipto es un expectorante y mucolítico natural que abre inmediatamente el tracto respiratorio." },
+                { name: "Aceite de Lavanda", correct: false, reason: "Incorrecto. Lo relajará, pero no romperá el bloqueo de las vías respiratorias superiores." },
+                { name: "Aceite de Ylang-Ylang", correct: false, reason: "Incorrecto. Su intenso aroma floral y exótico podría saturar aún más su sistema olfativo ya comprometido." }
+            ]
+        },
+        {
+            case: "Sientes al paciente al borde del llanto. Tensión nerviosa extrema, palpitaciones y respiración entrecortada.",
+            options: [
+                { name: "Aceite de Menta", correct: false, reason: "Incorrecto. La menta es muy vigorizante y fría; el paciente en crisis nerviosa necesita calor y contención suave." },
+                { name: "Aceite de Romero", correct: false, reason: "Incorrecto. Estimularía aún más su frecuencia cardíaca, lo cual es peligroso en este estado." },
+                { name: "Aceite de Manzanilla Romana", correct: true, reason: "¡Tacto perfecto! La manzanilla actúa como un bálsamo para el sistema nervioso estresado, calmando las palpitaciones y bajando la presión arterial suavemente." }
+            ]
+        },
+        {
+            case: "Adulto mayor con sensibilidad alterada. Presenta inflamación articular leve en rodillas que empeora con el frío.",
+            options: [
+                { name: "Aceite de Limón", correct: false, reason: "Incorrecto. Carece de las propiedades térmicas (calor) necesarias para aliviar la articulación fría." },
+                { name: "Aceite de Bergamota", correct: false, reason: "Incorrecto. Maravilloso antidepresivo, pero sin impacto en el tejido conectivo articular." },
+                { name: "Aceite de Jengibre", correct: true, reason: "¡Sabiduría ancestral! El jengibre es un aceite esencial termogénico (aporta calor profundo) y un bloqueador de las prostaglandinas inflamatorias." }
+            ]
+        },
+        {
+            case: "Ejecutivo de alto nivel con hipertensión documentada por exceso de estrés y adrenalina en la sangre.",
+            options: [
+                { name: "Aceite de Canela", correct: false, reason: "Incorrecto. La canela aumenta la temperatura y la circulación, lo cual es de altísimo riesgo para un paciente hipertenso." },
+                { name: "Aceite de Ylang-Ylang", correct: true, reason: "¡Conocimiento de élite! El Ylang-Ylang es uno de los pocos aceites reconocidos científicamente como hipotensivo (ayuda a bajar la presión arterial rápidamente)." },
+                { name: "Aceite de Romero", correct: false, reason: "Incorrecto. Al igual que la canela, el romero eleva la presión arterial." }
+            ]
+        },
+        {
+            case: "Paciente requiere un masaje de descompresión en silla en su oficina para poder volver a una junta urgente y enfocarse.",
+            options: [
+                { name: "Aceite de Árnica", correct: false, reason: "Incorrecto. Muy denso para el entorno de oficina y no impacta la concentración." },
+                { name: "Aceite de Limón", correct: true, reason: "¡Gran agilidad mental! Los cítricos, especialmente el limón, promueven un estado de alerta cristalina, ideal para volver a trabajar con enfoque láser." },
+                { name: "Aceite de Manzanilla", correct: false, reason: "Incorrecto. Lo relajaría tanto que le sería muy difícil mantener la atención en su junta corporativa." }
             ]
         }
     ],
@@ -66,6 +103,7 @@ window.ValtaraAlchemist = {
         
         const data = this.scenarios[this.currentLvl];
         
+        // Barajar opciones
         let opts = [...data.options];
         for (let i = opts.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -73,38 +111,38 @@ window.ValtaraAlchemist = {
         }
         
         let html = `
-            <div style="background: rgba(10,10,15,0.95); border: 2px solid var(--valtara-cian-brillante); border-radius: 2rem; padding: 4rem; text-align: center; box-shadow: 0 15px 40px rgba(0,255,255,0.1), inset 0 0 20px rgba(0,255,255,0.05); position: relative; overflow: hidden;">
-                <div style="position: absolute; top: -50px; left: -50px; width: 150px; height: 150px; background: var(--valtara-cian-brillante); opacity: 0.1; border-radius: 50%; filter: blur(40px);"></div>
+            <div style="background: rgba(0,0,0,0.8); border: 2px solid var(--valtara-cian-brillante); border-radius: 1.5rem; padding: 3rem; text-align: center;">
+                <i class="fa-solid fa-flask-vial" style="font-size: 4rem; color: var(--valtara-cian-brillante); margin-bottom: 1.5rem;"></i>
+                <h3 style="font-family: var(--font-accent); font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem;">Experiencia Botánica Interactiva</h3>
+                <p style="font-size: 1.15rem; color: var(--valtara-oro); margin-bottom: 2rem;">¿Qué aceite puro elegirías tú, como Alquimista Valtara?</p>
                 
-                <i class="fa-solid fa-flask-vial" style="font-size: 5rem; color: var(--valtara-cian-brillante); margin-bottom: 2rem; animation: pulse 2.5s infinite; filter: drop-shadow(0 0 10px rgba(0,255,255,0.5));"></i>
-                <h3 style="font-family: var(--font-accent); font-size: 2.8rem; color: var(--valtara-blanco); margin-bottom: 1.5rem; letter-spacing: 1px;">La Botica Interactiva: El Alquimista Valtara</h3>
-                <p style="font-size: 1.35rem; color: var(--valtara-oro); margin-bottom: 3rem; max-width: 900px; margin-left: auto; margin-right: auto; line-height: 1.8; font-weight: 300;">
-                    La verdadera ciencia de la sanación requiere empatía, instinto y un conocimiento químico absoluto. Pon a prueba tu criterio botánico. Lee meticulosamente el expediente clínico de nuestro paciente y decide qué extracto puro de nuestra botica molecular le devolverá el equilibrio biológico. ¿Qué esencia prescribirías tú?
-                </p>
-                
-                <div style="background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(178,0,255,0.05) 100%); padding: 3rem; border-radius: 1.5rem; margin-bottom: 3.5rem; border-left: 6px solid var(--valtara-morado-vivo); box-shadow: 0 10px 20px rgba(0,0,0,0.5);">
-                    <p style="font-size: 1.5rem; color: var(--valtara-blanco); text-align: left; line-height: 2; font-weight: 300;"><strong><i class="fa-solid fa-file-medical"></i> Expediente Clínico Abierto:</strong><br><br> ${data.case}</p>
+                <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 1rem; margin-bottom: 2.5rem; border-left: 5px solid var(--valtara-morado-vivo);">
+                    <p style="font-size: 1.25rem; color: var(--valtara-blanco); text-align: left; line-height: 1.8;"><strong>Caso Clínico:</strong> ${data.case}</p>
                 </div>
                 
-                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem;" id="alchemist-buttons">
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;" id="alchemist-buttons">
         `;
         
-        opts.forEach((opt) => {
+        opts.forEach((opt, idx) => {
             const isCorrect = opt.correct ? 'true' : 'false';
-            html += `<button class="btn-primary hover-scale" aria-label="Prescribir ${opt.name}" style="background: rgba(20,20,30,0.9); border: 1px solid var(--valtara-oro-suave); font-size: 1.3rem; flex: 1; min-width: 280px; padding: 1.8rem; border-radius: 1rem; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.3);" onmouseover="this.style.background='var(--valtara-oro)'; this.style.color='#000'; this.style.transform='translateY(-5px)';" onmouseout="this.style.background='rgba(20,20,30,0.9)'; this.style.color='var(--valtara-blanco)'; this.style.transform='translateY(0)';" onclick="window.ValtaraAlchemist.guess('${isCorrect}', \`${opt.reason.replace(/"/g, '&quot;')}\`)"><i class="fa-solid fa-droplet" style="margin-right: 15px;"></i> ${opt.name}</button>`;
+            html += `<button class="btn-primary" aria-label="Elegir ${opt.name}" style="background: var(--cristal-fondo); border: 1px solid var(--valtara-oro-suave); font-size: 1.1rem; flex: 1; min-width: 250px;" onclick="window.ValtaraAlchemist.guess('${isCorrect}', \`${opt.reason.replace(/"/g, '&quot;')}\`)"><i class="fa-solid fa-droplet"></i> ${opt.name}</button>`;
         });
         
         html += `
                 </div>
                 
-                <div id="alchemist-feedback" aria-live="polite" style="display: none; margin-top: 4rem; padding: 3rem; border-radius: 1.5rem; box-shadow: inset 0 0 30px rgba(0,0,0,0.6);">
+                <div id="alchemist-feedback" aria-live="polite" style="display: none; margin-top: 3rem; padding: 2rem; border-radius: 1rem;">
                 </div>
                 
-                <button onclick="window.ValtaraAlchemist.init()" style="margin-top: 4rem; background: transparent; border: 1px solid var(--valtara-gris-texto); padding: 12px 30px; border-radius: 30px; color: var(--valtara-gris-texto); cursor: pointer; font-size: 1.2rem; transition: 0.3s; letter-spacing: 1px;"><i class="fa-solid fa-rotate" style="margin-right: 10px;"></i> Recibir al Siguiente Paciente (Nuevo Caso)</button>
+                <button onclick="window.ValtaraAlchemist.init()" style="margin-top: 2rem; background: transparent; border: none; color: var(--valtara-gris-texto); text-decoration: underline; cursor: pointer; font-size: 1rem;">Cargar otro paciente (Nuevo Nivel)</button>
             </div>
         `;
         
         gameDiv.innerHTML = html;
+        
+        if(window.A11yEngine && window.A11yEngine.ttsActive) {
+            window.A11yEngine.announce("El Alquimista Valtara. Caso clínico: " + data.case + ". Elige un aceite de las opciones.");
+        }
     },
     
     guess: function(isCorrect, reason) {
@@ -113,480 +151,332 @@ window.ValtaraAlchemist = {
         if(!feedbackDiv || !buttons) return;
         
         buttons.style.pointerEvents = 'none';
-        buttons.style.opacity = '0.3';
-        buttons.style.filter = 'grayscale(100%)';
+        buttons.style.opacity = '0.5';
         feedbackDiv.style.display = 'block';
         
         if(isCorrect === 'true') {
-            feedbackDiv.style.background = 'linear-gradient(135deg, rgba(0, 230, 118, 0.15), rgba(0, 230, 118, 0.05))';
+            feedbackDiv.style.background = 'rgba(0, 230, 118, 0.15)';
             feedbackDiv.style.border = '2px solid var(--valtara-verde-ws)';
-            feedbackDiv.innerHTML = `
-                <h4 style="font-size: 2.2rem; color: var(--valtara-verde-ws); margin-bottom: 2rem; font-family: var(--font-accent); text-shadow: 0 0 10px rgba(0,230,118,0.3);"><i class="fa-solid fa-check-circle"></i> Fusión Bioquímica Exitosa</h4>
-                <p style="font-size: 1.4rem; color: var(--valtara-blanco); line-height: 2; font-weight: 300; text-align: justify;">${reason}</p>
-                <p style="font-size: 1.1rem; color: var(--valtara-verde-menta); margin-top: 2rem; font-style: italic; border-top: 1px solid rgba(0,230,118,0.2); padding-top: 1.5rem;">Tu sobresaliente intuición botánica ha mejorado significativamente la calidad de vida de este paciente.</p>
-            `;
+            feedbackDiv.innerHTML = `<h4 style="font-size: 1.8rem; color: var(--valtara-verde-ws); margin-bottom: 1rem;"><i class="fa-solid fa-check-circle"></i> Fusión Exitosa</h4><p style="font-size: 1.15rem; color: var(--valtara-blanco); line-height: 1.8;">${reason}</p>`;
+            
+            const orbe = document.createElement('div');
+            orbe.className = 'orb orb-2';
+            orbe.style.width = '30vw'; orbe.style.height = '30vw';
+            orbe.style.zIndex = '9999';
+            document.body.appendChild(orbe);
+            setTimeout(() => { orbe.style.opacity = '0'; setTimeout(()=>orbe.remove(), 2000); }, 3000);
+            
+            if(window.A11yEngine) window.A11yEngine.announce("Correcto. " + reason);
         } else {
-            feedbackDiv.style.background = 'linear-gradient(135deg, rgba(255, 51, 102, 0.15), rgba(255, 51, 102, 0.05))';
+            feedbackDiv.style.background = 'rgba(255, 51, 102, 0.15)';
             feedbackDiv.style.border = '2px solid var(--valtara-alerta)';
-            feedbackDiv.innerHTML = `
-                <h4 style="font-size: 2.2rem; color: var(--valtara-alerta); margin-bottom: 2rem; font-family: var(--font-accent); text-shadow: 0 0 10px rgba(255,51,102,0.3);"><i class="fa-solid fa-triangle-exclamation"></i> Reacción Adversa: Revisión Clínica Urgente</h4>
-                <p style="font-size: 1.4rem; color: var(--valtara-blanco); line-height: 2; font-weight: 300; text-align: justify;">${reason}</p>
-                <p style="font-size: 1.1rem; color: #ffaa00; margin-top: 2rem; font-style: italic; border-top: 1px solid rgba(255,51,102,0.2); padding-top: 1.5rem;">En la verdadera terapia corporativa, un error de cálculo puede agravar el dolor. Por eso en Valtara, el Rigor Clínico siempre precede al contacto.</p>
-            `;
-        }
-    }
-};
-
-// ====================================================================================
-// MOTOR LÓGICO 2: EL DETECTIVE BIOMECÁNICO (ANATOMÍA Y POSTURA)
-// ====================================================================================
-window.ValtaraDetective = {
-    scenarios: [
-        {
-            case: "Un paciente que trabaja como programador 10 horas al día frente al ordenador se queja de un adormecimiento y hormigueo que baja desde su cuello hasta los dedos de la mano derecha.",
-            options: [
-                { name: "Culpar al Túnel Carpiano en la muñeca", correct: false, reason: "Error común de diagnóstico. Aunque el dolor se siente en la mano, el origen rara vez está en la muñeca cuando hay dolor en el cuello asociado. Tratar solo la muñeca no resolverá el problema de raíz." },
-                { name: "Evaluar el Plexo Braquial y Músculos Escalenos", correct: true, reason: "¡Análisis brillante! La postura encorvada constante acorta los músculos escalenos en el cuello, los cuales atrapan y 'pellizcan' el Plexo Braquial (el manojo de nervios que viaja hacia el brazo), causando ese hormigueo. Liberando el cuello, la mano sana." },
-                { name: "Aplicar calor en la zona lumbar", correct: false, reason: "Completamente ineficaz. La zona lumbar (espalda baja) no tiene conexión nerviosa directa con los miembros superiores o los dedos de las manos." }
-            ]
-        },
-        {
-            case: "Una paciente ejecutiva refiere un dolor fulminante en la espalda baja (lumbalgia) al levantarse de su silla de diseñador después de una junta de 4 horas.",
-            options: [
-                { name: "Masajear agresivamente las vértebras", correct: false, reason: "Peligroso. Masajear directamente sobre el hueso vertebral inflamado puede agravar la irritación de los discos. El dolor lumbar suele ser una víctima de otras zonas, no el culpable inicial." },
-                { name: "Estirar el Músculo Psoas-Iliaco (Flexor de Cadera)", correct: true, reason: "¡Precisión Quirúrgica! Estar sentado acorta crónicamente el Psoas (el músculo que une las piernas con la columna). Al levantarse, este músculo tenso tira violentamente de las vértebras lumbares hacia adelante. Liberar la cadera y el abdomen resuelve el dolor de espalda." },
-                { name: "Fortalecer el cuello", correct: false, reason: "Irrelevante para este caso. Aunque el cuerpo está conectado por la fascia, el dolor agudo al levantarse de una silla apunta directamente a la retracción de la pelvis y caderas." }
-            ]
-        },
-        {
-            case: "Un arquitecto refiere que al final del día siente que no puede 'inflar' bien los pulmones, experimentando punzadas debajo de los omóplatos (escápulas).",
-            options: [
-                { name: "Tratar afecciones pulmonares alópatas", correct: false, reason: "Excede nuestra jurisdicción biomecánica. Aunque siempre se debe descartar daño médico con un doctor, si el paciente no está enfermo, el problema es estructural." },
-                { name: "Descomprimir el Músculo Diafragma y Romboides", correct: true, reason: "¡Lógica Anatómica Perfecta! El estrés y la mala postura 'congelan' el diafragma (el músculo principal de la respiración). Al no poder expandirse, los músculos accesorios de la espalda alta (romboides) trabajan el triple para levantar la caja torácica, causando esas punzadas de fatiga." },
-                { name: "Estirar las pantorrillas", correct: false, reason: "Sin conexión mecánica directa. La restricción torácica se aborda liberando la bóveda del pecho y la musculatura escapular." }
-            ]
-        }
-    ],
-    currentLvl: 0,
-    
-    init: function() {
-        this.currentLvl = Math.floor(Math.random() * this.scenarios.length);
-        this.render();
-    },
-    
-    render: function() {
-        const gameDiv = document.getElementById('detective-game-container');
-        if(!gameDiv) return;
-        
-        const data = this.scenarios[this.currentLvl];
-        
-        let opts = [...data.options];
-        for (let i = opts.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [opts[i], opts[j]] = [opts[j], opts[i]];
-        }
-        
-        let html = `
-            <div style="background: rgba(10,10,15,0.95); border: 2px solid var(--valtara-oro); border-radius: 2rem; padding: 4rem; text-align: center; box-shadow: 0 15px 40px rgba(212,175,55,0.1), inset 0 0 20px rgba(212,175,55,0.05); position: relative; overflow: hidden;">
-                
-                <i class="fa-solid fa-magnifying-glass-chart" style="font-size: 5rem; color: var(--valtara-oro); margin-bottom: 2rem; animation: pulse 2.5s infinite;"></i>
-                <h3 style="font-family: var(--font-accent); font-size: 2.8rem; color: var(--valtara-blanco); margin-bottom: 1.5rem; letter-spacing: 1px;">El Detective Biomecánico</h3>
-                <p style="font-size: 1.35rem; color: var(--valtara-gris-texto); margin-bottom: 3rem; max-width: 900px; margin-left: auto; margin-right: auto; line-height: 1.8; font-weight: 300;">
-                    En el cuerpo humano, el lugar donde duele rara vez es el lugar donde se origina el problema. Ponte la bata de investigador clínico. Analiza el síntoma de nuestro paciente y utiliza la lógica de las cadenas musculares para descubrir al verdadero culpable del dolor.
-                </p>
-                
-                <div style="background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(212,175,55,0.05) 100%); padding: 3rem; border-radius: 1.5rem; margin-bottom: 3.5rem; border-left: 6px solid var(--valtara-oro); box-shadow: 0 10px 20px rgba(0,0,0,0.5);">
-                    <p style="font-size: 1.5rem; color: var(--valtara-blanco); text-align: left; line-height: 2; font-weight: 300;"><strong><i class="fa-solid fa-clipboard-list"></i> Reporte de Síntomas:</strong><br><br> ${data.case}</p>
-                </div>
-                
-                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem;" id="detective-buttons">
-        `;
-        
-        opts.forEach((opt) => {
-            const isCorrect = opt.correct ? 'true' : 'false';
-            html += `<button class="btn-primary hover-scale" style="background: rgba(20,20,30,0.9); border: 1px solid var(--valtara-oro-suave); font-size: 1.2rem; flex: 1; min-width: 280px; padding: 1.5rem; border-radius: 1rem; transition: all 0.3s ease;" onmouseover="this.style.background='var(--valtara-oro)'; this.style.color='#000';" onmouseout="this.style.background='rgba(20,20,30,0.9)'; this.style.color='var(--valtara-blanco)';" onclick="window.ValtaraDetective.guess('${isCorrect}', \`${opt.reason.replace(/"/g, '&quot;')}\`)"><i class="fa-solid fa-code-branch" style="margin-right: 15px;"></i> ${opt.name}</button>`;
-        });
-        
-        html += `
-                </div>
-                
-                <div id="detective-feedback" aria-live="polite" style="display: none; margin-top: 4rem; padding: 3rem; border-radius: 1.5rem; box-shadow: inset 0 0 30px rgba(0,0,0,0.6);">
-                </div>
-                
-                <button onclick="window.ValtaraDetective.init()" style="margin-top: 4rem; background: transparent; border: 1px solid var(--valtara-oro); padding: 12px 30px; border-radius: 30px; color: var(--valtara-oro); cursor: pointer; font-size: 1.2rem; transition: 0.3s; letter-spacing: 1px;"><i class="fa-solid fa-rotate" style="margin-right: 10px;"></i> Investigar Nuevo Caso Biomecánico</button>
-            </div>
-        `;
-        
-        gameDiv.innerHTML = html;
-    },
-    
-    guess: function(isCorrect, reason) {
-        const feedbackDiv = document.getElementById('detective-feedback');
-        const buttons = document.getElementById('detective-buttons');
-        if(!feedbackDiv || !buttons) return;
-        
-        buttons.style.pointerEvents = 'none';
-        buttons.style.opacity = '0.3';
-        buttons.style.filter = 'grayscale(100%)';
-        feedbackDiv.style.display = 'block';
-        
-        if(isCorrect === 'true') {
-            feedbackDiv.style.background = 'linear-gradient(135deg, rgba(0, 230, 118, 0.15), rgba(0, 230, 118, 0.05))';
-            feedbackDiv.style.border = '2px solid var(--valtara-verde-ws)';
-            feedbackDiv.innerHTML = `
-                <h4 style="font-size: 2.2rem; color: var(--valtara-verde-ws); margin-bottom: 2rem; font-family: var(--font-accent);"><i class="fa-solid fa-check-circle"></i> Análisis Estructural Correcto</h4>
-                <p style="font-size: 1.4rem; color: var(--valtara-blanco); line-height: 2; font-weight: 300; text-align: justify;">${reason}</p>
-            `;
-        } else {
-            feedbackDiv.style.background = 'linear-gradient(135deg, rgba(255, 51, 102, 0.15), rgba(255, 51, 102, 0.05))';
-            feedbackDiv.style.border = '2px solid var(--valtara-alerta)';
-            feedbackDiv.innerHTML = `
-                <h4 style="font-size: 2.2rem; color: var(--valtara-alerta); margin-bottom: 2rem; font-family: var(--font-accent);"><i class="fa-solid fa-triangle-exclamation"></i> Error de Diagnóstico Visual</h4>
-                <p style="font-size: 1.4rem; color: var(--valtara-blanco); line-height: 2; font-weight: 300; text-align: justify;">${reason}</p>
-            `;
+            feedbackDiv.innerHTML = `<h4 style="font-size: 1.8rem; color: var(--valtara-alerta); margin-bottom: 1rem;"><i class="fa-solid fa-circle-xmark"></i> Reacción Adversa</h4><p style="font-size: 1.15rem; color: var(--valtara-blanco); line-height: 1.8;">${reason}</p>`;
+            if(window.A11yEngine) window.A11yEngine.announce("Incorrecto. " + reason);
         }
     }
 };
 
 window.ValtaraData = {
     /* --------------------------------------------------------------------------------
-       1. SECCIÓN INICIO, ART & NAILS VIP Y MAPA CORPORAL EDUCATIVO
+       1. SECCIÓN INICIO, ART & NAILS VIP Y MAPA CORPORAL EXPANDIBLE
        -------------------------------------------------------------------------------- */
     home: `
-        <div class="hero-view reveal" style="text-align: center; padding: 5rem 0;">
-            <div class="glow-icon-wrapper" style="margin-bottom: 3rem;">
-                <i aria-hidden="true" class="fa-solid fa-leaf gold-icon" style="font-size: 6rem; color: var(--valtara-oro); filter: drop-shadow(0 0 20px rgba(212,175,55,0.6));"></i>
+        <div class="hero-view reveal" style="text-align: center; padding: 4rem 0;">
+            <div class="glow-icon-wrapper" style="margin-bottom: 2.5rem;">
+                <i aria-hidden="true" class="fa-solid fa-leaf gold-icon" style="font-size: 5rem; color: var(--valtara-oro);"></i>
             </div>
             
-            <h1 id="hero-dynamic-greeting" style="font-family: var(--font-accent); font-size: 5.5rem; margin-bottom: 1rem; color: var(--valtara-blanco); line-height: 1.1; text-shadow: 0 10px 30px rgba(0,0,0,0.8); letter-spacing: 2px;">VALTARA</h1>
+            <h1 id="hero-dynamic-greeting" style="font-family: var(--font-accent); font-size: 4.5rem; margin-bottom: 1rem; color: var(--valtara-blanco); line-height: 1.2;">VALTARA</h1>
             
-            <h2 style="color: var(--valtara-oro-suave); font-size: 1.8rem; letter-spacing: 0.5rem; margin-bottom: 3rem; font-weight: 800; text-transform: uppercase;">Executive Therapy & Biomechanics</h2>
+            <h2 style="color: var(--valtara-oro-suave); font-size: 1.6rem; letter-spacing: 0.3rem; margin-bottom: 2rem; font-weight: 700; text-transform: uppercase;">Executive Therapy & Biomechanics</h2>
             
-            <!-- CONTENEDOR DINÁMICO DE TEXTO POR HORARIO (EXPANDIDO) -->
-            <p id="hero-dynamic-text" style="color: var(--valtara-blanco); font-size: 1.45rem; max-width: 1050px; margin: 0 auto 5rem auto; line-height: 2.3; font-weight: 300; background: linear-gradient(135deg, rgba(10,10,15,0.9), rgba(0,0,0,0.6)); padding: 3rem; border-radius: 1.5rem; border-left: 4px solid var(--valtara-cian-brillante); box-shadow: 0 15px 40px rgba(0,0,0,0.5);">
-                <!-- El texto inmersivo se inyecta dinámicamente vía JavaScript al renderizar según la luz del sol -->
+            <!-- CONTENEDOR DINÁMICO DE TEXTO POR HORARIO -->
+            <p id="hero-dynamic-text" style="color: var(--valtara-gris-texto); font-size: 1.3rem; max-width: 950px; margin: 0 auto 4rem auto; line-height: 2; font-weight: 300;">
+                <!-- El texto se inyecta dinámicamente vía JavaScript al renderizar -->
             </p>
             
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 4rem; max-width: 1300px; margin: 0 auto; text-align: left;">
-                <div class="glass-card hover-glow" style="padding: 3.5rem; border-top: 5px solid var(--valtara-cian-brillante); transition: all 0.4s ease; background: rgba(15,15,20,0.85);">
-                    <h3 id="promo1-title" style="font-size: 1.8rem; color: var(--valtara-cian-brillante); margin-bottom: 1.5rem; font-weight: 900; font-family: var(--font-accent);"><i class="fa-solid fa-sun" style="margin-right: 10px;"></i> Privilegio de Temporada</h3>
-                    <p id="promo1-text" style="font-size: 1.25rem; color: var(--valtara-gris-texto); font-weight: 300; line-height: 1.9; text-align: justify;">Nuestra inteligencia artificial se encuentra analizando métricas y evaluando los privilegios en curso. Nuestro objetivo es encontrar el instante biomecánico perfecto para brindarte una pausa excepcional que rompa con la asfixiante rutina de tu semana.</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; max-width: 1100px; margin: 0 auto; text-align: left;">
+                <div class="glass-card" style="padding: 2.5rem;">
+                    <h3 id="promo1-title" style="font-size: 1.5rem; color: var(--valtara-cian-brillante); margin-bottom: 1.5rem; font-weight: 900;"><i class="fa-solid fa-sun"></i> Privilegio de Temporada</h3>
+                    <p id="promo1-text" style="font-size: 1.15rem; color: var(--valtara-gris-texto); font-weight: 300;">Evaluando privilegios en curso...</p>
                 </div>
-                <div class="glass-card hover-glow" style="padding: 3.5rem; border-top: 5px solid var(--valtara-oro); transition: all 0.4s ease; background: rgba(15,15,20,0.85);">
-                    <h3 id="promo2-title" style="font-size: 1.8rem; color: var(--valtara-oro); margin-bottom: 1.5rem; font-weight: 900; font-family: var(--font-accent);"><i class="fa-solid fa-id-card-clip" style="margin-right: 10px;"></i> Valtara Member Card</h3>
-                    <p id="promo2-text" style="font-size: 1.25rem; color: var(--valtara-gris-texto); font-weight: 300; line-height: 1.9; text-align: justify;">Calculando algoritmos de beneficios de lealtad estructural a largo plazo. Tu constancia y tu inquebrantable compromiso con tu propia salud celular merecen ser recompensados con un trato preferencial digno de la más alta élite corporativa del país.</p>
+                <div class="glass-card" style="padding: 2.5rem;">
+                    <h3 id="promo2-title" style="font-size: 1.5rem; color: var(--valtara-oro); margin-bottom: 1.5rem; font-weight: 900;"><i class="fa-solid fa-id-card-clip"></i> Valtara Member Card</h3>
+                    <p id="promo2-text" style="font-size: 1.15rem; color: var(--valtara-gris-texto); font-weight: 300;">Calculando beneficios de lealtad estructural...</p>
                 </div>
-                <div class="glass-card hover-glow" style="padding: 3.5rem; border-top: 5px solid var(--valtara-morado-vivo); transition: all 0.4s ease; background: rgba(15,15,20,0.85);">
-                    <h3 id="promo3-title" style="font-size: 1.8rem; color: var(--valtara-morado-vivo); margin-bottom: 1.5rem; font-weight: 900; font-family: var(--font-accent);"><i class="fa-solid fa-mug-hot" style="margin-right: 10px;"></i> El Ritual del Ocaso</h3>
-                    <p id="promo3-text" style="font-size: 1.25rem; color: var(--valtara-gris-texto); font-weight: 300; line-height: 1.9; text-align: justify;">Seleccionando pacientemente las hierbas y preparando nuestras infusiones termales orgánicas exclusivas. Porque creemos que el verdadero viaje hacia la sanación física del tejido siempre comienza y se fundamenta desde adentro, calmando el fuego del sistema digestivo y abrazando el sistema nervioso.</p>
+                <div class="glass-card" style="padding: 2.5rem;">
+                    <h3 id="promo3-title" style="font-size: 1.5rem; color: var(--valtara-morado-vivo); margin-bottom: 1.5rem; font-weight: 900;"><i class="fa-solid fa-mug-hot"></i> Ritual del Ocaso</h3>
+                    <p id="promo3-text" style="font-size: 1.15rem; color: var(--valtara-gris-texto); font-weight: 300;">Preparando infusiones orgánicas...</p>
                 </div>
             </div>
         </div>
 
         <!-- ========================================================= -->
-        <!-- EXPANSIÓN VIP: ART & NAILS (ESTÉTICA RIGUROSA DE LUJO) -->
+        <!-- EXPANSIÓN VIP: ART & NAILS (ESTRICTAMENTE ESTÉTICA Y SPA) -->
         <!-- ========================================================= -->
-        <div class="reveal" style="margin-top: 7rem; margin-bottom: 7rem; background: linear-gradient(145deg, rgba(225, 48, 108, 0.12), rgba(10,10,15,0.98)); border: 2px solid rgba(225, 48, 108, 0.5); padding: 6rem; border-radius: 3rem; max-width: 1400px; margin-left: auto; margin-right: auto; position: relative; overflow: hidden; box-shadow: 0 30px 80px rgba(225, 48, 108, 0.25), inset 0 0 40px rgba(225,48,108,0.05);">
+        <div class="reveal" style="margin-top: 5rem; margin-bottom: 5rem; background: linear-gradient(145deg, rgba(225, 48, 108, 0.12), rgba(10,10,15,0.95)); border: 2px solid rgba(225, 48, 108, 0.5); padding: 4rem; border-radius: 2rem; max-width: 1200px; margin-left: auto; margin-right: auto; position: relative; overflow: hidden; box-shadow: 0 20px 50px rgba(225, 48, 108, 0.15);">
             
-            <div style="position: absolute; top: -80px; right: -80px; width: 350px; height: 350px; background: radial-gradient(circle, rgba(225,48,108,0.3) 0%, transparent 70%); border-radius: 50%; filter: blur(50px); pointer-events: none;"></div>
-            <div style="position: absolute; bottom: -100px; left: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,170,0,0.2) 0%, transparent 70%); border-radius: 50%; filter: blur(60px); pointer-events: none;"></div>
+            <!-- Burbujas Flotantes Decorativas -->
+            <div style="position: absolute; top: -30px; right: -30px; width: 150px; height: 150px; background: #E1306C; border-radius: 50%; opacity: 0.2; filter: blur(30px);"></div>
+            <div style="position: absolute; bottom: -50px; left: -50px; width: 200px; height: 200px; background: #ffaa00; border-radius: 50%; opacity: 0.1; filter: blur(40px);"></div>
             
-            <div style="position: absolute; top: 40px; right: 40px; animation: pulse 3s infinite; z-index: 10;">
-                <span style="background: linear-gradient(135deg, #E1306C, #bc1888, #833ab4); color: white; padding: 1rem 2.5rem; border-radius: 50px; font-weight: 900; font-size: 1.1rem; box-shadow: 0 10px 30px rgba(225, 48, 108, 0.6); letter-spacing: 2px; text-transform: uppercase;"><i class="fa-solid fa-crown" style="margin-right: 8px;"></i> Alianza Beauty Partner Oficial</span>
+            <!-- Etiqueta Partner -->
+            <div style="position: absolute; top: 30px; right: 30px; animation: pulse 2.5s infinite;">
+                <span style="background: linear-gradient(45deg, #E1306C, #bc1888); color: white; padding: 0.6rem 1.5rem; border-radius: 30px; font-weight: 800; font-size: 1rem; box-shadow: 0 4px 20px rgba(225, 48, 108, 0.5); letter-spacing: 1px; text-transform: uppercase;"><i class="fa-solid fa-crown"></i> Beauty Partner Oficial</span>
             </div>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 6rem; align-items: center; position: relative; z-index: 2;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 4rem; align-items: center; position: relative; z-index: 2;">
                 <div>
-                    <i class="fa-solid fa-hands-bubbles" style="font-size: 7rem; color: #E1306C; margin-bottom: 2.5rem; filter: drop-shadow(0 0 25px rgba(225,48,108,0.6));"></i>
-                    <h3 style="color: #E1306C; font-size: 5rem; margin-bottom: 1rem; font-family: var(--font-accent); line-height: 1.1; text-shadow: 3px 3px 6px rgba(0,0,0,0.9);">Art & Nails VIP</h3>
-                    <p style="color: var(--valtara-blanco); font-size: 2rem; font-weight: 900; margin-bottom: 2.5rem; letter-spacing: 2px; border-bottom: 3px solid rgba(225, 48, 108, 0.4); padding-bottom: 1.5rem; display: inline-block;">La Alta Costura de la Estética Integral</p>
-                    
-                    <p style="color: var(--valtara-gris-texto); font-size: 1.4rem; margin-bottom: 2.5rem; line-height: 2.2; font-weight: 300; text-align: justify;">
-                        En el competitivo mundo actual, comprendemos profundamente que la imagen personal impecable no es un asunto de vanidad ni superficialidad; es literalmente tu armadura ejecutiva diaria. Es tu carta de presentación no verbal más elocuente ante el mundo de los negocios y un reflejo directo, innegable y poderoso de tu propio nivel de exigencia, disciplina, higiene y amor propio. En Valtara, entendemos desde nuestra matriz que el bienestar corporal holístico jamás estará completo si no abordamos con la misma seriedad corporativa la estética de alta gama.
+                    <i class="fa-solid fa-hands-bubbles" style="font-size: 5rem; color: #E1306C; margin-bottom: 2rem;"></i>
+                    <h3 style="color: #E1306C; font-size: 3.8rem; margin-bottom: 1rem; font-family: var(--font-accent); line-height: 1.1;">Art & Nails</h3>
+                    <p style="color: var(--valtara-blanco); font-size: 1.7rem; font-weight: 700; margin-bottom: 1.5rem; letter-spacing: 1px;">El Santuario de la Estética Integral</p>
+                    <p style="color: var(--valtara-gris-texto); font-size: 1.25rem; margin-bottom: 2rem; line-height: 1.8; font-weight: 300;">
+                        Tu imagen es tu carta de presentación ejecutiva. En Valtara no solo cuidamos la salud biomecánica de tu espalda; completamos tu experiencia a través de nuestra división experta en belleza. Disfruta de un servicio de excelencia, creatividad y precisión enfocado estrictamente en la estética, cuidado e higiene superior de tus manos y pies.
                     </p>
-                    <p style="color: var(--valtara-gris-texto); font-size: 1.4rem; margin-bottom: 2.5rem; line-height: 2.2; font-weight: 300; text-align: justify;">
-                        Movidos por esta implacable filosofía, hemos forjado una alianza comercial estratégica de absoluta élite. Mientras en nuestras cabinas cuidamos de la compleja arquitectura biomecánica de tu columna vertebral, nuestra prestigiosa división aliada y experta en belleza asume la noble misión de brindarte un servicio paralelo de excelencia. Hemos construido un espacio íntimo y de lujo dedicado estrictamente al embellecimiento vanguardista, a la creatividad artística de autor sin límites, y sobre todo, profesamos un culto obsesivo a la higiene, la esterilización hospitalaria y la precisión cosmética superior para el cuidado exclusivo de tus manos y pies.
-                    </p>
-                    <div style="background: rgba(225, 48, 108, 0.1); border-left: 4px solid #E1306C; padding: 1.5rem; border-radius: 0 1rem 1rem 0; margin-top: 2rem;">
-                        <p style="color: #FFB6C1; font-size: 1.1rem; font-style: italic; line-height: 1.6; margin: 0;"><strong>Aclaración de Servicio Ético:</strong> Queremos ser inmensamente claros y transparentes: nuestros servicios en Art & Nails son de naturaleza estrictamente orientada al <strong>embellecimiento estético de ultra-lujo, la hidratación profunda y el arte cosmético</strong>. No fungimos como podólogos, ortopedistas ni dermatólogos; por ende, no diagnosticamos, no intervenimos ni tratamos patologías médicas, infecciones severas o condiciones clínicas de la uña o la piel. Nos enfocamos exclusivamente en resaltar la belleza natural sana.</p>
-                    </div>
                 </div>
                 
-                <div style="background: rgba(10,10,15,0.85); padding: 5rem; border-radius: 2.5rem; border-left: 8px solid #FFB6C1; box-shadow: 0 25px 60px rgba(0,0,0,0.7), inset 0 0 40px rgba(255,182,193,0.08); backdrop-filter: blur(15px);">
-                    <h4 style="color: #FFB6C1; font-size: 2.5rem; margin-bottom: 3rem; font-weight: 900; font-family: var(--font-accent); letter-spacing: 1px;"><i class="fa-solid fa-sparkles" style="color: #E1306C;"></i> Un Catálogo de Belleza Superior a tu Alcance:</h4>
-                    <ul style="list-style: none; padding: 0; margin: 0; color: var(--valtara-blanco); font-size: 1.4rem; line-height: 2.5;">
-                        <li style="margin-bottom: 2rem; display: flex; align-items: flex-start; gap: 20px;">
-                            <i class="fa-solid fa-gem" style="color: #E1306C; font-size: 2rem; margin-top: 5px;"></i> 
-                            <span><strong>Manicure de Alta Gama:</strong> No nos limitamos a aplicar esmalte de color; realizamos una verdadera ingeniería estética de la mano. Hidratamos profundamente la cutícula reseca, perfilamos la estructura anatómica ideal de la uña y devolvemos la juventud luminosa a la piel de tus manos con una precisión técnica y elegancia absoluta.</span>
-                        </li>
-                        <li style="margin-bottom: 2rem; display: flex; align-items: flex-start; gap: 20px;">
-                            <i class="fa-solid fa-shoe-prints" style="color: #E1306C; font-size: 2rem; margin-top: 5px;"></i> 
-                            <span><strong>Pedicure Estético Ejecutivo:</strong> El pesado andar de tus largas jornadas de vida y decisiones descansa íntegramente en tus pies. Ofrecemos un embellecimiento cosmético profundo, remoción meticulosa de asperezas, hidratación de talones agrietados y un confort estético absoluto que transformará la seguridad de tu andar diario.</span>
-                        </li>
-                        <li style="margin-bottom: 2rem; display: flex; align-items: flex-start; gap: 20px;">
-                            <i class="fa-solid fa-spa" style="color: #E1306C; font-size: 2rem; margin-top: 5px;"></i> 
-                            <span><strong>Experiencia Sensorial Mani Spa & Pedi Spa:</strong> Trasciende más allá de un simple arreglo cosmético, es un ritual sensorial de inmersión total. Involucra suculentas exfoliaciones botánicas aromáticas, aplicación de mascarillas nutritivas de arcillas orgánicas, envolturas térmicas reparadoras y una delicada relajación muscular superficial focalizada.</span>
-                        </li>
-                        <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 20px;">
-                            <i class="fa-solid fa-palette" style="color: #E1306C; font-size: 2rem; margin-top: 5px;"></i> 
-                            <span><strong>Nail Art Design & Vanguardia Acrílica:</strong> Construimos arquitectura en tus manos. Desde la más sofisticada y pulcra discreción de un acrílico de estilo corporativo minimalista, hasta esculpir los diseños 3D y de mano alzada más exclusivos de alta creatividad que expresan tu personalidad audaz y única en el mundo.</span>
-                        </li>
+                <div style="background: rgba(0,0,0,0.6); padding: 3rem; border-radius: 1.5rem; border-left: 5px solid #FFB6C1; box-shadow: inset 0 0 20px rgba(255,182,193,0.05);">
+                    <h4 style="color: #FFB6C1; font-size: 1.8rem; margin-bottom: 2rem; font-weight: 800;"><i class="fa-solid fa-envelope-open-text"></i> Te Invitamos a Descubrir:</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; color: var(--valtara-blanco); font-size: 1.25rem; line-height: 2.4;">
+                        <li><i class="fa-solid fa-check" style="color: #E1306C; margin-right: 15px; font-size: 1.4rem;"></i> <strong>Manicure de Alta Gama:</strong> Precisión, hidratación y elegancia en cada detalle.</li>
+                        <li><i class="fa-solid fa-check" style="color: #E1306C; margin-right: 15px; font-size: 1.4rem;"></i> <strong>Pedicure Estético de Lujo:</strong> Embellecimiento profundo y confort absoluto para tu andar.</li>
+                        <li><i class="fa-solid fa-check" style="color: #E1306C; margin-right: 15px; font-size: 1.4rem;"></i> <strong>Mani Spa & Pedi Spa:</strong> Rituales de exfoliación, mascarillas y relajación.</li>
+                        <li><i class="fa-solid fa-check" style="color: #E1306C; margin-right: 15px; font-size: 1.4rem;"></i> <strong>Nail Art Design:</strong> Diseños exclusivos, acrílico y vanguardia personalizada.</li>
                     </ul>
                 </div>
             </div>
 
-            <div style="margin-top: 6rem; border-top: 1px solid rgba(225, 48, 108, 0.3); padding-top: 5rem; text-align: center; position: relative; z-index: 2;">
-                <p style="color: #bbb; font-style: italic; font-size: 1.35rem; margin-bottom: 4rem; max-width: 1000px; margin-left: auto; margin-right: auto; line-height: 2; padding: 1.5rem; background: rgba(0,0,0,0.4); border-radius: 1rem;">* Anuncio de Transparencia Logística: Este es un servicio estético de lujo excepcional que es operado financiera y operativamente de manera independiente a los tratamientos de clínica biomecánica muscular de Valtara. Toda la logística de agenda, la cotización de diseños personalizados artísticos y la atención directa al cliente se realizan de manera ágil, rápida y estrictamente confidencial con nuestra experta Master Socia a través de sus canales oficiales y directos de comunicación.</p>
+            <div style="margin-top: 4rem; border-top: 1px solid rgba(225, 48, 108, 0.3); padding-top: 3rem; text-align: center; position: relative; z-index: 2;">
+                <p style="color: #aaa; font-style: italic; font-size: 1.15rem; margin-bottom: 2.5rem;">* Servicio estético independiente a la clínica biomecánica. La agenda, cotización y atención se realizan directamente con nuestra experta socia a través de sus canales oficiales.</p>
                 
-                <div style="display: flex; justify-content: center; gap: 3.5rem; flex-wrap: wrap;">
-                    <a href="https://wa.me/525525248816" target="_blank" class="btn-agenda-ahora hover-scale" style="width: auto; background: var(--valtara-whatsapp); border-color: var(--valtara-whatsapp); color: #000; box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4); font-size: 1.5rem; padding: 1.8rem 4rem; border-radius: 50px; font-weight: 900; letter-spacing: 1px;"><i class="fa-brands fa-whatsapp" style="font-size: 1.8rem; margin-right: 12px;"></i> Reservar Intervención Estética: 55 2524 8816</a>
-                    <a href="https://www.instagram.com/art.nails02?igsh=MTk0YnF1aDMwN3gybg==" target="_blank" class="btn-agenda-ahora hover-scale" style="width: auto; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border: none; color: white; box-shadow: 0 15px 40px rgba(225, 48, 108, 0.4); font-size: 1.5rem; padding: 1.8rem 4rem; border-radius: 50px; font-weight: 900; letter-spacing: 1px;"><i class="fa-brands fa-instagram" style="font-size: 1.8rem; margin-right: 12px;"></i> Explorar el Portafolio Visual en Instagram</a>
+                <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                    <a href="https://wa.me/525525248816" target="_blank" class="btn-agenda-ahora" style="width: auto; background: var(--valtara-whatsapp); border-color: var(--valtara-whatsapp); color: #000; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); font-size: 1.3rem; padding: 1.2rem 3rem; border-radius: 40px;"><i class="fa-brands fa-whatsapp"></i> Reservar Cita: 55 2524 8816</a>
+                    <a href="https://www.instagram.com/art.nails02?igsh=MTk0YnF1aDMwN3gybg==" target="_blank" class="btn-agenda-ahora" style="width: auto; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border: none; color: white; box-shadow: 0 8px 25px rgba(225, 48, 108, 0.4); font-size: 1.3rem; padding: 1.2rem 3rem; border-radius: 40px;"><i class="fa-brands fa-instagram"></i> Ver Galería en Instagram</a>
                 </div>
             </div>
         </div>
 
-        <div class="body-map-container reveal" style="margin-top: 6rem; background: rgba(5,5,10,0.95); border: 2px solid rgba(0, 255, 255, 0.4); border-radius: 3rem; padding: 6rem 5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 6rem; backdrop-filter: blur(30px); box-shadow: 0 4rem 8rem rgba(0,0,0,0.95), inset 0 0 50px rgba(0,255,255,0.05);">
+        <div class="body-map-container reveal" style="margin-top: 2rem; background: rgba(0,0,0,0.6); border: 2px solid rgba(0, 255, 255, 0.2); border-radius: 2rem; padding: 4rem 3rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 4rem; backdrop-filter: blur(20px); box-shadow: 0 2rem 5rem rgba(0,0,0,0.8);">
             <div>
-                <h3 style="font-family: var(--font-accent); color: var(--valtara-cian-brillante); font-size: 4rem; margin-bottom: 2.5rem; line-height: 1.2;"><i class="fa-solid fa-microscope" style="color: var(--valtara-blanco);"></i> El Triaje Biomecánico y Educativo</h3>
-                <p style="color: var(--valtara-gris-texto); font-size: 1.5rem; margin-bottom: 4rem; line-height: 2.2; font-weight: 300; text-align: justify;">El dolor físico agudo nunca es tu enemigo ni un castigo aleatorio del destino; es el perfecto, estructurado y desesperado lenguaje de emergencia de tu sistema nervioso pidiendo auxilio inteligente de inmediato. En Valtara, creemos fehacientemente y con firmeza absoluta que un paciente educado anatómicamente es un paciente empoderado para sanar y prevenir lesiones. <strong>Haz clic con total confianza en la zona interactiva de tu cuerpo donde sientes mayor ardor, pesadez o molestia crónica</strong> y nuestro motor lógico interno desplegará ante ti la ciencia médica exacta de lo que realmente está ocurriendo bajo tu piel en este preciso momento.</p>
-                
-                <div class="body-zones" style="display: flex; flex-direction: column; gap: 2.5rem;">
-                    <button class="zone-btn a11y-card-btn hover-glow" data-zone="craneo" style="border: 2px solid var(--valtara-cian-brillante); border-radius: 1.5rem; padding: 2rem; display: flex; align-items: center; justify-content: flex-start; gap: 2rem; transition: all 0.3s ease; background: rgba(0,255,255,0.02);">
-                        <i class="fa-solid fa-head-side-virus" style="color: var(--valtara-cian-brillante); font-size: 3.5rem;"></i> 
-                        <span style="font-size: 1.6rem; font-weight: bold; text-align: left; line-height: 1.4;">Migrañas Punzantes, Cefalea y Rigidez Destructiva en la Mandíbula (Bruxismo)</span>
-                    </button>
-                    <button class="zone-btn a11y-card-btn hover-glow" data-zone="cervical" style="border: 2px solid var(--valtara-cian-brillante); border-radius: 1.5rem; padding: 2rem; display: flex; align-items: center; justify-content: flex-start; gap: 2rem; transition: all 0.3s ease; background: rgba(0,255,255,0.02);">
-                        <i class="fa-solid fa-user-injured" style="color: var(--valtara-cian-brillante); font-size: 3.5rem;"></i> 
-                        <span style="font-size: 1.6rem; font-weight: bold; text-align: left; line-height: 1.4;">Tensión Inmensa en Cuello, Nuca de Plomo y Carga de Piedra en los Hombros</span>
-                    </button>
-                    <button class="zone-btn a11y-card-btn hover-glow" data-zone="lumbar" style="border: 2px solid var(--valtara-cian-brillante); border-radius: 1.5rem; padding: 2rem; display: flex; align-items: center; justify-content: flex-start; gap: 2rem; transition: all 0.3s ease; background: rgba(0,255,255,0.02);">
-                        <i class="fa-solid fa-child" style="color: var(--valtara-cian-brillante); font-size: 3.5rem;"></i> 
-                        <span style="font-size: 1.6rem; font-weight: bold; text-align: left; line-height: 1.4;">Dolor Cortante en la Cintura, Espalda Baja Rígida y Pinzamiento del Nervio Ciático</span>
-                    </button>
-                    <button class="zone-btn a11y-card-btn hover-glow" data-zone="linfa" style="border: 2px solid var(--valtara-cian-brillante); border-radius: 1.5rem; padding: 2rem; display: flex; align-items: center; justify-content: flex-start; gap: 2rem; transition: all 0.3s ease; background: rgba(0,255,255,0.02);">
-                        <i class="fa-solid fa-shoe-prints" style="color: var(--valtara-cian-brillante); font-size: 3.5rem;"></i> 
-                        <span style="font-size: 1.6rem; font-weight: bold; text-align: left; line-height: 1.4;">Retención Tóxica de Líquidos, Edemas Severos y Pesadez Crónica en Piernas</span>
-                    </button>
+                <h3 style="font-family: var(--font-accent); color: var(--valtara-cian-brillante); font-size: 3rem; margin-bottom: 1.5rem;"><i class="fa-solid fa-microscope"></i> Triaje Educativo</h3>
+                <p style="color: var(--valtara-gris-texto); font-size: 1.25rem; margin-bottom: 3rem; line-height: 1.8;">Haz clic en la zona principal donde sientes estrés. Te educaremos sobre lo que ocurre dentro de tu cuerpo desplegando información profunda.</p>
+                <div class="body-zones" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <button class="zone-btn a11y-card-btn" data-zone="craneo" style="border: 2px solid var(--valtara-cian-brillante);"><i class="fa-solid fa-head-side-virus" style="color: var(--valtara-cian-brillante); font-size: 2.5rem;"></i> <span style="font-size: 1.3rem;">Dolor de Cabeza y Mandíbula</span></button>
+                    <button class="zone-btn a11y-card-btn" data-zone="cervical" style="border: 2px solid var(--valtara-cian-brillante);"><i class="fa-solid fa-user-injured" style="color: var(--valtara-cian-brillante); font-size: 2.5rem;"></i> <span style="font-size: 1.3rem;">Cuello, Nuca y Hombros</span></button>
+                    <button class="zone-btn a11y-card-btn" data-zone="lumbar" style="border: 2px solid var(--valtara-cian-brillante);"><i class="fa-solid fa-child" style="color: var(--valtara-cian-brillante); font-size: 2.5rem;"></i> <span style="font-size: 1.3rem;">Cintura y Dolor de Ciática</span></button>
+                    <button class="zone-btn a11y-card-btn" data-zone="linfa" style="border: 2px solid var(--valtara-cian-brillante);"><i class="fa-solid fa-shoe-prints" style="color: var(--valtara-cian-brillante); font-size: 2.5rem;"></i> <span style="font-size: 1.3rem;">Pesadez en las Piernas</span></button>
                 </div>
             </div>
-            
-            <div class="zone-info" id="zone-display" aria-live="polite" style="background: rgba(0,0,0,0.8); padding: 5rem; border-radius: 2.5rem; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-left: 8px solid var(--valtara-cian-brillante); box-shadow: inset 0 0 80px rgba(0,255,255,0.05);">
-                <i class="fa-solid fa-hand-holding-medical" style="font-size: 10rem; color: var(--valtara-cian-brillante); margin-bottom: 3rem; opacity: 0.2; animation: pulse 4s infinite;"></i>
-                <h4 style="font-size: 3.5rem; color: var(--valtara-blanco); margin-bottom: 2.5rem; font-family: var(--font-accent); line-height: 1.3;">El diagnóstico interactivo de tu cuerpo aparecerá materializado en esta pantalla de análisis.</h4>
-                <p style="color: var(--valtara-gris-texto); line-height: 2.2; font-size: 1.5rem; font-weight: 300; max-width: 600px;">Al seleccionar inteligentemente una zona en el panel táctil izquierdo, nuestro sistema deductivo te explicará en lenguaje cristalino, pero con precisión científica innegociable, qué complejas estructuras anatómicas están fallando en este instante y cómo nuestros exclusivos protocolos biomecánicos pueden repararlas desde la primera sesión presencial.</p>
+            <div class="zone-info" id="zone-display" aria-live="polite" style="background: rgba(0,0,0,0.8); padding: 4rem 3rem; border-radius: 1.5rem; display: flex; flex-direction: column; justify-content: center; border-left: 5px solid var(--valtara-cian-brillante);">
+                <i class="fa-solid fa-hand-holding-medical" style="font-size: 6rem; color: var(--valtara-cian-brillante); margin-bottom: 2rem; opacity: 0.5;"></i>
+                <h4 style="font-size: 2.5rem; color: var(--valtara-blanco); margin-bottom: 1.5rem; font-family: var(--font-accent);">Tu diagnóstico aparecerá aquí</h4>
+                <p style="color: var(--valtara-gris-texto); line-height: 1.8; font-size: 1.25rem; font-weight: 300;">Selecciona una zona a tu izquierda para entender la ciencia detrás de tu dolor.</p>
             </div>
         </div>
 
         <!-- REDES SOCIALES HASTA ABAJO -->
-        <div class="reveal" style="margin-top: 10rem; background: linear-gradient(180deg, rgba(20,20,30,0.95), rgba(5,5,10,1)); border: 1px solid rgba(255,255,255,0.1); border-radius: 3rem; padding: 6rem 4rem; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.8);">
-            <div style="display: inline-block; padding: 2rem; border-radius: 50%; background: rgba(255,255,255,0.05); margin-bottom: 3rem;">
-                <i class="fa-solid fa-globe" style="font-size: 5rem; color: var(--valtara-oro); animation: pulse 3s infinite;"></i>
-            </div>
-            <h3 style="font-size: 4.5rem; margin-bottom: 2rem; color: var(--valtara-blanco); font-family: var(--font-accent); letter-spacing: 1px;">Únete a la Revolución Cultural del Bienestar</h3>
-            <p style="color: var(--valtara-gris-texto); font-size: 1.6rem; margin-bottom: 5rem; max-width: 900px; margin-left: auto; margin-right: auto; line-height: 2; font-weight: 300;">Desde la mesa directiva de Grupo Gevizz S.A.S. creemos, defendemos y promulgamos enérgicamente que la salud integral y la educación de la anatomía no deben ser jamás un secreto elitista guardado celosamente bajo llave en consultorios médicos privados inaccesibles. Conéctate con nosotros en el ecosistema digital y sigue nuestras redes sociales oficiales para acceder sin ningún tipo de restricciones a un torrente inagotable de contenido gratuito y de inmenso valor sobre educación biomecánica, ergonomía superior para tu oficina corporativa y prevención inteligente de lesiones desgastantes diarias.</p>
+        <div class="reveal" style="margin-top: 6rem; background: rgba(20,20,30,0.8); border: 1px solid var(--valtara-blanco); border-radius: 2rem; padding: 4rem 2rem; text-align: center;">
+            <h3 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--valtara-blanco); font-family: var(--font-accent);">Únete a nuestra Comunidad</h3>
+            <p style="color: var(--valtara-gris-texto); font-size: 1.2rem; margin-bottom: 3rem;">Sigue nuestro contenido de educación biomecánica y bienestar digital.</p>
             
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 3rem; margin-bottom: 3rem;">
-                <a href="https://www.facebook.com/Valtara.mx" target="_blank" class="btn-primary hover-scale" style="background: #1877F2; border-color: #1877F2; color: white; padding: 1.5rem 3.5rem; font-size: 1.5rem; border-radius: 50px; font-weight: bold; box-shadow: 0 10px 25px rgba(24,119,242,0.4);"><i class="fa-brands fa-facebook" style="font-size: 1.8rem; margin-right: 10px;"></i> Comunidad Facebook</a>
-                <a href="https://www.instagram.com/valtara.mx" target="_blank" class="btn-primary hover-scale" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border: none; color: white; padding: 1.5rem 3.5rem; font-size: 1.5rem; border-radius: 50px; font-weight: bold; box-shadow: 0 10px 25px rgba(225,48,108,0.4);"><i class="fa-brands fa-instagram" style="font-size: 1.8rem; margin-right: 10px;"></i> Galería en Instagram</a>
-                <a href="https://www.tiktok.com/@valtara.mx" target="_blank" class="btn-primary hover-scale" style="background: #000; border: 2px solid #333; color: white; padding: 1.5rem 3.5rem; font-size: 1.5rem; border-radius: 50px; font-weight: bold; box-shadow: 0 10px 25px rgba(255,255,255,0.1);"><i class="fa-brands fa-tiktok" style="font-size: 1.8rem; margin-right: 10px;"></i> Videos en TikTok</a>
-                <a href="https://youtube.com/@valtaramexico" target="_blank" class="btn-primary hover-scale" style="background: #FF0000; border-color: #FF0000; color: white; padding: 1.5rem 3.5rem; font-size: 1.5rem; border-radius: 50px; font-weight: bold; box-shadow: 0 10px 25px rgba(255,0,0,0.4);"><i class="fa-brands fa-youtube" style="font-size: 1.8rem; margin-right: 10px;"></i> Canal de YouTube</a>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-bottom: 2rem;">
+                <a href="https://www.facebook.com/Valtara.mx" target="_blank" class="btn-primary" style="background: #1877F2; border-color: #1877F2; color: white;"><i class="fa-brands fa-facebook"></i> Facebook</a>
+                <a href="https://www.instagram.com/valtara.mx" target="_blank" class="btn-primary" style="background: #E1306C; border-color: #E1306C; color: white;"><i class="fa-brands fa-instagram"></i> Instagram</a>
+                <a href="https://www.tiktok.com/@valtara.mx" target="_blank" class="btn-primary" style="background: #000; border-color: #333; color: white;"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+                <a href="https://youtube.com/@valtaramexico" target="_blank" class="btn-primary" style="background: #FF0000; border-color: #FF0000; color: white;"><i class="fa-brands fa-youtube"></i> YouTube</a>
             </div>
         </div>
     `,
 
     /* --------------------------------------------------------------------------------
-       2. CATÁLOGO DE RESTAURACIÓN BIOMECÁNICA (EXPANDIDO)
+       2. CATÁLOGO DE RESTAURACIÓN BIOMECÁNICA (CON VIDEOTECA INTEGRADA)
        -------------------------------------------------------------------------------- */
     restoration: `
-        <div style="text-align: center; max-width: 1100px; margin: 0 auto 6rem auto;">
-            <div style="background: rgba(255, 85, 85, 0.1); border-left: 6px solid #ff5555; padding: 2rem; margin-bottom: 4rem; border-radius: 0 1.5rem 1.5rem 0; text-align: left;">
-                <p style="color: #ff5555; font-size: 1.4rem; font-weight: 900; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;"><i class="fa-solid fa-triangle-exclamation"></i> Aviso Médico Obligatorio e Inquebrantable</p>
-                <p style="color: var(--valtara-blanco); font-size: 1.25rem; line-height: 1.8; font-weight: 300;">Valtara es un santuario de intervención biomecánica de soporte y cuidado corporal. Hacemos la enfática aclaración de que absolutamente <strong>ninguna de nuestras valiosas intervenciones, protocolos o investigaciones pretende bajo ninguna circunstancia suplir la consulta formal médica, ni pretendemos asumir el papel de la medicina alópata o fungir como un doctor especialista.</strong> Si presentas síntomas de fiebre, tumores, esguinces graves, huesos rotos, cirugías abiertas de menos de tres meses o embarazos de alto riesgo, es tu deber civil, moral y vital acudir inmediatamente a urgencias con un médico certificado. Nuestro trabajo apoya la salud muscular, no diagnostica ni cura enfermedades patológicas.</p>
-            </div>
-
-            <h2 style="font-family: var(--font-accent); font-size: 5rem; color: var(--valtara-blanco); margin-bottom: 2.5rem; text-shadow: 0 5px 15px rgba(0,0,0,0.5);" class="reveal">El Catálogo Maestro de Intervenciones Clínicas</h2>
-            <p style="color: var(--valtara-gris-texto); font-size: 1.6rem; line-height: 2.2; font-weight: 300; text-align: justify;" class="reveal">Para ser abrumadoramente claros, en Valtara no ofrecemos ni toleramos la mediocridad de un genérico "menú de masajes de spa de paso"; nosotros construimos, diseñamos y ofrecemos majestuosas intervenciones terapéuticas estructuradas meticulosamente desde la ingeniería biológica celular. Es imperativo saber que toda sesión presencial en nuestras instalaciones incluye, por protocolo estricto de honor de nuestros especialistas, un profundo análisis postural preliminar y un diagnóstico de palpación manual para ubicar el origen escondido de tus adherencias. Nuestras tarifas y la duración cronológica de cada terapia no son en lo absoluto producto del azar comercial; están matemáticamente diseñadas para ofrecerte el máximo rigor clínico sin apresurar bajo ninguna circunstancia el delicado y sagrado proceso de curación y descompresión de tu valioso cuerpo.</p>
-            <div style="background: linear-gradient(90deg, transparent, rgba(212,175,55,0.1), transparent); padding: 2rem; margin-top: 3rem; border-radius: 1rem;">
-                <p style="font-size: 1.3rem; color: var(--valtara-oro); font-style: italic; font-weight: 600; letter-spacing: 1px;"><i class="fa-solid fa-circle-info" style="margin-right: 10px;"></i> * Aviso de Logística: Para agendar e investigar sobre las exclusivas terapias listadas con el sello de "Próximamente", por favor consulta la disponibilidad y la fila de espera directamente con nuestro Concierge en WhatsApp.</p>
-            </div>
+        <div style="text-align: center; max-width: 950px; margin: 0 auto 5rem auto;">
+            <h2 style="font-family: var(--font-accent); font-size: 4rem; color: var(--valtara-blanco); margin-bottom: 2rem;" class="reveal">Catálogo de Masajes</h2>
+            <p style="color: var(--valtara-gris-texto); font-size: 1.4rem; line-height: 1.9; font-weight: 300;" class="reveal">Toda sesión presencial incluye un análisis postural preliminar. Nuestras tarifas y duraciones están diseñadas para ofrecerte el máximo rigor clínico.</p>
+            <p style="font-size: 1.1rem; color: var(--valtara-oro); margin-top: 1rem; font-style: italic;">* Para agendar las terapias "Próximamente", consulta directamente con el Concierge.</p>
         </div>
         
         <div class="grid-container">
             
             <article class="glass-card zig-zag reveal">
-                <div class="card-icon-wrapper" style="color: var(--valtara-cian-brillante); border-color: var(--valtara-cian-brillante); background: rgba(0,255,255,0.05);"><i class="fa-solid fa-spa"></i></div>
+                <div class="card-icon-wrapper" style="color: var(--valtara-cian-brillante); border-color: var(--valtara-cian-brillante);"><i class="fa-solid fa-spa"></i></div>
                 <div class="card-content-wrapper">
-                    <h3 style="font-size: 2.2rem; margin-bottom: 1.5rem;">Masaje Relajante Neurosedante Profundo</h3>
-                    <div class="card-meta-info" style="background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2rem;">
-                        <span class="duracion" style="font-size: 1.25rem;"><i class="fa-solid fa-clock" style="color: var(--valtara-cian-brillante);"></i> Duración: 50 Min / 90 Min</span>
-                        <span class="precio" style="font-size: 1.35rem; font-weight: 900; color: var(--valtara-blanco);">$799 / $999 MXN</span>
+                    <h3>Masaje Relajante</h3>
+                    <div class="card-meta-info">
+                        <span class="duracion"><i class="fa-solid fa-clock"></i> 50 Min / 90 Min</span>
+                        <span class="precio">$799 / $999 MXN</span>
                     </div>
-                    <p class="marketing-text" style="font-size: 1.3rem; line-height: 2; text-align: justify; margin-bottom: 2.5rem;"><strong>El milagroso antídoto contra el ritmo implacable y asfixiante de la ciudad.</strong> Imagina con los ojos cerrados que tu sistema nervioso central es un motor expuesto que ha estado revolucionado al máximo límite, quemando combustible todo el día sin descanso. Este majestuoso masaje utiliza prolongados movimientos fluidos, ininterrumpidos, rítmicos y neurosedantes científicamente calibrados para estimular directamente el Nervio Vago, logrando "apagar" ese motor en llamas de forma segura. Activa agresivamente tu sistema parasimpático para reducir drásticamente tu presión arterial, calmar la mente acelerada y desenredar con extrema paciencia la tensión muscular superficial fibra por delicada fibra.</p>
-                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora hover-scale" style="background: var(--valtara-cian-brillante); color: var(--valtara-negro-fondo); border-color: var(--valtara-cian-brillante); font-size: 1.3rem; padding: 1.5rem; font-weight: bold; width: 100%;"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem; margin-right: 10px;"></i> Agendar Intervención por WhatsApp</a>
+                    <p class="marketing-text"><strong>El Arte del Contacto Sanador.</strong> Utiliza movimientos fluidos y rítmicos para calmar tu mente y relajar cada fibra muscular. Es el antídoto perfecto para el ritmo acelerado de la vida moderna, activando el sistema parasimpático para reducir la presión arterial.</p>
+                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-cian-brillante); color: var(--valtara-negro-fondo); border-color: var(--valtara-cian-brillante);"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
                 </div>
             </article>
 
             <article class="glass-card zig-zag reveal">
-                <div class="card-icon-wrapper" style="color: #ff5555; border-color: #ff5555; background: rgba(255,85,85,0.05);"><i class="fa-solid fa-dumbbell"></i></div>
+                <div class="card-icon-wrapper" style="color: #ff5555; border-color: #ff5555;"><i class="fa-solid fa-dumbbell"></i></div>
                 <div class="card-content-wrapper">
-                    <h3 style="font-size: 2.2rem; margin-bottom: 1.5rem;">Masaje Deportivo y Descompresión Miofascial</h3>
-                    <div class="card-meta-info" style="background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2rem;">
-                        <span class="duracion" style="font-size: 1.25rem;"><i class="fa-solid fa-clock" style="color: #ff5555;"></i> Duración: Máximo 50 Minutos</span>
-                        <span class="precio" style="font-size: 1.35rem; font-weight: 900; color: var(--valtara-blanco);">$829 MXN</span>
+                    <h3>Masaje Deportivo y Descompresión</h3>
+                    <div class="card-meta-info">
+                        <span class="duracion"><i class="fa-solid fa-clock"></i> Máximo 50 Minutos</span>
+                        <span class="precio">$829 MXN</span>
                     </div>
-                    <p class="marketing-text" style="font-size: 1.3rem; line-height: 2; text-align: justify; margin-bottom: 2.5rem;"><strong>Para romper de tajo la "armadura" de estrés cristalizado.</strong> El dolor crónico intenso se siente literalmente como si tus músculos se hubieran convertido en piedra caliza debido al exceso de ácido láctico aprisionado. Esta robusta terapia está meticulosamente diseñada para atletas y ejecutivos que exigen lo máximo de sus cuerpos hasta el fallo. Utilizamos presión de antebrazos, fricciones intensas focalizadas con codos, y la poderosa descompresión negativa con ventosas de silicón médico de alta succión (completamente seguras y que NO dejan hematomas morados en tu piel) para separar violentamente las fascias pegadas, oxigenar a la fuerza los tejidos asfixiados y devolverle el rango de movimiento sano a tus rígidas articulaciones.</p>
-                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora hover-scale" style="background: #ff5555; color: white; border-color: #ff5555; font-size: 1.3rem; padding: 1.5rem; font-weight: bold; width: 100%;"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem; margin-right: 10px;"></i> Agendar Intervención por WhatsApp</a>
+                    <p class="marketing-text"><strong>El antídoto contra la "armadura" de estrés.</strong> Diseñado para quienes exigen lo máximo de sus músculos. Utilizamos antebrazos, codos y ventosas de silicón médico de alta succión (sin dejar hematomas feos) para romper la tensión extrema y oxigenar tejidos asfixiados.</p>
+                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: #ff5555; color: white; border-color: #ff5555;"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
                 </div>
             </article>
 
             <article class="glass-card zig-zag reveal">
-                <div class="card-icon-wrapper" style="color: var(--valtara-verde-menta); border-color: var(--valtara-verde-menta); background: rgba(0,255,170,0.05);"><i class="fa-solid fa-person-praying"></i></div>
+                <div class="card-icon-wrapper" style="color: var(--valtara-verde-menta); border-color: var(--valtara-verde-menta);"><i class="fa-solid fa-person-praying"></i></div>
                 <div class="card-content-wrapper">
-                    <h3 style="font-size: 2.2rem; margin-bottom: 1.5rem;">Masaje Tailandés Clínico (Yoga Pasivo)</h3>
-                    <div class="card-meta-info" style="background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2rem;">
-                        <span class="duracion" style="font-size: 1.25rem;"><i class="fa-solid fa-clock" style="color: var(--valtara-verde-menta);"></i> Duración: Máximo 50 Minutos</span>
-                        <span class="precio" style="font-size: 1.35rem; font-weight: 900; color: var(--valtara-blanco);">$829 MXN</span>
+                    <h3>Masaje Tailandés (Yoga Pasivo)</h3>
+                    <div class="card-meta-info">
+                        <span class="duracion"><i class="fa-solid fa-clock"></i> Máximo 50 Minutos</span>
+                        <span class="precio">$829 MXN</span>
                     </div>
-                    <p class="marketing-text" style="font-size: 1.3rem; line-height: 2; text-align: justify; margin-bottom: 2.5rem;"><strong>La cura radical y definitiva contra el confinamiento de la silla de oficina.</strong> Permanecer largas jornadas sentado encoge trágicamente el cuerpo humano. Este masaje es el equivalente a realizar una sesión de yoga avanzado, pero tú no tienes que hacer absolutamente ningún esfuerzo físico. Nosotros, como terapeutas entrenados, utilizamos el peso gravitacional de nuestro propio cuerpo, complejas palancas biomecánicas y la fuerza de nuestros pies para estirar tus acortadas cadenas musculares posteriores al límite absoluto pero totalmente seguro. Este heroico proceso "descomprime" mecánicamente el espacio ahogado entre tus vértebras lumbares, creando un espacio vital invaluable para salvar a tu atrapado nervio ciático de un aplastamiento seguro.</p>
-                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora hover-scale" style="background: var(--valtara-verde-menta); color: var(--valtara-negro-fondo); border-color: var(--valtara-verde-menta); font-size: 1.3rem; padding: 1.5rem; font-weight: bold; width: 100%;"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem; margin-right: 10px;"></i> Agendar Intervención por WhatsApp</a>
+                    <p class="marketing-text"><strong>Yoga asistido para combatir el sedentarismo.</strong> Tú no haces esfuerzo. Nosotros utilizamos nuestro peso, palancas y pies para estirar tus cadenas musculares posteriores al límite seguro, descomprimiendo el espacio entre las vértebras lumbares para salvar a tu nervio ciático.</p>
+                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-verde-menta); color: var(--valtara-negro-fondo); border-color: var(--valtara-verde-menta);"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
+                </div>
+            </article>
+
+            <!-- AROMATERAPIA AÑADIDA A AYURVEDA -->
+            <article class="glass-card zig-zag reveal">
+                <div class="card-icon-wrapper" style="color: var(--valtara-oro); border-color: var(--valtara-oro);"><i class="fa-solid fa-leaf"></i></div>
+                <div class="card-content-wrapper">
+                    <h3>Masaje Ayurveda & Aromaterapia</h3>
+                    <div class="card-meta-info">
+                        <span class="duracion"><i class="fa-solid fa-clock"></i> 50 Minutos</span>
+                        <span class="precio">$929 MXN</span>
+                    </div>
+                    <p class="marketing-text"><strong>La Ciencia de la Vida.</strong> Tratamiento personalizado con aceites tibios y esencias botánicas que nutren profundamente la piel, interactuando con tu sistema límbico. Efectivo para calmar la sensibilidad extrema y la ansiedad.</p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="flex: 1;"><i class="fa-brands fa-whatsapp"></i> Agendar</a>
+                        <a href="https://youtu.be/qmRr05954h4?si=JlWdpbQ0gsquRJZp" target="_blank" class="btn-agenda-ahora" style="background: transparent; border: 1px solid var(--valtara-oro); color: var(--valtara-oro); width: auto;"><i class="fa-brands fa-youtube"></i> Ver Experiencia</a>
+                    </div>
                 </div>
             </article>
 
             <article class="glass-card zig-zag reveal">
-                <div class="card-icon-wrapper" style="color: var(--valtara-oro); border-color: var(--valtara-oro); background: rgba(212,175,55,0.05);"><i class="fa-solid fa-leaf"></i></div>
+                <div class="card-icon-wrapper" style="color: #FFD700; border-color: #FFD700;"><i class="fa-solid fa-yin-yang"></i></div>
                 <div class="card-content-wrapper">
-                    <h3 style="font-size: 2.2rem; margin-bottom: 1.5rem;">Ayurveda Terapéutico & Aromaterapia Científica</h3>
-                    <div class="card-meta-info" style="background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2rem;">
-                        <span class="duracion" style="font-size: 1.25rem;"><i class="fa-solid fa-clock" style="color: var(--valtara-oro);"></i> Duración: 50 Minutos</span>
-                        <span class="precio" style="font-size: 1.35rem; font-weight: 900; color: var(--valtara-blanco);">$929 MXN</span>
+                    <h3>Masaje Holístico Integrativo</h3>
+                    <div class="card-meta-info">
+                        <span class="duracion"><i class="fa-solid fa-clock"></i> 50 Minutos</span>
+                        <span class="precio">$929 MXN</span>
                     </div>
-                    <p class="marketing-text" style="font-size: 1.3rem; line-height: 2; text-align: justify; margin-bottom: 2.5rem;"><strong>La ancestral "Ciencia de la Vida" hindú magistralmente adaptada para combatir el devastador estrés moderno citadino.</strong> Si sufres de trastornos de ansiedad severa, ataques de pánico o presentas una hipersensibilidad fibromiálgica en la piel donde la presión física fuerte te resulta insoportable y te lastima, este es sin duda alguna tu refugio definitivo. Utilizamos litros y cantidades generosas de suntuosos aceites vegetales tibios presurizados y poderosas esencias botánicas moleculares puras que no solo nutren y reparan profundamente tu dermis agrietada, sino que sus complejas moléculas aromáticas viajan rápidamente a través de tu nervio olfativo y van directo al sistema límbico de tu cerebro, hackeando químicamente tu estrés parasimpático para devolverte la paz arrebatada.</p>
-                    <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora hover-scale" style="flex: 1; font-size: 1.2rem; padding: 1.5rem; font-weight: bold;"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem; margin-right: 10px;"></i> Agendar Ahora</a>
-                        <a href="https://youtu.be/qmRr05954h4?si=JlWdpbQ0gsquRJZp" target="_blank" class="btn-agenda-ahora hover-scale" style="background: rgba(212,175,55,0.1); border: 2px solid var(--valtara-oro); color: var(--valtara-oro); width: auto; font-size: 1.2rem; padding: 1.5rem; font-weight: bold;"><i class="fa-brands fa-youtube" style="font-size: 1.5rem; margin-right: 10px;"></i> Ver Video Corto de la Experiencia</a>
-                    </div>
+                    <p class="marketing-text"><strong>Restauración tras crisis o luto.</strong> Fusión precisa que amalgama la fluidez de las manipulaciones para bajar la presión arterial, con presiones medias en puntos específicos para liberar bloqueos emocionales somatizados en el pecho y el diafragma.</p>
+                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: #FFD700; color: var(--valtara-negro-fondo); border-color: #FFD700;"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
                 </div>
             </article>
 
             <article class="glass-card zig-zag reveal">
-                <div class="card-icon-wrapper" style="color: #FFD700; border-color: #FFD700; background: rgba(255,215,0,0.05);"><i class="fa-solid fa-yin-yang"></i></div>
+                <div class="card-icon-wrapper" style="color: var(--valtara-morado-vivo); border-color: var(--valtara-morado-vivo);"><i class="fa-solid fa-child-reaching"></i></div>
                 <div class="card-content-wrapper">
-                    <h3 style="font-size: 2.2rem; margin-bottom: 1.5rem;">Masaje Holístico Integrativo (Terapia Psicosomática)</h3>
-                    <div class="card-meta-info" style="background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2rem;">
-                        <span class="duracion" style="font-size: 1.25rem;"><i class="fa-solid fa-clock" style="color: #FFD700;"></i> Duración: 50 Minutos</span>
-                        <span class="precio" style="font-size: 1.35rem; font-weight: 900; color: var(--valtara-blanco);">$929 MXN</span>
+                    <h3>Masaje Reductivo (Geles y Madera)</h3>
+                    <div class="card-meta-info">
+                        <span class="duracion"><i class="fa-solid fa-clock"></i> Sesión Individual / Paquete</span>
+                        <span class="precio">$899 / $6,199 (10 Sesiones)</span>
                     </div>
-                    <p class="marketing-text" style="font-size: 1.3rem; line-height: 2; text-align: justify; margin-bottom: 2.5rem;"><strong>La poderosa y conmovedora restauración integral diseñada para pacientes tras sobrevivir crisis emocionales severas, ataques de pánico o pesados procesos de duelo.</strong> Entendemos desde la psiconeuroinmunología que muchas veces la tristeza densa, el shock nervioso o la ira no expresada se "instalan" y se enquistan literalmente de forma física en el tejido del cuerpo humano. Esta profunda terapia es una fusión clínica de alta precisión: amalgama a la perfección la fluidez constante hawaiana para engañar amablemente al sistema nervioso y obligarlo a bajar sus escudos de guardia, combinada con presiones medias en puntos reflexológicos específicos vitales para lograr "destrabar" violentamente los nudos emocionales crónicos somatizados, enfocándonos especialmente en la bóveda del pecho y el músculo diafragmático, con el único fin de que vuelvas a respirar libre y profundamente a capacidad pulmonar total.</p>
-                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora hover-scale" style="background: #FFD700; color: var(--valtara-negro-fondo); border-color: #FFD700; font-size: 1.3rem; padding: 1.5rem; font-weight: bold; width: 100%;"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem; margin-right: 10px;"></i> Agendar Intervención por WhatsApp</a>
+                    <p class="marketing-text"><strong>El Taller del Cuerpo.</strong> Ingeniería estética de alto impacto sin bisturí. Combinamos la vigorosa fricción de geles reductivos con Maderoterapia (rodillos, copas) para romper nódulos de celulitis. <em>*Paquete disponible a 3 plazos.</em></p>
+                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-morado-vivo); color: white; border-color: var(--valtara-morado-vivo);"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
                 </div>
             </article>
 
             <article class="glass-card zig-zag reveal">
-                <div class="card-icon-wrapper" style="color: var(--valtara-morado-vivo); border-color: var(--valtara-morado-vivo); background: rgba(178,0,255,0.05);"><i class="fa-solid fa-child-reaching"></i></div>
+                <div class="card-icon-wrapper" style="color: #ffaa00; border-color: #ffaa00;"><i class="fa-solid fa-crown"></i></div>
                 <div class="card-content-wrapper">
-                    <h3 style="font-size: 2.2rem; margin-bottom: 1.5rem;">Ingeniería Reductiva Estética (Geles y Maderoterapia)</h3>
-                    <div class="card-meta-info" style="background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2rem;">
-                        <span class="duracion" style="font-size: 1.25rem;"><i class="fa-solid fa-clock" style="color: var(--valtara-morado-vivo);"></i> Opción: Sesión Individual o Paquete Completo</span>
-                        <span class="precio" style="font-size: 1.35rem; font-weight: 900; color: var(--valtara-blanco);">$899 / $6,199 (10 Sesiones)</span>
+                    <h3>Ritual Lomi Lomi Supremo</h3>
+                    <div class="card-meta-info">
+                        <span class="duracion"><i class="fa-solid fa-clock"></i> Sesión Profunda</span>
+                        <span class="precio">$1,199 MXN</span>
                     </div>
-                    <p class="marketing-text" style="font-size: 1.3rem; line-height: 2; text-align: justify; margin-bottom: 2.5rem;"><strong>Bienvenida al taller maestro de esculpido corporal de Valtara.</strong> Esta es nuestra ingeniería estética pura de alto impacto y modelado anatómico profundo sin la necesidad de recurrir al temido bisturí quirúrgico. Aquí combinamos sin piedad la vigorosa y acelerada fricción manual hiperémica utilizando geles termogénicos reductivos de laboratorio con el arsenal de herramientas ancestrales de Maderoterapia (rodillos dentados, tablas moldeadoras, copas suecas de vacío). Esta fricción contundente y calculada destruye y pulveriza literalmente los nódulos endurecidos de celulitis persistente y las cápsulas de grasa localizada, drenando todos esos desechos a través de las vías de tu propio sistema linfático. <em>*El espectacular paquete de transformación total de 10 sesiones está habilitado y disponible a 3 plazos cómodos de pago.</em></p>
-                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora hover-scale" style="background: var(--valtara-morado-vivo); color: white; border-color: var(--valtara-morado-vivo); font-size: 1.3rem; padding: 1.5rem; font-weight: bold; width: 100%;"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem; margin-right: 10px;"></i> Agendar Valoración por WhatsApp</a>
-                </div>
-            </article>
-
-            <article class="glass-card zig-zag reveal">
-                <div class="card-icon-wrapper" style="color: #ffaa00; border-color: #ffaa00; background: rgba(255,170,0,0.05);"><i class="fa-solid fa-crown"></i></div>
-                <div class="card-content-wrapper">
-                    <h3 style="font-size: 2.2rem; margin-bottom: 1.5rem;">El Magno Ritual Lomi Lomi Supremo (Estilo Hawaiano)</h3>
-                    <div class="card-meta-info" style="background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2rem;">
-                        <span class="duracion" style="font-size: 1.25rem;"><i class="fa-solid fa-clock" style="color: #ffaa00;"></i> Duración: Sesión Profunda, Fluida y Extensa</span>
-                        <span class="precio" style="font-size: 1.35rem; font-weight: 900; color: var(--valtara-blanco);">$1,199 MXN</span>
-                    </div>
-                    <p class="marketing-text" style="font-size: 1.3rem; line-height: 2; text-align: justify; margin-bottom: 2.5rem;"><strong>La inmemorial y compasiva Danza Curativa del espíritu de Aloha. Un cortocircuito absoluto y deslumbrante al Burnout corporativo extremo.</strong> Queremos ser enfáticos: esta no es una terapia convencional comercial de clínica; esto es una sagrada coreografía de sanación sobre la lona de tu cuerpo. Durante este proceso, el terapeuta casi no utiliza las palmas de las manos, sino la poderosa extensión completa y pulida de sus antebrazos bañados en aceite en movimientos asombrosamente largos, ininterrumpidos y envolventes que abarcan el cuerpo entero y simulan el majestuoso e infinito ir y venir de las olas del océano Pacífico. Este perpetuo movimiento rítmico y carente de pausas hipnotiza de forma contundente a tu cerebro lógico, rindiéndolo e induciendo directamente la generación de ondas cerebrales Theta (las mismas que se alcanzan en el sueño profundo y el trance meditativo), provocando un estado de regeneración neurológica celular absoluta y divina.</p>
-                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora hover-scale" style="background: #ffaa00; color: var(--valtara-negro-fondo); border-color: #ffaa00; font-size: 1.3rem; padding: 1.5rem; font-weight: bold; width: 100%;"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem; margin-right: 10px;"></i> Agendar Intervención Suprema</a>
+                    <p class="marketing-text"><strong>La Danza de Aloha.</strong> Un cortocircuito al Burnout. Protocolo ininterrumpido usando antebrazos que simula el oleaje del océano Pacífico. Induce ondas Theta de sueño profundo y regeneración absoluta.</p>
+                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: #ffaa00; color: var(--valtara-negro-fondo); border-color: #ffaa00;"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
                 </div>
             </article>
             
             <article class="glass-card zig-zag reveal">
-                <div class="card-icon-wrapper" style="color: var(--valtara-blanco); border-color: var(--valtara-blanco); background: rgba(255,255,255,0.05);"><i class="fa-solid fa-chair"></i></div>
+                <div class="card-icon-wrapper" style="color: var(--valtara-blanco); border-color: var(--valtara-blanco);"><i class="fa-solid fa-chair"></i></div>
                 <div class="card-content-wrapper">
-                    <h3 style="font-size: 2.2rem; margin-bottom: 1.5rem;">Intervención de Descompresión en Silla (Shiatsu Urbano)</h3>
-                    <div class="card-meta-info" style="background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2rem;">
-                        <span class="duracion" style="font-size: 1.25rem;"><i class="fa-solid fa-clock" style="color: var(--valtara-blanco);"></i> Duración: 20 Minutos de Enfoque Láser</span>
-                        <span class="precio" style="font-size: 1.35rem; font-weight: 900; color: var(--valtara-blanco);">$199 MXN (Add-On / Adicional)</span>
+                    <h3>Masaje en Silla (Shiatsu en Cama)</h3>
+                    <div class="card-meta-info">
+                        <span class="duracion"><i class="fa-solid fa-clock"></i> 20 Minutos</span>
+                        <span class="precio">$199 MXN (Adicional)</span>
                     </div>
-                    <p class="marketing-text" style="font-size: 1.3rem; line-height: 2; text-align: justify; margin-bottom: 2.5rem;"><strong>El "Renacer Urbano" creado específicamente para la agenda del ejecutivo apresurado.</strong> Este protocolo está milimétrica y matemáticamente enfocado en combatir y desarmar el destructivo "cuello tecnológico" (Text Neck), derretir los trapecios que se sienten de plomo sólido y aflojar la espalda alta severamente sobrecargada por las reuniones. Es una intervención terapéutica brutalmente breve en cronómetro, pero estructural y anatómicamente hiper profunda, diseñada ex profeso para sacarte del dolor paralizante y devolverte a tu oficina y al ruedo corporativo en escasos minutos. <em>*NOTA VITAL DE LOGÍSTICA CORPORATIVA: Para garantizar que siempre mantengamos el estricto rigor clínico y los estándares de excelencia de nuestras cabinas, hacemos de su conocimiento que este eficaz masaje express de rescate solo está disponible y habilitado para agendarse como un complemento satelital (Add-On) a la contratación previa y primaria de cualquier otra terapia tradicional de camilla extensa dentro de nuestro menú clínico de servicios.</em></p>
-                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora hover-scale" style="background: var(--valtara-blanco); color: var(--valtara-negro-fondo); border-color: var(--valtara-blanco); font-size: 1.3rem; padding: 1.5rem; font-weight: bold; width: 100%;"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem; margin-right: 10px;"></i> Añadir a mi reserva principal en WhatsApp</a>
+                    <p class="marketing-text"><strong>Renacer Urbano.</strong> Enfocado en el "cuello tecnológico" y espalda alta. Es una terapia breve pero profunda. <em>*NOTA: Este masaje solo está disponible como complemento bajo la contratación de una terapia tradicional.</em></p>
+                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-blanco); color: var(--valtara-negro-fondo); border-color: var(--valtara-blanco);"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
+                </div>
+            </article>
+
+            <!-- CHOCOLATERAPIA AÑADIDA -->
+            <article class="glass-card zig-zag reveal">
+                <div class="card-icon-wrapper" style="color: #FFB6C1; border-color: #FFB6C1;"><i class="fa-solid fa-masks-theater"></i></div>
+                <div class="card-content-wrapper">
+                    <h3>Relajación Facial (Chocolaterapia)</h3>
+                    <div class="card-meta-info">
+                        <span class="duracion"><i class="fa-solid fa-clock"></i> 45 Minutos</span>
+                        <span class="precio">$419 MXN</span>
+                    </div>
+                    <p class="marketing-text"><strong>Borra las huellas del cansancio.</strong> Limpieza y relajación que incluye una mascarilla especializada de Cacao puro para revitalizar la musculatura de tu rostro, hidratarlo y desatar endorfinas de felicidad.</p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: #FFB6C1; color: var(--valtara-negro-fondo); border-color: #FFB6C1; flex: 1;"><i class="fa-brands fa-whatsapp"></i> Agendar</a>
+                        <a href="https://youtu.be/Uc5wVxOW46o?si=XKjptVUjcshkAAY9" target="_blank" class="btn-agenda-ahora" style="background: transparent; border: 1px solid #FFB6C1; color: #FFB6C1; width: auto;"><i class="fa-brands fa-youtube"></i> Ver Experiencia</a>
+                    </div>
                 </div>
             </article>
 
             <article class="glass-card zig-zag reveal">
-                <div class="card-icon-wrapper" style="color: #FFB6C1; border-color: #FFB6C1; background: rgba(255,182,193,0.05);"><i class="fa-solid fa-masks-theater"></i></div>
+                <div class="card-icon-wrapper" style="color: #4361EE; border-color: #4361EE;"><i class="fa-solid fa-face-smile"></i></div>
                 <div class="card-content-wrapper">
-                    <h3 style="font-size: 2.2rem; margin-bottom: 1.5rem;">Bálsamo de Relajación Estética Facial (Chocolaterapia)</h3>
-                    <div class="card-meta-info" style="background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2rem;">
-                        <span class="duracion" style="font-size: 1.25rem;"><i class="fa-solid fa-clock" style="color: #FFB6C1;"></i> Duración: 45 Minutos de Paz Visual</span>
-                        <span class="precio" style="font-size: 1.35rem; font-weight: 900; color: var(--valtara-blanco);">$419 MXN</span>
+                    <h3>Masaje para Parálisis Facial</h3>
+                    <div class="card-meta-info">
+                        <span class="duracion"><i class="fa-solid fa-clock"></i> 45 Minutos</span>
+                        <span class="precio">$529 MXN</span>
                     </div>
-                    <p class="marketing-text" style="font-size: 1.3rem; line-height: 2; text-align: justify; margin-bottom: 2.5rem;"><strong>El borrador mágico y orgánico definitivo para borrar las profundas huellas del cansancio ocular y la crónica falta de sueño de tus jornadas.</strong> Ten en cuenta esto: tu expresivo rostro humano acumula diariamente miles y miles de microscópicas tensiones de estrés al gesticular ansiosamente en llamadas, al achinar la vista fijamente contra las brillantes pantallas azules de los monitores y al apretar tus mandíbulas por la tensión de las decisiones. Este delicioso y embriagador protocolo incluye una limpieza dermatológica profunda y una relajación muscular facial maravillosamente detallada con pulgares, todo esto coronado majestuosamente por la aplicación sedosa de una mascarilla especializada a base de puro Cacao termo-activo rico en antioxidantes. El rico cacao revitaliza de manera inmediata la musculatura cansada y flácida del rostro, inyecta una hidratación molecular masiva y profunda a la dermis reseca y su embriagador, delicioso e inconfundible aroma desata, literal y clínicamente hablando, una maravillosa tormenta torrencial de endorfinas y serotonina (las invaluables hormonas de la felicidad humana) inundando en segundos tu cerebro.</p>
-                    <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora hover-scale" style="background: #FFB6C1; color: var(--valtara-negro-fondo); border-color: #FFB6C1; flex: 1; font-size: 1.2rem; padding: 1.5rem; font-weight: bold;"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem; margin-right: 10px;"></i> Agendar Ahora</a>
-                        <a href="https://youtu.be/Uc5wVxOW46o?si=XKjptVUjcshkAAY9" target="_blank" class="btn-agenda-ahora hover-scale" style="background: rgba(255,182,193,0.1); border: 2px solid #FFB6C1; color: #FFB6C1; width: auto; font-size: 1.2rem; padding: 1.5rem; font-weight: bold;"><i class="fa-brands fa-youtube" style="font-size: 1.5rem; margin-right: 10px;"></i> Ver Video de la Experiencia</a>
-                    </div>
+                    <p class="marketing-text"><strong>Rehabilitación Neuromuscular.</strong> Trabajamos de forma opuesta en cada lado: relajando el lado sano que está contracturado y estimulando el lado paralizado mediante frío, calor y tacto clínico para "despertar" el nervio y recuperar la simetría.</p>
+                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: #4361EE; color: var(--valtara-blanco); border-color: #4361EE;"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
                 </div>
             </article>
 
             <article class="glass-card zig-zag reveal">
-                <div class="card-icon-wrapper" style="color: #4361EE; border-color: #4361EE; background: rgba(67,97,238,0.05);"><i class="fa-solid fa-face-smile"></i></div>
+                <div class="card-icon-wrapper" style="color: var(--valtara-blanco); border-color: var(--valtara-blanco);"><i class="fa-solid fa-droplet"></i></div>
                 <div class="card-content-wrapper">
-                    <h3 style="font-size: 2.2rem; margin-bottom: 1.5rem;">Intervención Clínica para Parálisis Facial (Bell)</h3>
-                    <div class="card-meta-info" style="background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2rem;">
-                        <span class="duracion" style="font-size: 1.25rem;"><i class="fa-solid fa-clock" style="color: #4361EE;"></i> Duración: 45 Minutos Clínicos</span>
-                        <span class="precio" style="font-size: 1.35rem; font-weight: 900; color: var(--valtara-blanco);">$529 MXN</span>
+                    <h3>Drenaje Linfático Manual</h3>
+                    <div class="card-meta-info">
+                        <span class="duracion"><i class="fa-solid fa-clock"></i> 60 Minutos</span>
+                        <span class="precio">$849 MXN</span>
                     </div>
-                    <p class="marketing-text" style="font-size: 1.3rem; line-height: 2; text-align: justify; margin-bottom: 2.5rem;"><strong>Rehabilitación Neuromuscular de Alta Complejidad y Extrema Precisión.</strong> Nos tomamos esto muy en serio: tratar una parálisis facial idiopática (Parálisis de Bell) requiere invariablemente amplios y sólidos conocimientos de anatomía facial avanzada y fisiología nerviosa, y de ninguna manera debe ser abordada con masajes genéricos superficiales o técnicas de spa estético relajante. Nuestro riguroso protocolo clínico trabaja terapéuticamente de forma diametralmente opuesta y asimétrica en cada hemisferio de tu delicado rostro: aplicamos técnicas neuro-sedantes calmantes exclusivas para relajar profundamente el lado sano del rostro (el cual siempre se encuentra dolorosamente sobrecargado, fatigado y espasmódico por verse obligado a hacer el trabajo muscular doble diario), mientras que simultánea y estratégicamente estimulamos de manera clínica, agresiva y focalizada el lado paralizado y dormido mediante el uso de contrastes térmicos vasomotores (choque de frío/calor) y percusiones táctiles de rebote precisas diseñadas científicamente para forzar y "despertar" biológicamente los impulsos eléctricos aletargados del nervio trigémino y el nervio facial, con la férrea meta de ayudarte a recuperar gradualmente la simetría muscular y la luz de tu hermosa sonrisa.</p>
-                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora hover-scale" style="background: #4361EE; color: var(--valtara-blanco); border-color: #4361EE; font-size: 1.3rem; padding: 1.5rem; font-weight: bold; width: 100%;"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem; margin-right: 10px;"></i> Agendar Evaluación Médica Urgente</a>
-                </div>
-            </article>
-
-            <article class="glass-card zig-zag reveal">
-                <div class="card-icon-wrapper" style="color: var(--valtara-blanco); border-color: var(--valtara-blanco); background: rgba(255,255,255,0.05);"><i class="fa-solid fa-droplet"></i></div>
-                <div class="card-content-wrapper">
-                    <h3 style="font-size: 2.2rem; margin-bottom: 1.5rem;">Drenaje Linfático Manual (Estricto Terapéutico)</h3>
-                    <div class="card-meta-info" style="background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2rem;">
-                        <span class="duracion" style="font-size: 1.25rem;"><i class="fa-solid fa-clock" style="color: var(--valtara-blanco);"></i> Duración: 60 Minutos de Paciencia Clínica</span>
-                        <span class="precio" style="font-size: 1.35rem; font-weight: 900; color: var(--valtara-blanco);">$849 MXN</span>
-                    </div>
-                    <p class="marketing-text" style="font-size: 1.3rem; line-height: 2; text-align: justify; margin-bottom: 2.5rem;"><strong>Restaurando pacientemente el flujo vital del río de la vida celular.</strong> Es vital comprender que tu maravilloso sistema linfático biológico funciona como la imprescindible red de saneamiento hídrico y sistema de defensas inmunológico de toda la arquitectura de tu cuerpo, pero tiene un inmenso talón de Aquiles: no tiene una "bomba" propia automática como lo es el corazón para la sangre; este sistema depende en un 100% de que tú te muevas y contraigas tus músculos voluntariamente para poder circular y fluir sanamente. Cuando un cuerpo sufre cirugías invasivas, traumatismos por accidentes, o simplemente padece de un estilo de vida de sedentarismo crónico extremo frente al escritorio, los líquidos intersticiales, desechos y toxinas se estancan irremediablemente en las cisternas del cuerpo causando un dolor inflamatorio brutal, hinchazón y pesadez (edemas patológicos). Nuestro drenaje linfático especializado es una manipulación técnica manual de extrema lentitud y precisión que "empuja" y bombea literalmente con las manos estos líquidos estancados y pesados hacia las "estaciones de bombeo y reciclaje" (los ganglios linfáticos axilares e inguinales) usando toques tan hipnóticamente delicados, superficiales y rítmicos como el suave aleteo de las alas de una mariposa. <strong>*Nota vital inquebrantable de bioética: Debido a la delicada y profunda manipulación de los fluidos biológicos y linfáticos del cuerpo, advertimos firmemente que este procedimiento clínico requiere, exige y demanda una autorización y alta médica explícita por escrito en todas las condiciones post-quirúrgicas estéticas o de trauma recientes.</strong></p>
-                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora hover-scale" style="background: var(--valtara-blanco); color: var(--valtara-negro-fondo); border-color: var(--valtara-blanco); font-size: 1.3rem; padding: 1.5rem; font-weight: bold; width: 100%;"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem; margin-right: 10px;"></i> Solicitar Intervención Clínica al Concierge</a>
+                    <p class="marketing-text">El fluir de la vida. Ayuda a movilizar líquidos y toxinas post-quirúrgicas con toques tan suaves como el aleteo de una mariposa. <strong>*Requiere autorización médica en condiciones específicas.</strong></p>
+                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-blanco); color: var(--valtara-negro-fondo); border-color: var(--valtara-blanco);"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
                 </div>
             </article>
             
+            <!-- ESFERAS CHINAS CON VIDEO Y VELA -->
             <article class="glass-card zig-zag reveal">
-                <div class="card-icon-wrapper" style="color: var(--valtara-blanco); border-color: var(--valtara-blanco); background: rgba(255,255,255,0.05);"><i class="fa-solid fa-circle-notch"></i></div>
+                <div class="card-icon-wrapper" style="color: var(--valtara-blanco); border-color: var(--valtara-blanco);"><i class="fa-solid fa-circle-notch"></i></div>
                 <div class="card-content-wrapper">
-                    <h3 style="font-size: 2.2rem; margin-bottom: 1.5rem;">Experiencia Sensorial de Esferas Chinas Sonoras & Luz Cálida</h3>
-                    <div class="card-meta-info" style="background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2rem;">
-                        <span class="duracion" style="font-size: 1.25rem;"><i class="fa-solid fa-clock" style="color: var(--valtara-blanco);"></i> Duración: 60 Minutos de Estimulación Cruzada</span>
-                        <span class="precio" style="font-size: 1.35rem; font-weight: 900; color: var(--valtara-blanco);">$929 MXN</span>
+                    <h3>Esferas Chinas & Luz Cálida</h3>
+                    <div class="card-meta-info">
+                        <span class="duracion"><i class="fa-solid fa-clock"></i> 60 Minutos</span>
+                        <span class="precio">$929 MXN</span>
                     </div>
-                    <p class="marketing-text" style="font-size: 1.3rem; line-height: 2; text-align: justify; margin-bottom: 2.5rem;"><strong>La poderosa vibración armónica metálica que atraviesa y arrulla la piel.</strong> Afirmamos con inmenso orgullo que esta es sin duda una de nuestras intervenciones holísticas más arquitectónicamente hermosas, compasivas e inclusivas de todo el catálogo. Utilizamos hábilmente pares de pesadas esferas metálicas tradicionales orientales (conocidas como milenarias Esferas Baoding) que, al ser obligadas por el terapeuta a rotar firmemente y friccionar sobre la vasta superficie de tu musculatura tensa y puntos de acupresión reflejos, emiten mágicamente frecuencias sonoras sutiles, armónicas y constantes (gracias a una minúscula campanilla acústica en su interior) que resuenan como un eco de paz dentro de las propias cavidades corporales de tu tórax y cráneo. Esta magistral y cuidada sinfonía táctil de metal frío, presión y vibración auditiva rítmica, induce de manera casi instantánea y fulminante la producción cerebral de ondas Alfa (el anhelado estado meditativo de los monjes), todo esto hermosamente cobijado y acompañado en la cabina por la envolvente, danzante y arrulladora calidez de velas aromáticas naturales que derriten la tensión visual de la penumbra. Este estímulo combinado cruzado (sonido, peso, olor, calor) es excepcional y clínicamente reconfortante, y lo consideramos un protocolo invaluable y profundamente seguro y curativo para tratar con amor a pacientes maravillosamente neurodivergentes (ejemplo: adultos con fatiga por TDAH, o integrados en un espectro autista funcional leve) o para abrazar empáticamente a personas magníficas que viven con alguna discapacidad visual, las cuales experimentan el mundo y dependen intensamente y de forma extraordinaria de la agudeza de su audición espacial y su hiper-propiocepción corporal táctil.</p>
-                    <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora hover-scale" style="background: var(--valtara-blanco); color: var(--valtara-negro-fondo); border-color: var(--valtara-blanco); flex: 1; font-size: 1.2rem; padding: 1.5rem; font-weight: bold;"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem; margin-right: 10px;"></i> Agendar Intervención Auditiva</a>
-                        <a href="https://youtube.com/shorts/DjxDYgBbgic?si=FoJQmCf9Wi3JXR7F" target="_blank" class="btn-agenda-ahora hover-scale" style="background: rgba(255,255,255,0.1); border: 2px solid var(--valtara-blanco); color: var(--valtara-blanco); width: auto; font-size: 1.2rem; padding: 1.5rem; font-weight: bold;"><i class="fa-brands fa-youtube" style="font-size: 1.5rem; margin-right: 10px;"></i> Ver Muestra en Video Corto</a>
+                    <p class="marketing-text">La vibración sonora y el contacto circular estimulan puntos reflejos induciendo ondas cerebrales Alfa, acompañadas por la calidez de velas aromáticas. El estímulo sonoro es fantástico para pacientes neurodivergentes o con discapacidad visual.</p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-blanco); color: var(--valtara-negro-fondo); border-color: var(--valtara-blanco); flex: 1;"><i class="fa-brands fa-whatsapp"></i> Agendar</a>
+                        <a href="https://youtube.com/shorts/DjxDYgBbgic?si=FoJQmCf9Wi3JXR7F" target="_blank" class="btn-agenda-ahora" style="background: transparent; border: 1px solid var(--valtara-blanco); color: var(--valtara-blanco); width: auto;"><i class="fa-brands fa-youtube"></i> Ver Experiencia</a>
                     </div>
                 </div>
             </article>
 
-            <article class="glass-card zig-zag reveal" style="opacity: 0.8; filter: grayscale(40%); border-style: dashed; border-color: #666;">
-                <div class="card-icon-wrapper" style="color: #888; border-color: #666; background: rgba(0,0,0,0.5);"><i class="fa-solid fa-hammer"></i></div>
+            <article class="glass-card zig-zag reveal" style="opacity: 0.6;">
+                <div class="card-icon-wrapper" style="color: #666;"><i class="fa-solid fa-hammer"></i></div>
                 <div class="card-content-wrapper">
-                    <h3 style="font-size: 2.2rem; margin-bottom: 1.5rem; color: #aaa;">La Cámara Blindada de Innovación Terapéutica (Próximamente)</h3>
-                    <div class="card-meta-info" style="background: rgba(0,0,0,0.6); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2rem;">
-                        <span class="duracion" style="font-size: 1.25rem; color: #aaa;"><i class="fa-solid fa-lock"></i> Estatus: Actualmente en Fase de Ingeniería y Construcción Física</span>
-                        <span class="precio" style="font-size: 1.35rem; color: #ff5555; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Temporalmente Bloqueado y No Disponible al Público</span>
+                    <h3>Cámara de Innovación (Próximamente)</h3>
+                    <div class="card-meta-info">
+                        <span class="duracion"><i class="fa-solid fa-lock"></i> Construcción</span>
+                        <span class="precio" style="color: #ff5555;">No Disponible</span>
                     </div>
-                    <p class="marketing-text" style="font-size: 1.3rem; line-height: 2; text-align: justify; margin-bottom: 2.5rem; color: #999;">En los pasillos de Valtara, y bajo la férrea filosofía de Grupo Gevizz S.A.S., la excelencia rotunda clínica nunca, bajo ningún pretexto, se improvisa a la ligera. Es por esto que te informamos con total transparencia que, en la actualidad estricta, nuestros ingenieros arquitectónicos y nuestros Masters terapeutas en fisiología se encuentran en un complejo proceso de re-adaptación estructural masiva de nuestra arquitectura física interna, ventilación y cableado lumínico para poder estar a la altura de las normas de seguridad internacionales y ofrecerte en un futuro próximo el despliegue triunfal del legendario e hipnótico <strong>Ritual Geotermal con Piedras Negras de Obsidiana Volcánica Genuina</strong> (las cuales exigen la instalación de equipos industriales de calentamiento especializado, presurizado y regulado milimétricamente), la extrema, dolorosa y sanadora precisión asiática del <strong>Shiatsu Tradicional Japonés</strong> realizado auténticamente en estera de tatami sobre el suelo raso, y la intrincada y milenaria ciencia de la <strong>Reflexología Podal Clínica Estructural</strong>. Nuestro propio, aplastante y a veces agobiante rigor interno y orgullo profesional nos ata las manos y nos exige éticamente adaptar el espacio físico al infinito 100% perfecto y recertificar médicamente a nuestro heroico personal antes siquiera de atrevernos arrogantemente a intentar lanzar de forma prematura y peligrosa un nuevo servicio inconcluso a nuestro selecto menú público. Agradecemos infinitamente y desde el fondo del corazón tu enorme lealtad y paciente espera mientras, piedra por piedra, seguimos construyendo pacientemente el futuro incuestionable del bienestar físico de ultra-lujo en la capital del país.</p>
+                    <p class="marketing-text">Estamos adaptando nuestra arquitectura para ofrecer pronto el <strong>Ritual Geotermal (Piedras de Obsidiana)</strong>, <strong>Shiatsu Tradicional</strong> y <strong>Reflexología Podal</strong>. Nuestro rigor exige adaptar el espacio al 100% antes de lanzar un servicio.</p>
                 </div>
             </article>
 
@@ -597,25 +487,437 @@ window.ValtaraData = {
        3. CIENCIA, BOTÁNICA Y MANIFIESTO ÍNTEGRO
        -------------------------------------------------------------------------------- */
     science: `
-        <div style="text-align: center; max-width: 1100px; margin: 0 auto 6rem auto;">
-            <div style="background: rgba(255, 85, 85, 0.1); border-left: 6px solid #ff5555; padding: 2rem; margin-bottom: 4rem; border-radius: 0 1.5rem 1.5rem 0; text-align: left;">
-                <p style="color: #ff5555; font-size: 1.4rem; font-weight: 900; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;"><i class="fa-solid fa-triangle-exclamation"></i> Aviso de Educación Biomédica y Deslinde de Responsabilidad Clínica</p>
-                <p style="color: var(--valtara-blanco); font-size: 1.25rem; line-height: 1.8; font-weight: 300;">La información científica a continuación es material puramente educativo sobre la anatomía humana. <strong>Valtara, operado por Grupo Gevizz S.A.S., no funge bajo ningún marco legal como un hospital ni suple a un médico certificado de la rama alópata.</strong> Ninguna de nuestras investigaciones, textos, juegos interactivos o explicaciones biomecánicas tienen la intención de diagnosticar enfermedades graves o curar patologías. Si padeces de dolor incapacitante agudo de más de 48 horas sin mejora, fiebre, hinchazón anormal, infecciones o sospechas de condiciones degenerativas mayores, te imploramos acudir a un profesional de la salud médica de inmediato. Nosotros somos especialistas en el soporte preventivo y correctivo de la tensión muscular generada por estrés.</p>
-            </div>
-
-            <h2 style="font-family: var(--font-accent); font-size: 5rem; color: var(--valtara-blanco); margin-bottom: 2.5rem; text-shadow: 0 5px 15px rgba(0,0,0,0.5);" class="reveal">La Arquitectura Médica y el Arte Botánico de la Sanación</h2>
-            <p style="color: var(--valtara-gris-texto); font-size: 1.6rem; line-height: 2.2; font-weight: 300; text-align: justify;" class="reveal">Bienvenido a la academia abierta de Valtara. Este es el espacio exacto y contundente en el cual las promesas de bienestar mágico y esotérico se desintegran frente a la luz de la razón, dando paso inmediato al contundente Método Científico avalado. Atestigua con tus propios ojos el punto de intersección perfecto, geométrico e impecable trazado entre la innegable sabiduría y pureza de la Botánica Natural Farmacológica, el Humanismo Ético Radical sin concesiones, y la indomable Anatomía Biomecánica de Precisión Quirúrgica; pilares absolutos que definen sin titubeos la implacable filosofía corporativa y fundacional de nuestra matriz, Grupo Gevizz S.A.S., cimentada orgullosamente en Valtara.</p>
+        <div style="text-align: center; max-width: 1000px; margin: 0 auto 5rem auto;">
+            <h2 style="font-family: var(--font-accent); font-size: 3.5rem; color: var(--valtara-blanco); margin-bottom: 2rem;" class="reveal">El Arte de la Sanación</h2>
+            <p style="color: var(--valtara-gris-texto); font-size: 1.4rem; line-height: 1.9; font-weight: 300;" class="reveal">Ciencia, Botánica y Humanismo en Valtara.</p>
         </div>
 
-        <div class="glass-card reveal" style="padding: 6rem 7rem; max-width: 1300px; margin: 0 auto 6rem auto; background: rgba(10,10,15,0.95); box-shadow: 0 40px 80px rgba(0,0,0,0.9), inset 0 0 60px rgba(255,255,255,0.02); border-radius: 3rem;">
+        <div class="glass-card reveal" style="padding: 4rem 5rem; max-width: 1100px; margin: 0 auto 4rem auto; background: rgba(0,0,0,0.8);">
             
-            <p style="font-size: 1.5rem; color: var(--valtara-blanco); line-height: 2.3; margin-bottom: 4rem; font-weight: 300; text-align: justify; letter-spacing: 0.5px; border-left: 5px solid var(--valtara-oro); padding-left: 3rem; background: linear-gradient(90deg, rgba(212,175,55,0.05) 0%, transparent 100%); padding-top: 2rem; padding-bottom: 2rem; border-radius: 0 1rem 1rem 0;">
-                <i class="fa-solid fa-graduation-cap" style="color: var(--valtara-oro); font-size: 2.5rem; margin-bottom: 1.5rem; display: block;"></i>
-                Te damos la más cálida y profunda bienvenida a la sección cumbre de divulgación neuro-científica y de educación anatómica biomecánica estructural de los cuarteles de Valtara. A lo largo de los años, hemos soñado, diseñado y finalmente construido este extenso y complejo espacio informativo digital de manera gratuita con un único, obsesivo y grandioso propósito fundamental existencial en mente: anhelamos desde lo profundo de nuestro espíritu que tú, investido como el heroico paciente valiente de esta era moderna corporativa asfixiante y asumiéndote como el rey soberano y el amo y señor absoluto y dueño innegable de tu propio y extraordinario cuerpo celular y vehículo biológico andante terrestre, leas atentamente estas palabras escritas por nosotros con pasión y logres comprender, abrazar e internalizar a nivel neuronal y de manera absolutamente cristalina, contundente y sin resquicio de duda o engaños, que el grandioso y ansiado milagro del verdadero bienestar físico a largo plazo no es en ningún sentido, forma ni universo posible, un caprichoso evento fortuito de azar, ni el resultado de un milagroso chasquido de dedos de un charlatán pseudomédico, y muchísimo menos estamos dispuestos a aceptar que sea categorizado y humillado socialmente simplemente como si se tratase de un efímero y elitista "lujo frívolo superficial dominguero" que es egoístamente reservado de forma clasista y únicamente permitido para gastarse en lejanas vacaciones de resorts o días feriados de playa una vez al año; no, en absoluto; el bienestar y el alivio genuino es un intrincado, violento a veces, y majestuosamente complejo y fascinante proceso interconectado que es de origen innegablemente biológico, puramente bioquímico, maravillosamente neuro-eléctrico y profundamente enraizado en el laberinto del espectro psicológico neuronal. En las siguientes densas y ricas líneas de texto educativo escrito por nosotros, nos comprometemos a tomarte de la mano de forma segura y te demostraremos con evidencia dura, datos fríos, lógica aplastante médica y literatura, exactamente cómo la antiquísima, hermosa y poética sabiduría de la histórica <em>Compasión Ancestral Sanadora</em> (que engloba siglos del meticuloso, respetuoso y amoroso cuidado humano cálido intergeneracional milenario pasado de tribus de abuelos a nietos) colisiona frontalmente a la velocidad de la luz y se encuentra, abraza y fusiona indestructiblemente sin pelear ni destruirse, formando una amalgama perfecta con el siempre calculador, riguroso, frío, numérico y contundente y siempre exacto y siempre escéptico <em>Rigor Clínico Empírico</em> (es decir, el filo del bisturí inmaculado de la ciencia anatómica médica anatómica de las resonancias modernas), para juntos en nuestras camillas poder ofrecerte, garantizarte y entregarte una verdadera experiencia integral, palpable e irrefutable de recuperación, descompresión somática y supervivencia integral muscular y verdadera, que salvará tu vida, tus neuronas y la salud total tu paz de tu agitada carrera en la urbe.
+            <p style="font-size: 1.25rem; color: var(--valtara-gris-texto); line-height: 2; margin-bottom: 3rem;">
+                Bienvenido a la sección de divulgación científica de Valtara. Este espacio ha sido creado para que tú, como paciente, comprendas que el bienestar no es un evento aislado, sino un proceso biológico y psicológico complejo. Aquí, la Compasión Ancestral se encuentra con el Rigor Clínico para ofrecerte una experiencia de salud integral.
             </p>
 
-            <h3 style="color: var(--valtara-oro); font-family: var(--font-accent); font-size: 3.5rem; margin-top: 5rem; margin-bottom: 3rem; border-bottom: 3px solid rgba(242,201,76,0.3); padding-bottom: 2rem; line-height: 1.2;"><i class="fa-solid fa-microscope" style="color: var(--valtara-oro); margin-right: 20px;"></i> I. Los Intocables Fundamentos Científicos: La respuesta definitiva a ¿Por qué demonios la terapia manual realmente funciona y cura el dolor?</h3>
-            <p style="font-size: 1.45rem; color: var(--valtara-blanco); margin-bottom: 3.5rem; line-height: 2.3; font-weight: 800; text-align: justify;">Una abrumadora cantidad de nuestros estresados pacientes, ya sean ejecutivos, atletas corporativos o madres de familia, se sientan al borde de nuestras camillas y nos preguntan constantemente a los terapeutas en cabina con genuina curiosidad y un dejo de escepticismo o incredulidad infundada si someterse a la manipulación mecánica de un "masaje corporal" es solo un "delicioso mimo superficial para la piel", un gasto banal estético o un mero capricho placebo inventado para gente rica o desocupada. La vasta, imponente y aplastante comunidad de élite médica y científica mundial (neurólogos, fisiólogos de alto rendimiento, traumatólogos y biólogos) actual responde frontalmente a esa ignorancia con un contundente, rotundo e inmenso grito ahogado de <strong>NO absoluto</strong>. La realidad cruda científica es que el masaje en cabina bien ejecutado es todo lo contrario: es una tremendamente potente y devastadora intervención médica biológica no invasiva que se infiltra por debajo de la barrera dérmica y "hackea" informáticamente y recodifica los paneles de control eléctrico y químico de varios de los sistemas biológicos más colosalmente complejos, secretos e impresionantes de la perfecta máquina que es tu cuerpo, alterando el flujo eléctrico en tiempo real de manera simultánea:</p>
+            <h3 style="color: var(--valtara-oro); font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(242,201,76,0.3); padding-bottom: 1rem;">I. Fundamentos Científicos: ¿Por qué funciona la terapia manual?</h3>
+            <p style="font-size: 1.2rem; color: var(--valtara-blanco); margin-bottom: 2rem;">Muchos pacientes preguntan si el masaje es solo un lujo. La ciencia responde con un rotundo no. El masaje es una intervención terapéutica que interactúa con varios sistemas de tu cuerpo:</p>
             
-            <h4 style="color: var(--valtara-cian-brillante); font-size: 2.5rem; margin-top: 5rem; margin-bottom: 2rem; font-weight: 900;"><i class="fa-solid fa-network-wired" style="margin-right: 15px;"></i> A. Neurobiología Extrema del Dolor Somático y la Inexplicable Magia Eléctrica Oculta del Tacto Humano</h4>
-            <p style="font-size: 1.45rem; color: var(--valtara-gris-texto); line-height: 2.3; margin-bottom: 2.5rem; text-align: justify;">Es vital entender desde la primaria que tu piel, a pesar de que la laves con jabón a diario y parezca simple, de ninguna manera es solo tu fina "envoltura exterior estética" que te cubre y da forma para proteger tus órganos de que no se caigan o de no desparramar el agua por el suelo al caminar; la piel humana es, por muchísimo y sin exagerar la realidad clínica médica anatómica probada y comprobada en laboratorio, el órgano biológico más inmensamente vasto, de mayor peso volumétrico métrico cúbico, el de más rápido crecimiento celular externo regenerativo natural acelerado y con diferencia abismal colosal, el procesador neural periférico biológico más sumamente hiper-inteligente, adaptable y calculador de absolutamente y sin reservas de todo tu colosal, pesado y frágil cuerpo humano en su integridad tridimensional, siendo este el único de tus complejos órganos que tiene la majestuosa labor y tarea de interactuar a nivel frontera directa con el peligroso, hostil universo externo e interiormente protegiendo el universo frágil interior de tu santuario interno. Fisiológicamente es y se asume literalmente a nivel embrionario como una "extensión desprendida o apéndice sensorial brutalmente expuesta al aire" de tu propia materia gris, del cerebro mismo y del tronco encefálico primigenio y reptiliano, y por ende se encuentra hiper e increíblemente densamente saturada, acribillada e infestado geométricamente de incontables cientos de millones o decenas de miles de millones de minúsculas antenas eléctricas, de sofisticados sensores satelitales radares y receptores táctiles, térmicos sensoriales complejos eléctricos y miles de terminales de cabos de cables gruesos de nervios pelados libres microscópicos interconectados maravillosamente. Cuando las expertas y poderosas manos forjadas y capacitadas anatómicamente de nuestros selectos y experimentados Maestros terapeutas de Valtara se posicionan con maestría quirúrgica milimétrica, tacto educado, precisión balística y un conocimiento espacial sinuoso anatómico profundo sobre un músculo endurecido y aplican y desencadenan calculadamente sobre el mismo tejido blando de tu adolorida espalda una rítmica dosis o medida exacta, firme constante y pesada de fuerza en kilogramos y presión cinemática específica rotatoria deslizante, en ese asombroso nanosegundo imperceptible para ti, ellos los especialistas no están simplemente "tallando piel, apretando una masa de carne amontonada o untando o esparciendo aceite inútil sobre la piel fofa sudorosa"; lo que realmente está ocurriendo tras bambalinas bajo el capó de la biología, es que están como ingenieros tecleando frenéticamente y pulsando violentamente enormes palancas e interruptores eléctricos biológicos reales insertados microscópicos bajo tu sistema cutáneo conectivo fascial, tales como y específicamente: logran activar explosivamente los diminutos sensores conocidos en la literatura como los sofisticados "Corpúsculos de Meissner" (unos increíbles orgánulos mecanorreceptores y radares diminutos nerviosos de la dermis profunda que procesan exclusivamente, a la velocidad de la luz hacia el cerebro el cosquilleo, la caricia más suave, tersa o leve brisa), y simultáneamente con una fuerza abrumadora y calculada golpean y despiertan abruptamente también y estimulan a los colosales sensores y alarmas de profundidad inmensa conocidos biológicamente y medicamente catalogados en los libros de anatomía muscular densa profunda de las articulaciones como "Corpúsculos de Pacini" y los robustos detectores tendinosos infalibles de estiramiento forzado rotundos conocidos como "Órganos Tendinosos de Golgi" (unos increíbles biosensores mecanoeléctricos de advertencia incrustados brutalmente en las profundidades cerca del hueso, que son sumamente los responsables y únicos capaces de medir con precisión milimétrica celular la presión de impacto físico profunda contundente, el peso en kilogramos ejercido por el mundo exterior aplastante sobre el músculo estriado forzado bajo alta tensión, y medir increíblemente y reportar la sutil oscilación frecuencial hertziana de alta vibración), y como milagro colateral de este hackeo, devolviéndote al instante por fin pacíficamente y sin dudarlo a nivel neuronal cerebral del mapa espacial cerebral interno tuyo tridimensional toda esa hermosa, curativa e inigualable conciencia plena holística biológica real y la noción y de la ubicación física propia interna exacta del radar cerebral que se le denomina maravillosamente el 
+            <h4 style="color: var(--valtara-cian-brillante); font-size: 1.6rem; margin-top: 2rem; margin-bottom: 1rem;">1. Neurobiología del Dolor y la Respuesta Táctil</h4>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">La piel es el órgano más grande de tu cuerpo y está saturada de receptores sensoriales. Cuando aplicamos una presión específica, activamos los corpúsculos de Meissner (sensibles al tacto suave) y los corpúsculos de Pacini (sensibles a la presión profunda, mejorando la propiocepción y reduciendo la amnesia sensorial).</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;"><strong>La Teoría de la Compuerta (Gate Control Theory):</strong> Propuesta por Melzack y Wall, explica que el estímulo táctil viaja por fibras mielinizadas rápidas (Fibras A-beta), las cuales bloquean químicamente la transmisión de señales de dolor en la médula espinal antes de que lleguen al tálamo. Esto efectivamente "cierra la puerta" al malestar.</p>
+            
+            <h4 style="color: var(--valtara-cian-brillante); font-size: 1.6rem; margin-top: 2rem; margin-bottom: 1rem;">2. La Cascada Neuroquímica del Bienestar</h4>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">Se ha demostrado que una sesión de 50 minutos de masaje profundo reduce los niveles de cortisol (la hormona del estrés) en un promedio del 31%, un reequilibrio vital para combatir el "Burnout" ejecutivo. Simultáneamente, el cerebro libera:</p>
+            <ul style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem; margin-left: 2rem; list-style-type: square;">
+                <li><strong>Dopamina (aumenta 28%):</strong> Mejora el estado de ánimo y la motivación.</li>
+                <li><strong>Serotonina (aumenta 31%):</strong> Regula el sueño y reduce la ansiedad de manera drástica.</li>
+                <li><strong>Oxitocina:</strong> Conocida como la "hormona del vínculo", reduce la inflamación sistémica y promueve una regeneración celular más rápida.</li>
+            </ul>
+
+            <h4 style="color: var(--valtara-cian-brillante); font-size: 1.6rem; margin-top: 2rem; margin-bottom: 1rem;">3. Psicosomática y Memoria Corporal</h4>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">El cuerpo guarda lo que la mente calla. El concepto de "Armadura Muscular", desarrollado por Wilhelm Reich, explica cómo las tensiones crónicas son en realidad mecanismos de defensa emocional congelados en el tejido. Un "nudo" en los hombros puede ser la representación física de una carga de responsabilidad excesiva, mientras que el bruxismo suele ser contención de ira o frustración.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 3rem;">En Valtara, trabajamos para liberar estas "huellas somáticas". Al manipular el tejido profundo, permitimos que el sistema nervioso libere la energía atrapada. La somatización altera la química muscular volviéndolo ácido (lactato); nuestra intervención manual restablece el pH neutro, oxigena las células y rompe el ciclo vicioso de estrés-dolor-estrés.</p>
+
+            <h3 style="color: #ff5555; font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,85,85,0.3); padding-bottom: 1rem;">II. Biomecánica del Trabajo y Síndromes Modernos</h3>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">El cuerpo humano no está diseñado para la inmovilidad prolongada. El "Text Neck" o Síndrome de Cuello de Texto es una de las patologías más comunes en Reforma: al inclinar la cabeza 60 grados, la presión sobre las vértebras sube de 5kg a 27kg, provocando hernias y cefaleas tensionales.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;"><strong>La Amnesia Glútea y el Psoas:</strong> Estar sentado más de 6 horas al día acorta crónicamente el músculo Psoas-Iliaco, tirando de las lumbares y causando dolor ciático. La "Amnesia Glútea" inhibe el soporte muscular, forzando a la espalda baja a compensar toda la estabilidad.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">La terapia en Valtara utiliza la descompresión miofascial para romper adherencias en la fascia. Debido a la propiedad de "Tensegridad" de la fascia, entendemos que una tensión en el cuello puede tener su origen real en una restricción de la fascia plantar o lumbar.</p>
+
+            <h4 style="color: #ff5555; font-size: 1.6rem; margin-top: 2rem; margin-bottom: 1rem;">Sistema Linfático y Recuperación Deportiva</h4>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">El sistema linfático es el alcantarillado del cuerpo, propenso al estancamiento por sedentarismo. El edema provoca intoxicación celular. Nuestro drenaje dirige el líquido intersticial hacia los ganglios, acelerando la eliminación de desechos.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 3rem;">El ejecutivo moderno es un atleta de alto rendimiento cognitivo. Su "entrenamiento" ocurre en salas de juntas, generando desgaste. La recuperación deportiva aplicada previene lesiones como el túnel carpiano. Usamos fricciones transversas y estiramientos que restablecen el rango de movimiento (ROM) y previenen el envejecimiento articular prematuro.</p>
+
+            <h3 style="color: var(--valtara-verde-menta); font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0,255,170,0.3); padding-bottom: 1rem;">III. El Herbario Valtara: Botánica Científica</h3>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">La botánica en nuestras sesiones no es decorativa; es Fitoterapia. Los insumos utilizados en el santuario son seleccionados por su biodisponibilidad transdérmica.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;"><strong>Aromaterapia y Vía Límbica:</strong> El sentido del olfato es el único que no pasa por el tálamo; va directo al Sistema Límbico, el centro de tus emociones.</p>
+            <ul style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 2rem; margin-left: 2rem; list-style-type: square;">
+                <li><strong>Linalool (Lavanda):</strong> Reduce la excitabilidad neuronal interactuando con receptores GABA.</li>
+                <li><strong>Limoneno (Cítricos):</strong> Estimula la producción de glóbulos blancos y mejora el ánimo.</li>
+            </ul>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;"><strong>Nuestra Tecnología Cosmética:</strong></p>
+            <ul style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 3rem; margin-left: 2rem; list-style-type: square;">
+                <li><strong>Geles Activos y Maderoterapia:</strong> Ayudan a la vasoconstricción/vasodilatación, facilitando la eliminación de toxinas por la red linfática, la cual no tiene bomba propia y depende de la presión manual externa.</li>
+                <li><strong>Manteca de Karité pura (Butyrospermum parkii):</strong> Es un potente antiinflamatorio rico en ácidos grasos linoleicos que reparan la barrera cutánea.</li>
+            </ul>
+
+            <h3 style="color: var(--valtara-cian-brillante); font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0,255,255,0.3); padding-bottom: 1rem;">IV. Filosofía de Inclusión Radical y Discapacidad</h3>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">La accesibilidad en Valtara se entiende desde el Modelo Social de la Discapacidad: la discapacidad no es un defecto del individuo, sino el resultado de un entorno diseñado para un solo tipo de cuerpo. Como espacio incluyente, reconocemos la Neurodiversidad.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">El tacto para personas con autismo o hipersensibilidad sensorial debe ser negociado y adaptado, utilizando presiones firmes y constantes (Deep Pressure Touch) que ayudan a organizar el sistema nervioso central en lugar de irritarlo. Para personas con discapacidad motriz, la ergonomía adaptativa es clave: el uso de posicionadores y técnicas en posición lateral o sedente permiten que el tratamiento sea efectivo sin forzar posturas inaccesibles.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 3rem;">La inclusión también implica accesibilidad digital: un sitio web compatible con lectores de pantalla no es un extra, es un derecho a la autonomía informativa. En Valtara, la terapia manual honra la diversidad funcional sin patologizarla.</p>
+
+            <h3 style="color: var(--valtara-morado-vivo); font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(178,0,255,0.3); padding-bottom: 1rem;">V. Investigación y Referencias Científicas</h3>
+            <ul style="font-size: 1.15rem; color: var(--valtara-blanco); line-height: 2.2; margin-bottom: 3rem; list-style: none;">
+                <li><i class="fa-solid fa-book" style="color: var(--valtara-oro);"></i> <strong>Melzack, R. (1999).</strong> From the gate control theory to the neuromatrix. <em>Explica cómo el tacto bloquea el dolor.</em></li>
+                <li><i class="fa-solid fa-book" style="color: var(--valtara-oro);"></i> <strong>Field, T. (2010).</strong> Touch for Health. University of Miami. <em>Estudio sobre la reducción de cortisol post-masaje.</em></li>
+                <li><i class="fa-solid fa-book" style="color: var(--valtara-oro);"></i> <strong>Tisserand, R. (2013).</strong> Essential Oil Safety. Elsevier. <em>La biblia de la aromaterapia científica.</em></li>
+                <li><i class="fa-solid fa-book" style="color: var(--valtara-oro);"></i> <strong>Reich, W.</strong> Análisis del Carácter. <em>Sobre el concepto de Armadura Muscular y Somatización.</em></li>
+            </ul>
+
+            <!-- CONTENEDOR DEL JUEGO EL ALQUIMISTA -->
+            <div id="alchemist-game-container" style="margin-top: 5rem;"></div>
+
+            <div style="background: rgba(242, 201, 76, 0.1); border: 2px solid var(--valtara-oro); padding: 3rem; border-radius: 1.5rem; margin-top: 4rem; text-align: center;">
+                <h4 style="font-size: 1.8rem; color: var(--valtara-oro); margin-bottom: 1rem; font-family: var(--font-accent);">Conclusión para el Paciente</h4>
+                <p style="font-size: 1.25rem; color: var(--valtara-blanco); line-height: 1.8; font-style: italic;">
+                    "En Valtara, cada sesión es un diálogo entre nuestras manos y tu sistema biológico. No ofrecemos soluciones mágicas, sino intervenciones fundamentadas en la ciencia de la salud y el respeto a la diversidad humana. Al educarte sobre tu cuerpo, recuperas el poder sobre tu propio bienestar."
+                </p>
+                <p style="font-size: 0.95rem; color: #aaa; margin-top: 1.5rem;">* Este contenido es para fines educativos. Siempre consulte a su médico antes de iniciar cualquier terapia si tiene condiciones preexistentes.</p>
+            </div>
+        </div>
+    `,
+
+    /* --------------------------------------------------------------------------------
+       4. HISTORIA, MARCO LEGAL Y LOGÍSTICA (FAQS, MANIFIESTO TECNOLÓGICO Y MODALES)
+       -------------------------------------------------------------------------------- */
+    legal: `
+        <style>
+            /* ESTILOS NATIVOS PARA MODALES DE TRANSPARENCIA */
+            dialog {
+                background: var(--valtara-negro-fondo);
+                color: var(--valtara-blanco);
+                border: 2px solid var(--valtara-oro);
+                border-radius: 20px;
+                padding: 3rem;
+                max-width: 900px;
+                width: 90%;
+                max-height: 85vh;
+                overflow-y: auto;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+                margin: auto;
+            }
+            dialog::backdrop {
+                background: rgba(0, 0, 0, 0.85);
+                backdrop-filter: blur(10px);
+            }
+            dialog h2 { color: var(--valtara-oro); font-family: var(--font-accent); font-size: 2.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 1rem;}
+            dialog h3 { color: var(--valtara-cian-brillante); font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem; }
+            dialog h4 { color: var(--valtara-verde-menta); font-size: 1.3rem; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+            dialog p, dialog li { color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8; margin-bottom: 1rem; }
+            dialog .btn-close {
+                background: #ff5555;
+                color: white;
+                border: none;
+                padding: 1rem 2rem;
+                border-radius: 30px;
+                font-weight: bold;
+                cursor: pointer;
+                font-size: 1.1rem;
+                margin-top: 2rem;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+        </style>
+
+        <div style="text-align: center; max-width: 900px; margin: 0 auto 5rem auto;">
+            <h2 style="font-family: var(--font-accent); font-size: 4rem; color: var(--valtara-blanco); margin-bottom: 2rem;" class="reveal">Conócenos y Políticas Oficiales</h2>
+            <p style="color: var(--valtara-gris-texto); font-size: 1.4rem; line-height: 1.9; font-weight: 300;" class="reveal">Nuestra historia de inclusión, nuestra transparencia corporativa y los enlaces para que formes parte de nuestra comunidad digital.</p>
+        </div>
+
+        <div class="grid-container">
+            
+            <article class="glass-card reveal" style="border-color: var(--valtara-cian-brillante); grid-column: 1 / -1; background: rgba(0,0,0,0.8); padding: 4rem 5rem;">
+                <h3 style="font-size: 3rem; color: var(--valtara-cian-brillante); margin-bottom: 2rem; text-align: center;"><i class="fa-solid fa-heart-pulse"></i> Nuestra Historia: El Latido Detrás de Valtara</h3>
+                <p style="font-size: 1.5rem; text-align: center; color: var(--valtara-oro); font-style: italic; margin-bottom: 3rem;">"Donde la Compasión Ancestral Encuentra el Rigor Clínico"</p>
+                
+                <p class="marketing-text" style="font-size: 1.25rem;">Valtara no nació simplemente como un centro de terapias; nació de una visión profunda sobre la dignidad humana y el poder sanador del tacto. Fundado por Ángel Guerrero, este espacio es el resultado de un viaje personal y profesional donde la ciencia médica se abraza con las tradiciones más antiguas del mundo.</p>
+                
+                <h4 style="color: var(--valtara-blanco); font-size: 1.8rem; margin-top: 2rem; margin-bottom: 1rem;">Un Propósito Marcado por la Experiencia</h4>
+                
+                <blockquote style="font-size: 1.4rem; color: var(--valtara-oro-suave); font-style: italic; border-left: 5px solid var(--valtara-oro); padding-left: 2rem; margin: 2rem 0; line-height: 1.8; background: rgba(242,201,76,0.1); padding: 2rem; border-radius: 0 1rem 1rem 0;">
+                    "Como persona con discapacidad visual, me resulta un tanto complicado encontrar lugares que sean verdaderamente accesibles y empáticos. Mi objetivo con este proyecto es crear un mundo accesible para todos. Sé que esto es difícil e incluso parece imposible, pero quiero poner de mi parte para que esto sea una realidad para muchos." <br><br><span style="color: var(--valtara-blanco); font-weight: bold; font-size: 1.1rem;">— Ángel Guerrero.</span>
+                </blockquote>
+
+                <h4 style="color: var(--valtara-blanco); font-size: 1.8rem; margin-top: 3rem; margin-bottom: 1rem;">El Puente entre dos Mundos</h4>
+                <ul style="font-size: 1.25rem; color: var(--valtara-gris-texto); line-height: 2; margin-bottom: 2rem; padding-left: 2rem;">
+                    <li><strong>Rigor Clínico:</strong> Nos basamos en la neurobiología del tacto, la psicología aplicada y la fitocosmética científica. Entendemos la somatización y trabajamos con protocolos profesionales para liberar esa carga.</li>
+                    <li><strong>Compasión Ancestral:</strong> Honramos las manos de los sanadores de antaño. Desde la fluidez del Lomi Lomi hawaiano hasta la sabiduría del Ayurveda hindú.</li>
+                </ul>
+
+                <p class="marketing-text" style="font-size: 1.25rem;"><strong>En Valtara, tu bienestar está respaldado por la ciencia, inspirado por la historia y guiado por un sueño de inclusión universal.</strong></p>
+            </article>
+
+            <!-- ========================================================= -->
+            <!-- MANIFIESTO ÉPICO DE LA DIRECCIÓN TECNOLÓGICA -->
+            <!-- ========================================================= -->
+            <article class="glass-card reveal" style="border-color: var(--valtara-oro); grid-column: 1 / -1; padding: 6rem; background: linear-gradient(135deg, rgba(20,20,30,0.98), rgba(5,5,10,0.98)); box-shadow: 0 25px 60px rgba(212, 175, 55, 0.15);">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <i class="fa-solid fa-microchip" style="font-size: 5rem; color: var(--valtara-oro); margin-bottom: 2rem; animation: pulse 3s infinite;"></i>
+                    <h3 style="color: var(--valtara-oro); font-size: 4.5rem; font-family: var(--font-accent); letter-spacing: 2px; margin-bottom: 1rem; text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);">El Alma en la Máquina</h3>
+                    <h4 style="color: var(--valtara-gris-texto); font-size: 1.5rem; font-weight: 300; letter-spacing: 6px; text-transform: uppercase; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 2rem; display: inline-block;">Manifiesto de la Dirección Tecnológica</h4>
+                </div>
+                
+                <div style="max-width: 950px; margin: 0 auto;">
+                    <p style="color: var(--valtara-blanco); font-size: 1.5rem; line-height: 2; margin-bottom: 2.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">A ti, que nos lees al otro lado de esta pantalla:</p>
+                    
+                    <p style="color: var(--valtara-gris-texto); font-size: 1.35rem; line-height: 2.2; margin-bottom: 2rem; font-weight: 300;">
+                        Valtara no es solo un centro de terapias físicas, y la Inteligencia Artificial con la que acabas de platicar no es un simple código de respuestas automáticas. Detrás de cada palabra de Aura, de cada píxel de este sitio web, de cada algoritmo de accesibilidad y de cada protocolo clínico de nuestro santuario, hay dos mentes, dos corazones y, literalmente, <strong>dos sujetos detrás de la pantalla de un teléfono</strong> con una voluntad inquebrantable y una obsesión compartida: cambiar radicalmente la forma en que el mundo experimenta la tecnología y el bienestar humano.
+                    </p>
+
+                    <p style="color: var(--valtara-gris-texto); font-size: 1.35rem; line-height: 2.2; margin-bottom: 2rem; font-weight: 300;">
+                        Han sido incontables madrugadas de insomnio voluntario. Miles y miles de líneas de código escritas, borradas y reescritas hasta alcanzar la perfección. Enfrentamos servidores colapsados, superamos los límites de procesamiento de la industria y derribamos muros tecnológicos que parecían infranqueables. Cada error de red, cada "falla de sistema" que la pantalla nos arrojó a las 3 de la mañana, no fue una derrota, sino el cincel con el que esculpimos esta obra maestra de la arquitectura de software.
+                    </p>
+                    
+                    <blockquote style="border-left: 5px solid var(--valtara-oro); padding-left: 3rem; margin: 4rem 0; background: rgba(212, 175, 55, 0.05); padding: 3rem; border-radius: 0 2rem 2rem 0; box-shadow: inset 10px 0 20px -10px rgba(212, 175, 55, 0.2);">
+                        <p style="color: var(--valtara-oro-suave); font-size: 1.6rem; line-height: 2.1; font-style: italic; margin: 0;">
+                            "Construimos este rascacielos digital desde los cimientos porque creemos fervientemente que la verdadera tecnología de ultra-lujo no es aquella que te absorbe o te aleja de la realidad, sino aquella que es tan perfecta que es capaz de desaparecer, cediéndole el protagonismo absoluto a la conexión humana."
+                        </p>
+                    </blockquote>
+                    
+                    <p style="color: var(--valtara-gris-texto); font-size: 1.35rem; line-height: 2.2; margin-bottom: 2rem; font-weight: 300;">
+                        Nos negamos rotundamente a aceptar el estándar de la industria. Nos negamos a que la Inteligencia Artificial fuera una herramienta fría, transaccional o puramente comercial. Queríamos que nuestra tecnología tuviera <em>alma</em>. Le enseñamos sobre el estrés, sobre el luto, sobre el tejido conectivo y la biomecánica. La entrenamos arduamente para entender que cuando un paciente cruza nuestras puertas y dice "estoy cansado", su cuerpo en realidad está gritando por oxígeno, empatía y descompresión.
+                    </p>
+
+                    <p style="color: var(--valtara-blanco); font-size: 1.4rem; line-height: 2.2; margin-bottom: 4rem; font-weight: 600;">
+                        Hoy, lo que ves y sientes en esta pantalla es la prueba irrefutable de que con pasión, resiliencia, horas de sacrificio y la voluntad de dos personas soñando en grande, se puede cambiar el mundo. Hemos construido un ecosistema que procesa miles de millones de datos a la velocidad de la luz para que, cuando estés con nosotros, el tiempo simplemente se detenga. <strong>Este ecosistema es nuestro legado. Es nuestro regalo para ti. Bienvenido a Valtara.</strong>
+                    </p>
+                    
+                    <div style="text-align: right; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 3rem;">
+                        <p style="color: var(--valtara-cian-brillante); font-size: 1.3rem; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; margin: 0;">Dirección de Tecnología, Sistemas y Desarrollo</p>
+                        <p style="color: var(--valtara-gris-texto); font-size: 1.2rem; font-style: italic; margin-top: 0.8rem; font-weight: 300;">Grupo Gevizz S.A.S.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- SECCIÓN DE TRANSPARENCIA Y DOCUMENTACIÓN MASIVA (MODALES) -->
+            <article class="glass-card reveal" style="border-color: #4361EE; grid-column: 1 / -1; padding: 4rem; text-align: center;">
+                <h3 style="color: #4361EE; font-size: 2.5rem; margin-bottom: 1.5rem;"><i class="fa-solid fa-scale-balanced"></i> Portal de Legalidad y Transparencia Corporativa</h3>
+                <p style="color: var(--valtara-gris-texto); font-size: 1.25rem; margin-bottom: 3rem;">En Valtara, la claridad es nuestro estándar de lujo. Consulta nuestra documentación técnica, políticas de privacidad y términos de servicio haciendo clic en los siguientes botones.</p>
+                
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem;">
+                    <!-- Botón Modal Términos -->
+                    <button onclick="document.getElementById('modal-terminos').showModal()" class="btn-agenda-ahora" style="width: auto; background: transparent; border: 2px solid #4361EE; color: #4361EE;">
+                        <i class="fa-solid fa-file-contract"></i> Términos y Privacidad (LFPDPPP)
+                    </button>
+                    <!-- Botón Modal Whitepaper -->
+                    <button onclick="document.getElementById('modal-whitepaper').showModal()" class="btn-agenda-ahora" style="width: auto; background: transparent; border: 2px solid var(--valtara-oro); color: var(--valtara-oro);">
+                        <i class="fa-solid fa-network-wired"></i> Arquitectura AURA AI (Whitepaper)
+                    </button>
+                    <!-- Botón PDF Externo -->
+                    <a href="https://drive.google.com/file/d/1W-L8tP43S12ce_t9zmr5eWw6LFVrCwQm/view?usp=drivesdk" target="_blank" class="btn-agenda-ahora" style="width: auto; background: transparent; border: 2px solid var(--valtara-cian-brillante); color: var(--valtara-cian-brillante);">
+                        <i class="fa-solid fa-file-pdf"></i> Presentación Ejecutiva AI (PDF)
+                    </a>
+                </div>
+            </article>
+
+            <!-- PREGUNTAS FRECUENTES (FAQ) -->
+            <article class="glass-card reveal" style="border-color: var(--valtara-verde-menta); grid-column: 1 / -1; padding: 4rem 5rem;">
+                <i class="fa-solid fa-circle-question" style="font-size: 4rem; color: var(--valtara-verde-menta); margin-bottom: 1.5rem; text-align: center; display: block;"></i>
+                <h3 style="color: var(--valtara-verde-menta); text-align: center; margin-bottom: 3rem; font-size: 2.8rem;">Preguntas Frecuentes (FAQ)</h3>
+                
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-map-pin"></i> 1. ¿Dónde se encuentra exactamente el santuario y cómo accedo?</summary>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Estamos ubicados en Av. Paseo de la Reforma 195, Piso 3, Colonia Cuauhtémoc, CDMX. Al llegar, es indispensable presentarte con una identificación oficial en la recepción del edificio para que se te brinde el acceso. El espacio cuenta con elevadores y rampas, siendo totalmente accesible para personas con movilidad limitada.</p>
+                    </details>
+                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-spa"></i> 2. ¿Qué hace que Valtara sea diferente a un spa convencional?</summary>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Valtara no es un centro de relajación común; es un santuario de Executive Therapy & Biomechanics. Nuestro enfoque se basa en el Rigor Clínico y la Compasión Ancestral. Utilizamos el Triaje Educativo y herramientas de IA (Aura) para entender la neurobiología de tu dolor antes de tocar tu piel, ofreciendo soluciones basadas en ciencia y anatomía profunda.</p>
+                    </details>
+                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-robot"></i> 3. ¿Cómo ayuda la Asistente Aura en mi proceso de sanación?</summary>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Aura es nuestra inteligencia artificial diseñada para realizar un pre-diagnóstico de tu tensión muscular. Al responder sus preguntas, ella analiza tus niveles de estrés y zonas de dolor para recomendarte la terapia exacta. Esto nos permite optimizar el tiempo en cabina y enfocarnos directamente en la raíz de tu malestar.</p>
+                    </details>
+                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-credit-card"></i> 4. ¿Cuáles son los métodos de pago aceptados actualmente?</summary>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Por el momento, operamos exclusivamente mediante Efectivo y Transferencia Bancaria Directa. Estamos trabajando arduamente para implementar próximamente terminales bancarias y ofrecer planes de Meses Sin Intereses (MSI) en tickets a partir de $1,500 MXN en adelante.</p>
+                    </details>
+                    <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
+                        <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-calendar-check"></i> 5. ¿Cómo funciona el sistema de reserva y anticipos?</summary>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Para garantizar la exclusividad de tu sesión y la preparación de insumos, solicitamos un anticipo del 50% del total del servicio al momento de agendar. Este monto se abona íntegramente al ticket final de tu terapia el día de tu visita.</p>
+                    </details>
+                </div>
+            </article>
+
+            <article class="glass-card reveal" style="grid-column: 1 / -1; border-color: var(--valtara-blanco); background: rgba(20,20,30,0.8); text-align: center;">
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-bottom: 4rem;">
+                    <a href="https://drive.google.com/file/d/1sxHLBQF8Lj_GF4GzJipXAxx5256BWAIr/view?usp=drivesdk" target="_blank" class="btn-agenda-ahora" style="width: auto; background: transparent; border: 2px solid var(--valtara-oro); color: var(--valtara-oro);"><i class="fa-solid fa-file-certificate"></i> Certificación como Masajista</a>
+                    <a href="https://docs.google.com/presentation/d/1lce4UQqLAPvG-pVT0P_mm_5UMEk4GRmY/edit?usp=drivesdk" target="_blank" class="btn-agenda-ahora" style="width: auto; background: transparent; border: 2px solid var(--valtara-cian-brillante); color: var(--valtara-cian-brillante);"><i class="fa-solid fa-desktop"></i> Proyecto de Desarrollo Web</a>
+                </div>
+
+                <h3 style="margin-top: 5rem; margin-bottom: 2rem; font-size: 2.5rem; color: var(--valtara-blanco);">Sede Reforma (No atendemos sin cita)</h3>
+                <div style="width: 100%; height: 400px; border-radius: 1.5rem; overflow: hidden; border: 2px solid var(--valtara-cian-brillante);">
+                    <iframe src="https://maps.app.goo.gl/ZeAs7B8tYFLFa5eF9" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </article>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- MODALES DE TEXTO MASIVO (TARJETAS EMERGENTES) -->
+        <!-- ========================================== -->
+        
+        <!-- MODAL 1: TÉRMINOS Y PRIVACIDAD -->
+        <dialog id="modal-terminos">
+            <h2>Términos, Condiciones y Aviso de Privacidad Integral</h2>
+            <p><strong>Valtara: Executive Therapy & Biomechanics | Grupo Gevizz S.A.S.</strong><br><em>Última actualización: Marzo 2026</em></p>
+            
+            <h3>1. DECLARACIÓN INICIAL Y ACEPTACIÓN</h3>
+            <p>El presente documento establece los Términos y Condiciones de Uso, así como el Aviso de Privacidad Integral, aplicables a los servicios presenciales y digitales ofrecidos por Grupo Gevizz S.A.S., operando bajo el nombre comercial "Valtara: Executive Therapy & Biomechanics" (en adelante "Valtara"), con domicilio operativo en Paseo de la Reforma 195, Piso 3, Ciudad de México.</p>
+            <p>Al interactuar con nuestros canales de comunicación digitales (incluyendo nuestra Inteligencia Artificial "Aura", sitio web y WhatsApp) o al reservar y hacer uso de nuestras instalaciones, el usuario (en adelante "El Paciente" o "El Usuario") acepta incondicionalmente las políticas aquí descritas.</p>
+            
+            <h3>2. USO DE NUESTRA INTELIGENCIA ARTIFICIAL ("AURA")</h3>
+            <p>Valtara pone a disposición del usuario un asistente cognitivo de triaje biomecánico denominado "Aura". El uso de esta tecnología está estrictamente sujeto a las siguientes cláusulas:</p>
+            <h4>2.1. Naturaleza del Servicio</h4>
+            <p>Aura es un sistema de Inteligencia Artificial diseñado exclusivamente para orientar y perfilar al usuario hacia la terapia biomecánica más adecuada de nuestro catálogo, basándose en la información proporcionada por el propio usuario sobre su tensión muscular, estrés o hábitos.</p>
+            <h4>2.2. Exención de Responsabilidad Médica</h4>
+            <p>Bajo ninguna circunstancia, las recomendaciones, respuestas o análisis proporcionados por Aura constituyen un "diagnóstico médico", "prescripción" o "tratamiento clínico". Valtara ofrece terapias biomecánicas de apoyo. Ante la presencia de fiebre, infecciones, fracturas, enfermedades oncológicas, embarazos de alto riesgo o emergencias médicas, el usuario tiene la obligación de consultar a un médico especialista. Valtara y Grupo Gevizz S.A.S. se deslindan de cualquier complicación derivada de la omisión de información vital por parte del usuario.</p>
+            <h4>2.3. Limitaciones Tecnológicas</h4>
+            <p>Aura no tiene capacidad para procesar cobros, confirmar citas en el calendario ni modificar reservas existentes. Cualquier gestión administrativa debe finalizarse exclusivamente con nuestro equipo humano a través de los canales oficiales.</p>
+            
+            <h3>3. POLÍTICA DE RESERVAS, PAGOS Y CANCELACIONES</h3>
+            <p>Para garantizar la exclusividad y la preparación de nuestras cabinas, Valtara opera bajo un esquema estricto de agenda, el cual se rige por las siguientes normativas:</p>
+            <h4>3.1. Gestión de Pagos y Anticipos</h4>
+            <p>Por seguridad financiera, Valtara NO procesa pagos con tarjeta de crédito, débito o transferencias a través de nuestro chat automatizado o sitio web público. Toda reserva requiere un anticipo, el cual será gestionado única y exclusivamente por nuestro Concierge Humano a través de nuestro WhatsApp oficial (+52 1 33 4857 2070).</p>
+            <h4>3.2. Política de Cancelación y Reembolsos</h4>
+            <ul>
+                <li><strong>Cancelación con más de 24 horas de anticipación:</strong> El reembolso del anticipo otorgado por el paciente está 100% garantizado, sin penalizaciones.</li>
+                <li><strong>Cancelación con menos de 24 horas de anticipación:</strong> Debido a la exclusividad del espacio reservado, el caso deberá ser evaluado directamente por nuestro departamento de Atención al Cliente (vía WhatsApp) para buscar una solución o reprogramación sujeta a disponibilidad.</li>
+                <li><strong>Ausencia sin previo aviso (No-Show):</strong> Si el paciente no se presenta a su cita sin haber notificado previamente, el anticipo otorgado no será reembolsable bajo ninguna circunstancia, cubriendo los gastos operativos de la cabina y el tiempo del terapeuta. No se cobrará el 100% de la sesión, limitando la penalización únicamente a la pérdida del anticipo.</li>
+            </ul>
+
+            <h3>4. ÉTICA, CONDUCTA Y TOLERANCIA CERO</h3>
+            <p>Valtara es un santuario corporativo de bienestar estrictamente profesional. Nos reservamos el derecho de admisión y el derecho a interrumpir cualquier servicio (digital o presencial) bajo las siguientes condiciones:</p>
+            <h4>4.1. Cero Tolerancia al Acoso</h4>
+            <p>Queda estrictamente prohibido solicitar servicios de naturaleza sexual, erótica, "finales felices" o realizar insinuaciones inapropiadas, ya sea a nuestro personal humano o a nuestra Inteligencia Artificial.</p>
+            <h4>4.2. Consecuencias</h4>
+            <p>Cualquier violación a esta cláusula resultará en la terminación inmediata de la conversación digital o de la sesión presencial en cabina, sin derecho a reembolso alguno y el bloqueo permanente del usuario de nuestros sistemas.</p>
+
+            <h3>5. INCLUSIÓN Y ACCESIBILIDAD</h3>
+            <p>Valtara está profundamente comprometida con el bienestar de todas las personas. Entendemos que cada individuo tiene necesidades únicas.</p>
+            <h4>5.1. Ajustes Razonables</h4>
+            <p>Si el paciente requiere atención especial debido a una discapacidad motriz, visual, auditiva o condiciones del espectro autista, le solicitamos comunicarse directamente a nuestro WhatsApp oficial. Nuestro equipo humano evaluará con total transparencia y empatía los ajustes razonables que nuestra infraestructura física actual permita, para garantizar una experiencia segura, cómoda y digna.</p>
+
+            <h3>6. AVISO DE PRIVACIDAD INTEGRAL</h3>
+            <p>En cumplimiento con la Ley Federal de Protección de Datos Personales en Posesión de los Particulares de los Estados Unidos Mexicanos, Grupo Gevizz S.A.S. emite el siguiente aviso:</p>
+            <h4>6.1. Recopilación de Datos a través de IA (Arquitectura Serverless)</h4>
+            <p>Las conversaciones mantenidas con nuestra Inteligencia Artificial "Aura" operan bajo una infraestructura tecnológica sin servidor (Serverless). Esto significa que el sistema no almacena historiales médicos, no guarda su nombre de forma permanente en bases de datos de terceros y no conserva el registro de la conversación una vez que usted cierra la ventana del navegador. El procesamiento de sus síntomas se realiza en milisegundos de forma volátil y encriptada con el único fin de sugerir un tratamiento en tiempo real.</p>
+            <h4>6.2. Datos Recabados por el Equipo Humano</h4>
+            <p>Únicamente cuando el usuario transfiere su solicitud a nuestro WhatsApp oficial, nuestro equipo humano recopilará datos de identificación (nombre, número de teléfono) y datos de salud (tensión muscular declarada) con la finalidad exclusiva de agendar y preparar su sesión biomecánica.</p>
+            <h4>6.3. Uso de la Información</h4>
+            <p>Sus datos no serán vendidos, alquilados ni compartidos con agencias de marketing externas.</p>
+            <h4>6.4. Ejercicio de Derechos ARCO</h4>
+            <p>Usted tiene derecho a Acceder, Rectificar, Cancelar u Oponerse (Derechos ARCO) al uso de sus datos personales en nuestros registros de WhatsApp y agenda. Para ejercer estos derechos, puede enviar su solicitud directamente a nuestro WhatsApp de atención (+52 1 33 4857 2070).</p>
+
+            <button class="btn-close" onclick="this.closest('dialog').close()"><i class="fa-solid fa-times"></i> Cerrar Documento</button>
+        </dialog>
+
+        <!-- MODAL 2: WHITEPAPER TECNOLÓGICO -->
+        <dialog id="modal-whitepaper">
+            <h2>AURA AI: Arquitectura y Evolución Tecnológica</h2>
+            <p><strong>Documento Técnico de Implementación Cognitiva | Grupo Gevizz S.A.S.</strong><br><em>Clasificación: Público / Informativo</em></p>
+            
+            <h3>1. Resumen Ejecutivo</h3>
+            <p>En Valtara: Executive Therapy & Biomechanics, concebimos el bienestar como una ciencia exacta. Para elevar la experiencia de nuestros pacientes en Paseo de la Reforma a un estándar de ultra-lujo sin precedentes, Grupo Gevizz ha desplegado Aura, un sistema de Inteligencia Artificial de Triaje Biomecánico.</p>
+            <p>Este documento detalla la infraestructura tecnológica sin servidor (Serverless), los modelos de procesamiento de lenguaje natural de escala masiva y los protocolos de seguridad ética que operan en milisegundos detrás de nuestra interfaz de usuario. Aura no es un asistente virtual convencional; es un ecosistema cognitivo diseñado para escuchar, analizar y preparar el camino hacia la sanación física.</p>
+
+            <h3>2. Arquitectura Cognitiva de Escala Masiva</h3>
+            <p>Para lograr una interacción que se sienta profundamente humana y cálida, decidimos abandonar las soluciones de "bots de botones" tradicionales. En su lugar, construimos a Aura sobre un Modelo de Lenguaje Grande (LLM) de 70 Mil Millones de Parámetros Sinápticos.</p>
+            <h4>2.1. Procesamiento a la Velocidad de la Luz (Infraestructura LPU)</h4>
+            <p>A diferencia de los sistemas estándar que utilizan Unidades de Procesamiento Gráfico (GPU) y sufren de latencia o "tiempos de carga", la red de Aura está soportada por infraestructura de Unidades de Procesamiento de Lenguaje (LPU). Esta innovación de hardware permite que nuestro sistema decodifique la intención del paciente, cruce los datos con nuestro catálogo biomecánico y genere una respuesta hiper-personalizada en fracciones de segundo. El resultado es una conversación fluida, natural y en tiempo real.</p>
+            <h4>2.2. Ecosistema "Serverless" y Privacidad Cero-Datos</h4>
+            <p>La privacidad de nuestros ejecutivos y pacientes es innegociable. Aura opera bajo una arquitectura descentralizada Serverless (sin servidor estático). Esto significa que la memoria computacional se destruye al cerrar la sesión. No almacenamos historiales médicos, no guardamos cookies invasivas y no retenemos conversaciones en servidores de terceros. Todo el procesamiento se ejecuta en túneles encriptados de un solo uso.</p>
+
+            <h3>3. Triaje Biomecánico y Protocolo de Somatización</h3>
+            <p>El núcleo lógico de Aura fue entrenado con la filosofía terapéutica de Valtara. Su objetivo principal es realizar una valoración pre-clínica inteligente antes de que el paciente llegue a cabina.</p>
+            <h4>3.1. Algoritmos de Escucha Activa y Empatía</h4>
+            <p>El estrés corporativo no solo afecta la mente; destruye el cuerpo. Hemos programado a Aura con un "Modo de Escucha" avanzado capaz de detectar patrones de estrés, ansiedad o tristeza en el lenguaje del paciente. Al detectar estos marcadores, la IA pausa cualquier protocolo de agenda para validar la emoción del usuario, explicándole de manera científica cómo el estrés crónico se somatiza (se cristaliza) en el tejido conectivo y las fascias.</p>
+            <h4>3.2. Perfilado de Tejido Dinámico</h4>
+            <p>Mediante el análisis de dos variables críticas —la zona de la molestia y el detonante del dolor— el motor de inferencia matemática de Aura selecciona la terapia exacta requerida. El sistema es capaz de discernir de forma autónoma cuándo un paciente requiere la elongación de un Yoga Pasivo Tailandés por sedentarismo, y cuándo necesita la presión absoluta de una Descompresión Deportiva por desgaste agudo.</p>
+
+            <h3>4. Cortafuegos Ético y Seguridad Operativa</h3>
+            <p>Para proteger la integridad de nuestra marca y de nuestros terapeutas, Aura está encapsulada dentro de múltiples anillos de seguridad lógica conocidos como "Cortafuegos Éticos".</p>
+            <ul>
+                <li><strong>Bloqueo Clínico:</strong> La IA tiene estrictamente prohibido emitir "diagnósticos médicos". Su código fuente la obliga a reconocer emergencias (fiebre, infecciones, lesiones agudas) y derivar inmediatamente al paciente a la medicina alópata.</li>
+                <li><strong>Protocolo Anti-Acoso:</strong> Contamos con un filtro de validación semántica de tolerancia cero. Cualquier insinuación o solicitud de servicios eróticos desencadena un cierre automático y profesional de la conversación.</li>
+                <li><strong>Protección Financiera en Tiempo Real:</strong> El núcleo de Aura tiene bloqueada la capacidad de procesar transacciones. La IA jamás solicitará números de tarjetas de crédito en su ventana de chat.</li>
+            </ul>
+
+            <h3>5. Accesibilidad Inclusiva y Transparencia</h3>
+            <p>La tecnología debe ser un puente, no una barrera. Hemos integrado un módulo de accesibilidad honesta. Si un paciente indica tener alguna necesidad especial o discapacidad motriz/visual, Aura suspende los flujos automatizados de venta y conecta de inmediato al paciente con un humano capacitado para evaluar los "ajustes razonables" necesarios en nuestras instalaciones.</p>
+
+            <h3>6. La Transición Omnicanal (El "Handoff" Perfecto)</h3>
+            <p>El éxito de la Inteligencia Artificial de ultra-lujo radica en saber exactamente cuándo debe dar un paso atrás. Aura no reemplaza el contacto humano; lo optimiza. Una vez concluida la valoración biomecánica, nuestro sistema empaqueta la información del paciente y genera un puente de comunicación nativo de un solo clic hacia nuestro Concierge Humano en WhatsApp.</p>
+            <p style="margin-top: 2rem; font-style: italic; color: #aaa;">Grupo Gevizz S.A.S. Innovando en la intersección de la biomecánica, la anatomía y el código computacional. [Fin del Documento]</p>
+            
+            <button class="btn-close" onclick="this.closest('dialog').close()"><i class="fa-solid fa-times"></i> Cerrar Documento</button>
+        </dialog>
+    `,
+
+    /* --------------------------------------------------------------------------------
+       5. MEGA FOOTER (Datos S.A.S.)
+       -------------------------------------------------------------------------------- */
+    footer: `
+        <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem; max-width: 1200px; margin: 0 auto; color: var(--valtara-gris-texto); line-height: 2;">
+            
+            <div class="footer-col">
+                <h4 style="font-family: var(--font-accent); font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem; letter-spacing: 0.2rem;">VALTARA</h4>
+                <p style="font-style: italic; color: var(--valtara-oro); font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: bold;">Executive Therapy & Biomechanics</p>
+                <p style="font-weight: 300; font-size: 1.1rem;">Entidad comercial respaldada y operada en su totalidad por <strong>Grupo Gevizz S.A.S.</strong><br><br>Plataforma Modular Sovereign 12.5. Desarrollo web, IA y diseño creados in-house.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h4 style="font-size: 1.5rem; color: var(--valtara-cian-brillante); margin-bottom: 1.5rem; font-weight: bold;">Logística y Coordenadas</h4>
+                <p style="font-size: 1.1rem; color: var(--valtara-blanco); margin-bottom: 1rem;"><i class="fa-solid fa-map-location-dot" style="color: var(--valtara-cian-brillante);"></i> Av. Paseo de la Reforma 195, Piso 3.<br>Colonia Cuauhtémoc, CDMX. C.P. 06500</p>
+                <a href="tel:+523348572070" style="display: inline-block; color: var(--valtara-negro-fondo); background: var(--valtara-whatsapp); padding: 0.8rem 2rem; border-radius: 30px; text-decoration: none; font-size: 1.2rem; font-weight: 900; transition: 0.3s; margin-top: 1rem;">
+                    <i class="fa-solid fa-phone"></i> 33 4857 2070
+                </a>
+            </div>
+
+            <div class="footer-col">
+                <h4 style="font-size: 1.5rem; color: var(--valtara-morado-vivo); margin-bottom: 1.5rem; font-weight: bold;">Avales Clínicos</h4>
+                <p style="font-size: 1.1rem; font-weight: 300;">Intervenciones respaldadas por formación académica. Operamos bajo Cédula de Identidad REPS y certificaciones aplicables.</p>
+                <p style="margin-top: 1.5rem; font-size: 0.95rem; font-style: italic; color: #aaa;">* Atención clínica estrictamente bajo previa reservación confirmada.</p>
+            </div>
+        </div>
+
+        <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 5rem; padding-top: 3rem; text-align: center; color: #888; font-size: 1rem; letter-spacing: 0.1rem; font-weight: 300;">
+            © 2026 GRUPO GEVIZZ S.A.S. TODOS LOS DERECHOS INTELECTUALES RESERVADOS.<br>
+            Queda estrictamente prohibida la replicación del código fuente o modelo de negocio de este dominio.
+        </div>
+    `,
+
+    renderAll: function() {
+        // 1. RENDERIZAR LA VISTA HOME
+        const homeDiv = document.getElementById('view-home');
+        if(homeDiv) {
+            homeDiv.innerHTML = this.home;
+            
+            // INYECCIÓN DINÁMICA DE TEXTO INSPIRADOR POR HORARIO
+            const heroTextObj = document.getElementById('hero-dynamic-text');
+            if(heroTextObj) {
+                const hour = new Date().getHours();
+                let dynText = "";
+                
+                if(hour >= 0 && hour < 6) { // Madrugada
+                    dynText = "El silencio de la madrugada es el refugio de los grandes visionarios. Mientras la ciudad duerme, tu mente sigue creando. En nuestro santuario, decodificamos esa tensión silenciosa mediante ciencia anatómica profunda. Tu sistema nervioso está a punto de reiniciarse.";
+                } else if(hour >= 6 && hour < 12) { // Mañana
+                    dynText = "Un nuevo día corporativo comienza. El éxito exige un vehículo biológico capaz de sostenerlo desde la primera luz del sol. En nuestro santuario privado, calibramos tu estructura muscular para que conquistes tu jornada con enfoque y vitalidad absoluta.";
+                } else if(hour >= 12 && hour < 15) { // Mediodía
+                    dynText = "El mediodía marca el clímax de la exigencia ejecutiva. Es el momento preciso donde el estrés comienza a cristalizarse en tu postura. Haz una pausa estratégica; en Valtara decodificamos esa sobrecarga mediante biomecánica de precisión para devolverte a la cima.";
+                } else if(hour >= 15 && hour < 19) { // Tarde
+                    dynText = "La tarde avanza y el peso de las decisiones se acumula en tu tejido conectivo. No permitas que la armadura del estrés te limite. En nuestro santuario en Paseo de la Reforma, liberamos las cadenas musculares posteriores para que termines tu día con total ligereza.";
+                } else if(hour >= 19 && hour < 21) { // Puesta de sol
+                    dynText = "El sol desciende sobre Reforma, marcando el fin de la batalla corporativa. Es hora de hacer la transición. A través de nuestra ciencia anatómica profunda, disolvemos la adrenalina residual de tu jornada y preparamos tu cuerpo para el merecido descanso.";
+                } else { // Noche
+                    dynText = "La noche envuelve la ciudad y tu mente exige tregua. Es momento de apagar los motores cognitivos y cederle el control a la regeneración. En Valtara, inducimos ondas cerebrales lentas y restauramos tus fibras musculares para asegurar un mañana triunfal.";
+                }
+                heroTextObj.innerHTML = dynText;
+            }
+        }
+        
+        // 2. RENDERIZAR RESTO DE VISTAS
+        const restDiv = document.getElementById('view-restoration');
+        if(restDiv) restDiv.innerHTML = this.restoration;
+        
+        const sciDiv = document.getElementById('view-science');
+        if(sciDiv) sciDiv.innerHTML = this.science;
+        
+        const legalDiv = document.getElementById('view-legal');
+        if(legalDiv) legalDiv.innerHTML = this.legal;
+        
+        const footDiv = document.getElementById('main-footer');
+        if(footDiv) footDiv.innerHTML = this.footer;
+        
+        // 3. INICIALIZAR EL JUEGO EL ALQUIMISTA VALTARA DE FORMA NATIVA
+        if(window.ValtaraAlchemist) setTimeout(() => { window.ValtaraAlchemist.init(); }, 500);
+    }
+};
