@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>VALTARA | Executive Therapy & Biomechanics</title>
+    
     <meta name="description" content="Santuario de masajes, biomecánica y bienestar corporativo en Paseo de la Reforma 195. Accesibilidad universal y atención de ultra-lujo por Grupo Gevizz S.A.S.">
     <meta name="author" content="Grupo Gevizz S.A.S.">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#040406">
+    <meta name="keywords" content="masajes reforma, terapia biomecanica, masaje descontracturante cdmx, spa de lujo mexico, lomi lomi, masaje tailandes, grupo gevizz, valtara">
+
+    <meta property="og:title" content="VALTARA | Executive Therapy & Biomechanics">
+    <meta property="og:description" content="El éxito corporativo exige un vehículo biológico capaz de sostenerlo. Descubre nuestro santuario en Paseo de la Reforma 195.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_MX">
+    <meta property="og:site_name" content="Valtara Biomechanics">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +28,7 @@
 </head>
 <body class="system-loading">
 
-    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma Sovereign Valtara 13.5...</div>
+    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma Sovereign Valtara 13.5. Bienestar biomecánico en línea...</div>
 
     <div id="onboarding-screen" class="full-screen-overlay" aria-hidden="false" role="dialog" aria-labelledby="onboarding-title">
         <div class="onboarding-content">
@@ -133,12 +141,7 @@
                     <li role="none"><button role="menuitem" class="nav-item" data-target="science"><i class="fa-solid fa-microscope"></i> <span>Ciencia y Botánica</span></button></li>
                     <li role="none"><button role="menuitem" class="nav-item" data-target="legal"><i class="fa-solid fa-shield-halved"></i> <span>Conócenos y Políticas</span></button></li>
                     
-                    <li role="none">
-                        <button role="menuitem" class="nav-item" data-target="legal" onclick="setTimeout(() => { const el = document.getElementById('manifiesto-tech-target'); if(el) { el.scrollIntoView({behavior: 'smooth', block: 'start'}); } }, 300);" style="border-left: 3px solid var(--valtara-oro); background: rgba(212, 175, 55, 0.05);">
-                            <i class="fa-solid fa-microchip" style="color: var(--valtara-oro);"></i> <span style="color: var(--valtara-oro);">Dirección Tecnológica</span>
-                        </button>
-                    </li>
-                </ul>
+                    </ul>
 
                 <h3 class="menu-section-title" style="margin-top: 2.5rem;">Tu Configuración</h3>
                 <ul class="nav-list" role="menu">
@@ -227,15 +230,15 @@
                     <button class="chip-btn" data-query="Dudas sobre cancelaciones">Si cancelo mi cita</button>
                 </div>
 
-                <div class="aura-controls">
-                    <button aria-label="Dictar por voz" id="aura-mic-btn" style="background: transparent; border: none; color: var(--valtara-cian-brillante); font-size: 1.5rem; cursor: pointer; padding: 0 15px; transition: color 0.3s; display: flex; align-items: center; justify-content: center;" title="Hablar con Aura">
+                <div class="aura-controls" style="display: flex; align-items: center; gap: 10px;">
+                    <button aria-label="Dictar mensaje por voz" id="aura-mic-btn" style="background: rgba(255,255,255,0.05); border: 1px solid var(--valtara-cian-brillante); color: var(--valtara-cian-brillante); font-size: 1.3rem; cursor: pointer; padding: 0; width: 50px; height: 50px; border-radius: 50%; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" title="Toca para hablar">
                         <i aria-hidden="true" class="fa-solid fa-microphone"></i>
                     </button>
                     
                     <label for="aura-input" class="sr-only">Escribe tu mensaje</label>
-                    <input type="text" id="aura-input" placeholder="Cuéntame cómo te sientes hoy..." inputmode="text" enterkeyhint="send" style="flex: 1;">
+                    <input type="text" id="aura-input" placeholder="Escribe o dicta tu mensaje..." inputmode="text" enterkeyhint="send" style="flex: 1;">
                     
-                    <button aria-label="Enviar mensaje" id="aura-send-btn"><i aria-hidden="true" class="fa-solid fa-paper-plane"></i></button>
+                    <button aria-label="Enviar mensaje" id="aura-send-btn" style="flex-shrink: 0;"><i aria-hidden="true" class="fa-solid fa-paper-plane"></i></button>
                 </div>
             </div>
         </dialog>
@@ -276,4 +279,4 @@
     <script src="js/core.js?v=13.5" defer></script>
 
 </body>
-    </html>
+</html>
