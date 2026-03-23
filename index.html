@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>VALTARA | Masajes de Élite y Bienestar Integral</title>
-    <meta name="description" content="Centro de masajes, relajación y bienestar en Reforma 195. Accesibilidad universal y atención personalizada por Grupo Gevizz S.A.S.">
+    <title>VALTARA | Executive Therapy & Biomechanics</title>
+    <meta name="description" content="Santuario de masajes, biomecánica y bienestar corporativo en Paseo de la Reforma 195. Accesibilidad universal y atención de ultra-lujo por Grupo Gevizz S.A.S.">
     <meta name="author" content="Grupo Gevizz S.A.S.">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#040406">
@@ -15,12 +15,12 @@
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/main.css?v=11.1">
-    <link rel="stylesheet" href="css/components.css?v=11.1">
+    <link rel="stylesheet" href="css/main.css?v=13.5">
+    <link rel="stylesheet" href="css/components.css?v=13.5">
 </head>
 <body class="system-loading">
 
-    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma Valtara 11.1...</div>
+    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma Sovereign Valtara 13.5...</div>
 
     <div id="onboarding-screen" class="full-screen-overlay" aria-hidden="false" role="dialog" aria-labelledby="onboarding-title">
         <div class="onboarding-content">
@@ -88,7 +88,11 @@
     <div id="app-wrapper">
 
         <div aria-hidden="true" class="ambient-engine" id="ambient-bg">
-            <div class="orb orb-1"></div> <div class="orb orb-2"></div> <div class="orb orb-3"></div> <div class="orb orb-4"></div> <div class="glass-overlay"></div>
+            <div class="orb orb-1"></div> 
+            <div class="orb orb-2"></div> 
+            <div class="orb orb-3"></div> 
+            <div class="orb orb-4"></div> 
+            <div class="glass-overlay"></div>
         </div>
 
         <header class="system-header" role="banner">
@@ -128,6 +132,12 @@
                     <li role="none"><button role="menuitem" class="nav-item" data-target="restoration"><i class="fa-solid fa-spa"></i> <span>Catálogo de Masajes</span></button></li>
                     <li role="none"><button role="menuitem" class="nav-item" data-target="science"><i class="fa-solid fa-microscope"></i> <span>Ciencia y Botánica</span></button></li>
                     <li role="none"><button role="menuitem" class="nav-item" data-target="legal"><i class="fa-solid fa-shield-halved"></i> <span>Conócenos y Políticas</span></button></li>
+                    
+                    <li role="none">
+                        <button role="menuitem" class="nav-item" data-target="legal" onclick="setTimeout(() => { const el = document.getElementById('manifiesto-tech-target'); if(el) { el.scrollIntoView({behavior: 'smooth', block: 'start'}); } }, 300);" style="border-left: 3px solid var(--valtara-oro); background: rgba(212, 175, 55, 0.05);">
+                            <i class="fa-solid fa-microchip" style="color: var(--valtara-oro);"></i> <span style="color: var(--valtara-oro);">Dirección Tecnológica</span>
+                        </button>
+                    </li>
                 </ul>
 
                 <h3 class="menu-section-title" style="margin-top: 2.5rem;">Tu Configuración</h3>
@@ -218,8 +228,13 @@
                 </div>
 
                 <div class="aura-controls">
+                    <button aria-label="Dictar por voz" id="aura-mic-btn" style="background: transparent; border: none; color: var(--valtara-cian-brillante); font-size: 1.5rem; cursor: pointer; padding: 0 15px; transition: color 0.3s; display: flex; align-items: center; justify-content: center;" title="Hablar con Aura">
+                        <i aria-hidden="true" class="fa-solid fa-microphone"></i>
+                    </button>
+                    
                     <label for="aura-input" class="sr-only">Escribe tu mensaje</label>
-                    <input type="text" id="aura-input" placeholder="Cuéntame cómo te sientes hoy..." inputmode="text" enterkeyhint="send">
+                    <input type="text" id="aura-input" placeholder="Cuéntame cómo te sientes hoy..." inputmode="text" enterkeyhint="send" style="flex: 1;">
+                    
                     <button aria-label="Enviar mensaje" id="aura-send-btn"><i aria-hidden="true" class="fa-solid fa-paper-plane"></i></button>
                 </div>
             </div>
@@ -250,13 +265,15 @@
         <footer aria-label="Pie de página corporativo" class="mega-footer" id="main-footer">
             </footer>
 
-    </div> <script src="js/data.js?v=11.1" defer></script>
-    <script src="js/a11y.js?v=11.1" defer></script>
-    <script src="js/user.js?v=11.1" defer></script>
-    <script src="js/aura.js?v=11.1" defer></script>
-    <script src="js/oasis.js?v=11.1" defer></script>
-    <script src="js/router.js?v=11.1" defer></script>
-    <script src="js/core.js?v=11.1" defer></script>
+    </div> 
+    
+    <script src="js/data.js?v=13.5" defer></script>
+    <script src="js/a11y.js?v=13.5" defer></script>
+    <script src="js/user.js?v=13.5" defer></script>
+    <script src="js/aura.js?v=13.5" defer></script>
+    <script src="js/oasis.js?v=13.5" defer></script>
+    <script src="js/router.js?v=13.5" defer></script>
+    <script src="js/core.js?v=13.5" defer></script>
 
 </body>
-</html>
+    </html>
