@@ -1,8 +1,8 @@
 /**
  * ====================================================================================
- * BLOQUE 4: LA ENCICLOPEDIA VALTARA (DATA & RENDER ENGINE V12.5 - MASTER EDITION)
- * Integración Dinámica de Tiempo, Manifiesto Épico de Tecnología, Videoteca,
- * Expansión Art & Nails VIP (Estética Estricta) y Módulos Legales Modales.
+ * BLOQUE 4: LA ENCICLOPEDIA VALTARA (DATA & RENDER ENGINE V14.0 - SOVEREIGN EDITION)
+ * Integración Dinámica, Manifiesto Épico, Videoteca, Expansión Científica Masiva,
+ * Legalidad Corporativa (Grupo Gevizz S.A.S.), Slogan y Mapa de Coordenadas Reparado.
  * ====================================================================================
  */
 
@@ -38,7 +38,7 @@ window.ValtaraAlchemist = {
             options: [
                 { name: "Aceite de Rosa", correct: false, reason: "Incorrecto. La rosa es maravillosa para la cosmética facial y el equilibrio emocional, pero carece de potencia biomecánica." },
                 { name: "Macerado de Árnica", correct: true, reason: "¡Decisión maestra! La helenalina del Árnica es un bloqueador de la inflamación muscular de alto impacto, ideal para reparar microdesgarros de la fascia." },
-                { name: "Aceite de Naranja Dulce", correct: false, reason: "Incorrecto. Excelente para mejorar el estado de ánimo, pero no tiene penetración antiinflamatoria profunda." }
+                { name: "Aceite de Naranja Dulce", correct: false, reason: "Incorrecto. Excelente para mejorar el estado de ánimo, pero no tiene penetración antiinflamoatoria profunda." }
             ]
         },
         {
@@ -198,15 +198,15 @@ window.ValtaraData = {
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; max-width: 1100px; margin: 0 auto; text-align: left;">
                 <div class="glass-card" style="padding: 2.5rem;">
                     <h3 id="promo1-title" style="font-size: 1.5rem; color: var(--valtara-cian-brillante); margin-bottom: 1.5rem; font-weight: 900;"><i class="fa-solid fa-sun"></i> Privilegio de Temporada</h3>
-                    <p id="promo1-text" style="font-size: 1.15rem; color: var(--valtara-gris-texto); font-weight: 300;">Evaluando privilegios en curso...</p>
+                    <p id="promo1-text" style="font-size: 1.15rem; color: var(--valtara-gris-texto); font-weight: 300;">Evaluando privilegios en curso para maximizar tu experiencia...</p>
                 </div>
                 <div class="glass-card" style="padding: 2.5rem;">
                     <h3 id="promo2-title" style="font-size: 1.5rem; color: var(--valtara-oro); margin-bottom: 1.5rem; font-weight: 900;"><i class="fa-solid fa-id-card-clip"></i> Valtara Member Card</h3>
-                    <p id="promo2-text" style="font-size: 1.15rem; color: var(--valtara-gris-texto); font-weight: 300;">Calculando beneficios de lealtad estructural...</p>
+                    <p id="promo2-text" style="font-size: 1.15rem; color: var(--valtara-gris-texto); font-weight: 300;">Calculando beneficios de lealtad y estructuras de recompensa...</p>
                 </div>
                 <div class="glass-card" style="padding: 2.5rem;">
                     <h3 id="promo3-title" style="font-size: 1.5rem; color: var(--valtara-morado-vivo); margin-bottom: 1.5rem; font-weight: 900;"><i class="fa-solid fa-mug-hot"></i> Ritual del Ocaso</h3>
-                    <p id="promo3-text" style="font-size: 1.15rem; color: var(--valtara-gris-texto); font-weight: 300;">Preparando infusiones orgánicas...</p>
+                    <p id="promo3-text" style="font-size: 1.15rem; color: var(--valtara-gris-texto); font-weight: 300;">Preparando infusiones orgánicas y botánicas post-terapia...</p>
                 </div>
             </div>
         </div>
@@ -259,7 +259,7 @@ window.ValtaraData = {
         <div class="body-map-container reveal" style="margin-top: 2rem; background: rgba(0,0,0,0.6); border: 2px solid rgba(0, 255, 255, 0.2); border-radius: 2rem; padding: 4rem 3rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 4rem; backdrop-filter: blur(20px); box-shadow: 0 2rem 5rem rgba(0,0,0,0.8);">
             <div>
                 <h3 style="font-family: var(--font-accent); color: var(--valtara-cian-brillante); font-size: 3rem; margin-bottom: 1.5rem;"><i class="fa-solid fa-microscope"></i> Triaje Educativo</h3>
-                <p style="color: var(--valtara-gris-texto); font-size: 1.25rem; margin-bottom: 3rem; line-height: 1.8;">Haz clic en la zona principal donde sientes estrés. Te educaremos sobre lo que ocurre dentro de tu cuerpo desplegando información profunda.</p>
+                <p style="color: var(--valtara-gris-texto); font-size: 1.25rem; margin-bottom: 3rem; line-height: 1.8;">Haz clic en la zona principal donde sientes estrés. Te educaremos sobre lo que ocurre dentro de tu cuerpo desplegando información profunda y detallada.</p>
                 <div class="body-zones" style="display: flex; flex-direction: column; gap: 1.5rem;">
                     <button class="zone-btn a11y-card-btn" data-zone="craneo" style="border: 2px solid var(--valtara-cian-brillante);"><i class="fa-solid fa-head-side-virus" style="color: var(--valtara-cian-brillante); font-size: 2.5rem;"></i> <span style="font-size: 1.3rem;">Dolor de Cabeza y Mandíbula</span></button>
                     <button class="zone-btn a11y-card-btn" data-zone="cervical" style="border: 2px solid var(--valtara-cian-brillante);"><i class="fa-solid fa-user-injured" style="color: var(--valtara-cian-brillante); font-size: 2.5rem;"></i> <span style="font-size: 1.3rem;">Cuello, Nuca y Hombros</span></button>
@@ -484,7 +484,7 @@ window.ValtaraData = {
     `,
 
     /* --------------------------------------------------------------------------------
-       3. CIENCIA, BOTÁNICA Y MANIFIESTO ÍNTEGRO
+       3. CIENCIA, BOTÁNICA Y MANIFIESTO ÍNTEGRO (SÚPER EXPANDIDO V14.0)
        -------------------------------------------------------------------------------- */
     science: `
         <div style="text-align: center; max-width: 1000px; margin: 0 auto 5rem auto;">
@@ -517,7 +517,20 @@ window.ValtaraData = {
             <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">El cuerpo guarda lo que la mente calla. El concepto de "Armadura Muscular", desarrollado por Wilhelm Reich, explica cómo las tensiones crónicas son en realidad mecanismos de defensa emocional congelados en el tejido. Un "nudo" en los hombros puede ser la representación física de una carga de responsabilidad excesiva, mientras que el bruxismo suele ser contención de ira o frustración.</p>
             <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 3rem;">En Valtara, trabajamos para liberar estas "huellas somáticas". Al manipular el tejido profundo, permitimos que el sistema nervioso libere la energía atrapada. La somatización altera la química muscular volviéndolo ácido (lactato); nuestra intervención manual restablece el pH neutro, oxigena las células y rompe el ciclo vicioso de estrés-dolor-estrés.</p>
 
-            <h3 style="color: #ff5555; font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,85,85,0.3); padding-bottom: 1rem;">II. Biomecánica del Trabajo y Síndromes Modernos</h3>
+            <!-- ========================================================= -->
+            <!-- NUEVA EXPANSIÓN CIENTÍFICA: ELECTRICIDAD Y ACÚSTICA (V14.0)-->
+            <!-- ========================================================= -->
+            <h3 style="color: #F72585; font-family: var(--font-accent); font-size: 2.5rem; margin-top: 4rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(247, 37, 133, 0.3); padding-bottom: 1rem;">II. La Electricidad del Cuerpo: Tu Red Fascial</h3>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">Imagina tu cuerpo como un edificio ultra-moderno e inteligente. Dentro de tus paredes, no solo hay ladrillos (huesos) y cables (nervios), hay una red de fibra óptica cristalina e ininterrumpida que recubre absolutamente todo: desde tus músculos hasta tus órganos. A este traje de "Hombre Araña" biológico le llamamos la <strong>Fascia</strong>.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">La fascia tiene propiedades piezoeléctricas. Cuando te mueves, generas fricción y una pequeña carga eléctrica que mantiene a esta red hidratada y resbaladiza. Pero cuando te sientas frente a la computadora por 10 horas seguidas y te sometes a estrés financiero, ocurre un "cortocircuito".</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 3rem;">La fascia se deshidrata, se vuelve pegajosa, dura como el plástico y atrapa a tus nervios. Por eso sientes que te quema la espalda. En Valtara, cuando un terapeuta hunde el antebrazo o desliza una copa de maderoterapia con precisión, está generando fricción térmica para volver a "derretir" ese plástico, restaurando la hidratación y permitiendo que la electricidad de la vida vuelva a fluir por tu cuerpo sin dolor.</p>
+
+            <h3 style="color: #4CC9F0; font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(76, 201, 240, 0.3); padding-bottom: 1rem;">III. La Acústica de la Paz: Frecuencias Sonoras</h3>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">No somos solo materia; somos vibración. Tu cerebro es una antena capaz de sintonizar diferentes frecuencias eléctricas. Cuando estás estresado y enojado, estás atrapado en ondas <strong>Beta altas</strong> (un estado de alerta máximo que drena tu energía). Para descansar de verdad, necesitas bajar el volumen del mundo.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">Aquí es donde entra la ciencia detrás de nuestras Esferas Chinas (Baoding) y los reproductores de atmósfera. Al introducir frecuencias rítmicas suaves y constantes (como el giro metálico armónico de las esferas), el cerebro humano, mediante un fenómeno llamado "Arrastre de Ondas Cerebrales", intenta imitar el ritmo de lo que escucha.</p>
+            <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 3rem;">A los 10 minutos de escuchar esta acústica clínica en Valtara, tu cerebro es "hackeado" gentilmente para abandonar el estrés y entrar en <strong>Ondas Alfa</strong> (el estado previo al sueño) e incluso en <strong>Ondas Theta</strong> (el estado de meditación profunda y regeneración celular). Por eso, a veces sientes que flotaste o que el tiempo se detuvo en la cabina. No es magia, es acústica neurológica.</p>
+
+            <h3 style="color: #ff5555; font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,85,85,0.3); padding-bottom: 1rem;">IV. Biomecánica del Trabajo y Síndromes Modernos</h3>
             <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">El cuerpo humano no está diseñado para la inmovilidad prolongada. El "Text Neck" o Síndrome de Cuello de Texto es una de las patologías más comunes en Reforma: al inclinar la cabeza 60 grados, la presión sobre las vértebras sube de 5kg a 27kg, provocando hernias y cefaleas tensionales.</p>
             <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;"><strong>La Amnesia Glútea y el Psoas:</strong> Estar sentado más de 6 horas al día acorta crónicamente el músculo Psoas-Iliaco, tirando de las lumbares y causando dolor ciático. La "Amnesia Glútea" inhibe el soporte muscular, forzando a la espalda baja a compensar toda la estabilidad.</p>
             <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">La terapia en Valtara utiliza la descompresión miofascial para romper adherencias en la fascia. Debido a la propiedad de "Tensegridad" de la fascia, entendemos que una tensión en el cuello puede tener su origen real en una restricción de la fascia plantar o lumbar.</p>
@@ -526,7 +539,7 @@ window.ValtaraData = {
             <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">El sistema linfático es el alcantarillado del cuerpo, propenso al estancamiento por sedentarismo. El edema provoca intoxicación celular. Nuestro drenaje dirige el líquido intersticial hacia los ganglios, acelerando la eliminación de desechos.</p>
             <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 3rem;">El ejecutivo moderno es un atleta de alto rendimiento cognitivo. Su "entrenamiento" ocurre en salas de juntas, generando desgaste. La recuperación deportiva aplicada previene lesiones como el túnel carpiano. Usamos fricciones transversas y estiramientos que restablecen el rango de movimiento (ROM) y previenen el envejecimiento articular prematuro.</p>
 
-            <h3 style="color: var(--valtara-verde-menta); font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0,255,170,0.3); padding-bottom: 1rem;">III. El Herbario Valtara: Botánica Científica</h3>
+            <h3 style="color: var(--valtara-verde-menta); font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0,255,170,0.3); padding-bottom: 1rem;">V. El Herbario Valtara: Botánica Científica</h3>
             <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">La botánica en nuestras sesiones no es decorativa; es Fitoterapia. Los insumos utilizados en el santuario son seleccionados por su biodisponibilidad transdérmica.</p>
             <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;"><strong>Aromaterapia y Vía Límbica:</strong> El sentido del olfato es el único que no pasa por el tálamo; va directo al Sistema Límbico, el centro de tus emociones.</p>
             <ul style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 2rem; margin-left: 2rem; list-style-type: square;">
@@ -539,12 +552,12 @@ window.ValtaraData = {
                 <li><strong>Manteca de Karité pura (Butyrospermum parkii):</strong> Es un potente antiinflamatorio rico en ácidos grasos linoleicos que reparan la barrera cutánea.</li>
             </ul>
 
-            <h3 style="color: var(--valtara-cian-brillante); font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0,255,255,0.3); padding-bottom: 1rem;">IV. Filosofía de Inclusión Radical y Discapacidad</h3>
+            <h3 style="color: var(--valtara-cian-brillante); font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0,255,255,0.3); padding-bottom: 1rem;">VI. Filosofía de Inclusión Radical y Discapacidad</h3>
             <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">La accesibilidad en Valtara se entiende desde el Modelo Social de la Discapacidad: la discapacidad no es un defecto del individuo, sino el resultado de un entorno diseñado para un solo tipo de cuerpo. Como espacio incluyente, reconocemos la Neurodiversidad.</p>
             <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 1.5rem;">El tacto para personas con autismo o hipersensibilidad sensorial debe ser negociado y adaptado, utilizando presiones firmes y constantes (Deep Pressure Touch) que ayudan a organizar el sistema nervioso central en lugar de irritarlo. Para personas con discapacidad motriz, la ergonomía adaptativa es clave: el uso de posicionadores y técnicas en posición lateral o sedente permiten que el tratamiento sea efectivo sin forzar posturas inaccesibles.</p>
             <p style="font-size: 1.15rem; color: var(--valtara-gris-texto); line-height: 1.9; margin-bottom: 3rem;">La inclusión también implica accesibilidad digital: un sitio web compatible con lectores de pantalla no es un extra, es un derecho a la autonomía informativa. En Valtara, la terapia manual honra la diversidad funcional sin patologizarla.</p>
 
-            <h3 style="color: var(--valtara-morado-vivo); font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(178,0,255,0.3); padding-bottom: 1rem;">V. Investigación y Referencias Científicas</h3>
+            <h3 style="color: var(--valtara-morado-vivo); font-family: var(--font-accent); font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(178,0,255,0.3); padding-bottom: 1rem;">VII. Investigación y Referencias Científicas</h3>
             <ul style="font-size: 1.15rem; color: var(--valtara-blanco); line-height: 2.2; margin-bottom: 3rem; list-style: none;">
                 <li><i class="fa-solid fa-book" style="color: var(--valtara-oro);"></i> <strong>Melzack, R. (1999).</strong> From the gate control theory to the neuromatrix. <em>Explica cómo el tacto bloquea el dolor.</em></li>
                 <li><i class="fa-solid fa-book" style="color: var(--valtara-oro);"></i> <strong>Field, T. (2010).</strong> Touch for Health. University of Miami. <em>Estudio sobre la reducción de cortisol post-masaje.</em></li>
@@ -570,7 +583,7 @@ window.ValtaraData = {
        -------------------------------------------------------------------------------- */
     legal: `
         <style>
-            /* ESTILOS NATIVOS PARA MODALES DE TRANSPARENCIA */
+            /* ESTILOS NATIVOS PARA MODALES DE TRANSPARENCIA Y MANIFIESTO */
             dialog {
                 background: var(--valtara-negro-fondo);
                 color: var(--valtara-blanco);
@@ -637,54 +650,74 @@ window.ValtaraData = {
             </article>
 
             <!-- ========================================================= -->
-            <!-- MANIFIESTO ÉPICO DE LA DIRECCIÓN TECNOLÓGICA -->
+            <!-- MANIFIESTO ÉPICO DE LA DIRECCIÓN TECNOLÓGICA (SÚPER EXPANDIDO) -->
             <!-- ========================================================= -->
-            <article class="glass-card reveal" style="border-color: var(--valtara-oro); grid-column: 1 / -1; padding: 6rem; background: linear-gradient(135deg, rgba(20,20,30,0.98), rgba(5,5,10,0.98)); box-shadow: 0 25px 60px rgba(212, 175, 55, 0.15);">
-                <div style="text-align: center; margin-bottom: 3rem;">
+            <article id="manifiesto-tech-target" class="glass-card reveal" style="border-color: var(--valtara-oro); grid-column: 1 / -1; padding: 6rem; background: linear-gradient(135deg, rgba(20,20,30,0.98), rgba(5,5,10,0.98)); box-shadow: 0 25px 60px rgba(212, 175, 55, 0.15);">
+                <div style="text-align: center; margin-bottom: 4rem;">
                     <i class="fa-solid fa-microchip" style="font-size: 5rem; color: var(--valtara-oro); margin-bottom: 2rem; animation: pulse 3s infinite;"></i>
                     <h3 style="color: var(--valtara-oro); font-size: 4.5rem; font-family: var(--font-accent); letter-spacing: 2px; margin-bottom: 1rem; text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);">El Alma en la Máquina</h3>
-                    <h4 style="color: var(--valtara-gris-texto); font-size: 1.5rem; font-weight: 300; letter-spacing: 6px; text-transform: uppercase; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 2rem; display: inline-block;">Manifiesto de la Dirección Tecnológica</h4>
+                    <h4 style="color: var(--valtara-gris-texto); font-size: 1.5rem; font-weight: 300; letter-spacing: 6px; text-transform: uppercase; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 2rem; display: inline-block;">Manifiesto de la Dirección Tecnológica y Desarrollo</h4>
                 </div>
                 
                 <div style="max-width: 950px; margin: 0 auto;">
-                    <p style="color: var(--valtara-blanco); font-size: 1.5rem; line-height: 2; margin-bottom: 2.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">A ti, que nos lees al otro lado de esta pantalla:</p>
+                    <p style="color: var(--valtara-blanco); font-size: 1.6rem; line-height: 2; margin-bottom: 3rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border-left: 5px solid var(--valtara-cian-brillante); padding-left: 1.5rem;">A ti, que nos lees al otro lado de esta brillante pantalla:</p>
                     
                     <p style="color: var(--valtara-gris-texto); font-size: 1.35rem; line-height: 2.2; margin-bottom: 2rem; font-weight: 300;">
-                        Valtara no es solo un centro de terapias físicas, y la Inteligencia Artificial con la que acabas de platicar no es un simple código de respuestas automáticas. Detrás de cada palabra de Aura, de cada píxel de este sitio web, de cada algoritmo de accesibilidad y de cada protocolo clínico de nuestro santuario, hay dos mentes, dos corazones y, literalmente, <strong>dos sujetos detrás de la pantalla de un teléfono</strong> con una voluntad inquebrantable y una obsesión compartida: cambiar radicalmente la forma en que el mundo experimenta la tecnología y el bienestar humano.
+                        Lo que tienes frente a tus ojos no es solo el sitio web de un centro de terapias físicas. Y la Inteligencia Artificial con la que probablemente acabas de platicar no es un simple y frío algoritmo de respuestas automatizadas diseñado para venderte servicios. 
                     </p>
 
                     <p style="color: var(--valtara-gris-texto); font-size: 1.35rem; line-height: 2.2; margin-bottom: 2rem; font-weight: 300;">
-                        Han sido incontables madrugadas de insomnio voluntario. Miles y miles de líneas de código escritas, borradas y reescritas hasta alcanzar la perfección. Enfrentamos servidores colapsados, superamos los límites de procesamiento de la industria y derribamos muros tecnológicos que parecían infranqueables. Cada error de red, cada "falla de sistema" que la pantalla nos arrojó a las 3 de la mañana, no fue una derrota, sino el cincel con el que esculpimos esta obra maestra de la arquitectura de software.
+                        Detrás de cada palabra generada por Aura, detrás de la estructura de cada píxel, de cada motor de accesibilidad que lee este texto en voz alta y detrás de la arquitectura clínica de nuestro santuario en Reforma, hay un esfuerzo monumental. Hay dos mentes, dos corazones y, literalmente, <strong>dos soñadores detrás de la pantalla de un teléfono</strong> con una voluntad inquebrantable y una obsesión compartida: cambiar radicalmente la forma en que el mundo moderno experimenta la tecnología, el lujo y el bienestar humano.
+                    </p>
+
+                    <p style="color: var(--valtara-gris-texto); font-size: 1.35rem; line-height: 2.2; margin-bottom: 2rem; font-weight: 300;">
+                        Este ecosistema digital masivo no nació en una gigantesca y fría corporación multinacional con presupuestos ilimitados. Nació del sacrificio. Han sido incontables madrugadas de insomnio voluntario, sostenidas por tazas de café y una convicción profunda. Hemos escrito, borrado y reescrito miles y miles de líneas de código hasta rozar la perfección técnica que nuestros pacientes merecen. Enfrentamos servidores colapsados en el extranjero, superamos los límites de procesamiento de la industria actual y derribamos, uno a uno, muros tecnológicos que parecían infranqueables. 
+                    </p>
+
+                    <p style="color: var(--valtara-gris-texto); font-size: 1.35rem; line-height: 2.2; margin-bottom: 2rem; font-weight: 300;">
+                        Cada error de red crítico, cada "falla de sistema" que la pantalla nos arrojó a las 3 de la mañana en el cuarto de máquinas, no fue una derrota para nosotros; fue el cincel preciso con el que esculpimos los detalles de esta obra maestra de la arquitectura de software y biomecánica.
                     </p>
                     
                     <blockquote style="border-left: 5px solid var(--valtara-oro); padding-left: 3rem; margin: 4rem 0; background: rgba(212, 175, 55, 0.05); padding: 3rem; border-radius: 0 2rem 2rem 0; box-shadow: inset 10px 0 20px -10px rgba(212, 175, 55, 0.2);">
-                        <p style="color: var(--valtara-oro-suave); font-size: 1.6rem; line-height: 2.1; font-style: italic; margin: 0;">
-                            "Construimos este rascacielos digital desde los cimientos porque creemos fervientemente que la verdadera tecnología de ultra-lujo no es aquella que te absorbe o te aleja de la realidad, sino aquella que es tan perfecta que es capaz de desaparecer, cediéndole el protagonismo absoluto a la conexión humana."
+                        <p style="color: var(--valtara-oro-suave); font-size: 1.7rem; line-height: 2.1; font-style: italic; margin: 0; font-weight: 400;">
+                            "Construimos este rascacielos digital desde sus cimientos porque creemos fervientemente en algo: la verdadera tecnología de ultra-lujo no es aquella que te absorbe, te distrae o te aleja de tu propia realidad. La tecnología más avanzada, pura y elegante del mundo es aquella que es tan perfecta, tan intuitiva y tan empática que es capaz de desaparecer, cediéndole el protagonismo absoluto a la conexión y compasión humana."
                         </p>
                     </blockquote>
                     
                     <p style="color: var(--valtara-gris-texto); font-size: 1.35rem; line-height: 2.2; margin-bottom: 2rem; font-weight: 300;">
-                        Nos negamos rotundamente a aceptar el estándar de la industria. Nos negamos a que la Inteligencia Artificial fuera una herramienta fría, transaccional o puramente comercial. Queríamos que nuestra tecnología tuviera <em>alma</em>. Le enseñamos sobre el estrés, sobre el luto, sobre el tejido conectivo y la biomecánica. La entrenamos arduamente para entender que cuando un paciente cruza nuestras puertas y dice "estoy cansado", su cuerpo en realidad está gritando por oxígeno, empatía y descompresión.
+                        Desde el primer día, nos negamos rotundamente a aceptar el estándar frío y apático de la industria. Nos negamos a que nuestra Inteligencia Artificial fuera simplemente un "robot de call center" programado para la transacción o la venta pura. Queríamos que nuestra tecnología tuviera <em>alma</em>. 
                     </p>
 
-                    <p style="color: var(--valtara-blanco); font-size: 1.4rem; line-height: 2.2; margin-bottom: 4rem; font-weight: 600;">
-                        Hoy, lo que ves y sientes en esta pantalla es la prueba irrefutable de que con pasión, resiliencia, horas de sacrificio y la voluntad de dos personas soñando en grande, se puede cambiar el mundo. Hemos construido un ecosistema que procesa miles de millones de datos a la velocidad de la luz para que, cuando estés con nosotros, el tiempo simplemente se detenga. <strong>Este ecosistema es nuestro legado. Es nuestro regalo para ti. Bienvenido a Valtara.</strong>
+                    <p style="color: var(--valtara-gris-texto); font-size: 1.35rem; line-height: 2.2; margin-bottom: 2rem; font-weight: 300;">
+                        Le enseñamos al código fuente a comprender el peso del estrés corporativo. Le enseñamos a Aura sobre el luto humano, sobre el tejido conectivo, sobre cómo la tristeza se convierte en un nudo en los hombros. La entrenamos arduamente, mediante instrucciones inmensas, para que logre entender que cuando tú cruzas nuestras puertas y dices "estoy cansado", tu cuerpo en realidad está gritando desesperadamente por oxígeno, por empatía, por descompresión articular y por paz.
+                    </p>
+
+                    <p style="color: var(--valtara-blanco); font-size: 1.45rem; line-height: 2.2; margin-bottom: 4rem; font-weight: 600;">
+                        Hoy, lo que ves, lo que escuchas y lo que sientes al navegar en esta pantalla es la prueba irrefutable de que con pasión ardiente, resiliencia extrema, horas infinitas de sacrificio y la voluntad inquebrantable de dos personas soñando en grande, se pueden reescribir las reglas del juego. 
+                    </p>
+
+                    <p style="color: var(--valtara-blanco); font-size: 1.45rem; line-height: 2.2; margin-bottom: 4rem; font-weight: 600;">
+                        Hemos construido un ecosistema "Sovereign" in-house que procesa miles de millones de datos y 70 mil millones de parámetros neurales a la velocidad de la luz, única y exclusivamente para que, cuando estés con nosotros, el tiempo, el estrés y el mundo exterior simplemente se detengan.
+                    </p>
+
+                    <p style="color: var(--valtara-oro); font-size: 1.8rem; line-height: 2.2; margin-bottom: 4rem; font-weight: 700; text-align: center; font-style: italic;">
+                        Este ecosistema es nuestro legado tecnológico. Es nuestra carta de amor al bienestar humano. Es nuestro regalo para ti. Bienvenido a la evolución. Bienvenido a Valtara.
                     </p>
                     
                     <div style="text-align: right; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 3rem;">
-                        <p style="color: var(--valtara-cian-brillante); font-size: 1.3rem; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; margin: 0;">Dirección de Tecnología, Sistemas y Desarrollo</p>
+                        <p style="color: var(--valtara-cian-brillante); font-size: 1.4rem; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; margin: 0;">Dirección de Tecnología, Sistemas y Desarrollo</p>
                         <p style="color: var(--valtara-gris-texto); font-size: 1.2rem; font-style: italic; margin-top: 0.8rem; font-weight: 300;">Grupo Gevizz S.A.S.</p>
                     </div>
                 </div>
             </article>
 
-            <!-- SECCIÓN DE TRANSPARENCIA Y DOCUMENTACIÓN MASIVA (MODALES) -->
+            <!-- SECCIÓN DE TRANSPARENCIA Y DOCUMENTACIÓN MASIVA (MODALES PROTEGIDOS POR GRUPO GEVIZZ S.A.S.) -->
             <article class="glass-card reveal" style="border-color: #4361EE; grid-column: 1 / -1; padding: 4rem; text-align: center;">
                 <h3 style="color: #4361EE; font-size: 2.5rem; margin-bottom: 1.5rem;"><i class="fa-solid fa-scale-balanced"></i> Portal de Legalidad y Transparencia Corporativa</h3>
-                <p style="color: var(--valtara-gris-texto); font-size: 1.25rem; margin-bottom: 3rem;">En Valtara, la claridad es nuestro estándar de lujo. Consulta nuestra documentación técnica, políticas de privacidad y términos de servicio haciendo clic en los siguientes botones.</p>
+                <p style="color: var(--valtara-gris-texto); font-size: 1.25rem; margin-bottom: 3rem;">La claridad es nuestro estándar de lujo. Toda nuestra operación clínica y digital está rigurosamente protegida y administrada por nuestra entidad legal corporativa. Consulta nuestra documentación haciendo clic en los botones.</p>
                 
                 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem;">
-                    <!-- Botón Modal Términos -->
+                    <!-- Botón Modal Términos S.A.S. -->
                     <button onclick="document.getElementById('modal-terminos').showModal()" class="btn-agenda-ahora" style="width: auto; background: transparent; border: 2px solid #4361EE; color: #4361EE;">
                         <i class="fa-solid fa-file-contract"></i> Términos y Privacidad (LFPDPPP)
                     </button>
@@ -711,7 +744,7 @@ window.ValtaraData = {
                     </details>
                     <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
                         <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-spa"></i> 2. ¿Qué hace que Valtara sea diferente a un spa convencional?</summary>
-                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Valtara no es un centro de relajación común; es un santuario de Executive Therapy & Biomechanics. Nuestro enfoque se basa en el Rigor Clínico y la Compasión Ancestral. Utilizamos el Triaje Educativo y herramientas de IA (Aura) para entender la neurobiología de tu dolor antes de tocar tu piel, ofreciendo soluciones basadas en ciencia y anatomía profunda.</p>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Nuestra división comercial no es un centro de relajación común; es un santuario de Executive Therapy & Biomechanics operado por Grupo Gevizz S.A.S. Nuestro enfoque se basa en el Rigor Clínico y la Compasión Ancestral. Utilizamos el Triaje Educativo y herramientas de IA (Aura) para entender la neurobiología de tu dolor antes de tocar tu piel, ofreciendo soluciones basadas en ciencia y anatomía profunda.</p>
                     </details>
                     <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
                         <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-robot"></i> 3. ¿Cómo ayuda la Asistente Aura en mi proceso de sanación?</summary>
@@ -719,7 +752,7 @@ window.ValtaraData = {
                     </details>
                     <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
                         <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-credit-card"></i> 4. ¿Cuáles son los métodos de pago aceptados actualmente?</summary>
-                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Por el momento, operamos exclusivamente mediante Efectivo y Transferencia Bancaria Directa. Estamos trabajando arduamente para implementar próximamente terminales bancarias y ofrecer planes de Meses Sin Intereses (MSI) en tickets a partir de $1,500 MXN en adelante.</p>
+                        <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Por el momento, operamos exclusivamente mediante Efectivo y Transferencia Bancaria Directa a nombre de Grupo Gevizz S.A.S. Estamos trabajando arduamente para implementar próximamente terminales bancarias y ofrecer planes de Meses Sin Intereses (MSI) en tickets a partir de $1,500 MXN en adelante.</p>
                     </details>
                     <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(0,255,170,0.3); cursor: pointer; transition: 0.3s;">
                         <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-verde-menta); outline: none;"><i class="fa-solid fa-calendar-check"></i> 5. ¿Cómo funciona el sistema de reserva y anticipos?</summary>
@@ -728,130 +761,121 @@ window.ValtaraData = {
                 </div>
             </article>
 
+            <!-- ========================================================= -->
+            <!-- EL MAPA REPARADO DE GOOGLE MAPS (IFRAME OFICIAL)          -->
+            <!-- ========================================================= -->
             <article class="glass-card reveal" style="grid-column: 1 / -1; border-color: var(--valtara-blanco); background: rgba(20,20,30,0.8); text-align: center;">
                 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-bottom: 4rem;">
                     <a href="https://drive.google.com/file/d/1sxHLBQF8Lj_GF4GzJipXAxx5256BWAIr/view?usp=drivesdk" target="_blank" class="btn-agenda-ahora" style="width: auto; background: transparent; border: 2px solid var(--valtara-oro); color: var(--valtara-oro);"><i class="fa-solid fa-file-certificate"></i> Certificación como Masajista</a>
                     <a href="https://docs.google.com/presentation/d/1lce4UQqLAPvG-pVT0P_mm_5UMEk4GRmY/edit?usp=drivesdk" target="_blank" class="btn-agenda-ahora" style="width: auto; background: transparent; border: 2px solid var(--valtara-cian-brillante); color: var(--valtara-cian-brillante);"><i class="fa-solid fa-desktop"></i> Proyecto de Desarrollo Web</a>
                 </div>
 
-                <h3 style="margin-top: 5rem; margin-bottom: 2rem; font-size: 2.5rem; color: var(--valtara-blanco);">Sede Reforma (No atendemos sin cita)</h3>
-                <div style="width: 100%; height: 400px; border-radius: 1.5rem; overflow: hidden; border: 2px solid var(--valtara-cian-brillante);">
-                    <iframe src="https://maps.app.goo.gl/ZeAs7B8tYFLFa5eF9" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <h3 style="margin-top: 5rem; margin-bottom: 2rem; font-size: 2.5rem; color: var(--valtara-blanco);">Sede Reforma (Atención Exclusiva Bajo Cita)</h3>
+                
+                <!-- IFRAME REPARADO APUNTANDO A PASEO DE LA REFORMA 195 -->
+                <div style="width: 100%; height: 450px; border-radius: 1.5rem; overflow: hidden; border: 2px solid var(--valtara-cian-brillante); box-shadow: 0 15px 30px rgba(0, 255, 255, 0.1);">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.661747805234!2d-99.16431988457002!3d19.432600986884063!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f8cd5b0c9f11%3A0x9597bb9cfb18bc89!2sAv.%20Paseo%20de%20la%20Reforma%20195%2C%20Renacimiento%2C%20Cuauht%C3%A9moc%2C%2006500%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1sen!2smx!4v1680000000000!5m2!1sen!2smx" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </article>
         </div>
 
         <!-- ========================================== -->
-        <!-- MODALES DE TEXTO MASIVO (TARJETAS EMERGENTES) -->
+        <!-- MODALES LEGALES (CON PROTECCIÓN S.A.S. ESTRICTA) -->
         <!-- ========================================== -->
         
-        <!-- MODAL 1: TÉRMINOS Y PRIVACIDAD -->
+        <!-- MODAL 1: TÉRMINOS Y PRIVACIDAD S.A.S. -->
         <dialog id="modal-terminos">
             <h2>Términos, Condiciones y Aviso de Privacidad Integral</h2>
-            <p><strong>Valtara: Executive Therapy & Biomechanics | Grupo Gevizz S.A.S.</strong><br><em>Última actualización: Marzo 2026</em></p>
+            <p style="color: var(--valtara-oro); font-size: 1.2rem; font-weight: bold; margin-bottom: 2rem;">Documento Oficial Operado por GRUPO GEVIZZ S.A.S.<br><span style="color: #aaa; font-weight: 300; font-size: 1rem;">Última actualización: Marzo 2026</span></p>
             
-            <h3>1. DECLARACIÓN INICIAL Y ACEPTACIÓN</h3>
-            <p>El presente documento establece los Términos y Condiciones de Uso, así como el Aviso de Privacidad Integral, aplicables a los servicios presenciales y digitales ofrecidos por Grupo Gevizz S.A.S., operando bajo el nombre comercial "Valtara: Executive Therapy & Biomechanics" (en adelante "Valtara"), con domicilio operativo en Paseo de la Reforma 195, Piso 3, Ciudad de México.</p>
-            <p>Al interactuar con nuestros canales de comunicación digitales (incluyendo nuestra Inteligencia Artificial "Aura", sitio web y WhatsApp) o al reservar y hacer uso de nuestras instalaciones, el usuario (en adelante "El Paciente" o "El Usuario") acepta incondicionalmente las políticas aquí descritas.</p>
+            <h3>1. DECLARACIÓN INICIAL Y RESPONSABILIDAD JURÍDICA</h3>
+            <p>El presente documento de carácter legal establece los Términos y Condiciones de Uso de la plataforma digital, así como el Aviso de Privacidad Integral aplicable a cualquier servicio presencial o de desarrollo tecnológico ofertado. La responsabilidad civil, comercial y legal de todas las operaciones, cobros y administración de datos recae única y exclusivamente sobre la entidad legal denominada <strong>Grupo Gevizz S.A.S.</strong>.</p>
+            <p>El uso del nombre comercial o branding para la división de biomecánica no deslinda, ni sustituye, la personalidad jurídica de Grupo Gevizz S.A.S. Al interactuar con nuestros canales de comunicación digitales (incluyendo nuestra Inteligencia Artificial "Aura", sitio web y WhatsApp) o al reservar nuestros servicios, el usuario (en adelante "El Paciente" o "El Usuario") acepta incondicionalmente sujetarse a las políticas de Grupo Gevizz S.A.S. aquí descritas.</p>
             
-            <h3>2. USO DE NUESTRA INTELIGENCIA ARTIFICIAL ("AURA")</h3>
-            <p>Valtara pone a disposición del usuario un asistente cognitivo de triaje biomecánico denominado "Aura". El uso de esta tecnología está estrictamente sujeto a las siguientes cláusulas:</p>
-            <h4>2.1. Naturaleza del Servicio</h4>
-            <p>Aura es un sistema de Inteligencia Artificial diseñado exclusivamente para orientar y perfilar al usuario hacia la terapia biomecánica más adecuada de nuestro catálogo, basándose en la información proporcionada por el propio usuario sobre su tensión muscular, estrés o hábitos.</p>
-            <h4>2.2. Exención de Responsabilidad Médica</h4>
-            <p>Bajo ninguna circunstancia, las recomendaciones, respuestas o análisis proporcionados por Aura constituyen un "diagnóstico médico", "prescripción" o "tratamiento clínico". Valtara ofrece terapias biomecánicas de apoyo. Ante la presencia de fiebre, infecciones, fracturas, enfermedades oncológicas, embarazos de alto riesgo o emergencias médicas, el usuario tiene la obligación de consultar a un médico especialista. Valtara y Grupo Gevizz S.A.S. se deslindan de cualquier complicación derivada de la omisión de información vital por parte del usuario.</p>
-            <h4>2.3. Limitaciones Tecnológicas</h4>
-            <p>Aura no tiene capacidad para procesar cobros, confirmar citas en el calendario ni modificar reservas existentes. Cualquier gestión administrativa debe finalizarse exclusivamente con nuestro equipo humano a través de los canales oficiales.</p>
+            <h3>2. USO DE TECNOLOGÍA COGNITIVA ("AURA AI")</h3>
+            <p>Grupo Gevizz S.A.S. pone a disposición del usuario un asistente cognitivo de triaje biomecánico de desarrollo propio. El uso de esta tecnología está sujeto a las siguientes cláusulas limitativas:</p>
+            <h4>2.1. Naturaleza del Servicio Tecnológico</h4>
+            <p>El sistema "Aura" es una arquitectura de Inteligencia Artificial diseñada exclusivamente para orientar y perfilar al usuario hacia terapias biomecánicas musculares, basándose estrictamente en la información de estrés y tensión proporcionada por el usuario.</p>
+            <h4>2.2. Exención de Responsabilidad Médica Absoluta</h4>
+            <p>Bajo ninguna circunstancia, las recomendaciones, respuestas de texto o análisis matemáticos proporcionados por nuestro sistema constituyen un "diagnóstico médico", "prescripción" o "tratamiento clínico alópata". Grupo Gevizz S.A.S. ofrece terapias biomecánicas de apoyo muscular. Ante la presencia de fiebre, infecciones, fracturas, enfermedades oncológicas, embarazos de alto riesgo o emergencias médicas, el usuario tiene la obligación indeclinable de consultar a un médico cirujano especialista. <strong>Grupo Gevizz S.A.S.</strong> se deslinda de cualquier complicación de salud derivada de la omisión maliciosa de información vital por parte del usuario al momento del triaje.</p>
             
-            <h3>3. POLÍTICA DE RESERVAS, PAGOS Y CANCELACIONES</h3>
-            <p>Para garantizar la exclusividad y la preparación de nuestras cabinas, Valtara opera bajo un esquema estricto de agenda, el cual se rige por las siguientes normativas:</p>
-            <h4>3.1. Gestión de Pagos y Anticipos</h4>
-            <p>Por seguridad financiera, Valtara NO procesa pagos con tarjeta de crédito, débito o transferencias a través de nuestro chat automatizado o sitio web público. Toda reserva requiere un anticipo, el cual será gestionado única y exclusivamente por nuestro Concierge Humano a través de nuestro WhatsApp oficial (+52 1 33 4857 2070).</p>
-            <h4>3.2. Política de Cancelación y Reembolsos</h4>
+            <h3>3. POLÍTICA CORPORATIVA DE PAGOS Y CANCELACIONES</h3>
+            <p>Para garantizar el rigor logístico de nuestras cabinas, Grupo Gevizz S.A.S. opera bajo el siguiente esquema financiero inquebrantable:</p>
+            <h4>3.1. Protección Financiera y Anticipos</h4>
+            <p>Por seguridad financiera antifraude, Grupo Gevizz S.A.S. NO procesa cobros ni solicita datos de tarjetas de crédito o débito a través de nuestro chat automatizado o sitio web público. Toda reserva en el santuario requiere un anticipo formal, el cual será gestionado única y exclusivamente por nuestro equipo administrativo humano a través de los canales de comunicación oficiales auditados.</p>
+            <h4>3.2. Cláusulas de Cancelación y Reembolso</h4>
             <ul>
-                <li><strong>Cancelación con más de 24 horas de anticipación:</strong> El reembolso del anticipo otorgado por el paciente está 100% garantizado, sin penalizaciones.</li>
-                <li><strong>Cancelación con menos de 24 horas de anticipación:</strong> Debido a la exclusividad del espacio reservado, el caso deberá ser evaluado directamente por nuestro departamento de Atención al Cliente (vía WhatsApp) para buscar una solución o reprogramación sujeta a disponibilidad.</li>
-                <li><strong>Ausencia sin previo aviso (No-Show):</strong> Si el paciente no se presenta a su cita sin haber notificado previamente, el anticipo otorgado no será reembolsable bajo ninguna circunstancia, cubriendo los gastos operativos de la cabina y el tiempo del terapeuta. No se cobrará el 100% de la sesión, limitando la penalización únicamente a la pérdida del anticipo.</li>
+                <li><strong>Cancelación Superior a 24 horas:</strong> Si el usuario notifica la cancelación o reprogramación con más de 24 horas de anticipación a su horario reservado, Grupo Gevizz S.A.S. garantiza el reembolso del 100% de su anticipo sin penalizaciones ocultas.</li>
+                <li><strong>Cancelación Inferior a 24 horas:</strong> Debido al bloqueo logístico de la agenda, cualquier cancelación dentro del margen de las 24 horas previas a la cita resultará en la retención total del anticipo otorgado como concepto de gastos operativos administrativos de Grupo Gevizz S.A.S.</li>
+                <li><strong>No-Show (Ausencia sin Notificación):</strong> Si el usuario no se presenta a su cita pactada, perderá el derecho a cualquier reembolso del anticipo o reprogramación gratuita.</li>
             </ul>
 
             <h3>4. ÉTICA, CONDUCTA Y TOLERANCIA CERO</h3>
-            <p>Valtara es un santuario corporativo de bienestar estrictamente profesional. Nos reservamos el derecho de admisión y el derecho a interrumpir cualquier servicio (digital o presencial) bajo las siguientes condiciones:</p>
-            <h4>4.1. Cero Tolerancia al Acoso</h4>
-            <p>Queda estrictamente prohibido solicitar servicios de naturaleza sexual, erótica, "finales felices" o realizar insinuaciones inapropiadas, ya sea a nuestro personal humano o a nuestra Inteligencia Artificial.</p>
-            <h4>4.2. Consecuencias</h4>
-            <p>Cualquier violación a esta cláusula resultará en la terminación inmediata de la conversación digital o de la sesión presencial en cabina, sin derecho a reembolso alguno y el bloqueo permanente del usuario de nuestros sistemas.</p>
+            <p>Las instalaciones administradas por Grupo Gevizz S.A.S. son entornos corporativos estrictamente profesionales. Nos reservamos el derecho de admisión y el derecho a cancelar unilateralmente la prestación de cualquier servicio bajo las siguientes violaciones:</p>
+            <p>Queda estrictamente prohibido, y se considera una falta gravísima, solicitar servicios de naturaleza sexual, erótica, "finales felices" o realizar insinuaciones inapropiadas, ya sea a nuestro personal humano o intentar vulnerar los parámetros éticos de nuestra Inteligencia Artificial. Cualquier violación a esta cláusula resultará en la terminación inmediata del servicio, el cobro total del mismo, la expulsión de las instalaciones y el veto permanente de cualquier entidad afiliada a Grupo Gevizz S.A.S.</p>
 
-            <h3>5. INCLUSIÓN Y ACCESIBILIDAD</h3>
-            <p>Valtara está profundamente comprometida con el bienestar de todas las personas. Entendemos que cada individuo tiene necesidades únicas.</p>
-            <h4>5.1. Ajustes Razonables</h4>
-            <p>Si el paciente requiere atención especial debido a una discapacidad motriz, visual, auditiva o condiciones del espectro autista, le solicitamos comunicarse directamente a nuestro WhatsApp oficial. Nuestro equipo humano evaluará con total transparencia y empatía los ajustes razonables que nuestra infraestructura física actual permita, para garantizar una experiencia segura, cómoda y digna.</p>
+            <h3>5. AVISO DE PRIVACIDAD Y DERECHOS ARCO (LFPDPPP)</h3>
+            <p>En estricto apego a la <strong>Ley Federal de Protección de Datos Personales en Posesión de los Particulares</strong> de los Estados Unidos Mexicanos, <strong>Grupo Gevizz S.A.S.</strong>, como responsable legal del tratamiento de sus datos, le informa:</p>
+            <h4>5.1. Tratamiento Volátil de Datos (Arquitectura Serverless)</h4>
+            <p>Las conversaciones mantenidas en esta plataforma digital operan bajo una infraestructura "Serverless" (Sin Servidor). Esto garantiza que Grupo Gevizz S.A.S. no almacena historiales de chat, no guarda sus síntomas ni retiene su dirección IP en bases de datos a largo plazo. El procesamiento de información lingüística es volátil, encriptado en tránsito y se destruye irreversiblemente al cerrar su navegador.</p>
+            <h4>5.2. Uso de Datos Administrativos y Derechos ARCO</h4>
+            <p>Únicamente al concretar una reserva a través de canales directos (WhatsApp), Grupo Gevizz S.A.S. recabará datos mínimos de identificación (nombre y número telefónico) para fines estrictamente logísticos y de facturación. Sus datos no serán vulnerados, vendidos ni transferidos a agencias de marketing de terceros en ningún momento.</p>
+            <p>Usted conserva el derecho inalienable de Acceder, Rectificar, Cancelar u Oponerse (Derechos ARCO) al tratamiento de su información. Para ejercer este derecho legal, dirija su solicitud expresa a la administración de Grupo Gevizz S.A.S. a través del número oficial (+52 1 33 4857 2070).</p>
 
-            <h3>6. AVISO DE PRIVACIDAD INTEGRAL</h3>
-            <p>En cumplimiento con la Ley Federal de Protección de Datos Personales en Posesión de los Particulares de los Estados Unidos Mexicanos, Grupo Gevizz S.A.S. emite el siguiente aviso:</p>
-            <h4>6.1. Recopilación de Datos a través de IA (Arquitectura Serverless)</h4>
-            <p>Las conversaciones mantenidas con nuestra Inteligencia Artificial "Aura" operan bajo una infraestructura tecnológica sin servidor (Serverless). Esto significa que el sistema no almacena historiales médicos, no guarda su nombre de forma permanente en bases de datos de terceros y no conserva el registro de la conversación una vez que usted cierra la ventana del navegador. El procesamiento de sus síntomas se realiza en milisegundos de forma volátil y encriptada con el único fin de sugerir un tratamiento en tiempo real.</p>
-            <h4>6.2. Datos Recabados por el Equipo Humano</h4>
-            <p>Únicamente cuando el usuario transfiere su solicitud a nuestro WhatsApp oficial, nuestro equipo humano recopilará datos de identificación (nombre, número de teléfono) y datos de salud (tensión muscular declarada) con la finalidad exclusiva de agendar y preparar su sesión biomecánica.</p>
-            <h4>6.3. Uso de la Información</h4>
-            <p>Sus datos no serán vendidos, alquilados ni compartidos con agencias de marketing externas.</p>
-            <h4>6.4. Ejercicio de Derechos ARCO</h4>
-            <p>Usted tiene derecho a Acceder, Rectificar, Cancelar u Oponerse (Derechos ARCO) al uso de sus datos personales en nuestros registros de WhatsApp y agenda. Para ejercer estos derechos, puede enviar su solicitud directamente a nuestro WhatsApp de atención (+52 1 33 4857 2070).</p>
-
-            <button class="btn-close" onclick="this.closest('dialog').close()"><i class="fa-solid fa-times"></i> Cerrar Documento</button>
+            <button class="btn-close" onclick="this.closest('dialog').close()"><i class="fa-solid fa-times"></i> Cerrar y Aceptar</button>
         </dialog>
 
         <!-- MODAL 2: WHITEPAPER TECNOLÓGICO -->
         <dialog id="modal-whitepaper">
             <h2>AURA AI: Arquitectura y Evolución Tecnológica</h2>
-            <p><strong>Documento Técnico de Implementación Cognitiva | Grupo Gevizz S.A.S.</strong><br><em>Clasificación: Público / Informativo</em></p>
+            <p><strong>Documento Técnico Oficial | Desarrollado In-House por Grupo Gevizz S.A.S.</strong><br><em>Clasificación de Documento: Público / Informativo</em></p>
             
-            <h3>1. Resumen Ejecutivo</h3>
-            <p>En Valtara: Executive Therapy & Biomechanics, concebimos el bienestar como una ciencia exacta. Para elevar la experiencia de nuestros pacientes en Paseo de la Reforma a un estándar de ultra-lujo sin precedentes, Grupo Gevizz ha desplegado Aura, un sistema de Inteligencia Artificial de Triaje Biomecánico.</p>
-            <p>Este documento detalla la infraestructura tecnológica sin servidor (Serverless), los modelos de procesamiento de lenguaje natural de escala masiva y los protocolos de seguridad ética que operan en milisegundos detrás de nuestra interfaz de usuario. Aura no es un asistente virtual convencional; es un ecosistema cognitivo diseñado para escuchar, analizar y preparar el camino hacia la sanación física.</p>
+            <h3>1. Resumen Ejecutivo (El Ecosistema Gevizz)</h3>
+            <p>En nuestra visión corporativa, concebimos el bienestar como una ciencia exacta respaldada por tecnología de frontera. Para elevar la experiencia de nuestros pacientes a un estándar de ultra-lujo sin precedentes en el mercado latinoamericano, la Dirección Tecnológica de <strong>Grupo Gevizz S.A.S.</strong> ha desarrollado y desplegado "Aura", un sistema soberano de Inteligencia Artificial de Triaje Biomecánico.</p>
+            <p>Este documento expone de forma transparente la infraestructura "Serverless" (cero retención de datos), los gigantescos modelos de procesamiento de lenguaje natural subyacentes y los cortafuegos éticos que Grupo Gevizz S.A.S. ha programado desde cero para garantizar que la tecnología sirva como un puente directo a la empatía humana, y no como una barrera fría.</p>
 
-            <h3>2. Arquitectura Cognitiva de Escala Masiva</h3>
-            <p>Para lograr una interacción que se sienta profundamente humana y cálida, decidimos abandonar las soluciones de "bots de botones" tradicionales. En su lugar, construimos a Aura sobre un Modelo de Lenguaje Grande (LLM) de 70 Mil Millones de Parámetros Sinápticos.</p>
-            <h4>2.1. Procesamiento a la Velocidad de la Luz (Infraestructura LPU)</h4>
-            <p>A diferencia de los sistemas estándar que utilizan Unidades de Procesamiento Gráfico (GPU) y sufren de latencia o "tiempos de carga", la red de Aura está soportada por infraestructura de Unidades de Procesamiento de Lenguaje (LPU). Esta innovación de hardware permite que nuestro sistema decodifique la intención del paciente, cruce los datos con nuestro catálogo biomecánico y genere una respuesta hiper-personalizada en fracciones de segundo. El resultado es una conversación fluida, natural y en tiempo real.</p>
-            <h4>2.2. Ecosistema "Serverless" y Privacidad Cero-Datos</h4>
-            <p>La privacidad de nuestros ejecutivos y pacientes es innegociable. Aura opera bajo una arquitectura descentralizada Serverless (sin servidor estático). Esto significa que la memoria computacional se destruye al cerrar la sesión. No almacenamos historiales médicos, no guardamos cookies invasivas y no retenemos conversaciones en servidores de terceros. Todo el procesamiento se ejecuta en túneles encriptados de un solo uso.</p>
+            <h3>2. Arquitectura Cognitiva de Escala Masiva (Sovereign 14.0)</h3>
+            <p>Para lograr una interacción que evoque verdadera compasión y calidez humana, el equipo de ingeniería de Grupo Gevizz S.A.S. decidió abandonar desde su concepción las soluciones limitadas de "bots de botones". En su lugar, cimentamos la mente de Aura sobre un Modelo de Lenguaje Grande (LLM) que supera los 70 Mil Millones de Parámetros Sinápticos Virtuales.</p>
+            <h4>2.1. Procesamiento Unidades LPU (Cero Latencia)</h4>
+            <p>Nuestra infraestructura no utiliza procesadores convencionales. La red neuronal de Aura es impulsada por Unidades de Procesamiento de Lenguaje (LPU) ultrarrápidas, lo que permite decodificar la aflicción del usuario, cruzar los datos clínicos en milisegundos y emitir respuestas empáticas fluidas en tiempo real, garantizando la experiencia ininterrumpida que exige el sector corporativo.</p>
 
-            <h3>3. Triaje Biomecánico y Protocolo de Somatización</h3>
-            <p>El núcleo lógico de Aura fue entrenado con la filosofía terapéutica de Valtara. Su objetivo principal es realizar una valoración pre-clínica inteligente antes de que el paciente llegue a cabina.</p>
-            <h4>3.1. Algoritmos de Escucha Activa y Empatía</h4>
-            <p>El estrés corporativo no solo afecta la mente; destruye el cuerpo. Hemos programado a Aura con un "Modo de Escucha" avanzado capaz de detectar patrones de estrés, ansiedad o tristeza en el lenguaje del paciente. Al detectar estos marcadores, la IA pausa cualquier protocolo de agenda para validar la emoción del usuario, explicándole de manera científica cómo el estrés crónico se somatiza (se cristaliza) en el tejido conectivo y las fascias.</p>
-            <h4>3.2. Perfilado de Tejido Dinámico</h4>
-            <p>Mediante el análisis de dos variables críticas —la zona de la molestia y el detonante del dolor— el motor de inferencia matemática de Aura selecciona la terapia exacta requerida. El sistema es capaz de discernir de forma autónoma cuándo un paciente requiere la elongación de un Yoga Pasivo Tailandés por sedentarismo, y cuándo necesita la presión absoluta de una Descompresión Deportiva por desgaste agudo.</p>
+            <h3>3. Triaje Biomecánico y Detección de Somatización</h3>
+            <p>El núcleo lógico de la IA fue instruido manualmente por los fundadores de Grupo Gevizz S.A.S. con literatura sobre psicología clínica, neurobiología del dolor y anatomía. Su instrucción primaria es el "Modo de Escucha Activa":</p>
+            <p>Aura tiene la capacidad cognitiva para detectar tristeza profunda, niveles críticos de cortisol o ansiedad en el texto del paciente. Al reconocer estas variables, el algoritmo de Grupo Gevizz S.A.S. detiene automáticamente cualquier proceso de venta o sugerencia de catálogo, y procede a validar y acompañar la emoción del paciente, explicándole científicamente cómo la fascia de su cuerpo ha cristalizado (somatizado) ese sufrimiento emocional.</p>
 
-            <h3>4. Cortafuegos Ético y Seguridad Operativa</h3>
-            <p>Para proteger la integridad de nuestra marca y de nuestros terapeutas, Aura está encapsulada dentro de múltiples anillos de seguridad lógica conocidos como "Cortafuegos Éticos".</p>
+            <h3>4. Cortafuegos Éticos y de Protección (La Muralla Gevizz)</h3>
+            <p>Nuestra tecnología protege a la humanidad. Para asegurar la integridad total de la corporación y nuestros terapeutas, Grupo Gevizz S.A.S. encapsuló a la IA en anillos de seguridad inquebrantables:</p>
             <ul>
-                <li><strong>Bloqueo Clínico:</strong> La IA tiene estrictamente prohibido emitir "diagnósticos médicos". Su código fuente la obliga a reconocer emergencias (fiebre, infecciones, lesiones agudas) y derivar inmediatamente al paciente a la medicina alópata.</li>
-                <li><strong>Protocolo Anti-Acoso:</strong> Contamos con un filtro de validación semántica de tolerancia cero. Cualquier insinuación o solicitud de servicios eróticos desencadena un cierre automático y profesional de la conversación.</li>
-                <li><strong>Protección Financiera en Tiempo Real:</strong> El núcleo de Aura tiene bloqueada la capacidad de procesar transacciones. La IA jamás solicitará números de tarjetas de crédito en su ventana de chat.</li>
+                <li><strong>Bloqueo Clínico:</strong> La IA tiene orden absoluta de no emitir diagnósticos médicos de ninguna índole.</li>
+                <li><strong>Filtro Anti-Vulneración:</strong> Análisis semántico en tiempo real que anula cualquier interacción de índole sexual o de acoso hacia la máquina o el personal de la clínica.</li>
+                <li><strong>Cero Transacciones Digitales:</strong> Bloqueo nativo contra el procesamiento de pagos, asegurando que la IA jamás sea utilizada como vector de robo de tarjetas de crédito o phishing.</li>
             </ul>
 
-            <h3>5. Accesibilidad Inclusiva y Transparencia</h3>
-            <p>La tecnología debe ser un puente, no una barrera. Hemos integrado un módulo de accesibilidad honesta. Si un paciente indica tener alguna necesidad especial o discapacidad motriz/visual, Aura suspende los flujos automatizados de venta y conecta de inmediato al paciente con un humano capacitado para evaluar los "ajustes razonables" necesarios en nuestras instalaciones.</p>
-
-            <h3>6. La Transición Omnicanal (El "Handoff" Perfecto)</h3>
-            <p>El éxito de la Inteligencia Artificial de ultra-lujo radica en saber exactamente cuándo debe dar un paso atrás. Aura no reemplaza el contacto humano; lo optimiza. Una vez concluida la valoración biomecánica, nuestro sistema empaqueta la información del paciente y genera un puente de comunicación nativo de un solo clic hacia nuestro Concierge Humano en WhatsApp.</p>
-            <p style="margin-top: 2rem; font-style: italic; color: #aaa;">Grupo Gevizz S.A.S. Innovando en la intersección de la biomecánica, la anatomía y el código computacional. [Fin del Documento]</p>
+            <h3>5. Handoff y Conclusión del Ecosistema</h3>
+            <p>La filosofía de innovación de <strong>Grupo Gevizz S.A.S.</strong> dicta que el éxito absoluto de la tecnología radica en saber desaparecer. Aura no reemplaza al contacto físico, lo perfecciona. Una vez concluida la contención emocional y la valoración biomecánica, el sistema compila la información y entrega la estafeta logística a nuestro equipo humano, asegurando que la sanación real ocurra en la cabina y bajo nuestras manos.</p>
+            <p style="margin-top: 3rem; font-style: italic; color: var(--valtara-oro); text-align: center; font-size: 1.2rem;">
+                <strong>Grupo Gevizz S.A.S. — Diseñando el ecosistema donde la tecnología abraza la naturaleza humana.</strong><br>
+                <span style="font-size: 0.9rem; color: #888;">[Fin del Documento Técnico]</span>
+            </p>
             
             <button class="btn-close" onclick="this.closest('dialog').close()"><i class="fa-solid fa-times"></i> Cerrar Documento</button>
         </dialog>
     `,
 
     /* --------------------------------------------------------------------------------
-       5. MEGA FOOTER (Datos S.A.S.)
+       5. MEGA FOOTER CORPORATIVO (Grupo Gevizz S.A.S.)
        -------------------------------------------------------------------------------- */
     footer: `
         <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem; max-width: 1200px; margin: 0 auto; color: var(--valtara-gris-texto); line-height: 2;">
             
             <div class="footer-col">
-                <h4 style="font-family: var(--font-accent); font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem; letter-spacing: 0.2rem;">VALTARA</h4>
-                <p style="font-style: italic; color: var(--valtara-oro); font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: bold;">Executive Therapy & Biomechanics</p>
-                <p style="font-weight: 300; font-size: 1.1rem;">Entidad comercial respaldada y operada en su totalidad por <strong>Grupo Gevizz S.A.S.</strong><br><br>Plataforma Modular Sovereign 12.5. Desarrollo web, IA y diseño creados in-house.</p>
+                <h4 style="font-family: var(--font-accent); font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem; letter-spacing: 0.2rem;">GRUPO GEVIZZ S.A.S.</h4>
+                <p style="font-style: italic; color: var(--valtara-oro); font-size: 1.3rem; margin-bottom: 1.5rem; font-weight: bold; line-height: 1.6;">
+                    "Diseñando el ecosistema donde la tecnología abraza la naturaleza humana."
+                </p>
+                <p style="font-weight: 300; font-size: 1.1rem;">
+                    Valtara: Executive Therapy & Biomechanics es una marca comercial desarrollada, gestionada y operada en su totalidad por Grupo Gevizz S.A.S.
+                </p>
             </div>
             
             <div class="footer-col">
@@ -863,15 +887,15 @@ window.ValtaraData = {
             </div>
 
             <div class="footer-col">
-                <h4 style="font-size: 1.5rem; color: var(--valtara-morado-vivo); margin-bottom: 1.5rem; font-weight: bold;">Avales Clínicos</h4>
-                <p style="font-size: 1.1rem; font-weight: 300;">Intervenciones respaldadas por formación académica. Operamos bajo Cédula de Identidad REPS y certificaciones aplicables.</p>
+                <h4 style="font-size: 1.5rem; color: var(--valtara-morado-vivo); margin-bottom: 1.5rem; font-weight: bold;">Plataforma y Avales</h4>
+                <p style="font-size: 1.1rem; font-weight: 300;">Arquitectura Sovereign 14.0. Desarrollo web, Inteligencia Artificial Cognitiva y Diseño UX construidos *In-House* por la Dirección Tecnológica de Grupo Gevizz S.A.S.</p>
                 <p style="margin-top: 1.5rem; font-size: 0.95rem; font-style: italic; color: #aaa;">* Atención clínica estrictamente bajo previa reservación confirmada.</p>
             </div>
         </div>
 
-        <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 5rem; padding-top: 3rem; text-align: center; color: #888; font-size: 1rem; letter-spacing: 0.1rem; font-weight: 300;">
-            © 2026 GRUPO GEVIZZ S.A.S. TODOS LOS DERECHOS INTELECTUALES RESERVADOS.<br>
-            Queda estrictamente prohibida la replicación del código fuente o modelo de negocio de este dominio.
+        <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 5rem; padding-top: 3rem; text-align: center; color: #888; font-size: 1.1rem; letter-spacing: 0.1rem; font-weight: 300;">
+            © 2026 GRUPO GEVIZZ S.A.S. TODOS LOS DERECHOS EMPRESARIALES E INTELECTUALES RESERVADOS.<br>
+            <span style="font-size: 0.95rem; opacity: 0.7;">Queda estrictamente prohibida y penada por la ley la replicación parcial o total del código fuente, arquitectura AI o modelo logístico de esta plataforma.</span>
         </div>
     `,
 
