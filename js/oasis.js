@@ -1,7 +1,7 @@
 /**
  * ====================================================================================
- * BLOQUE 9: OASIS AUDIO ENGINE V16.0 (BLINDADO CONTRA CACHÉ Y ERRORES 404)
- * Motor de reproducción acústica real con visualizador de ondas y protección CORS.
+ * BLOQUE 9: OASIS AUDIO ENGINE V17.0 (ULTRA-LUXURY PLAYER EDITION)
+ * Motor acústico real con panel de control dinámico, volumen y barra de tiempo.
  * ====================================================================================
  */
 
@@ -16,7 +16,6 @@ const OasisEngine = {
     animFrame: null, 
     performanceMode: false,
 
-    // Las 7 Potencias con tus Nombres de Archivo Exactos
     tracks: [
         { id: 1, name: "I. Vitalidad Cósmica", icon: "fa-mountain", file: "celestial_bloom.mp3" },
         { id: 2, name: "II. Flujo Cuántico", icon: "fa-water", file: "quantum_serenity.mp3" },
@@ -29,9 +28,9 @@ const OasisEngine = {
 
     init: function() {
         this.audioEl = new Audio();
-        // crossOrigin en anonymous a veces bloquea si GitHub no ha propagado el archivo
         this.audioEl.crossOrigin = "anonymous";
         this.audioEl.loop = true; 
+        this.audioEl.volume = 0.7; // Volumen inicial (coincide con el HTML)
         
         this.renderTrackList();
         this.bindEvents();
@@ -63,7 +62,15 @@ const OasisEngine = {
         }
     },
 
+    formatTime: function(seconds) {
+        if (isNaN(seconds)) return "0:00";
+        const min = Math.floor(seconds / 60);
+        const sec = Math.floor(seconds % 60);
+        return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+    },
+
     bindEvents: function() {
+        // --- 1. Controles del Reproductor (Play/Pausa) ---
         const playBtn = document.getElementById('btn-master-play');
         if(playBtn) {
             playBtn.addEventListener('click', () => {
@@ -73,6 +80,41 @@ const OasisEngine = {
             });
         }
         
+        // --- 2. Control de Volumen Dinámico ---
+        const volumeSlider = document.getElementById('oasis-volume-slider');
+        if(volumeSlider) {
+            volumeSlider.addEventListener('input', (e) => {
+                if(this.audioEl) this.audioEl.volume = e.target.value;
+            });
+        }
+
+        // --- 3. Barra de Progreso (Tiempo real) ---
+        const progressBar = document.getElementById('oasis-progress-bar');
+        const timeCurrent = document.getElementById('oasis-time-current');
+        const timeTotal = document.getElementById('oasis-time-total');
+
+        if(this.audioEl && progressBar && timeCurrent && timeTotal) {
+            
+            // Cuando la canción carga, leemos cuánto dura
+            this.audioEl.addEventListener('loadedmetadata', () => {
+                progressBar.max = this.audioEl.duration;
+                timeTotal.textContent = this.formatTime(this.audioEl.duration);
+            });
+
+            // Mientras la canción suena, movemos la barrita
+            this.audioEl.addEventListener('timeupdate', () => {
+                if(!this.audioEl.duration) return;
+                progressBar.value = this.audioEl.currentTime;
+                timeCurrent.textContent = this.formatTime(this.audioEl.currentTime);
+            });
+
+            // Si el usuario arrastra la barrita, adelantamos o atrasamos la canción
+            progressBar.addEventListener('input', (e) => {
+                this.audioEl.currentTime = e.target.value;
+            });
+        }
+        
+        // --- 4. Animaciones del Modal ---
         const modal = document.getElementById('audio-modal');
         if(modal) {
             const observer = new MutationObserver((mutations) => {
@@ -92,10 +134,7 @@ const OasisEngine = {
 
     renderTrackList: function() {
         const container = document.getElementById('audio-track-list');
-        if(!container) {
-            console.error("No se encontró el contenedor de las pistas. Problema de caché HTML.");
-            return;
-        }
+        if(!container) return;
         
         container.innerHTML = '';
         this.tracks.forEach(t => {
@@ -207,14 +246,19 @@ const OasisEngine = {
         
         const trackObj = this.tracks.find(t => t.id === trackId);
         if(trackObj) {
-            // Protección contra acentos en la URL
+            
+            // ACTUALIZAR EL TEXTO "REPRODUCIENDO AHORA"
+            const nowPlayingText = document.getElementById('oasis-now-playing');
+            if(nowPlayingText) {
+                nowPlayingText.innerHTML = `<i class="fa-solid fa-music" style="margin-right: 8px;"></i> ${trackObj.name}`;
+            }
+
             this.audioEl.src = encodeURI(trackObj.file);
             
             this.audioEl.play().catch(e => {
                 console.error("Error al cargar la canción desde GitHub:", e);
                 this.stopAll();
                 
-                // Si GitHub no carga la canción, mostramos alerta roja en el botón
                 if(playBtnIcon) {
                     playBtnIcon.className = 'fa-solid fa-triangle-exclamation';
                     playBtnIcon.style.color = '#ff5555';
