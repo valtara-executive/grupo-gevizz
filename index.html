@@ -188,18 +188,40 @@
                 </header>
                 <div class="modal-body" style="display: flex; flex-direction: column;">
                     <p style="color: var(--valtara-gris-texto); font-size: 1.15rem; margin-bottom: 2rem; font-weight: 300; text-align: center;">
-                        Ponte tus audífonos y disfruta de 7 frecuencias generadas en tiempo real para calmar tu mente.
+                        Ponte tus audífonos y sumérgete en nuestra colección acústica de alta fidelidad diseñada para tu paz mental.
                     </p>
-                    <div class="canvas-audio-wrapper">
+                    
+                    <div id="oasis-now-playing" style="text-align: center; color: var(--valtara-cian-brillante); font-size: 1.2rem; font-family: var(--font-accent); margin-bottom: 1rem; min-height: 1.5rem; letter-spacing: 1px;">
+                        Selecciona una pista para comenzar
+                    </div>
+
+                    <div class="canvas-audio-wrapper" style="margin-bottom: 1rem;">
                         <canvas id="oasis-visualizer" aria-label="Visualizador de sonido"></canvas>
                     </div>
+
+                    <div class="oasis-player-controls" style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2rem; border: 1px solid rgba(0, 255, 255, 0.2);">
+                        
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; color: var(--valtara-gris-texto); font-size: 0.9rem;">
+                            <span id="oasis-time-current">0:00</span>
+                            <input type="range" id="oasis-progress-bar" value="0" min="0" max="100" style="flex: 1; accent-color: var(--valtara-cian-brillante); cursor: pointer;">
+                            <span id="oasis-time-total">0:00</span>
+                        </div>
+
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 2rem;">
+                            <div style="display: flex; align-items: center; gap: 0.8rem; color: var(--valtara-oro-suave);">
+                                <i class="fa-solid fa-volume-low"></i>
+                                <input type="range" id="oasis-volume-slider" min="0" max="1" step="0.01" value="0.7" style="width: 100px; accent-color: var(--valtara-oro); cursor: pointer;">
+                                <i class="fa-solid fa-volume-high"></i>
+                            </div>
+                            
+                            <button class="master-play-btn" id="btn-master-play" aria-label="Reproducir o Pausar Audio" style="margin: 0; box-shadow: 0 4px 15px rgba(0,255,255,0.3);">
+                                <i class="fa-solid fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="audio-tracks-grid" id="audio-track-list">
                         </div>
-                    <div style="text-align: center; margin-top: 3rem;">
-                        <button class="master-play-btn" id="btn-master-play" aria-label="Reproducir o Pausar Audio">
-                            <i class="fa-solid fa-play"></i>
-                        </button>
-                    </div>
                 </div>
             </div>
         </dialog>
@@ -279,4 +301,4 @@
     <script src="js/core.js?v=13.5" defer></script>
 
 </body>
-</html>
+                    </html>
