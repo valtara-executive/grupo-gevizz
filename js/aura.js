@@ -1,7 +1,7 @@
 /**
  * ====================================================================================
- * BLOQUE 8: AURA AI ENGINE V15.1 (GEMINI UI & PAUSE/RESUME VOICE ENGINE BLINDADO)
- * Motor de IA Front-end de Valtara - Bienvenida dinámica y memoria acústica Anti-Bugs.
+ * BLOQUE 8: AURA AI ENGINE V15.2 (VERSIÓN ESTABLE: PLAY / STOP ABSOLUTO)
+ * Motor de IA Front-end de Valtara - Bienvenida dinámica y voz blindada anti-bugs.
  * ====================================================================================
  */
 
@@ -20,7 +20,6 @@ const AuraEngine = {
     recognition: null,
     isRecording: false,
     activeSpeakBtn: null,   
-    currentUtterance: null, // <-- Variable inyectada para proteger la memoria de voz en Android
 
     init: function() {
         // 1. Obtenemos el nombre y lo inyectamos en la pantalla de bienvenida
@@ -85,10 +84,8 @@ const AuraEngine = {
         const micBtn = document.getElementById('aura-mic-btn');
 
         if(toggleBtn) toggleBtn.addEventListener('click', () => this.toggleModal());
-        // En caso de que tengas botón de cerrar nativo en el header del modal
         if(closeBtn) closeBtn.addEventListener('click', () => this.toggleModal()); 
         
-        // Delegación de eventos para cerrar con el botón general de los modales
         document.querySelectorAll('.close-modal-btn[data-close="aura-modal"]').forEach(btn => {
             btn.addEventListener('click', () => {
                 if(this.isOpen) this.toggleModal();
@@ -134,7 +131,6 @@ const AuraEngine = {
         this.isOpen = !this.isOpen;
         
         if (!this.isOpen) {
-            // Si cierra el chat, paramos la voz por completo
             window.speechSynthesis.cancel();
             this.resetActiveSpeakBtn();
         }
@@ -148,7 +144,7 @@ const AuraEngine = {
             welcomeScreen.style.visibility = 'hidden';
             setTimeout(() => { 
                 welcomeScreen.style.display = 'none'; 
-            }, 500); // 500ms coincide con la transición en CSS
+            }, 500); 
         }
     },
 
@@ -163,7 +159,7 @@ const AuraEngine = {
         const txt = inputField.value.trim(); 
         if(txt === '') return; 
         
-        this.hideWelcomeScreen(); // Adiós pirámide
+        this.hideWelcomeScreen(); 
         this.appendMsg(txt, 'user'); 
         inputField.value = ''; 
         
@@ -176,7 +172,7 @@ const AuraEngine = {
         window.speechSynthesis.cancel();
         this.resetActiveSpeakBtn();
         
-        this.hideWelcomeScreen(); // Adiós pirámide
+        this.hideWelcomeScreen(); 
         this.appendMsg(query, 'user');
         this.sendMessageToAI(query);
     },
@@ -241,7 +237,7 @@ const AuraEngine = {
     },
 
     // ==========================================
-    // FUNCIÓN DE LECTURA (CON MEMORIA DE PAUSA Y REANUDAR BLINDADA)
+    // FUNCIÓN DE LECTURA (VERSIÓN ESTABLE: PLAY / STOP)
     // ==========================================
     resetActiveSpeakBtn: function() {
         if (this.activeSpeakBtn) {
@@ -254,61 +250,46 @@ const AuraEngine = {
     },
 
     speakMessage: function(htmlContent, btnElement) {
-        // LÓGICA DE MEMORIA (PAUSA Y REANUDAR BLINDADA)
-        if (this.activeSpeakBtn === btnElement) {
-            // Si le damos clic al mismo botón y la voz está sonando...
-            if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
-                window.speechSynthesis.pause(); // Congelamos la voz
-                btnElement.innerHTML = '<i class="fa-solid fa-play"></i>'; // Ponemos icono de Play
-                btnElement.style.color = 'var(--valtara-oro-suave)';
-                btnElement.style.borderColor = 'var(--valtara-oro-suave)';
-                return;
-            } 
-            // Si le damos clic al mismo botón y la voz estaba en pausa...
-            else if (window.speechSynthesis.paused) {
-                window.speechSynthesis.resume(); // Reanudamos desde donde se quedó
-                btnElement.innerHTML = '<i class="fa-solid fa-pause"></i>'; // Volvemos al icono de Pausa
-                btnElement.style.color = '#ff5555';
-                btnElement.style.borderColor = '#ff5555';
-                return;
-            }
+        // SI AURA ESTÁ HABLANDO Y TOCAN EL BOTÓN ACTIVO -> LA CALLAMOS (STOP)
+        if (window.speechSynthesis.speaking && btnElement.classList.contains('is-speaking')) {
+            window.speechSynthesis.cancel(); 
+            this.resetActiveSpeakBtn();
+            return;
         }
 
-        // Si tocamos un botón diferente o Aura no estaba hablando
-        window.speechSynthesis.cancel(); // Matamos cualquier lectura anterior
+        // SI TOCAN OTRO BOTÓN -> CANCELAMOS LO ANTERIOR
+        window.speechSynthesis.cancel(); 
         this.resetActiveSpeakBtn();
         
-        // Configuramos el botón actual como Activo y reproduciendo
+        // MODO REPRODUCCIÓN (Ícono de Stop en rojo)
         this.activeSpeakBtn = btnElement;
         btnElement.classList.add('is-speaking');
-        btnElement.innerHTML = '<i class="fa-solid fa-pause"></i>'; // Icono de Pausa
+        btnElement.innerHTML = '<i class="fa-solid fa-stop"></i>'; 
         btnElement.style.color = '#ff5555';
         btnElement.style.borderColor = '#ff5555';
 
-        // Limpiar HTML para que lea puro texto
+        // LIMPIEZA DE HTML
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = htmlContent;
         const elementsToRemove = tempDiv.querySelectorAll('a, button');
         elementsToRemove.forEach(el => el.remove());
         const cleanText = tempDiv.innerText || tempDiv.textContent;
 
-        // TRUCO DE INGENIERÍA: Guardamos la voz en "this.currentUtterance" 
-        // para que Chrome en Android no la borre de la memoria al pausar.
-        this.currentUtterance = new SpeechSynthesisUtterance(cleanText);
-        this.currentUtterance.lang = 'es-MX';
-        this.currentUtterance.rate = 1.0; 
-        this.currentUtterance.pitch = 1.1; 
+        const utterance = new SpeechSynthesisUtterance(cleanText);
+        utterance.lang = 'es-MX';
+        utterance.rate = 1.0; 
+        utterance.pitch = 1.1; 
 
         const voices = window.speechSynthesis.getVoices();
         const preferredVoice = voices.find(voice => voice.lang.includes('es') && voice.name.toLowerCase().includes('female'));
         if(preferredVoice) {
-            this.currentUtterance.voice = preferredVoice;
+            utterance.voice = preferredVoice;
         }
 
-        this.currentUtterance.onend = () => { this.resetActiveSpeakBtn(); };
-        this.currentUtterance.onerror = () => { this.resetActiveSpeakBtn(); };
+        utterance.onend = () => { this.resetActiveSpeakBtn(); };
+        utterance.onerror = () => { this.resetActiveSpeakBtn(); };
 
-        window.speechSynthesis.speak(this.currentUtterance);
+        window.speechSynthesis.speak(utterance);
     },
 
     appendMsg: function(txtOrHtml, sender, isHtml = false) {
@@ -331,7 +312,7 @@ const AuraEngine = {
             speakBtn.className = 'aura-speak-btn';
             speakBtn.style.cssText = "background: rgba(255,255,255,0.1); border: 1px solid var(--valtara-cian-brillante); color: var(--valtara-cian-brillante); border-radius: 50%; width: 32px; height: 32px; margin-left: 10px; cursor: pointer; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; vertical-align: top; transition: 0.3s;";
             speakBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-            speakBtn.title = "Escuchar / Pausar respuesta";
+            speakBtn.title = "Escuchar / Detener respuesta";
             
             speakBtn.addEventListener('click', () => {
                 this.speakMessage(txtOrHtml, speakBtn);
@@ -357,7 +338,6 @@ const AuraEngine = {
         
         log.appendChild(div);
         
-        // Timeout ligero para asegurar que el DOM dibuje el mensaje antes de hacer scroll
         setTimeout(() => {
             log.scrollTo({ top: log.scrollHeight, behavior: 'smooth' });
         }, 50);
