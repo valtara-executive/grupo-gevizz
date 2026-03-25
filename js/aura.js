@@ -1,15 +1,14 @@
 /**
  * ====================================================================================
- * BLOQUE 8: AURA AI ENGINE V14.0 (META LLAMA 3.3 - SOVEREIGN EDITION)
- * Motor de IA Front-end de Valtara - Optimizado para renderizado HTML y VOZ NATIVA.
+ * BLOQUE 8: AURA AI ENGINE V15.0 (GEMINI UI & PAUSE/RESUME VOICE ENGINE)
+ * Motor de IA Front-end de Valtara - Bienvenida dinámica y memoria acústica.
  * ====================================================================================
  */
 
 const AuraEngine = {
     isOpen: false,
-    hasGrit: false, 
     isTyping: false, 
-    chatHistory: [], // 🧠 Memoria a corto plazo limpia
+    chatHistory: [], 
     userName: "",    
     
     // 🔗 PUENTE DE COMUNICACIÓN CON VERCEL
@@ -20,18 +19,20 @@ const AuraEngine = {
     // ==========================================
     recognition: null,
     isRecording: false,
-    currentUtterance: null, // Referencia global a lo que Aura está diciendo
-    activeSpeakBtn: null,   // Referencia al botón que está "hablando" actualmente
+    activeSpeakBtn: null,   
 
     init: function() {
-        this.userName = localStorage.getItem('valtara_identity_name_v11') || "Apreciable visitante";
+        // 1. Obtenemos el nombre y lo inyectamos en la pantalla de bienvenida
+        this.userName = localStorage.getItem('valtara_identity_name_v11') || "Invitado";
+        const welcomeNameEl = document.getElementById('aura-welcome-name');
+        if(welcomeNameEl) {
+            welcomeNameEl.textContent = (this.userName === "Apreciable visitante" || this.userName.trim() === "") ? "Invitado" : this.userName;
+        }
+
         this.initVoiceEngines(); 
         this.bindEvents();
     },
 
-    // ==========================================
-    // INICIALIZACIÓN DE MOTORES DE VOZ (API NATIVA)
-    // ==========================================
     initVoiceEngines: function() {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRecognition) {
@@ -83,8 +84,16 @@ const AuraEngine = {
         const micBtn = document.getElementById('aura-mic-btn');
 
         if(toggleBtn) toggleBtn.addEventListener('click', () => this.toggleModal());
-        if(closeBtn) closeBtn.addEventListener('click', () => this.toggleModal());
+        // En caso de que tengas botón de cerrar nativo en el header del modal
+        if(closeBtn) closeBtn.addEventListener('click', () => this.toggleModal()); 
         
+        // Delegación de eventos para cerrar con el botón general de los modales
+        document.querySelectorAll('.close-modal-btn[data-close="aura-modal"]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if(this.isOpen) this.toggleModal();
+            });
+        });
+
         if(sendBtn) sendBtn.addEventListener('click', () => this.handleInput());
         if(inputField) {
             inputField.addEventListener('keypress', (e) => {
@@ -94,13 +103,11 @@ const AuraEngine = {
 
         chips.forEach(chip => {
             chip.addEventListener('click', (e) => {
-                const query = e.target.getAttribute('data-query');
+                const query = e.target.getAttribute('data-query') || e.target.innerText;
                 this.processDirectQuery(query);
-                this.hideChips();
             });
         });
 
-        // Evento para el botón de Micrófono
         if(micBtn && this.recognition) {
             micBtn.addEventListener('click', () => {
                 if(this.isRecording) {
@@ -125,49 +132,28 @@ const AuraEngine = {
         
         this.isOpen = !this.isOpen;
         
-        if(this.isOpen && !this.hasGrit) {
-            this.hasGrit = true;
-            const chatLog = document.getElementById('aura-chat');
-            
-            if(chatLog && chatLog.children.length === 0) {
-                const hour = new Date().getHours();
-                let timeGreeting = "Buenas noches";
-                let emoji = "🌙";
-
-                if (hour >= 4 && hour < 12) { timeGreeting = "Buenos días"; emoji = "☀️"; } 
-                else if (hour >= 12 && hour < 19) { timeGreeting = "Buenas tardes"; emoji = "🌤️"; }
-
-                let saludoPersonalizado = "";
-                if (this.userName !== "Apreciable visitante" && this.userName.trim() !== "") {
-                    saludoPersonalizado = `¡${timeGreeting}, ${this.userName}! ${emoji}`;
-                } else {
-                    saludoPersonalizado = `¡${timeGreeting}! ${emoji}`;
-                }
-
-                const initialGreetingHtml = `${saludoPersonalizado} Soy Aura, la IA de Valtara. Estoy lista para realizarte una <strong>Valoración Biomecánica pre-clínica</strong>. ¿En qué parte de tu cuerpo sientes mayor tensión o molestia el día de hoy?`;
-                
-                this.appendMsg(initialGreetingHtml, 'bot', true);
-            }
-        } else if (!this.isOpen) {
-            // Si cierra el modal de chat, por cortesía detenemos cualquier voz que esté sonando
+        if (!this.isOpen) {
+            // Si cierra el chat, paramos la voz por completo
             window.speechSynthesis.cancel();
             this.resetActiveSpeakBtn();
         }
     },
 
-    hideChips: function() {
-        const chipsContainer = document.getElementById('aura-chips-container');
-        if(chipsContainer) {
-            chipsContainer.style.transition = 'opacity 0.4s ease';
-            chipsContainer.style.opacity = '0';
-            setTimeout(() => { chipsContainer.style.display = 'none'; }, 400);
+    // 🌟 EFECTO FANTASMA: Desaparece la pantalla inicial suavemente
+    hideWelcomeScreen: function() {
+        const welcomeScreen = document.getElementById('aura-welcome-screen');
+        if(welcomeScreen && welcomeScreen.style.display !== 'none') {
+            welcomeScreen.style.opacity = '0';
+            welcomeScreen.style.visibility = 'hidden';
+            setTimeout(() => { 
+                welcomeScreen.style.display = 'none'; 
+            }, 500); // 500ms coincide con la transición en CSS
         }
     },
 
     handleInput: function() {
         if(this.isTyping) return; 
 
-        // Detenemos la voz de Aura si el usuario envía un mensaje nuevo
         window.speechSynthesis.cancel();
         this.resetActiveSpeakBtn();
 
@@ -176,9 +162,9 @@ const AuraEngine = {
         const txt = inputField.value.trim(); 
         if(txt === '') return; 
         
+        this.hideWelcomeScreen(); // Adiós pirámide
         this.appendMsg(txt, 'user'); 
         inputField.value = ''; 
-        this.hideChips(); 
         
         this.sendMessageToAI(txt);
     },
@@ -189,6 +175,7 @@ const AuraEngine = {
         window.speechSynthesis.cancel();
         this.resetActiveSpeakBtn();
         
+        this.hideWelcomeScreen(); // Adiós pirámide
         this.appendMsg(query, 'user');
         this.sendMessageToAI(query);
     },
@@ -253,10 +240,9 @@ const AuraEngine = {
     },
 
     // ==========================================
-    // FUNCIÓN DE LECTURA (TTS NATIVO CON PAUSA/STOP)
+    // FUNCIÓN DE LECTURA (CON MEMORIA DE PAUSA Y REANUDAR)
     // ==========================================
     resetActiveSpeakBtn: function() {
-        // Restaura visualmente el botón que estaba activo a su estado original (bocina)
         if (this.activeSpeakBtn) {
             this.activeSpeakBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
             this.activeSpeakBtn.style.color = 'var(--valtara-cian-brillante)';
@@ -267,32 +253,44 @@ const AuraEngine = {
     },
 
     speakMessage: function(htmlContent, btnElement) {
-        // 1. Si Aura ya está hablando y tocan el botón activo, lo interpretamos como un "Stop"
-        if (window.speechSynthesis.speaking && btnElement.classList.contains('is-speaking')) {
-            window.speechSynthesis.cancel();
-            this.resetActiveSpeakBtn();
-            return; // Terminamos aquí
+        // LÓGICA DE MEMORIA (PAUSA Y REANUDAR)
+        if (this.activeSpeakBtn === btnElement) {
+            // Si le damos clic al mismo botón y la voz está sonando...
+            if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+                window.speechSynthesis.pause(); // Congelamos la voz
+                btnElement.innerHTML = '<i class="fa-solid fa-play"></i>'; // Ponemos icono de Play
+                btnElement.style.color = 'var(--valtara-oro-suave)';
+                btnElement.style.borderColor = 'var(--valtara-oro-suave)';
+                return;
+            } 
+            // Si le damos clic al mismo botón y la voz estaba en pausa...
+            else if (window.speechSynthesis.paused) {
+                window.speechSynthesis.resume(); // Reanudamos desde donde se quedó
+                btnElement.innerHTML = '<i class="fa-solid fa-pause"></i>'; // Volvemos al icono de Pausa
+                btnElement.style.color = '#ff5555';
+                btnElement.style.borderColor = '#ff5555';
+                return;
+            }
         }
 
-        // 2. Si toca otro botón mientras Aura habla, cancelamos el anterior
-        window.speechSynthesis.cancel();
+        // Si tocamos un botón diferente o Aura no estaba hablando
+        window.speechSynthesis.cancel(); // Matamos cualquier lectura anterior
         this.resetActiveSpeakBtn();
         
-        // 3. Preparar el nuevo botón para "modo reproducción" (Rojo con ícono de Stop)
+        // Configuramos el botón actual como Activo y reproduciendo
         this.activeSpeakBtn = btnElement;
         btnElement.classList.add('is-speaking');
-        btnElement.innerHTML = '<i class="fa-solid fa-stop"></i>';
+        btnElement.innerHTML = '<i class="fa-solid fa-pause"></i>'; // Icono de Pausa
         btnElement.style.color = '#ff5555';
         btnElement.style.borderColor = '#ff5555';
 
-        // 4. Limpiar HTML
+        // Limpiar HTML para que lea puro texto
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = htmlContent;
         const elementsToRemove = tempDiv.querySelectorAll('a, button');
         elementsToRemove.forEach(el => el.remove());
         const cleanText = tempDiv.innerText || tempDiv.textContent;
 
-        // 5. Configurar voz
         const utterance = new SpeechSynthesisUtterance(cleanText);
         utterance.lang = 'es-MX';
         utterance.rate = 1.0; 
@@ -304,16 +302,9 @@ const AuraEngine = {
             utterance.voice = preferredVoice;
         }
 
-        // 6. Restaurar el botón automáticamente cuando Aura termine de hablar
-        utterance.onend = () => {
-            this.resetActiveSpeakBtn();
-        };
+        utterance.onend = () => { this.resetActiveSpeakBtn(); };
+        utterance.onerror = () => { this.resetActiveSpeakBtn(); };
 
-        utterance.onerror = () => {
-            this.resetActiveSpeakBtn();
-        };
-
-        // 7. Hablar
         window.speechSynthesis.speak(utterance);
     },
 
@@ -332,13 +323,12 @@ const AuraEngine = {
         
         div.appendChild(contentDiv);
 
-        // Si es mensaje de Aura, inyectamos el botón de Parlante Inteligente
         if(sender === 'bot') {
             const speakBtn = document.createElement('button');
             speakBtn.className = 'aura-speak-btn';
             speakBtn.style.cssText = "background: rgba(255,255,255,0.1); border: 1px solid var(--valtara-cian-brillante); color: var(--valtara-cian-brillante); border-radius: 50%; width: 32px; height: 32px; margin-left: 10px; cursor: pointer; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; vertical-align: top; transition: 0.3s;";
             speakBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-            speakBtn.title = "Escuchar / Detener respuesta";
+            speakBtn.title = "Escuchar / Pausar respuesta";
             
             speakBtn.addEventListener('click', () => {
                 this.speakMessage(txtOrHtml, speakBtn);
@@ -363,7 +353,11 @@ const AuraEngine = {
         }
         
         log.appendChild(div);
-        log.scrollTo({ top: log.scrollHeight, behavior: 'smooth' });
+        
+        // Timeout ligero para asegurar que el DOM dibuje el mensaje antes de hacer scroll
+        setTimeout(() => {
+            log.scrollTo({ top: log.scrollHeight, behavior: 'smooth' });
+        }, 50);
     }
 };
 
