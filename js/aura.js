@@ -1,7 +1,7 @@
 /**
  * ====================================================================================
- * BLOQUE 8: AURA AI ENGINE V15.0 (GEMINI UI & PAUSE/RESUME VOICE ENGINE)
- * Motor de IA Front-end de Valtara - Bienvenida dinámica y memoria acústica.
+ * BLOQUE 8: AURA AI ENGINE V15.1 (GEMINI UI & PAUSE/RESUME VOICE ENGINE BLINDADO)
+ * Motor de IA Front-end de Valtara - Bienvenida dinámica y memoria acústica Anti-Bugs.
  * ====================================================================================
  */
 
@@ -20,6 +20,7 @@ const AuraEngine = {
     recognition: null,
     isRecording: false,
     activeSpeakBtn: null,   
+    currentUtterance: null, // <-- Variable inyectada para proteger la memoria de voz en Android
 
     init: function() {
         // 1. Obtenemos el nombre y lo inyectamos en la pantalla de bienvenida
@@ -240,7 +241,7 @@ const AuraEngine = {
     },
 
     // ==========================================
-    // FUNCIÓN DE LECTURA (CON MEMORIA DE PAUSA Y REANUDAR)
+    // FUNCIÓN DE LECTURA (CON MEMORIA DE PAUSA Y REANUDAR BLINDADA)
     // ==========================================
     resetActiveSpeakBtn: function() {
         if (this.activeSpeakBtn) {
@@ -253,7 +254,7 @@ const AuraEngine = {
     },
 
     speakMessage: function(htmlContent, btnElement) {
-        // LÓGICA DE MEMORIA (PAUSA Y REANUDAR)
+        // LÓGICA DE MEMORIA (PAUSA Y REANUDAR BLINDADA)
         if (this.activeSpeakBtn === btnElement) {
             // Si le damos clic al mismo botón y la voz está sonando...
             if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
@@ -291,21 +292,23 @@ const AuraEngine = {
         elementsToRemove.forEach(el => el.remove());
         const cleanText = tempDiv.innerText || tempDiv.textContent;
 
-        const utterance = new SpeechSynthesisUtterance(cleanText);
-        utterance.lang = 'es-MX';
-        utterance.rate = 1.0; 
-        utterance.pitch = 1.1; 
+        // TRUCO DE INGENIERÍA: Guardamos la voz en "this.currentUtterance" 
+        // para que Chrome en Android no la borre de la memoria al pausar.
+        this.currentUtterance = new SpeechSynthesisUtterance(cleanText);
+        this.currentUtterance.lang = 'es-MX';
+        this.currentUtterance.rate = 1.0; 
+        this.currentUtterance.pitch = 1.1; 
 
         const voices = window.speechSynthesis.getVoices();
         const preferredVoice = voices.find(voice => voice.lang.includes('es') && voice.name.toLowerCase().includes('female'));
         if(preferredVoice) {
-            utterance.voice = preferredVoice;
+            this.currentUtterance.voice = preferredVoice;
         }
 
-        utterance.onend = () => { this.resetActiveSpeakBtn(); };
-        utterance.onerror = () => { this.resetActiveSpeakBtn(); };
+        this.currentUtterance.onend = () => { this.resetActiveSpeakBtn(); };
+        this.currentUtterance.onerror = () => { this.resetActiveSpeakBtn(); };
 
-        window.speechSynthesis.speak(utterance);
+        window.speechSynthesis.speak(this.currentUtterance);
     },
 
     appendMsg: function(txtOrHtml, sender, isHtml = false) {
