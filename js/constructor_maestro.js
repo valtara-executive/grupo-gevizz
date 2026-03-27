@@ -10,21 +10,38 @@ window.ValtaraData = {
     restoration: window.ValtaraModulos.catalogo_masajes,
     beauty: window.ValtaraModulos.catalogo_belleza,
 
-    // 3. ENSAMBLAMOS CIENCIA
-    science: window.ValtaraModulos.ciencia_introduccion +
-             window.ValtaraModulos.ciencia_neurobiologia +
-             window.ValtaraModulos.ciencia_fascia +
-             window.ValtaraModulos.ciencia_acustica +
-             window.ValtaraModulos.ciencia_biomecanica +
-             window.ValtaraModulos.ciencia_botanica +
-             window.ValtaraModulos.ciencia_inclusion +
-             window.ValtaraModulos.ciencia_referencias,
+    // 3. ENSAMBLAMOS CIENCIA (¡CIRUGÍA ESTÉTICA APLICADA!)
+    // Envolvemos cada módulo en su propia tarjeta de cristal con colores corporativos
+    science: window.ValtaraModulos.ciencia_introduccion + '</div>' + // Cerramos la tarjeta inicial
+    
+             '<div class="glass-card reveal" style="max-width: 1100px; margin: 0 auto 4rem auto; border-top: 2px solid var(--valtara-cian-brillante); box-shadow: 0 1rem 4rem rgba(0, 255, 255, 0.1);">' + 
+             window.ValtaraModulos.ciencia_neurobiologia + '</div>' +
+             
+             '<div class="glass-card reveal" style="max-width: 1100px; margin: 0 auto 4rem auto; border-top: 2px solid #F72585; box-shadow: 0 1rem 4rem rgba(247, 37, 133, 0.1);">' + 
+             window.ValtaraModulos.ciencia_fascia + '</div>' +
+             
+             '<div class="glass-card reveal" style="max-width: 1100px; margin: 0 auto 4rem auto; border-top: 2px solid #4CC9F0; box-shadow: 0 1rem 4rem rgba(76, 201, 240, 0.1);">' + 
+             window.ValtaraModulos.ciencia_acustica + '</div>' +
+             
+             '<div class="glass-card reveal" style="max-width: 1100px; margin: 0 auto 4rem auto; border-top: 2px solid #ff5555; box-shadow: 0 1rem 4rem rgba(255, 85, 85, 0.1);">' + 
+             window.ValtaraModulos.ciencia_biomecanica + '</div>' +
+             
+             '<div class="glass-card reveal" style="max-width: 1100px; margin: 0 auto 4rem auto; border-top: 2px solid var(--valtara-verde-menta); box-shadow: 0 1rem 4rem rgba(0, 255, 170, 0.1);">' + 
+             window.ValtaraModulos.ciencia_botanica + '</div>' +
+             
+             '<div class="glass-card reveal" style="max-width: 1100px; margin: 0 auto 4rem auto; border-top: 2px solid var(--valtara-cian-brillante); box-shadow: 0 1rem 4rem rgba(0, 255, 255, 0.1);">' + 
+             window.ValtaraModulos.ciencia_inclusion + '</div>' +
+             
+             '<div class="glass-card reveal" style="max-width: 1100px; margin: 0 auto 4rem auto; border-top: 2px solid var(--valtara-morado-vivo); box-shadow: 0 1rem 4rem rgba(178, 0, 255, 0.1);">' + 
+             window.ValtaraModulos.ciencia_referencias, // La tarjeta se cierra sola dentro del módulo
 
     // 4. ENSAMBLAMOS LEGAL
-    legal: window.ValtaraModulos.legal_historia +
+    legal: '<div style="max-width: 1100px; margin: 0 auto;">' + 
+           window.ValtaraModulos.legal_historia +
            window.ValtaraModulos.legal_manifiesto +
            window.ValtaraModulos.legal_transparencia +
            window.ValtaraModulos.legal_preguntas + 
+           '</div>' + 
            window.ValtaraModulos.modal_terminos + 
            window.ValtaraModulos.modal_whitepaper,
 
@@ -73,7 +90,6 @@ window.ValtaraData = {
         if(footDiv) footDiv.innerHTML = this.footer;
         
         if(window.ValtaraAlchemist) setTimeout(() => { window.ValtaraAlchemist.init(); }, 500);
-        // ¡Magia aquí! Despertamos la música después de pintar la pared
         if(window.OasisEngine) setTimeout(() => { window.OasisEngine.init(); }, 600);
     }
 };
