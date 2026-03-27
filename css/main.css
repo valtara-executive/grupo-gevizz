@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /* ====================================================================================
-   BLOQUE 2: MOTOR VISUAL SOVEREIGN 11.1 (COLORIMETRÍA VÍVIDA & ANIMACIONES)
-   Colores brillantes, scroll reparado, Avatares vivos y filtro Invertir inteligente.
+   BLOQUE 2: MOTOR VISUAL SOVEREIGN 14.5 (COLORIMETRÍA VÍVIDA & ANIMACIONES FLUIDAS)
+   Colores brillantes, scroll reparado, Avatares vivos, iluminación orgánica 3D.
    ==================================================================================== */
 
 :root { 
@@ -13,28 +13,30 @@
     --valtara-blanco: #ffffff; 
     --valtara-gris-texto: #e2e2e8; /* Gris más claro para mejor lectura */
     
-    /* 2. Colorimetría Vívida (Para botones flotantes y luces) */
+    /* 2. Colorimetría Vívida (Para botones flotantes y luces ambientales) */
     --valtara-cian-brillante: #00FFFF;
     --valtara-morado-vivo: #B200FF;
     --valtara-verde-menta: #00FFAA;
     --valtara-dorado-arena: #FFD700;
+    --valtara-magenta-profundo: #F72585; /* Nuevo token para profundidad térmica */
     --valtara-whatsapp: #25D366; /* Verde exacto de WhatsApp para identificación rápida */
     --valtara-alerta: #FF3366;
 
-    /* Gradientes */
-    --grad-magic: linear-gradient(135deg, var(--valtara-morado-vivo), #F72585);
+    /* Gradientes Expandidos de Ultra-Lujo */
+    --grad-magic: linear-gradient(135deg, var(--valtara-morado-vivo), var(--valtara-magenta-profundo));
+    --grad-cristal: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.01) 100%);
     
     /* 3. Glassmorphism Tokens */
-    --cristal-fondo: rgba(15, 15, 25, 0.55); /* Más translúcido para dejar pasar los colores vivos */
-    --cristal-borde: rgba(255, 255, 255, 0.12); 
-    --cristal-sombra: 0 1.5rem 4rem rgba(0, 0, 0, 0.5);
+    --cristal-fondo: rgba(15, 15, 25, 0.55); /* Translúcido para dejar pasar colores vivos */
+    --cristal-borde: rgba(255, 255, 255, 0.15); 
+    --cristal-sombra: 0 2rem 5rem rgba(0, 0, 0, 0.7);
     
     /* 4. Escala y Tipografía */
     --font-main: 'Lato', sans-serif;
     --font-accent: 'Playfair Display', serif;
-    --nav-height: 5.5rem; 
+    --nav-height: 6rem; /* Ligeramente más amplio para respirar */
     --max-width: 1200px;
-    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); /* Curva Apple de extrema fluidez */
 }
 
 /* ------------------------------------------------------------------------------------
@@ -67,14 +69,14 @@ body {
     width: 100%;
     min-height: 100vh;
     transform-origin: top center;
-    transition: transform 0.3s var(--ease-out-expo);
+    transition: transform 0.4s var(--ease-out-expo);
 }
 
 *:focus-visible { outline: 3px solid var(--valtara-cian-brillante); outline-offset: 4px; border-radius: 4px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 
 /* ------------------------------------------------------------------------------------
-   B. MOTOR AMBIENTAL (ORBES VÍVIDOS)
+   B. MOTOR AMBIENTAL (ORBES VÍVIDOS Y MOVIMIENTO ORGÁNICO)
    ------------------------------------------------------------------------------------ */
 .ambient-engine { 
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
@@ -83,154 +85,192 @@ body {
     background: var(--valtara-negro-fondo); 
 }
 
-/* Esferas de luz con colores vibrantes */
-.orb { position: absolute; border-radius: 50%; filter: blur(7rem); opacity: 0.75; mix-blend-mode: screen; animation: floatOrb 20s infinite ease-in-out alternate; }
+/* Esferas de luz con colores vibrantes y mezcla de pantalla */
+.orb { 
+    position: absolute; border-radius: 50%; filter: blur(8rem); /* Mayor desenfoque para suavidad */
+    opacity: 0.75; mix-blend-mode: screen; 
+    animation: floatOrb 25s infinite cubic-bezier(0.4, 0, 0.2, 1) alternate; /* Más lento y orgánico */
+}
 .orb-1 { width: 55vw; height: 55vw; background: var(--valtara-morado-vivo); top: -10%; left: -10%; }
-.orb-2 { width: 65vw; height: 65vw; background: var(--valtara-verde-menta); bottom: -15%; right: -15%; animation-delay: -5s; opacity: 0.6;}
-.orb-3 { width: 45vw; height: 45vw; background: var(--valtara-dorado-arena); top: 35%; left: 35%; animation-delay: -10s; opacity: 0.5; }
-.orb-4 { width: 50vw; height: 50vw; background: var(--valtara-cian-brillante); bottom: 5%; left: -5%; animation-delay: -15s; opacity: 0.6;}
+.orb-2 { width: 65vw; height: 65vw; background: var(--valtara-verde-menta); bottom: -15%; right: -15%; animation-delay: -5s; opacity: 0.65;}
+.orb-3 { width: 45vw; height: 45vw; background: var(--valtara-dorado-arena); top: 35%; left: 35%; animation-delay: -10s; opacity: 0.55; }
+.orb-4 { width: 50vw; height: 50vw; background: var(--valtara-cian-brillante); bottom: 5%; left: -5%; animation-delay: -15s; opacity: 0.65;}
+/* QUINTO ORBE AÑADIDO: Profundidad visual extra */
+.orb-5 { width: 40vw; height: 40vw; background: var(--valtara-magenta-profundo); top: 20%; right: 10%; animation-delay: -7s; opacity: 0.5;}
 
+/* Animación elíptica y pulsante para que se sienta vivo, no mecánico */
 @keyframes floatOrb {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(8vw, 12vh) scale(1.15); }
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.7; }
+    33% { transform: translate(5vw, 8vh) scale(1.1) rotate(15deg); opacity: 0.9; }
+    66% { transform: translate(-4vw, 15vh) scale(0.95) rotate(-10deg); opacity: 0.6; }
+    100% { transform: translate(8vw, -5vh) scale(1.15) rotate(5deg); opacity: 0.8; }
 }
 
-.glass-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px); z-index: 1; pointer-events: none;}
+/* Cristal esmerilado principal para suavizar las luces */
+.glass-overlay { 
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+    backdrop-filter: blur(60px); -webkit-backdrop-filter: blur(60px); 
+    background: radial-gradient(circle at center, transparent 0%, rgba(5,5,8,0.3) 100%);
+    z-index: 1; pointer-events: none;
+}
 
 /* ------------------------------------------------------------------------------------
-   C. ONBOARDING Y AVATARES ANIMADOS
+   C. ONBOARDING Y AVATARES ANIMADOS (INTERACCIÓN PREMIUM)
    ------------------------------------------------------------------------------------ */
 .full-screen-overlay {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: radial-gradient(circle at center, rgba(10,10,20,0.95) 0%, #000 100%);
+    background: radial-gradient(circle at center, rgba(10,10,20,0.95) 0%, rgba(2,2,4,0.98) 100%);
     z-index: 99999; display: flex; justify-content: center; align-items: center;
     transition: opacity 0.8s var(--ease-out-expo), visibility 0.8s;
 }
-.full-screen-overlay.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
+.full-screen-overlay.fade-out { opacity: 0; visibility: hidden; pointer-events: none; transform: scale(1.05); }
 
-.onboarding-content { text-align: center; max-width: 650px; padding: 3rem 2rem; animation: floatUp 1s var(--ease-out-expo) forwards; }
-@keyframes floatUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+.onboarding-content { text-align: center; max-width: 650px; padding: 3rem 2rem; animation: floatUp 1.2s var(--ease-out-expo) forwards; }
+@keyframes floatUp { from { opacity: 0; transform: translateY(50px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
 /* Animación de "Respiración" para el icono central y avatares */
 .glow-icon-wrapper i {
-    animation: breathe 3s infinite ease-in-out;
+    animation: breathe 4s infinite cubic-bezier(0.4, 0, 0.2, 1);
     color: var(--valtara-verde-menta);
     text-shadow: 0 0 3rem rgba(0, 255, 170, 0.6);
 }
 
 @keyframes breathe {
-    0% { transform: scale(1); filter: brightness(1); }
-    50% { transform: scale(1.1); filter: brightness(1.3); text-shadow: 0 0 4rem rgba(0, 255, 170, 0.9); }
-    100% { transform: scale(1); filter: brightness(1); }
+    0% { transform: scale(1); filter: brightness(1); text-shadow: 0 0 2rem rgba(0, 255, 170, 0.4); }
+    50% { transform: scale(1.15); filter: brightness(1.4); text-shadow: 0 0 5rem rgba(0, 255, 170, 0.9); }
+    100% { transform: scale(1); filter: brightness(1); text-shadow: 0 0 2rem rgba(0, 255, 170, 0.4); }
 }
 
-.input-group { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 3rem; border-radius: 2rem; backdrop-filter: blur(25px); box-shadow: 0 2rem 6rem rgba(0,0,0,0.9); }
+.input-group { 
+    background: var(--grad-cristal); border: 1px solid rgba(255,255,255,0.15); 
+    padding: 3.5rem; border-radius: 2rem; backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+    box-shadow: 0 2rem 8rem rgba(0,0,0,0.9), inset 0 1px 1px rgba(255,255,255,0.2); 
+}
 
 /* Diseño y Animación de Avatares */
 .avatar-grid { display: flex; flex-wrap: wrap; gap: 1.8rem; justify-content: center; margin-bottom: 2rem; }
-.avatar-option { cursor: pointer; text-align: center; }
+.avatar-option { cursor: pointer; text-align: center; position: relative; }
 .avatar-option input { display: none; }
 
 .avatar-icon {
     display: flex; justify-content: center; align-items: center;
-    width: 5rem; height: 5rem; border-radius: 50%;
-    background: rgba(255,255,255,0.05); border: 2px solid transparent;
-    font-size: 2.2rem; color: #888; transition: 0.4s var(--ease-out-expo);
-    margin: 0 auto 0.8rem auto;
+    width: 5.5rem; height: 5.5rem; border-radius: 50%;
+    background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1);
+    font-size: 2.2rem; color: #888; transition: all 0.5s var(--ease-out-expo);
+    margin: 0 auto 0.8rem auto; box-shadow: inset 0 0 1rem rgba(0,0,0,0.5);
 }
-.avatar-name { font-size: 0.95rem; color: #888; font-weight: 900; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.1rem;}
+.avatar-name { font-size: 0.95rem; color: #888; font-weight: 900; transition: all 0.4s ease; text-transform: uppercase; letter-spacing: 0.1rem;}
 
 /* Hover del Avatar */
-.avatar-option:hover .avatar-icon { background: rgba(255,255,255,0.1); color: var(--valtara-blanco); transform: translateY(-5px); }
+.avatar-option:hover .avatar-icon { 
+    background: rgba(255,255,255,0.1); color: var(--valtara-blanco); 
+    transform: translateY(-8px) scale(1.05); border-color: rgba(255,255,255,0.3);
+    box-shadow: 0 1rem 2rem rgba(0,0,0,0.3);
+}
 
-/* Estado Seleccionado del Avatar (Colorimetría Vívida) */
+/* Estado Seleccionado del Avatar (Colorimetría Vívida Expandida) */
 .avatar-option input:checked + .avatar-icon {
     border-color: var(--valtara-cian-brillante); color: var(--valtara-negro-fondo);
     background: var(--valtara-cian-brillante);
-    box-shadow: 0 0 2.5rem rgba(0, 255, 255, 0.6);
-    transform: scale(1.15);
+    box-shadow: 0 0 3rem rgba(0, 255, 255, 0.7), inset 0 0 1rem rgba(255,255,255,0.8);
+    transform: translateY(-10px) scale(1.15);
 }
-.avatar-option input:checked ~ .avatar-name { color: var(--valtara-cian-brillante); }
+.avatar-option input:checked ~ .avatar-name { color: var(--valtara-cian-brillante); text-shadow: 0 0 10px rgba(0,255,255,0.3); }
 
 .input-group input[type="text"] {
-    width: 100%; background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.3);
-    color: var(--valtara-blanco); padding: 1.5rem; font-size: 1.3rem;
-    border-radius: 1rem; text-align: center; outline: none; transition: 0.3s ease;
+    width: 100%; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2);
+    color: var(--valtara-blanco); padding: 1.6rem; font-size: 1.3rem;
+    border-radius: 1.2rem; text-align: center; outline: none; transition: all 0.4s var(--ease-out-expo);
+    box-shadow: inset 0 0 1rem rgba(0,0,0,0.5);
 }
-.input-group input[type="text"]:focus { border-color: var(--valtara-cian-brillante); box-shadow: 0 0 2rem rgba(0, 255, 255, 0.3); background: rgba(0, 255, 255, 0.05); }
+.input-group input[type="text"]:focus { 
+    border-color: var(--valtara-cian-brillante); 
+    box-shadow: 0 0 2.5rem rgba(0, 255, 255, 0.3), inset 0 0 1.5rem rgba(0,255,255,0.1); 
+    background: rgba(0, 255, 255, 0.05); transform: translateY(-2px);
+}
 
 /* ------------------------------------------------------------------------------------
-   D. CABECERA (HEADER)
+   D. CABECERA (HEADER CRISTALINO)
    ------------------------------------------------------------------------------------ */
 .system-header { 
     position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); 
     z-index: 2000; display: flex; justify-content: space-between; align-items: center; 
-    background: rgba(4, 4, 8, 0.8); border-bottom: 1px solid var(--cristal-borde); 
-    padding: 0 3rem; backdrop-filter: blur(2.5rem); -webkit-backdrop-filter: blur(2.5rem);
+    background: rgba(4, 4, 8, 0.65); border-bottom: 1px solid var(--cristal-borde); 
+    padding: 0 3.5rem; backdrop-filter: blur(3rem); -webkit-backdrop-filter: blur(3rem);
+    box-shadow: 0 1rem 3rem rgba(0,0,0,0.5);
 }
 
 .header-logo { 
-    color: var(--valtara-oro); font-size: 1.6rem; letter-spacing: 0.3rem; 
+    color: var(--valtara-oro); font-size: 1.7rem; letter-spacing: 0.3rem; 
     text-transform: uppercase; font-family: var(--font-accent); font-weight: 700;
     background: transparent; border: none; cursor: pointer; display: flex; align-items: center; gap: 1.2rem;
+    transition: all 0.4s var(--ease-out-expo); text-shadow: 0 0 15px rgba(242, 201, 76, 0.3);
 }
+.header-logo:hover { transform: scale(1.05); filter: brightness(1.2); }
 
 .header-controls { display: flex; align-items: center; gap: 1.5rem; }
 
 .header-action-btn, .hamburger-btn {
-    background: transparent; border: 2px solid rgba(255,255,255,0.3);
-    width: 3.8rem; height: 3.8rem; border-radius: 50%;
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.2);
+    width: 4rem; height: 4rem; border-radius: 50%;
     font-size: 1.5rem; display: flex; justify-content: center; align-items: center;
-    transition: 0.3s ease; cursor: pointer; color: var(--valtara-blanco);
+    transition: all 0.4s var(--ease-out-expo); cursor: pointer; color: var(--valtara-blanco);
 }
-.header-action-btn:hover, .hamburger-btn:hover { background: var(--valtara-blanco); color: var(--valtara-negro-fondo); box-shadow: 0 0 2rem rgba(255,255,255,0.5); transform: scale(1.1); }
+.header-action-btn:hover, .hamburger-btn:hover { 
+    background: var(--valtara-blanco); color: var(--valtara-negro-fondo); 
+    box-shadow: 0 0 2.5rem rgba(255,255,255,0.6); transform: translateY(-3px) scale(1.1); 
+}
 
 /* ------------------------------------------------------------------------------------
-   E. MENÚ LATERAL (SOLUCIÓN SCROLL)
+   E. MENÚ LATERAL (SOLUCIÓN SCROLL Y CRISTAL PROFUNDO)
    ------------------------------------------------------------------------------------ */
 .side-menu { 
-    position: fixed; top: 0; right: -100%; width: 38rem; max-width: 100vw; height: 100vh; 
-    background: rgba(4, 4, 8, 0.98); border-left: 1px solid var(--valtara-cian-brillante); 
-    z-index: 3000; transition: right 0.6s var(--ease-out-expo); 
-    display: flex; flex-direction: column; backdrop-filter: blur(3rem);
-    box-shadow: -2rem 0 6rem rgba(0,0,0,0.9);
+    position: fixed; top: 0; right: -100%; width: 40rem; max-width: 100vw; height: 100vh; 
+    background: rgba(4, 4, 10, 0.85); border-left: 1px solid var(--valtara-cian-brillante); 
+    z-index: 3000; transition: right 0.7s cubic-bezier(0.16, 1, 0.3, 1); 
+    display: flex; flex-direction: column; backdrop-filter: blur(4rem); -webkit-backdrop-filter: blur(4rem);
+    box-shadow: -2rem 0 8rem rgba(0,255,255,0.15), -1rem 0 4rem rgba(0,0,0,0.9);
 }
 .side-menu.open { right: 0; }
 
-.menu-header { padding: 3rem 2.5rem 2rem 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; background: rgba(255,255,255,0.03); flex-shrink: 0; }
+.menu-header { padding: 3.5rem 3rem 2.5rem 3rem; border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; background: var(--grad-cristal); flex-shrink: 0; }
 
-.close-btn { position: absolute; top: 2rem; right: 2.5rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: var(--valtara-blanco); width: 3.2rem; height: 3.2rem; border-radius: 50%; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; font-size: 1.2rem;}
-.close-btn:hover { background: var(--valtara-alerta); border-color: var(--valtara-alerta); transform: rotate(90deg); box-shadow: 0 0 2rem rgba(255, 51, 102, 0.6); }
+.close-btn { position: absolute; top: 2.5rem; right: 3rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: var(--valtara-blanco); width: 3.5rem; height: 3.5rem; border-radius: 50%; cursor: pointer; transition: all 0.4s var(--ease-out-expo); display: flex; justify-content: center; align-items: center; font-size: 1.3rem;}
+.close-btn:hover { background: var(--valtara-alerta); border-color: var(--valtara-alerta); transform: rotate(90deg) scale(1.1); box-shadow: 0 0 2.5rem rgba(255, 51, 102, 0.8); }
 
-.patient-profile-card { display: flex; align-items: center; gap: 1.5rem; }
-.profile-avatar { width: 5.5rem; height: 5.5rem; background: var(--valtara-negro-fondo); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; color: var(--valtara-cian-brillante); box-shadow: 0 0.5rem 2rem rgba(0, 255, 255, 0.3); border: 2px solid var(--valtara-cian-brillante); }
+.patient-profile-card { display: flex; align-items: center; gap: 1.8rem; }
+.profile-avatar { width: 6rem; height: 6rem; background: rgba(0,0,0,0.5); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2.8rem; color: var(--valtara-cian-brillante); box-shadow: 0 0.5rem 2.5rem rgba(0, 255, 255, 0.4); border: 2px solid var(--valtara-cian-brillante); }
 .profile-info { display: flex; flex-direction: column; }
-.profile-greeting { font-size: 1.15rem; color: var(--valtara-gris-texto); font-style: italic; }
-.profile-name { font-size: 2rem; color: var(--valtara-blanco); font-family: var(--font-accent); }
+.profile-greeting { font-size: 1.2rem; color: var(--valtara-gris-texto); font-style: italic; }
+.profile-name { font-size: 2.2rem; color: var(--valtara-blanco); font-family: var(--font-accent); text-shadow: 0 0 15px rgba(255,255,255,0.2);}
 
 /* SOLUCIÓN SCROLL: Esta área sí debe tener auto para poder bajar con el dedo */
-.menu-scroll-area { padding: 2rem 2.5rem 5rem 2.5rem; overflow-y: auto; flex-grow: 1; }
-.menu-section-title { font-size: 1rem; color: var(--valtara-verde-menta); text-transform: uppercase; letter-spacing: 0.15rem; margin-bottom: 1.2rem; margin-top: 1.5rem; font-weight: 900; }
+.menu-scroll-area { padding: 2.5rem 3rem 6rem 3rem; overflow-y: auto; flex-grow: 1; scrollbar-width: thin; scrollbar-color: var(--valtara-cian-brillante) transparent;}
+.menu-section-title { font-size: 1.05rem; color: var(--valtara-verde-menta); text-transform: uppercase; letter-spacing: 0.2rem; margin-bottom: 1.5rem; margin-top: 2rem; font-weight: 900; }
 
-.nav-list { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
-.nav-item { width: 100%; text-align: left; padding: 1.4rem 1.5rem; border-radius: 1rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); color: var(--valtara-blanco); font-size: 1.2rem; display: flex; align-items: center; gap: 1.5rem; transition: 0.3s; cursor: pointer; font-weight: 700;}
-.nav-item i { font-size: 1.6rem; color: var(--valtara-oro); width: 2rem; text-align: center; }
-.nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.1); border-color: var(--valtara-oro); transform: translateX(8px); box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.4);}
+.nav-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+.nav-item { width: 100%; text-align: left; padding: 1.5rem 1.8rem; border-radius: 1.2rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); color: var(--valtara-blanco); font-size: 1.25rem; display: flex; align-items: center; gap: 1.8rem; transition: all 0.4s var(--ease-out-expo); cursor: pointer; font-weight: 700; box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.2);}
+.nav-item i { font-size: 1.8rem; color: var(--valtara-oro); width: 2.5rem; text-align: center; transition: 0.4s; }
+.nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.08); border-color: var(--valtara-oro); transform: translateX(12px); box-shadow: 0 1rem 2.5rem rgba(242, 201, 76, 0.2);}
+.nav-item:hover i, .nav-item.active i { transform: scale(1.2); filter: drop-shadow(0 0 10px var(--valtara-oro)); }
 
-.btn-ws-massive { display: flex; align-items: center; justify-content: center; gap: 1rem; background: var(--valtara-whatsapp); color: var(--valtara-negro-fondo); padding: 1.8rem; border-radius: 1rem; text-decoration: none; font-weight: 900; font-size: 1.3rem; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.1rem;}
-.btn-ws-massive:hover { background: var(--valtara-blanco); transform: translateY(-4px); box-shadow: 0 1.5rem 3rem rgba(37, 211, 102, 0.5); }
+.btn-ws-massive { display: flex; align-items: center; justify-content: center; gap: 1.2rem; background: var(--valtara-whatsapp); color: var(--valtara-negro-fondo); padding: 2rem; border-radius: 1.2rem; text-decoration: none; font-weight: 900; font-size: 1.4rem; transition: all 0.5s var(--ease-out-expo); text-transform: uppercase; letter-spacing: 0.15rem; box-shadow: 0 1rem 2rem rgba(37,211,102,0.3);}
+.btn-ws-massive:hover { background: var(--valtara-blanco); transform: translateY(-6px); box-shadow: 0 2rem 4rem rgba(37, 211, 102, 0.6); }
 
 /* ------------------------------------------------------------------------------------
-   F. GRID Y CONTENEDOR SPA
+   F. GRID Y CONTENEDOR SPA (TRANSICIONES EXTRA SUAVES)
    ------------------------------------------------------------------------------------ */
 #main-content { padding-top: var(--nav-height); width: 100%; min-height: 100vh; position: relative; z-index: 1;}
-.view-section { display: none; opacity: 0; padding: 5rem 2rem; max-width: var(--max-width); margin: 0 auto; }
-.view-section.active { display: block; opacity: 1; animation: fadeInView 0.8s var(--ease-out-expo); }
+.view-section { display: none; opacity: 0; padding: 6rem 2rem; max-width: var(--max-width); margin: 0 auto; }
+.view-section.active { display: block; opacity: 1; animation: fadeInView 1s var(--ease-out-expo); }
 
-@keyframes fadeInView { from { opacity: 0; transform: translateY(30px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+@keyframes fadeInView { 
+    from { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(8px); } 
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } 
+}
 
 /* Clases base para la estructura en Zig-Zag que haremos en components */
-.grid-container { display: grid; gap: 3rem; margin-top: 3rem; }
+.grid-container { display: grid; gap: 3.5rem; margin-top: 3rem; }
 .grid-2-cols { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
 .grid-3-cols { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 
@@ -256,7 +296,7 @@ body.invert-colors .card-icon-wrapper {
 /* ------------------------------------------------------------------------------------
    H. MEGA FOOTER Y RESPONSIVIDAD
    ------------------------------------------------------------------------------------ */
-.mega-footer { background: rgba(2,2,3,0.98); border-top: 1px solid var(--valtara-morado-vivo); padding: 6rem 2rem 3rem 2rem; margin-top: 5rem; position: relative; z-index: 1;}
+.mega-footer { background: rgba(2,2,3,0.98); border-top: 1px solid var(--valtara-morado-vivo); padding: 7rem 2rem 4rem 2rem; margin-top: 6rem; position: relative; z-index: 1; box-shadow: 0 -2rem 5rem rgba(178,0,255,0.1);}
 
 @media (max-width: 850px) {
     .system-header { padding: 0 1.5rem; }
@@ -264,7 +304,8 @@ body.invert-colors .card-icon-wrapper {
     .input-group { padding: 2.5rem 1.5rem; }
     .avatar-icon { width: 4rem; height: 4rem; font-size: 1.8rem; }
     .grid-2-cols, .grid-3-cols { grid-template-columns: 1fr; }
-   }
+}
+
 /* ==========================================
    PARCHE QUIRÚRGICO: MÓVIL Y SCROLL LIBRE
    ========================================== */
@@ -281,13 +322,12 @@ body {
 /* Reducción masiva para celulares */
 @media (max-width: 850px) {
     html { font-size: 10px !important; } /* Reduce todo un 33% automáticamente */
-    .glass-card { padding: 1.5rem !important; gap: 1.5rem !important; }
-    .card-icon-wrapper { font-size: 3.5rem !important; min-height: 120px !important; margin-bottom: 1rem !important;}
-    .hero-view h1 { font-size: 3.5rem !important; }
-    .body-map-container { padding: 2rem 1.5rem !important; gap: 2rem !important; }
-    .zone-info { padding: 2rem 1.5rem !important; }
-    .btn-primary, .btn-agenda-ahora { padding: 1.2rem 1.5rem !important; font-size: 1.1rem !important; }
+    .hero-view h1 { font-size: 3.8rem !important; }
+    .body-map-container { padding: 2.5rem 1.5rem !important; gap: 2rem !important; }
+    .zone-info { padding: 2.5rem 1.5rem !important; }
+    .btn-primary, .btn-agenda-ahora { padding: 1.4rem 1.8rem !important; font-size: 1.15rem !important; }
 }
+
 /* ==========================================
    PARCHE QUIRÚRGICO 2: REPARACIÓN ONBOARDING IPHONE (SAFARI)
    ========================================== */
@@ -296,29 +336,30 @@ body {
     min-height: 100dvh !important; /* Medida dinámica que respeta la barra de Apple */
     overflow-y: auto !important; /* Permite deslizar el dedo si el contenido es largo */
     align-items: flex-start !important; /* Evita que el contenedor aplaste el texto */
-    padding: 3rem 1rem !important; 
+    padding: 4rem 1.5rem !important; 
 }
 
 .onboarding-content {
     margin: auto !important; /* Vuelve a centrar todo pero de forma elástica */
-    padding: 1.5rem !important;
+    padding: 2rem !important;
     width: 100% !important;
 }
 
 @media (max-width: 850px) {
-    .input-group { padding: 2rem 1.5rem !important; }
-    .avatar-grid { gap: 1rem !important; }
-    .avatar-icon { width: 4.5rem !important; height: 4.5rem !important; margin-bottom: 0.5rem !important; }
-    #welcome-start-btn { padding: 1.2rem !important; font-size: 1.1rem !important; }
+    .input-group { padding: 2.5rem 1.5rem !important; }
+    .avatar-grid { gap: 1.2rem !important; }
+    .avatar-icon { width: 5rem !important; height: 5rem !important; margin-bottom: 0.5rem !important; }
+    #welcome-start-btn { padding: 1.4rem !important; font-size: 1.2rem !important; }
 }
+
 /* ==========================================
    PARCHE QUIRÚRGICO 3: TOUCH TARGETS (DEDOS) Y ZOOM BUG (EDGE/CHROME)
    ========================================== */
 
 /* 1. Botones superiores y "X" tamaño ultra-cómodo para móviles */
 #menu-btn, #aura-close-btn, #menu-close-btn, .close-btn, .top-bar-btn {
-    min-width: 48px !important;
-    min-height: 48px !important;
+    min-width: 52px !important;
+    min-height: 52px !important;
     padding: 12px !important;
     font-size: 1.8rem !important; /* Hace la "X" y el menú visualmente más grandes */
     display: inline-flex !important;
@@ -329,8 +370,8 @@ body {
 /* 2. Reparar el desbordamiento de íconos al hacer zoom */
 .card-icon-wrapper, .glow-icon-wrapper {
     flex-shrink: 0 !important; /* Evita que la caja se deforme con el zoom */
-    min-width: 80px !important; 
-    min-height: 80px !important;
+    min-width: 85px !important; 
+    min-height: 85px !important;
     height: auto !important;
     width: auto !important;
 }
@@ -344,8 +385,9 @@ body {
 
 /* 3. Asegurar que los botones de interacción no se encimen */
 header, .top-nav-bar {
-    gap: 1rem !important;
+    gap: 1.2rem !important;
 }
+
 /* ==========================================
    PARCHE QUIRÚRGICO 4: RECUPERACIÓN DE 'X' Y ENCABEZADOS EN EDGE
    ========================================== */
@@ -353,11 +395,11 @@ header, .top-nav-bar {
 /* Forzamos a la 'X' a anclarse en la esquina superior derecha de la pantalla/modal */
 .close-btn, #aura-close-btn, #menu-close-btn {
     position: absolute !important;
-    top: 15px !important;
-    right: 15px !important;
+    top: 20px !important;
+    right: 20px !important;
     z-index: 9999 !important; /* Capa de prioridad máxima absoluta */
-    background: rgba(20, 20, 30, 0.9) !important; /* Fondo oscuro para que resalte */
-    border: 1px solid rgba(0, 255, 255, 0.3) !important; /* Borde cian sutil */
+    background: rgba(20, 20, 30, 0.95) !important; /* Fondo oscuro para que resalte */
+    border: 1px solid rgba(0, 255, 255, 0.4) !important; /* Borde cian sutil */
     border-radius: 50% !important; /* Botón circular perfecto */
 }
 
@@ -365,7 +407,7 @@ header, .top-nav-bar {
 .glass-modal h2, .glass-modal h3, #audio-modal h2, #a11y-modal h2 {
     position: relative !important;
     z-index: 9000 !important;
-    padding-right: 3.5rem !important; /* Empuja el texto un poco para que no choque con la X */
+    padding-right: 4rem !important; /* Empuja el texto un poco para que no choque con la X */
     flex-shrink: 0 !important; /* Prohíbe que el navegador aplaste el título */
     margin-top: 1rem !important;
 }
@@ -375,4 +417,4 @@ header, .top-nav-bar {
     position: fixed !important; 
     overflow-y: auto !important; /* Permite scroll interno si la pantalla es enana */
     overflow-x: hidden !important;
-}
+   }
