@@ -23,12 +23,12 @@
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/main.css?v=13.5">
-    <link rel="stylesheet" href="css/components.css?v=13.5">
+    <link rel="stylesheet" href="css/main.css?v=14.0">
+    <link rel="stylesheet" href="css/components.css?v=14.0">
 </head>
 <body class="system-loading">
 
-    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma Sovereign Valtara 13.5. Bienestar biomecánico en línea...</div>
+    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma Sovereign Valtara 14.0. Bienestar biomecánico en línea...</div>
 
     <div id="onboarding-screen" class="full-screen-overlay" aria-hidden="false" role="dialog" aria-labelledby="onboarding-title">
         <div class="onboarding-content">
@@ -138,6 +138,9 @@
                 <ul class="nav-list" role="menubar">
                     <li role="none"><button role="menuitem" class="nav-item" data-target="home"><i class="fa-solid fa-house"></i> <span>Inicio y Mapa Interactivo</span></button></li>
                     <li role="none"><button role="menuitem" class="nav-item" data-target="restoration"><i class="fa-solid fa-spa"></i> <span>Catálogo de Masajes</span></button></li>
+                    <li role="none"><button role="menuitem" class="nav-item" data-target="beauty"><i class="fa-solid fa-wand-magic-sparkles"></i> <span>Estudio de Manicura</span></button></li>
+                    <li role="none"><button role="menuitem" class="nav-item" data-target="sonotherapy"><i class="fa-solid fa-headphones-simple"></i> <span>Sala de Sonoterapia</span></button></li>
+                    
                     <li role="none"><button role="menuitem" class="nav-item" data-target="science"><i class="fa-solid fa-microscope"></i> <span>Ciencia y Botánica</span></button></li>
                     <li role="none"><button role="menuitem" class="nav-item" data-target="legal"><i class="fa-solid fa-shield-halved"></i> <span>Conócenos y Políticas</span></button></li>
                 </ul>
@@ -175,52 +178,6 @@
                         <button class="a11y-card-btn" id="a11y-spacing" aria-pressed="false"><i class="fa-solid fa-text-width"></i> <span>Espaciado Cognitivo</span></button>
                         <button class="a11y-card-btn" id="a11y-motion" aria-pressed="false" style="border-color: #F72585;"><i class="fa-solid fa-stopwatch" style="color: #F72585;"></i> <span>Apagar Animaciones de Fondo</span></button>
                     </div>
-                </div>
-            </div>
-        </dialog>
-
-        <dialog aria-label="Reproductor de Audio Relajante" class="modal-dialog mega-modal" id="audio-modal">
-            <div class="modal-content">
-                <header class="modal-header">
-                    <h3><i aria-hidden="true" class="fa-solid fa-headphones-simple"></i> Atmósferas Relajantes</h3>
-                    <button aria-label="Cerrar reproductor" class="close-modal-btn" data-close="audio-modal"><i class="fa-solid fa-xmark"></i></button>
-                </header>
-                <div class="modal-body" style="display: flex; flex-direction: column;">
-                    <p style="color: var(--valtara-gris-texto); font-size: 1.15rem; margin-bottom: 2rem; font-weight: 300; text-align: center;">
-                        Ponte tus audífonos y sumérgete en nuestra colección acústica de alta fidelidad diseñada para tu paz mental.
-                    </p>
-                    
-                    <div id="oasis-now-playing" style="text-align: center; color: var(--valtara-cian-brillante); font-size: 1.2rem; font-family: var(--font-accent); margin-bottom: 1rem; min-height: 1.5rem; letter-spacing: 1px;">
-                        Selecciona una pista para comenzar
-                    </div>
-
-                    <div class="canvas-audio-wrapper" style="margin-bottom: 1rem;">
-                        <canvas id="oasis-visualizer" aria-label="Visualizador de sonido"></canvas>
-                    </div>
-
-                    <div class="oasis-player-controls" style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2rem; border: 1px solid rgba(0, 255, 255, 0.2);">
-                        
-                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; color: var(--valtara-gris-texto); font-size: 0.9rem;">
-                            <span id="oasis-time-current">0:00</span>
-                            <input type="range" id="oasis-progress-bar" value="0" min="0" max="100" style="flex: 1; accent-color: var(--valtara-cian-brillante); cursor: pointer;">
-                            <span id="oasis-time-total">0:00</span>
-                        </div>
-
-                        <div style="display: flex; align-items: center; justify-content: center; gap: 2rem;">
-                            <div style="display: flex; align-items: center; gap: 0.8rem; color: var(--valtara-oro-suave);">
-                                <i class="fa-solid fa-volume-low"></i>
-                                <input type="range" id="oasis-volume-slider" min="0" max="1" step="0.01" value="0.7" style="width: 100px; accent-color: var(--valtara-oro); cursor: pointer;">
-                                <i class="fa-solid fa-volume-high"></i>
-                            </div>
-                            
-                            <button class="master-play-btn" id="btn-master-play" aria-label="Reproducir o Pausar Audio" style="margin: 0; box-shadow: 0 4px 15px rgba(0,255,255,0.3);">
-                                <i class="fa-solid fa-play"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="audio-tracks-grid" id="audio-track-list">
-                        </div>
                 </div>
             </div>
         </dialog>
@@ -276,12 +233,6 @@
             </div>
         </dialog>
 
-        <aside aria-label="Música Relajante" class="float-controls float-left">
-            <button aria-label="Abrir reproductor de música" aria-haspopup="dialog" aria-controls="audio-modal" class="fab-btn fab-music" id="fab-audio">
-                <i aria-hidden="true" class="fa-solid fa-music"></i>
-            </button>
-        </aside>
-
         <aside aria-label="Asistencia y Contacto" class="float-controls float-right">
             <button aria-label="Hablar con el Asistente Aura" aria-haspopup="dialog" aria-controls="aura-modal" class="fab-btn fab-aura" id="fab-aura">
                 <i aria-hidden="true" class="fa-solid fa-robot"></i>
@@ -294,22 +245,59 @@
         <main id="main-content" role="main">
             <section aria-label="Página de Inicio y Mapa Interactivo" class="view-section active" id="view-home"></section>
             <section aria-label="Catálogo de Masajes" class="view-section" id="view-restoration"></section>
+            <section aria-label="Estudio de Manicura" class="view-section" id="view-beauty"></section>
+            <section aria-label="Sala de Sonoterapia" class="view-section" id="view-sonotherapy"></section>
+            
             <section aria-label="Ciencia, Botánica y Manifiesto" class="view-section" id="view-science"></section>
             <section aria-label="Nuestra Historia, Marco Legal y Políticas" class="view-section" id="view-legal"></section>
         </main>
 
         <footer aria-label="Pie de página corporativo" class="mega-footer" id="main-footer">
-            </footer>
+        </footer>
 
     </div> 
     
-    <script src="js/data.js?v=13.5" defer></script>
-    <script src="js/a11y.js?v=13.5" defer></script>
-    <script src="js/user.js?v=13.5" defer></script>
-    <script src="js/aura.js?v=13.5" defer></script>
-    <script src="js/oasis.js?v=13.5" defer></script>
-    <script src="js/router.js?v=13.5" defer></script>
-    <script src="js/core.js?v=13.5" defer></script>
+    <script src="js/inicio_bienvenida.js" defer></script>
+    <script src="js/inicio_promociones.js" defer></script>
+    <script src="js/inicio_arte_unas.js" defer></script>
+    <script src="js/inicio_mapa_cuerpo.js" defer></script>
+    <script src="js/inicio_redes_sociales.js" defer></script>
+
+    <script src="js/catalogo_masajes.js" defer></script>
+    <script src="js/catalogo_belleza.js" defer></script>
+
+    <script src="js/ciencia_introduccion.js" defer></script>
+    <script src="js/ciencia_neurobiologia.js" defer></script>
+    <script src="js/ciencia_fascia.js" defer></script>
+    <script src="js/ciencia_acustica.js" defer></script>
+    <script src="js/ciencia_biomecanica.js" defer></script>
+    <script src="js/ciencia_botanica.js" defer></script>
+    <script src="js/ciencia_inclusion.js" defer></script>
+    <script src="js/ciencia_referencias.js" defer></script>
+    <script src="js/juego_alquimista.js" defer></script>
+
+    <script src="js/legal_historia.js" defer></script>
+    <script src="js/legal_manifiesto.js" defer></script>
+    <script src="js/legal_transparencia.js" defer></script>
+    <script src="js/legal_preguntas.js" defer></script>
+
+    <script src="js/modal_terminos.js" defer></script>
+    <script src="js/modal_whitepaper.js" defer></script>
+
+    <script src="js/sonoterapia_introduccion.js" defer></script>
+    <script src="js/sonoterapia_videos.js" defer></script>
+    <script src="js/sonoterapia_audio.js" defer></script>
+
+    <script src="js/global_footer.js" defer></script>
+    
+    <script src="js/constructor_maestro.js" defer></script>
+
+    <script src="js/a11y.js" defer></script>
+    <script src="js/user.js" defer></script>
+    <script src="js/aura.js" defer></script>
+    <script src="js/oasis.js" defer></script>
+    <script src="js/router.js" defer></script>
+    <script src="js/core.js" defer></script>
 
 </body>
-        </html>
+</html>
