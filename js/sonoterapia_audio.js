@@ -23,14 +23,14 @@ window.ValtaraModulos.sonoterapia_audio = `
                 <span id="oasis-time-total" style="font-family: monospace; font-weight: bold;">0:00</span>
             </div>
 
-            <div style="display: flex; align-items: center; justify-content: center; gap: 4rem;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; flex-wrap: wrap;">
                 <div style="display: flex; align-items: center; gap: 1.2rem; color: var(--valtara-oro-suave); font-size: 1.4rem;">
                     <i class="fa-solid fa-volume-low"></i>
-                    <input type="range" id="oasis-volume-slider" min="0" max="1" step="0.01" value="0.7" style="width: 130px; accent-color: var(--valtara-oro); cursor: pointer; height: 6px;">
+                    <input type="range" id="oasis-volume-slider" min="0" max="1" step="0.01" value="0.7" style="width: 120px; accent-color: var(--valtara-oro); cursor: pointer; height: 6px;">
                     <i class="fa-solid fa-volume-high"></i>
                 </div>
                 
-                <button class="master-play-btn" id="btn-master-play" aria-label="Reproducir o Pausar Audio" style="margin: 0; width: 85px; height: 85px; font-size: 2.5rem;">
+                <button class="master-play-btn" id="btn-master-play" aria-label="Reproducir o Pausar Audio" style="margin: 0; width: 85px; height: 85px; font-size: 2.5rem; flex-shrink: 0;">
                     <i class="fa-solid fa-play"></i>
                 </button>
             </div>
