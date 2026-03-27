@@ -28,24 +28,28 @@ window.ValtaraData = {
            window.ValtaraModulos.modal_terminos + 
            window.ValtaraModulos.modal_whitepaper,
 
-    // 5. FOOTER GLOBAL
+    // 5. ENSAMBLAMOS SONOTERAPIA
+    sonotherapy: window.ValtaraModulos.sonoterapia_introduccion +
+                 window.ValtaraModulos.sonoterapia_videos +
+                 window.ValtaraModulos.sonoterapia_audio,
+
+    // 6. FOOTER GLOBAL
     footer: window.ValtaraModulos.global_footer,
 
     renderAll: function() {
         const homeDiv = document.getElementById('view-home');
         if(homeDiv) {
             homeDiv.innerHTML = this.home;
-            // Rutina de texto dinámico de inicio
             const heroTextObj = document.getElementById('hero-dynamic-text');
             if(heroTextObj) {
                 const hour = new Date().getHours();
                 let dynText = "";
-                if(hour >= 0 && hour < 6) dynText = "El silencio de la madrugada es el refugio de los grandes visionarios...";
-                else if(hour >= 6 && hour < 12) dynText = "Un nuevo día corporativo comienza...";
-                else if(hour >= 12 && hour < 15) dynText = "El mediodía marca el clímax de la exigencia ejecutiva...";
-                else if(hour >= 15 && hour < 19) dynText = "La tarde avanza y el peso de las decisiones se acumula...";
-                else if(hour >= 19 && hour < 21) dynText = "El sol desciende sobre Reforma...";
-                else dynText = "La noche envuelve la ciudad y tu mente exige tregua...";
+                if(hour >= 0 && hour < 6) dynText = "El silencio de la madrugada es el refugio de los grandes visionarios. Mientras la ciudad duerme, tu mente sigue creando. En nuestro santuario, decodificamos esa tensión silenciosa mediante ciencia anatómica profunda. Tu sistema nervioso está a punto de reiniciarse.";
+                else if(hour >= 6 && hour < 12) dynText = "Un nuevo día corporativo comienza. El éxito exige un vehículo biológico capaz de sostenerlo desde la primera luz del sol. En nuestro santuario privado, calibramos tu estructura muscular para que conquistes tu jornada con enfoque y vitalidad absoluta.";
+                else if(hour >= 12 && hour < 15) dynText = "El mediodía marca el clímax de la exigencia ejecutiva. Es el momento preciso donde el estrés comienza a cristalizarse en tu postura. Haz una pausa estratégica; en Valtara decodificamos esa sobrecarga mediante biomecánica de precisión para devolverte a la cima.";
+                else if(hour >= 15 && hour < 19) dynText = "La tarde avanza y el peso de las decisiones se acumula en tu tejido conectivo. No permitas que la armadura del estrés te limite. En nuestro santuario en Paseo de la Reforma, liberamos las cadenas musculares posteriores para que termines tu día con total ligereza.";
+                else if(hour >= 19 && hour < 21) dynText = "El sol desciende sobre Reforma, marcando el fin de la batalla corporativa. Es hora de hacer la transición. A través de nuestra ciencia anatómica profunda, disolvemos la adrenalina residual de tu jornada y preparamos tu cuerpo para el merecido descanso.";
+                else dynText = "La noche envuelve la ciudad y tu mente exige tregua. Es momento de apagar los motores cognitivos y cederle el control a la regeneración. En Valtara, inducimos ondas cerebrales lentas y restauramos tus fibras musculares para asegurar un mañana triunfal.";
                 heroTextObj.innerHTML = dynText;
             }
         }
@@ -53,7 +57,6 @@ window.ValtaraData = {
         const restDiv = document.getElementById('view-restoration');
         if(restDiv) restDiv.innerHTML = this.restoration;
 
-        // NUEVA VISTA PARA MANICURA
         const beautyDiv = document.getElementById('view-beauty');
         if(beautyDiv) beautyDiv.innerHTML = this.beauty;
         
@@ -62,10 +65,15 @@ window.ValtaraData = {
         
         const legalDiv = document.getElementById('view-legal');
         if(legalDiv) legalDiv.innerHTML = this.legal;
+
+        const sonoDiv = document.getElementById('view-sonotherapy');
+        if(sonoDiv) sonoDiv.innerHTML = this.sonotherapy;
         
         const footDiv = document.getElementById('main-footer');
         if(footDiv) footDiv.innerHTML = this.footer;
         
         if(window.ValtaraAlchemist) setTimeout(() => { window.ValtaraAlchemist.init(); }, 500);
+        // ¡Magia aquí! Despertamos la música después de pintar la pared
+        if(window.OasisEngine) setTimeout(() => { window.OasisEngine.init(); }, 600);
     }
 };
