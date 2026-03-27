@@ -1,7 +1,7 @@
 /**
  * ====================================================================================
- * BLOQUE 9: OASIS AUDIO ENGINE V18.0 (IN-PAGE IMMERSIVE ROOM EDITION)
- * Motor acústico real optimizado para vivir en la vista principal (Sin Modales).
+ * BLOQUE 9: OASIS AUDIO ENGINE V18.5 (APPLE MUSIC IMMERSIVE EDITION)
+ * Motor acústico de doble carrusel con scroll magnético, UI de tarjetas y A11y.
  * ====================================================================================
  */
 
@@ -16,14 +16,25 @@ const OasisEngine = {
     animFrame: null, 
     performanceMode: false,
 
+    // Bóveda de Sonido: 14 Pistas en 2 Categorías apuntando al directorio audio/
     tracks: [
-        { id: 1, name: "I. Vitalidad Cósmica", icon: "fa-mountain", file: "celestial_bloom.mp3" },
-        { id: 2, name: "II. Flujo Cuántico", icon: "fa-water", file: "quantum_serenity.mp3" },
-        { id: 3, name: "III. Fuego Estelar", icon: "fa-fire", file: "celestial_resonance.mp3" },
-        { id: 4, name: "IV. Compasión", icon: "fa-heart", file: "celestial_whispers.mp3" },
-        { id: 5, name: "V. Éter Etéreo", icon: "fa-wind", file: "ecos_etéreos_de_silencio.mp3" },
-        { id: 6, name: "VI. Luz Serena", icon: "fa-eye", file: "serene_luminescence.mp3" },
-        { id: 7, name: "VII. Trascendencia Nocturna", icon: "fa-infinity", file: "ecos_del_silencio_nocturno.mp3" }
+        // --- CATEGORÍA 1: MICRO-DOSIS (30 SEGUNDOS) ---
+        { id: 1, type: 'short', name: "I. Brisa de Lavanda", icon: "fa-wind", file: "audio/1.mp3" },
+        { id: 2, type: 'short', name: "II. Latido de Cuarzo", icon: "fa-gem", file: "audio/2.mp3" },
+        { id: 3, type: 'short', name: "III. Susurro de Bosque", icon: "fa-leaf", file: "audio/3.mp3" },
+        { id: 4, type: 'short', name: "IV. Gota de Rocío", icon: "fa-droplet", file: "audio/4.mp3" },
+        { id: 5, type: 'short', name: "V. Eco Estelar", icon: "fa-meteor", file: "audio/5.mp3" },
+        { id: 6, type: 'short', name: "VI. Mente Cristalina", icon: "fa-brain", file: "audio/6.mp3" },
+        { id: 7, type: 'short', name: "VII. Respiro de Loto", icon: "fa-spa", file: "audio/7.mp3" },
+        { id: 8, type: 'short', name: "VIII. Aura Serena", icon: "fa-water", file: "audio/8.mp3" },
+        { id: 9, type: 'short', name: "IX. Reflejo de Luna", icon: "fa-moon", file: "audio/9.mp3" },
+        
+        // --- CATEGORÍA 2: INMERSIÓN PROFUNDA (2 MINUTOS) ---
+        { id: 10, type: 'long', name: "X. Marea de Terciopelo", icon: "fa-water", file: "audio/marea_de_terciopelo.mp3" },
+        { id: 11, type: 'long', name: "XI. Marea Bajo el Crepúsculo", icon: "fa-cloud-moon", file: "audio/tide_beneath_the_twilight.mp3" },
+        { id: 12, type: 'long', name: "XII. Un Hilo de Oro", icon: "fa-sun", file: "audio/un_hilo_de_oro.mp3" },
+        { id: 13, type: 'long', name: "XIII. Manto Sin Orillas", icon: "fa-infinity", file: "audio/manto_sin_orillas.mp3" },
+        { id: 14, type: 'long', name: "XIV. Dosel Dorado", icon: "fa-tree", file: "audio/gilded_canopy.mp3" }
     ],
 
     init: function() {
@@ -32,8 +43,10 @@ const OasisEngine = {
         this.audioEl.loop = true; 
         this.audioEl.volume = 0.7;
         
-        this.renderTrackList();
+        this.renderTrackLists();
         this.bindEvents();
+        // Arrancamos el radar de accesibilidad para los contadores de carrusel
+        setTimeout(() => this.setupCarouselIndicators(), 1000);
     },
 
     lazyInitAudio: function() {
@@ -108,16 +121,32 @@ const OasisEngine = {
         }
     },
 
-    renderTrackList: function() {
-        const container = document.getElementById('audio-track-list');
-        if(!container) return;
+    renderTrackLists: function() {
+        const containerShort = document.getElementById('audio-carousel-short');
+        const containerLong = document.getElementById('audio-carousel-long');
         
-        container.innerHTML = '';
+        if(containerShort) containerShort.innerHTML = '';
+        if(containerLong) containerLong.innerHTML = '';
+
         this.tracks.forEach(t => {
             const btn = document.createElement('button');
-            btn.className = 'track-btn';
+            // Fusionamos la clase del botón original con la tarjeta de carrusel
+            btn.className = 'track-btn carousel-card glass-card';
             btn.setAttribute('data-id', t.id);
-            btn.innerHTML = `<i class="fa-solid ${t.icon}"></i> <span>${t.name}</span>`;
+            btn.style.cssText = 'flex-direction: column; padding: 2.5rem 1.5rem; justify-content: center; min-width: 250px; border-radius: 2rem; gap: 1.5rem;';
+            
+            // UI Estilo Apple Music (Vertical, centrado y ultra-limpio)
+            const durationText = t.type === 'short' ? 'Micro-Dosis (30s)' : 'Inmersión (2 min)';
+            
+            btn.innerHTML = `
+                <div style="width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, rgba(0,255,255,0.1), rgba(0,0,0,0.6)); display: flex; justify-content: center; align-items: center; border: 1px solid rgba(0,255,255,0.3); box-shadow: inset 0 0 25px rgba(0,255,255,0.15); margin: 0 auto; transition: 0.3s;">
+                    <i class="fa-solid ${t.icon}" style="font-size: 2.8rem; color: var(--valtara-cian-brillante);"></i>
+                </div>
+                <div style="width: 100%;">
+                    <h4 style="color: var(--valtara-blanco); font-size: 1.4rem; margin: 0; font-family: var(--font-accent); line-height: 1.3;">${t.name}</h4>
+                    <span style="color: #aaa; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; display: block; margin-top: 8px;">${durationText}</span>
+                </div>
+            `;
             
             btn.addEventListener('click', () => {
                 this.lazyInitAudio();
@@ -125,7 +154,41 @@ const OasisEngine = {
                 this.selectTrack(t.id);
             });
             
-            container.appendChild(btn);
+            if(t.type === 'short' && containerShort) {
+                containerShort.appendChild(btn);
+            } else if(t.type === 'long' && containerLong) {
+                containerLong.appendChild(btn);
+            }
+        });
+    },
+
+    // Motor de Cálculo en tiempo real para los indicadores "1 de 8" de TODOS los carruseles
+    setupCarouselIndicators: function() {
+        const setups = [
+            { id: 'video-carousel', indId: 'indicator-video', total: 8 },
+            { id: 'audio-carousel-short', indId: 'indicator-audio-short', total: 9 },
+            { id: 'audio-carousel-long', indId: 'indicator-audio-long', total: 5 }
+        ];
+
+        setups.forEach(setup => {
+            const carousel = document.getElementById(setup.id);
+            const indicator = document.getElementById(setup.indId);
+            
+            if (carousel && indicator) {
+                carousel.addEventListener('scroll', () => {
+                    const scrollLeft = carousel.scrollLeft;
+                    const card = carousel.querySelector('.carousel-card');
+                    if(!card) return;
+                    
+                    // Calculamos el ancho de la tarjeta sumando el gap aproximado de 40px
+                    const cardWidth = card.offsetWidth + 40; 
+                    const currentIndex = Math.round(scrollLeft / cardWidth) + 1;
+                    
+                    // Protegemos para que el contador nunca diga "0" ni se pase del límite
+                    let finalIndex = Math.min(Math.max(currentIndex, 1), setup.total);
+                    indicator.textContent = \`\${finalIndex} de \${setup.total}\`;
+                });
+            }
         });
     },
 
@@ -176,7 +239,8 @@ const OasisEngine = {
         if(this.isPlaying) {
             this.stopAll();
         } else {
-            this.selectTrack(this.currentTrack === -1 ? 4 : this.currentTrack);
+            // Si el usuario da Play sin seleccionar, arranca por defecto la primera larga
+            this.selectTrack(this.currentTrack === -1 ? 10 : this.currentTrack);
         }
     },
 
@@ -227,7 +291,7 @@ const OasisEngine = {
             this.audioEl.src = encodeURI(trackObj.file);
             
             this.audioEl.play().catch(e => {
-                console.error("Error al cargar la canción:", e);
+                console.error("Error al cargar la canción desde el directorio:", e);
                 this.stopAll();
                 
                 if(playBtnIcon) {
@@ -240,7 +304,7 @@ const OasisEngine = {
                 }
             });
         }
-        // Inicia el visualizador directamente
+        
         setTimeout(() => this.startVisualizer(), 200);
     }
 };
