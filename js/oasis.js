@@ -1,7 +1,7 @@
 /**
  * ====================================================================================
- * BLOQUE 9: OASIS AUDIO ENGINE V17.0 (ULTRA-LUXURY PLAYER EDITION)
- * Motor acústico real con panel de control dinámico, volumen y barra de tiempo.
+ * BLOQUE 9: OASIS AUDIO ENGINE V18.0 (IN-PAGE IMMERSIVE ROOM EDITION)
+ * Motor acústico real optimizado para vivir en la vista principal (Sin Modales).
  * ====================================================================================
  */
 
@@ -30,7 +30,7 @@ const OasisEngine = {
         this.audioEl = new Audio();
         this.audioEl.crossOrigin = "anonymous";
         this.audioEl.loop = true; 
-        this.audioEl.volume = 0.7; // Volumen inicial (coincide con el HTML)
+        this.audioEl.volume = 0.7;
         
         this.renderTrackList();
         this.bindEvents();
@@ -70,7 +70,6 @@ const OasisEngine = {
     },
 
     bindEvents: function() {
-        // --- 1. Controles del Reproductor (Play/Pausa) ---
         const playBtn = document.getElementById('btn-master-play');
         if(playBtn) {
             playBtn.addEventListener('click', () => {
@@ -80,7 +79,6 @@ const OasisEngine = {
             });
         }
         
-        // --- 2. Control de Volumen Dinámico ---
         const volumeSlider = document.getElementById('oasis-volume-slider');
         if(volumeSlider) {
             volumeSlider.addEventListener('input', (e) => {
@@ -88,47 +86,25 @@ const OasisEngine = {
             });
         }
 
-        // --- 3. Barra de Progreso (Tiempo real) ---
         const progressBar = document.getElementById('oasis-progress-bar');
         const timeCurrent = document.getElementById('oasis-time-current');
         const timeTotal = document.getElementById('oasis-time-total');
 
         if(this.audioEl && progressBar && timeCurrent && timeTotal) {
-            
-            // Cuando la canción carga, leemos cuánto dura
             this.audioEl.addEventListener('loadedmetadata', () => {
                 progressBar.max = this.audioEl.duration;
                 timeTotal.textContent = this.formatTime(this.audioEl.duration);
             });
 
-            // Mientras la canción suena, movemos la barrita
             this.audioEl.addEventListener('timeupdate', () => {
                 if(!this.audioEl.duration) return;
                 progressBar.value = this.audioEl.currentTime;
                 timeCurrent.textContent = this.formatTime(this.audioEl.currentTime);
             });
 
-            // Si el usuario arrastra la barrita, adelantamos o atrasamos la canción
             progressBar.addEventListener('input', (e) => {
                 this.audioEl.currentTime = e.target.value;
             });
-        }
-        
-        // --- 4. Animaciones del Modal ---
-        const modal = document.getElementById('audio-modal');
-        if(modal) {
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    if (mutation.attributeName === 'open') {
-                        if (modal.hasAttribute('open')) {
-                            if(this.isPlaying) this.startVisualizer();
-                        } else {
-                            cancelAnimationFrame(this.animFrame);
-                        }
-                    }
-                });
-            });
-            observer.observe(modal, { attributes: true });
         }
     },
 
@@ -206,10 +182,7 @@ const OasisEngine = {
 
     stopAll: function() {
         this.isPlaying = false;
-        
-        if(this.audioEl) {
-            this.audioEl.pause();
-        }
+        if(this.audioEl) this.audioEl.pause();
         
         const playBtnIcon = document.querySelector('#btn-master-play i');
         if(playBtnIcon && !playBtnIcon.classList.contains('fa-triangle-exclamation')) {
@@ -217,8 +190,8 @@ const OasisEngine = {
         }
         
         document.querySelectorAll('.track-btn').forEach(b => b.classList.remove('playing'));
-        
         cancelAnimationFrame(this.animFrame);
+        
         const canvas = document.getElementById('oasis-visualizer');
         if(canvas) {
             const ctx = canvas.getContext('2d');
@@ -246,8 +219,6 @@ const OasisEngine = {
         
         const trackObj = this.tracks.find(t => t.id === trackId);
         if(trackObj) {
-            
-            // ACTUALIZAR EL TEXTO "REPRODUCIENDO AHORA"
             const nowPlayingText = document.getElementById('oasis-now-playing');
             if(nowPlayingText) {
                 nowPlayingText.innerHTML = `<i class="fa-solid fa-music" style="margin-right: 8px;"></i> ${trackObj.name}`;
@@ -256,7 +227,7 @@ const OasisEngine = {
             this.audioEl.src = encodeURI(trackObj.file);
             
             this.audioEl.play().catch(e => {
-                console.error("Error al cargar la canción desde GitHub:", e);
+                console.error("Error al cargar la canción:", e);
                 this.stopAll();
                 
                 if(playBtnIcon) {
@@ -269,9 +240,7 @@ const OasisEngine = {
                 }
             });
         }
-
+        // Inicia el visualizador directamente
         setTimeout(() => this.startVisualizer(), 200);
     }
 };
-
-window.addEventListener('DOMContentLoaded', () => OasisEngine.init());
