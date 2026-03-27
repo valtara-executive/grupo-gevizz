@@ -1,11 +1,12 @@
 /**
  * ====================================================================================
- * BLOQUE 9: OASIS AUDIO ENGINE V18.5 (APPLE MUSIC IMMERSIVE EDITION)
+ * BLOQUE 9: OASIS AUDIO ENGINE V18.6 (APPLE MUSIC IMMERSIVE EDITION - FIXED)
  * Motor acústico de doble carrusel con scroll magnético, UI de tarjetas y A11y.
  * ====================================================================================
  */
 
-const OasisEngine = {
+// AQUÍ ESTÁ EL PARCHE: Ahora es window.OasisEngine para que el Constructor lo vea
+window.OasisEngine = {
     ctx: null, 
     masterGain: null, 
     analyser: null,
@@ -130,12 +131,10 @@ const OasisEngine = {
 
         this.tracks.forEach(t => {
             const btn = document.createElement('button');
-            // Fusionamos la clase del botón original con la tarjeta de carrusel
             btn.className = 'track-btn carousel-card glass-card';
             btn.setAttribute('data-id', t.id);
             btn.style.cssText = 'flex-direction: column; padding: 2.5rem 1.5rem; justify-content: center; min-width: 250px; border-radius: 2rem; gap: 1.5rem;';
             
-            // UI Estilo Apple Music (Vertical, centrado y ultra-limpio)
             const durationText = t.type === 'short' ? 'Micro-Dosis (30s)' : 'Inmersión (2 min)';
             
             btn.innerHTML = `
@@ -162,7 +161,6 @@ const OasisEngine = {
         });
     },
 
-    // Motor de Cálculo en tiempo real para los indicadores "1 de 8" de TODOS los carruseles
     setupCarouselIndicators: function() {
         const setups = [
             { id: 'video-carousel', indId: 'indicator-video', total: 8 },
@@ -180,13 +178,11 @@ const OasisEngine = {
                     const card = carousel.querySelector('.carousel-card');
                     if(!card) return;
                     
-                    // Calculamos el ancho de la tarjeta sumando el gap aproximado de 40px
                     const cardWidth = card.offsetWidth + 40; 
                     const currentIndex = Math.round(scrollLeft / cardWidth) + 1;
                     
-                    // Protegemos para que el contador nunca diga "0" ni se pase del límite
                     let finalIndex = Math.min(Math.max(currentIndex, 1), setup.total);
-                    indicator.textContent = \`\${finalIndex} de \${setup.total}\`;
+                    indicator.textContent = finalIndex + " de " + setup.total;
                 });
             }
         });
@@ -239,7 +235,6 @@ const OasisEngine = {
         if(this.isPlaying) {
             this.stopAll();
         } else {
-            // Si el usuario da Play sin seleccionar, arranca por defecto la primera larga
             this.selectTrack(this.currentTrack === -1 ? 10 : this.currentTrack);
         }
     },
