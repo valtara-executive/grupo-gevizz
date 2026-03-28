@@ -7,12 +7,8 @@ window.ValtaraModulos.inicio_refugio = `
             
             <h3 style="font-family: var(--font-accent); font-size: 2.8rem; color: var(--valtara-oro); margin-bottom: 3rem; font-weight: 400; letter-spacing: 1px; text-shadow: 0 0 20px rgba(242, 201, 76, 0.2);">El Refugio del Arquitecto</h3>
             
-            <p style="font-size: 1.35rem; color: var(--valtara-gris-texto); line-height: 2.2; margin-bottom: 2rem; font-weight: 300; font-style: italic;">
-                "Construimos estos muros para ofrecer un resuello a las almas cansadas, sin saber que, en cada trazo, estábamos edificando nuestro propio hogar. Creímos diseñar un bálsamo para el pesar ajeno, pero la vida —con su sabia ironía— nos enseñó que la medicina más sagrada es aquella que uno levanta con sus propias manos para rescatarse a sí mismo.
-            </p>
-            
-            <p style="font-size: 1.35rem; color: var(--valtara-blanco); line-height: 2.2; margin-bottom: 4rem; font-weight: 400;">
-                Bienvenido a este santuario de quietud. Que este espacio te recuerde que, incluso cuando la ciudad ruge y la noche parece eterna, siempre puedes habitar la luz que tú mismo has encendido. Aquí, sanar no es solo un destino biomecánico; es el arte de volver a salvo a lo que hemos construido para no perdernos en el caos."
+            <p style="font-size: 1.45rem; color: var(--valtara-blanco); line-height: 2.2; margin-bottom: 4rem; font-weight: 300; font-style: italic;">
+                "Construimos estos muros para sanar a los demás, sin saber que cada trazo estaba levantando nuestro propio hogar. Bienvenidos a este santuario: la casa que diseñamos para el mundo, pero que hoy nos rescata a nosotros mismos. Que aquí siempre encuentres la luz que tú mismo has encendido."
             </p>
             
             <div style="border-top: 1px solid rgba(242, 201, 76, 0.15); padding-top: 3rem; display: inline-block;">
