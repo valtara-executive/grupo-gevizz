@@ -1,16 +1,30 @@
 /**
  * ====================================================================================
- * BLOQUE 6: USER ENGINE V11.1 (GESTOR DE IDENTIDAD Y DISUASIÓN DINÁMICA)
- * Controla el Onboarding inmersivo, Avatares, Privacidad y Aleatoriedad de Promociones.
+ * BLOQUE 6: USER ENGINE V15.0 (SOVEREIGN IDENTITY & CONTEXTUAL CORE)
+ * Gestor de Identidad, Interfaz Dinámica (Dual Render), Seguridad XSS, 
+ * Almacenamiento JSON, Marketing Predictivo por Hora y Omnicanalidad WhatsApp.
  * ====================================================================================
  */
 
 const UserEngine = {
-    userName: 'Apreciable visitante',
-    userAvatar: 'fa-spa', // Avatar Loto por defecto
+    // Estado actual del usuario en memoria
+    userData: {
+        name: 'Apreciable visitante',
+        avatar: 'fa-spa',
+        isRegistered: false,
+        lastVisit: null
+    },
     
-    // Base de datos de Marketing Dinámico (Disuasión)
-    // El sistema elegirá 3 de estas cartas al azar en cada recarga de página
+    // Mapeo de nombres de Avatar para WhatsApp
+    avatarNames: {
+        'fa-spa': 'Loto Paz',
+        'fa-gem': 'Cuarzo Luz',
+        'fa-circle-notch': 'Esfera Zen',
+        'fa-leaf': 'Botánico',
+        'fa-fingerprint': 'Esencia'
+    },
+
+    // Base de datos de Marketing Dinámico
     promoPool: [
         { 
             icon: "fa-sun", color: "var(--valtara-oro)", 
@@ -45,126 +59,250 @@ const UserEngine = {
     ],
 
     init: function() {
-        this.bindEvents();
-        // Retraso intencional para permitir que las animaciones de fondo carguen fluidamente
-        setTimeout(() => { this.checkIdentity(); }, 400);
+        this.loadIdentity();
+        this.bindPersistentEvents();
+        // Retraso intencional para permitir que las animaciones ambientales fluyan
+        setTimeout(() => { this.evaluateSession(); }, 400);
     },
 
     // ================================================================================
-    // FLUJO DE ONBOARDING (RECONOCIMIENTO DEL PACIENTE)
+    // 1. CAPA DE SEGURIDAD Y ALMACENAMIENTO ESTRUCTURADO (JSON)
     // ================================================================================
-    checkIdentity: function() {
-        const savedName = localStorage.getItem('valtara_identity_name_v11');
-        const savedAvatar = localStorage.getItem('valtara_identity_avatar_v11');
-        const onboardingScreen = document.getElementById('onboarding-screen');
-        
-        if (savedName) {
-            // Usuario recurrente: Esconder el onboarding inmediatamente
-            this.userName = savedName;
-            this.userAvatar = savedAvatar || 'fa-spa';
-            
-            if(onboardingScreen) onboardingScreen.classList.add('fade-out');
-            
-            this.updateUI();
-            this.injectDynamicMarketing();
-            
-            if(window.A11yEngine) A11yEngine.announce(`Bienvenido de nuevo, ${this.userName}. El ecosistema Valtara está activo.`);
-        } else {
-            // Usuario nuevo: Mostrar onboarding, enfocar para accesibilidad
-            if(onboardingScreen) {
-                onboardingScreen.setAttribute('aria-hidden', 'false');
-                const nameInput = document.getElementById('welcome-name-input');
-                if(nameInput) nameInput.focus();
-                if(window.A11yEngine) A11yEngine.announce("Pantalla de autenticación. Por favor, seleccione un avatar y escriba su nombre para personalizar la experiencia.");
+    loadIdentity: function() {
+        try {
+            const stored = localStorage.getItem('valtara_vault_v15');
+            if (stored) {
+                const parsed = JSON.parse(stored);
+                // Validamos que el paquete no esté corrupto
+                if(parsed && parsed.name) {
+                    this.userData = parsed;
+                }
             }
+        } catch(e) {
+            console.error("Bóveda de identidad corrupta. Reiniciando núcleo.", e);
+            localStorage.removeItem('valtara_vault_v15');
         }
     },
 
-    bindEvents: function() {
-        // 1. Interfaz del Onboarding
+    saveIdentity: function(name, avatar, isGuest = false) {
+        this.userData.name = this.sanitizeString(name);
+        this.userData.avatar = avatar;
+        this.userData.isRegistered = !isGuest;
+        this.userData.lastVisit = new Date().toISOString();
+
+        if (!isGuest) {
+            // Empaquetado Hermético JSON
+            localStorage.setItem('valtara_vault_v15', JSON.stringify(this.userData));
+        }
+        
+        this.closeOnboarding();
+        this.updateUI();
+        this.injectContextualMarketing();
+        this.updateWhatsAppLinks(); // Disparamos la Omnicanalidad
+        
+        if(window.A11yEngine) A11yEngine.announce(`Identidad actualizada. Bienvenido ${this.userData.name}.`);
+    },
+
+    // Escudo Anti-XSS y Embellecedor Textual
+    sanitizeString: function(str) {
+        // Elimina símbolos matemáticos, etiquetas HTML y códigos
+        let clean = str.replace(/[<>\/\\"\'=\$%\^&\*]/g, '').trim().substring(0, 20);
+        if (clean.length > 0) {
+            // Convierte "ángel" a "Ángel" (Capitalización elegante)
+            clean = clean.charAt(0).toUpperCase() + clean.slice(1).toLowerCase();
+        }
+        return clean;
+    },
+
+    // ================================================================================
+    // 2. RENDERIZADO DINÁMICO DE INTERFAZ (DUAL-MODE)
+    // ================================================================================
+    evaluateSession: function() {
+        const screen = document.getElementById('onboarding-screen');
+        if (this.userData.isRegistered) {
+            // Usuario recurrente: Entra directo al santuario
+            if(screen) screen.classList.add('fade-out');
+            this.updateUI();
+            this.injectContextualMarketing();
+            this.updateWhatsAppLinks();
+        } else {
+            // Usuario Nuevo
+            this.renderOnboardingMode('new');
+        }
+    },
+
+    renderOnboardingMode: function(mode) {
+        const screen = document.getElementById('onboarding-screen');
+        const contentBox = screen.querySelector('.onboarding-content');
+        if(!screen || !contentBox) return;
+
+        // Limpiamos el contenedor
+        contentBox.innerHTML = '';
+
+        let html = '';
+        if (mode === 'new') {
+            html = `
+                <div class="glow-icon-wrapper" style="margin-bottom: 1.5rem;">
+                    <i aria-hidden="true" class="fa-solid fa-seedling gold-icon" style="font-size: 4rem;"></i>
+                </div>
+                <h1 id="onboarding-title" style="font-family: var(--font-accent); font-size: 3.5rem; margin-bottom: 1rem; color: #fff;">Bienvenido a Valtara</h1>
+                <p style="color: #e2e2e8; font-size: 1.3rem; margin-bottom: 3rem; font-weight: 300; line-height: 1.8;">
+                    Descubre un santuario diseñado para tu paz mental y corporal.<br>Para brindarte una experiencia a medida, elige un avatar y dinos cómo te gustaría que te llamemos.
+                </p>
+            `;
+        } else {
+            // MODO EDICIÓN: Mensaje Ultra-Empático y de Lujo
+            html = `
+                <div class="glow-icon-wrapper" style="margin-bottom: 1.5rem;">
+                    <i aria-hidden="true" class="fa-solid fa-pen-nib gold-icon" style="font-size: 4rem; color: var(--valtara-morado-vivo); text-shadow: 0 0 30px rgba(178,0,255,0.6);"></i>
+                </div>
+                <h1 id="onboarding-title" style="font-family: var(--font-accent); font-size: 3.5rem; margin-bottom: 1rem; color: var(--valtara-blanco);">Renueva tu Identidad</h1>
+                <p style="color: var(--valtara-gris-texto); font-size: 1.3rem; margin-bottom: 3rem; font-weight: 300; line-height: 1.8;">
+                    Claro, estamos contigo. La transformación es parte del proceso.<br>Platícanos cómo deseas que te llamemos en esta nueva etapa y elige el avatar que mejor resuene contigo hoy.
+                </p>
+            `;
+        }
+
+        // Construcción de la Cuadrícula de Avatares
+        html += `
+            <div class="input-group" style="transition: all 0.4s ease;">
+                <fieldset class="avatar-selection-group" aria-label="Elige tu Avatar">
+                    <legend class="sr-only">Selección de Avatar</legend>
+                    <div class="avatar-grid">
+                        ${this.generateAvatarHTML('fa-spa', 'Loto Paz')}
+                        ${this.generateAvatarHTML('fa-gem', 'Cuarzo Luz')}
+                        ${this.generateAvatarHTML('fa-circle-notch', 'Esfera Zen')}
+                        ${this.generateAvatarHTML('fa-leaf', 'Botánico')}
+                        ${this.generateAvatarHTML('fa-fingerprint', 'Esencia')}
+                    </div>
+                </fieldset>
+
+                <div style="margin-top: 3rem; position: relative;">
+                    <label for="welcome-name-input" class="sr-only">Tu nombre o apodo</label>
+                    <i class="fa-solid fa-user" style="position: absolute; left: 1.5rem; top: 1.8rem; font-size: 1.2rem; color: #888;"></i>
+                    <input type="text" id="welcome-name-input" placeholder="Ej. Antonio, Doctor, Cinnamoroll..." autocomplete="off" style="padding-left: 4rem;" value="${mode === 'edit' && this.userData.name !== 'Apreciable visitante' ? this.userData.name : ''}">
+                </div>
+
+                <button id="welcome-start-btn" class="btn-primary" style="margin-top: 2.5rem; width: 100%; font-size: 1.2rem; padding: 1.5rem; background: rgba(255,255,255,0.05); color: #666; border-color: transparent; pointer-events: none; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
+                    <i class="fa-solid fa-door-open" style="margin-right: 10px;"></i> ${mode === 'new' ? 'Entrar al Santuario' : 'Actualizar Identidad'}
+                </button>
+            </div>
+        `;
+
+        if (mode === 'new') {
+            html += `<button id="welcome-skip-btn" class="btn-text-only" style="margin-top: 2.5rem; color: #aaa; font-size: 1.1rem; text-decoration: underline; background: transparent; border: none; cursor: pointer; transition: 0.3s;">Prefiero explorar de forma anónima</button>`;
+        } else {
+            html += `<button id="welcome-cancel-btn" class="btn-text-only" style="margin-top: 2.5rem; color: #ff5555; font-size: 1.1rem; text-decoration: underline; background: transparent; border: none; cursor: pointer; transition: 0.3s;">Cancelar edición y volver</button>`;
+        }
+
+        contentBox.innerHTML = html;
+        
+        // Revelamos la pantalla
+        screen.classList.remove('fade-out');
+        screen.setAttribute('aria-hidden', 'false');
+
+        // Volvemos a conectar los "cables" de los botones inyectados
+        this.bindDynamicEvents(mode);
+    },
+
+    generateAvatarHTML: function(iconClass, label) {
+        const isChecked = this.userData.avatar === iconClass ? 'checked' : '';
+        return `
+            <label class="avatar-option">
+                <input type="radio" name="user_avatar" value="${iconClass}" ${isChecked}>
+                <span class="avatar-icon"><i class="fa-solid ${iconClass}"></i></span>
+                <span class="avatar-name">${label}</span>
+            </label>
+        `;
+    },
+
+    // ================================================================================
+    // 3. LÓGICA DE VALIDACIÓN EN TIEMPO REAL (El botón mágico)
+    // ================================================================================
+    bindDynamicEvents: function(mode) {
         const startBtn = document.getElementById('welcome-start-btn');
         const skipBtn = document.getElementById('welcome-skip-btn');
-        const welcomeInput = document.getElementById('welcome-name-input');
-        
-        if(startBtn && welcomeInput) {
+        const cancelBtn = document.getElementById('welcome-cancel-btn');
+        const input = document.getElementById('welcome-name-input');
+
+        if(input && startBtn) {
+            // Lógica de encendido del botón
+            const checkInput = () => {
+                const val = input.value.trim();
+                if(val.length > 0) {
+                    // Encender botón (Modo Lujo)
+                    startBtn.style.pointerEvents = 'auto';
+                    startBtn.style.background = 'var(--valtara-cian-brillante)';
+                    startBtn.style.color = 'var(--valtara-negro-fondo)';
+                    startBtn.style.boxShadow = '0 1rem 3rem rgba(0, 255, 255, 0.4)';
+                } else {
+                    // Apagar botón
+                    startBtn.style.pointerEvents = 'none';
+                    startBtn.style.background = 'rgba(255,255,255,0.05)';
+                    startBtn.style.color = '#666';
+                    startBtn.style.boxShadow = 'none';
+                }
+            };
+
+            input.addEventListener('input', checkInput);
+            // Revisar por si en modo edición ya tiene nombre precargado
+            checkInput(); 
+
             startBtn.addEventListener('click', () => {
-                const val = welcomeInput.value.trim();
-                // Extraer el avatar seleccionado de los Radio Buttons
+                const val = input.value.trim();
                 const selectedAvatar = document.querySelector('input[name="user_avatar"]:checked');
                 const avatarClass = selectedAvatar ? selectedAvatar.value : 'fa-spa';
-
-                if(val) {
-                    this.saveAndEnter(val, avatarClass);
-                } else {
-                    // Si deja el campo vacío, entra como invitado pero con su avatar elegido
-                    this.saveAndEnter('Apreciable visitante', avatarClass);
-                }
+                
+                if(val) this.saveIdentity(val, avatarClass, false);
             });
-            
-            // Permitir entrar presionando la tecla Enter
-            welcomeInput.addEventListener('keypress', (e) => {
-                if(e.key === 'Enter') startBtn.click();
+
+            input.addEventListener('keypress', (e) => {
+                if(e.key === 'Enter' && input.value.trim().length > 0) startBtn.click();
             });
         }
-        
+
         if(skipBtn) {
             skipBtn.addEventListener('click', () => {
-                this.saveAndEnter('Apreciable visitante', 'fa-spa');
+                this.saveIdentity('Apreciable visitante', 'fa-spa', true);
             });
         }
 
-        // 2. Gestión de Identidad desde el Menú Lateral
+        if(cancelBtn) {
+            cancelBtn.addEventListener('click', () => {
+                this.closeOnboarding();
+            });
+        }
+    },
+
+    bindPersistentEvents: function() {
         const changeNameMenuBtn = document.getElementById('btn-change-name-menu');
         const resetSessionBtn = document.getElementById('btn-reset-session');
         
         if(changeNameMenuBtn) {
             changeNameMenuBtn.addEventListener('click', () => {
-                // Reaparecer la pantalla de Onboarding para editar
-                const onboardingScreen = document.getElementById('onboarding-screen');
-                if(onboardingScreen) {
-                    onboardingScreen.classList.remove('fade-out');
-                    onboardingScreen.setAttribute('aria-hidden', 'false');
-                }
-                // Cerrar el menú lateral
-                document.getElementById('menu-close-btn').click();
+                this.renderOnboardingMode('edit');
+                document.getElementById('menu-close-btn').click(); // Cierra el menú lateral
             });
         }
 
         if(resetSessionBtn) {
             resetSessionBtn.addEventListener('click', () => {
-                // Destruir datos locales (Cumplimiento de Privacidad LFPDPPP)
-                localStorage.removeItem('valtara_identity_name_v11');
-                localStorage.removeItem('valtara_identity_avatar_v11');
-                window.location.reload(); // Refrescar la página para limpiar el DOM
+                localStorage.removeItem('valtara_vault_v15');
+                window.location.reload(); 
             });
         }
     },
 
-    saveAndEnter: function(name, avatar) {
-        this.userName = name;
-        this.userAvatar = avatar;
-        
-        // Guardar localmente solo si no es invitado anónimo
-        if(name !== 'Apreciable visitante') {
-            localStorage.setItem('valtara_identity_name_v11', name);
-            localStorage.setItem('valtara_identity_avatar_v11', avatar);
+    closeOnboarding: function() {
+        const screen = document.getElementById('onboarding-screen');
+        if(screen) {
+            screen.classList.add('fade-out');
+            screen.setAttribute('aria-hidden', 'true');
         }
-        
-        // Desvanecer el onboarding con clase CSS (Fade-Out)
-        const onboardingScreen = document.getElementById('onboarding-screen');
-        if(onboardingScreen) {
-            onboardingScreen.classList.add('fade-out');
-            onboardingScreen.setAttribute('aria-hidden', 'true');
-        }
-        
-        this.updateUI();
-        this.injectDynamicMarketing();
-        
-        if(window.A11yEngine) A11yEngine.announce(`Identidad autenticada. Inyectando preferencias para ${this.userName}.`);
     },
 
     // ================================================================================
-    // ACTUALIZACIÓN DE INTERFAZ Y COLORIMETRÍA DEL TIEMPO
+    // 4. ACTUALIZACIÓN VISUAL DEL EDIFICIO
     // ================================================================================
     updateUI: function() {
         const hour = new Date().getHours();
@@ -179,68 +317,96 @@ const UserEngine = {
             greetingColor = "var(--valtara-cian-brillante)";
         }
 
-        // A. Actualizar Perfil en Menú Lateral
         const menuGreeting = document.getElementById('menu-greeting');
         const menuName = document.getElementById('menu-user-name');
         const sidebarAvatar = document.getElementById('sidebar-avatar-icon');
         
         if(menuGreeting) menuGreeting.textContent = greeting + ",";
-        if(menuName) menuName.textContent = this.userName;
-        if(sidebarAvatar) sidebarAvatar.innerHTML = `<i class="fa-solid ${this.userAvatar}"></i>`;
+        if(menuName) menuName.textContent = this.userData.name;
+        if(sidebarAvatar) sidebarAvatar.innerHTML = `<i class="fa-solid ${this.userData.avatar}"></i>`;
 
-        // B. Actualizar Portada Principal (Hero)
         const heroTitle = document.getElementById('hero-dynamic-greeting');
         if (heroTitle) {
-            if (this.userName === 'Apreciable visitante') {
-                heroTitle.innerHTML = `${greeting},<br><span style="color: ${greetingColor}; font-size: 3rem;">Apreciable visitante.</span>`;
+            if (!this.userData.isRegistered) {
+                heroTitle.innerHTML = `${greeting},<br><span style="color: ${greetingColor}; font-size: 3.5rem;">Apreciable visitante.</span>`;
             } else {
-                heroTitle.innerHTML = `${greeting},<br><span style="color: ${greetingColor};">${this.userName}.</span>`;
+                heroTitle.innerHTML = `${greeting},<br><span style="color: ${greetingColor};">${this.userData.name}.</span>`;
             }
         }
     },
 
     // ================================================================================
-    // MOTOR DE DISUASIÓN (MARKETING ALEATORIO PERSISTENTE)
+    // 5. MARKETING CONTEXTUAL (RELOJ BIOLÓGICO) Y REFACTORIZACIÓN EN BUCLE
     // ================================================================================
-    injectDynamicMarketing: function() {
-        // Clonar el arreglo para no mutar el original
+    injectContextualMarketing: function() {
         let pool = [...this.promoPool];
-        
-        // Algoritmo de Fisher-Yates para barajar el arreglo aleatoriamente
+        const hour = new Date().getHours();
+        let priorityPromo = null;
+
+        // Lógica de Inteligencia de Tiempo
+        if (hour >= 6 && hour < 12) {
+            // Mañana: Forzar Masaje Deportivo
+            const idx = pool.findIndex(p => p.title.includes("Descompresión Matutina"));
+            if(idx > -1) priorityPromo = pool.splice(idx, 1)[0];
+        } else if (hour >= 17 && hour <= 23) {
+            // Tarde/Noche: Forzar Ritual del Ocaso
+            const idx = pool.findIndex(p => p.title.includes("Ritual del Ocaso"));
+            if(idx > -1) priorityPromo = pool.splice(idx, 1)[0];
+        }
+
+        // Barajamos el resto (Fisher-Yates)
         for (let i = pool.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [pool[i], pool[j]] = [pool[j], pool[i]];
         }
+
+        // Armamos la baraja final de 3 cartas
+        let finalPromos = [];
+        if (priorityPromo) {
+            finalPromos.push(priorityPromo);
+            finalPromos.push(pool[0], pool[1]);
+        } else {
+            finalPromos = pool.slice(0, 3);
+        }
+
+        // BUCLE INTELIGENTE: Busca las IDs en el HTML y las rellena solitas
+        for (let i = 0; i < finalPromos.length; i++) {
+            const titleEl = document.getElementById(`promo${i+1}-title`);
+            const textEl = document.getElementById(`promo${i+1}-text`);
+            
+            if (titleEl && textEl) {
+                titleEl.style.color = finalPromos[i].color;
+                titleEl.innerHTML = `<i class="fa-solid ${finalPromos[i].icon}"></i> ${finalPromos[i].title}`;
+                textEl.innerHTML = finalPromos[i].desc;
+            }
+        }
+    },
+
+    // ================================================================================
+    // 6. OMNICANALIDAD: WHATSAPP DINÁMICO
+    // ================================================================================
+    updateWhatsAppLinks: function() {
+        // Encontramos todos los enlaces que apuntan a WhatsApp en la página
+        const waLinks = document.querySelectorAll('a[href^="https://wa.me/"]');
+        const phoneTarget = "5213348572070";
         
-        // Seleccionamos las primeras 3 cartas ya barajadas
-        const selectedPromos = pool.slice(0, 3);
+        // Traducimos el ícono del avatar a su nombre místico
+        const avatarStr = this.avatarNames[this.userData.avatar] || 'Alma Libre';
+        let customMessage = "";
 
-        // Inyectar Promo 1
-        const title1 = document.getElementById('promo1-title');
-        const text1 = document.getElementById('promo1-text');
-        if(title1 && text1) {
-            title1.style.color = selectedPromos[0].color;
-            title1.innerHTML = `<i class="fa-solid ${selectedPromos[0].icon}"></i> ${selectedPromos[0].title}`;
-            text1.innerHTML = selectedPromos[0].desc;
+        if (this.userData.isRegistered) {
+            customMessage = `Hola, mi nombre es ${this.userData.name}, explorador del avatar ${avatarStr}. Estoy navegando en su santuario digital y me gustaría recibir asesoría para agendar una sesión.`;
+        } else {
+            customMessage = `Hola, estoy explorando su santuario digital como invitado. Me gustaría recibir asesoría para conocer más sobre sus terapias y agendar una sesión.`;
         }
 
-        // Inyectar Promo 2
-        const title2 = document.getElementById('promo2-title');
-        const text2 = document.getElementById('promo2-text');
-        if(title2 && text2) {
-            title2.style.color = selectedPromos[1].color;
-            title2.innerHTML = `<i class="fa-solid ${selectedPromos[1].icon}"></i> ${selectedPromos[1].title}`;
-            text2.innerHTML = selectedPromos[1].desc;
-        }
+        // Codificamos el mensaje para que WhatsApp lo entienda (reemplaza espacios por %20 etc)
+        const encodedMessage = encodeURIComponent(customMessage);
 
-        // Inyectar Promo 3
-        const title3 = document.getElementById('promo3-title');
-        const text3 = document.getElementById('promo3-text');
-        if(title3 && text3) {
-            title3.style.color = selectedPromos[2].color;
-            title3.innerHTML = `<i class="fa-solid ${selectedPromos[2].icon}"></i> ${selectedPromos[2].title}`;
-            text3.innerHTML = selectedPromos[2].desc;
-        }
+        waLinks.forEach(link => {
+            // Sobrescribimos el enlace con el nuevo mensaje personalizado
+            link.href = `https://wa.me/${phoneTarget}?text=${encodedMessage}`;
+        });
     }
 };
 
