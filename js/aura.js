@@ -1,7 +1,7 @@
 /**
  * ====================================================================================
- * BLOQUE 8: AURA AI ENGINE V16.0 (SOVEREIGN UI & IDENTITY FIX)
- * Motor de IA Front-end de Valtara - Interfaz de ultra-lujo, Conexión JSON V15.
+ * BLOQUE 8: AURA AI ENGINE V16.5 (SOVEREIGN UI & REAL-TIME IDENTITY)
+ * Motor de IA Front-end - Interfaz de ultra-lujo y sincronización telepática.
  * ====================================================================================
  */
 
@@ -9,31 +9,37 @@ const AuraEngine = {
     isOpen: false,
     isTyping: false, 
     chatHistory: [], 
-    userName: "",    
+    userName: "Invitado",    
     apiUrl: "https://aura-server-erfj.vercel.app/api/chat",
     recognition: null,
     isRecording: false,
     activeSpeakBtn: null,   
 
     init: function() {
-        // REPARACIÓN: Extraemos la identidad de la nueva bóveda segura
-        this.userName = "Invitado";
+        this.refreshIdentity();
+        this.initVoiceEngines(); 
+        this.bindEvents();
+    },
+
+    // LEE LA BÓVEDA EN TIEMPO REAL
+    refreshIdentity: function() {
         try {
             const storedData = localStorage.getItem('valtara_vault_v15');
             if (storedData) {
                 const parsed = JSON.parse(storedData);
                 if (parsed && parsed.name && parsed.name !== "Apreciable visitante") {
                     this.userName = parsed.name;
+                } else {
+                    this.userName = "Invitado";
                 }
             }
         } catch (e) { console.error("Error al leer la bóveda para Aura:", e); }
-
-        this.initVoiceEngines(); 
-        this.bindEvents();
     },
 
-    // INYECCIÓN DEL DISEÑO DE ULTRA-LUJO (Cura la pantalla negra)
+    // INYECCIÓN DEL DISEÑO DE ULTRA-LUJO
     renderUltraLujoWelcome: function() {
+        this.refreshIdentity(); // Sincroniza el nombre justo antes de pintar la pantalla
+
         const welcomeContainer = document.getElementById('aura-welcome-screen');
         if(!welcomeContainer) return;
         
@@ -137,7 +143,10 @@ const AuraEngine = {
 
         if(toggleBtn) {
             toggleBtn.addEventListener('click', () => {
-                if(!this.isOpen) this.renderUltraLujoWelcome(); // Pinta la pantalla hermosa
+                if(!this.isOpen) {
+                    this.refreshIdentity();
+                    this.renderUltraLujoWelcome(); 
+                }
                 this.toggleModal();
             });
         }
