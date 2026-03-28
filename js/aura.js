@@ -1,7 +1,7 @@
 /**
  * ====================================================================================
- * BLOQUE 8: AURA AI ENGINE V15.2 (VERSIÓN ESTABLE: PLAY / STOP ABSOLUTO)
- * Motor de IA Front-end de Valtara - Bienvenida dinámica y voz blindada anti-bugs.
+ * BLOQUE 8: AURA AI ENGINE V16.0 (SOVEREIGN UI & IDENTITY FIX)
+ * Motor de IA Front-end de Valtara - Interfaz de ultra-lujo, Conexión JSON V15.
  * ====================================================================================
  */
 
@@ -22,15 +22,101 @@ const AuraEngine = {
     activeSpeakBtn: null,   
 
     init: function() {
-        // 1. Obtenemos el nombre y lo inyectamos en la pantalla de bienvenida
-        this.userName = localStorage.getItem('valtara_identity_name_v11') || "Invitado";
-        const welcomeNameEl = document.getElementById('aura-welcome-name');
-        if(welcomeNameEl) {
-            welcomeNameEl.textContent = (this.userName === "Apreciable visitante" || this.userName.trim() === "") ? "Invitado" : this.userName;
+        // 1. REPARACIÓN: Extraemos la identidad desde la nueva bóveda segura JSON (V15)
+        this.userName = "Invitado";
+        try {
+            const storedData = localStorage.getItem('valtara_vault_v15');
+            if (storedData) {
+                const parsed = JSON.parse(storedData);
+                if (parsed && parsed.name && parsed.name !== "Apreciable visitante") {
+                    this.userName = parsed.name;
+                }
+            }
+        } catch (e) {
+            console.error("Error al leer la bóveda para Aura:", e);
         }
 
         this.initVoiceEngines(); 
         this.bindEvents();
+    },
+
+    // 2. INYECCIÓN DEL DISEÑO DE ULTRA-LUJO (Se llama cuando se abre el modal)
+    renderUltraLujoWelcome: function() {
+        const welcomeContainer = document.getElementById('aura-welcome-screen');
+        if(!welcomeContainer) return;
+        
+        // Limpiamos el contenedor antes de inyectar el nuevo diseño masivo
+        welcomeContainer.innerHTML = '';
+        
+        const html = `
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 600px; margin: 0 auto; padding: 2rem;">
+                
+                <div style="position: relative; margin-bottom: 2rem; display: flex; justify-content: center; align-items: center;">
+                    <div style="position: absolute; width: 120px; height: 120px; background: radial-gradient(circle, rgba(0,255,255,0.4) 0%, rgba(178,0,255,0.1) 100%); border-radius: 50%; filter: blur(20px); animation: pulseAura 3s infinite alternate;"></div>
+                    <i class="fa-solid fa-sparkles" style="font-size: 4rem; color: var(--valtara-blanco); position: relative; z-index: 2; text-shadow: 0 0 30px rgba(0,255,255,0.8);"></i>
+                </div>
+
+                <h2 style="font-size: 3.5rem; font-family: var(--font-accent); font-weight: 400; margin-bottom: 1rem; text-align: center; color: var(--valtara-blanco); line-height: 1.2;">
+                    Hola, <span style="color: var(--valtara-cian-brillante); font-style: italic;">${this.userName}</span>
+                </h2>
+                <p style="font-size: 1.5rem; color: var(--valtara-gris-texto); font-weight: 300; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4rem; text-align: center;">¿En qué puedo orientarte hoy?</p>
+
+                <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; width: 100%;">
+                    
+                    <button class="aura-suggestion-card" data-query="Necesito un masaje relajante y descompresión" style="background: linear-gradient(90deg, rgba(0,255,255,0.1) 0%, rgba(0,0,0,0.6) 100%); border: 1px solid rgba(0,255,255,0.3); border-radius: 1.5rem; padding: 2rem; display: flex; align-items: center; gap: 2rem; text-align: left; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                        <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(0,255,255,0.1); display: flex; justify-content: center; align-items: center; flex-shrink: 0;">
+                            <i class="fa-solid fa-spa" style="color: var(--valtara-cian-brillante); font-size: 2rem;"></i>
+                        </div>
+                        <div>
+                            <span style="color: var(--valtara-blanco); font-size: 1.4rem; font-weight: 700; display: block; margin-bottom: 0.5rem;">Masaje Relajante</span>
+                            <span style="color: #aaa; font-size: 1rem; font-weight: 300;">Agendar una sesión de descompresión física.</span>
+                        </div>
+                    </button>
+
+                    <button class="aura-suggestion-card" data-query="Me duele la espalda, el cuello o tengo estrés crónico" style="background: linear-gradient(90deg, rgba(242, 201, 76, 0.1) 0%, rgba(0,0,0,0.6) 100%); border: 1px solid rgba(242, 201, 76, 0.3); border-radius: 1.5rem; padding: 2rem; display: flex; align-items: center; gap: 2rem; text-align: left; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                        <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(242, 201, 76, 0.1); display: flex; justify-content: center; align-items: center; flex-shrink: 0;">
+                            <i class="fa-solid fa-child-reaching" style="color: var(--valtara-oro); font-size: 2rem;"></i>
+                        </div>
+                        <div>
+                            <span style="color: var(--valtara-blanco); font-size: 1.4rem; font-weight: 700; display: block; margin-bottom: 0.5rem;">Terapia Biomecánica</span>
+                            <span style="color: #aaa; font-size: 1rem; font-weight: 300;">Evaluación y tratamiento de dolores por estrés.</span>
+                        </div>
+                    </button>
+
+                    <button class="aura-suggestion-card" data-query="Quiero hablar con un asesor humano en WhatsApp" style="background: linear-gradient(90deg, rgba(37, 211, 102, 0.1) 0%, rgba(0,0,0,0.6) 100%); border: 1px solid rgba(37, 211, 102, 0.3); border-radius: 1.5rem; padding: 2rem; display: flex; align-items: center; gap: 2rem; text-align: left; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                        <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(37, 211, 102, 0.1); display: flex; justify-content: center; align-items: center; flex-shrink: 0;">
+                            <i class="fa-brands fa-whatsapp" style="color: var(--valtara-whatsapp); font-size: 2.2rem;"></i>
+                        </div>
+                        <div>
+                            <span style="color: var(--valtara-blanco); font-size: 1.4rem; font-weight: 700; display: block; margin-bottom: 0.5rem;">Asesoría Humana</span>
+                            <span style="color: #aaa; font-size: 1rem; font-weight: 300;">Conectar directamente con nuestro Concierge.</span>
+                        </div>
+                    </button>
+
+                </div>
+            </div>
+            
+            <style>
+                @keyframes pulseAura { 0% { transform: scale(0.9); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 1; } }
+                .aura-suggestion-card:hover { transform: translateY(-5px); filter: brightness(1.2); }
+                .aura-suggestion-card:active { transform: scale(0.98); }
+            </style>
+        `;
+        
+        welcomeContainer.innerHTML = html;
+
+        // Conectar los nuevos botones gigantes al motor de chat
+        const newChips = welcomeContainer.querySelectorAll('.aura-suggestion-card');
+        newChips.forEach(chip => {
+            chip.addEventListener('click', (e) => {
+                // Prevenimos que el clic en el icono o texto rompa el query
+                const targetBtn = e.target.closest('.aura-suggestion-card');
+                if(targetBtn) {
+                    const query = targetBtn.getAttribute('data-query');
+                    this.processDirectQuery(query);
+                }
+            });
+        });
     },
 
     initVoiceEngines: function() {
@@ -80,10 +166,16 @@ const AuraEngine = {
         const closeBtn = document.getElementById('aura-close-btn');
         const sendBtn = document.getElementById('aura-send-btn');
         const inputField = document.getElementById('aura-input');
-        const chips = document.querySelectorAll('.chip-btn');
         const micBtn = document.getElementById('aura-mic-btn');
 
-        if(toggleBtn) toggleBtn.addEventListener('click', () => this.toggleModal());
+        // Renderizamos la UI elegante cuando se abre el Modal de Aura
+        if(toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                if(!this.isOpen) this.renderUltraLujoWelcome();
+                this.toggleModal();
+            });
+        }
+        
         if(closeBtn) closeBtn.addEventListener('click', () => this.toggleModal()); 
         
         document.querySelectorAll('.close-modal-btn[data-close="aura-modal"]').forEach(btn => {
@@ -98,13 +190,6 @@ const AuraEngine = {
                 if(e.key === 'Enter') this.handleInput();
             });
         }
-
-        chips.forEach(chip => {
-            chip.addEventListener('click', (e) => {
-                const query = e.target.getAttribute('data-query') || e.target.innerText;
-                this.processDirectQuery(query);
-            });
-        });
 
         if(micBtn && this.recognition) {
             micBtn.addEventListener('click', () => {
@@ -136,15 +221,17 @@ const AuraEngine = {
         }
     },
 
-    // 🌟 EFECTO FANTASMA: Desaparece la pantalla inicial suavemente
+    // 🌟 EFECTO FANTASMA MEJORADO: Desaparece la pantalla inicial flotando hacia arriba
     hideWelcomeScreen: function() {
         const welcomeScreen = document.getElementById('aura-welcome-screen');
         if(welcomeScreen && welcomeScreen.style.display !== 'none') {
+            welcomeScreen.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
             welcomeScreen.style.opacity = '0';
+            welcomeScreen.style.transform = 'translateY(-50px) scale(0.95)';
             welcomeScreen.style.visibility = 'hidden';
             setTimeout(() => { 
                 welcomeScreen.style.display = 'none'; 
-            }, 500); 
+            }, 600); 
         }
     },
 
@@ -250,25 +337,21 @@ const AuraEngine = {
     },
 
     speakMessage: function(htmlContent, btnElement) {
-        // SI AURA ESTÁ HABLANDO Y TOCAN EL BOTÓN ACTIVO -> LA CALLAMOS (STOP)
         if (window.speechSynthesis.speaking && btnElement.classList.contains('is-speaking')) {
             window.speechSynthesis.cancel(); 
             this.resetActiveSpeakBtn();
             return;
         }
 
-        // SI TOCAN OTRO BOTÓN -> CANCELAMOS LO ANTERIOR
         window.speechSynthesis.cancel(); 
         this.resetActiveSpeakBtn();
         
-        // MODO REPRODUCCIÓN (Ícono de Stop en rojo)
         this.activeSpeakBtn = btnElement;
         btnElement.classList.add('is-speaking');
         btnElement.innerHTML = '<i class="fa-solid fa-stop"></i>'; 
         btnElement.style.color = '#ff5555';
         btnElement.style.borderColor = '#ff5555';
 
-        // LIMPIEZA DE HTML
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = htmlContent;
         const elementsToRemove = tempDiv.querySelectorAll('a, button');
