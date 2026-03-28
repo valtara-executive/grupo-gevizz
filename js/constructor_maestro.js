@@ -1,17 +1,17 @@
 window.ValtaraData = {
-    // 1. ENSAMBLAMOS EL LOBBY
+    // 1. ENSAMBLAMOS EL LOBBY (El Refugio del Arquitecto integrado como pilar principal)
     home: window.ValtaraModulos.inicio_bienvenida + 
+          window.ValtaraModulos.inicio_refugio + 
           window.ValtaraModulos.inicio_promociones + 
           window.ValtaraModulos.inicio_arte_unas + 
           window.ValtaraModulos.inicio_mapa_cuerpo + 
           window.ValtaraModulos.inicio_redes_sociales,
 
-    // 2. ENSAMBLAMOS LOS CATÁLOGOS (Masajes y Unicornio Morado)
+    // 2. ENSAMBLAMOS LOS CATÁLOGOS (Masajes y Belleza)
     restoration: window.ValtaraModulos.catalogo_masajes,
     beauty: window.ValtaraModulos.catalogo_belleza,
 
-    // 3. ENSAMBLAMOS CIENCIA (¡CIRUGÍA ESTÉTICA APLICADA!)
-    // Envolvemos cada módulo en su propia tarjeta de cristal con colores corporativos
+    // 3. ENSAMBLAMOS CIENCIA (Cirugía Estética Aplicada con tarjetas de cristal)
     science: window.ValtaraModulos.ciencia_introduccion + '</div>' + // Cerramos la tarjeta inicial
     
              '<div class="glass-card reveal" style="max-width: 1100px; margin: 0 auto 4rem auto; border-top: 2px solid var(--valtara-cian-brillante); box-shadow: 0 1rem 4rem rgba(0, 255, 255, 0.1);">' + 
@@ -90,6 +90,7 @@ window.ValtaraData = {
         if(footDiv) footDiv.innerHTML = this.footer;
         
         if(window.ValtaraAlchemist) setTimeout(() => { window.ValtaraAlchemist.init(); }, 500);
+        // Despertamos la música después de pintar la pared
         if(window.OasisEngine) setTimeout(() => { window.OasisEngine.init(); }, 600);
     }
 };
