@@ -39,7 +39,7 @@ window.ValtaraModulos.sonoterapia_audio = `
 
     <div style="max-width: 1200px; margin: 0 auto 1.5rem auto; padding-left: 2rem; border-left: 5px solid var(--valtara-verde-menta);">
         <h4 style="color: var(--valtara-verde-menta); font-size: 2rem; font-family: var(--font-accent); margin: 0;">Micro-Dosis Botánicas</h4>
-        <p style="color: #aaa; font-size: 1.1rem; margin: 0;">Frecuencias de 30 segundos para reinicios cognitivos rápidos.</p>
+        <p style="color: #aaa; font-size: 1.1rem; margin: 0;">Frecuencias para reinicios cognitivos rápidos.</p>
     </div>
 
     <div class="carousel-master-container reveal" style="margin-bottom: 5rem;">
@@ -47,22 +47,59 @@ window.ValtaraModulos.sonoterapia_audio = `
             </div>
         <div class="carousel-navigation">
             <button aria-label="Ver audios anteriores" class="carousel-btn" onclick="window.ValtaraCarousels.scroll('audio-carousel-short', -1)"><i class="fa-solid fa-chevron-left"></i></button>
-            <div class="carousel-indicator" id="indicator-audio-short" aria-live="polite">1 de 9</div>
+            <div class="carousel-indicator" id="indicator-audio-short" aria-live="polite">Micro Dosis</div>
             <button aria-label="Ver siguientes audios" class="carousel-btn" onclick="window.ValtaraCarousels.scroll('audio-carousel-short', 1)"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
     </div>
 
     <div style="max-width: 1200px; margin: 0 auto 1.5rem auto; padding-left: 2rem; border-left: 5px solid var(--valtara-morado-vivo);">
         <h4 style="color: #E58CFF; font-size: 2rem; font-family: var(--font-accent); margin: 0;">Inmersión Profunda</h4>
-        <p style="color: #aaa; font-size: 1.1rem; margin: 0;">Frecuencias de 2 minutos para meditación extendida.</p>
+        <p style="color: #aaa; font-size: 1.1rem; margin: 0;">Catálogo Acústico Extendido para meditación profunda.</p>
     </div>
 
     <div class="carousel-master-container reveal" style="margin-bottom: 6rem;">
         <div id="audio-carousel-long" class="horizontal-carousel">
-            </div>
+            
+            <button class="track-btn carousel-card" data-src="audio/beneath_a_darkened_tide.mp3" data-title="Beneath a Darkened Tide">
+                <i class="fa-solid fa-water"></i> <div style="display:flex; flex-direction:column; text-align:left;"><span style="color:var(--valtara-blanco); font-size:1.3rem;">Beneath a Darkened Tide</span><span style="color:#aaa; font-size:0.9rem; font-weight:300;">Oasis Engine</span></div>
+            </button>
+
+            <button class="track-btn carousel-card" data-src="audio/piedra_y_sal.mp3" data-title="Piedra y Sal">
+                <i class="fa-solid fa-gem"></i> <div style="display:flex; flex-direction:column; text-align:left;"><span style="color:var(--valtara-blanco); font-size:1.3rem;">Piedra y Sal</span><span style="color:#aaa; font-size:0.9rem; font-weight:300;">Oasis Engine</span></div>
+            </button>
+
+            <button class="track-btn carousel-card" data-src="audio/flujo_de_sal_y_de_piel.mp3" data-title="Flujo de Sal y de Piel">
+                <i class="fa-solid fa-wind"></i> <div style="display:flex; flex-direction:column; text-align:left;"><span style="color:var(--valtara-blanco); font-size:1.3rem;">Flujo de Sal y de Piel</span><span style="color:#aaa; font-size:0.9rem; font-weight:300;">Oasis Engine</span></div>
+            </button>
+
+            <button class="track-btn carousel-card" data-src="audio/dissolving_the_indigo.mp3" data-title="Dissolving the Indigo">
+                <i class="fa-solid fa-droplet"></i> <div style="display:flex; flex-direction:column; text-align:left;"><span style="color:var(--valtara-blanco); font-size:1.3rem;">Dissolving the Indigo</span><span style="color:#aaa; font-size:0.9rem; font-weight:300;">Oasis Engine</span></div>
+            </button>
+
+            <button class="track-btn carousel-card" data-src="audio/el_umbral_de_cristal.mp3" data-title="El Umbral de Cristal">
+                <i class="fa-solid fa-cube"></i> <div style="display:flex; flex-direction:column; text-align:left;"><span style="color:var(--valtara-blanco); font-size:1.3rem;">El Umbral de Cristal</span><span style="color:#aaa; font-size:0.9rem; font-weight:300;">Oasis Engine</span></div>
+            </button>
+
+            <button class="track-btn carousel-card" data-src="audio/sombra_divina.mp3" data-title="Sombra Divina">
+                <i class="fa-solid fa-moon"></i> <div style="display:flex; flex-direction:column; text-align:left;"><span style="color:var(--valtara-blanco); font-size:1.3rem;">Sombra Divina</span><span style="color:#aaa; font-size:0.9rem; font-weight:300;">Oasis Engine</span></div>
+            </button>
+
+            <button class="track-btn carousel-card" data-src="audio/la_geometr_a_del_silencio.mp3" data-title="La Geometría del Silencio">
+                <i class="fa-solid fa-shapes"></i> <div style="display:flex; flex-direction:column; text-align:left;"><span style="color:var(--valtara-blanco); font-size:1.3rem;">La Geometría del Silencio</span><span style="color:#aaa; font-size:0.9rem; font-weight:300;">Oasis Engine</span></div>
+            </button>
+
+            <button class="track-btn carousel-card" data-src="audio/bajo_el_vidrio.mp3" data-title="Bajo el Vidrio">
+                <i class="fa-solid fa-snowflake"></i> <div style="display:flex; flex-direction:column; text-align:left;"><span style="color:var(--valtara-blanco); font-size:1.3rem;">Bajo el Vidrio</span><span style="color:#aaa; font-size:0.9rem; font-weight:300;">Oasis Engine</span></div>
+            </button>
+
+            <button class="track-btn carousel-card" data-src="audio/bajo_el_vidrio (1).mp3" data-title="Bajo el Vidrio (Versión Extendida)">
+                <i class="fa-solid fa-icicles"></i> <div style="display:flex; flex-direction:column; text-align:left;"><span style="color:var(--valtara-blanco); font-size:1.3rem;">Bajo el Vidrio (Extended)</span><span style="color:#aaa; font-size:0.9rem; font-weight:300;">Oasis Engine</span></div>
+            </button>
+
+        </div>
         <div class="carousel-navigation">
             <button aria-label="Ver audios anteriores" class="carousel-btn" onclick="window.ValtaraCarousels.scroll('audio-carousel-long', -1)"><i class="fa-solid fa-chevron-left"></i></button>
-            <div class="carousel-indicator" id="indicator-audio-long" aria-live="polite">1 de 5</div>
+            <div class="carousel-indicator" id="indicator-audio-long" aria-live="polite">Inmersión</div>
             <button aria-label="Ver siguientes audios" class="carousel-btn" onclick="window.ValtaraCarousels.scroll('audio-carousel-long', 1)"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
     </div>
