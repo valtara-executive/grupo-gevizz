@@ -1,6 +1,6 @@
 /**
  * ====================================================================================
- * BLOQUE 9: OASIS AUDIO ENGINE V25.0 (CATÁLOGO EXPANDIDO DE 23 PISTAS)
+ * BLOQUE 9: OASIS AUDIO ENGINE V25.1 (MAPEO EXACTO DE ARCHIVOS GITHUB)
  * Motor acústico de doble carrusel con scroll magnético, UI de tarjetas y A11y.
  * ====================================================================================
  */
@@ -16,7 +16,7 @@ window.OasisEngine = {
     animFrame: null, 
     performanceMode: false,
 
-    // Bóveda de Sonido: 23 Pistas en 2 Categorías apuntando al directorio audio/
+    // Bóveda de Sonido: 23 Pistas con mapeo exacto a los nombres del repositorio
     tracks: [
         // --- CATEGORÍA 1: MICRO-DOSIS (30 SEGUNDOS) ---
         { id: 1, type: 'short', name: "Frecuencia 01", icon: "fa-leaf", file: "audio/1.mp3" },
@@ -30,19 +30,20 @@ window.OasisEngine = {
         { id: 9, type: 'short', name: "Frecuencia 09", icon: "fa-leaf", file: "audio/9.mp3" },
         
         // --- CATEGORÍA 2: INMERSIÓN PROFUNDA (14 PISTAS LARGAS) ---
+        // El 'name' es lo que ve el paciente. El 'file' es el nombre exacto en GitHub.
         { id: 10, type: 'long', name: "Bajo el Vidrio (Extended)", icon: "fa-icicles", file: "audio/bajo_el_vidrio (1).mp3" },
         { id: 11, type: 'long', name: "Bajo el Vidrio", icon: "fa-snowflake", file: "audio/bajo_el_vidrio.mp3" },
-        { id: 12, type: 'long', name: "Bajo una Marea Oscura", icon: "fa-water", file: "audio/bajo_una_marea_oscura.mp3" },
-        { id: 13, type: 'long', name: "Disolviendo el Índigo", icon: "fa-droplet", file: "audio/disolviendo_el_índigo.mp3" },
+        { id: 12, type: 'long', name: "Bajo una Marea Oscura", icon: "fa-water", file: "audio/beneath_a_darkened_tide.mp3" },
+        { id: 13, type: 'long', name: "Disolviendo el Índigo", icon: "fa-droplet", file: "audio/dissolving_the_indigo.mp3" },
         { id: 14, type: 'long', name: "El Umbral de Cristal", icon: "fa-cube", file: "audio/el_umbral_de_cristal.mp3" },
         { id: 15, type: 'long', name: "Flujo de Sal y de Piel", icon: "fa-wind", file: "audio/flujo_de_sal_y_de_piel.mp3" },
-        { id: 16, type: 'long', name: "Canoas Doradas", icon: "fa-sailboat", file: "audio/canoas doradas.mp3" },
-        { id: 17, type: 'long', name: "La Geometría del Silencio", icon: "fa-shapes", file: "audio/la_geometria_del_silencio.mp3" },
+        { id: 16, type: 'long', name: "Canoas Doradas", icon: "fa-sailboat", file: "audio/gilded_canopy.mp3" },
+        { id: 17, type: 'long', name: "La Geometría del Silencio", icon: "fa-shapes", file: "audio/la_geometr_a_del_silencio.mp3" },
         { id: 18, type: 'long', name: "Manto Sin Orillas", icon: "fa-cloud", file: "audio/manto_sin_orillas.mp3" },
         { id: 19, type: 'long', name: "Marea de Terciopelo", icon: "fa-water", file: "audio/marea_de_terciopelo.mp3" },
         { id: 20, type: 'long', name: "Piedra y Sal", icon: "fa-gem", file: "audio/piedra_y_sal.mp3" },
         { id: 21, type: 'long', name: "Sombra Divina", icon: "fa-moon", file: "audio/sombra_divina.mp3" },
-        { id: 22, type: 'long', name: "Marea bajo el Crepúsculo", icon: "fa-sun", file: "audio/marea_bajo_el_crepúsculo.mp3" },
+        { id: 22, type: 'long', name: "Marea bajo el Crepúsculo", icon: "fa-sun", file: "audio/tide_beneath_the_twilight.mp3" },
         { id: 23, type: 'long', name: "Un Hilo de Oro", icon: "fa-ring", file: "audio/un_hilo_de_oro.mp3" }
     ],
 
@@ -172,7 +173,6 @@ window.OasisEngine = {
         const setups = [
             { id: 'video-carousel', indId: 'indicator-video', total: 8 },
             { id: 'audio-carousel-short', indId: 'indicator-audio-short', total: 9 },
-            // Actualizamos a 14 el total de canciones largas
             { id: 'audio-carousel-long', indId: 'indicator-audio-long', total: 14 }
         ];
 
@@ -243,7 +243,7 @@ window.OasisEngine = {
         if(this.isPlaying) {
             this.stopAll();
         } else {
-            this.selectTrack(this.currentTrack === -1 ? 10 : this.currentTrack); // Arranca con la pista 10 por defecto
+            this.selectTrack(this.currentTrack === -1 ? 10 : this.currentTrack);
         }
     },
 
