@@ -1,6 +1,7 @@
 @charset "UTF-8";
 /* ====================================================================================
-   BLOQUE 3: COMPONENTES SOVEREIGN 14.5 (ZIG-ZAG, ICONOS GIGANTES, FABS Y CARRUSELES)
+   BLOQUE 3: COMPONENTES SOVEREIGN 15.0 (ZIG-ZAG, ICONOS GIGANTES, FABS Y CARRUSELES)
+   Actualización de Ultra-Lujo: Aura AI 3.0 integrada (Cristal, Oro y Cian).
    ==================================================================================== */
 
 /* ------------------------------------------------------------------------------------
@@ -177,37 +178,48 @@
 .a11y-card-btn:hover i, .a11y-card-btn[aria-pressed="true"] i { color: var(--valtara-negro-fondo); transform: scale(1.2); }
 
 /* ------------------------------------------------------------------------------------
-   5. AURA AI 2.0 (BURBUJAS AMIGABLES Y SUGGESTION CHIPS)
+   5. AURA AI 3.0 (INTERFAZ DE ULTRA-LUJO, CRISTAL Y ORO)
+   ====================================================================================
+   Esta sección ha sido completamente reconstruida para eliminar el estilo "juego"
+   y abrazar la estética corporativa de Valtara.
    ------------------------------------------------------------------------------------ */
-#aura-modal { width: 95vw; max-width: 1000px; height: 92vh; border-color: var(--valtara-morado-vivo); }
-#aura-modal .modal-header h3 { color: #E58CFF; } /* Lila muy suave y amigable */
+#aura-modal { width: 95vw; max-width: 1000px; height: 92vh; border-color: var(--valtara-oro); }
+#aura-modal .modal-header h3 { color: var(--valtara-oro); letter-spacing: 1px; }
 
 .aura-container { display: flex; flex-direction: column; height: 100%; }
 
 .aura-chat-window {
     flex-grow: 1; padding: 3.5rem; overflow-y: auto;
     display: flex; flex-direction: column; gap: 2.5rem;
-    background: radial-gradient(circle at center, rgba(178, 0, 255, 0.05) 0%, transparent 80%);
+    background: radial-gradient(circle at center, rgba(242, 201, 76, 0.05) 0%, transparent 80%);
 }
 
-.msg { max-width: 85%; padding: 1.8rem 2.2rem; font-size: 1.2rem; line-height: 1.9; border-radius: 2rem; animation: fadeInMsg 0.5s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 1rem 3rem rgba(0,0,0,0.4); }
+.msg { max-width: 85%; padding: 1.8rem 2.2rem; font-size: 1.25rem; line-height: 1.9; border-radius: 2rem; animation: fadeInMsg 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
 @keyframes fadeInMsg { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-/* Burbujas de Chat Súper Amigables */
+/* Burbuja del Bot (Aura) - Cristal Elegante Cian */
 .msg.bot { 
-    background: rgba(40, 30, 50, 0.95); /* Morado muy oscuro pero cálido */
-    border: 1px solid rgba(178, 0, 255, 0.4); 
-    align-self: flex-start; border-bottom-left-radius: 0.3rem; color: var(--valtara-blanco); 
-    box-shadow: 0 1rem 2rem rgba(178,0,255,0.1);
-}
-.msg.user { 
-    background: var(--grad-magic); 
-    border: none; align-self: flex-end; border-bottom-right-radius: 0.3rem; 
-    color: var(--valtara-blanco); font-weight: 700; 
-    box-shadow: 0 1rem 3rem rgba(225, 48, 108, 0.3);
+    background: linear-gradient(135deg, rgba(0,255,255,0.08), rgba(0,0,0,0.85));
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0,255,255,0.15); 
+    border-left: 4px solid var(--valtara-cian-brillante);
+    align-self: flex-start; border-bottom-left-radius: 0.5rem; 
+    color: var(--valtara-blanco); 
+    box-shadow: 0 1rem 3rem rgba(0,0,0,0.5), inset 0 0 2rem rgba(0,255,255,0.05);
 }
 
-/* Suggestion Chips (Tarjetas Inteligentes con Alto Contraste) */
+/* Burbuja del Usuario - Cristal Elegante Dorado */
+.msg.user { 
+    background: linear-gradient(135deg, rgba(242, 201, 76, 0.1), rgba(0,0,0,0.85)); 
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(242, 201, 76, 0.2); 
+    border-right: 4px solid var(--valtara-oro);
+    align-self: flex-end; border-bottom-right-radius: 0.5rem; 
+    color: var(--valtara-oro-suave); font-weight: 400; 
+    box-shadow: 0 1rem 3rem rgba(0,0,0,0.5), inset 0 0 2rem rgba(242,201,76,0.05);
+}
+
+/* Suggestion Chips Antiguos (Por si acaso quedó alguno residual, los volvemos dorados) */
 .aura-suggestion-chips {
     display: flex; gap: 1.2rem; padding: 2rem 3rem; overflow-x: auto;
     background: rgba(0,0,0,0.85); border-top: 1px solid rgba(255,255,255,0.08);
@@ -217,21 +229,42 @@
 
 .chip-btn {
     flex-shrink: 0;
-    background: #3B0A45; /* Púrpura súper oscuro para contraste masivo */
-    border: 2px solid #E58CFF; color: #FFFFFF;
+    background: rgba(20,20,30,0.9);
+    border: 1px solid var(--valtara-oro); color: var(--valtara-oro-suave);
     padding: 1.2rem 2.2rem; border-radius: 3rem; font-size: 1.15rem; font-weight: 700;
     cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 0.5rem 2rem rgba(0,0,0,0.6);
     white-space: nowrap;
 }
-.chip-btn:nth-child(even) { background: #2B1700; border-color: #FFD700; } /* Café ébano oscuro */
-.chip-btn:hover { transform: translateY(-8px) scale(1.05); filter: brightness(1.4); box-shadow: 0 2rem 4rem rgba(178,0,255,0.6); }
+.chip-btn:hover { transform: translateY(-8px) scale(1.05); filter: brightness(1.2); box-shadow: 0 2rem 4rem rgba(242, 201, 76, 0.4); background: rgba(242, 201, 76, 0.1); }
 
+/* Controles de Input (Oro y Elegancia) */
 .aura-controls { padding: 2.5rem 3.5rem; background: var(--valtara-negro-modal); border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 2rem; align-items: center; }
-#aura-input { flex-grow: 1; padding: 1.8rem 2.5rem; border-radius: 4rem; border: 2px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.7); color: var(--valtara-blanco); font-size: 1.25rem; outline: none; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-#aura-input:focus { border-color: var(--valtara-morado-vivo); box-shadow: 0 0 3rem rgba(178, 0, 255, 0.5); background: rgba(178, 0, 255, 0.08); transform: translateY(-2px);}
 
-#aura-send-btn { background: var(--valtara-morado-vivo); color: var(--valtara-blanco); border: none; border-radius: 50%; width: 5.5rem; height: 5.5rem; font-size: 2rem; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 1rem 3rem rgba(178, 0, 255, 0.5); }
-#aura-send-btn:hover { background: var(--valtara-blanco); color: var(--valtara-morado-vivo); transform: scale(1.15) rotate(10deg); box-shadow: 0 2rem 5rem rgba(178, 0, 255, 0.8); }
+#aura-input { 
+    flex-grow: 1; padding: 1.8rem 2.5rem; border-radius: 4rem; 
+    border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.6); 
+    color: var(--valtara-blanco); font-size: 1.25rem; outline: none; 
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+}
+#aura-input:focus { 
+    border-color: var(--valtara-oro); 
+    box-shadow: 0 0 3rem rgba(242, 201, 76, 0.3), inset 0 0 2rem rgba(242, 201, 76, 0.1); 
+    background: rgba(242, 201, 76, 0.05); transform: translateY(-2px);
+}
+
+#aura-send-btn { 
+    background: var(--valtara-oro); color: var(--valtara-negro-fondo); border: none; 
+    border-radius: 50%; width: 5.5rem; height: 5.5rem; font-size: 2rem; 
+    display: flex; justify-content: center; align-items: center; cursor: pointer; 
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 1rem 3rem rgba(242, 201, 76, 0.4); 
+}
+#aura-send-btn:hover { 
+    background: var(--valtara-blanco); color: var(--valtara-negro-fondo); 
+    transform: scale(1.15); box-shadow: 0 2rem 5rem rgba(242, 201, 76, 0.7); 
+}
+
+#aura-mic-btn { border-color: var(--valtara-oro) !important; color: var(--valtara-oro) !important; }
+#aura-mic-btn:hover { background: var(--valtara-oro) !important; color: var(--valtara-negro-fondo) !important; }
 
 /* ------------------------------------------------------------------------------------
    6. OASIS AUDIO ENGINE VISUALIZER
