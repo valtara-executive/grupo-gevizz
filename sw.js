@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valtara-sovereign-v23';
+const CACHE_NAME = 'valtara-sovereign-v24';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -6,18 +6,15 @@ const ASSETS_TO_CACHE = [
   './css/components.css'
 ];
 
-// 1. INSTALACIÓN
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('Bóveda de caché Valtara V23 sellada y lista.');
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );
   self.skipWaiting();
 });
 
-// 2. INTERCEPTOR
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
@@ -26,18 +23,36 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-// 3. LIMPIEZA
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) {
-            console.log('Destruyendo caché antigua de Valtara...');
-            return caches.delete(cache);
-          }
+          if (cache !== CACHE_NAME) return caches.delete(cache);
         })
       );
     })
   );
+});
+
+// ==========================================
+// ESCUCHADOR DE NOTIFICACIONES PUSH NATIVAS
+// ==========================================
+self.addEventListener('notificationclick', (event) => {
+    event.notification.close(); // Cierra la ventanita de notificación
+    
+    // Busca si la App ya está abierta. Si sí, la enfoca. Si no, la abre.
+    event.waitUntil(
+        clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+            for (let i = 0; i < windowClients.length; i++) {
+                const client = windowClients[i];
+                if (client.url.includes('valtara') && 'focus' in client) {
+                    return client.focus();
+                }
+            }
+            if (clients.openWindow) {
+                return clients.openWindow(event.notification.data.url);
+            }
+        })
+    );
 });
