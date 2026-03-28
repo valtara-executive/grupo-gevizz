@@ -1,6 +1,6 @@
 /**
  * ====================================================================================
- * BLOQUE 9: PWA & CONCIERGE ENGINE V23.0
+ * BLOQUE 9: PWA & CONCIERGE ENGINE V23.1 (DISEÑO BULLETPROOF)
  * Instalación de la App Nativa y Motor de Notificaciones Contextuales.
  * ====================================================================================
  */
@@ -8,7 +8,6 @@
 const ConciergeEngine = {
     deferredPrompt: null,
     
-    // Las 18 Variaciones de Mensajes
     messages: {
         morning: [
             "Un nuevo día corporativo inicia. Tómate 2 minutos para calibrar tu postura antes de tu primera junta.",
@@ -40,7 +39,6 @@ const ConciergeEngine = {
         this.bindInstallPrompt();
         this.registerServiceWorker();
         
-        // Retrasamos la solicitud de notificaciones 5 segundos para no ser invasivos
         setTimeout(() => {
             this.checkNotificationStatus();
         }, 5000);
@@ -73,49 +71,59 @@ const ConciergeEngine = {
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js').then((reg) => {
-                    console.log('Escudo ServiceWorker V24 activo.', reg.scope);
-                    // Comprobamos si debemos lanzar un mensaje ahora mismo
                     this.evaluateTimeForNotification(reg);
                 }).catch(err => console.error('Fallo en el blindaje SW:', err));
             });
         }
     },
 
-    // ==========================================
-    // LÓGICA DE NOTIFICACIONES
-    // ==========================================
     checkNotificationStatus: function() {
         if (!("Notification" in window)) return;
-        
         if (Notification.permission === "default") {
             this.showElegantPermissionModal();
         }
     },
 
     showElegantPermissionModal: function() {
-        // No mostramos el feo cuadro del navegador, creamos uno de ultra-lujo primero
         if(document.getElementById('concierge-modal')) return;
         
         const div = document.createElement('div');
         div.id = 'concierge-modal';
-        div.style.cssText = "position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; background: rgba(5,5,10,0.95); border: 1px solid var(--valtara-oro); border-radius: 15px; padding: 20px; z-index: 99999; box-shadow: 0 10px 30px rgba(0,0,0,0.8); backdrop-filter: blur(20px); text-align: center; animation: slideInMsg 0.5s ease forwards;";
+        
+        // CSS BULLETPROOF: Centrado exacto, elástico y con transición suave desde abajo
+        div.style.cssText = "position: fixed; bottom: -150px; opacity: 0; left: 0; right: 0; margin: 0 auto; width: 90%; max-width: 420px; background: rgba(10, 10, 15, 0.98); border: 1px solid var(--valtara-oro); border-radius: 1.5rem; padding: 2rem; z-index: 999999; box-shadow: 0 2rem 5rem rgba(0,0,0,0.9); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); text-align: center; display: flex; flex-direction: column; align-items: center; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);";
         
         div.innerHTML = `
-            <i class="fa-solid fa-bell" style="color: var(--valtara-oro); font-size: 2rem; margin-bottom: 15px;"></i>
-            <h4 style="color: white; font-family: var(--font-accent); font-size: 1.4rem; margin-bottom: 10px;">Concierge Valtara</h4>
-            <p style="color: #aaa; font-size: 1rem; margin-bottom: 20px;">¿Permites que nuestro sistema te envíe 3 recordatorios biomecánicos al día para cuidar de tu postura y nivel de estrés?</p>
-            <div style="display: flex; gap: 10px; justify-content: center;">
-                <button id="btn-deny-notif" style="background: transparent; border: 1px solid #ff5555; color: #ff5555; padding: 10px 20px; border-radius: 20px; cursor: pointer;">Ahora no</button>
-                <button id="btn-allow-notif" style="background: var(--valtara-cian-brillante); border: none; color: black; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(0,255,255,0.3);">Activar</button>
+            <i class="fa-solid fa-bell" style="color: var(--valtara-oro); font-size: 2.5rem; margin-bottom: 1rem;"></i>
+            <h4 style="color: var(--valtara-blanco); font-family: var(--font-accent); font-size: 1.6rem; margin-bottom: 0.5rem;">Concierge Valtara</h4>
+            <p style="color: var(--valtara-gris-texto); font-size: 1.1rem; margin-bottom: 1.8rem; line-height: 1.5;">¿Permites que nuestro sistema te envíe 3 recordatorios biomecánicos al día para cuidar de tu postura y nivel de estrés?</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; width: 100%; flex-wrap: wrap;">
+                <button id="btn-deny-notif" style="background: rgba(255,255,255,0.05); border: 1px solid #ff5555; color: #ff5555; padding: 0.8rem 1.5rem; border-radius: 2rem; font-size: 1.1rem; cursor: pointer; flex: 1; min-width: 120px;">Ahora no</button>
+                <button id="btn-allow-notif" style="background: var(--valtara-cian-brillante); border: none; color: var(--valtara-negro-fondo); padding: 0.8rem 1.5rem; border-radius: 2rem; font-size: 1.1rem; font-weight: 900; cursor: pointer; flex: 1; min-width: 120px; box-shadow: 0 0.5rem 1.5rem rgba(0,255,255,0.3);">Activar</button>
             </div>
         `;
         
         document.body.appendChild(div);
 
-        document.getElementById('btn-deny-notif').addEventListener('click', () => div.remove());
+        // Dispara la animación de entrada
+        setTimeout(() => {
+            div.style.bottom = "20px";
+            div.style.opacity = "1";
+        }, 100);
+
+        // Cierre suave si rechaza
+        document.getElementById('btn-deny-notif').addEventListener('click', () => {
+            div.style.bottom = "-150px";
+            div.style.opacity = "0";
+            setTimeout(() => div.remove(), 600);
+        });
+
+        // Cierre suave y petición si acepta
         document.getElementById('btn-allow-notif').addEventListener('click', () => {
-            div.remove();
-            // AHORA SÍ, pedimos el permiso real al navegador
+            div.style.bottom = "-150px";
+            div.style.opacity = "0";
+            setTimeout(() => div.remove(), 600);
+            
             Notification.requestPermission().then(permission => {
                 if(permission === 'granted') {
                     navigator.serviceWorker.ready.then(reg => this.evaluateTimeForNotification(reg));
@@ -135,27 +143,23 @@ const ConciergeEngine = {
         else if (hour >= 13 && hour < 16) slot = 'midday';
         else if (hour >= 19 && hour < 22) slot = 'evening';
 
-        if (!slot) return; // No estamos en horario de notificaciones
+        if (!slot) return; 
 
-        // Verificamos si ya le enviamos la de este horario el día de hoy
         const memoryKey = `valtara_notif_${dateString}_${slot}`;
-        if (localStorage.getItem(memoryKey)) return; // Ya se envió
+        if (localStorage.getItem(memoryKey)) return; 
 
-        // Elegimos un mensaje al azar de ese horario
         const msgArray = this.messages[slot];
         const randomMsg = msgArray[Math.floor(Math.random() * msgArray.length)];
 
-        // Mostramos la Notificación Nativa del Celular
         swRegistration.showNotification('Valtara Executive Therapy', {
             body: randomMsg,
-            icon: 'logo.png', // El icono de tu app
+            icon: 'logo.png',
             badge: 'logo.png',
             vibrate: [200, 100, 200],
-            data: { url: './index.html' }, // A donde lo lleva al hacer clic
+            data: { url: './index.html' }, 
             requireInteraction: false
         });
 
-        // Guardamos en memoria para no spamearlo el resto del turno
         localStorage.setItem(memoryKey, "sent");
     }
 };
