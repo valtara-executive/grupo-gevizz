@@ -1,8 +1,8 @@
 /**
  * ====================================================================================
- * BLOQUE 8: AURA AI ENGINE V17.0 (ULTRA-LUXURY "GOD MODE" OVERRIDE)
- * Inyecta su propio diseño, fuerza transparencias, arregla alineaciones 
- * y sincroniza la identidad en tiempo real.
+ * BLOQUE 8: AURA AI ENGINE V18.0 (ULTRA-LUXURY "GOD MODE" & SANITIZER)
+ * Inyecta su propio diseño, fuerza transparencias, arregla alineaciones,
+ * sincroniza la identidad en tiempo real y embellece los botones de Vercel.
  * ====================================================================================
  */
 
@@ -18,7 +18,7 @@ const AuraEngine = {
 
     init: function() {
         this.refreshIdentity();
-        this.forceInjectStyles(); // <-- AURA AHORA CONTROLA SU PROPIO DISEÑO
+        this.forceInjectStyles(); // <-- MODO DIOS: AURA CONTROLA EL CSS NATIVO
         this.initVoiceEngines(); 
         this.bindEvents();
     },
@@ -38,42 +38,118 @@ const AuraEngine = {
         } catch (e) { console.error("Error al leer la bóveda para Aura:", e); }
     },
 
-    // 2. MODO DIOS: AURA INYECTA SU PROPIO CSS (Destruye el fondo negro y arregla posiciones)
+    // 2. MODO DIOS: AURA INYECTA SU PROPIO CSS A LA FUERZA
     forceInjectStyles: function() {
         if(document.getElementById('aura-god-mode-styles')) return;
         const style = document.createElement('style');
         style.id = 'aura-god-mode-styles';
         style.innerHTML = `
-            /* Destruimos el fondo negro sólido y dejamos pasar los colores de la página */
-            #aura-modal { background: rgba(5, 5, 10, 0.45) !important; backdrop-filter: blur(25px) !important; -webkit-backdrop-filter: blur(25px) !important; border: 1px solid rgba(242, 201, 76, 0.4) !important; }
+            /* Destruimos el fondo negro sólido y el backdrop oscuro */
+            #aura-modal { background: rgba(5, 5, 10, 0.4) !important; backdrop-filter: blur(25px) !important; -webkit-backdrop-filter: blur(25px) !important; border: 1px solid rgba(242, 201, 76, 0.3) !important; }
+            #aura-modal::backdrop { background: rgba(0,0,0,0.5) !important; backdrop-filter: blur(8px) !important; }
             .aura-container { background: transparent !important; }
-            .modal-header { background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%) !important; border-bottom: 1px solid rgba(242,201,76,0.2) !important; }
+            .modal-header { background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%) !important; border-bottom: 1px solid rgba(242,201,76,0.2) !important; }
             
-            /* Forzamos el comportamiento del contenedor de chat para que funcione Derecha/Izquierda */
+            /* Forzamos el contenedor de chat a que obedezca flexbox */
             #aura-chat { display: flex !important; flex-direction: column !important; gap: 1.5rem !important; padding: 2rem 1rem !important; }
             
-            /* Pantalla de bienvenida 100% asegurada */
-            #aura-welcome-screen { background: transparent !important; z-index: 50 !important; }
+            /* REGLAS INQUEBRANTABLES PARA LAS BURBUJAS DE CHAT */
+            .msg {
+                max-width: 85% !important;
+                width: fit-content !important;
+                padding: 1.5rem 2rem !important;
+                font-size: 1.25rem !important;
+                line-height: 1.7 !important;
+                border-radius: 2rem !important;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+                backdrop-filter: blur(15px) !important;
+                -webkit-backdrop-filter: blur(15px) !important;
+                animation: slideInMsg 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+            }
             
-            /* Tarjetas Panorámicas */
+            /* Burbuja del Usuario: Derecha, Dorada, Elegante */
+            .msg.user {
+                align-self: flex-end !important;
+                margin-left: auto !important;
+                background: linear-gradient(135deg, rgba(242, 201, 76, 0.15), rgba(0,0,0,0.85)) !important;
+                border: 1px solid rgba(242, 201, 76, 0.3) !important;
+                border-right: 4px solid var(--valtara-oro) !important;
+                border-bottom-right-radius: 0.5rem !important;
+                color: var(--valtara-oro-suave) !important;
+            }
+
+            /* Burbuja de Aura: Izquierda, Cian, Profesional */
+            .msg.bot {
+                align-self: flex-start !important;
+                margin-right: auto !important;
+                background: linear-gradient(135deg, rgba(0,255,255,0.08), rgba(0,0,0,0.85)) !important;
+                border: 1px solid rgba(0,255,255,0.2) !important;
+                border-left: 4px solid var(--valtara-cian-brillante) !important;
+                border-bottom-left-radius: 0.5rem !important;
+                color: var(--valtara-blanco) !important;
+            }
+
+            /* LA CURA PARA EL BOTÓN FEO DE WHATSAPP (Aura destruye el CSS de Vercel y pone el suyo) */
+            .msg.bot a, .msg.bot button {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 12px !important;
+                background: linear-gradient(135deg, var(--valtara-whatsapp), #128C7E) !important;
+                color: var(--valtara-negro-fondo) !important;
+                padding: 1.2rem 2.5rem !important;
+                border-radius: 3rem !important;
+                text-decoration: none !important;
+                font-weight: 900 !important;
+                font-family: var(--font-main) !important;
+                margin-top: 1.5rem !important;
+                border: none !important;
+                box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3) !important;
+                white-space: normal !important;
+                text-align: center !important;
+                line-height: 1.3 !important;
+                width: fit-content !important;
+                max-width: 100% !important;
+                transition: all 0.3s ease !important;
+            }
+            .msg.bot a:hover {
+                transform: translateY(-3px) scale(1.05) !important;
+                box-shadow: 0 15px 35px rgba(37, 211, 102, 0.6) !important;
+                color: #fff !important;
+            }
+
+            /* Protegemos el botón de Audio de Aura para que no parezca un botón de WhatsApp */
+            .msg.bot .aura-speak-btn {
+                background: rgba(0,255,255,0.05) !important;
+                border: 1px solid var(--valtara-cian-brillante) !important;
+                color: var(--valtara-cian-brillante) !important;
+                padding: 0 !important;
+                width: 45px !important;
+                height: 45px !important;
+                border-radius: 50% !important;
+                margin-top: 0 !important;
+                margin-left: 15px !important;
+                box-shadow: none !important;
+            }
+
+            /* Pantalla de bienvenida asegurada */
+            #aura-welcome-screen { background: transparent !important; z-index: 50 !important; }
             .aura-suggestion-card { background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.6) 100%); border-radius: 1.5rem; padding: 1.5rem; display: flex; align-items: center; gap: 1.5rem; text-align: left; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; border: 1px solid rgba(255,255,255,0.1); }
             .aura-suggestion-card:hover { transform: translateY(-5px); background: linear-gradient(90deg, rgba(242, 201, 76, 0.15) 0%, rgba(0,0,0,0.8) 100%); border-color: var(--valtara-oro) !important; }
             
-            /* Animación de latido */
             @keyframes pulseAuraGold { 0% { transform: scale(0.9); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 1; } }
-            @keyframes slideInMsg { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+            @keyframes slideInMsg { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
         `;
         document.head.appendChild(style);
     },
 
-    // 3. INYECCIÓN DEL DISEÑO DE ULTRA-LUJO EN LA PANTALLA
+    // 3. PANTALLA DE BIENVENIDA DE ULTRA-LUJO
     renderUltraLujoWelcome: function() {
-        this.refreshIdentity(); // Sincroniza el nombre justo antes de pintar la pantalla
+        this.refreshIdentity(); 
 
         const welcomeContainer = document.getElementById('aura-welcome-screen');
         if(!welcomeContainer) return;
         
-        // Forzamos a que sea visible
         welcomeContainer.style.display = 'flex';
         welcomeContainer.style.opacity = '1';
         welcomeContainer.style.visibility = 'visible';
@@ -95,7 +171,6 @@ const AuraEngine = {
                 </p>
 
                 <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; width: 100%;">
-                    
                     <button class="aura-suggestion-card" data-query="Necesito un masaje relajante y descompresión física">
                         <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0; box-shadow: inset 0 0 15px rgba(0,255,255,0.2);">
                             <i class="fa-solid fa-spa" style="color: var(--valtara-cian-brillante); font-size: 2.2rem;"></i>
@@ -125,17 +200,6 @@ const AuraEngine = {
                         <div style="flex-grow: 1;">
                             <span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Tarifas y Paquetes</span>
                             <span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Explorar el catálogo de inversiones en bienestar.</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right" style="color: #666; font-size: 1.5rem; padding-left: 1rem;"></i>
-                    </button>
-
-                    <button class="aura-suggestion-card" data-query="Quiero hablar directamente con un humano en WhatsApp">
-                        <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(37, 211, 102, 0.1); border: 1px solid rgba(37, 211, 102, 0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0; box-shadow: inset 0 0 15px rgba(37,211,102,0.2);">
-                            <i class="fa-brands fa-whatsapp" style="color: var(--valtara-whatsapp); font-size: 2.5rem;"></i>
-                        </div>
-                        <div style="flex-grow: 1;">
-                            <span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Asesoría Humana</span>
-                            <span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Redirigir a WhatsApp para atención personalizada por el Concierge.</span>
                         </div>
                         <i class="fa-solid fa-chevron-right" style="color: #666; font-size: 1.5rem; padding-left: 1rem;"></i>
                     </button>
@@ -192,7 +256,6 @@ const AuraEngine = {
         if(toggleBtn) {
             toggleBtn.addEventListener('click', () => {
                 if(!this.isOpen) {
-                    // Solo mostramos la bienvenida si el chat está vacío
                     if(this.chatHistory.length === 0) {
                         this.renderUltraLujoWelcome(); 
                     }
@@ -268,13 +331,12 @@ const AuraEngine = {
         const chatLog = document.getElementById('aura-chat');
         this.chatHistory.push({ role: "user", content: userText });
 
-        // Burbuja temporal de Aura pensando
         const typingDiv = document.createElement('div');
         typingDiv.id = 'temp-typing';
         typingDiv.style.cssText = "align-self: flex-start; margin-right: auto; max-width: 85%; padding: 1.5rem 2rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(0,255,255,0.05), rgba(0,0,0,0.8)); backdrop-filter: blur(15px); border: 1px solid rgba(0,255,255,0.2); border-left: 4px solid var(--valtara-cian-brillante); color: #fff; font-size: 1.2rem; display: flex; gap: 5px;";
         typingDiv.innerHTML = '<span style="animation: pulse 1s infinite alternate;">.</span><span style="animation: pulse 1s infinite alternate 0.2s;">.</span><span style="animation: pulse 1s infinite alternate 0.4s;">.</span>';
         chatLog.appendChild(typingDiv);
-        chatLog.scrollTop = chatLog.scrollHeight;
+        chatLog.scrollTo({ top: chatLog.scrollHeight, behavior: 'smooth' });
 
         if(window.A11yEngine) A11yEngine.announce("Aura está analizando tu caso...");
 
@@ -295,12 +357,20 @@ const AuraEngine = {
                 this.chatHistory.push({ role: "assistant", content: auraRespuesta });
             }
             
-            let auraFormateada = auraRespuesta.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\n/g, '<br>');
+            // LA MAGIA: Convertimos enlaces de markdown y ARRANCAMOS estilos basura de Vercel
+            let auraFormateada = auraRespuesta.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '<a href="$2" target="_blank"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem;"></i> $1</a>');
+            auraFormateada = auraFormateada.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
+            
+            // DESTRUCTOR DE ESTILOS BASURA (Adiós cajas negras)
+            auraFormateada = auraFormateada.replace(/style="[^"]*"/gi, ''); 
+            
+            auraFormateada = auraFormateada.replace(/\n/g, '<br>');
+            
             this.appendMsg(auraFormateada, 'bot', true);
 
         } catch (error) {
             if(document.getElementById('temp-typing')) document.getElementById('temp-typing').remove();
-            this.appendMsg(`Por una leve interrupción en nuestra red, no he podido procesar tu solicitud. Comunícate en WhatsApp:<br><br><a href="https://wa.me/5213348572070" target="_blank" style="background: #25D366; color: white; padding: 12px 24px; border-radius: 30px; text-decoration: none; display: inline-flex; font-weight: bold; font-family: sans-serif;">📲 Abrir WhatsApp</a>`, 'bot', true);
+            this.appendMsg(`Por una leve interrupción en nuestra red, no he podido procesar tu solicitud. Comunícate en WhatsApp:<br><br><a href="https://wa.me/5213348572070" target="_blank"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem;"></i> Abrir WhatsApp</a>`, 'bot', true);
             this.chatHistory.pop();
         } finally {
             this.isTyping = false;
@@ -348,43 +418,13 @@ const AuraEngine = {
         window.speechSynthesis.speak(utterance);
     },
 
-    // 4. MODO DIOS DE ALINEACIÓN DE MENSAJES (Destruye los estilos CSS viejos)
     appendMsg: function(txtOrHtml, sender, isHtml = false) {
         const log = document.getElementById('aura-chat');
         if(!log) return;
 
+        // Limpiamos el sistema de clases CSS, ahora Aura dicta las reglas
         const div = document.createElement('div'); 
-        
-        // ESTILOS INYECTADOS DIRECTAMENTE A LA VENA PARA QUE JAMÁS SE ROMPAN
-        div.style.maxWidth = '85%';
-        div.style.padding = '1.8rem 2.2rem';
-        div.style.fontSize = '1.25rem';
-        div.style.lineHeight = '1.8';
-        div.style.borderRadius = '2rem';
-        div.style.animation = 'slideInMsg 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
-        div.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
-        div.style.backdropFilter = 'blur(15px)';
-
-        if (sender === 'user') {
-            // Usuario: Derecha, Dorado
-            div.style.alignSelf = 'flex-end';
-            div.style.marginLeft = 'auto'; // Fuerza a la derecha absoluto
-            div.style.background = 'linear-gradient(135deg, rgba(242, 201, 76, 0.1), rgba(0,0,0,0.85))';
-            div.style.border = '1px solid rgba(242, 201, 76, 0.2)';
-            div.style.borderRight = '4px solid var(--valtara-oro)';
-            div.style.borderBottomRightRadius = '0.5rem';
-            div.style.color = 'var(--valtara-oro-suave)';
-            div.style.fontWeight = '400';
-        } else {
-            // Aura (Bot): Izquierda, Cian
-            div.style.alignSelf = 'flex-start';
-            div.style.marginRight = 'auto'; // Fuerza a la izquierda absoluto
-            div.style.background = 'linear-gradient(135deg, rgba(0,255,255,0.08), rgba(0,0,0,0.85))';
-            div.style.border = '1px solid rgba(0,255,255,0.15)';
-            div.style.borderLeft = '4px solid var(--valtara-cian-brillante)';
-            div.style.borderBottomLeftRadius = '0.5rem';
-            div.style.color = 'var(--valtara-blanco)';
-        }
+        div.className = `msg ${sender}`;
         
         const contentDiv = document.createElement('div');
         if(isHtml) { contentDiv.innerHTML = txtOrHtml; } else { contentDiv.textContent = txtOrHtml; }
@@ -392,7 +432,6 @@ const AuraEngine = {
         if(sender === 'bot') {
             const speakBtn = document.createElement('button');
             speakBtn.className = 'aura-speak-btn';
-            speakBtn.style.cssText = "background: rgba(0,255,255,0.05); border: 1px solid var(--valtara-cian-brillante); color: var(--valtara-cian-brillante); border-radius: 50%; width: 35px; height: 35px; margin-left: 15px; cursor: pointer; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; transition: 0.3s;";
             speakBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
             speakBtn.addEventListener('click', () => { this.speakMessage(txtOrHtml, speakBtn); });
 
@@ -400,9 +439,9 @@ const AuraEngine = {
             flexContainer.style.display = 'flex'; 
             flexContainer.style.justifyContent = 'space-between'; 
             flexContainer.style.alignItems = 'flex-start';
+            
             flexContainer.appendChild(contentDiv); 
             flexContainer.appendChild(speakBtn);
-            
             div.appendChild(flexContainer);
         } else {
             div.appendChild(contentDiv);
