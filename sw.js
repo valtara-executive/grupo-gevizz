@@ -1,23 +1,23 @@
-const CACHE_NAME = 'valtara-sovereign-v20';
+const CACHE_NAME = 'valtara-sovereign-v23';
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/css/main.css',
-  '/css/components.css'
+  './',
+  './index.html',
+  './css/main.css',
+  './css/components.css'
 ];
 
-// 1. INSTALACIÓN (El Guardia guarda los archivos base en la bóveda)
+// 1. INSTALACIÓN
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('Bóveda de caché Valtara V20 sellada y lista.');
+      console.log('Bóveda de caché Valtara V23 sellada y lista.');
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );
   self.skipWaiting();
 });
 
-// 2. INTERCEPTOR (Estrategia: Busca primero en el celular, luego en internet)
+// 2. INTERCEPTOR
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
@@ -26,7 +26,7 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-// 3. LIMPIEZA (Destruye cachés viejas para obligar a actualizar)
+// 3. LIMPIEZA
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
