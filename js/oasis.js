@@ -1,11 +1,10 @@
 /**
  * ====================================================================================
- * BLOQUE 9: OASIS AUDIO ENGINE V18.6 (APPLE MUSIC IMMERSIVE EDITION - FIXED)
+ * BLOQUE 9: OASIS AUDIO ENGINE V25.0 (CATÁLOGO EXPANDIDO DE 23 PISTAS)
  * Motor acústico de doble carrusel con scroll magnético, UI de tarjetas y A11y.
  * ====================================================================================
  */
 
-// AQUÍ ESTÁ EL PARCHE: Ahora es window.OasisEngine para que el Constructor lo vea
 window.OasisEngine = {
     ctx: null, 
     masterGain: null, 
@@ -17,25 +16,34 @@ window.OasisEngine = {
     animFrame: null, 
     performanceMode: false,
 
-    // Bóveda de Sonido: 14 Pistas en 2 Categorías apuntando al directorio audio/
+    // Bóveda de Sonido: 23 Pistas en 2 Categorías apuntando al directorio audio/
     tracks: [
         // --- CATEGORÍA 1: MICRO-DOSIS (30 SEGUNDOS) ---
-        { id: 1, type: 'short', name: "I. Brisa de Lavanda", icon: "fa-wind", file: "audio/1.mp3" },
-        { id: 2, type: 'short', name: "II. Latido de Cuarzo", icon: "fa-gem", file: "audio/2.mp3" },
-        { id: 3, type: 'short', name: "III. Susurro de Bosque", icon: "fa-leaf", file: "audio/3.mp3" },
-        { id: 4, type: 'short', name: "IV. Gota de Rocío", icon: "fa-droplet", file: "audio/4.mp3" },
-        { id: 5, type: 'short', name: "V. Eco Estelar", icon: "fa-meteor", file: "audio/5.mp3" },
-        { id: 6, type: 'short', name: "VI. Mente Cristalina", icon: "fa-brain", file: "audio/6.mp3" },
-        { id: 7, type: 'short', name: "VII. Respiro de Loto", icon: "fa-spa", file: "audio/7.mp3" },
-        { id: 8, type: 'short', name: "VIII. Aura Serena", icon: "fa-water", file: "audio/8.mp3" },
-        { id: 9, type: 'short', name: "IX. Reflejo de Luna", icon: "fa-moon", file: "audio/9.mp3" },
+        { id: 1, type: 'short', name: "Frecuencia 01", icon: "fa-leaf", file: "audio/1.mp3" },
+        { id: 2, type: 'short', name: "Frecuencia 02", icon: "fa-leaf", file: "audio/2.mp3" },
+        { id: 3, type: 'short', name: "Frecuencia 03", icon: "fa-leaf", file: "audio/3.mp3" },
+        { id: 4, type: 'short', name: "Frecuencia 04", icon: "fa-leaf", file: "audio/4.mp3" },
+        { id: 5, type: 'short', name: "Frecuencia 05", icon: "fa-leaf", file: "audio/5.mp3" },
+        { id: 6, type: 'short', name: "Frecuencia 06", icon: "fa-leaf", file: "audio/6.mp3" },
+        { id: 7, type: 'short', name: "Frecuencia 07", icon: "fa-leaf", file: "audio/7.mp3" },
+        { id: 8, type: 'short', name: "Frecuencia 08", icon: "fa-leaf", file: "audio/8.mp3" },
+        { id: 9, type: 'short', name: "Frecuencia 09", icon: "fa-leaf", file: "audio/9.mp3" },
         
-        // --- CATEGORÍA 2: INMERSIÓN PROFUNDA (2 MINUTOS) ---
-        { id: 10, type: 'long', name: "X. Marea de Terciopelo", icon: "fa-water", file: "audio/marea_de_terciopelo.mp3" },
-        { id: 11, type: 'long', name: "XI. Marea Bajo el Crepúsculo", icon: "fa-cloud-moon", file: "audio/tide_beneath_the_twilight.mp3" },
-        { id: 12, type: 'long', name: "XII. Un Hilo de Oro", icon: "fa-sun", file: "audio/un_hilo_de_oro.mp3" },
-        { id: 13, type: 'long', name: "XIII. Manto Sin Orillas", icon: "fa-infinity", file: "audio/manto_sin_orillas.mp3" },
-        { id: 14, type: 'long', name: "XIV. Dosel Dorado", icon: "fa-tree", file: "audio/gilded_canopy.mp3" }
+        // --- CATEGORÍA 2: INMERSIÓN PROFUNDA (14 PISTAS LARGAS) ---
+        { id: 10, type: 'long', name: "Bajo el Vidrio (Extended)", icon: "fa-icicles", file: "audio/bajo_el_vidrio (1).mp3" },
+        { id: 11, type: 'long', name: "Bajo el Vidrio", icon: "fa-snowflake", file: "audio/bajo_el_vidrio.mp3" },
+        { id: 12, type: 'long', name: "Bajo una Marea Oscura", icon: "fa-water", file: "audio/bajo_una_marea_oscura.mp3" },
+        { id: 13, type: 'long', name: "Disolviendo el Índigo", icon: "fa-droplet", file: "audio/disolviendo_el_índigo.mp3" },
+        { id: 14, type: 'long', name: "El Umbral de Cristal", icon: "fa-cube", file: "audio/el_umbral_de_cristal.mp3" },
+        { id: 15, type: 'long', name: "Flujo de Sal y de Piel", icon: "fa-wind", file: "audio/flujo_de_sal_y_de_piel.mp3" },
+        { id: 16, type: 'long', name: "Canoas Doradas", icon: "fa-sailboat", file: "audio/canoas doradas.mp3" },
+        { id: 17, type: 'long', name: "La Geometría del Silencio", icon: "fa-shapes", file: "audio/la_geometria_del_silencio.mp3" },
+        { id: 18, type: 'long', name: "Manto Sin Orillas", icon: "fa-cloud", file: "audio/manto_sin_orillas.mp3" },
+        { id: 19, type: 'long', name: "Marea de Terciopelo", icon: "fa-water", file: "audio/marea_de_terciopelo.mp3" },
+        { id: 20, type: 'long', name: "Piedra y Sal", icon: "fa-gem", file: "audio/piedra_y_sal.mp3" },
+        { id: 21, type: 'long', name: "Sombra Divina", icon: "fa-moon", file: "audio/sombra_divina.mp3" },
+        { id: 22, type: 'long', name: "Marea bajo el Crepúsculo", icon: "fa-sun", file: "audio/marea_bajo_el_crepúsculo.mp3" },
+        { id: 23, type: 'long', name: "Un Hilo de Oro", icon: "fa-ring", file: "audio/un_hilo_de_oro.mp3" }
     ],
 
     init: function() {
@@ -46,7 +54,6 @@ window.OasisEngine = {
         
         this.renderTrackLists();
         this.bindEvents();
-        // Arrancamos el radar de accesibilidad para los contadores de carrusel
         setTimeout(() => this.setupCarouselIndicators(), 1000);
     },
 
@@ -135,7 +142,7 @@ window.OasisEngine = {
             btn.setAttribute('data-id', t.id);
             btn.style.cssText = 'flex-direction: column; padding: 2.5rem 1.5rem; justify-content: center; min-width: 250px; border-radius: 2rem; gap: 1.5rem;';
             
-            const durationText = t.type === 'short' ? 'Micro-Dosis (30s)' : 'Inmersión (2 min)';
+            const durationText = t.type === 'short' ? 'Micro-Dosis' : 'Inmersión';
             
             btn.innerHTML = `
                 <div style="width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, rgba(0,255,255,0.1), rgba(0,0,0,0.6)); display: flex; justify-content: center; align-items: center; border: 1px solid rgba(0,255,255,0.3); box-shadow: inset 0 0 25px rgba(0,255,255,0.15); margin: 0 auto; transition: 0.3s;">
@@ -165,7 +172,8 @@ window.OasisEngine = {
         const setups = [
             { id: 'video-carousel', indId: 'indicator-video', total: 8 },
             { id: 'audio-carousel-short', indId: 'indicator-audio-short', total: 9 },
-            { id: 'audio-carousel-long', indId: 'indicator-audio-long', total: 5 }
+            // Actualizamos a 14 el total de canciones largas
+            { id: 'audio-carousel-long', indId: 'indicator-audio-long', total: 14 }
         ];
 
         setups.forEach(setup => {
@@ -235,7 +243,7 @@ window.OasisEngine = {
         if(this.isPlaying) {
             this.stopAll();
         } else {
-            this.selectTrack(this.currentTrack === -1 ? 10 : this.currentTrack);
+            this.selectTrack(this.currentTrack === -1 ? 10 : this.currentTrack); // Arranca con la pista 10 por defecto
         }
     },
 
