@@ -1,7 +1,7 @@
 /**
  * ====================================================================================
- * BLOQUE 5: CORE ENGINE V11.1 (SISTEMA OPERATIVO Y TRIAJE EDUCATIVO)
- * Controla modales, menú lateral y el Mapa Biomecánico Expandible.
+ * BLOQUE 5: CORE ENGINE V12.0 (SISTEMA OPERATIVO Y TRIAJE EDUCATIVO)
+ * Controla modales, menú lateral, Mapa Biomecánico y SUSPENSIÓN TÉRMICA.
  * ====================================================================================
  */
 
@@ -29,7 +29,6 @@ const CoreEngine = {
         const closeBtns = document.querySelectorAll('[data-close]');
 
         openBtns.forEach(btn => {
-            // Limpieza de eventos duplicados clonando el nodo
             btn.replaceWith(btn.cloneNode(true));
             const newBtn = document.getElementById(btn.id) || document.querySelector(`[aria-haspopup="dialog"][id="${btn.id}"]`);
             
@@ -37,7 +36,6 @@ const CoreEngine = {
                 newBtn.addEventListener('click', () => {
                     let targetId = '';
                     
-                    // Ruteo exacto de botones a modales
                     if(newBtn.id === 'top-a11y-btn') targetId = 'a11y-modal'; 
                     if(newBtn.id === 'fab-audio') targetId = 'audio-modal';
                     if(newBtn.id === 'fab-aura') targetId = 'aura-modal';
@@ -45,9 +43,11 @@ const CoreEngine = {
                     const dialog = document.getElementById(targetId);
                     if(dialog && !dialog.open) {
                         dialog.showModal(); 
-                        document.body.style.overflow = 'hidden'; // Bloquea el scroll del fondo (la página)
+                        document.body.style.overflow = 'hidden'; 
                         
-                        // Si el menú lateral está abierto, cerrarlo elegantemente para no encimar
+                        // PARCHE TÉRMICO: Congela las animaciones de fondo para enfriar el celular
+                        document.body.classList.add('pausar-ambiente');
+                        
                         const nav = document.getElementById('main-nav');
                         if(nav && nav.classList.contains('open')) {
                             document.getElementById('menu-close-btn').click();
@@ -68,16 +68,18 @@ const CoreEngine = {
                     const targetId = newBtn.getAttribute('data-close');
                     const dialog = document.getElementById(targetId);
                     if(dialog && dialog.open) {
-                        // Efecto de cierre suave
                         dialog.style.opacity = '0';
                         dialog.style.transform = 'translateY(50px) scale(0.95)';
                         
                         setTimeout(() => {
                             dialog.close();
-                            // Restaurar estilos para la próxima vez
                             dialog.style.opacity = '';
                             dialog.style.transform = '';
-                            document.body.style.overflow = 'auto'; // Devuelve el scroll a la página
+                            document.body.style.overflow = 'auto'; 
+                            
+                            // PARCHE TÉRMICO: Descongela el fondo cuando se cierra el modal
+                            document.body.classList.remove('pausar-ambiente');
+
                         }, 400);
 
                         if(window.A11yEngine) A11yEngine.announce(`Ventana cerrada.`);
@@ -100,7 +102,11 @@ const CoreEngine = {
                 nav.classList.add('open');
                 menuBtn.setAttribute('aria-expanded', 'true');
                 nav.setAttribute('aria-hidden', 'false');
-                document.body.style.overflow = 'hidden'; // Evita scrollear la página detrás del menú
+                document.body.style.overflow = 'hidden'; 
+                
+                // PARCHE TÉRMICO: Congela las animaciones de fondo
+                document.body.classList.add('pausar-ambiente');
+
                 if(window.A11yEngine) A11yEngine.announce("Panel de control del paciente y menú de navegación abierto.");
             });
 
@@ -108,7 +114,11 @@ const CoreEngine = {
                 nav.classList.remove('open');
                 menuBtn.setAttribute('aria-expanded', 'false');
                 nav.setAttribute('aria-hidden', 'true');
-                document.body.style.overflow = 'auto'; // Devuelve el scroll
+                document.body.style.overflow = 'auto'; 
+                
+                // PARCHE TÉRMICO: Descongela las animaciones de fondo
+                document.body.classList.remove('pausar-ambiente');
+
                 if(window.A11yEngine) A11yEngine.announce("Panel cerrado.");
             });
         }
@@ -121,11 +131,9 @@ const CoreEngine = {
         const mapContainer = document.getElementById('view-home');
         if(!mapContainer) return;
 
-        // Usamos delegación de eventos para capturar clics en HTML inyectado
         mapContainer.addEventListener('click', (e) => {
             const btn = e.target.closest('.zone-btn');
             if(btn) {
-                // 1. Resetear todos los botones visualmente
                 document.querySelectorAll('.zone-btn').forEach(b => {
                     b.classList.remove('active');
                     b.setAttribute('aria-pressed', 'false');
@@ -137,7 +145,6 @@ const CoreEngine = {
                     if(text) text.style.color = 'var(--valtara-blanco)';
                 });
                 
-                // 2. Marcar el seleccionado con colorimetría Viva
                 btn.classList.add('active');
                 btn.setAttribute('aria-pressed', 'true');
                 btn.style.background = 'var(--valtara-cian-brillante)';
@@ -149,7 +156,6 @@ const CoreEngine = {
                 const text = btn.querySelector('span');
                 if(text) text.style.color = 'var(--valtara-negro-fondo)';
                 
-                // 3. Extraer zona y mostrar el diagnóstico clínico anidado
                 const zone = btn.getAttribute('data-zone');
                 this.updateZoneInfo(zone);
             }
@@ -157,7 +163,6 @@ const CoreEngine = {
     },
 
     updateZoneInfo: function(zoneId) {
-        // Base de datos clínica para el Triaje Educativo en Cascada (Acordeones Anidados)
         const data = {
             craneo: `
                 <i class="fa-solid fa-head-side-virus" style="font-size: 4rem; color: var(--valtara-cian-brillante); margin-bottom: 1rem;"></i>
@@ -248,7 +253,6 @@ const CoreEngine = {
         const display = document.getElementById('zone-display');
         
         if(htmlContent && display) {
-            // Efecto de desvanecimiento suave para cambiar el texto
             display.style.opacity = 0;
             
             setTimeout(() => {
