@@ -23,82 +23,51 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="css/main.css?v=18.0.0" as="style">
-    <link rel="preload" href="css/components.css?v=18.0.0" as="style">
+    <link rel="preload" href="css/main.css?v=19.0.0" as="style">
+    <link rel="preload" href="css/components.css?v=19.0.0" as="style">
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/main.css?v=18.0.0">
-    <link rel="stylesheet" href="css/components.css?v=18.0.0">
+    <link rel="stylesheet" href="css/main.css?v=19.0.0">
+    <link rel="stylesheet" href="css/components.css?v=19.0.0">
     
     <style>
+        /* Animaciones base inyectadas */
         @keyframes pulseAuraGoldHTML { 0% { transform: scale(0.9); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 1; } }
     </style>
 </head>
 <body class="system-loading">
 
-    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma Sovereign Valtara 18.0.0. Bienestar biomecánico en línea...</div>
+    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma Sovereign Valtara 19.0.0. Bienestar biomecánico en línea...</div>
 
     <div id="onboarding-screen" class="full-screen-overlay" aria-hidden="false" role="dialog" aria-labelledby="onboarding-title">
         <div class="onboarding-content">
-            <div class="glow-icon-wrapper" style="margin-bottom: 1.5rem;">
-                <i aria-hidden="true" class="fa-solid fa-seedling gold-icon" style="font-size: 4rem;"></i>
+            <div class="glow-icon-wrapper" style="margin-bottom: 2rem;">
+                <i aria-hidden="true" class="fa-solid fa-seedling gold-icon" style="font-size: 3.5rem; color: var(--valtara-cian-brillante); text-shadow: 0 0 20px rgba(0,255,255,0.4);"></i>
             </div>
             
-            <h1 id="onboarding-title" style="font-family: var(--font-accent); font-size: 3.2rem; margin-bottom: 1rem; color: #fff;">Bienvenido a Valtara</h1>
-            <p style="color: #e2e2e8; font-size: 1.2rem; margin-bottom: 2.5rem; font-weight: 300; line-height: 1.8;">
-                Descubre un santuario diseñado para tu paz mental y corporal.<br>Para brindarte una experiencia única y personalizada, por favor elige un avatar y dinos cómo te gustaría que te llamemos.
+            <h1 id="onboarding-title" style="font-family: var(--font-accent); font-size: 3.5rem; margin-bottom: 1rem; color: var(--valtara-blanco);">Bienvenido</h1>
+            <p style="color: var(--valtara-gris-texto); font-size: 1.3rem; margin-bottom: 3.5rem; font-weight: 300; letter-spacing: 1px;">
+                ¿Cómo podemos llamarte el día de hoy?
             </p>
             
-            <div class="input-group">
-                <fieldset class="avatar-selection-group" aria-label="Elige tu Avatar Personalizado">
-                    <legend class="sr-only">Elige tu Avatar Personalizado</legend>
-                    <div class="avatar-grid">
-                        <label class="avatar-option">
-                            <input type="radio" name="user_avatar" value="fa-spa" checked>
-                            <span class="avatar-icon"><i class="fa-solid fa-spa"></i></span>
-                            <span class="avatar-name">Loto Paz</span>
-                        </label>
-                        <label class="avatar-option">
-                            <input type="radio" name="user_avatar" value="fa-gem">
-                            <span class="avatar-icon"><i class="fa-solid fa-gem"></i></span>
-                            <span class="avatar-name">Cuarzo Luz</span>
-                        </label>
-                        <label class="avatar-option">
-                            <input type="radio" name="user_avatar" value="fa-circle-notch">
-                            <span class="avatar-icon"><i class="fa-solid fa-circle-notch"></i></span>
-                            <span class="avatar-name">Esfera Zen</span>
-                        </label>
-                        <label class="avatar-option">
-                            <input type="radio" name="user_avatar" value="fa-leaf">
-                            <span class="avatar-icon"><i class="fa-solid fa-leaf"></i></span>
-                            <span class="avatar-name">Botánico</span>
-                        </label>
-                        <label class="avatar-option">
-                            <input type="radio" name="user_avatar" value="fa-fingerprint">
-                            <span class="avatar-icon"><i class="fa-solid fa-fingerprint"></i></span>
-                            <span class="avatar-name">Esencia</span>
-                        </label>
-                    </div>
-                </fieldset>
+            <div class="input-group" style="background: transparent; border: none; box-shadow: none; padding: 0;">
+                <input type="radio" name="user_avatar" value="fa-spa" checked style="display:none;">
 
-                <div style="margin-top: 2.5rem;">
+                <div style="position: relative; max-width: 400px; margin: 0 auto;">
                     <label for="welcome-name-input" class="sr-only">Tu nombre o apodo</label>
-                    <input type="text" id="welcome-name-input" placeholder="Ej. Antonio, Doctor, Cinnamoroll..." autocomplete="off">
+                    <i class="fa-solid fa-user" style="position: absolute; left: 1.5rem; top: 1.8rem; font-size: 1.2rem; color: var(--valtara-oro);"></i>
+                    <input type="text" id="welcome-name-input" placeholder="Ej. Antonio, Doctor..." autocomplete="off" style="padding-left: 4rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); text-align: left;">
                 </div>
 
-                <p style="font-size: 0.95rem; color: var(--valtara-oro-suave); margin-top: 1.5rem; font-style: italic; background: rgba(242, 201, 76, 0.1); padding: 1rem; border-radius: 0.8rem; border: 1px solid rgba(242, 201, 76, 0.3);">
-                    <i class="fa-solid fa-circle-info"></i> No te preocupes, puedes editar tu nombre y avatar en cualquier momento desde el menú en la parte superior derecha.
-                </p>
-
-                <button id="welcome-start-btn" class="btn-primary" style="margin-top: 2.5rem; width: 100%; font-size: 1.2rem; padding: 1.5rem;">
+                <button id="welcome-start-btn" class="btn-primary" style="margin-top: 2rem; width: 100%; max-width: 400px; font-size: 1.2rem; padding: 1.5rem; background: rgba(255,255,255,0.05); color: #666; border-color: transparent; pointer-events: none; transition: all 0.4s ease;">
                     <i class="fa-solid fa-door-open" style="margin-right: 10px;"></i> Entrar al Santuario
                 </button>
             </div>
             
-            <button id="welcome-skip-btn" class="btn-text-only" style="margin-top: 2.5rem; color: #aaa; font-size: 1rem; text-decoration: underline; background: transparent; border: none; cursor: pointer; transition: 0.3s;">
-                Prefiero explorar de forma anónima
+            <button id="welcome-skip-btn" class="btn-text-only" style="margin-top: 2.5rem; color: #aaa; font-size: 1.1rem; text-decoration: underline; background: transparent; border: none; cursor: pointer; transition: 0.3s;">
+                Explorar como invitado
             </button>
         </div>
     </div>
@@ -157,7 +126,7 @@
 
                 <h3 class="menu-section-title" style="margin-top: 2.5rem;">Tu Configuración</h3>
                 <ul class="nav-list" role="menu">
-                    <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-change-name-menu"><i class="fa-solid fa-pen"></i> <span>Editar mi Nombre o Avatar</span></button></li>
+                    <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-change-name-menu"><i class="fa-solid fa-pen"></i> <span>Editar mi Nombre</span></button></li>
                     <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-reset-session"><i class="fa-solid fa-power-off"></i> <span>Cerrar sesión</span></button></li>
                 </ul>
 
@@ -201,67 +170,6 @@
                 <div aria-live="polite" class="aura-chat-window" id="aura-chat-container" style="position: relative; overflow: hidden; display: flex; flex-direction: column;">
                     
                     <div id="aura-welcome-screen" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: transparent; z-index: 50; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); padding: 1rem; overflow-y: auto;">
-                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 700px; margin: auto; padding: 1rem;">
-                            
-                            <div style="position: relative; margin-bottom: 2.5rem; display: flex; justify-content: center; align-items: center;">
-                                <div style="position: absolute; width: 140px; height: 140px; background: radial-gradient(circle, rgba(242,201,76,0.35) 0%, transparent 100%); border-radius: 50%; filter: blur(25px); animation: pulseAuraGoldHTML 3s infinite alternate;"></div>
-                                <i class="fa-solid fa-sparkles" style="font-size: 4.5rem; color: var(--valtara-oro); position: relative; z-index: 2; text-shadow: 0 0 40px rgba(242,201,76,0.9);"></i>
-                            </div>
-
-                            <h2 style="font-size: 3.5rem; font-family: var(--font-accent); font-weight: 600; margin-bottom: 1rem; text-align: center; color: var(--valtara-blanco); line-height: 1.2;">
-                                Hola, <span id="aura-welcome-name" style="color: var(--valtara-oro); font-style: italic;">Invitado</span>
-                            </h2>
-                            <p style="font-size: 1.3rem; color: #e2e2e8; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 4rem; text-align: center; border-bottom: 1px solid rgba(242,201,76,0.3); padding-bottom: 1.5rem;">
-                                ¿Cómo podemos ayudarte el día de hoy?
-                            </p>
-
-                            <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; width: 100%;">
-                                
-                                <button class="aura-suggestion-card" data-query="Necesito un masaje relajante y descompresión física" style="background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.6) 100%); border-radius: 1.5rem; padding: 1.5rem; display: flex; align-items: center; gap: 1.5rem; text-align: left; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; border: 1px solid rgba(255,255,255,0.1);">
-                                    <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0; box-shadow: inset 0 0 15px rgba(0,255,255,0.2);">
-                                        <i class="fa-solid fa-spa" style="color: var(--valtara-cian-brillante); font-size: 2.2rem;"></i>
-                                    </div>
-                                    <div style="flex-grow: 1;">
-                                        <span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Masaje Relajante</span>
-                                        <span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Deseo agendar una sesión para liberar estrés acumulado.</span>
-                                    </div>
-                                    <i class="fa-solid fa-chevron-right" style="color: #666; font-size: 1.5rem; padding-left: 1rem;"></i>
-                                </button>
-
-                                <button class="aura-suggestion-card" data-query="Me duele la espalda, el cuello o tengo tensión crónica por el trabajo" style="background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.6) 100%); border-radius: 1.5rem; padding: 1.5rem; display: flex; align-items: center; gap: 1.5rem; text-align: left; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; border: 1px solid rgba(255,255,255,0.1);">
-                                    <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(242, 201, 76, 0.1); border: 1px solid rgba(242, 201, 76, 0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0; box-shadow: inset 0 0 15px rgba(242,201,76,0.2);">
-                                        <i class="fa-solid fa-child-reaching" style="color: var(--valtara-oro); font-size: 2.2rem;"></i>
-                                    </div>
-                                    <div style="flex-grow: 1;">
-                                        <span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Terapia Biomecánica</span>
-                                        <span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Evaluación profunda y tratamiento de dolores musculares.</span>
-                                    </div>
-                                    <i class="fa-solid fa-chevron-right" style="color: #666; font-size: 1.5rem; padding-left: 1rem;"></i>
-                                </button>
-
-                                <button class="aura-suggestion-card" data-query="Quiero conocer los precios de los servicios y paquetes" style="background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.6) 100%); border-radius: 1.5rem; padding: 1.5rem; display: flex; align-items: center; gap: 1.5rem; text-align: left; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; border: 1px solid rgba(255,255,255,0.1);">
-                                    <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(178, 0, 255, 0.1); border: 1px solid rgba(178, 0, 255, 0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0; box-shadow: inset 0 0 15px rgba(178,0,255,0.2);">
-                                        <i class="fa-solid fa-tag" style="color: var(--valtara-morado-vivo); font-size: 2.2rem;"></i>
-                                    </div>
-                                    <div style="flex-grow: 1;">
-                                        <span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Tarifas y Paquetes</span>
-                                        <span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Explorar el catálogo de inversiones en bienestar.</span>
-                                    </div>
-                                    <i class="fa-solid fa-chevron-right" style="color: #666; font-size: 1.5rem; padding-left: 1rem;"></i>
-                                </button>
-
-                                <button class="aura-suggestion-card" data-query="Quiero hablar directamente con un humano en WhatsApp" style="background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.6) 100%); border-radius: 1.5rem; padding: 1.5rem; display: flex; align-items: center; gap: 1.5rem; text-align: left; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; border: 1px solid rgba(255,255,255,0.1);">
-                                    <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(37, 211, 102, 0.1); border: 1px solid rgba(37, 211, 102, 0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0; box-shadow: inset 0 0 15px rgba(37,211,102,0.2);">
-                                        <i class="fa-brands fa-whatsapp" style="color: var(--valtara-whatsapp); font-size: 2.5rem;"></i>
-                                    </div>
-                                    <div style="flex-grow: 1;">
-                                        <span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Asesoría Humana</span>
-                                        <span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Redirigir a WhatsApp para atención personalizada por el Concierge.</span>
-                                    </div>
-                                    <i class="fa-solid fa-chevron-right" style="color: #666; font-size: 1.5rem; padding-left: 1rem;"></i>
-                                </button>
-                            </div>
-                        </div>
                     </div>
 
                     <div id="aura-chat" style="flex: 1; overflow-y: auto; padding: 2rem 1rem; z-index: 5; height: 100%; display: flex; flex-direction: column; gap: 1.5rem;"></div>
@@ -311,47 +219,48 @@
 
     </div> 
     
-    <script src="js/inicio_bienvenida.js?v=18.0.0" defer></script>
-    <script src="js/inicio_promociones.js?v=18.0.0" defer></script>
-    <script src="js/inicio_arte_unas.js?v=18.0.0" defer></script>
-    <script src="js/inicio_mapa_cuerpo.js?v=18.0.0" defer></script>
-    <script src="js/inicio_redes_sociales.js?v=18.0.0" defer></script>
+    <script src="js/inicio_bienvenida.js?v=19.0.0" defer></script>
+    <script src="js/inicio_refugio.js?v=19.0.0" defer></script>
+    <script src="js/inicio_promociones.js?v=19.0.0" defer></script>
+    <script src="js/inicio_arte_unas.js?v=19.0.0" defer></script>
+    <script src="js/inicio_mapa_cuerpo.js?v=19.0.0" defer></script>
+    <script src="js/inicio_redes_sociales.js?v=19.0.0" defer></script>
 
-    <script src="js/catalogo_masajes.js?v=18.0.0" defer></script>
-    <script src="js/catalogo_belleza.js?v=18.0.0" defer></script>
+    <script src="js/catalogo_masajes.js?v=19.0.0" defer></script>
+    <script src="js/catalogo_belleza.js?v=19.0.0" defer></script>
 
-    <script src="js/ciencia_introduccion.js?v=18.0.0" defer></script>
-    <script src="js/ciencia_neurobiologia.js?v=18.0.0" defer></script>
-    <script src="js/ciencia_fascia.js?v=18.0.0" defer></script>
-    <script src="js/ciencia_acustica.js?v=18.0.0" defer></script>
-    <script src="js/ciencia_biomecanica.js?v=18.0.0" defer></script>
-    <script src="js/ciencia_botanica.js?v=18.0.0" defer></script>
-    <script src="js/ciencia_inclusion.js?v=18.0.0" defer></script>
-    <script src="js/ciencia_referencias.js?v=18.0.0" defer></script>
+    <script src="js/ciencia_introduccion.js?v=19.0.0" defer></script>
+    <script src="js/ciencia_neurobiologia.js?v=19.0.0" defer></script>
+    <script src="js/ciencia_fascia.js?v=19.0.0" defer></script>
+    <script src="js/ciencia_acustica.js?v=19.0.0" defer></script>
+    <script src="js/ciencia_biomecanica.js?v=19.0.0" defer></script>
+    <script src="js/ciencia_botanica.js?v=19.0.0" defer></script>
+    <script src="js/ciencia_inclusion.js?v=19.0.0" defer></script>
+    <script src="js/ciencia_referencias.js?v=19.0.0" defer></script>
     
-    <script src="js/juego_alquimista.js?v=18.0.0" defer></script>
+    <script src="js/juego_alquimista.js?v=19.0.0" defer></script>
 
-    <script src="js/legal_historia.js?v=18.0.0" defer></script>
-    <script src="js/legal_manifiesto.js?v=18.0.0" defer></script>
-    <script src="js/legal_transparencia.js?v=18.0.0" defer></script>
-    <script src="js/legal_preguntas.js?v=18.0.0" defer></script>
-    <script src="js/modal_terminos.js?v=18.0.0" defer></script>
-    <script src="js/modal_whitepaper.js?v=18.0.0" defer></script>
+    <script src="js/legal_historia.js?v=19.0.0" defer></script>
+    <script src="js/legal_manifiesto.js?v=19.0.0" defer></script>
+    <script src="js/legal_transparencia.js?v=19.0.0" defer></script>
+    <script src="js/legal_preguntas.js?v=19.0.0" defer></script>
+    <script src="js/modal_terminos.js?v=19.0.0" defer></script>
+    <script src="js/modal_whitepaper.js?v=19.0.0" defer></script>
 
-    <script src="js/sonoterapia_introduccion.js?v=18.0.0" defer></script>
-    <script src="js/sonoterapia_videos.js?v=18.0.0" defer></script>
-    <script src="js/sonoterapia_audio.js?v=18.0.0" defer></script>
+    <script src="js/sonoterapia_introduccion.js?v=19.0.0" defer></script>
+    <script src="js/sonoterapia_videos.js?v=19.0.0" defer></script>
+    <script src="js/sonoterapia_audio.js?v=19.0.0" defer></script>
 
-    <script src="js/global_footer.js?v=18.0.0" defer></script>
+    <script src="js/global_footer.js?v=19.0.0" defer></script>
     
-    <script src="js/constructor_maestro.js?v=18.0.0" defer></script>
+    <script src="js/constructor_maestro.js?v=19.0.0" defer></script>
 
-    <script src="js/a11y.js?v=18.0.0" defer></script>
-    <script src="js/user.js?v=18.0.0" defer></script>
-    <script src="js/aura.js?v=18.0.0" defer></script>
-    <script src="js/oasis.js?v=18.0.0" defer></script>
-    <script src="js/router.js?v=18.0.0" defer></script>
-    <script src="js/core.js?v=18.0.0" defer></script>
+    <script src="js/a11y.js?v=19.0.0" defer></script>
+    <script src="js/user.js?v=19.0.0" defer></script>
+    <script src="js/aura.js?v=19.0.0" defer></script>
+    <script src="js/oasis.js?v=19.0.0" defer></script>
+    <script src="js/router.js?v=19.0.0" defer></script>
+    <script src="js/core.js?v=19.0.0" defer></script>
 
 </body>
-                                    </html>
+</html>
