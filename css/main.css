@@ -418,3 +418,10 @@ header, .top-nav-bar {
     overflow-y: auto !important; /* Permite scroll interno si la pantalla es enana */
     overflow-x: hidden !important;
    }
+/* ==========================================
+   PARCHE QUIRÚRGICO 5: SUSPENSIÓN TÉRMICA (ENFRIAMIENTO GPU)
+   ========================================== */
+body.pausar-ambiente .ambient-engine, 
+body.pausar-ambiente .ambient-engine * {
+    animation-play-state: paused !important;
+}
