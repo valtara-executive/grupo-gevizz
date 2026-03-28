@@ -31,10 +31,10 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// REGISTRO DEL GUARDIA DE SEGURIDAD (Service Worker)
+// REGISTRO DEL GUARDIA DE SEGURIDAD (Service Worker corregido para GitHub Pages)
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').then((registration) => {
+        navigator.serviceWorker.register('./sw.js').then((registration) => {
             console.log('Escudo ServiceWorker activado con éxito.', registration.scope);
         }).catch((error) => {
             console.error('Fallo en el blindaje ServiceWorker:', error);
