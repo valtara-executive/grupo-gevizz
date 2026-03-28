@@ -190,7 +190,7 @@ body {
 }
 
 /* ------------------------------------------------------------------------------------
-   D. CABECERA (HEADER CRISTALINO)
+   D. CABECERA (HEADER CRISTALINO Y LOGOTIPO)
    ------------------------------------------------------------------------------------ */
 .system-header { 
     position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); 
@@ -200,13 +200,25 @@ body {
     box-shadow: 0 1rem 3rem rgba(0,0,0,0.5);
 }
 
+/* Base del botón del logo */
 .header-logo { 
-    color: var(--valtara-oro); font-size: 1.7rem; letter-spacing: 0.3rem; 
-    text-transform: uppercase; font-family: var(--font-accent); font-weight: 700;
-    background: transparent; border: none; cursor: pointer; display: flex; align-items: center; gap: 1.2rem;
-    transition: all 0.4s var(--ease-out-expo); text-shadow: 0 0 15px rgba(242, 201, 76, 0.3);
+    background: transparent; border: none; cursor: pointer; display: flex; align-items: center;
+    transition: all 0.4s var(--ease-out-expo);
+    padding: 0;
 }
-.header-logo:hover { transform: scale(1.05); filter: brightness(1.2); }
+.header-logo:hover { 
+    transform: scale(1.05); 
+    filter: brightness(1.2) drop-shadow(0 0 15px rgba(242, 201, 76, 0.4)); 
+}
+
+/* La imagen fotográfica del logotipo */
+.logo-img {
+    height: 45px; 
+    width: auto;
+    object-fit: contain;
+    border-radius: 8px; /* Suaviza ligeramente los bordes del recuadro negro */
+    transition: all 0.3s ease;
+}
 
 .header-controls { display: flex; align-items: center; gap: 1.5rem; }
 
@@ -304,6 +316,7 @@ body.invert-colors .card-icon-wrapper {
     .input-group { padding: 2.5rem 1.5rem; }
     .avatar-icon { width: 4rem; height: 4rem; font-size: 1.8rem; }
     .grid-2-cols, .grid-3-cols { grid-template-columns: 1fr; }
+    .logo-img { height: 38px; } /* Ajuste del logo para móviles */
 }
 
 /* ==========================================
@@ -417,7 +430,8 @@ header, .top-nav-bar {
     position: fixed !important; 
     overflow-y: auto !important; /* Permite scroll interno si la pantalla es enana */
     overflow-x: hidden !important;
-   }
+}
+
 /* ==========================================
    PARCHE QUIRÚRGICO 5: SUSPENSIÓN TÉRMICA (ENFRIAMIENTO GPU)
    ========================================== */
