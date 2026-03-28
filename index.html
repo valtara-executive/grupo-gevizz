@@ -2,8 +2,12 @@
 <html lang="es" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <title>VALTARA | Executive Therapy & Biomechanics</title>
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     
     <meta name="description" content="Santuario de masajes, biomecánica y bienestar corporativo en Paseo de la Reforma 195. Accesibilidad universal y atención de ultra-lujo por Grupo Gevizz S.A.S.">
     <meta name="author" content="Grupo Gevizz S.A.S.">
@@ -19,16 +23,18 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="preload" href="css/main.css?v=17.0.0" as="style">
+    <link rel="preload" href="css/components.css?v=17.0.0" as="style">
     
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/main.css?v=14.0">
-    <link rel="stylesheet" href="css/components.css?v=14.0">
+    <link rel="stylesheet" href="css/main.css?v=17.0.0">
+    <link rel="stylesheet" href="css/components.css?v=17.0.0">
 </head>
 <body class="system-loading">
 
-    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma Sovereign Valtara 14.0. Bienestar biomecánico en línea...</div>
+    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma Sovereign Valtara 17.0. Bienestar biomecánico en línea...</div>
 
     <div id="onboarding-screen" class="full-screen-overlay" aria-hidden="false" role="dialog" aria-labelledby="onboarding-title">
         <div class="onboarding-content">
@@ -100,6 +106,7 @@
             <div class="orb orb-2"></div> 
             <div class="orb orb-3"></div> 
             <div class="orb orb-4"></div> 
+            <div class="orb orb-5"></div> 
             <div class="glass-overlay"></div>
         </div>
 
@@ -140,7 +147,6 @@
                     <li role="none"><button role="menuitem" class="nav-item" data-target="restoration"><i class="fa-solid fa-spa"></i> <span>Catálogo de Masajes</span></button></li>
                     <li role="none"><button role="menuitem" class="nav-item" data-target="beauty"><i class="fa-solid fa-wand-magic-sparkles"></i> <span>Estudio de Manicura</span></button></li>
                     <li role="none"><button role="menuitem" class="nav-item" data-target="sonotherapy"><i class="fa-solid fa-headphones-simple"></i> <span>Sala de Sonoterapia</span></button></li>
-                    
                     <li role="none"><button role="menuitem" class="nav-item" data-target="science"><i class="fa-solid fa-microscope"></i> <span>Ciencia y Botánica</span></button></li>
                     <li role="none"><button role="menuitem" class="nav-item" data-target="legal"><i class="fa-solid fa-shield-halved"></i> <span>Conócenos y Políticas</span></button></li>
                 </ul>
@@ -170,7 +176,6 @@
                     <div class="a11y-grid-layout">
                         <button class="a11y-card-btn" id="a11y-zoom-in" aria-pressed="false"><i class="fa-solid fa-magnifying-glass-plus"></i> <span>Acercar Página (Zoom +)</span></button>
                         <button class="a11y-card-btn" id="a11y-zoom-out" aria-pressed="false"><i class="fa-solid fa-magnifying-glass-minus"></i> <span>Alejar Página (Zoom -)</span></button>
-                        
                         <button class="a11y-card-btn" id="a11y-voice" aria-pressed="false"><i class="fa-solid fa-volume-high"></i> <span>Lectura en Voz Alta</span></button>
                         <button class="a11y-card-btn" id="a11y-contrast" aria-pressed="false"><i class="fa-solid fa-circle-half-stroke"></i> <span>Alto Contraste</span></button>
                         <button class="a11y-card-btn" id="a11y-invert" aria-pressed="false"><i class="fa-solid fa-droplet"></i> <span>Invertir Colores (No daña diseño)</span></button>
@@ -190,23 +195,7 @@
                 </header>
                 
                 <div aria-live="polite" class="aura-chat-window" id="aura-chat-container" style="position: relative; overflow: hidden; display: flex; flex-direction: column;">
-                    
-                    <div id="aura-welcome-screen" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--valtara-fondo-oscuro); z-index: 10; transition: opacity 0.5s ease, visibility 0.5s; padding: 1rem;">
-                        
-                        <h2 style="font-size: 2.2rem; font-weight: 300; margin-bottom: 2.5rem; text-align: center; color: #fff; line-height: 1.3;">
-                            Hola, <span id="aura-welcome-name" style="color: var(--valtara-cian-brillante); font-family: var(--font-accent); font-style: italic;">Invitado</span><br>
-                            <span style="font-size: 1.4rem; color: var(--valtara-gris-texto);">¿Por dónde empezamos?</span>
-                        </h2>
-                        
-                        <div id="aura-chips-container" style="display: flex; flex-direction: column; gap: 0.8rem; width: 100%; max-width: 320px; align-items: center;">
-                            <button class="chip-btn" data-query="Quiero un masaje relajante" style="width: 100%; padding: 1rem; border-radius: 25px; border: 1px solid rgba(0, 255, 255, 0.3); background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: flex-start; transition: 0.3s;"><i class="fa-solid fa-spa" style="color: var(--valtara-cian-brillante); font-size: 1.2rem; margin-left: 15px; margin-right: 15px;"></i> Masaje Relajante</button>
-                            
-                            <button class="chip-btn" data-query="Me duele la espalda o el cuello" style="width: 90%; padding: 1rem; border-radius: 25px; border: 1px solid rgba(242, 201, 76, 0.3); background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: flex-start; transition: 0.3s;"><i class="fa-solid fa-child-reaching" style="color: var(--valtara-oro-suave); font-size: 1.2rem; margin-left: 15px; margin-right: 15px;"></i> Terapia Biomecánica</button>
-                            
-                            <button class="chip-btn" data-query="Información sobre precios" style="width: 80%; padding: 1rem; border-radius: 25px; border: 1px solid rgba(0, 255, 255, 0.3); background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: flex-start; transition: 0.3s;"><i class="fa-solid fa-tag" style="color: var(--valtara-cian-brillante); font-size: 1.2rem; margin-left: 15px; margin-right: 15px;"></i> Ver Precios</button>
-                            
-                            <button class="chip-btn" data-query="Hablar con una persona real" style="width: 70%; padding: 1rem; border-radius: 25px; border: 1px solid rgba(242, 201, 76, 0.3); background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: flex-start; transition: 0.3s;"><i class="fa-solid fa-headset" style="color: var(--valtara-oro-suave); font-size: 1.2rem; margin-left: 15px; margin-right: 15px;"></i> Asesoría Humana</button>
-                        </div>
+                    <div id="aura-welcome-screen" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--valtara-negro-fondo); z-index: 10; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); padding: 1rem; overflow-y: auto;">
                     </div>
 
                     <div id="aura-chat" style="flex: 1; overflow-y: auto; padding-right: 5px; z-index: 5; height: 100%;"></div>
@@ -242,12 +231,11 @@
             </a>
         </aside>
 
-        <main id="main-content" role="main">
+        <main id="main-content" role="main" aria-live="polite">
             <section aria-label="Página de Inicio y Mapa Interactivo" class="view-section active" id="view-home"></section>
             <section aria-label="Catálogo de Masajes" class="view-section" id="view-restoration"></section>
             <section aria-label="Estudio de Manicura" class="view-section" id="view-beauty"></section>
             <section aria-label="Sala de Sonoterapia" class="view-section" id="view-sonotherapy"></section>
-            
             <section aria-label="Ciencia, Botánica y Manifiesto" class="view-section" id="view-science"></section>
             <section aria-label="Nuestra Historia, Marco Legal y Políticas" class="view-section" id="view-legal"></section>
         </main>
@@ -257,47 +245,47 @@
 
     </div> 
     
-    <script src="js/inicio_bienvenida.js" defer></script>
-    <script src="js/inicio_promociones.js" defer></script>
-    <script src="js/inicio_arte_unas.js" defer></script>
-    <script src="js/inicio_mapa_cuerpo.js" defer></script>
-    <script src="js/inicio_redes_sociales.js" defer></script>
+    <script src="js/inicio_bienvenida.js?v=17.0.0" defer></script>
+    <script src="js/inicio_promociones.js?v=17.0.0" defer></script>
+    <script src="js/inicio_arte_unas.js?v=17.0.0" defer></script>
+    <script src="js/inicio_mapa_cuerpo.js?v=17.0.0" defer></script>
+    <script src="js/inicio_redes_sociales.js?v=17.0.0" defer></script>
 
-    <script src="js/catalogo_masajes.js" defer></script>
-    <script src="js/catalogo_belleza.js" defer></script>
+    <script src="js/catalogo_masajes.js?v=17.0.0" defer></script>
+    <script src="js/catalogo_belleza.js?v=17.0.0" defer></script>
 
-    <script src="js/ciencia_introduccion.js" defer></script>
-    <script src="js/ciencia_neurobiologia.js" defer></script>
-    <script src="js/ciencia_fascia.js" defer></script>
-    <script src="js/ciencia_acustica.js" defer></script>
-    <script src="js/ciencia_biomecanica.js" defer></script>
-    <script src="js/ciencia_botanica.js" defer></script>
-    <script src="js/ciencia_inclusion.js" defer></script>
-    <script src="js/ciencia_referencias.js" defer></script>
-    <script src="js/juego_alquimista.js" defer></script>
-
-    <script src="js/legal_historia.js" defer></script>
-    <script src="js/legal_manifiesto.js" defer></script>
-    <script src="js/legal_transparencia.js" defer></script>
-    <script src="js/legal_preguntas.js" defer></script>
-
-    <script src="js/modal_terminos.js" defer></script>
-    <script src="js/modal_whitepaper.js" defer></script>
-
-    <script src="js/sonoterapia_introduccion.js" defer></script>
-    <script src="js/sonoterapia_videos.js" defer></script>
-    <script src="js/sonoterapia_audio.js" defer></script>
-
-    <script src="js/global_footer.js" defer></script>
+    <script src="js/ciencia_introduccion.js?v=17.0.0" defer></script>
+    <script src="js/ciencia_neurobiologia.js?v=17.0.0" defer></script>
+    <script src="js/ciencia_fascia.js?v=17.0.0" defer></script>
+    <script src="js/ciencia_acustica.js?v=17.0.0" defer></script>
+    <script src="js/ciencia_biomecanica.js?v=17.0.0" defer></script>
+    <script src="js/ciencia_botanica.js?v=17.0.0" defer></script>
+    <script src="js/ciencia_inclusion.js?v=17.0.0" defer></script>
+    <script src="js/ciencia_referencias.js?v=17.0.0" defer></script>
     
-    <script src="js/constructor_maestro.js" defer></script>
+    <script src="js/juego_alquimista.js?v=17.0.0" defer></script>
 
-    <script src="js/a11y.js" defer></script>
-    <script src="js/user.js" defer></script>
-    <script src="js/aura.js" defer></script>
-    <script src="js/oasis.js" defer></script>
-    <script src="js/router.js" defer></script>
-    <script src="js/core.js" defer></script>
+    <script src="js/legal_historia.js?v=17.0.0" defer></script>
+    <script src="js/legal_manifiesto.js?v=17.0.0" defer></script>
+    <script src="js/legal_transparencia.js?v=17.0.0" defer></script>
+    <script src="js/legal_preguntas.js?v=17.0.0" defer></script>
+    <script src="js/modal_terminos.js?v=17.0.0" defer></script>
+    <script src="js/modal_whitepaper.js?v=17.0.0" defer></script>
+
+    <script src="js/sonoterapia_introduccion.js?v=17.0.0" defer></script>
+    <script src="js/sonoterapia_videos.js?v=17.0.0" defer></script>
+    <script src="js/sonoterapia_audio.js?v=17.0.0" defer></script>
+
+    <script src="js/global_footer.js?v=17.0.0" defer></script>
+    
+    <script src="js/constructor_maestro.js?v=17.0.0" defer></script>
+
+    <script src="js/a11y.js?v=17.0.0" defer></script>
+    <script src="js/user.js?v=17.0.0" defer></script>
+    <script src="js/aura.js?v=17.0.0" defer></script>
+    <script src="js/oasis.js?v=17.0.0" defer></script>
+    <script src="js/router.js?v=17.0.0" defer></script>
+    <script src="js/core.js?v=17.0.0" defer></script>
 
 </body>
 </html>
