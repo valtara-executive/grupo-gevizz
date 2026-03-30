@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valtara-sovereign-v24';
+const CACHE_NAME = 'valtara-sovereign-v25-4'; // Subimos la versión para forzar la limpieza
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -6,15 +6,18 @@ const ASSETS_TO_CACHE = [
   './css/components.css'
 ];
 
+// 1. INSTALACIÓN
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
+      console.log('Bóveda de caché Valtara V25.4 sellada y lista.');
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );
   self.skipWaiting();
 });
 
+// 2. INTERCEPTOR
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
@@ -23,25 +26,25 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
+// 3. LIMPIEZA (Destruye la caché vieja)
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) return caches.delete(cache);
+          if (cache !== CACHE_NAME) {
+            console.log('Destruyendo caché antigua de Valtara...');
+            return caches.delete(cache);
+          }
         })
       );
     })
   );
 });
 
-// ==========================================
-// ESCUCHADOR DE NOTIFICACIONES PUSH NATIVAS
-// ==========================================
+// 4. ESCUCHADOR DE NOTIFICACIONES PUSH NATIVAS
 self.addEventListener('notificationclick', (event) => {
-    event.notification.close(); // Cierra la ventanita de notificación
-    
-    // Busca si la App ya está abierta. Si sí, la enfoca. Si no, la abre.
+    event.notification.close(); 
     event.waitUntil(
         clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
             for (let i = 0; i < windowClients.length; i++) {
