@@ -1,8 +1,9 @@
 /**
  * ====================================================================================
- * BLOQUE 10: EXPEDIENTE CLÍNICO SOBERANO V34.0 "TITÁN OSCURO"
- * Accesibilidad ARIA, Firma Dual, PDF Auto-Paginable Dark Mode con Sellos Nativos.
- * Aval Institucional: RENATED A-54878 | SEP RVOE 17FT061 | SISAE | NTCL CSSA0409.01
+ * BLOQUE 10: EXPEDIENTE CLÍNICO SOBERANO V35.0 "CÚPULA DE CRISTAL"
+ * Foco ARIA Dinámico, Firma Gold-Ink Transparente, Escáner Biomecánico SVG Vectorial, 
+ * Tablas PDF Inteligentes Auto-Paginables (Dark Mode Absoluto).
+ * Aval Institucional: RENATED A-54878 | SEP RVOE 17FT061 | SISAE.
  * Propiedad Intelectual: Grupo Gevizz S.A.S. | Terapeuta: Ángel de J. Guerrero V.
  * ====================================================================================
  */
@@ -43,6 +44,41 @@ window.ExpedienteEngine = {
         "Tobillo derecho", "Tobillo izquierdo", "Pie derecho", "Pie izquierdo", 
         "Mandíbula / ATM", "Cabeza"
     ],
+
+    // Mapeo Topográfico de Coordenadas para el Escáner Biomecánico SVG en el PDF
+    zoneCoordinates: {
+        "Cabeza": { view: "front", cx: 50, cy: 10 },
+        "Cuello": { view: "front", cx: 50, cy: 18 },
+        "Trapecios": { view: "back", cx: 50, cy: 22 },
+        "Hombro derecho": { view: "front", cx: 35, cy: 25 },
+        "Hombro izquierdo": { view: "front", cx: 65, cy: 25 },
+        "Espalda alta": { view: "back", cx: 50, cy: 30 },
+        "Espalda media": { view: "back", cx: 50, cy: 45 },
+        "Espalda baja / lumbar": { view: "back", cx: 50, cy: 55 },
+        "Cadera derecha": { view: "back", cx: 40, cy: 60 },
+        "Cadera izquierda": { view: "back", cx: 60, cy: 60 },
+        "Glúteo derecho": { view: "back", cx: 42, cy: 65 },
+        "Glúteo izquierdo": { view: "back", cx: 58, cy: 65 },
+        "Brazo derecho": { view: "front", cx: 30, cy: 35 },
+        "Brazo izquierdo": { view: "front", cx: 70, cy: 35 },
+        "Codo derecho": { view: "front", cx: 25, cy: 45 },
+        "Codo izquierdo": { view: "front", cx: 75, cy: 45 },
+        "Antebrazo derecho": { view: "front", cx: 20, cy: 55 },
+        "Antebrazo izquierdo": { view: "front", cx: 80, cy: 55 },
+        "Muñeca derecha": { view: "front", cx: 15, cy: 65 },
+        "Muñeca izquierda": { view: "front", cx: 85, cy: 65 },
+        "Mano derecha": { view: "front", cx: 12, cy: 72 },
+        "Mano izquierda": { view: "front", cx: 88, cy: 72 },
+        "Pierna derecha": { view: "front", cx: 42, cy: 75 },
+        "Pierna izquierda": { view: "front", cx: 58, cy: 75 },
+        "Rodilla derecha": { view: "front", cx: 40, cy: 85 },
+        "Rodilla izquierda": { view: "front", cx: 60, cy: 85 },
+        "Tobillo derecho": { view: "front", cx: 40, cy: 95 },
+        "Tobillo izquierdo": { view: "front", cx: 60, cy: 95 },
+        "Pie derecho": { view: "front", cx: 38, cy: 98 },
+        "Pie izquierdo": { view: "front", cx: 62, cy: 98 },
+        "Mandíbula / ATM": { view: "front", cx: 45, cy: 15 }
+    },
 
     clinicalDict: {
         precauciones: { title: "A. Condiciones y Precauciones Físicas", icon: "fa-shield-heart", items: [
@@ -122,9 +158,9 @@ window.ExpedienteEngine = {
 
     signatureReasons: [
         "Discapacidad visual / Uso de lector de pantalla (Dificultad espacial)",
-        "Discapacidad o limitación motriz severa en extremidades superiores",
+        "Discapacidad motriz severa en extremidades superiores",
         "Temblores, Parkinson o condición neurológica que impide el trazo",
-        "Falla técnica o incompatibilidad del panel táctil del dispositivo actual",
+        "Falla técnica o incompatibilidad de la pantalla táctil",
         "Preferencia personal de accesibilidad por firma electrónica de texto"
     ],
 
@@ -153,7 +189,7 @@ window.ExpedienteEngine = {
                     this.formData = parsed;
                     if(!this.formData.legal.signatureType) this.formData.legal.signatureType = 'drawn';
                 } else {
-                    console.warn("Valtara: Detectada base de datos clínica antigua. Migrando a esquema V34.0...");
+                    console.warn("Valtara: Detectada base de datos clínica antigua. Migrando a esquema V35.0...");
                     this.saveData(); 
                 }
             }
@@ -194,8 +230,8 @@ window.ExpedienteEngine = {
         
         div.innerHTML = `
             <i class="fa-solid fa-heart-pulse" style="color: var(--valtara-cian-brillante); font-size: 3rem; margin-bottom: 15px; animation: breathe 2s infinite;"></i>
-            <h4 style="color: white; font-family: var(--font-accent); font-size: 1.8rem; margin:0 0 15px 0;">Control de Seguimiento Clínico</h4>
-            <p style="color: #ccc; font-size: 1.1rem; margin-bottom: 25px; font-weight: 300; line-height: 1.5;">Han pasado más de 15 días desde su último registro biomecánico. Por su absoluta seguridad técnica, ¿han cambiado sus niveles de dolor, condiciones médicas o medicamentos?</p>
+            <h4 style="color: white; font-family: var(--font-accent); font-size: 1.8rem; margin:0 0 15px 0;">Control Clínico Periódico</h4>
+            <p style="color: #ccc; font-size: 1.1rem; margin-bottom: 25px; font-weight: 300; line-height: 1.5;">Han pasado más de 15 días desde su último registro. Por su seguridad técnica, ¿han cambiado sus niveles de dolor o condiciones médicas?</p>
             <div style="display: flex; gap: 15px; justify-content: center;">
                 <button id="btn-centinela-no" style="background: transparent; border: 1px solid #666; color: #aaa; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-size: 1rem; transition: 0.3s; font-weight:bold;">Todo sigue igual</button>
                 <button id="btn-centinela-si" style="background: var(--valtara-cian-brillante); border: none; color: black; padding: 12px 24px; border-radius: 25px; font-weight: 900; cursor: pointer; font-size: 1rem; box-shadow: 0 5px 15px rgba(0,255,255,0.4); transition: 0.3s;">ACTUALIZAR FICHA</button>
@@ -227,10 +263,8 @@ window.ExpedienteEngine = {
             
             setTimeout(() => {
                 const stepTitle = document.getElementById(`exp-step-title-${this.currentStep}`);
-                if(stepTitle) {
-                    stepTitle.focus();
-                }
-                this.announceA11y("Historia Clínica Soberana iniciada. Navegue hacia abajo para completar los campos. Utilice los botones de siguiente y atrás ubicados en la parte inferior.");
+                if(stepTitle) stepTitle.focus();
+                this.announceA11y("Historia Clínica Soberana iniciada. Navegue hacia abajo para completar los campos. Utilice los botones inferiores para avanzar.");
             }, 300);
             
             const menu = document.getElementById('main-nav');
@@ -274,7 +308,7 @@ window.ExpedienteEngine = {
             .exp-btn { padding: 18px 30px; border-radius: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); display: flex; justify-content: center; align-items: center; gap: 12px; font-size: 1rem; border: none; }
             .btn-primary { background: linear-gradient(135deg, #F2C94C, #F2994A); color: #050508; box-shadow: 0 10px 25px rgba(242,201,76,0.3); }
             .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(242,201,76,0.5); }
-            .btn-secondary { background: rgba(255,255,255,0.05); color: #fff; border: 2px solid rgba(255,255,255,0.2); }
+            .btn-secondary { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
             .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color:white; transform: translateY(-3px); }
             .btn-success { background: linear-gradient(135deg, #00b09b, #00796b); color: white; width:100%; box-shadow: 0 10px 30px rgba(0,176,155,0.4); }
             .btn-success:disabled { background: #333; color:#777; box-shadow:none; cursor:not-allowed; }
@@ -302,14 +336,13 @@ window.ExpedienteEngine = {
             .a11y-btn-desc { font-size: 0.95rem; color: #aaa; margin-bottom: 15px; font-weight:300; line-height:1.5; display:block; width:100%; }
             .a11y-status-badge { font-family:monospace; font-weight:bold; font-size:0.85rem; padding:8px 12px; border-radius:8px; background:rgba(255,255,255,0.05); color:#888; width:100%; text-align:center; transition:0.3s; margin-top:auto; }
             
-            /* BOTONES DE MODO DE FIRMA */
+            /* TINTA DE ORO TRANSPARENTE: CANVAS INLINE */
             .sig-mode-btn { flex:1; padding: 20px; border-radius:14px; font-weight:900; cursor:pointer; transition:0.3s; border:2px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.02); color:#888; font-size:1.1rem; display:flex; flex-direction:column; align-items:center; gap:8px; }
             .sig-mode-btn.active { border-color:var(--valtara-oro); background:rgba(242,201,76,0.1); color:white; box-shadow: 0 5px 20px rgba(242,201,76,0.2); }
             .sig-mode-btn:focus-visible { border-color: var(--valtara-cian-brillante); outline:none; }
             
-            /* LIENZO DE FIRMA INLINE */
-            .sig-canvas-inline { width: 100%; height: 280px; background: #fff; border-radius: 12px; border: 3px dashed #ccc; cursor: crosshair; touch-action: none; margin-bottom:15px; box-shadow:inset 0 5px 15px rgba(0,0,0,0.1); transition:0.3s; }
-            .sig-canvas-inline:focus { border-color: var(--valtara-oro); outline:none; }
+            .sig-canvas-inline { width: 100%; height: 280px; background: rgba(255,255,255,0.02); border-radius: 12px; border: 2px dashed rgba(242,201,76,0.4); cursor: crosshair; touch-action: none; margin-bottom:15px; transition:0.3s; }
+            .sig-canvas-inline:focus { border-color: var(--valtara-oro); outline:none; background: rgba(255,255,255,0.05); }
             
             @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         `;
@@ -486,7 +519,7 @@ window.ExpedienteEngine = {
             <h2 id="exp-step-title-9" tabindex="-1" style="color: var(--valtara-blanco); margin-bottom: 15px; font-family: var(--font-accent); font-size:2.4rem; outline:none;">9. Revisión Maestra</h2>
             <p style="color:#aaa; font-size:1.1rem; margin-bottom:30px;">Por favor, verifique que la información esencial sea correcta antes de proceder al cifrado criptográfico y firma del documento.</p>
             <div style="display:flex; flex-direction:column; gap:20px; background: rgba(255,255,255,0.02); padding: 30px; border-radius: 20px; border: 1px solid rgba(242,201,76,0.3);">
-                ${this.buildReviewRow('1. Identidad Ejecutiva', `<strong>Nombre:</strong> ${this.formData.personal.fullName || '<span style="color:#ff5555; font-weight:bold;">[Falta Nombre]</span>'}<br><strong>Ocupación:</strong> ${this.formData.personal.occupation || 'No especificada'}`, 1)}
+                ${this.buildReviewRow('1. Identidad Ejecutiva', `<strong>Nombre:</strong> ${this.formData.personal.fullName || '<span style="color:#ff5555; font-weight:bold;">[Falta Nombre]</span>'}<br><strong>Teléfono:</strong> ${this.formData.personal.phone || '[Falta Teléfono]'}`, 1)}
                 ${this.buildReviewRow('3. Mapa de Tensión', `${this.formData.zonas.length > 0 ? this.formData.zonas.join(', ') : 'Ninguna zona seleccionada'}`, 3)}
                 ${this.buildReviewRow('6. Nivel de Estrés', `<strong style="font-size:1.3rem; color:var(--valtara-cian-brillante);">${this.formData.habitos.estres} / 10</strong>`, 6)}
                 <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:10px 0;">
@@ -494,9 +527,9 @@ window.ExpedienteEngine = {
             </div>
         `);
 
-        // PASO 10: LEGAL Y FIRMA INLINE DUAL (V34.0 - Cero Modales Extra)
+        // PASO 10: LEGAL Y FIRMA INLINE (GOLD INK)
         html += this.buildStep(10, `
-            <h2 id="exp-step-title-10" tabindex="-1" style="color: var(--valtara-oro); margin-bottom: 25px; font-family: var(--font-accent); font-size:2.4rem; outline:none;">10. Certificación y Firma</h2>
+            <h2 id="exp-step-title-10" tabindex="-1" style="color: var(--valtara-oro); margin-bottom: 20px; font-family: var(--font-accent); font-size:2.4rem; outline:none;">10. Certificación y Firma</h2>
             
             <div style="background: rgba(255,255,255,0.02); padding: 30px; border-radius: 15px; margin-bottom: 30px; border-left: 5px solid var(--valtara-cian-brillante);">
                 <p style="color:#ddd; font-size:1.1rem; margin-bottom:15px; text-align:justify; line-height:1.6;"><strong>Aviso de Privacidad (ARCO):</strong> Sus datos de salud son considerados sensibles. Serán almacenados de forma encriptada en la memoria local de su dispositivo para proteger su privacidad de extremo a extremo.</p>
@@ -512,7 +545,6 @@ window.ExpedienteEngine = {
                 <div class="a11y-status-badge" style="${this.formData.legal.truthOath ? 'background:rgba(0,255,255,0.1); color:var(--valtara-cian-brillante); font-size:1.1rem;' : 'font-size:1.1rem;'}">${this.formData.legal.truthOath ? '✅ TÉRMINOS ACEPTADOS' : '◻️ Sin aceptar'}</div>
             </button>
 
-            <!-- CONTENEDOR DE FIRMA DUAL -->
             <div style="background: rgba(242,201,76,0.05); border:1px solid rgba(242,201,76,0.3); padding:35px; border-radius:20px; text-align:center;">
                 <h3 style="color:var(--valtara-oro); margin-top:0; font-size:1.6rem; text-transform:uppercase;">Identidad Biométrica</h3>
                 <p style="color:#aaa; font-size:1.1rem; margin-bottom:25px;">Requerimos su firma para certificar el documento y otorgarle validez médica y legal.</p>
@@ -526,11 +558,11 @@ window.ExpedienteEngine = {
                     </button>
                 </div>
 
-                <!-- AREA FIRMA DIBUJADA INLINE (Segura para Móviles) -->
+                <!-- AREA FIRMA DIBUJADA INLINE CON TINTA DE ORO TRANSPARENTE -->
                 <div id="sig-area-drawn" style="display:${this.formData.legal.signatureType === 'drawn' ? 'block' : 'none'};">
-                    <p style="color:#fff; font-size:1rem; margin-bottom:15px; text-align:left;">Por favor, dibuje su rúbrica en el recuadro inferior:</p>
+                    <p style="color:#fff; font-size:1rem; margin-bottom:15px; text-align:left;">Por favor, dibuje su rúbrica en el recuadro inferior (Tinta Dorada Activa):</p>
                     
-                    <canvas id="sig-canvas" class="sig-canvas-inline" aria-label="Lienzo táctil en blanco para dibujar firma"></canvas>
+                    <canvas id="sig-canvas" class="sig-canvas-inline" aria-label="Lienzo táctil para dibujar firma"></canvas>
                     
                     <div style="display:flex; justify-content:space-between; gap:15px; margin-top:20px;">
                         <button onclick="ExpedienteEngine.clearCanvas()" style="padding:18px; background:rgba(255,85,85,0.1); color:#ff5555; border:1px solid #ff5555; border-radius:12px; font-weight:bold; flex:1; cursor:pointer; font-size:1.05rem;" aria-label="Borrar lienzo y repetir"><i class="fa-solid fa-eraser"></i> Borrar / Repetir</button>
@@ -540,7 +572,6 @@ window.ExpedienteEngine = {
                     <div id="firma-success-msg" style="display:${this.formData.legal.drawnSignature ? 'block' : 'none'}; color:var(--valtara-cian-brillante); background:rgba(0,255,255,0.1); padding:15px; border-radius:10px; font-weight:bold; margin-top:20px; font-size:1.1rem; border:1px solid var(--valtara-cian-brillante);"><i class="fa-solid fa-check-circle"></i> FIRMA REGISTRADA EXITOSAMENTE</div>
                 </div>
 
-                <!-- AREA FIRMA ESCRITA (ACCESIBILIDAD) -->
                 <div id="sig-area-typed" style="display:${this.formData.legal.signatureType === 'typed' ? 'block' : 'none'}; text-align:left;">
                     <div class="exp-input-group">
                         <label for="typed-sig-input">Escriba su Nombre Completo como Firma:</label>
@@ -561,14 +592,14 @@ window.ExpedienteEngine = {
         content.innerHTML = html;
         this.updateUI();
 
-        // Inicializar Canvas si estamos en el último paso y modo dibujo
+        // Iniciar el Canvas en el Paso 10
         if (this.currentStep === 10 && this.formData.legal.signatureType === 'drawn') {
             setTimeout(() => this.initCanvas(), 200);
         }
     },
 
     // ====================================================================
-    // HELPERS UI & CANVAS INLINE
+    // CONSTRUCTORES UI A11Y
     // ====================================================================
     buildStep: function(index, content) {
         return `<div id="exp-step-${index}" class="exp-step ${index === this.currentStep ? 'active' : ''}">${content}</div>`;
@@ -726,7 +757,7 @@ window.ExpedienteEngine = {
     },
 
     // ====================================================================
-    // LÓGICA DEL CANVAS INLINE (Cero Modales, Bloqueo de Scroll)
+    // LÓGICA DEL CANVAS INLINE (Tinta Oro, Fondo Transparente al Exportar)
     // ====================================================================
     initCanvas: function() {
         const canvas = document.getElementById('sig-canvas');
@@ -739,13 +770,14 @@ window.ExpedienteEngine = {
         this.signaturePad = canvas;
         const ctx = canvas.getContext('2d');
         
+        // Estilo de la "Tinta" (Oro Valtara)
         ctx.lineWidth = 4;
         ctx.lineCap = 'round';
-        ctx.strokeStyle = '#050508';
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = '#D4AF37'; // Tinta Dorada
+        
+        // MAGIA: No rellenamos el fondo con blanco. Lo dejamos transparente.
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Redibujar si ya existía firma guardada antes de renderizar
         if(this.formData.legal.drawnSignature) {
             let img = new Image();
             img.onload = () => { ctx.drawImage(img, 0, 0); };
@@ -764,7 +796,6 @@ window.ExpedienteEngine = {
         const draw = (e) => { if(!this.isDrawing) return; e.preventDefault(); const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); };
         const endPos = (e) => { if(e) e.preventDefault(); this.isDrawing = false; };
 
-        // Magia para Móviles: Evita que la pantalla haga scroll mientras dibujas
         canvas.style.touchAction = 'none';
         
         canvas.addEventListener('mousedown', startPos);
@@ -782,6 +813,7 @@ window.ExpedienteEngine = {
             this.announceA11y("Error: El lienzo de firma está vacío.");
             return;
         }
+        // Guarda la imagen como PNG transparente con la tinta dorada
         this.formData.legal.drawnSignature = this.signaturePad.toDataURL('image/png');
         this.saveData();
         document.getElementById('firma-success-msg').style.display = 'block';
@@ -792,8 +824,7 @@ window.ExpedienteEngine = {
     clearCanvas: function() {
         if(!this.signaturePad) return;
         const ctx = this.signaturePad.getContext('2d');
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(0, 0, this.signaturePad.width, this.signaturePad.height);
+        ctx.clearRect(0, 0, this.signaturePad.width, this.signaturePad.height);
         this.formData.legal.drawnSignature = null;
         this.saveData();
         document.getElementById('firma-success-msg').style.display = 'none';
@@ -806,8 +837,7 @@ window.ExpedienteEngine = {
         blank.width = this.signaturePad.width;
         blank.height = this.signaturePad.height;
         const ctx = blank.getContext('2d');
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(0,0, blank.width, blank.height);
+        ctx.clearRect(0,0, blank.width, blank.height);
         return this.signaturePad.toDataURL() === blank.toDataURL();
     },
 
@@ -852,9 +882,8 @@ window.ExpedienteEngine = {
 
     updateUI: function() {
         const content = document.getElementById('exp-wizard-content');
-        if (content) content.scrollTop = 0; // Subir el scroll en la ventana interna
+        if (content) content.scrollTop = 0;
         
-        // Foco de Accesibilidad Dinámico
         setTimeout(() => {
             const stepTitle = document.getElementById(`exp-step-title-${this.currentStep}`);
             if(stepTitle) stepTitle.focus();
@@ -875,7 +904,6 @@ window.ExpedienteEngine = {
         if(isLast) this.updateSubmitButton();
     },
 
-    // EL SEMÁFORO DE ERRORES INTELIGENTE
     updateSubmitButton: function() {
         const btnSubmit = document.getElementById('exp-btn-submit');
         const submitText = document.getElementById('submit-btn-text');
@@ -913,7 +941,53 @@ window.ExpedienteEngine = {
     },
 
     // ====================================================================
-    // MOTOR PDF DE ALTA COSTURA: FONDO OSCURO, AUTO-PAGINABLE Y NATIVO (V34)
+    // MOTOR ESCÁNER BIOMECÁNICO SVG
+    // ====================================================================
+    generateBodyMapSVG: function(zonasActivas) {
+        // Genera un wireframe futurista del cuerpo con nodos de dolor brillantes
+        let nodesHTML = '';
+        
+        // Iteramos nuestras coordenadas maestras
+        for (const [zoneName, coords] of Object.entries(this.zoneCoordinates)) {
+            const isActive = zonasActivas.includes(zoneName);
+            if (isActive) {
+                // Nodo encendido (Rojo peligro) con pulso
+                nodesHTML += `
+                    <circle cx="${coords.cx}%" cy="${coords.cy}%" r="3%" fill="#ff5555" opacity="0.8">
+                        <animate attributeName="r" values="3%; 5%; 3%" dur="2s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.8; 0.3; 0.8" dur="2s" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="${coords.cx}%" cy="${coords.cy}%" r="1.5%" fill="#fff" />
+                    <!-- Línea indicadora -->
+                    <line x1="${coords.cx}%" y1="${coords.cy}%" x2="${coords.view === 'front' ? '5%' : '95%'}" y2="${coords.cy}%" stroke="#ff5555" stroke-width="0.5" stroke-dasharray="2" opacity="0.5" />
+                    <text x="${coords.view === 'front' ? '5%' : '95%'}" y="${coords.cy - 1}%" fill="#ff5555" font-size="2.5" font-family="monospace" text-anchor="${coords.view === 'front' ? 'start' : 'end'}">${zoneName.toUpperCase()}</text>
+                `;
+            } else {
+                // Nodo apagado (Gris sutil)
+                nodesHTML += `<circle cx="${coords.cx}%" cy="${coords.cy}%" r="1%" fill="#333" />`;
+            }
+        }
+
+        // Base vectorial de las dos siluetas (Frente y Espalda)
+        return `
+        <svg width="100%" height="350px" viewBox="0 0 100 100" style="background:#0a0a0f; border-radius:10px; border:1px solid #222;">
+            <!-- Silueta Frontal -->
+            <g stroke="#333" stroke-width="0.5" fill="none">
+                <path d="M 45 10 Q 50 2 55 10 Q 55 15 52 18 L 52 20 Q 60 22 65 25 L 75 45 L 85 65 L 88 72" />
+                <path d="M 52 20 Q 40 22 35 25 L 25 45 L 15 65 L 12 72" />
+                <path d="M 35 25 Q 50 35 65 25" />
+                <path d="M 40 60 Q 50 65 60 60 L 60 85 L 62 98" />
+                <path d="M 40 60 L 40 85 L 38 98" />
+            </g>
+            <!-- Etiquetas Base -->
+            <text x="50%" y="95%" fill="#555" font-size="3" text-anchor="middle" font-family="monospace" letter-spacing="2">ESCÁNER BIOMECÁNICO TOPOGRÁFICO</text>
+            ${nodesHTML}
+        </svg>
+        `;
+    },
+
+    // ====================================================================
+    // MOTOR PDF DE ALTA COSTURA: AUTO-PAGINABLE, TABLAS Y DARK MODE (V35)
     // ====================================================================
     generatePDF: function() {
         const d = this.formData;
@@ -926,224 +1000,246 @@ window.ExpedienteEngine = {
         const folioReal = `FOLIO-${iniciales}-${folioStr}-${horaStr}`;
         const hash = "SHA256-" + Math.random().toString(36).substr(2, 16).toUpperCase() + Math.random().toString(36).substr(2, 16).toUpperCase();
 
-        // 1. Procesamiento Dinámico de Afecciones
+        // 1. Procesamiento Dinámico de Afecciones (En Tabla para evitar cortes)
         let clinicaHTML = '';
         for (const [catKey, category] of Object.entries(this.clinicalDict)) {
             let activos = [];
             category.items.forEach(item => { if(d.clinical[catKey] && d.clinical[catKey][item.id]) activos.push(item.label); });
-            if(activos.length > 0) clinicaHTML += `<div style="margin-bottom:10px; border-left:4px solid #ff5555; padding-left:12px; background:rgba(255,85,85,0.05); padding:12px; border-radius:6px;"><strong style="color:#ff5555; font-size:12px; text-transform:uppercase;">${category.title}:</strong> <span style="color:#fff; font-weight:900; font-size:13px; display:block; margin-top:5px;">${activos.join(', ')}</span></div>`;
+            if(activos.length > 0) {
+                clinicaHTML += `
+                <tr style="page-break-inside: avoid; border-bottom: 1px solid #1a1a24;">
+                    <td style="padding: 10px 15px; color: #ff5555; width: 40%; font-size:12px; font-weight:bold; vertical-align:top;">${category.title}</td>
+                    <td style="padding: 10px 15px; color: #fff; width: 60%; font-size:13px; font-weight:900;">${activos.join(', ')}</td>
+                </tr>`;
+            }
         }
-        if(clinicaHTML === '') clinicaHTML = `<div style="color:#00e676; font-weight:bold; background:rgba(0,230,118,0.05); padding:15px; border-radius:8px; border-left:4px solid #00e676; font-size:13px;">El paciente no reportó ninguna condición médica o factor de riesgo diagnosticado.</div>`;
+        if(clinicaHTML === '') {
+            clinicaHTML = `<tr><td colspan="2" style="padding: 15px; color: #00e676; font-weight: bold; background: rgba(0,230,118,0.05); text-align: center; border-radius:8px;">El paciente no reportó ninguna condición médica diagnosticada.</td></tr>`;
+        }
 
-        // 2. Procesamiento Dinámico de Firma
+        // 2. Firma Exactamente en la Línea (Cero cajas blancas)
         let signatureBlockHTML = '';
         if (d.legal.signatureType === 'drawn') {
             signatureBlockHTML = `
-                <div style="height:90px; background:#fff; border-radius:8px; display:flex; align-items:center; justify-content:center; padding:5px; margin-bottom:8px;">
-                    <img src="${d.legal.drawnSignature}" style="max-width:100%; max-height:80px; object-fit:contain;">
+                <div style="height:90px; display:flex; flex-direction:column; justify-content:flex-end; border-bottom:1px dashed #D4AF37; margin-bottom:5px; padding-bottom:0; position:relative;">
+                    <!-- La firma dorada transparente inyectada directamente sobre la línea -->
+                    <img src="${d.legal.drawnSignature}" style="position:absolute; bottom:0; left:50%; transform:translateX(-50%); max-width:100%; height:110px; object-fit:contain;">
                 </div>
-                <p style="margin:0; font-size:12px; font-weight:900; text-transform:uppercase; color:#fff;">Firma Digital Autógrafa</p>
-                <p style="margin:2px 0 0 0; font-size:11px; color:#aaa;">${nombre}</p>
+                <p style="margin:5px 0 0 0; font-size:11px; font-weight:900; text-transform:uppercase; color:#fff;">Firma Digital Autógrafa</p>
+                <p style="margin:2px 0 0 0; font-size:10px; color:#aaa;">${nombre}</p>
             `;
         } else {
             signatureBlockHTML = `
-                <div style="height:90px; display:flex; flex-direction:column; justify-content:flex-end; border-bottom:1px solid #444; margin-bottom:8px; padding-bottom:10px;">
+                <div style="height:90px; display:flex; flex-direction:column; justify-content:flex-end; border-bottom:1px dashed #D4AF37; margin-bottom:5px; padding-bottom:5px;">
                     <span style="font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic; color: #fff;">${d.legal.typedSignature}</span>
                 </div>
-                <p style="margin:0; font-size:12px; font-weight:900; text-transform:uppercase; color:#fff;">Firma por Texto Alternativo</p>
-                <p style="margin:2px 0 0 0; font-size:10px; color:#ff5555; font-weight:bold;">* Accesibilidad Institucional</p>
-                <p style="margin:2px 0 0 0; font-size:9px; color:#888;">Motivo: ${d.legal.signatureReason}</p>
+                <p style="margin:5px 0 0 0; font-size:11px; font-weight:900; text-transform:uppercase; color:#fff;">Firma por Texto Alternativo</p>
+                <p style="margin:2px 0 0 0; font-size:10px; color:#ff5555; font-weight:bold;">* Accesibilidad / Inclusión</p>
+                <p style="margin:2px 0 0 0; font-size:8px; color:#888;">Motivo: ${d.legal.signatureReason}</p>
             `;
         }
 
-        // 3. Estructura HTML Base para Auto-Paginación
+        // 3. Generación del Escáner
+        const svgMap = this.generateBodyMapSVG(d.zonas);
+
+        // 4. Estructura HTML Base en Modo Tabla (Cero rupturas)
         const pdfContent = document.createElement('div');
         pdfContent.innerHTML = `
             <style>
-                /* Estilos globales para PDF Dark Mode */
-                .pdf-wrap { background-color: #050508; color: #ffffff; padding: 40px; font-family: 'Lato', sans-serif; box-sizing: border-box; min-height: 1000px; }
+                .pdf-wrap { background-color: #050508; color: #ffffff; padding: 40px; font-family: 'Lato', sans-serif; box-sizing: border-box; }
+                
+                /* El encabezado se repetirá si es necesario o se mantendrá como título maestro */
                 .pdf-main-header { border-bottom: 2px solid #D4AF37; padding-bottom: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items:flex-end;}
                 .pdf-title-text { color: #D4AF37; font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; margin: 0; letter-spacing: 2px; }
                 .pdf-subtitle-text { color: #888; font-size: 11px; letter-spacing: 4px; margin: 5px 0 0 0; font-weight: bold; }
                 
-                /* Las secciones NUNCA se cortan a la mitad gracias al page-break-inside: avoid */
-                .pdf-section { page-break-inside: avoid; margin-bottom: 25px; background-color: #0c0c12; border-radius: 12px; border-left: 5px solid #D4AF37; padding: 25px; border-top: 1px solid #1a1a24; border-right: 1px solid #1a1a24; border-bottom: 1px solid #1a1a24; }
-                .pdf-section.danger { border-left-color: #ff5555; }
-                .pdf-section.success { border-left-color: #00b09b; }
+                /* Tablas de Alta Costura: Evitan cortarse a la mitad */
+                .pdf-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; page-break-inside: avoid; background-color: #0c0c12; border-radius: 12px; border-left: 5px solid #D4AF37; border-top: 1px solid #1a1a24; border-right: 1px solid #1a1a24; border-bottom: 1px solid #1a1a24; overflow: hidden; }
+                .pdf-table.danger { border-left-color: #ff5555; }
+                .pdf-table.success { border-left-color: #00b09b; }
                 
-                .pdf-h3 { color: #D4AF37; font-size: 15px; margin-top: 0; margin-bottom: 15px; text-transform: uppercase; font-weight: 900; letter-spacing: 1px; }
-                .pdf-row { display: flex; justify-content: space-between; border-bottom: 1px solid #1a1a24; padding: 8px 0; }
-                .pdf-row:last-child { border-bottom: none; padding-bottom: 0; }
-                .pdf-label { width: 40%; color: #888; font-size: 12px; font-weight: bold; }
-                .pdf-val { width: 60%; color: #eee; font-size: 13px; font-weight: bold; text-align:right;}
-                .pdf-text { color: #ccc; font-size: 12px; line-height: 1.6; margin: 0; text-align: justify; font-style:italic;}
+                .pdf-th { background: #13131a; color: #D4AF37; font-size: 14px; padding: 12px 15px; text-transform: uppercase; font-weight: 900; letter-spacing: 1px; text-align: left; }
+                .pdf-table.danger .pdf-th { color: #ff5555; }
+                .pdf-table.success .pdf-th { color: #00b09b; }
+                
+                .pdf-tr { page-break-inside: avoid; border-bottom: 1px solid #1a1a24; }
+                .pdf-tr:last-child { border-bottom: none; }
+                .pdf-td-label { padding: 10px 15px; color: #888; font-size: 12px; font-weight: bold; width: 40%; vertical-align: top; }
+                .pdf-td-val { padding: 10px 15px; color: #eee; font-size: 13px; font-weight: bold; width: 60%; vertical-align: top; text-align: right; }
+                
+                .pdf-text-block { padding: 15px; color: #ccc; font-size: 12px; line-height: 1.6; font-style: italic; }
             </style>
             
             <div class="pdf-wrap">
-                <!-- CABECERA -->
+                <!-- CABECERA MAESTRA -->
                 <div class="pdf-main-header">
                     <div>
                         <h1 class="pdf-title-text">VALTARA</h1>
                         <p class="pdf-subtitle-text">EXECUTIVE THERAPY & BIOMECHANICS</p>
                     </div>
                     <div style="text-align: right;">
-                        <p style="margin: 0; color: #fff; font-weight: bold; font-size: 14px; text-transform: uppercase;">Expediente Clínico</p>
+                        <p style="margin: 0; color: #fff; font-weight: 900; font-size: 14px; text-transform: uppercase;">Expediente Clínico Oficial</p>
                         <p style="margin: 3px 0 0 0; color: #D4AF37; font-size: 11px;">Folio Único: ${folioReal}</p>
                     </div>
                 </div>
 
-                <!-- SECCIONES DE CONTENIDO QUE FLUYEN AUTOMÁTICAMENTE -->
-                <div class="pdf-section">
-                    <h3 class="pdf-h3">1. Identidad Ejecutiva</h3>
-                    <div class="pdf-row"><div class="pdf-label">Nombre Oficial</div><div class="pdf-val" style="color:#D4AF37;">${d.personal.fullName}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Identificación (CURP)</div><div class="pdf-val">${d.personal.curp || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Nacimiento</div><div class="pdf-val">${d.personal.birthDate || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Edad</div><div class="pdf-val">${d.personal.age || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Sexo / Género</div><div class="pdf-val">${d.personal.gender || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Teléfono de Contacto</div><div class="pdf-val">${d.personal.phone || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Correo Electrónico</div><div class="pdf-val">${d.personal.email || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Ocupación / Cargo</div><div class="pdf-val">${d.personal.occupation || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Nivel de Actividad Física</div><div class="pdf-val">${d.personal.activity || '---'}</div></div>
-                </div>
+                <!-- 1. IDENTIDAD -->
+                <table class="pdf-table">
+                    <tr><th colspan="2" class="pdf-th">1. Identidad Ejecutiva</th></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Nombre Oficial</td><td class="pdf-td-val" style="color:#D4AF37;">${d.personal.fullName}</td></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Identificación (CURP)</td><td class="pdf-td-val">${d.personal.curp || '---'}</td></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Nacimiento y Edad</td><td class="pdf-td-val">${d.personal.birthDate || '---'} (${d.personal.age || '---'} años)</td></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Sexo / Género</td><td class="pdf-td-val">${d.personal.gender || '---'}</td></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Contacto</td><td class="pdf-td-val">${d.personal.phone || '---'} | ${d.personal.email || '---'}</td></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Ocupación</td><td class="pdf-td-val">${d.personal.occupation || '---'}</td></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Nivel de Actividad Física</td><td class="pdf-td-val">${d.personal.activity || '---'}</td></tr>
+                </table>
 
-                <div class="pdf-section">
-                    <h3 class="pdf-h3">2. Motivo de Atención Terapéutica</h3>
-                    <div class="pdf-row"><div class="pdf-label">Motivo Principal</div><div class="pdf-val">${d.motivo.principal || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Objetivo de la Sesión</div><div class="pdf-val">${d.motivo.objetivo || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Tiempo de Evolución</div><div class="pdf-val">${d.motivo.evolucion || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">¿Es Recurrente?</div><div class="pdf-val">${d.motivo.recurrente || '---'}</div></div>
-                    <div style="margin-top:15px;"><strong style="color:#888; font-size:12px; display:block; margin-bottom:5px;">Expectativas de Mejora:</strong><p class="pdf-text">"${d.motivo.mejora || 'No especificadas'}"</p></div>
-                </div>
+                <!-- 2. MOTIVO -->
+                <table class="pdf-table">
+                    <tr><th colspan="2" class="pdf-th">2. Motivo de Atención Terapéutica</th></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Motivo Principal</td><td class="pdf-td-val">${d.motivo.principal || '---'}</td></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Objetivo de la Sesión</td><td class="pdf-td-val">${d.motivo.objetivo || '---'}</td></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Evolución y Recurrencia</td><td class="pdf-td-val">${d.motivo.evolucion || '---'} | ${d.motivo.recurrente || '---'}</td></tr>
+                    <tr class="pdf-tr"><td colspan="2" class="pdf-text-block"><strong style="color:#D4AF37; display:block; margin-bottom:5px;">Expectativas:</strong>"${d.motivo.mejora || 'No especificadas'}"</td></tr>
+                </table>
 
-                <div class="pdf-section danger">
-                    <h3 class="pdf-h3" style="color:#ff5555;">3. Mapa de Tensión y Dolor</h3>
-                    <div class="pdf-row"><div class="pdf-label">Zonas Afectadas</div><div class="pdf-val" style="color:#ff5555; text-align:left; line-height:1.4;">${d.zonas.length > 0 ? d.zonas.join(', ') : 'Ninguna reportada'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Sensación Descrita</div><div class="pdf-val">${d.dolorDetalle.sensacion || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label" style="color:#fff;">Intensidad Declarada</div><div class="pdf-val" style="font-size:18px; color:#ff5555;">${d.dolorDetalle.intensidad} / 10</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Evolución</div><div class="pdf-val">${d.dolorDetalle.desde || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Frecuencia</div><div class="pdf-val">${d.dolorDetalle.constante || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Agravantes</div><div class="pdf-val">${d.dolorDetalle.empeora || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Atenuantes</div><div class="pdf-val">${d.dolorDetalle.alivia || '---'}</div></div>
-                </div>
+                <!-- 3. MAPA BIOMECÁNICO (SVG) -->
+                <table class="pdf-table danger">
+                    <tr><th class="pdf-th">3. Escáner de Tensión y Dolor</th></tr>
+                    <tr class="pdf-tr">
+                        <td style="padding:15px; text-align:center;">
+                            ${svgMap}
+                            <div style="margin-top:15px; color:#ff5555; font-size:11px; font-weight:bold; text-align:left;">Zonas Registradas: <span style="color:#fff;">${d.zonas.length > 0 ? d.zonas.join(', ') : 'Ninguna'}</span></div>
+                        </td>
+                    </tr>
+                </table>
 
-                <div class="pdf-section danger">
-                    <h3 class="pdf-h3" style="color:#ff5555;">4. Antecedentes Médicos Relevantes</h3>
-                    <p style="font-size:11px; color:#888; margin-top:0; font-style:italic; margin-bottom:15px;">* Declaración del paciente bajo protesta de decir verdad:</p>
-                    ${clinicaHTML}
-                </div>
+                <!-- 4. ANÁLISIS SENSORIAL -->
+                <table class="pdf-table danger">
+                    <tr><th colspan="2" class="pdf-th">4. Análisis Sensorial Específico</th></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Sensación Descrita</td><td class="pdf-td-val">${d.dolorDetalle.sensacion || '---'}</td></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label" style="color:#fff;">Intensidad del Dolor</td><td class="pdf-td-val" style="font-size:20px; color:#ff5555;">${d.dolorDetalle.intensidad} / 10</td></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Inicio y Frecuencia</td><td class="pdf-td-val">${d.dolorDetalle.desde || '---'} | ${d.dolorDetalle.constante || '---'}</td></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Agravantes</td><td class="pdf-td-val">${d.dolorDetalle.empeora || '---'}</td></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Atenuantes</td><td class="pdf-td-val">${d.dolorDetalle.alivia || '---'}</td></tr>
+                </table>
 
-                <div class="pdf-section">
-                    <h3 class="pdf-h3">5. Estilo de Vida y Carga Biomecánica</h3>
-                    <div class="pdf-row"><div class="pdf-label" style="color:#fff;">Estrés Psicológico/Laboral</div><div class="pdf-val" style="font-size:18px; color:#D4AF37;">${d.habitos.estres} / 10</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Calidad del Sueño</div><div class="pdf-val">${d.habitos.suenoCalidad || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Horas de Sueño Diario</div><div class="pdf-val">${d.habitos.suenoHoras || '---'} hrs</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Trabajo Sentado</div><div class="pdf-val">${d.habitos.sentado || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Trabajo de Pie</div><div class="pdf-val">${d.habitos.pie || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Esfuerzo Físico Constante</div><div class="pdf-val">${d.habitos.carga || '---'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Deporte de Alto Impacto</div><div class="pdf-val">${d.habitos.deporte || '---'}</div></div>
-                </div>
+                <!-- 5. ANTECEDENTES CLÍNICOS -->
+                <table class="pdf-table danger">
+                    <tr><th colspan="2" class="pdf-th">5. Historial Médico y Contraindicaciones</th></tr>
+                    <tr class="pdf-tr"><td colspan="2" style="padding:0;">
+                        <table style="width:100%; border-collapse:collapse;">${clinicaHTML}</table>
+                    </td></tr>
+                </table>
 
-                <div class="pdf-section">
-                    <h3 class="pdf-h3">6. Accesibilidad e Inclusión</h3>
-                    <div class="pdf-row"><div class="pdf-label">Apoyos Requeridos</div><div class="pdf-val" style="text-align:left; line-height:1.4;">${d.accessibility.profile.length > 0 ? d.accessibility.profile.join(', ') : 'Ninguno reportado'}</div></div>
-                    <div class="pdf-row"><div class="pdf-label">Ajustes Razonables</div><div class="pdf-val" style="text-align:left; line-height:1.4;">${d.accessibility.supports || 'Ninguno reportado'}</div></div>
-                </div>
+                <!-- 6. ESTILO DE VIDA -->
+                <table class="pdf-table">
+                    <tr><th colspan="2" class="pdf-th">6. Carga Biomecánica y Hábitos</th></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label" style="color:#fff;">Estrés Psicológico / Laboral</td><td class="pdf-td-val" style="font-size:20px; color:#D4AF37;">${d.habitos.estres} / 10</td></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Calidad y Horas de Sueño</td><td class="pdf-td-val">${d.habitos.suenoCalidad || '---'} (${d.habitos.suenoHoras || '---'} hrs)</td></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Trabajo (Sentado / De pie)</td><td class="pdf-td-val">${d.habitos.sentado || '---'} | ${d.habitos.pie || '---'}</td></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Carga Física / Deporte</td><td class="pdf-td-val">${d.habitos.carga || '---'} | ${d.habitos.deporte || '---'}</td></tr>
+                </table>
 
-                <div class="pdf-section">
-                    <h3 class="pdf-h3">7. Observaciones Adicionales</h3>
-                    <p class="pdf-text">"${d.extra || 'El paciente no refirió observaciones adicionales o notas específicas.'}"</p>
-                </div>
+                <!-- 7. ACCESIBILIDAD -->
+                <table class="pdf-table">
+                    <tr><th colspan="2" class="pdf-th">7. Inclusión y Observaciones</th></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Apoyos de Accesibilidad</td><td class="pdf-td-val" style="text-align:left; line-height:1.4;">${d.accessibility.profile.length > 0 ? d.accessibility.profile.join('<br>') : 'No requeridos'}</td></tr>
+                    <tr class="pdf-tr"><td class="pdf-td-label">Ajustes Razonables</td><td class="pdf-td-val" style="text-align:left; line-height:1.4;">${d.accessibility.supports ? d.accessibility.supports.split(', ').join('<br>') : 'No solicitados'}</td></tr>
+                    <tr class="pdf-tr"><td colspan="2" class="pdf-text-block"><strong>Notas Adicionales:</strong><br>"${d.extra || 'Sin notas del paciente.'}"</td></tr>
+                </table>
 
-                <div class="pdf-section" style="border-left-color: #555;">
-                    <h3 class="pdf-h3" style="color:#fff;">8. Consentimiento Informado (ARCO)</h3>
-                    <div style="font-size:11px; text-align:justify; line-height:1.6; color:#ccc; padding:15px; border:1px solid #333; border-radius:8px; background:#111;">
-                        <p style="margin-top:0;"><strong>DECLARACIÓN DE VERDAD Y RESPONSABILIDAD:</strong> Maniﬁesto bajo protesta de decir verdad que la información contenida en este expediente (Folio ${folioReal}) es veraz. Entiendo categóricamente que la atención brindada por Grupo Gevizz S.A.S. de C.V. corresponde a masoterapia clínica, terapia manual y valoración funcional, y de ninguna manera sustituye un diagnóstico ni tratamiento médico alópata.</p>
-                        <p>He sido debidamente informado de que omitir dolencias agudas, infecciones, cirugías recientes, embarazos, uso de anticoagulantes o presencia de patologías severas compromete gravemente mi integridad física, deslindando absolutamente a la empresa y al terapeuta a cargo de cualquier responsabilidad derivada de dicha omisión.</p>
-                        <p style="margin-bottom:0;"><strong>AVISO DE PRIVACIDAD:</strong> Autorizo que mis datos de salud (sensibles) sean recabados y resguardados en mi dispositivo local, para fines exclusivos de mi atención terapéutica, seguimiento de seguridad y control interno, conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.</p>
-                    </div>
-                </div>
+                <!-- 8. LEGAL Y FIRMAS -->
+                <div class="pdf-section" style="border-left-color: #555; background:transparent; padding:0; border:none;">
+                    <table class="pdf-table" style="margin-bottom:15px;">
+                        <tr><th class="pdf-th" style="background:#111;">8. Consentimiento Informado (ARCO)</th></tr>
+                        <tr class="pdf-tr">
+                            <td class="pdf-text-block" style="text-align:justify; padding:20px; background:#0a0a0f;">
+                                <strong>DECLARACIÓN DE VERDAD:</strong> Maniﬁesto bajo protesta de decir verdad que la información contenida en este expediente (Folio ${folioReal}) es veraz. Entiendo categóricamente que la atención brindada por Grupo Gevizz S.A.S. de C.V. corresponde a masoterapia clínica y de ninguna manera sustituye un diagnóstico alópata. He sido informado de que omitir dolencias graves (ej. trombosis, cirugías) compromete mi integridad, deslindando al terapeuta de responsabilidad.<br><br>
+                                <strong>AVISO DE PRIVACIDAD:</strong> Autorizo que mis datos sensibles sean resguardados en mi dispositivo local para fines terapéuticos, conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.
+                            </td>
+                        </tr>
+                    </table>
 
-                <div class="pdf-section">
-                    <h3 class="pdf-h3">Identidad Biométrica y Firmas</h3>
-                    <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+                    <div style="display: flex; justify-content: space-between; margin-top: 30px; margin-bottom: 30px; page-break-inside: avoid;">
                         <div style="width: 45%; text-align: center;">
                             ${signatureBlockHTML}
                         </div>
                         <div style="width: 45%; text-align: center;">
-                            <div style="height:90px; border-bottom:1px solid #444; display:flex; align-items:flex-end; justify-content:center; padding-bottom:10px;">
-                                <span style="font-size: 10px; color: #666; font-style: italic;">(Sello y firma autógrafa a la recepción del documento)</span>
+                            <div style="height:90px; border-bottom:1px dashed #444; display:flex; align-items:flex-end; justify-content:center; padding-bottom:10px;">
+                                <span style="font-size: 9px; color: #666; font-style: italic;">(Sello y firma autógrafa a la recepción física/digital del documento)</span>
                             </div>
-                            <p style="margin:5px 0 0 0; font-size:12px; font-weight:900; text-transform:uppercase; color:#fff;">El Terapeuta Clínico</p>
-                            <p style="margin:2px 0 0 0; font-size:11px; color:#D4AF37; font-weight:bold;">Ángel de Jesús Guerrero Vizzuett</p>
+                            <p style="margin:5px 0 0 0; font-size:11px; font-weight:900; text-transform:uppercase; color:#fff;">El Terapeuta Clínico</p>
+                            <p style="margin:2px 0 0 0; font-size:10px; color:#D4AF37; font-weight:bold;">Ángel de Jesús Guerrero Vizzuett</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- SECCIÓN DE CERTIFICACIONES BLINDADA -->
-                <div class="pdf-section success">
-                    <h3 class="pdf-h3" style="color:#00b09b;">Aval y Certificaciones Institucionales</h3>
-                    <p style="font-size: 11px; color: #888; line-height: 1.6; margin-bottom: 15px;">
-                        El presente documento y la intervención clínica están respaldados por las siguientes certificaciones oficiales y de competencia laboral, garantizando el cumplimiento de la normatividad sanitaria y educativa vigente:
-                    </p>
-                    <ul style="font-size: 11.5px; color: #eee; line-height: 1.8; margin: 0; padding-left: 20px;">
-                        <li><strong>Nombramiento:</strong> Terapeuta Físico para la Salud, Especialidad en Masoterapia Clínica.</li>
-                        <li><strong>Registro Nacional de Terapeutas (RENATED):</strong> Folio <span style="color:#D4AF37;">A-54878</span>.</li>
-                        <li><strong>Secretaría de Educación Pública (SEP DGCFT):</strong> Acuerdo RVOE <span style="color:#D4AF37;">17FT061</span> (Esc. de Ciencias Físicas para la Salud).</li>
-                        <li><strong>Acreditación Institucional:</strong> Sistema de Acreditación Educativa (SISAE) y Registro Público de Salud (REPS).</li>
-                        <li><strong>Competencia Laboral (NTCL):</strong> CSSA0409.01 "Contribución a la Recuperación de las Capacidades Físicas de las Personas".</li>
-                    </ul>
-                </div>
+                <!-- 9. AVAL INSTITUCIONAL -->
+                <table class="pdf-table success" style="margin-bottom:0;">
+                    <tr><th class="pdf-th" style="background:#0a0a0f; color:#00b09b;">9. Aval y Certificaciones Institucionales</th></tr>
+                    <tr class="pdf-tr">
+                        <td style="padding:20px; font-size:11px; color:#aaa; line-height:1.8;">
+                            El presente documento clínico está respaldado por las siguientes certificaciones oficiales:<br>
+                            <span style="color:#fff;">•</span> <strong>Nombramiento:</strong> Terapeuta Físico para la Salud, Especialidad en Masoterapia Clínica.<br>
+                            <span style="color:#fff;">•</span> <strong>Registro Nacional de Terapeutas (RENATED):</strong> Folio <strong style="color:#D4AF37;">A-54878</strong>.<br>
+                            <span style="color:#fff;">•</span> <strong>Secretaría de Educación Pública (SEP DGCFT):</strong> Acuerdo RVOE <strong style="color:#D4AF37;">17FT061</strong>.<br>
+                            <span style="color:#fff;">•</span> <strong>Acreditación Institucional:</strong> Sistema de Acreditación Educativa (SISAE) y Registro Público de Salud (REPS).<br>
+                            <span style="color:#fff;">•</span> <strong>Competencia Laboral (NTCL):</strong> CSSA0409.01 "Contribución a la Recuperación de las Capacidades Físicas de las Personas".
+                        </td>
+                    </tr>
+                </table>
             </div>
         `;
 
         const opt = {
-            margin:       [0.6, 0.5, 0.6, 0.5], // Márgenes: Top, Left, Bottom, Right
+            margin:       [0.4, 0.5, 0.5, 0.5], // Top, Left, Bottom, Right
             filename:     `Valtara_${folioReal}.pdf`,
             image:        { type: 'jpeg', quality: 1 }, 
-            html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#050508' }, // Fuerza el fondo negro profundo en el lienzo
+            pagebreak:    { mode: ['css', 'legacy'], avoid: ['.pdf-table', '.pdf-section'] }, // MAGIA: Evita cortes a la mitad
+            html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#050508' }, // Fuerza el fondo negro profundo
             jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
         };
 
-        // Bloqueo de UI
         document.getElementById('exp-btn-prev').style.display = 'none';
         const btnSubmit = document.getElementById('exp-btn-submit');
         btnSubmit.style.display = 'none';
         const loader = document.getElementById('exp-loader');
         loader.style.display = 'block';
 
-        this.announceA11y("Iniciando cifrado y generación del documento PDF oscuro de alta seguridad.");
+        this.announceA11y("Iniciando generación del documento PDF oscuro autopaginable con escáner biomecánico.");
 
         if (typeof html2pdf !== 'undefined') {
             setTimeout(() => {
-                // MAGIA: El PDF se genera y mediante jsPDF incrustamos las marcas de agua en las esquinas de CADA HOJA generada.
                 html2pdf().set(opt).from(pdfContent).toPdf().get('pdf').then(function (pdf) {
                     const totalPages = pdf.internal.getNumberOfPages();
                     for (let i = 1; i <= totalPages; i++) {
                         pdf.setPage(i);
                         pdf.setFontSize(7);
-                        pdf.setTextColor(100, 100, 100); // Color gris oscuro sutil para el fondo negro
+                        pdf.setTextColor(80, 80, 80); // Gris oscuro elegante
                         
-                        // Esquina Superior Izquierda y Derecha
-                        pdf.text('VALTARA EXECUTIVE THERAPY | DOC. OFICIAL', 0.5, 0.4);
-                        pdf.text('FOLIO: ' + folioReal, 8.0, 0.4, { align: 'right' });
-                        
-                        // Esquina Inferior Izquierda y Derecha
-                        pdf.text('VERIFICACIÓN CRIPTOGRÁFICA: ' + hash.substring(0, 20), 0.5, 10.6);
-                        pdf.text('Página ' + i + ' de ' + totalPages, 8.0, 10.6, { align: 'right' });
+                        // Encabezados en cada página para no perder el contexto
+                        if(i > 1) {
+                            pdf.text('VALTARA EXECUTIVE THERAPY | FOLIO: ' + folioReal, 0.5, 0.3);
+                        }
+                        // Pie de página en todas
+                        pdf.text('SISTEMA CRIPTOGRÁFICO: ' + hash.substring(0, 25) + '...', 0.5, 10.7);
+                        pdf.text('Página ' + i + ' de ' + totalPages, 8.0, 10.7, { align: 'right' });
                     }
                 }).save().then(() => {
                     loader.innerHTML = '<i class="fa-solid fa-check"></i> EXPEDIENTE DESCARGADO';
                     loader.style.color = '#00b09b';
                     this.announceA11y("Documento generado con éxito. Abriendo WhatsApp para envío.");
                     
-                    const mensaje = `*Aura Assistant (Valtara)* 🌿%0A%0AHe concluido el llenado y certificación de mi Historia Clínica.%0A%0A*Paciente:* ${nombre}%0A*Folio:* ${folioReal}%0A*Estrés Biomecánico:* ${d.habitos.estres}/10%0A%0A_A continuación adjunto el PDF oscuro debidamente firmado para revisión del Terapeuta Titular._`;
+                    const mensaje = `*Aura Assistant (Valtara)* 🌿%0A%0AHe concluido el llenado y certificación de mi Historia Clínica.%0A%0A*Paciente:* ${nombre}%0A*Folio:* ${folioReal}%0A*Estrés Biomecánico:* ${d.habitos.estres}/10%0A%0A_A continuación adjunto el PDF oficial cifrado para su revisión física y firma autógrafa._`;
                     
                     setTimeout(() => {
                         this.closeOverlay();
                         window.open(`https://wa.me/5213348572070?text=${mensaje}`, '_blank');
                         setTimeout(() => { 
                             loader.style.display = 'none'; 
-                            loader.innerHTML = '<i class="fa-solid fa-lock fa-fade"></i> CIFRANDO Y RENDERIZANDO...';
+                            loader.innerHTML = '<i class="fa-solid fa-lock fa-fade"></i> CIFRANDO DOCUMENTO...';
                             loader.style.color = 'var(--valtara-cian-brillante)';
                             btnSubmit.style.display = 'flex';
                             document.getElementById('exp-btn-prev').style.display = 'flex';
@@ -1157,7 +1253,7 @@ window.ExpedienteEngine = {
                 });
             }, 1500);
         } else {
-            alert("Error: Herramienta PDF bloqueada. Actualice la página.");
+            alert("Error: Herramienta PDF bloqueada.");
             btnSubmit.style.display = 'flex';
             loader.style.display = 'none';
         }
