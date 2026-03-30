@@ -2,29 +2,45 @@
 <html lang="es" dir="ltr">
 <head>
     <meta charset="UTF-8">
+    <!-- Meta Viewport Optimizada para PWA y Notch de iPhone/Android -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <title>VALTARA | Executive Therapy & Biomechanics</title>
     
+    <!-- ========================================================================= -->
+    <!-- ALGORITMOS DE SEGURIDAD EXTREMA Y ENCRIPTACIÓN (SOVEREIGN V27.0)          -->
+    <!-- Muro de contención contra XSS, Clickjacking, Data-Mining y MITM.          -->
+    <!-- ========================================================================= -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="no-referrer"> <!-- Privacidad Absoluta de Origen -->
     
+    <!-- Content Security Policy (CSP) de Grado Militar -->
     <meta http-equiv="Content-Security-Policy" content="
-        default-src 'self' blob:; 
+        default-src 'self'; 
         connect-src 'self' https://aura-server-erfj.vercel.app; 
         font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; 
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; 
         script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; 
         frame-src 'self' https://www.youtube.com; 
         img-src 'self' data: blob: https://cdn-icons-png.flaticon.com https://img.youtube.com;
+        worker-src 'self' blob:;
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self';
         frame-ancestors 'none';
         upgrade-insecure-requests;
+        block-all-mixed-content;
     ">
 
+    <!-- Políticas de Aislamiento Corporativo -->
     <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
     <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=(), camera=(), microphone=(self)">
+    <!-- ========================================================================= -->
+
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#050508">
     <link rel="apple-touch-icon" href="logo.png">
@@ -39,27 +55,39 @@
     <meta property="og:locale" content="es_MX">
     <meta property="og:site_name" content="Valtara Biomechanics">
 
+    <!-- OPTIMIZACIÓN DE RENDIMIENTO: Pre-conexiones DNS y TCP -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://aura-server-erfj.vercel.app" crossorigin>
-    <link rel="preconnect" href="https://www.youtube.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
-    <link rel="preload" href="css/main.css?v=25.4.0" as="style">
-    <link rel="preload" href="css/components.css?v=25.4.0" as="style">
+    <!-- Carga Crítica de Estilos (V27.0.0) -->
+    <link rel="preload" href="css/main.css?v=27.0.0" as="style">
+    <link rel="preload" href="css/components.css?v=27.0.0" as="style">
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/main.css?v=25.4.0">
-    <link rel="stylesheet" href="css/components.css?v=25.4.0">
+    <link rel="stylesheet" href="css/main.css?v=27.0.0">
+    <link rel="stylesheet" href="css/components.css?v=27.0.0">
     
     <style>
         @keyframes pulseAuraGoldHTML { 0% { transform: scale(0.9); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 1; } }
+        /* Estilo blindado para el botón de Expediente en el menú lateral */
+        .btn-expediente-safe {
+            width: 100%; display: flex; align-items: center; gap: 15px; padding: 1rem 1.5rem; 
+            border: none; background: rgba(242,201,76,0.05); color: var(--valtara-oro); 
+            font-size: 1.1rem; cursor: pointer; text-align: left; border-radius: 12px;
+            transition: all 0.3s ease; margin-bottom: 10px; border-left: 3px solid var(--valtara-oro);
+        }
+        .btn-expediente-safe:hover { background: rgba(242,201,76,0.15); transform: translateX(5px); }
     </style>
 </head>
 <body class="system-loading">
 
-    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma blindada Sovereign Valtara 25.4.0. Bienestar biomecánico en línea...</div>
+    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma blindada Sovereign Valtara 27.0.0. Ecosistema biomécanico asegurado...</div>
 
     <div id="onboarding-screen" class="full-screen-overlay" aria-hidden="false" role="dialog" aria-labelledby="onboarding-title">
         <div class="onboarding-content">
@@ -109,7 +137,7 @@
             </button>
 
             <div class="header-controls">
-                <button aria-label="Abrir panel de Accesibilidad e Inclusión" aria-haspopup="dialog" aria-controls="a11y-modal" class="header-action-btn a11y-btn-top" id="top-a11y-btn">
+                <button aria-label="Abrir panel de Accesibilidad e Inclusión" aria-haspopup="dialog" aria-controls="a11y-modal" class="header-action-btn a11y-btn-top" id="top-a11y-btn" onclick="document.getElementById('a11y-modal').showModal();">
                     <i aria-hidden="true" class="fa-solid fa-universal-access"></i>
                 </button>
 
@@ -128,7 +156,7 @@
                         <strong class="profile-name" id="menu-user-name">Invitado</strong>
                     </div>
                 </div>
-                <button aria-label="Cerrar menú" class="close-btn" id="menu-close-btn">
+                <button aria-label="Cerrar menú" class="close-btn" id="menu-close-btn" onclick="document.getElementById('main-nav').classList.remove('open');">
                     <i aria-hidden="true" class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -146,12 +174,17 @@
 
                 <h3 class="menu-section-title" style="margin-top: 2.5rem;">Tu Configuración</h3>
                 <ul class="nav-list" role="menu">
+                    <!-- BOTÓN DE EXPEDIENTE BLINDADO (Sin clase nav-item) -->
+                    <li role="none">
+                        <button role="menuitem" class="btn-expediente-safe" id="btn-open-expediente" aria-haspopup="dialog">
+                            <i class="fa-solid fa-file-signature"></i> <span>Mi Expediente Soberano</span>
+                        </button>
+                    </li>
                     <li role="none">
                         <button role="menuitem" class="nav-item btn-tool" id="btn-install-app" style="display: none; color: var(--valtara-oro); border: 1px solid var(--valtara-oro); background: rgba(242, 201, 76, 0.1); border-radius: 10px; margin-bottom: 10px;">
                             <i class="fa-solid fa-download"></i> <span>Instalar App Valtara</span>
                         </button>
                     </li>
-                    <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-open-expediente" aria-haspopup="dialog"><i class="fa-solid fa-file-medical"></i> <span>Mi Expediente Clínico</span></button></li>
                     <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-change-name-menu"><i class="fa-solid fa-pen"></i> <span>Editar mi Nombre</span></button></li>
                     <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-reset-session"><i class="fa-solid fa-power-off"></i> <span>Cerrar sesión</span></button></li>
                 </ul>
@@ -162,11 +195,12 @@
             </div>
         </nav>
 
+        <!-- Modales Auxiliares (A11y & Aura) con cierres blindados nativos -->
         <dialog aria-label="Panel de Accesibilidad" class="modal-dialog mega-modal" id="a11y-modal">
             <div class="modal-content">
                 <header class="modal-header">
                     <h3><i aria-hidden="true" class="fa-solid fa-universal-access"></i> Inclusión para Todos</h3>
-                    <button aria-label="Cerrar panel" class="close-modal-btn" data-close="a11y-modal"><i class="fa-solid fa-xmark"></i></button>
+                    <button aria-label="Cerrar panel" class="close-modal-btn" onclick="document.getElementById('a11y-modal').close();"><i class="fa-solid fa-xmark"></i></button>
                 </header>
                 <div class="modal-body">
                     <p style="color: var(--valtara-gris-texto); font-size: 1.15rem; margin-bottom: 2.5rem; font-weight: 300;">
@@ -190,7 +224,7 @@
             <div class="modal-content aura-container" style="background: transparent;">
                 <header class="modal-header" style="background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%); border-bottom: 1px solid rgba(242,201,76,0.2);">
                     <h3 style="color: var(--valtara-oro);"><i aria-hidden="true" class="fa-solid fa-sparkles"></i> Asistente Aura</h3>
-                    <button aria-label="Cerrar asistente" class="close-modal-btn" data-close="aura-modal"><i class="fa-solid fa-xmark"></i></button>
+                    <button aria-label="Cerrar asistente" class="close-modal-btn" onclick="document.getElementById('aura-modal').close();"><i class="fa-solid fa-xmark"></i></button>
                 </header>
                 
                 <div aria-live="polite" class="aura-chat-window" id="aura-chat-container" style="position: relative; overflow: hidden; display: flex; flex-direction: column;">
@@ -220,7 +254,8 @@
         </dialog>
 
         <aside aria-label="Asistencia y Contacto" class="float-controls float-right">
-            <button aria-label="Hablar con el Asistente Aura" aria-haspopup="dialog" aria-controls="aura-modal" class="fab-btn fab-aura" id="fab-aura">
+            <!-- BOTÓN AURA BLINDADO NATIVO -->
+            <button aria-label="Hablar con el Asistente Aura" aria-haspopup="dialog" aria-controls="aura-modal" class="fab-btn fab-aura" id="fab-aura" onclick="document.getElementById('aura-modal').showModal();">
                 <i aria-hidden="true" class="fa-solid fa-robot"></i>
             </button>
             <a aria-label="Contactar por WhatsApp" href="https://wa.me/5213348572070" target="_blank" class="fab-btn fab-ws" id="fab-whatsapp">
@@ -242,52 +277,55 @@
 
     </div> 
     
-    <script src="js/inicio_bienvenida.js?v=25.4.0" defer></script>
-    <script src="js/inicio_refugio.js?v=25.4.0" defer></script>
-    <script src="js/inicio_promociones.js?v=25.4.0" defer></script>
-    <script src="js/inicio_arte_unas.js?v=25.4.0" defer></script>
-    <script src="js/inicio_mapa_cuerpo.js?v=25.4.0" defer></script>
-    <script src="js/inicio_redes_sociales.js?v=25.4.0" defer></script>
+    <!-- Carga Distribuida y Diferida (DEFER) para rendimiento máximo. V27.0.0 -->
+    <script src="js/inicio_bienvenida.js?v=27.0.0" defer></script>
+    <script src="js/inicio_refugio.js?v=27.0.0" defer></script>
+    <script src="js/inicio_promociones.js?v=27.0.0" defer></script>
+    <script src="js/inicio_arte_unas.js?v=27.0.0" defer></script>
+    <script src="js/inicio_mapa_cuerpo.js?v=27.0.0" defer></script>
+    <script src="js/inicio_redes_sociales.js?v=27.0.0" defer></script>
 
-    <script src="js/catalogo_masajes.js?v=25.4.0" defer></script>
-    <script src="js/catalogo_belleza.js?v=25.4.0" defer></script>
+    <script src="js/catalogo_masajes.js?v=27.0.0" defer></script>
+    <script src="js/catalogo_belleza.js?v=27.0.0" defer></script>
 
-    <script src="js/ciencia_introduccion.js?v=25.4.0" defer></script>
-    <script src="js/ciencia_neurobiologia.js?v=25.4.0" defer></script>
-    <script src="js/ciencia_fascia.js?v=25.4.0" defer></script>
-    <script src="js/ciencia_acustica.js?v=25.4.0" defer></script>
-    <script src="js/ciencia_biomecanica.js?v=25.4.0" defer></script>
-    <script src="js/ciencia_botanica.js?v=25.4.0" defer></script>
-    <script src="js/ciencia_inclusion.js?v=25.4.0" defer></script>
-    <script src="js/ciencia_referencias.js?v=25.4.0" defer></script>
+    <script src="js/ciencia_introduccion.js?v=27.0.0" defer></script>
+    <script src="js/ciencia_neurobiologia.js?v=27.0.0" defer></script>
+    <script src="js/ciencia_fascia.js?v=27.0.0" defer></script>
+    <script src="js/ciencia_acustica.js?v=27.0.0" defer></script>
+    <script src="js/ciencia_biomecanica.js?v=27.0.0" defer></script>
+    <script src="js/ciencia_botanica.js?v=27.0.0" defer></script>
+    <script src="js/ciencia_inclusion.js?v=27.0.0" defer></script>
+    <script src="js/ciencia_referencias.js?v=27.0.0" defer></script>
     
-    <script src="js/juego_alquimista.js?v=25.4.0" defer></script>
+    <script src="js/juego_alquimista.js?v=27.0.0" defer></script>
 
-    <script src="js/legal_historia.js?v=25.4.0" defer></script>
-    <script src="js/legal_manifiesto.js?v=25.4.0" defer></script>
-    <script src="js/legal_transparencia.js?v=25.4.0" defer></script>
-    <script src="js/legal_preguntas.js?v=25.4.0" defer></script>
-    <script src="js/modal_terminos.js?v=25.4.0" defer></script>
-    <script src="js/modal_whitepaper.js?v=25.4.0" defer></script>
+    <script src="js/legal_historia.js?v=27.0.0" defer></script>
+    <script src="js/legal_manifiesto.js?v=27.0.0" defer></script>
+    <script src="js/legal_transparencia.js?v=27.0.0" defer></script>
+    <script src="js/legal_preguntas.js?v=27.0.0" defer></script>
+    <script src="js/modal_terminos.js?v=27.0.0" defer></script>
+    <script src="js/modal_whitepaper.js?v=27.0.0" defer></script>
 
-    <script src="js/sonoterapia_introduccion.js?v=25.4.0" defer></script>
-    <script src="js/sonoterapia_videos.js?v=25.4.0" defer></script>
-    <script src="js/sonoterapia_audio.js?v=25.4.0" defer></script>
+    <script src="js/sonoterapia_introduccion.js?v=27.0.0" defer></script>
+    <script src="js/sonoterapia_videos.js?v=27.0.0" defer></script>
+    <script src="js/sonoterapia_audio.js?v=27.0.0" defer></script>
 
-    <script src="js/global_footer.js?v=25.4.0" defer></script>
+    <script src="js/global_footer.js?v=27.0.0" defer></script>
     
-    <script src="js/constructor_maestro.js?v=25.4.0" defer></script>
+    <script src="js/constructor_maestro.js?v=27.0.0" defer></script>
 
-    <script src="js/a11y.js?v=25.4.0" defer></script>
-    <script src="js/user.js?v=25.4.0" defer></script>
-    <script src="js/aura.js?v=25.4.0" defer></script>
-    <script src="js/oasis.js?v=25.4.0" defer></script>
-    <script src="js/router.js?v=25.4.0" defer></script>
-    <script src="js/core.js?v=25.4.0" defer></script>
-    <script src="js/pwa.js?v=25.4.0" defer></script>
+    <script src="js/a11y.js?v=27.0.0" defer></script>
+    <script src="js/user.js?v=27.0.0" defer></script>
+    <script src="js/aura.js?v=27.0.0" defer></script>
+    <script src="js/oasis.js?v=27.0.0" defer></script>
+    <script src="js/router.js?v=27.0.0" defer></script>
+    <script src="js/core.js?v=27.0.0" defer></script>
+    <script src="js/pwa.js?v=27.0.0" defer></script>
 
+    <!-- LIBRERÍA GENERADORA DE PDF DE ALTA COSTURA -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
-    <script src="js/expediente_clinico.js?v=25.4.0" defer></script>
+    <!-- MÓDULO DE EXPEDIENTE CLÍNICO INTERACTIVO Y FIRMA DIGITAL -->
+    <script src="js/expediente_clinico.js?v=27.0.0" defer></script>
 
 </body>
-                                                                                  </html>
+    </html>
