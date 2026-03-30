@@ -1,32 +1,32 @@
 /**
  * ====================================================================================
- * BLOQUE 10: EXPEDIENTE CLÍNICO SOBERANO V26.0 "NIVEL INSTITUCIONAL"
- * Triaje Biomecánico Riguroso (20 min), PDF Multi-Página, Credenciales RENATED/SEP
+ * BLOQUE 10: EXPEDIENTE CLÍNICO SOBERANO V26.5 "NIVEL INSTITUCIONAL"
+ * Triaje Biomecánico (20 min), Firma con Dedo (Canvas), PDF 4 Hojas Carta, 
+ * Marca de Agua de Alta Seguridad, Credenciales RENATED/SEP.
  * Propiedad Intelectual: Grupo Gevizz S.A.S. | Terapeuta: Ángel de J. Guerrero V.
  * ====================================================================================
  */
 
 window.ExpedienteEngine = {
     currentStep: 0,
-    totalSteps: 11, // 11 Pasos densos y meticulosamente estructurados
+    totalSteps: 11,
+    signaturePad: null,
+    isDrawing: false,
     
     // Almacén de Datos Exhaustivo
     formData: {
-        personal: { fullName: '', birthDate: '', age: '', gender: '', phone: '', email: '', occupation: '', activity: '', filledBy: '' },
-        motivo: { principal: '', objetivo: 'Alivio de dolor', evolucion: '', recurrente: 'No', mejora: '' },
+        personal: { fullName: '', birthDate: '', age: '', gender: '', phone: '', email: '', occupation: '', activity: '', filledBy: 'Paciente' },
+        motivo: { principal: '', objetivo: '', evolucion: '', recurrente: '', mejora: '' },
         zonas: [], // Array de zonas afectadas
-        dolorDetalle: { sensacion: '', intensidad: 5, desde: '', empeora: '', alivia: '', constante: 'Intermitente' },
+        dolorDetalle: { sensacion: '', intensidad: 5, desde: '', empeora: '', alivia: '', constante: '' },
         accessibility: { profile: [], supports: '' },
-        clinical: {
-            precauciones: {}, medicacion: {}, alergias: {}
-        },
-        habitos: { estres: 5, suenoCalidad: 'Buena', suenoHoras: '', sentado: 'No', pie: 'No', carga: 'No', deporte: 'No' },
+        clinical: { precauciones: {}, medicacion: {}, alergias: {} },
+        habitos: { estres: 5, suenoCalidad: '', suenoHoras: '', sentado: '', pie: '', carga: '', deporte: '' },
         extra: '',
-        legal: { truthOath: false, privacyOath: false, signature: '' },
+        legal: { truthOath: false, privacyOath: false, signatureData: null },
         fechaStamp: null
     },
 
-    // Diccionarios de UI
     zonasList: [
         "Cuello", "Trapecios", "Hombro derecho", "Hombro izquierdo", "Espalda alta", 
         "Espalda media", "Espalda baja / lumbar", "Cadera derecha", "Cadera izquierda", 
@@ -40,486 +40,343 @@ window.ExpedienteEngine = {
 
     clinicalDict: {
         precauciones: { title: "A. Condiciones y Precauciones Físicas", icon: "fa-shield-heart", items: [
-            { id: "do", label: "Dolor Agudo Importante", desc: "Dolor intenso reciente que limita severamente el movimiento." },
-            { id: "in", label: "Inflamación Visible", desc: "Hinchazón, enrojecimiento o calor en alguna zona del cuerpo." },
+            { id: "do", label: "Dolor Agudo Importante", desc: "Dolor punzante o intenso reciente." },
+            { id: "in", label: "Inflamación Visible", desc: "Hinchazón, enrojecimiento o calor en el cuerpo." },
             { id: "fi", label: "Fiebre Reciente", desc: "Temperatura elevada en las últimas 48 horas." },
-            { id: "if", label: "Infección Activa", desc: "Presencia de virus o bacterias (Ej. gripa, infecciones cutáneas)." },
+            { id: "if", label: "Infección Activa", desc: "Presencia de virus o bacterias (gripa, infecciones)." },
             { id: "he", label: "Herida Abierta / Sangrado", desc: "Cortes, úlceras o sangrados no cicatrizados." },
-            { id: "hm", label: "Hematomas Frecuentes", desc: "Aparición de moretones con facilidad o sin causa aparente." },
-            { id: "tr", label: "Trombosis / Sospecha", desc: "Formación de coágulos en venas. CRÍTICO: El masaje profundo está contraindicado." },
-            { id: "va", label: "Várices Importantes", desc: "Venas dilatadas en piernas. Requiere técnica muy suave." },
-            { id: "hp", label: "Hipertensión Arterial", desc: "Presión alta. Nos ayuda a moderar las presiones intensas." },
-            { id: "ci", label: "Problemas Circulatorios", desc: "Mala circulación, manos/pies fríos constantemente." },
-            { id: "em", label: "Embarazo Actual", desc: "Estado de gestación. Requiere posiciones y técnicas especiales." },
-            { id: "po", label: "Postparto Reciente", desc: "Recuperación tras parto en los últimos 6 meses." },
-            { id: "cr", label: "Cirugía Reciente", desc: "Intervenciones quirúrgicas en el último año." },
-            { id: "fr", label: "Fractura o Esguince", desc: "Lesión ósea o de ligamentos reciente." },
-            { id: "pr", label: "Prótesis / Implantes", desc: "Implantes metálicos, estéticos o marcapasos." },
-            { id: "hd", label: "Hernia Discal", desc: "Desplazamiento de disco en la columna. Requiere abordaje preciso." },
-            { id: "ar", label: "Artritis / Artrosis", desc: "Inflamación o desgaste crónico de las articulaciones." },
-            { id: "os", label: "Osteoporosis / Osteopenia", desc: "Pérdida de masa ósea. Nos indica usar presiones superficiales y seguras." },
-            { id: "ne", label: "Neuropatía", desc: "Pérdida de sensibilidad o dolor nervioso (Ej. por diabetes)." },
-            { id: "ve", label: "Mareos / Vértigo", desc: "Sensación de giro. Nos indica cuidado al cambiarle de postura en camilla." }
+            { id: "hm", label: "Hematomas Frecuentes", desc: "Aparición de moretones con facilidad." },
+            { id: "tr", label: "Trombosis / Sospecha", desc: "Formación de coágulos. Contraindicación absoluta para masaje profundo." },
+            { id: "va", label: "Várices Importantes", desc: "Venas dilatadas. Requiere técnica superficial." },
+            { id: "hp", label: "Hipertensión Arterial", desc: "Presión alta o problemas de presión." },
+            { id: "ci", label: "Problemas Circulatorios", desc: "Mala circulación, pesadez." },
+            { id: "em", label: "Embarazo Actual", desc: "Gestación. Requiere cuidados obstétricos." },
+            { id: "po", label: "Postparto Reciente", desc: "Recuperación en los últimos 6 meses." },
+            { id: "cr", label: "Cirugía Reciente", desc: "Cualquier intervención en el último año." },
+            { id: "fr", label: "Fractura o Esguince", desc: "Lesión ósea o ligamentaria reciente." },
+            { id: "pr", label: "Prótesis / Implantes", desc: "Metales, silicón o dispositivos electrónicos." },
+            { id: "hd", label: "Hernia Discal", desc: "Desplazamiento de disco intervertebral." },
+            { id: "ar", label: "Artritis / Artrosis", desc: "Inflamación articular o desgaste." },
+            { id: "os", label: "Osteoporosis / Osteopenia", desc: "Pérdida de masa ósea. Riesgo por presión." },
+            { id: "ne", label: "Neuropatía", desc: "Alteración de sensibilidad nerviosa." },
+            { id: "ve", label: "Mareos / Vértigo", desc: "Inestabilidad al cambiar de postura." }
         ]},
         medicacion: { title: "B. Medicación Actual", icon: "fa-pills", items: [
-            { id: "an", label: "Analgésicos", desc: "Medicamentos para el dolor (Ocultan la sensibilidad al masaje)." },
-            { id: "ai", label: "Antiinflamatorios", desc: "Reducen la inflamación muscular o articular." },
-            { id: "ac", label: "Anticoagulantes", desc: "Diluyen la sangre. CRÍTICO: Aumentan riesgo de moretones." },
-            { id: "ah", label: "Antihipertensivos", desc: "Control de la presión arterial." },
-            { id: "rm", label: "Relajantes Musculares", desc: "Disminuyen el tono muscular artificialmente." },
-            { id: "ad", label: "Antidepresivos / Ansiolíticos", desc: "Medicamentos para el sistema nervioso central." },
-            { id: "in", label: "Insulina / Metabólicos", desc: "Control de diabetes u hormonas." }
+            { id: "an", label: "Analgésicos", desc: "Medicamentos para el dolor." },
+            { id: "ai", label: "Antiinflamatorios", desc: "Reducen inflamación muscular." },
+            { id: "ac", label: "Anticoagulantes", desc: "Aumentan riesgo de moretones." },
+            { id: "ah", label: "Antihipertensivos", desc: "Control de presión arterial." },
+            { id: "rm", label: "Relajantes Musculares", desc: "Disminuyen el tono muscular." },
+            { id: "ad", label: "Antidepresivos / Ansiolíticos", desc: "Psicofármacos." },
+            { id: "in", label: "Insulina / Metabólicos", desc: "Tratamiento diabético u hormonal." }
         ]},
         alergias: { title: "C. Alergias y Sensibilidad", icon: "fa-hand-dots", items: [
-            { id: "ac", label: "Alergia a Aceites", desc: "Reacción a aceites esenciales o vehiculares." },
-            { id: "cr", label: "Alergia a Cremas", desc: "Reacción a lociones terapéuticas." },
-            { id: "fr", label: "Alergia a Fragancias", desc: "Sensibilidad respiratoria o cutánea a olores." },
-            { id: "la", label: "Alergia al Látex", desc: "Reacción a guantes o materiales elásticos." },
-            { id: "fr2", label: "Sensibilidad al Frío", desc: "Intolerancia a compresas frías." },
-            { id: "ca", label: "Sensibilidad al Calor", desc: "Intolerancia a piedras calientes o toallas." },
-            { id: "pf", label: "Intolerancia a Presión Fuerte", desc: "El tejido reacciona con dolor ante masaje profundo." }
+            { id: "ac", label: "Aceites Esenciales", desc: "Alergia a extractos puros." },
+            { id: "cr", label: "Cremas / Químicos", desc: "Alergia a lociones corporales." },
+            { id: "fr", label: "Fragancias", desc: "Sensibilidad olfativa severa." },
+            { id: "la", label: "Látex", desc: "Alergia a guantes o elásticos." },
+            { id: "fr2", label: "Frío", desc: "Intolerancia a la crioterapia." },
+            { id: "ca", label: "Calor", desc: "Intolerancia a la termoterapia." },
+            { id: "pf", label: "Presión Fuerte", desc: "Reacción dolorosa al tacto profundo." }
         ]}
     },
 
     accessibilityDict: [
         { id: "vi", label: "Discapacidad visual", icon: "fa-eye-slash" },
         { id: "au", label: "Discapacidad auditiva", icon: "fa-ear-deaf" },
-        { id: "mo", label: "Discapacidad motora / Movilidad", icon: "fa-wheelchair" },
+        { id: "mo", label: "Movilidad reducida", icon: "fa-wheelchair" },
         { id: "ca", label: "Dificultad para caminar", icon: "fa-crutch" },
-        { id: "ac", label: "Dificultad para permanecer acostado(a)", icon: "fa-bed" },
-        { id: "se", label: "Dificultad para sentarse/incorporarse", icon: "fa-person-arrow-up-from-line" },
-        { id: "ha", label: "Dificultad para hablar/comunicarse", icon: "fa-comment-slash" },
-        { id: "co", label: "Dificultad para comprender instrucciones", icon: "fa-brain" },
-        { id: "ta", label: "Sensibilidad extrema al tacto", icon: "fa-hand-sparkles" },
+        { id: "ac", label: "Dificultad para acostarse", icon: "fa-bed" },
+        { id: "se", label: "Dificultad para incorporarse", icon: "fa-person-arrow-up-from-line" },
+        { id: "ha", label: "Dificultad para comunicarse", icon: "fa-comment-slash" },
+        { id: "co", label: "Dificultad para instrucciones", icon: "fa-brain" },
+        { id: "ta", label: "Sensibilidad al tacto", icon: "fa-hand-sparkles" },
         { id: "lu", label: "Sensibilidad a la luz", icon: "fa-lightbulb" },
         { id: "ru", label: "Sensibilidad al ruido", icon: "fa-volume-xmark" },
         { id: "ol", label: "Sensibilidad a olores", icon: "fa-spray-can-sparkles" },
-        { id: "dp", label: "Dolor al cambiar de posición", icon: "fa-arrows-rotate" },
-        { id: "pa", label: "Necesita pausas durante la sesión", icon: "fa-pause" },
-        { id: "am", label: "Requiere ingresar con acompañante", icon: "fa-user-group" }
+        { id: "dp", label: "Dolor al cambiar posición", icon: "fa-arrows-rotate" },
+        { id: "pa", label: "Necesita pausas", icon: "fa-pause" },
+        { id: "am", label: "Requiere acompañante", icon: "fa-user-group" }
     ],
 
     ajustesDict: [
-        { id: "ex", label: "Explicaciones más claras y lentas" },
+        { id: "ex", label: "Explicaciones claras y lentas" },
         { id: "ls", label: "Lenguaje simple" },
-        { id: "ap", label: "Apoyo para leer o llenar formatos" },
+        { id: "ap", label: "Apoyo para leer/llenar" },
         { id: "tg", label: "Texto más grande" },
-        { id: "il", label: "Menor intensidad de luz" },
-        { id: "mr", label: "Menor ruido ambiente" },
+        { id: "il", label: "Menor luz" },
+        { id: "mr", label: "Menor ruido" },
         { id: "mp", label: "Mayor privacidad" },
-        { id: "as", label: "Apoyo para subir/acomodarse en camilla" },
-        { id: "cp", label: "Cambios de posición muy graduales" },
-        { id: "ip", label: "Menor intensidad de presión terapéutica" },
-        { id: "em", label: "Evitar zonas o maniobras dolorosas" },
-        { id: "pp", label: "Pausas programadas" }
+        { id: "as", label: "Apoyo en camilla" },
+        { id: "cp", label: "Cambios graduales" },
+        { id: "ip", label: "Menor presión" },
+        { id: "em", label: "Evitar zonas" },
+        { id: "pp", label: "Pausas" }
     ],
 
     init: function() {
+        this.injectStyles();
         this.injectModal();
         this.loadData();
         this.bindEvents();
         this.renderWizard();
-        setTimeout(() => this.checkCentinela(), 3500); 
     },
 
-    checkCentinela: function() {
-        if(!this.formData.fechaStamp) return;
-        const diffDays = (new Date().getTime() - this.formData.fechaStamp) / (1000 * 60 * 60 * 24);
-        if(diffDays >= 15) this.showCentinelaAlert();
-    },
-
-    showCentinelaAlert: function() {
-        if(document.getElementById('centinela-modal')) return;
-        const div = document.createElement('div');
-        div.id = 'centinela-modal';
-        div.style.cssText = "position: fixed; top: 20px; left: 0; right: 0; margin: 0 auto; width: 90%; max-width: 400px; background: rgba(5,5,10,0.98); border: 2px solid var(--valtara-cian-brillante); border-radius: 1.5rem; padding: 2rem; z-index: 999999; box-shadow: 0 2rem 5rem rgba(0,255,255,0.3); backdrop-filter: blur(25px); text-align: center; animation: floatUp 0.6s ease forwards;";
-        
-        div.innerHTML = `
-            <i class="fa-solid fa-heart-pulse" style="color: var(--valtara-cian-brillante); font-size: 3rem; margin-bottom: 1rem; animation: breathe 2s infinite;"></i>
-            <h4 style="color: white; font-family: var(--font-accent); font-size: 1.6rem; margin:0 0 10px 0;">Control de Seguimiento</h4>
-            <p style="color: #ccc; font-size: 1.1rem; margin-bottom: 2rem; font-weight: 300; line-height: 1.5;">Han pasado 15 días desde su último registro. Por su seguridad, ¿han cambiado sus niveles de dolor o condiciones médicas?</p>
-            <div style="display: flex; gap: 15px; justify-content: center;">
-                <button id="btn-centinela-no" style="background: transparent; border: 1px solid #666; color: #aaa; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-size: 1rem; transition: 0.3s;">Todo igual</button>
-                <button id="btn-centinela-si" style="background: var(--valtara-cian-brillante); border: none; color: black; padding: 12px 24px; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 1rem; box-shadow: 0 5px 15px rgba(0,255,255,0.4); transition: 0.3s;">Actualizar Ficha</button>
-            </div>
+    injectStyles: function() {
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .exp-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 5, 10, 0.98); z-index: 999999; display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(20px); opacity: 0; transition: opacity 0.4s ease; }
+            .exp-overlay.active { display: flex; opacity: 1; }
+            .exp-container { width: 95%; max-width: 850px; height: 90vh; background: rgba(255,255,255,0.02); border: 1px solid rgba(242, 201, 76, 0.3); border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.8); overflow: hidden; position: relative; }
+            .exp-header { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5); }
+            .exp-body { flex: 1; overflow-y: auto; padding: 30px; scrollbar-width: thin; scrollbar-color: var(--valtara-oro) transparent; }
+            .exp-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); display: flex; gap: 15px; }
+            .exp-input-group { margin-bottom: 20px; }
+            .exp-input-group label { display: block; color: var(--valtara-oro-suave); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-weight: bold; }
+            .exp-input, .exp-select, .exp-textarea { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 15px; border-radius: 10px; font-size: 1rem; transition: 0.3s; }
+            .exp-input:focus, .exp-select:focus, .exp-textarea:focus { border-color: var(--valtara-oro); outline: none; background: rgba(255,255,255,0.08); }
+            .exp-btn { padding: 15px 25px; border-radius: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 1rem; border: none; }
+            .btn-primary { background: var(--valtara-oro); color: black; box-shadow: 0 5px 15px rgba(242,201,76,0.3); flex: 2; }
+            .btn-secondary { background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.2); flex: 1; }
+            .btn-success { background: linear-gradient(135deg, #00b09b, #00796b); color: white; flex: 2; box-shadow: 0 5px 20px rgba(0,176,155,0.4); }
+            .exp-step { display: none; animation: fadeIn 0.4s ease forwards; }
+            .exp-step.active { display: block; }
+            .check-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 15px; color: #aaa; text-align: left; }
+            .check-card.checked { background: rgba(242,201,76,0.1); border-color: var(--valtara-oro); color: white; }
+            .sig-canvas { width: 100%; height: 200px; background: white; border-radius: 10px; cursor: crosshair; }
+            @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         `;
-        document.body.appendChild(div);
-
-        document.getElementById('btn-centinela-no').addEventListener('click', () => {
-            this.formData.fechaStamp = new Date().getTime();
-            this.saveData();
-            div.remove();
-        });
-        document.getElementById('btn-centinela-si').addEventListener('click', () => {
-            div.remove();
-            this.currentStep = 1;
-            this.renderWizard();
-            document.getElementById('expediente-modal').showModal();
-        });
+        document.head.appendChild(style);
     },
 
     injectModal: function() {
-        if(document.getElementById('expediente-modal')) return;
-        const modalHTML = `
-        <dialog aria-label="Historia Clínica Terapéutica" class="modal-dialog mega-modal" id="expediente-modal" style="background: rgba(5, 5, 10, 0.95); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 1px solid rgba(242,201,76,0.3); border-radius: 2rem; box-shadow: 0 30px 60px rgba(0,0,0,0.9);">
-            <div class="modal-content" style="background: transparent; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; height: 92vh;">
-                
-                <header class="modal-header" style="border-bottom: 1px solid rgba(242,201,76,0.3); padding-bottom: 1rem; flex-shrink: 0; align-items: center;">
+        const html = `
+        <div id="expediente-overlay" class="exp-overlay">
+            <div class="exp-container">
+                <div class="exp-header">
                     <div>
-                        <h3 style="color: var(--valtara-oro); font-family: var(--font-accent); font-size: 2.2rem; margin:0;"><i class="fa-solid fa-file-signature text-indigo-400"></i> Historia Clínica</h3>
-                        <p style="color: white; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; margin:0 0 0 5px; font-weight: 300;">Aval Institucional: RENATED A-54878</p>
+                        <h2 style="margin:0; color:var(--valtara-oro); font-family:var(--font-accent); font-size:1.8rem;"><i class="fa-solid fa-file-signature text-indigo-400"></i> Historia Clínica</h2>
+                        <p style="margin:0; color:#aaa; font-size:0.8rem; letter-spacing:2px; text-transform:uppercase;">Valtara Executive Therapy</p>
                     </div>
-                    <button aria-label="Cerrar expediente" class="close-modal-btn" id="close-expediente-btn" style="color: #888; font-size: 1.8rem; transition: 0.3s; background:transparent; border:none; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-                </header>
+                    <button id="exp-close" style="background:transparent; border:none; color:#888; font-size:2rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+                </div>
                 
-                <div style="padding: 1rem 0; flex-shrink: 0;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--valtara-cian-brillante); font-weight: bold; letter-spacing: 1px;">
-                        <span id="wizard-step-text">Fase 1 de ${this.totalSteps}</span>
-                        <span id="wizard-percent-text">0%</span>
-                    </div>
-                    <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);">
-                        <div id="wizard-progress-bar" style="height: 100%; background: linear-gradient(90deg, var(--valtara-cian-brillante), var(--valtara-verde-menta)); width: 0%; transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);"></div>
-                    </div>
+                <div style="background: rgba(255,255,255,0.05); height: 6px; width: 100%;">
+                    <div id="exp-progress" style="height: 100%; background: var(--valtara-oro); width: 0%; transition: 0.4s;"></div>
                 </div>
 
-                <div id="wizard-content" style="flex-grow: 1; overflow-y: auto; padding: 2rem 1rem; scrollbar-width: thin;" class="custom-scrollbar"></div>
+                <div class="exp-body" id="exp-wizard-content"></div>
 
-                <div style="display: flex; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; margin-top: auto;">
-                    <button id="wiz-prev" style="padding: 1.2rem; border-radius: 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: white; cursor: pointer; flex: 1; display: none; transition: 0.3s; font-size: 1.1rem;">
-                        <i class="fa-solid fa-chevron-left"></i> Atrás
-                    </button>
-                    <button id="wiz-next" style="padding: 1.2rem; border-radius: 15px; background: var(--valtara-oro); border: none; color: black; font-weight: 900; cursor: pointer; flex: 2; box-shadow: 0 10px 30px rgba(242,201,76,0.3); transition: 0.3s; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">
-                        Continuar <i class="fa-solid fa-chevron-right"></i>
-                    </button>
-                    <button id="wiz-submit" style="padding: 1.2rem; border-radius: 15px; background: linear-gradient(135deg, var(--valtara-verde-menta), #00cc88); border: none; color: black; font-weight: 900; cursor: pointer; flex: 2; display: none; box-shadow: 0 10px 30px rgba(0,255,170,0.4); transition: 0.3s; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">
-                        <i class="fa-solid fa-fingerprint"></i> Certificar Expediente
-                    </button>
+                <div class="exp-footer">
+                    <button id="exp-btn-prev" class="exp-btn btn-secondary" style="display:none;"><i class="fa-solid fa-chevron-left"></i> Atrás</button>
+                    <button id="exp-btn-next" class="exp-btn btn-primary">Continuar <i class="fa-solid fa-chevron-right"></i></button>
+                    <button id="exp-btn-submit" class="exp-btn btn-success" style="display:none;"><i class="fa-solid fa-fingerprint"></i> Certificar Expediente</button>
                 </div>
             </div>
-        </dialog>
-        `;
-        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', html);
     },
 
     renderWizard: function() {
-        const content = document.getElementById('wizard-content');
+        const content = document.getElementById('exp-wizard-content');
         let html = '';
 
         // PASO 0: Protocolo Inicial
         html += this.buildStep(0, `
-            <div style="text-align: center; max-width: 700px; margin: 0 auto; padding: 2rem 0;">
-                <i class="fa-solid fa-scale-balanced" style="font-size: 4rem; color: var(--valtara-oro); margin-bottom: 2rem;"></i>
-                <h2 style="font-size: 2.8rem; color: var(--valtara-blanco); font-family: var(--font-accent); margin-bottom: 1rem; line-height:1.2;">Protocolo Clínico Institucional</h2>
-                <p style="color: var(--valtara-gris-texto); font-size: 1.2rem; line-height: 1.8; margin-bottom: 2rem; font-weight: 300;">
-                    Bienvenido. Este documento rige su seguridad física y la responsabilidad técnica de nuestra intervención. 
-                    <strong style="color:var(--valtara-cian-brillante);">El llenado de este formato requiere aproximadamente 20 minutos de su tiempo.</strong> 
-                    Por favor, responda con sinceridad absoluta. Su honestidad es la base de un abordaje biomecánico seguro y efectivo.
+            <div style="text-align: center; padding: 20px 0;">
+                <i class="fa-solid fa-scale-balanced" style="font-size: 4rem; color: var(--valtara-oro); margin-bottom: 20px;"></i>
+                <h2 style="font-size: 2.5rem; color: white; font-family: var(--font-accent); margin-bottom: 15px; line-height:1.2;">Protocolo Clínico Institucional</h2>
+                <p style="color: #aaa; font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px;">
+                    Bienvenido. Este documento rige su seguridad física y nuestra responsabilidad técnica. 
+                    <strong style="color:var(--valtara-cian-brillante);">El llenado requiere aproximadamente 20 minutos.</strong> 
+                    Responda con total sinceridad.
                 </p>
-                <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(242,201,76,0.3); padding: 1.5rem; border-radius: 20px; text-align: left; margin-bottom: 2rem; border-left: 5px solid var(--valtara-oro);">
-                    <strong style="color: white; font-size: 1.1rem; display: block; margin-bottom: 5px;"><i class="fa-solid fa-gavel text-indigo-400"></i> Respaldo Legal Aplicable</strong>
-                    <p style="color: #aaa; font-size: 0.95rem; margin:0; line-height: 1.5; font-style:italic;">
-                        El tratamiento de datos de salud exige consentimiento expreso para datos sensibles (Ley ARCO/INAI). Esta historia clínica terapéutica electrónica se estructura bajo los lineamientos de la NOM-004-SSA3-2012, adaptada estrictamente a la Masoterapia Clínica y evaluación funcional.
-                    </p>
+                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; border-left: 5px solid var(--valtara-oro); text-align: left;">
+                    <strong style="color: white;"><i class="fa-solid fa-gavel"></i> Fundamento Legal</strong>
+                    <p style="color: #999; font-size: 0.9rem; margin-top: 5px;">Protección de Datos Sensibles (Ley ARCO/INAI). Estructura referenciada en la NOM-004-SSA3-2012 para Masoterapia Clínica. Datos almacenados localmente.</p>
                 </div>
             </div>
         `);
 
         // PASO 1: Identificación
         html += this.buildStep(1, `
-            <h2 style="font-size: 2rem; color: var(--valtara-oro); margin-bottom: 1.5rem; font-family: var(--font-accent);">1. Identificación del Paciente</h2>
-            <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
-                ${this.buildInput('text', 'Nombre completo', 'personal', 'fullName')}
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                    ${this.buildInput('date', 'Fecha de nacimiento', 'personal', 'birthDate')}
-                    ${this.buildInput('number', 'Edad', 'personal', 'age')}
-                </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                    ${this.buildInput('text', 'Sexo / Género', 'personal', 'gender')}
-                    ${this.buildInput('tel', 'Teléfono', 'personal', 'phone')}
-                </div>
-                ${this.buildInput('email', 'Correo electrónico', 'personal', 'email')}
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                    ${this.buildInput('text', 'Ocupación', 'personal', 'occupation')}
-                    ${this.buildSelect('Actividad física habitual', 'personal', 'activity', ['Sedentaria', 'Ligera', 'Moderada', 'Intensa'])}
-                </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                    ${this.buildSelect('¿Quién llena el formulario?', 'personal', 'filledBy', ['Paciente', 'Acompañante', 'Tutor', 'Terapeuta'])}
-                </div>
+            <h2 style="color: var(--valtara-oro); margin-bottom: 20px; font-family: var(--font-accent);">1. Identificación del Paciente</h2>
+            ${this.buildInput('text', 'Nombre Completo', 'personal', 'fullName')}
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                ${this.buildInput('date', 'Fecha Nacimiento', 'personal', 'birthDate')}
+                ${this.buildInput('number', 'Edad', 'personal', 'age')}
+                ${this.buildInput('text', 'Sexo / Género', 'personal', 'gender')}
+                ${this.buildInput('tel', 'Teléfono', 'personal', 'phone')}
+            </div>
+            ${this.buildInput('email', 'Correo Electrónico', 'personal', 'email')}
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                ${this.buildInput('text', 'Ocupación', 'personal', 'occupation')}
+                ${this.buildSelect('Actividad Física', 'personal', 'activity', ['Sedentaria', 'Ligera', 'Moderada', 'Intensa'])}
             </div>
         `);
 
         // PASO 2: Motivo
         html += this.buildStep(2, `
-            <h2 style="font-size: 2rem; color: var(--valtara-cian-brillante); margin-bottom: 1.5rem; font-family: var(--font-accent);">2. Motivo de Atención</h2>
-            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                ${this.buildInput('text', 'Motivo principal de consulta', 'motivo', 'principal', 'Ej. Dolor constante en cuello...')}
-                ${this.buildSelect('Objetivo de la sesión', 'motivo', 'objetivo', ['Alivio de dolor', 'Relajación', 'Descarga muscular', 'Recuperación', 'Mantenimiento', 'Otro'])}
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                    ${this.buildInput('text', 'Tiempo de evolución', 'motivo', 'evolucion', 'Ej. 3 semanas, 2 años...')}
-                    ${this.buildSelect('¿Es un problema recurrente?', 'motivo', 'recurrente', ['Sí', 'No'])}
-                </div>
-                ${this.buildInput('textarea', '¿Qué desea mejorar específicamente con la terapia?', 'motivo', 'mejora', 'Sus expectativas son cruciales para nosotros...')}
+            <h2 style="color: var(--valtara-cian-brillante); margin-bottom: 20px; font-family: var(--font-accent);">2. Motivo de Atención</h2>
+            ${this.buildInput('text', 'Motivo Principal', 'motivo', 'principal', 'Ej. Dolor lumbar constante')}
+            ${this.buildSelect('Objetivo de la sesión', 'motivo', 'objetivo', ['Alivio de dolor', 'Relajación', 'Descarga muscular', 'Recuperación', 'Mantenimiento', 'Otro'])}
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                ${this.buildInput('text', 'Tiempo de evolución', 'motivo', 'evolucion')}
+                ${this.buildSelect('¿Es recurrente?', 'motivo', 'recurrente', ['Sí', 'No'])}
             </div>
+            ${this.buildInput('textarea', '¿Qué desea mejorar?', 'motivo', 'mejora')}
         `);
 
-        // PASO 3: Mapa de Zonas
-        let zonasHTML = '';
-        this.zonasList.forEach(zona => {
-            const isChecked = this.formData.zonas.includes(zona);
-            zonasHTML += `<label style="display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.03); padding:12px; border-radius:10px; border:1px solid ${isChecked ? 'var(--valtara-oro)' : 'rgba(255,255,255,0.1)'}; cursor:pointer; color:${isChecked ? 'white' : '#aaa'}; font-weight:${isChecked ? 'bold' : 'normal'}; transition:0.3s;">
-                <input type="checkbox" value="${zona}" onchange="ExpedienteEngine.toggleArray('zonas', null, this.value); ExpedienteEngine.renderWizard();" ${isChecked ? 'checked' : ''} style="width:18px; height:18px; accent-color:var(--valtara-oro);"> ${zona}
-            </label>`;
-        });
-
+        // PASO 3: Zonas
+        let zonasHTML = this.zonasList.map(z => this.buildCheckCard(z, 'zonas', null, z, 'fa-child')).join('');
         html += this.buildStep(3, `
-            <h2 style="font-size: 2rem; color: var(--valtara-oro); margin-bottom: 1rem; font-family: var(--font-accent);">3. Zonas de Molestia o Limitación</h2>
-            <p style="color: #aaa; margin-bottom: 1.5rem; font-size: 1.1rem; font-weight: 300;">Marque amablemente todas las áreas de su cuerpo donde presenta tensión o dolor:</p>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;">
-                ${zonasHTML}
-            </div>
+            <h2 style="color: var(--valtara-oro); margin-bottom: 20px; font-family: var(--font-accent);">3. Zonas de Molestia</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;">${zonasHTML}</div>
         `);
 
-        // PASO 4: Detalle del Dolor
+        // PASO 4: Dolor
         html += this.buildStep(4, `
-            <h2 style="font-size: 2rem; color: #ff5555; margin-bottom: 1.5rem; font-family: var(--font-accent);">4. Detalle Sensorial del Dolor</h2>
-            <p style="color: #aaa; margin-bottom: 2rem; font-size: 1.1rem; font-weight: 300;">Enfocándonos en la zona principal que marcó, describa lo que siente:</p>
-            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                ${this.buildSelect('¿Qué siente?', 'dolorDetalle', 'sensacion', ['Dolor sordo', 'Presión / Tensión', 'Rigidez', 'Punzada aguda', 'Hormigueo', 'Entumecimiento', 'Cansancio / Pesadez', 'Otro'])}
-                
-                <div style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);">
-                    <label style="color: var(--valtara-oro-suave); font-weight: bold; display: block; margin-bottom: 1rem;">Intensidad del dolor (0 = Nulo, 10 = Inoportable):</label>
-                    <input type="range" min="0" max="10" value="${this.formData.dolorDetalle.intensidad}" oninput="document.getElementById('lbl-int').innerText=this.value; ExpedienteEngine.updateData('dolorDetalle', 'intensidad', this.value)" style="width: 100%; accent-color: #ff5555;">
-                    <div id="lbl-int" style="text-align: center; color: #ff5555; font-size: 2rem; font-weight: bold; margin-top: 10px;">${this.formData.dolorDetalle.intensidad}</div>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                    ${this.buildInput('text', '¿Qué actividad lo empeora?', 'dolorDetalle', 'empeora')}
-                    ${this.buildInput('text', '¿Qué postura/acción lo alivia?', 'dolorDetalle', 'alivia')}
-                </div>
-                ${this.buildSelect('Frecuencia del dolor', 'dolorDetalle', 'constante', ['Constante (Todo el día)', 'Intermitente (Va y viene)', 'Solo al hacer esfuerzo'])}
+            <h2 style="color: #ff5555; margin-bottom: 20px; font-family: var(--font-accent);">4. Detalle del Dolor</h2>
+            ${this.buildSelect('¿Qué siente?', 'dolorDetalle', 'sensacion', ['Dolor sordo', 'Presión', 'Rigidez', 'Punzada', 'Hormigueo', 'Pesadez', 'Otro'])}
+            <div class="exp-input-group">
+                <label>Intensidad (0-10)</label>
+                <input type="range" min="0" max="10" value="${this.formData.dolorDetalle.intensidad}" oninput="document.getElementById('lvl-int').innerText=this.value; ExpedienteEngine.updateData('dolorDetalle', 'intensidad', this.value)" style="width:100%; accent-color:#ff5555;">
+                <div id="lvl-int" style="text-align:center; color:#ff5555; font-size:2rem; font-weight:bold;">${this.formData.dolorDetalle.intensidad}</div>
             </div>
+            ${this.buildInput('text', '¿Desde cuándo?', 'dolorDetalle', 'desde')}
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                ${this.buildInput('text', '¿Qué lo empeora?', 'dolorDetalle', 'empeora')}
+                ${this.buildInput('text', '¿Qué lo alivia?', 'dolorDetalle', 'alivia')}
+            </div>
+            ${this.buildSelect('Frecuencia', 'dolorDetalle', 'constante', ['Constante', 'Intermitente', 'Por esfuerzo'])}
         `);
 
-        // PASO 5: Clínico General (Iterando el Diccionario Múltiple)
+        // PASO 5: Clínica (Iterar Diccionario)
         let clinicas = '';
         for (const [catKey, category] of Object.entries(this.clinicalDict)) {
-            clinicas += `<h3 style="font-size: 1.4rem; color: var(--valtara-cian-brillante); margin: 2rem 0 1rem 0; border-bottom:1px solid rgba(0,255,255,0.2); padding-bottom:5px;"><i class="fa-solid ${category.icon}"></i> ${category.title}</h3>`;
-            clinicas += `<div style="display: grid; grid-template-columns: 1fr; gap: 10px;">`;
+            clinicas += `<h3 style="color:var(--valtara-cian-brillante); margin: 20px 0 10px 0; border-bottom:1px solid rgba(0,255,255,0.2); padding-bottom:5px;">${category.title}</h3><div style="display:flex; flex-direction:column; gap:10px;">`;
             category.items.forEach(item => {
-                clinicas += this.buildClinicalCard(catKey, item.id, item.label, item.desc);
+                clinicas += this.buildCheckCard(`<strong>${item.label}</strong><br><span style="font-size:0.8rem;color:#888;">${item.desc}</span>`, 'clinical', catKey, item.id, 'fa-notes-medical');
             });
             clinicas += `</div>`;
         }
-
         html += this.buildStep(5, `
-            <h2 style="font-size: 2rem; color: var(--valtara-blanco); margin-bottom: 1rem; font-family: var(--font-accent);">5. Antecedentes Relevantes</h2>
-            <p style="color: #aaa; margin-bottom: 1rem; font-size: 1.1rem; font-weight: 300;">Marque <strong style="color:white;">únicamente</strong> las condiciones médicas con las que haya sido diagnosticado. Esta información es vital para definir maniobras seguras o contraindicaciones absolutas en el masaje.</p>
+            <h2 style="color: var(--valtara-blanco); margin-bottom: 20px; font-family: var(--font-accent);">5. Antecedentes Relevantes</h2>
+            <p style="color:#aaa; font-size:0.9rem;">Marque únicamente las condiciones diagnosticadas aplicables.</p>
             ${clinicas}
         `);
 
-        // PASO 6: Hábitos, Sueño y Estrés
+        // PASO 6: Hábitos
         html += this.buildStep(6, `
-            <h2 style="font-size: 2rem; color: var(--valtara-oro); margin-bottom: 1.5rem; font-family: var(--font-accent);">6. Estilo de Vida y Carga Física</h2>
-            <div style="display: flex; flex-direction: column; gap: 2rem;">
-                
-                <div style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);">
-                    <label style="color: var(--valtara-oro-suave); font-weight: bold; display: block; margin-bottom: 1rem;">Estrés psicológico/laboral percibido (0-10):</label>
-                    <input type="range" min="0" max="10" value="${this.formData.habitos.estres}" oninput="document.getElementById('lbl-estres-hab').innerText=this.value; ExpedienteEngine.updateData('habitos', 'estres', this.value)" style="width: 100%; accent-color: var(--valtara-oro);">
-                    <div id="lbl-estres-hab" style="text-align: center; color: var(--valtara-oro); font-size: 2rem; font-weight: bold; margin-top: 10px;">${this.formData.habitos.estres}</div>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                    ${this.buildSelect('Calidad del sueño', 'habitos', 'suenoCalidad', ['Buena', 'Regular', 'Mala'])}
-                    ${this.buildInput('number', 'Horas promedio de sueño', 'habitos', 'suenoHoras')}
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; background: rgba(255,255,255,0.02); padding:1.5rem; border-radius: 15px;">
-                    ${this.buildSelect('¿Trabaja sentado mucho tiempo?', 'habitos', 'sentado', ['Sí', 'No'])}
-                    ${this.buildSelect('¿Trabaja de pie mucho tiempo?', 'habitos', 'pie', ['Sí', 'No'])}
-                    ${this.buildSelect('¿Realiza carga física pesada?', 'habitos', 'carga', ['Sí', 'No'])}
-                    ${this.buildSelect('¿Entrena o hace deporte intenso?', 'habitos', 'deporte', ['Sí', 'No'])}
-                </div>
+            <h2 style="color: var(--valtara-oro); margin-bottom: 20px; font-family: var(--font-accent);">6. Hábitos y Estilo de Vida</h2>
+            <div class="exp-input-group">
+                <label>Estrés Percibido (0-10)</label>
+                <input type="range" min="0" max="10" value="${this.formData.habitos.estres}" oninput="document.getElementById('lvl-est').innerText=this.value; ExpedienteEngine.updateData('habitos', 'estres', this.value)" style="width:100%; accent-color:var(--valtara-oro);">
+                <div id="lvl-est" style="text-align:center; color:var(--valtara-oro); font-size:2rem; font-weight:bold;">${this.formData.habitos.estres}</div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                ${this.buildSelect('Calidad de Sueño', 'habitos', 'suenoCalidad', ['Buena', 'Regular', 'Mala'])}
+                ${this.buildInput('number', 'Horas de sueño', 'habitos', 'suenoHoras')}
+                ${this.buildSelect('Trabajo Sentado', 'habitos', 'sentado', ['Sí', 'No'])}
+                ${this.buildSelect('Trabajo de Pie', 'habitos', 'pie', ['Sí', 'No'])}
+                ${this.buildSelect('Carga Física', 'habitos', 'carga', ['Sí', 'No'])}
+                ${this.buildSelect('Deporte Intenso', 'habitos', 'deporte', ['Sí', 'No'])}
             </div>
         `);
 
         // PASO 7: Accesibilidad
-        let accProfile = '';
-        this.accessibilityDict.forEach(item => {
-            accProfile += this.buildCheckBtn(item.label, 'accessibility', 'profile', item.label, item.icon);
-        });
-
-        let ajustesHTML = '';
-        this.ajustesDict.forEach(item => {
-            const isChecked = this.formData.accessibility.supports.includes(item.label);
-            ajustesHTML += `<label style="display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.03); padding:12px; border-radius:10px; border:1px solid ${isChecked ? 'var(--valtara-cian-brillante)' : 'rgba(255,255,255,0.1)'}; cursor:pointer; color:${isChecked ? 'white' : '#aaa'}; font-size:0.9rem; transition:0.3s;">
-                <input type="checkbox" value="${item.label}" onchange="ExpedienteEngine.toggleStringArray('accessibility', 'supports', this.value); ExpedienteEngine.renderWizard();" ${isChecked ? 'checked' : ''} style="width:18px; height:18px; accent-color:var(--valtara-cian-brillante);"> ${item.label}
-            </label>`;
-        });
-
+        let accHTML = this.accessibilityDict.map(i => this.buildCheckCard(i.label, 'accessibility', 'profile', i.label, i.icon)).join('');
+        let ajsHTML = this.ajustesDict.map(i => this.buildCheckCard(i.label, 'accessibility', 'supports', i.label, 'fa-check')).join('');
         html += this.buildStep(7, `
-            <h2 style="font-size: 2rem; color: var(--valtara-cian-brillante); margin-bottom: 1rem; font-family: var(--font-accent);"><i class="fa-solid fa-universal-access"></i> 7. Accesibilidad y Ajustes Razonables</h2>
-            <p style="color: #aaa; margin-bottom: 2rem; font-size: 1.1rem; font-weight: 300;">Identificar sus necesidades nos permite brindarle una atención más digna y cómoda. Seleccione si aplica alguna situación:</p>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 2rem;">
-                ${accProfile}
-            </div>
-
-            <h3 style="color:white; font-size:1.2rem; margin-bottom:1rem;">Ajustes sugeridos que podemos aplicar:</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 2rem;">
-                ${ajustesHTML}
-            </div>
+            <h2 style="color: var(--valtara-cian-brillante); margin-bottom: 20px; font-family: var(--font-accent);">7. Accesibilidad</h2>
+            <h3 style="color:white; font-size:1rem; margin-bottom:10px;">Necesidades de Apoyo:</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">${accHTML}</div>
+            <h3 style="color:white; font-size:1rem; margin-bottom:10px;">Ajustes Razonables Sugeridos:</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">${ajsHTML}</div>
         `);
 
-        // PASO 8: Observaciones Extra
+        // PASO 8: Observaciones
         html += this.buildStep(8, `
-            <h2 style="font-size: 2rem; color: var(--valtara-blanco); margin-bottom: 1.5rem; font-family: var(--font-accent);"><i class="fa-solid fa-pen-to-square"></i> 8. Espacio Adicional del Paciente</h2>
-            <p style="color: #aaa; margin-bottom: 2rem; font-size: 1.1rem; font-weight: 300;">¿Existe alguna molestia, limitación o situación importante que no hayamos mencionado y que su terapeuta deba conocer?</p>
-            ${this.buildInput('textarea', 'Cualquier información adicional relevante:', 'extra', null, 'Texto libre para el paciente...')}
+            <h2 style="color: var(--valtara-blanco); margin-bottom: 20px; font-family: var(--font-accent);">8. Observaciones Adicionales</h2>
+            ${this.buildInput('textarea', 'Información extra relevante para el terapeuta:', 'extra', null)}
         `);
 
-        // PASO 9: Revisión Maestra
-        html += this.buildStep(9, this.buildReviewTable());
+        // PASO 9: Revisión
+        html += this.buildStep(9, `
+            <h2 style="color: var(--valtara-blanco); margin-bottom: 20px; font-family: var(--font-accent);">9. Revisión Maestra</h2>
+            <p style="color:#aaa; font-size:0.95rem;">Antes de firmar, verifique que todo sea correcto. Si falta algo, use el botón Atrás.</p>
+            <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; border: 1px solid var(--valtara-oro);">
+                <p style="color:white; margin:0 0 10px 0;"><strong>Paciente:</strong> ${this.formData.personal.fullName || '<span style="color:red">Falta Nombre</span>'}</p>
+                <p style="color:white; margin:0 0 10px 0;"><strong>Zonas Dolor:</strong> ${this.formData.zonas.length} seleccionadas.</p>
+                <p style="color:white; margin:0;"><strong>Estrés:</strong> ${this.formData.habitos.estres}/10</p>
+            </div>
+        `);
 
-        // PASO 10: Legal, Consentimiento y Firma Autógrafa
+        // PASO 10: Legal y FIRMA (CANVAS)
         html += this.buildStep(10, `
-            <div style="background: rgba(0,0,0,0.4); padding: 2rem; border-radius: 20px; border-left: 5px solid var(--valtara-oro); margin-bottom: 2rem; border-right: 1px solid rgba(255,255,255,0.05); height: 250px; overflow-y: auto;" class="custom-scrollbar">
-                <h3 style="color: var(--valtara-oro); margin-top:0; font-family: var(--font-accent); font-size: 1.5rem;">Consentimiento Informado</h3>
-                <p style="color: #ccc; font-size: 0.95rem; text-align: justify; margin-bottom: 1rem; line-height: 1.6;">
-                    Declaro que la información proporcionada en este formato es verdadera en la medida de mi conocimiento y que informaré cualquier cambio relevante antes de cada sesión. Entiendo que la atención brindada por Grupo Gevizz S.A.S. de C.V. corresponde a masoterapia clínica / terapia manual / valoración funcional terapéutica, y no sustituye diagnóstico ni tratamiento médico.
-                </p>
-                <p style="color: #ccc; font-size: 0.95rem; text-align: justify; margin-bottom: 1rem; line-height: 1.6;">
-                    Entiendo que debo comunicar de forma previa cualquier dolor agudo, infección, fiebre, cirugía reciente, lesión, embarazo, uso de anticoagulantes, alergia, mareo, alteración neurológica, restricción médica o cualquier otra condición que pueda modificar o contraindicar la sesión.
-                </p>
-                <h3 style="color: var(--valtara-cian-brillante); margin-top:1.5rem; font-family: var(--font-accent); font-size: 1.3rem;">Aviso de Privacidad (Resumen)</h3>
-                <p style="color: #ccc; font-size: 0.95rem; text-align: justify; margin-bottom: 0; line-height: 1.6;">
-                    Los datos de salud pasada, presente o futura son datos personales sensibles. Al firmar este documento, usted autoriza el tratamiento de sus datos personales bajo las leyes vigentes (Ley ARCO) exclusivamente para fines de atención, seguridad y control terapéutico. Su información será procesada y almacenada de forma local.
-                </p>
+            <h2 style="color: var(--valtara-oro); margin-bottom: 20px; font-family: var(--font-accent);">10. Consentimiento y Firma</h2>
+            <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid var(--valtara-oro);">
+                <p style="color:#ccc; font-size:0.85rem; margin-bottom:10px; text-align:justify;">Declaro que la información es verdadera. Entiendo que la atención es masoterapia clínica y no sustituye diagnóstico médico. Autorizo el tratamiento de mis datos sensibles de forma local.</p>
             </div>
             
-            <label style="display: flex; align-items: flex-start; gap: 1.2rem; margin-bottom: 1.5rem; cursor: pointer; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 15px; border: 1px solid rgba(242,201,76,0.3);">
-                <input type="checkbox" onchange="ExpedienteEngine.updateData('legal', 'truthOath', this.checked)" ${this.formData.legal.truthOath ? 'checked' : ''} style="width: 25px; height: 25px; accent-color: var(--valtara-oro); margin-top: 2px;">
-                <span style="color: white; font-weight: bold; font-size: 0.95rem; line-height: 1.4;">Declaro bajo protesta de decir verdad y acepto el Consentimiento Informado.</span>
-            </label>
-            
-            <label style="display: flex; align-items: flex-start; gap: 1.2rem; margin-bottom: 2.5rem; cursor: pointer; padding: 1rem; background: rgba(0,255,255,0.03); border-radius: 15px; border: 1px solid rgba(0,255,255,0.3);">
-                <input type="checkbox" onchange="ExpedienteEngine.updateData('legal', 'privacyOath', this.checked)" ${this.formData.legal.privacyOath ? 'checked' : ''} style="width: 25px; height: 25px; accent-color: var(--valtara-cian-brillante); margin-top: 2px;">
-                <span style="color: white; font-weight: bold; font-size: 0.95rem; line-height: 1.4;">He leído y acepto el Aviso de Privacidad sobre mis datos sensibles.</span>
+            <label class="check-card ${this.formData.legal.truthOath ? 'checked' : ''}" style="margin-bottom:10px;">
+                <input type="checkbox" onchange="ExpedienteEngine.updateData('legal', 'truthOath', this.checked); ExpedienteEngine.renderWizard();" ${this.formData.legal.truthOath ? 'checked' : ''} style="display:none;">
+                <i class="fa-solid fa-scale-balanced" style="font-size:1.5rem;"></i> Acepto bajo protesta de verdad
             </label>
 
-            <div style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);">
-                <label style="color: var(--valtara-oro-suave); font-weight: bold; display: block; margin-bottom: 1rem; text-transform:uppercase; letter-spacing:1px;">Firma Digital Autógrafa (Escriba su Nombre Completo)</label>
-                <input type="text" oninput="ExpedienteEngine.updateData('legal', 'signature', this.value)" value="${this.formData.legal.signature}" placeholder="Su nombre aquí funciona como rúbrica legal..." style="width: 100%; padding: 1.5rem; background: transparent; border-bottom: 3px solid var(--valtara-oro); border-top:none; border-left:none; border-right:none; color: white; outline: none; font-family: 'Playfair Display', serif; font-size: 2rem; font-style: italic; text-align:center;">
+            <div class="exp-input-group" style="margin-top: 20px;">
+                <label style="color:white;"><i class="fa-solid fa-pen"></i> Firma Autógrafa Digital (Dibuje aquí con su dedo)</label>
+                <canvas id="sig-canvas" class="sig-canvas"></canvas>
+                <button onclick="ExpedienteEngine.clearCanvas()" style="background:transparent; border:1px solid #666; color:#aaa; padding:5px 10px; border-radius:5px; font-size:0.8rem; margin-top:5px; cursor:pointer;">Limpiar Firma</button>
             </div>
         `);
 
         content.innerHTML = html;
         this.updateUI();
+
+        // Inicializar Canvas si estamos en el último paso
+        if (this.currentStep === 10) this.initCanvas();
     },
 
     // ====================================================================
-    // HELPERS UI & ESTADO
+    // HELPERS UI & CANVAS FIRMA
     // ====================================================================
     buildStep: function(index, content) {
-        return `<div id="step-${index}" class="exp-step animate-in fade-in" style="display: ${index === 0 ? 'block' : 'none'};">${content}</div>`;
+        return `<div id="exp-step-${index}" class="exp-step ${index === this.currentStep ? 'active' : ''}">${content}</div>`;
     },
 
     buildInput: function(type, label, cat, key, placeholder='', extraClass='') {
         let val = cat && key ? this.formData[cat][key] : (cat ? this.formData[cat] : '');
-        if (type === 'textarea') {
-            return `
-            <div>
-                <label style="color: var(--valtara-oro-suave); font-size: 0.85rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 0.5rem;">${label}</label>
-                <textarea rows="4" oninput="ExpedienteEngine.updateData('${cat}', '${key}', this.value)" class="${extraClass}" style="width: 100%; padding: 1.2rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.15); color: white; border-radius: 12px; outline: none; resize: none; font-size: 1rem; line-height: 1.5;" placeholder="${placeholder}">${val}</textarea>
-            </div>`;
-        }
-        return `
-        <div>
-            <label style="color: var(--valtara-oro-suave); font-size: 0.85rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 0.5rem;">${label}</label>
-            <input type="${type}" oninput="ExpedienteEngine.updateData('${cat}', '${key}', this.value)" value="${val}" class="${extraClass}" style="width: 100%; padding: 1.2rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.15); color: white; border-radius: 12px; outline: none; font-size: 1.05rem;" placeholder="${placeholder}">
-        </div>`;
+        const onInput = `ExpedienteEngine.updateData('${cat}', '${key}', this.value)`;
+        if (type === 'textarea') return `<div class="exp-input-group"><label>${label}</label><textarea rows="3" oninput="${onInput}" class="exp-textarea ${extraClass}" placeholder="${placeholder}">${val}</textarea></div>`;
+        return `<div class="exp-input-group"><label>${label}</label><input type="${type}" oninput="${onInput}" value="${val}" class="exp-input ${extraClass}" placeholder="${placeholder}"></div>`;
     },
 
     buildSelect: function(label, cat, key, options) {
         let val = this.formData[cat][key];
         let optsHTML = options.map(o => `<option value="${o}" ${val === o ? 'selected' : ''} style="background:#111; color:white;">${o}</option>`).join('');
-        return `
-        <div>
-            <label style="color: var(--valtara-oro-suave); font-size: 0.85rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 0.5rem;">${label}</label>
-            <select onchange="ExpedienteEngine.updateData('${cat}', '${key}', this.value)" style="width: 100%; padding: 1.2rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.15); color: white; border-radius: 12px; outline: none; font-size: 1.05rem; cursor:pointer;">
-                <option value="" disabled ${val === '' ? 'selected' : ''}>Seleccione...</option>
-                ${optsHTML}
-            </select>
-        </div>`;
+        return `<div class="exp-input-group"><label>${label}</label><select onchange="ExpedienteEngine.updateData('${cat}', '${key}', this.value)" class="exp-select"><option value="" disabled ${val === '' ? 'selected' : ''}>Seleccione...</option>${optsHTML}</select></div>`;
     },
 
-    buildCheckBtn: function(label, cat, arrKey, val, icon) {
-        const arr = Array.isArray(this.formData[cat][arrKey]) ? this.formData[cat][arrKey] : [];
-        const isChecked = arr.includes(val);
-        const bg = isChecked ? 'rgba(0, 255, 255, 0.1)' : 'rgba(255,255,255,0.02)';
-        const border = isChecked ? 'var(--valtara-cian-brillante)' : 'rgba(255,255,255,0.1)';
-        const color = isChecked ? 'white' : '#aaa';
-        
-        return `
-        <button onclick="ExpedienteEngine.toggleArray('${cat}', '${arrKey}', '${val}'); ExpedienteEngine.renderWizard();" style="padding: 1.2rem 0.5rem; border-radius: 15px; background: ${bg}; border: 2px solid ${border}; color: ${color}; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align:center;">
-            <i class="fa-solid ${icon}" style="font-size: 1.8rem; color: ${isChecked ? 'var(--valtara-cian-brillante)' : '#666'};"></i>
-            <span style="font-weight: bold; font-size: 0.8rem; text-transform: uppercase; line-height:1.2;">${label}</span>
-        </button>`;
-    },
-
-    buildClinicalCard: function(cat, id, label, desc) {
-        const isChecked = this.formData.clinical[cat][id];
-        const bg = isChecked ? 'rgba(242, 201, 76, 0.08)' : 'rgba(255,255,255,0.02)';
-        const border = isChecked ? 'var(--valtara-oro)' : 'rgba(255,255,255,0.1)';
-        const iconColor = isChecked ? 'var(--valtara-oro)' : '#555';
-        const icon = isChecked ? 'fa-circle-check' : 'fa-circle';
-
-        return `
-        <button onclick="ExpedienteEngine.toggleClinical('${cat}', '${id}'); ExpedienteEngine.renderWizard();" style="width: 100%; text-align: left; padding: 1.2rem; border-radius: 12px; background: ${bg}; border: 1px solid ${border}; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 15px;">
-            <i class="fa-regular ${icon}" style="color: ${iconColor}; font-size: 1.8rem; flex-shrink:0;"></i>
-            <div style="flex: 1;">
-                <strong style="color: white; display: block; font-size: 1.05rem; margin-bottom: 2px;">${label}</strong>
-                <span style="color: #aaa; font-size: 0.85rem; line-height: 1.3; font-weight: 300; display:block;">${desc}</span>
-            </div>
-        </button>`;
-    },
-
-    buildReviewTable: function() {
-        const d = this.formData;
-        const nombre = d.personal.fullName || '<span style="color:#ff5555;">[Requerido]</span>';
-        const curp = d.personal.curp || '<span style="color:#ff5555;">[Requerido]</span>';
-        
-        let padecimientosHTML = '';
-        for (const [catKey, category] of Object.entries(this.clinicalDict)) {
-            let activos = [];
-            category.items.forEach(item => { if(d.clinical[catKey][item.id]) activos.push(item.label); });
-            if(activos.length > 0) padecimientosHTML += `<strong>${category.title}:</strong> ${activos.join(', ')}<br>`;
+    buildCheckCard: function(label, cat, arrKey, val, icon) {
+        // Maneja Arrays o booleanos simples
+        let isChecked = false;
+        if(Array.isArray(this.formData[cat][arrKey])) {
+            isChecked = this.formData[cat][arrKey].includes(val);
+        } else if(arrKey) {
+            isChecked = this.formData[cat][arrKey][val]; // Para clinicalDict
+        } else {
+            isChecked = this.formData[cat].includes(val); // Para Zonas
         }
-        if(padecimientosHTML === '') padecimientosHTML = '<span style="color:var(--valtara-verde-menta);">Ninguna condición clínica reportada.</span>';
+
+        const func = arrKey ? (Array.isArray(this.formData[cat][arrKey]) ? `toggleArray('${cat}','${arrKey}','${val}')` : `toggleClinical('${cat}','${arrKey}','${val}')`) : `toggleArray('${cat}',null,'${val}')`;
 
         return `
-            <h2 style="font-size: 2rem; color: var(--valtara-blanco); margin-bottom: 1.5rem; font-family: var(--font-accent);"><i class="fa-solid fa-magnifying-glass-chart text-indigo-400"></i> 9. Revisión Maestra</h2>
-            <p style="color: #aaa; margin-bottom: 2rem; font-size: 1.1rem; font-weight: 300;">Antes de firmar, por favor verifique sus datos. Presione "Editar" si desea corregir alguna sección.</p>
-            
-            <div style="display: flex; flex-direction: column; gap: 1.5rem; background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05);">
-                ${this.buildReviewRow('1. Identidad', `<strong>Nombre:</strong> ${nombre}<br><strong>CURP:</strong> ${curp}<br><strong>Contacto:</strong> ${d.personal.phone}`, 1)}
-                ${this.buildReviewRow('2. Motivo', `<strong>Principal:</strong> ${d.motivo.principal || 'No especificado'}<br><strong>Objetivo:</strong> ${d.motivo.objetivo}`, 2)}
-                ${this.buildReviewRow('3 y 4. Dolor', `<strong>Zonas:</strong> ${d.zonas.join(', ') || 'Ninguna'}<br><strong>Sensación:</strong> ${d.dolorDetalle.sensacion || 'N/A'} (Intensidad: ${d.dolorDetalle.intensidad}/10)`, 3)}
-                ${this.buildReviewRow('5. Antecedentes Médicos', padecimientosHTML, 5)}
-                ${this.buildReviewRow('7. Accesibilidad', `<strong>Apoyos:</strong> ${d.accessibility.profile.join(', ') || 'Ninguno'}<br><strong>Ajustes sugeridos:</strong> ${d.accessibility.supports || 'Ninguno'}`, 7)}
-            </div>
-        `;
-    },
-
-    buildReviewRow: function(title, content, targetStep) {
-        return `
-            <div style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem; display: flex; justify-content: space-between; align-items: start; gap: 15px;">
-                <div>
-                    <h4 style="color: var(--valtara-oro); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 5px 0;">${title}</h4>
-                    <p style="color: #ddd; font-size: 0.95rem; margin:0; line-height: 1.5; font-weight: 300;">${content}</p>
-                </div>
-                <button onclick="ExpedienteEngine.currentStep = ${targetStep}; ExpedienteEngine.renderWizard();" style="background: rgba(242,201,76,0.1); border: 1px solid var(--valtara-oro); color: var(--valtara-oro); padding: 5px 12px; border-radius: 12px; cursor: pointer; font-size: 0.8rem; font-weight: bold; flex-shrink: 0;">EDITAR</button>
-            </div>
-        `;
+        <div onclick="ExpedienteEngine.${func}; ExpedienteEngine.renderWizard();" class="check-card ${isChecked ? 'checked' : ''}">
+            <i class="fa-solid ${icon}" style="font-size:1.5rem; ${isChecked ? 'color:var(--valtara-oro);' : ''}"></i>
+            <span style="flex:1;">${label}</span>
+            <i class="fa-solid ${isChecked ? 'fa-check' : 'fa-circle'}" style="${isChecked ? 'color:var(--valtara-oro);' : 'color:#444;'}"></i>
+        </div>`;
     },
 
     updateData: function(cat, key, val) {
@@ -529,82 +386,110 @@ window.ExpedienteEngine = {
     },
 
     toggleArray: function(cat, arrKey, val) {
-        if(!this.formData[cat][arrKey]) this.formData[cat][arrKey] = [];
-        const arr = this.formData[cat][arrKey];
+        let arr = arrKey ? this.formData[cat][arrKey] : this.formData[cat];
         const idx = arr.indexOf(val);
         if(idx > -1) arr.splice(idx, 1);
         else arr.push(val);
         this.saveData();
     },
 
-    toggleStringArray: function(cat, key, val) {
-        let str = this.formData[cat][key] || "";
-        let arr = str.split(', ').filter(i => i.trim() !== "");
-        const idx = arr.indexOf(val);
-        if(idx > -1) arr.splice(idx, 1);
-        else arr.push(val);
-        this.formData[cat][key] = arr.join(', ');
-        this.saveData();
-    },
-
-    toggleClinical: function(cat, id) {
-        this.formData.clinical[cat][id] = !this.formData.clinical[cat][id];
+    toggleClinical: function(cat, subCat, id) {
+        this.formData.clinical[cat][subCat][id] = !this.formData.clinical[cat][subCat][id];
         this.saveData();
     },
 
     bindEvents: function() {
+        const overlay = document.getElementById('expediente-overlay');
         const btnOpen = document.getElementById('btn-open-expediente');
-        const btnClose = document.getElementById('close-expediente-btn');
-        const btnNext = document.getElementById('wiz-next');
-        const btnPrev = document.getElementById('wiz-prev');
-        const btnSubmit = document.getElementById('wiz-submit');
+        const btnClose = document.getElementById('exp-close');
+        const btnNext = document.getElementById('exp-btn-next');
+        const btnPrev = document.getElementById('exp-btn-prev');
+        const btnSubmit = document.getElementById('exp-btn-submit');
 
-        if(btnOpen) {
-            btnOpen.addEventListener('click', () => {
-                document.getElementById('expediente-modal').showModal();
-                const menu = document.getElementById('main-nav');
-                if(menu) menu.classList.remove('open');
-            });
-        }
-        if(btnClose) btnClose.addEventListener('click', () => document.getElementById('expediente-modal').close());
+        if(btnOpen) btnOpen.addEventListener('click', () => { overlay.classList.add('active'); const menu = document.getElementById('main-nav'); if(menu) menu.classList.remove('open'); });
+        if(btnClose) btnClose.addEventListener('click', () => overlay.classList.remove('active'));
 
-        if(btnNext) btnNext.addEventListener('click', () => { 
-            // Validación mínima antes de pasar el paso 1
-            if(this.currentStep === 1 && (!this.formData.personal.fullName || !this.formData.personal.curp)) {
-                alert("Por favor, ingrese amablemente su Nombre y CURP para continuar.");
-                return;
-            }
+        btnNext.addEventListener('click', () => {
+            if(this.currentStep === 1 && (!this.formData.personal.fullName)) { alert("Por favor, ingrese amablemente su Nombre."); return; }
             if(this.currentStep < this.totalSteps - 1) { this.currentStep++; this.renderWizard(); }
         });
-        if(btnPrev) btnPrev.addEventListener('click', () => { if(this.currentStep > 0) { this.currentStep--; this.renderWizard(); }});
         
-        if(btnSubmit) btnSubmit.addEventListener('click', () => {
-            if(!this.formData.legal.truthOath || !this.formData.legal.privacyOath || !this.formData.legal.signature) {
-                alert("Debe amablemente aceptar los términos legales, el aviso de privacidad y firmar el expediente.");
-                return;
-            }
-            this.generateAndSendPDF();
+        btnPrev.addEventListener('click', () => {
+            if(this.currentStep > 0) { this.currentStep--; this.renderWizard(); }
+        });
+
+        btnSubmit.addEventListener('click', () => {
+            if(!this.formData.legal.truthOath) { alert("Debe aceptar el compromiso de veracidad."); return; }
+            if(!this.signaturePad || this.isCanvasBlank()) { alert("Por favor, dibuje su firma en el recuadro blanco."); return; }
+            
+            // Guardar imagen del canvas
+            this.formData.legal.signatureData = this.signaturePad.toDataURL('image/png');
+            this.saveData();
+            this.generatePDF();
         });
     },
 
     updateUI: function() {
-        document.querySelectorAll('.exp-step').forEach((el, i) => {
-            el.style.display = i === this.currentStep ? 'block' : 'none';
-        });
-
         document.getElementById('wizard-step-text').innerText = `Fase ${this.currentStep + 1} de ${this.totalSteps}`;
         document.getElementById('wizard-percent-text').innerText = `${Math.round((this.currentStep / (this.totalSteps - 1)) * 100)}%`;
-        document.getElementById('wizard-progress-bar').style.width = `${(this.currentStep / (this.totalSteps - 1)) * 100}%`;
+        document.getElementById('exp-progress').style.width = `${(this.currentStep / (this.totalSteps - 1)) * 100}%`;
 
-        document.getElementById('wiz-prev').style.display = this.currentStep > 0 ? 'block' : 'none';
+        document.getElementById('exp-btn-prev').style.display = this.currentStep > 0 ? 'block' : 'none';
+        const isLast = this.currentStep === this.totalSteps - 1;
+        document.getElementById('exp-btn-next').style.display = isLast ? 'none' : 'block';
+        document.getElementById('exp-btn-submit').style.display = isLast ? 'block' : 'none';
+    },
+
+    // LÓGICA DEL LIENZO DE FIRMA (CANVAS)
+    initCanvas: function() {
+        const canvas = document.getElementById('sig-canvas');
+        if(!canvas) return;
+        this.signaturePad = canvas;
+        const ctx = canvas.getContext('2d');
         
-        const isLastStep = this.currentStep === this.totalSteps - 1;
-        document.getElementById('wiz-next').style.display = isLastStep ? 'none' : 'block';
-        document.getElementById('wiz-submit').style.display = isLastStep ? 'block' : 'none';
+        // Ajustar resolución
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+        
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#050508';
+
+        const getPos = (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        };
+
+        const startPos = (e) => { e.preventDefault(); this.isDrawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); };
+        const draw = (e) => { if(!this.isDrawing) return; e.preventDefault(); const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); };
+        const endPos = () => { this.isDrawing = false; };
+
+        canvas.addEventListener('mousedown', startPos);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', endPos);
+        canvas.addEventListener('mouseout', endPos);
+        canvas.addEventListener('touchstart', startPos, {passive: false});
+        canvas.addEventListener('touchmove', draw, {passive: false});
+        canvas.addEventListener('touchend', endPos);
+    },
+
+    clearCanvas: function() {
+        if(!this.signaturePad) return;
+        const ctx = this.signaturePad.getContext('2d');
+        ctx.clearRect(0, 0, this.signaturePad.width, this.signaturePad.height);
+    },
+
+    isCanvasBlank: function() {
+        const blank = document.createElement('canvas');
+        blank.width = this.signaturePad.width;
+        blank.height = this.signaturePad.height;
+        return this.signaturePad.toDataURL() === blank.toDataURL();
     },
 
     saveData: function() {
-        this.formData.fechaStamp = new Date().getTime();
         localStorage.setItem('valtara_expediente', JSON.stringify(this.formData));
     },
 
@@ -614,219 +499,195 @@ window.ExpedienteEngine = {
     },
 
     // ====================================================================
-    // 4. MOTOR DE RENDERIZADO PDF MULTI-PÁGINA "NIVEL DUBAI"
+    // MOTOR PDF MULTI-HOJA DE ALTA COSTURA
     // ====================================================================
-    generateAndSendPDF: function() {
+    generatePDF: function() {
         const d = this.formData;
-        const nombre = d.personal.fullName || 'Paciente_Soberano';
-        const hash = "HASH-" + Math.random().toString(36).substr(2, 12).toUpperCase();
+        const nombre = d.personal.fullName || 'Paciente';
+        const iniciales = nombre.split(' ').map(n => n[0]).join('').substring(0,3).toUpperCase();
         
-        const cssBase = `font-family: 'Lato', sans-serif; color: #111; font-size: 12px; line-height: 1.5;`;
-        const cssH3 = `color: #D4AF37; border-bottom: 2px solid #f2c94c44; padding-bottom: 5px; margin: 25px 0 10px 0; font-size: 14px; text-transform: uppercase; letter-spacing:1px;`;
-        const rowHTML = (lbl, val) => `<div style="margin-bottom:4px;"><strong>${lbl}:</strong> <span style="color:#444;">${val || 'No especificado'}</span></div>`;
+        // Folio Legal Real (Iniciales + Fecha compacta)
+        const dateObj = new Date();
+        const folioStr = `${dateObj.getFullYear()}${(dateObj.getMonth()+1).toString().padStart(2,'0')}${dateObj.getDate().toString().padStart(2,'0')}`;
+        const folioReal = `FOLIO-${iniciales}-${folioStr}`;
+        const fechaFormat = dateObj.toLocaleDateString();
 
-        // Procesar Padecimientos Clínicos
+        // Extraer Padecimientos
         let clinicaHTML = '';
         for (const [catKey, category] of Object.entries(this.clinicalDict)) {
             let activos = [];
             category.items.forEach(item => { if(d.clinical[catKey] && d.clinical[catKey][item.id]) activos.push(item.label); });
-            if(activos.length > 0) {
-                clinicaHTML += `<div style="margin-bottom:8px;"><strong>${category.title}:</strong> <span style="color: #c62828; font-weight:bold;">${activos.join(', ')}</span></div>`;
-            }
+            if(activos.length > 0) clinicaHTML += `<div style="margin-bottom:6px;"><strong>${category.title}:</strong> <span style="color:#c62828;">${activos.join(', ')}</span></div>`;
         }
-        if(clinicaHTML === '') clinicaHTML = '<div style="color: #2e7d32; font-weight: bold; font-style:italic;">Cero padecimientos reportados por el paciente.</div>';
+        if(clinicaHTML === '') clinicaHTML = '<div style="color:#2e7d32;">Sin condiciones reportadas.</div>';
 
-        // MARCA DE AGUA (Se dibuja usando CSS absolute en cada página)
-        const watermark = `<div style="position:absolute; top:35%; left:0; right:0; text-align:center; opacity:0.04; z-index:-1; pointer-events:none;">
-            <h1 style="font-size: 120px; font-family:'Playfair Display', serif; transform: rotate(-45deg);">VALTARA</h1>
-        </div>`;
+        // Estilos PDF Base (Tamaño Carta Exacto para html2pdf)
+        const pCSS = `width: 8.5in; height: 10.7in; padding: 0.5in 0.6in; background: white; font-family: 'Lato', sans-serif; color: #222; font-size: 13px; position: relative; box-sizing: border-box; overflow: hidden;`;
+        const h3CSS = `color: #D4AF37; border-bottom: 2px solid #D4AF37; padding-bottom: 4px; margin: 25px 0 15px 0; font-size: 15px; text-transform: uppercase; font-weight: bold;`;
+        
+        // MARCA DE AGUA (Texto + Logo) en todas las hojas, absoluta al centro
+        const watermark = `
+            <div style="position:absolute; top:40%; left:50%; transform:translate(-50%, -50%); text-align:center; opacity:0.04; z-index:0; pointer-events:none; width:100%;">
+                <img src="logo.png" style="width:250px; height:auto; margin-bottom:20px; filter:grayscale(100%);">
+                <h1 style="font-size:80px; font-family:'Playfair Display',serif; margin:0; letter-spacing:10px;">VALTARA</h1>
+            </div>
+            <div style="position:absolute; top:20px; left:20px; font-size:8px; color:#aaa; z-index:0;">DOCUMENTO CLÍNICO OFICIAL | GRUPO GEVIZZ S.A.S.</div>
+            <div style="position:absolute; top:20px; right:20px; font-size:8px; color:#aaa; z-index:0;">VERSIÓN S.O.S. 26.5</div>
+            <div style="position:absolute; bottom:20px; left:20px; font-size:8px; color:#aaa; z-index:0;">${folioReal}</div>
+        `;
 
-        // HEADER REUTILIZABLE
-        const buildHeader = (pageTitle) => `
-            <div style="border-bottom: 4px solid #D4AF37; padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: flex-end;">
+        const header = (title) => `
+            <div style="border-bottom: 4px solid #050508; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; position:relative; z-index:2;">
                 <div>
-                    <h1 style="font-family: 'Playfair Display', serif; color: #050508; margin: 0; font-size: 28px; letter-spacing: 2px;">VALTARA</h1>
-                    <p style="color: #666; font-size: 10px; margin: 0; letter-spacing: 3px; text-transform: uppercase;">Executive Therapy & Biomechanics</p>
+                    <h1 style="font-family: 'Playfair Display', serif; color: #050508; margin: 0; font-size: 26px;">VALTARA</h1>
+                    <p style="color: #666; font-size: 10px; margin: 0; letter-spacing: 2px;">EXECUTIVE THERAPY & BIOMECHANICS</p>
                 </div>
                 <div style="text-align: right;">
-                    <p style="margin: 0; font-weight: bold; color: #D4AF37; font-size:14px; text-transform:uppercase;">${pageTitle}</p>
-                    <p style="margin: 0; font-size: 10px; color: #888;">Folio: ${hash.substr(5,8)} | Fecha: ${new Date().toLocaleDateString()}</p>
+                    <p style="margin: 0; font-weight: bold; color: #D4AF37; font-size:12px;">${title}</p>
+                    <p style="margin: 0; font-size: 10px;">${folioReal} | Fecha: ${fechaFormat}</p>
                 </div>
             </div>
         `;
 
+        const renderRow = (lbl, val) => `<div style="margin-bottom:6px; z-index:2; position:relative;"><strong>${lbl}:</strong> ${val || '---'}</div>`;
+
+        // =========================================================================
+        // CONSTRUCCIÓN DE HOJAS
+        // =========================================================================
         const pdfContent = document.createElement('div');
-        pdfContent.style.cssText = `padding: 40px 50px; background: #fff; ${cssBase}`;
         
-        // --- PÁGINA 1: Identificación y Motivo ---
-        pdfContent.innerHTML = `
-            <div style="position:relative; min-height: 900px;">
+        // HOJA 1: IDENTIDAD Y MOTIVO
+        pdfContent.innerHTML += `
+            <div style="${pCSS}">
                 ${watermark}
-                ${buildHeader("Expediente Clínico Terapéutico")}
+                ${header("Historia Clínica - Pág. 1")}
                 
-                <h3 style="${cssH3}">1. Identificación del Paciente</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #fdfdfd; padding: 15px; border: 1px solid #eee; border-radius: 8px; border-left: 5px solid #050508;">
-                    ${rowHTML('Nombre', nombre)}
-                    ${rowHTML('CURP', d.personal.curp)}
-                    ${rowHTML('Nacimiento / Edad', `${d.personal.birthDate} (${d.personal.age} años)`)}
-                    ${rowHTML('Sexo/Género', d.personal.gender)}
-                    ${rowHTML('Teléfono', d.personal.phone)}
-                    ${rowHTML('Correo', d.personal.email)}
-                    ${rowHTML('Ocupación', d.personal.occupation)}
-                    ${rowHTML('Actividad Física', d.personal.activity)}
+                <h3 style="${h3CSS}">1. Identificación del Paciente</h3>
+                <div style="background:#fafafa; padding:15px; border:1px solid #ddd; border-radius:5px;">
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                        ${renderRow('Nombre', d.personal.fullName)}
+                        ${renderRow('CURP', d.personal.curp)}
+                        ${renderRow('Nacimiento', d.personal.birthDate)}
+                        ${renderRow('Edad', d.personal.age)}
+                        ${renderRow('Teléfono', d.personal.phone)}
+                        ${renderRow('Ocupación', d.personal.occupation)}
+                    </div>
                 </div>
 
-                <h3 style="${cssH3}">2. Motivo de Atención</h3>
-                <div style="background: #fdfdfd; padding: 15px; border: 1px solid #eee; border-radius: 8px;">
-                    ${rowHTML('Motivo Principal', d.motivo.principal)}
-                    ${rowHTML('Objetivo de la sesión', d.motivo.objetivo)}
-                    ${rowHTML('Tiempo de evolución', d.motivo.evolucion)}
-                    ${rowHTML('¿Problema recurrente?', d.motivo.recurrente)}
-                    ${rowHTML('¿Qué desea mejorar?', d.motivo.mejora)}
+                <h3 style="${h3CSS}">2. Motivo de Atención</h3>
+                <div style="padding:10px;">
+                    ${renderRow('Motivo', d.motivo.principal)}
+                    ${renderRow('Objetivo', d.motivo.objetivo)}
+                    ${renderRow('Evolución', d.motivo.evolucion)}
                 </div>
 
-                <h3 style="${cssH3}">3. Zonas de Molestia y Limitación</h3>
-                <div style="background: #fdfdfd; padding: 15px; border: 1px solid #eee; border-radius: 8px; border-left: 5px solid #c62828;">
-                    ${rowHTML('Zonas Afectadas', d.zonas.join(', ') || 'Ninguna marcada')}
-                    <hr style="border:0; border-top:1px dashed #ccc; margin: 10px 0;">
-                    ${rowHTML('Sensación del Dolor', d.dolorDetalle.sensacion)}
-                    ${rowHTML('Intensidad (0-10)', `<strong>${d.dolorDetalle.intensidad}</strong>`)}
-                    ${rowHTML('Frecuencia', d.dolorDetalle.constante)}
-                    ${rowHTML('¿Qué lo empeora?', d.dolorDetalle.empeora)}
-                    ${rowHTML('¿Qué lo alivia?', d.dolorDetalle.alivia)}
-                </div>
-                
-                <h3 style="${cssH3}">4. Contacto Vital (Emergencia)</h3>
-                <div style="background: #fdfdfd; padding: 15px; border: 1px solid #eee; border-radius: 8px;">
-                    ${rowHTML('Nombre Contacto', d.emergency.name)}
-                    ${rowHTML('Relación / Parentesco', d.emergency.relationship)}
-                    ${rowHTML('Teléfono', d.emergency.phone)}
+                <h3 style="${h3CSS}">3. Zonas de Molestia y Dolor</h3>
+                <div style="padding:10px; border-left:4px solid #c62828; background:#fff5f5;">
+                    ${renderRow('Zonas Marcadas', d.zonas.join(', ') || 'Ninguna')}
+                    <hr style="border:0; border-top:1px dashed #ccc; margin:10px 0;">
+                    ${renderRow('Sensación', d.dolorDetalle.sensacion)}
+                    ${renderRow('Intensidad (0-10)', `<strong>${d.dolorDetalle.intensidad}</strong>`)}
+                    ${renderRow('Empeora con', d.dolorDetalle.empeora)}
+                    ${renderRow('Alivia con', d.dolorDetalle.alivia)}
                 </div>
             </div>
-            
             <div class="html2pdf__page-break"></div>
-            
-            <!-- --- PÁGINA 2: Clínica y Accesibilidad --- -->
-            <div style="position:relative; min-height: 900px; padding-top:20px;">
-                ${watermark}
-                ${buildHeader("Análisis Biomecánico y Funcional")}
+        `;
 
-                <h3 style="${cssH3}">5. Antecedentes Relevantes para Masoterapia</h3>
-                <div style="background: #fcfcfc; padding: 15px; border: 1px solid #ddd; border-radius: 8px; border-left: 5px solid #d32f2f;">
-                    <p style="font-size:10px; color:#666; margin-top:0; font-style:italic;">* Padecimientos marcados por el paciente bajo protesta de decir verdad:</p>
+        // HOJA 2: CLÍNICA Y ESTILO DE VIDA
+        pdfContent.innerHTML += `
+            <div style="${pCSS}">
+                ${watermark}
+                ${header("Historia Clínica - Pág. 2")}
+
+                <h3 style="${h3CSS}">4. Antecedentes Relevantes</h3>
+                <div style="padding:15px; border:1px solid #ddd; border-radius:5px; background:#fafafa;">
                     ${clinicaHTML}
                 </div>
 
-                <h3 style="${cssH3}">6. Estilo de Vida, Sueño y Estrés</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #fdfdfd; padding: 15px; border: 1px solid #eee; border-radius: 8px;">
-                    ${rowHTML('Estrés Percibido (0-10)', `<strong>${d.habitos.estres}</strong>`)}
-                    ${rowHTML('Calidad de Sueño', `${d.habitos.suenoCalidad} (${d.habitos.suenoHoras} hrs)`)}
-                    ${rowHTML('Trabajo Sentado', d.habitos.sentado)}
-                    ${rowHTML('Trabajo de Pie', d.habitos.pie)}
-                    ${rowHTML('Carga Física', d.habitos.carga)}
-                    ${rowHTML('Entrenamiento/Deporte', d.habitos.deporte)}
+                <h3 style="${h3CSS}">5. Estilo de Vida y Hábitos</h3>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:10px;">
+                    ${renderRow('Estrés Percibido (0-10)', `<strong>${d.habitos.estres}</strong>`)}
+                    ${renderRow('Sueño', `${d.habitos.suenoCalidad} (${d.habitos.suenoHoras}h)`)}
+                    ${renderRow('Trabajo Sentado', d.habitos.sentado)}
+                    ${renderRow('Carga Física', d.habitos.carga)}
                 </div>
 
-                <h3 style="${cssH3}">7. Accesibilidad y Ajustes Razonables</h3>
-                <div style="background: #fdfdfd; padding: 15px; border: 1px solid #eee; border-radius: 8px; border-left: 5px solid #0288d1;">
-                    ${rowHTML('Perfil de Accesibilidad', d.accessibility.profile.length > 0 ? d.accessibility.profile.join(', ') : 'No refiere')}
-                    ${rowHTML('Ajustes Razonables Sugeridos', d.accessibility.supports || 'No refiere')}
-                </div>
-
-                <h3 style="${cssH3}">8. Observaciones Adicionales del Paciente</h3>
-                <div style="background: #fff8e1; padding: 15px; border: 1px solid #ffe082; border-radius: 8px; font-style:italic;">
-                    ${d.extra || 'Sin observaciones adicionales registradas.'}
+                <h3 style="${h3CSS}">6. Accesibilidad y Observaciones</h3>
+                <div style="padding:10px; border-left:4px solid #0288d1; background:#f1f9ff;">
+                    ${renderRow('Apoyos', d.accessibility.profile.join(', ') || 'N/A')}
+                    ${renderRow('Ajustes Razonables', d.accessibility.supports.join(', ') || 'N/A')}
+                    <div style="margin-top:10px; font-style:italic;">"${d.extra || 'Sin notas adicionales'}"</div>
                 </div>
             </div>
-
             <div class="html2pdf__page-break"></div>
+        `;
 
-            <!-- --- PÁGINA 3: Legal, Firmas y Terapeuta --- -->
-            <div style="position:relative; min-height: 900px; padding-top:20px;">
+        // HOJA 3: LEGAL, CANVAS Y TERAPEUTA
+        pdfContent.innerHTML += `
+            <div style="${pCSS}">
                 ${watermark}
-                ${buildHeader("Aval Institucional y Cierre Legal")}
+                ${header("Consentimiento y Firmas - Pág. 3")}
 
-                <h3 style="${cssH3}">9. Consentimiento Informado y Aviso de Privacidad</h3>
-                <div style="font-size: 10px; color: #444; text-align: justify; line-height: 1.4; background: #f5f5f5; padding: 15px; border-radius: 8px; border-left: 5px solid #9e9e9e;">
-                    <p>Declaro que la información proporcionada en este formato es verdadera en la medida de mi conocimiento. Entiendo que la atención brindada por Grupo Gevizz S.A.S. de C.V. corresponde a masoterapia clínica / terapia manual, y no sustituye diagnóstico médico.</p>
-                    <p>Entiendo que debo comunicar cualquier dolor agudo, infección, cirugía reciente, uso de anticoagulantes u otra condición que pueda contraindicar la sesión. Autorizo el tratamiento de mis datos de salud (Ley ARCO, INAI) de forma local para fines de seguridad y seguimiento.</p>
+                <h3 style="${h3CSS}">7. Consentimiento Informado</h3>
+                <div style="font-size:11px; text-align:justify; line-height:1.5; color:#444; padding:10px; background:#f9f9f9; border-radius:5px;">
+                    <p>Declaro bajo protesta de decir verdad que la información proporcionada es veraz. Autorizo a Grupo Gevizz S.A.S. a mi atención terapéutica, entendiendo que la masoterapia clínica no sustituye un tratamiento médico. He sido informado de los riesgos si omito condiciones como trombosis, cirugías recientes o infecciones.</p>
                 </div>
 
-                <div style="margin-top: 50px; display: flex; justify-content: space-between; align-items: flex-end;">
-                    <div style="text-align: center; width: 45%;">
-                        <div style="font-family: 'Playfair Display', serif; font-size: 26px; font-style: italic; color: #050508; border-bottom: 1px solid #000; margin-bottom: 5px; padding-bottom: 5px; height:40px; display:flex; align-items:end; justify-content:center;">
-                            ${d.legal.signature}
+                <!-- BLOQUE FIRMAS -->
+                <div style="margin-top: 50px; display: flex; justify-content: space-between;">
+                    <div style="width: 45%; text-align: center;">
+                        <img src="${d.legal.signatureData}" style="max-width:100%; height:80px; object-fit:contain; border-bottom:1px solid #000; margin-bottom:5px;">
+                        <p style="margin:0; font-size:10px; font-weight:bold;">Firma Digitalizada del Paciente</p>
+                        <p style="margin:0; font-size:9px;">Nombre: ${nombre}</p>
+                    </div>
+                    <div style="width: 45%; text-align: center;">
+                        <div style="height:80px; border-bottom:1px solid #000; margin-bottom:5px; display:flex; align-items:end; justify-content:center; color:#ccc; font-size:9px; font-style:italic; padding-bottom:5px;">
+                            (Firma autógrafa a la recepción del documento digital/impreso)
                         </div>
-                        <p style="margin: 0; font-size: 10px; font-weight: bold; text-transform: uppercase;">Firma del Paciente Soberano</p>
-                        <p style="margin: 2px 0 0 0; font-size: 8px; color: #666;">CURP: ${curp}</p>
-                    </div>
-                    
-                    <div style="text-align: center; width: 45%;">
-                        <div style="border-bottom: 1px solid #000; margin-bottom: 5px; padding-bottom: 5px; height:40px;"></div>
-                        <p style="margin: 0; font-size: 10px; font-weight: bold; text-transform: uppercase;">Firma del Terapeuta a Cargo</p>
-                        <p style="margin: 2px 0 0 0; font-size: 10px; color: #D4AF37; font-weight:bold;">ÁNGEL DE JESÚS GUERRERO VIZZUETT</p>
-                        <p style="margin: 2px 0 0 0; font-size: 8px; color: #666;">Terapeuta Físico para la Salud (Masoterapia)</p>
+                        <p style="margin:0; font-size:10px; font-weight:bold;">Firma del Terapeuta Clínico</p>
+                        <p style="margin:0; font-size:9px; color:#D4AF37; font-weight:bold;">Ángel de Jesús Guerrero Vizzuett</p>
                     </div>
                 </div>
 
-                <div style="margin-top: 40px; background: #050508; color: white; padding: 20px; border-radius: 12px; display:flex; justify-content: space-between; align-items:center;">
-                    <div>
-                        <p style="margin: 0 0 5px 0; font-size: 9px; color: #D4AF37; font-weight: bold; text-transform: uppercase; letter-spacing:1px;">Certificaciones Institucionales</p>
-                        <ul style="margin:0; padding-left: 15px; font-size: 9px; line-height:1.6; color:#ccc;">
-                            <li>Registro Nacional RENATED: <strong>A-54878</strong></li>
-                            <li>Autorización S.E.P. RVOE: <strong>17FT061</strong> (DGCFT)</li>
-                            <li>Acreditación SISAE / Fundación Educa Deporte A.C.</li>
-                        </ul>
-                    </div>
-                    <div style="text-align: right;">
-                        <p style="margin: 0; font-size: 9px; color: #D4AF37; font-weight: bold; text-transform: uppercase;">Sello Criptográfico Local</p>
-                        <p style="margin: 2px 0 0 0; font-size: 12px; color: white; font-family: monospace; font-weight: bold;">${hash}</p>
-                        <p style="margin: 2px 0 0 0; font-size: 8px; color: #888;">Validación NOM-151-SCFI-2016 Placebo</p>
-                    </div>
-                </div>
-
-                <div style="margin-top: 30px; text-align: center; color: #999; font-size: 8px; line-height: 1.4;">
-                    <p style="margin:0;">Sovereign OS V26.0 | Arquitectura "Local-First" | Grupo Gevizz S.A.S. CDMX.</p>
-                    <p style="margin:0;">Documento confidencial. Prohibida su reproducción total o parcial sin autorización del paciente.</p>
+                <!-- CERTIFICACIONES DEL TERAPEUTA -->
+                <div style="margin-top: 60px; background:#050508; color:white; padding:20px; border-radius:10px;">
+                    <p style="margin:0 0 10px 0; color:#D4AF37; font-weight:bold; text-transform:uppercase; font-size:11px;">Credenciales y Autorizaciones de Práctica:</p>
+                    <ul style="margin:0; padding-left:20px; font-size:10px; line-height:1.6; color:#ccc;">
+                        <li>Terapeuta Físico para la Salud - Masoterapia Clínica.</li>
+                        <li>Registro Nacional de Terapeutas <strong>(RENATED): A-54878</strong></li>
+                        <li>Secretaría de Educación Pública <strong>(SEP DGCFT): RVOE 17FT061</strong></li>
+                        <li>Acreditación Sistema de Salud y Educación <strong>(SISAE)</strong></li>
+                    </ul>
                 </div>
             </div>
         `;
 
-        // Configuración de html2pdf (Páginas múltiples activadas)
         const opt = {
             margin:       0,
-            filename:     `Valtara_Exp_Clinico_${nombre.replace(/\s+/g, '_')}.pdf`,
+            filename:     `Valtara_${folioReal}.pdf`,
             image:        { type: 'jpeg', quality: 1 }, 
-            pagebreak:    { mode: ['css', 'legacy'] }, // Habilita los saltos de página con la clase css
-            html2canvas:  { scale: 3, useCORS: true, logging: false }, 
+            pagebreak:    { mode: ['css', 'legacy'] },
+            html2canvas:  { scale: 2, useCORS: true, logging: false }, 
             jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
         };
 
-        const btnSubmit = document.getElementById('wiz-submit');
-        btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Cifrando Documento Institucional...';
+        const btnSubmit = document.getElementById('exp-btn-submit');
+        btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Renderizando...';
         btnSubmit.style.pointerEvents = 'none';
 
         if (typeof html2pdf !== 'undefined') {
             html2pdf().set(opt).from(pdfContent).save().then(() => {
-                btnSubmit.innerHTML = '<i class="fa-solid fa-check"></i> Expediente Guardado';
-                btnSubmit.style.background = '#1b5e20';
+                btnSubmit.innerHTML = '<i class="fa-solid fa-check"></i> Descargado';
                 
-                const mensaje = `*Aura Assistant (Valtara)* 🌿%0A%0ASe ha generado un Expediente Clínico Institucional.%0A%0A*Paciente:* ${nombre}%0A*Motivo:* ${d.motivo.principal || 'Evaluación General'}%0A*Tensión:* ${d.estres}/10%0A%0A_Adjunto mi PDF de 3 páginas para revisión del Terapeuta Titular._`;
-                
+                const mensaje = `*Aura Assistant (Valtara)* 🌿%0A%0ASe ha generado una Historia Clínica Oficial.%0A%0A*Paciente:* ${nombre}%0A*Folio:* ${folioReal}%0A*Tensión:* ${d.habitos.estres}/10%0A%0A_Adjunto mi PDF firmado para revisión._`;
+                I O
                 setTimeout(() => {
-                    document.getElementById('expediente-modal').close();
+                    document.getElementById('expediente-overlay').classList.remove('active');
                     window.open(`https://wa.me/5213348572070?text=${mensaje}`, '_blank');
-                    setTimeout(() => { btnSubmit.style.pointerEvents = 'auto'; this.renderWizard(); }, 1000); 
+                    setTimeout(() => { btnSubmit.style.pointerEvents = 'auto'; btnSubmit.innerHTML = '<i class="fa-solid fa-fingerprint"></i> Certificar Expediente'; }, 1000); 
                 }, 2000);
-            }).catch(err => {
-                console.error("Error en render PDF Multi-Page:", err);
-                btnSubmit.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Error Interno';
-                btnSubmit.style.pointerEvents = 'auto';
             });
-        } else {
-            console.error("Librería PDF bloqueada por seguridad.");
-            btnSubmit.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Escudo Activo';
-            btnSubmit.style.pointerEvents = 'auto';
         }
     }
 };
