@@ -2,22 +2,20 @@
 <html lang="es" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <!-- Meta Viewport Optimizada para PWA y Notch de iPhone/Android -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <title>VALTARA | Executive Therapy & Biomechanics</title>
     
     <!-- ========================================================================= -->
-    <!-- ALGORITMOS DE SEGURIDAD EXTREMA Y ENCRIPTACIÓN (SOVEREIGN V27.0)          -->
-    <!-- Muro de contención contra XSS, Clickjacking, Data-Mining y MITM.          -->
+    <!-- SISTEMA INMUNOLÓGICO Y CIBERSEGURIDAD EXTREMA (SOVEREIGN V31.0)           -->
     <!-- ========================================================================= -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta name="referrer" content="no-referrer"> <!-- Privacidad Absoluta de Origen -->
+    <meta name="referrer" content="no-referrer">
     
-    <!-- Content Security Policy (CSP) de Grado Militar -->
+    <!-- CSP Estratégico: Bloquea ataques pero permite librerías aliadas certificadas -->
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self'; 
         connect-src 'self' https://aura-server-erfj.vercel.app; 
@@ -32,13 +30,52 @@
         form-action 'self';
         frame-ancestors 'none';
         upgrade-insecure-requests;
-        block-all-mixed-content;
     ">
 
-    <!-- Políticas de Aislamiento Corporativo -->
     <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
-    <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
     <meta http-equiv="Permissions-Policy" content="interest-cohort=(), camera=(), microphone=(self)">
+    
+    <!-- ========================================================================= -->
+    <!-- ALGORITMO GUARDIÁN: MANEJO DE ERRORES GLOBALES (ANTI-CRASH)               -->
+    <!-- ========================================================================= -->
+    <script>
+        function triggerValtaraEmergencyProtocol(code, title, details, isUserError = false) {
+            let errDiv = document.getElementById('valtara-system-guard');
+            if(!errDiv) {
+                errDiv = document.createElement('div');
+                errDiv.id = 'valtara-system-guard';
+                errDiv.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(5,5,10,0.98); z-index:99999999; display:flex; justify-content:center; align-items:center; backdrop-filter:blur(20px); padding:20px;';
+                document.body.appendChild(errDiv);
+            }
+            
+            const userAction = isUserError 
+                ? "Por favor, verifique su conexión a internet, desactive bloqueadores de anuncios o recargue la página." 
+                : "El equipo de ingeniería de Grupo Gevizz ha sido notificado. Por favor, intente recargar la página en unos momentos.";
+
+            errDiv.innerHTML = `
+                <div style="background:#111; border:1px solid #ff5555; border-radius:20px; padding:30px; max-width:500px; text-align:center; box-shadow:0 10px 40px rgba(255,85,85,0.2);">
+                    <div style="color:#ff5555; font-size:3rem; margin-bottom:15px;">&#9888;</div>
+                    <h2 style="color:white; font-family:serif; font-size:1.8rem; margin:0 0 10px 0;">Interrupción del Sistema</h2>
+                    <p style="color:#aaa; font-size:1rem; margin-bottom:20px; line-height:1.5;">${title}</p>
+                    <div style="background:rgba(255,85,85,0.1); padding:15px; border-radius:10px; margin-bottom:20px; text-align:left;">
+                        <strong style="color:#ff5555; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Código de Diagnóstico: ${code}</strong>
+                        <p style="color:#ddd; font-size:0.85rem; font-family:monospace; margin:5px 0 0 0; word-break:break-all;">${details}</p>
+                    </div>
+                    <p style="color:#888; font-size:0.9rem; margin-bottom:25px;">${userAction}</p>
+                    <button onclick="location.reload(true)" style="background:transparent; border:1px solid #ff5555; color:#ff5555; padding:12px 25px; border-radius:10px; font-weight:bold; cursor:pointer; text-transform:uppercase; letter-spacing:1px; width:100%;">Restablecer Conexión</button>
+                </div>
+            `;
+        }
+
+        window.addEventListener('error', function(e) {
+            if(e.filename && e.filename.includes('html2pdf')) return; // Ignorar si html2pdf tarda en cargar
+            triggerValtaraEmergencyProtocol('ERR-CORE-01', 'Fallo en la arquitectura de la interfaz.', e.message, false);
+        });
+
+        window.addEventListener('unhandledrejection', function(e) {
+            triggerValtaraEmergencyProtocol('ERR-NET-02', 'Fallo de conectividad o recurso inaccesible.', e.reason || 'Timeout', true);
+        });
+    </script>
     <!-- ========================================================================= -->
 
     <link rel="manifest" href="manifest.json">
@@ -49,33 +86,26 @@
     <meta name="author" content="Grupo Gevizz S.A.S.">
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="VALTARA | Executive Therapy & Biomechanics">
-    <meta property="og:description" content="El éxito corporativo exige un vehículo biológico capaz de sostenerlo. Descubre nuestro santuario en Paseo de la Reforma 195.">
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="es_MX">
-    <meta property="og:site_name" content="Valtara Biomechanics">
-
-    <!-- OPTIMIZACIÓN DE RENDIMIENTO: Pre-conexiones DNS y TCP -->
+    <!-- Pre-conexiones Optimizadas -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://aura-server-erfj.vercel.app" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+    <link rel="preconnect" href="https://aura-server-erfj.vercel.app" crossorigin="anonymous">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous">
 
-    <!-- Carga Crítica de Estilos (V27.0.0) -->
-    <link rel="preload" href="css/main.css?v=27.0.0" as="style">
-    <link rel="preload" href="css/components.css?v=27.0.0" as="style">
+    <!-- Carga Crítica de Estilos (V31.0.0) -->
+    <link rel="preload" href="css/main.css?v=31.0.0" as="style">
+    <link rel="preload" href="css/components.css?v=31.0.0" as="style">
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="css/main.css?v=27.0.0">
-    <link rel="stylesheet" href="css/components.css?v=27.0.0">
+    <link rel="stylesheet" href="css/main.css?v=31.0.0">
+    <link rel="stylesheet" href="css/components.css?v=31.0.0">
     
     <style>
         @keyframes pulseAuraGoldHTML { 0% { transform: scale(0.9); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 1; } }
-        /* Estilo blindado para el botón de Expediente en el menú lateral */
         .btn-expediente-safe {
             width: 100%; display: flex; align-items: center; gap: 15px; padding: 1rem 1.5rem; 
             border: none; background: rgba(242,201,76,0.05); color: var(--valtara-oro); 
@@ -87,40 +117,9 @@
 </head>
 <body class="system-loading">
 
-    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma blindada Sovereign Valtara 27.0.0. Ecosistema biomécanico asegurado...</div>
+    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma blindada Sovereign Valtara 31.0.0. Ecosistema biomécanico asegurado...</div>
 
-    <div id="onboarding-screen" class="full-screen-overlay" aria-hidden="false" role="dialog" aria-labelledby="onboarding-title">
-        <div class="onboarding-content">
-            <div class="glow-icon-wrapper" style="margin-bottom: 2rem;">
-                <i aria-hidden="true" class="fa-solid fa-seedling gold-icon" style="font-size: 3.5rem; color: var(--valtara-cian-brillante); text-shadow: 0 0 20px rgba(0,255,255,0.4);"></i>
-            </div>
-            
-            <h1 id="onboarding-title" style="font-family: var(--font-accent); font-size: 3.5rem; margin-bottom: 1rem; color: var(--valtara-blanco);">Bienvenido</h1>
-            <p style="color: var(--valtara-gris-texto); font-size: 1.3rem; margin-bottom: 3.5rem; font-weight: 300; letter-spacing: 1px;">
-                ¿Cómo podemos llamarte el día de hoy?
-            </p>
-            
-            <div class="input-group" style="background: transparent; border: none; box-shadow: none; padding: 0;">
-                <input type="radio" name="user_avatar" value="fa-spa" checked style="display:none;">
-
-                <div style="position: relative; max-width: 400px; margin: 0 auto;">
-                    <label for="welcome-name-input" class="sr-only">Tu nombre o apodo</label>
-                    <i class="fa-solid fa-user" style="position: absolute; left: 1.5rem; top: 1.8rem; font-size: 1.2rem; color: var(--valtara-oro);"></i>
-                    <input type="text" id="welcome-name-input" placeholder="Ej. Antonio, Doctor..." autocomplete="off" style="padding-left: 4rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); text-align: left;">
-                </div>
-
-                <button id="welcome-start-btn" class="btn-primary" style="margin-top: 2rem; width: 100%; max-width: 400px; font-size: 1.2rem; padding: 1.5rem; background: rgba(255,255,255,0.05); color: #666; border-color: transparent; pointer-events: none; transition: all 0.4s ease;">
-                    <i class="fa-solid fa-door-open" style="margin-right: 10px;"></i> Entrar al Santuario
-                </button>
-            </div>
-            
-            <button id="welcome-skip-btn" class="btn-text-only" style="margin-top: 2.5rem; color: #aaa; font-size: 1.1rem; text-decoration: underline; background: transparent; border: none; cursor: pointer; transition: 0.3s;">
-                Explorar como invitado
-            </button>
-        </div>
-    </div>
-
-    <div id="app-wrapper">
+    <div id="app-wrapper" aria-hidden="false">
 
         <div aria-hidden="true" class="ambient-engine" id="ambient-bg">
             <div class="orb orb-1"></div> 
@@ -176,7 +175,7 @@
                 <ul class="nav-list" role="menu">
                     <!-- BOTÓN DE EXPEDIENTE BLINDADO (Sin clase nav-item) -->
                     <li role="none">
-                        <button role="menuitem" class="btn-expediente-safe" id="btn-open-expediente" aria-haspopup="dialog">
+                        <button role="menuitem" class="btn-expediente-safe" id="btn-open-expediente" aria-haspopup="dialog" onclick="if(window.ExpedienteEngine) window.ExpedienteEngine.openOverlay();">
                             <i class="fa-solid fa-file-signature"></i> <span>Mi Expediente Soberano</span>
                         </button>
                     </li>
@@ -195,7 +194,6 @@
             </div>
         </nav>
 
-        <!-- Modales Auxiliares (A11y & Aura) con cierres blindados nativos -->
         <dialog aria-label="Panel de Accesibilidad" class="modal-dialog mega-modal" id="a11y-modal">
             <div class="modal-content">
                 <header class="modal-header">
@@ -254,7 +252,6 @@
         </dialog>
 
         <aside aria-label="Asistencia y Contacto" class="float-controls float-right">
-            <!-- BOTÓN AURA BLINDADO NATIVO -->
             <button aria-label="Hablar con el Asistente Aura" aria-haspopup="dialog" aria-controls="aura-modal" class="fab-btn fab-aura" id="fab-aura" onclick="document.getElementById('aura-modal').showModal();">
                 <i aria-hidden="true" class="fa-solid fa-robot"></i>
             </button>
@@ -277,55 +274,57 @@
 
     </div> 
     
-    <!-- Carga Distribuida y Diferida (DEFER) para rendimiento máximo. V27.0.0 -->
-    <script src="js/inicio_bienvenida.js?v=27.0.0" defer></script>
-    <script src="js/inicio_refugio.js?v=27.0.0" defer></script>
-    <script src="js/inicio_promociones.js?v=27.0.0" defer></script>
-    <script src="js/inicio_arte_unas.js?v=27.0.0" defer></script>
-    <script src="js/inicio_mapa_cuerpo.js?v=27.0.0" defer></script>
-    <script src="js/inicio_redes_sociales.js?v=27.0.0" defer></script>
+    <!-- Carga Diferida (DEFER) para rendimiento máximo. V31.0.0 -->
+    <script src="js/inicio_bienvenida.js?v=31.0.0" defer></script>
+    <script src="js/inicio_refugio.js?v=31.0.0" defer></script>
+    <script src="js/inicio_promociones.js?v=31.0.0" defer></script>
+    <script src="js/inicio_arte_unas.js?v=31.0.0" defer></script>
+    <script src="js/inicio_mapa_cuerpo.js?v=31.0.0" defer></script>
+    <script src="js/inicio_redes_sociales.js?v=31.0.0" defer></script>
 
-    <script src="js/catalogo_masajes.js?v=27.0.0" defer></script>
-    <script src="js/catalogo_belleza.js?v=27.0.0" defer></script>
+    <script src="js/catalogo_masajes.js?v=31.0.0" defer></script>
+    <script src="js/catalogo_belleza.js?v=31.0.0" defer></script>
 
-    <script src="js/ciencia_introduccion.js?v=27.0.0" defer></script>
-    <script src="js/ciencia_neurobiologia.js?v=27.0.0" defer></script>
-    <script src="js/ciencia_fascia.js?v=27.0.0" defer></script>
-    <script src="js/ciencia_acustica.js?v=27.0.0" defer></script>
-    <script src="js/ciencia_biomecanica.js?v=27.0.0" defer></script>
-    <script src="js/ciencia_botanica.js?v=27.0.0" defer></script>
-    <script src="js/ciencia_inclusion.js?v=27.0.0" defer></script>
-    <script src="js/ciencia_referencias.js?v=27.0.0" defer></script>
+    <script src="js/ciencia_introduccion.js?v=31.0.0" defer></script>
+    <script src="js/ciencia_neurobiologia.js?v=31.0.0" defer></script>
+    <script src="js/ciencia_fascia.js?v=31.0.0" defer></script>
+    <script src="js/ciencia_acustica.js?v=31.0.0" defer></script>
+    <script src="js/ciencia_biomecanica.js?v=31.0.0" defer></script>
+    <script src="js/ciencia_botanica.js?v=31.0.0" defer></script>
+    <script src="js/ciencia_inclusion.js?v=31.0.0" defer></script>
+    <script src="js/ciencia_referencias.js?v=31.0.0" defer></script>
     
-    <script src="js/juego_alquimista.js?v=27.0.0" defer></script>
+    <script src="js/juego_alquimista.js?v=31.0.0" defer></script>
 
-    <script src="js/legal_historia.js?v=27.0.0" defer></script>
-    <script src="js/legal_manifiesto.js?v=27.0.0" defer></script>
-    <script src="js/legal_transparencia.js?v=27.0.0" defer></script>
-    <script src="js/legal_preguntas.js?v=27.0.0" defer></script>
-    <script src="js/modal_terminos.js?v=27.0.0" defer></script>
-    <script src="js/modal_whitepaper.js?v=27.0.0" defer></script>
+    <script src="js/legal_historia.js?v=31.0.0" defer></script>
+    <script src="js/legal_manifiesto.js?v=31.0.0" defer></script>
+    <script src="js/legal_transparencia.js?v=31.0.0" defer></script>
+    <script src="js/legal_preguntas.js?v=31.0.0" defer></script>
+    <script src="js/modal_terminos.js?v=31.0.0" defer></script>
+    <script src="js/modal_whitepaper.js?v=31.0.0" defer></script>
 
-    <script src="js/sonoterapia_introduccion.js?v=27.0.0" defer></script>
-    <script src="js/sonoterapia_videos.js?v=27.0.0" defer></script>
-    <script src="js/sonoterapia_audio.js?v=27.0.0" defer></script>
+    <script src="js/sonoterapia_introduccion.js?v=31.0.0" defer></script>
+    <script src="js/sonoterapia_videos.js?v=31.0.0" defer></script>
+    <script src="js/sonoterapia_audio.js?v=31.0.0" defer></script>
 
-    <script src="js/global_footer.js?v=27.0.0" defer></script>
+    <script src="js/global_footer.js?v=31.0.0" defer></script>
+    <script src="js/constructor_maestro.js?v=31.0.0" defer></script>
+
+    <script src="js/a11y.js?v=31.0.0" defer></script>
+    <script src="js/user.js?v=31.0.0" defer></script>
+    <script src="js/aura.js?v=31.0.0" defer></script>
+    <script src="js/oasis.js?v=31.0.0" defer></script>
+    <script src="js/router.js?v=31.0.0" defer></script>
+    <script src="js/core.js?v=31.0.0" defer></script>
+    <script src="js/pwa.js?v=31.0.0" defer></script>
+
+    <!-- LIBRERÍA GENERADORA DE PDF (Con Pasaporte CrossOrigin) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous" defer></script>
     
-    <script src="js/constructor_maestro.js?v=27.0.0" defer></script>
-
-    <script src="js/a11y.js?v=27.0.0" defer></script>
-    <script src="js/user.js?v=27.0.0" defer></script>
-    <script src="js/aura.js?v=27.0.0" defer></script>
-    <script src="js/oasis.js?v=27.0.0" defer></script>
-    <script src="js/router.js?v=27.0.0" defer></script>
-    <script src="js/core.js?v=27.0.0" defer></script>
-    <script src="js/pwa.js?v=27.0.0" defer></script>
-
-    <!-- LIBRERÍA GENERADORA DE PDF DE ALTA COSTURA -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
-    <!-- MÓDULO DE EXPEDIENTE CLÍNICO INTERACTIVO Y FIRMA DIGITAL -->
-    <script src="js/expediente_clinico.js?v=27.0.0" defer></script>
+    <!-- MÓDULO DE EXPEDIENTE CLÍNICO V31.0 -->
+    <script src="js/expediente_clinico.js?v=31.0.0" defer></script>
 
 </body>
-    </html>
+</html>
+
+
