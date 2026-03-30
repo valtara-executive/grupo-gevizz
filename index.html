@@ -2,11 +2,12 @@
 <html lang="es" dir="ltr">
 <head>
     <meta charset="UTF-8">
+    <!-- Meta Viewport Optimizada para PWA y Notch de iPhone/Android -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <title>VALTARA | Executive Therapy & Biomechanics</title>
     
     <!-- ========================================================================= -->
-    <!-- SISTEMA INMUNOLÓGICO Y CIBERSEGURIDAD EXTREMA (SOVEREIGN V31.0)           -->
+    <!-- SISTEMA INMUNOLÓGICO Y CIBERSEGURIDAD EXTREMA (SOVEREIGN V32.0)           -->
     <!-- ========================================================================= -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -36,44 +37,78 @@
     <meta http-equiv="Permissions-Policy" content="interest-cohort=(), camera=(), microphone=(self)">
     
     <!-- ========================================================================= -->
-    <!-- ALGORITMO GUARDIÁN: MANEJO DE ERRORES GLOBALES (ANTI-CRASH)               -->
+    <!-- ALGORITMO GUARDIÁN V32.0: MANEJO DE ERRORES INTELIGENTE Y CLASIFICADO   -->
     <!-- ========================================================================= -->
     <script>
-        function triggerValtaraEmergencyProtocol(code, title, details, isUserError = false) {
-            let errDiv = document.getElementById('valtara-system-guard');
-            if(!errDiv) {
-                errDiv = document.createElement('div');
-                errDiv.id = 'valtara-system-guard';
-                errDiv.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(5,5,10,0.98); z-index:99999999; display:flex; justify-content:center; align-items:center; backdrop-filter:blur(20px); padding:20px;';
-                document.body.appendChild(errDiv);
-            }
-            
-            const userAction = isUserError 
-                ? "Por favor, verifique su conexión a internet, desactive bloqueadores de anuncios o recargue la página." 
-                : "El equipo de ingeniería de Grupo Gevizz ha sido notificado. Por favor, intente recargar la página en unos momentos.";
+        window.ValtaraDiagnostics = {
+            logSilencioso: function(tipo, detalle) {
+                // Guarda el error en secreto para los ingenieros sin asustar al usuario
+                console.groupCollapsed(`%c🛡️ Valtara Security Guard | Ignorado: ${tipo}`, 'color:#D4AF37; font-weight:bold; background:#050508; padding:2px 5px; border-radius:3px;');
+                console.log("Detalle Forense:", detalle);
+                console.groupEnd();
+            },
 
-            errDiv.innerHTML = `
-                <div style="background:#111; border:1px solid #ff5555; border-radius:20px; padding:30px; max-width:500px; text-align:center; box-shadow:0 10px 40px rgba(255,85,85,0.2);">
-                    <div style="color:#ff5555; font-size:3rem; margin-bottom:15px;">&#9888;</div>
-                    <h2 style="color:white; font-family:serif; font-size:1.8rem; margin:0 0 10px 0;">Interrupción del Sistema</h2>
-                    <p style="color:#aaa; font-size:1rem; margin-bottom:20px; line-height:1.5;">${title}</p>
-                    <div style="background:rgba(255,85,85,0.1); padding:15px; border-radius:10px; margin-bottom:20px; text-align:left;">
-                        <strong style="color:#ff5555; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Código de Diagnóstico: ${code}</strong>
-                        <p style="color:#ddd; font-size:0.85rem; font-family:monospace; margin:5px 0 0 0; word-break:break-all;">${details}</p>
+            evaluarImpacto: function(codigo, titulo, detalles, accionUsuario) {
+                // Lista Blanca: Errores comunes de celulares/navegadores que NO deben romper la página
+                const safeIgnores = [
+                    'shownotification',         // El usuario denegó o falló la notificación push
+                    'serviceworker',            // PWA cargando en segundo plano
+                    'html2pdf',                 // Librería de PDF asíncrona
+                    'play()',                   // El navegador bloqueó el autoplay de un audio/video
+                    'fetch',                    // Micro-corte de internet
+                    'user aborted',             // El usuario canceló una acción
+                    'network error',            // Bloqueador de anuncios detuvo algo
+                    'not allowed',              // Permisos denegados (cámara, mic, etc.)
+                    'failed to execute'         // Errores genéricos de APIs web móviles
+                ];
+                
+                const strDetails = String(detalles).toLowerCase();
+                
+                // 1. Si el error está en la Lista Blanca, lo absorbemos en silencio
+                if (safeIgnores.some(keyword => strDetails.includes(keyword))) {
+                    this.logSilencioso(codigo, detalles);
+                    return; 
+                }
+
+                // 2. Si es un error fatal real (Ej. un script vital borrado), disparamos la emergencia
+                this.detonarProtocolo(codigo, titulo, strDetails, accionUsuario);
+            },
+
+            detonarProtocolo: function(codigo, titulo, detalles, accionUsuario) {
+                let errDiv = document.getElementById('valtara-system-guard');
+                if(!errDiv) {
+                    errDiv = document.createElement('div');
+                    errDiv.id = 'valtara-system-guard';
+                    errDiv.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(5,5,10,0.98); z-index:99999999; display:flex; justify-content:center; align-items:center; backdrop-filter:blur(20px); padding:20px;';
+                    document.body.appendChild(errDiv);
+                }
+                
+                errDiv.innerHTML = `
+                    <div style="background:#111; border:1px solid #ff5555; border-radius:20px; padding:35px; max-width:500px; text-align:center; box-shadow:0 15px 50px rgba(255,85,85,0.2);">
+                        <div style="color:#ff5555; font-size:3.5rem; margin-bottom:15px; filter:drop-shadow(0 0 10px rgba(255,85,85,0.5));">&#9888;</div>
+                        <h2 style="color:white; font-family:'Playfair Display', serif; font-size:1.8rem; margin:0 0 10px 0;">Interrupción de Seguridad</h2>
+                        <p style="color:#aaa; font-size:1rem; margin-bottom:20px; line-height:1.5;">${titulo}</p>
+                        <div style="background:rgba(255,85,85,0.05); padding:15px; border-radius:12px; margin-bottom:25px; text-align:left; border-left:4px solid #ff5555;">
+                            <strong style="color:#ff5555; font-size:0.85rem; text-transform:uppercase; letter-spacing:1px;">Código Diagnóstico: ${codigo}</strong>
+                            <p style="color:#888; font-size:0.8rem; font-family:monospace; margin:8px 0 0 0; word-break:break-all;">${detalles}</p>
+                        </div>
+                        <p style="color:#aaa; font-size:0.95rem; margin-bottom:25px;">${accionUsuario}</p>
+                        <button onclick="location.reload(true)" style="background:transparent; border:2px solid #ff5555; color:#ff5555; padding:15px 30px; border-radius:12px; font-weight:900; cursor:pointer; text-transform:uppercase; letter-spacing:1px; width:100%; transition:0.3s;" onmouseover="this.style.background='rgba(255,85,85,0.1)'" onmouseout="this.style.background='transparent'">Restablecer Conexión Segura</button>
                     </div>
-                    <p style="color:#888; font-size:0.9rem; margin-bottom:25px;">${userAction}</p>
-                    <button onclick="location.reload(true)" style="background:transparent; border:1px solid #ff5555; color:#ff5555; padding:12px 25px; border-radius:10px; font-weight:bold; cursor:pointer; text-transform:uppercase; letter-spacing:1px; width:100%;">Restablecer Conexión</button>
-                </div>
-            `;
-        }
+                `;
+            }
+        };
 
+        // Atrapa Errores de Sintaxis y Librerías
         window.addEventListener('error', function(e) {
-            if(e.filename && e.filename.includes('html2pdf')) return; // Ignorar si html2pdf tarda en cargar
-            triggerValtaraEmergencyProtocol('ERR-CORE-01', 'Fallo en la arquitectura de la interfaz.', e.message, false);
+            const mensaje = e.message || 'Error de script desconocido';
+            ValtaraDiagnostics.evaluarImpacto('ERR-SYS-01', 'Fallo en la arquitectura de la interfaz gráfica.', mensaje, 'Por favor, recargue la página. Si el problema persiste, contacte a su Concierge.');
         });
 
+        // Atrapa Errores de Red, Promesas, PWA y APIs
         window.addEventListener('unhandledrejection', function(e) {
-            triggerValtaraEmergencyProtocol('ERR-NET-02', 'Fallo de conectividad o recurso inaccesible.', e.reason || 'Timeout', true);
+            const razon = e.reason && e.reason.message ? e.reason.message : String(e.reason || 'Timeout/Desconexión');
+            ValtaraDiagnostics.evaluarImpacto('ERR-NET-02', 'Interrupción de conectividad o recurso inaccesible.', razon, 'Verifique su conexión a internet o desactive bloqueadores de contenido estrictos.');
         });
     </script>
     <!-- ========================================================================= -->
@@ -94,15 +129,15 @@
     <link rel="preconnect" href="https://aura-server-erfj.vercel.app" crossorigin="anonymous">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous">
 
-    <!-- Carga Crítica de Estilos (V31.0.0) -->
-    <link rel="preload" href="css/main.css?v=31.0.0" as="style">
-    <link rel="preload" href="css/components.css?v=31.0.0" as="style">
+    <!-- Carga Crítica de Estilos (V32.0.0) -->
+    <link rel="preload" href="css/main.css?v=32.0.0" as="style">
+    <link rel="preload" href="css/components.css?v=32.0.0" as="style">
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="css/main.css?v=31.0.0">
-    <link rel="stylesheet" href="css/components.css?v=31.0.0">
+    <link rel="stylesheet" href="css/main.css?v=32.0.0">
+    <link rel="stylesheet" href="css/components.css?v=32.0.0">
     
     <style>
         @keyframes pulseAuraGoldHTML { 0% { transform: scale(0.9); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 1; } }
@@ -117,7 +152,7 @@
 </head>
 <body class="system-loading">
 
-    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma blindada Sovereign Valtara 31.0.0. Ecosistema biomécanico asegurado...</div>
+    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma blindada Sovereign Valtara 32.0.0. Ecosistema biomécanico asegurado...</div>
 
     <div id="app-wrapper" aria-hidden="false">
 
@@ -173,7 +208,7 @@
 
                 <h3 class="menu-section-title" style="margin-top: 2.5rem;">Tu Configuración</h3>
                 <ul class="nav-list" role="menu">
-                    <!-- BOTÓN DE EXPEDIENTE BLINDADO (Sin clase nav-item) -->
+                    <!-- BOTÓN DE EXPEDIENTE BLINDADO -->
                     <li role="none">
                         <button role="menuitem" class="btn-expediente-safe" id="btn-open-expediente" aria-haspopup="dialog" onclick="if(window.ExpedienteEngine) window.ExpedienteEngine.openOverlay();">
                             <i class="fa-solid fa-file-signature"></i> <span>Mi Expediente Soberano</span>
@@ -260,6 +295,38 @@
             </a>
         </aside>
 
+        <!-- SECCIONES PRINCIPALES -->
+        <div id="onboarding-screen" class="full-screen-overlay" aria-hidden="false" role="dialog" aria-labelledby="onboarding-title">
+            <div class="onboarding-content">
+                <div class="glow-icon-wrapper" style="margin-bottom: 2rem;">
+                    <i aria-hidden="true" class="fa-solid fa-seedling gold-icon" style="font-size: 3.5rem; color: var(--valtara-cian-brillante); text-shadow: 0 0 20px rgba(0,255,255,0.4);"></i>
+                </div>
+                
+                <h1 id="onboarding-title" style="font-family: var(--font-accent); font-size: 3.5rem; margin-bottom: 1rem; color: var(--valtara-blanco);">Bienvenido</h1>
+                <p style="color: var(--valtara-gris-texto); font-size: 1.3rem; margin-bottom: 3.5rem; font-weight: 300; letter-spacing: 1px;">
+                    ¿Cómo podemos llamarte el día de hoy?
+                </p>
+                
+                <div class="input-group" style="background: transparent; border: none; box-shadow: none; padding: 0;">
+                    <input type="radio" name="user_avatar" value="fa-spa" checked style="display:none;">
+
+                    <div style="position: relative; max-width: 400px; margin: 0 auto;">
+                        <label for="welcome-name-input" class="sr-only">Tu nombre o apodo</label>
+                        <i class="fa-solid fa-user" style="position: absolute; left: 1.5rem; top: 1.8rem; font-size: 1.2rem; color: var(--valtara-oro);"></i>
+                        <input type="text" id="welcome-name-input" placeholder="Ej. Antonio, Doctor..." autocomplete="off" style="padding-left: 4rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); text-align: left;">
+                    </div>
+
+                    <button id="welcome-start-btn" class="btn-primary" style="margin-top: 2rem; width: 100%; max-width: 400px; font-size: 1.2rem; padding: 1.5rem; background: rgba(255,255,255,0.05); color: #666; border-color: transparent; pointer-events: none; transition: all 0.4s ease;">
+                        <i class="fa-solid fa-door-open" style="margin-right: 10px;"></i> Entrar al Santuario
+                    </button>
+                </div>
+                
+                <button id="welcome-skip-btn" class="btn-text-only" style="margin-top: 2.5rem; color: #aaa; font-size: 1.1rem; text-decoration: underline; background: transparent; border: none; cursor: pointer; transition: 0.3s;">
+                    Explorar como invitado
+                </button>
+            </div>
+        </div>
+
         <main id="main-content" role="main" aria-live="polite">
             <section aria-label="Página de Inicio y Mapa Interactivo" class="view-section active" id="view-home"></section>
             <section aria-label="Catálogo de Masajes" class="view-section" id="view-restoration"></section>
@@ -274,55 +341,55 @@
 
     </div> 
     
-    <!-- Carga Diferida (DEFER) para rendimiento máximo. V31.0.0 -->
-    <script src="js/inicio_bienvenida.js?v=31.0.0" defer></script>
-    <script src="js/inicio_refugio.js?v=31.0.0" defer></script>
-    <script src="js/inicio_promociones.js?v=31.0.0" defer></script>
-    <script src="js/inicio_arte_unas.js?v=31.0.0" defer></script>
-    <script src="js/inicio_mapa_cuerpo.js?v=31.0.0" defer></script>
-    <script src="js/inicio_redes_sociales.js?v=31.0.0" defer></script>
+    <!-- Carga Diferida (DEFER) para rendimiento máximo. V32.0.0 -->
+    <script src="js/inicio_bienvenida.js?v=32.0.0" defer></script>
+    <script src="js/inicio_refugio.js?v=32.0.0" defer></script>
+    <script src="js/inicio_promociones.js?v=32.0.0" defer></script>
+    <script src="js/inicio_arte_unas.js?v=32.0.0" defer></script>
+    <script src="js/inicio_mapa_cuerpo.js?v=32.0.0" defer></script>
+    <script src="js/inicio_redes_sociales.js?v=32.0.0" defer></script>
 
-    <script src="js/catalogo_masajes.js?v=31.0.0" defer></script>
-    <script src="js/catalogo_belleza.js?v=31.0.0" defer></script>
+    <script src="js/catalogo_masajes.js?v=32.0.0" defer></script>
+    <script src="js/catalogo_belleza.js?v=32.0.0" defer></script>
 
-    <script src="js/ciencia_introduccion.js?v=31.0.0" defer></script>
-    <script src="js/ciencia_neurobiologia.js?v=31.0.0" defer></script>
-    <script src="js/ciencia_fascia.js?v=31.0.0" defer></script>
-    <script src="js/ciencia_acustica.js?v=31.0.0" defer></script>
-    <script src="js/ciencia_biomecanica.js?v=31.0.0" defer></script>
-    <script src="js/ciencia_botanica.js?v=31.0.0" defer></script>
-    <script src="js/ciencia_inclusion.js?v=31.0.0" defer></script>
-    <script src="js/ciencia_referencias.js?v=31.0.0" defer></script>
+    <script src="js/ciencia_introduccion.js?v=32.0.0" defer></script>
+    <script src="js/ciencia_neurobiologia.js?v=32.0.0" defer></script>
+    <script src="js/ciencia_fascia.js?v=32.0.0" defer></script>
+    <script src="js/ciencia_acustica.js?v=32.0.0" defer></script>
+    <script src="js/ciencia_biomecanica.js?v=32.0.0" defer></script>
+    <script src="js/ciencia_botanica.js?v=32.0.0" defer></script>
+    <script src="js/ciencia_inclusion.js?v=32.0.0" defer></script>
+    <script src="js/ciencia_referencias.js?v=32.0.0" defer></script>
     
-    <script src="js/juego_alquimista.js?v=31.0.0" defer></script>
+    <script src="js/juego_alquimista.js?v=32.0.0" defer></script>
 
-    <script src="js/legal_historia.js?v=31.0.0" defer></script>
-    <script src="js/legal_manifiesto.js?v=31.0.0" defer></script>
-    <script src="js/legal_transparencia.js?v=31.0.0" defer></script>
-    <script src="js/legal_preguntas.js?v=31.0.0" defer></script>
-    <script src="js/modal_terminos.js?v=31.0.0" defer></script>
-    <script src="js/modal_whitepaper.js?v=31.0.0" defer></script>
+    <script src="js/legal_historia.js?v=32.0.0" defer></script>
+    <script src="js/legal_manifiesto.js?v=32.0.0" defer></script>
+    <script src="js/legal_transparencia.js?v=32.0.0" defer></script>
+    <script src="js/legal_preguntas.js?v=32.0.0" defer></script>
+    <script src="js/modal_terminos.js?v=32.0.0" defer></script>
+    <script src="js/modal_whitepaper.js?v=32.0.0" defer></script>
 
-    <script src="js/sonoterapia_introduccion.js?v=31.0.0" defer></script>
-    <script src="js/sonoterapia_videos.js?v=31.0.0" defer></script>
-    <script src="js/sonoterapia_audio.js?v=31.0.0" defer></script>
+    <script src="js/sonoterapia_introduccion.js?v=32.0.0" defer></script>
+    <script src="js/sonoterapia_videos.js?v=32.0.0" defer></script>
+    <script src="js/sonoterapia_audio.js?v=32.0.0" defer></script>
 
-    <script src="js/global_footer.js?v=31.0.0" defer></script>
-    <script src="js/constructor_maestro.js?v=31.0.0" defer></script>
+    <script src="js/global_footer.js?v=32.0.0" defer></script>
+    <script src="js/constructor_maestro.js?v=32.0.0" defer></script>
 
-    <script src="js/a11y.js?v=31.0.0" defer></script>
-    <script src="js/user.js?v=31.0.0" defer></script>
-    <script src="js/aura.js?v=31.0.0" defer></script>
-    <script src="js/oasis.js?v=31.0.0" defer></script>
-    <script src="js/router.js?v=31.0.0" defer></script>
-    <script src="js/core.js?v=31.0.0" defer></script>
-    <script src="js/pwa.js?v=31.0.0" defer></script>
+    <script src="js/a11y.js?v=32.0.0" defer></script>
+    <script src="js/user.js?v=32.0.0" defer></script>
+    <script src="js/aura.js?v=32.0.0" defer></script>
+    <script src="js/oasis.js?v=32.0.0" defer></script>
+    <script src="js/router.js?v=32.0.0" defer></script>
+    <script src="js/core.js?v=32.0.0" defer></script>
+    <script src="js/pwa.js?v=32.0.0" defer></script>
 
     <!-- LIBRERÍA GENERADORA DE PDF (Con Pasaporte CrossOrigin) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous" defer></script>
     
-    <!-- MÓDULO DE EXPEDIENTE CLÍNICO V31.0 -->
-    <script src="js/expediente_clinico.js?v=31.0.0" defer></script>
+    <!-- MÓDULO DE EXPEDIENTE CLÍNICO V32.0 -->
+    <script src="js/expediente_clinico.js?v=32.0.0" defer></script>
 
 </body>
 </html>
