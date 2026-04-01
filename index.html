@@ -6,7 +6,7 @@
     <title>VALTARA | Executive Therapy & Biomechanics</title>
     
     <!-- ========================================================================= -->
-    <!-- SISTEMA INMUNOLÓGICO Y CIBERSEGURIDAD EXTREMA (SOVEREIGN V33.5)           -->
+    <!-- SISTEMA INMUNOLÓGICO Y CIBERSEGURIDAD EXTREMA (SOVEREIGN V38.1)           -->
     <!-- ========================================================================= -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -36,7 +36,7 @@
     <meta http-equiv="Permissions-Policy" content="interest-cohort=(), camera=(), microphone=(self)">
     
     <!-- ========================================================================= -->
-    <!-- ALGORITMO GUARDIÁN V33.5: MANEJO DE ERRORES INTELIGENTE Y SILENCIOSO    -->
+    <!-- ALGORITMO GUARDIÁN V38.1: MANEJO DE ERRORES INTELIGENTE Y SILENCIOSO    -->
     <!-- ========================================================================= -->
     <script>
         window.ValtaraDiagnostics = {
@@ -131,17 +131,52 @@
     <link rel="preconnect" href="https://aura-server-erfj.vercel.app" crossorigin="anonymous">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous">
 
-    <!-- Carga Crítica de Estilos (V33.5.0) -->
-    <link rel="preload" href="css/main.css?v=33.5.0" as="style">
-    <link rel="preload" href="css/components.css?v=33.5.0" as="style">
+    <!-- Carga Crítica de Estilos (V38.1.0) -->
+    <link rel="preload" href="css/main.css?v=38.1.0" as="style">
+    <link rel="preload" href="css/components.css?v=38.1.0" as="style">
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="css/main.css?v=33.5.0">
-    <link rel="stylesheet" href="css/components.css?v=33.5.0">
+    <link rel="stylesheet" href="css/main.css?v=38.1.0">
+    <link rel="stylesheet" href="css/components.css?v=38.1.0">
     
     <style>
+        /* ========================================================================== */
+        /* FORZADO DE TAMAÑO DE LOGOTIPO - V38.1                                      */
+        /* ========================================================================== */
+        .header-logo {
+            height: 60px !important; /* Altura forzada para que destaque */
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            width: auto !important;
+            overflow: visible !important;
+        }
+        
+        .header-logo .logo-img {
+            height: 100% !important;
+            width: auto !important;
+            max-height: 60px !important;
+            object-fit: contain !important;
+            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4)) !important; /* Resplandor dorado corporativo */
+            transition: transform 0.3s ease;
+        }
+
+        .header-logo:hover .logo-img {
+            transform: scale(1.05); /* Efecto de interacción sutil */
+        }
+
+        /* Ajuste para pantallas móviles pequeñas */
+        @media (max-width: 768px) {
+            .header-logo { height: 55px !important; }
+            .header-logo .logo-img { max-height: 55px !important; }
+        }
+        /* ========================================================================== */
+
         @keyframes pulseAuraGoldHTML { 0% { transform: scale(0.9); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 1; } }
         .btn-expediente-safe {
             width: 100%; display: flex; align-items: center; gap: 15px; padding: 1rem 1.5rem; 
@@ -154,7 +189,7 @@
 </head>
 <body class="system-loading">
 
-    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma blindada Sovereign Valtara 33.5.0. Ecosistema biomécanico asegurado...</div>
+    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma blindada Sovereign Valtara 38.1.0. Ecosistema biomécanico asegurado...</div>
 
     <div id="app-wrapper" aria-hidden="false">
 
@@ -168,8 +203,9 @@
         </div>
 
         <header class="system-header" role="banner">
-            <button aria-label="Logotipo oficial de Valtara." class="header-logo" id="logo-btn" onclick="Router.navigate('home')">
-                <img src="logo.png" alt="Valtara Logo" class="logo-img">
+            <!-- BOTÓN DE LOGOTIPO CON ACCESIBILIDAD Y DESCRIPCIÓN COMPLETA V38.1 -->
+            <button aria-label="Inicio. Logotipo corporativo de Valtara Executive. Flor de loto geométrica dorada sobre nombre de marca." class="header-logo" id="logo-btn" onclick="Router.navigate('home')">
+                <img src="logo.png" alt="Logotipo corporativo de Valtara Executive. Sobre un fondo oscuro y elegante, destaca en la parte superior un isotipo geométrico y simétrico de una flor de loto, trazado con líneas finas en color oro metálico. Debajo, el nombre principal 'VALTARA' en letras doradas, gruesas y sólidas. En la base, la palabra 'EXECUTIVE' en una tipografía más pequeña y espaciada, transmitiendo prestigio, tecnología y atención clínica de alto nivel." class="logo-img">
             </button>
 
             <div class="header-controls">
@@ -335,57 +371,55 @@
 
     </div> 
     
-    <!-- Carga Diferida (DEFER) para rendimiento máximo. V33.5.0 -->
-    <script src="js/inicio_bienvenida.js?v=33.5.0" defer></script>
-    <script src="js/inicio_refugio.js?v=33.5.0" defer></script>
-    <script src="js/inicio_promociones.js?v=33.5.0" defer></script>
-    <script src="js/inicio_arte_unas.js?v=33.5.0" defer></script>
-    <script src="js/inicio_mapa_cuerpo.js?v=33.5.0" defer></script>
-    <script src="js/inicio_redes_sociales.js?v=33.5.0" defer></script>
+    <!-- Carga Diferida (DEFER) para rendimiento máximo. V38.1.0 -->
+    <script src="js/inicio_bienvenida.js?v=38.1.0" defer></script>
+    <script src="js/inicio_refugio.js?v=38.1.0" defer></script>
+    <script src="js/inicio_promociones.js?v=38.1.0" defer></script>
+    <script src="js/inicio_arte_unas.js?v=38.1.0" defer></script>
+    <script src="js/inicio_mapa_cuerpo.js?v=38.1.0" defer></script>
+    <script src="js/inicio_redes_sociales.js?v=38.1.0" defer></script>
 
-    <script src="js/catalogo_masajes.js?v=33.5.0" defer></script>
-    <script src="js/catalogo_belleza.js?v=33.5.0" defer></script>
+    <script src="js/catalogo_masajes.js?v=38.1.0" defer></script>
+    <script src="js/catalogo_belleza.js?v=38.1.0" defer></script>
 
-    <script src="js/ciencia_introduccion.js?v=33.5.0" defer></script>
-    <script src="js/ciencia_neurobiologia.js?v=33.5.0" defer></script>
-    <script src="js/ciencia_fascia.js?v=33.5.0" defer></script>
-    <script src="js/ciencia_acustica.js?v=33.5.0" defer></script>
-    <script src="js/ciencia_biomecanica.js?v=33.5.0" defer></script>
-    <script src="js/ciencia_botanica.js?v=33.5.0" defer></script>
-    <script src="js/ciencia_inclusion.js?v=33.5.0" defer></script>
-    <script src="js/ciencia_referencias.js?v=33.5.0" defer></script>
+    <script src="js/ciencia_introduccion.js?v=38.1.0" defer></script>
+    <script src="js/ciencia_neurobiologia.js?v=38.1.0" defer></script>
+    <script src="js/ciencia_fascia.js?v=38.1.0" defer></script>
+    <script src="js/ciencia_acustica.js?v=38.1.0" defer></script>
+    <script src="js/ciencia_biomecanica.js?v=38.1.0" defer></script>
+    <script src="js/ciencia_botanica.js?v=38.1.0" defer></script>
+    <script src="js/ciencia_inclusion.js?v=38.1.0" defer></script>
+    <script src="js/ciencia_referencias.js?v=38.1.0" defer></script>
     
-    <script src="js/juego_alquimista.js?v=33.5.0" defer></script>
+    <script src="js/juego_alquimista.js?v=38.1.0" defer></script>
 
-    <script src="js/legal_historia.js?v=33.5.0" defer></script>
-    <script src="js/legal_manifiesto.js?v=33.5.0" defer></script>
-    <script src="js/legal_transparencia.js?v=33.5.0" defer></script>
-    <script src="js/legal_preguntas.js?v=33.5.0" defer></script>
-    <script src="js/modal_terminos.js?v=33.5.0" defer></script>
-    <script src="js/modal_whitepaper.js?v=33.5.0" defer></script>
+    <script src="js/legal_historia.js?v=38.1.0" defer></script>
+    <script src="js/legal_manifiesto.js?v=38.1.0" defer></script>
+    <script src="js/legal_transparencia.js?v=38.1.0" defer></script>
+    <script src="js/legal_preguntas.js?v=38.1.0" defer></script>
+    <script src="js/modal_terminos.js?v=38.1.0" defer></script>
+    <script src="js/modal_whitepaper.js?v=38.1.0" defer></script>
 
-    <script src="js/sonoterapia_introduccion.js?v=33.5.0" defer></script>
-    <script src="js/sonoterapia_videos.js?v=33.5.0" defer></script>
-    <script src="js/sonoterapia_audio.js?v=33.5.0" defer></script>
+    <script src="js/sonoterapia_introduccion.js?v=38.1.0" defer></script>
+    <script src="js/sonoterapia_videos.js?v=38.1.0" defer></script>
+    <script src="js/sonoterapia_audio.js?v=38.1.0" defer></script>
 
-    <script src="js/global_footer.js?v=33.5.0" defer></script>
-    <script src="js/constructor_maestro.js?v=33.5.0" defer></script>
+    <script src="js/global_footer.js?v=38.1.0" defer></script>
+    <script src="js/constructor_maestro.js?v=38.1.0" defer></script>
 
-    <script src="js/a11y.js?v=33.5.0" defer></script>
-    <script src="js/user.js?v=33.5.0" defer></script>
-    <script src="js/aura.js?v=33.5.0" defer></script>
-    <script src="js/oasis.js?v=33.5.0" defer></script>
-    <script src="js/router.js?v=33.5.0" defer></script>
-    <script src="js/core.js?v=33.5.0" defer></script>
-    <script src="js/pwa.js?v=33.5.0" defer></script>
+    <script src="js/a11y.js?v=38.1.0" defer></script>
+    <script src="js/user.js?v=38.1.0" defer></script>
+    <script src="js/aura.js?v=38.1.0" defer></script>
+    <script src="js/oasis.js?v=38.1.0" defer></script>
+    <script src="js/router.js?v=38.1.0" defer></script>
+    <script src="js/core.js?v=38.1.0" defer></script>
+    <script src="js/pwa.js?v=38.1.0" defer></script>
 
     <!-- LIBRERÍA GENERADORA DE PDF (Con Pasaporte CrossOrigin) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous" defer></script>
     
-    <!-- MÓDULO DE EXPEDIENTE CLÍNICO V33.5 -->
-    <script src="js/expediente_clinico.js?v=33.5.0" defer></script>
+    <!-- MÓDULO DE EXPEDIENTE CLÍNICO V38.1 -->
+    <script src="js/expediente_clinico.js?v=38.1.0" defer></script>
 
 </body>
-</html>
-
-
+    </html>
