@@ -1,9 +1,9 @@
 /**
  * ====================================================================================
  * MÓDULO: GLOBAL FOOTER (EL MANIFIESTO VALTARA)
- * Versión: Sovereign OS V38.0
+ * Versión: Sovereign OS V38.1 (Actualización de Seguridad y Enrutamiento Corporativo)
  * Descripción: Cierre monumental, Muro de Certificaciones Explicadas, Botón de 
- * Expediente Seguro, y Aviso Legal Blindado de Grupo Gevizz S.A.S.
+ * Expediente Seguro, Sello de Entorno No-Tóxico y Aviso Legal Blindado de Grupo Gevizz S.A.S.
  * ====================================================================================
  */
 
@@ -29,6 +29,9 @@ window.ValtaraModulos.global_footer = `
         .btn-email { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.2); color: var(--valtara-blanco); }
         .btn-email:hover { background: var(--valtara-blanco); color: var(--valtara-negro-fondo); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(255,255,255,0.2); }
         
+        .btn-email-ceo { background: rgba(242, 201, 76, 0.05); border: 1px solid rgba(242, 201, 76, 0.4); color: var(--valtara-oro); }
+        .btn-email-ceo:hover { background: var(--valtara-oro); color: var(--valtara-negro-fondo); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(242, 201, 76, 0.3); }
+
         .btn-ws-footer { background: rgba(37, 211, 102, 0.08); border: 1px solid rgba(37, 211, 102, 0.5); color: var(--valtara-blanco); }
         .btn-ws-footer:hover { background: var(--valtara-whatsapp); color: var(--valtara-negro-fondo); transform: translateY(-5px); box-shadow: 0 10px 35px rgba(37, 211, 102, 0.4); border-color: transparent;}
 
@@ -122,7 +125,21 @@ window.ValtaraModulos.global_footer = `
                 </p>
             </div>
 
-            <h4 style="font-size: 1.8rem; color: var(--valtara-blanco); margin-bottom: 1.5rem; font-weight: 900; border-bottom: 3px solid #9b51e0; padding-bottom: 0.8rem; display: inline-block;">Conexión Segura</h4>
+            <h4 style="font-size: 1.8rem; color: var(--valtara-blanco); margin-bottom: 1.5rem; font-weight: 900; border-bottom: 3px solid #9b51e0; padding-bottom: 0.8rem; display: inline-block;">Conexión Segura Oficial</h4>
+            
+            <!-- ===================================================================== -->
+            <!-- SELLO DE AUTENTICIDAD Y ENTORNO NO TÓXICO V38.1                       -->
+            <!-- ===================================================================== -->
+            <div aria-label="Sello de seguridad digital" style="background: linear-gradient(135deg, rgba(155, 81, 224, 0.1), rgba(0,0,0,0)); border-left: 4px solid #9b51e0; border-radius: 12px; padding: 18px; margin-bottom: 25px;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                    <i class="fa-solid fa-certificate" style="color: #9b51e0; font-size: 1.4rem;"></i>
+                    <span style="color: var(--valtara-blanco); font-weight: 900; letter-spacing: 1px; font-size: 1rem; text-transform: uppercase;">Entorno Digital Verificado</span>
+                </div>
+                <p style="color: #bbb; font-size: 0.95rem; line-height: 1.6; margin: 0; text-align: justify;">
+                    Navegas en la <strong>Web Original de Valtara</strong> <span style="color: var(--valtara-oro);">(valtaraexecutive.com)</span>. Hemos desplegado un ecosistema 100% cifrado y <strong>libre de toxicidad digital</strong>. Los enlaces debajo representan nuestros únicos medios de contacto oficiales. <em>Rechaza imitaciones.</em>
+                </p>
+            </div>
+
             <div style="display: flex; flex-direction: column; gap: 1.2rem;">
                 <a href="https://maps.app.goo.gl/RkpgEZorn5V1vrGy5" target="_blank" aria-label="Navegar en Google Maps" class="footer-action-btn btn-maps">
                     <i class="fa-solid fa-location-arrow" aria-hidden="true"></i> Iniciar Navegación
@@ -133,8 +150,13 @@ window.ValtaraModulos.global_footer = `
                 <a href="https://wa.me/5213348572070" target="_blank" aria-label="Abrir canal de WhatsApp seguro" class="footer-action-btn btn-ws-footer">
                     <i class="fa-brands fa-whatsapp" aria-hidden="true" style="font-size: 1.5rem;"></i> WhatsApp Cifrado
                 </a>
-                <a href="mailto:clientes.valtara@gmail.com" aria-label="Redactar correo a clientes.valtara@gmail.com" class="footer-action-btn btn-email">
-                    <i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i> Correo Electrónico
+                
+                <!-- CORREOS CORPORATIVOS VALTARAEXECUTIVE.COM -->
+                <a href="mailto:hola@valtaraexecutive.com" aria-label="Redactar correo a Atención al Cliente y Recepción" class="footer-action-btn btn-email">
+                    <i class="fa-solid fa-envelope" aria-hidden="true"></i> hola@valtara...
+                </a>
+                <a href="mailto:angel.guerrero@valtaraexecutive.com" aria-label="Redactar correo directo a Dirección General" class="footer-action-btn btn-email-ceo">
+                    <i class="fa-solid fa-user-tie" aria-hidden="true"></i> Contacto Directivo
                 </a>
             </div>
         </div>
@@ -146,7 +168,7 @@ window.ValtaraModulos.global_footer = `
                 <div style="position: absolute; top: -20px; right: -20px; opacity: 0.05; transform: scale(3); pointer-events: none;">
                     <i class="fa-solid fa-microchip"></i>
                 </div>
-                <strong style="color: var(--valtara-oro); font-size: 1.6rem; letter-spacing: 3px; font-family: var(--font-accent); display:block; margin-bottom:15px; position: relative; z-index: 1;">SOVEREIGN OS V38.0</strong>
+                <strong style="color: var(--valtara-oro); font-size: 1.6rem; letter-spacing: 3px; font-family: var(--font-accent); display:block; margin-bottom:15px; position: relative; z-index: 1;">SOVEREIGN OS V38.1</strong>
                 <p style="font-size: 1.1rem; font-weight: 300; color: #ddd; margin:0; line-height:1.7; position: relative; z-index: 1; text-align: justify;">
                     Un ecosistema digital programado desde cero. Integramos una Arquitectura de Aplicación Nativa (PWA), motores de Inteligencia Artificial Cognitiva, renderizado vectorial matemático (jsPDF) y normativas mundiales de Diseño UX/UI, construidos de forma propietaria e <em>In-House</em> por la Dirección Tecnológica de Grupo Gevizz S.A.S.
                 </p>
@@ -207,7 +229,7 @@ window.ValtaraModulos.global_footer = `
         
         <div style="max-width: 1100px; margin: 0 auto; background: rgba(0,0,0,0.6); padding: 35px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
             <p style="font-size: 1.1rem; color: #ccc; line-height: 1.8; margin: 0; font-weight: 300; text-align: justify; text-align-last: center;">
-                <strong style="color: white;">PROPIEDAD CÓDIGO FUENTE:</strong> Queda terminantemente prohibida, protegida y severamente penada por las leyes internacionales y nacionales de propiedad intelectual la replicación, clonación, ingeniería inversa, extracción o distribución (parcial o total) del código fuente, la arquitectura de Inteligencia Artificial, los motores de renderizado PDF matemático, la topografía SVG, la identidad gráfica, la paleta cromática o el modelo logístico de esta plataforma soberana. Cualquier intento de vulneración será auditado y procesado legalmente.
+                <strong style="color: white;">PROPIEDAD CÓDIGO FUENTE:</strong> Queda terminantemente prohibida, protegida y severamente penada por las leyes internacionales y nacionales de propiedad intelectual la replicación, clonación, ingeniería inversa, extracción o distribución (parcial o total) del código fuente alojado en <strong><a href="https://valtaraexecutive.com" style="color: var(--valtara-oro); text-decoration: none;">valtaraexecutive.com</a></strong>, la arquitectura de Inteligencia Artificial, los motores de renderizado PDF matemático, la topografía SVG, la identidad gráfica, la paleta cromática o el modelo logístico de esta plataforma soberana. Cualquier intento de vulneración será auditado y procesado legalmente.
             </p>
         </div>
 
