@@ -1,13 +1,24 @@
 /**
  * ====================================================================================
- * BLOQUE 11: ENRUTADOR SOBERANO V27.1 (DELEGACIÓN OMNISCIENTE)
- * Controlador centralizado de navegación, transiciones suaves y blindaje de botones.
+ * BLOQUE 11: ENRUTADOR SOBERANO V27.2 (DELEGACIÓN OMNISCIENTE + HISTORY API)
+ * Controlador centralizado de navegación, transiciones suaves, blindaje de botones
+ * y soporte nativo para gestos de retroceso en dispositivos móviles.
  * ====================================================================================
  */
 
 const Router = {
-    navigate: function(targetId) {
-        // 1. Desvanecer suavemente todas las secciones activas
+    // 1. Añadimos el parámetro saveHistory (por defecto en true) para controlar las migajas
+    navigate: function(targetId, saveHistory = true) {
+        
+        // ====================================================================
+        // EL MOTOR DE GESTOS DEL CELULAR (HISTORY API)
+        // Registra la "migaja de pan" silenciosamente en el navegador
+        // ====================================================================
+        if (saveHistory) {
+            window.history.pushState({ vista: targetId }, '', '#' + targetId);
+        }
+
+        // 2. Desvanecer suavemente todas las secciones activas
         const sections = document.querySelectorAll('.view-section');
         sections.forEach(sec => {
             if (sec.classList.contains('active')) {
@@ -16,7 +27,7 @@ const Router = {
             }
         });
         
-        // 2. Esperar a que termine el desvanecimiento para cambiar de pantalla
+        // 3. Esperar a que termine el desvanecimiento para cambiar de pantalla
         setTimeout(() => {
             sections.forEach(sec => { sec.style.display = 'none'; });
             
@@ -40,8 +51,8 @@ const Router = {
     },
     
     init: function() {
-        // Cargar la página de inicio por defecto
-        this.navigate('home');
+        // Cargar la página de inicio por defecto (creando la primera migaja)
+        this.navigate('home', true);
         
         // ====================================================================
         // DELEGACIÓN DE EVENTOS (EL BLINDAJE CONTRA BOTONES MUERTOS)
@@ -53,7 +64,8 @@ const Router = {
             const navBtn = e.target.closest('[data-target]');
             if (navBtn) {
                 e.preventDefault();
-                this.navigate(navBtn.getAttribute('data-target'));
+                // Navega usando el atributo y crea una nueva migaja en el historial
+                this.navigate(navBtn.getAttribute('data-target'), true);
                 this.closeMenu();
                 return;
             }
@@ -108,6 +120,20 @@ const Router = {
         }
     }
 };
+
+// ========================================================================
+// ESCUCHADOR DE EVENTOS GLOBALES: ATRAPAR EL GESTO DE RETROCESO DEL CELULAR
+// ========================================================================
+window.addEventListener('popstate', function(event) {
+    // Cuando el usuario desliza para atrás o presiona el botón físico:
+    if (event.state && event.state.vista) {
+        // Navegamos a la sección guardada en el historial SIN crear una nueva migaja (false)
+        Router.navigate(event.state.vista, false);
+    } else {
+        // Si retrocede más allá del historial, lo mandamos al inicio por seguridad
+        Router.navigate('home', false);
+    }
+});
 
 // Arrancar el enrutador con un micro-retraso para asegurar que el DOM esté listo
 window.addEventListener('DOMContentLoaded', () => { 
