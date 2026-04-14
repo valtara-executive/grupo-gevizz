@@ -14,11 +14,45 @@ const CoreEngine = {
         this.initModals();
         this.initSideMenu();
         this.initBodyMap();
+        this.inyectarCSSAltaEficiencia(); // CSS dinámico para evitar sobrecalentamiento
         
         // 3. Retirar la pantalla de carga inicial del navegador suavemente
         setTimeout(() => {
             document.body.classList.remove('system-loading');
         }, 300);
+    },
+
+    // ================================================================================
+    // MOTOR TÉRMICO Y ACCESIBILIDAD (Detecta lector de pantalla)
+    // ================================================================================
+    inyectarCSSAltaEficiencia: function() {
+        if(document.getElementById('eco-mode-styles')) return;
+        const style = document.createElement('style');
+        style.id = 'eco-mode-styles';
+        style.innerHTML = `
+            @media (prefers-reduced-motion: reduce) {
+                * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+                .ambient-engine { display: none !important; }
+            }
+            body.eco-mode .exp-overlay,
+            body.eco-mode #aura-modal,
+            body.eco-mode .msg,
+            body.eco-mode .glass-card {
+                backdrop-filter: none !important; 
+                -webkit-backdrop-filter: none !important;
+                background: rgba(10, 10, 15, 0.98) !important; 
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Si usa la tecla TAB (lector de pantalla), activamos el modo Eco
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') document.body.classList.add('eco-mode');
+        });
+        // Si toca la pantalla, asumimos dispositivo normal y devolvemos el lujo visual
+        window.addEventListener('touchstart', () => {
+            document.body.classList.remove('eco-mode');
+        }, { passive: true });
     },
 
     // ================================================================================
@@ -168,83 +202,48 @@ const CoreEngine = {
                 <i class="fa-solid fa-head-side-virus" style="font-size: 4rem; color: var(--valtara-cian-brillante); margin-bottom: 1rem;"></i>
                 <h4 style="font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem; font-family: var(--font-accent);">Cráneo, Mandíbula y Rostro</h4>
                 <p style="color: var(--valtara-gris-texto); font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: 300;">El estrés somatizado en esta zona es silencioso pero devastador. Explora la ciencia detrás de tu dolor:</p>
-                
                 <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1rem; border: 1px solid rgba(0,255,255,0.3); cursor: pointer; transition: 0.3s;">
                     <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-cian-brillante); outline: none;"><i class="fa-solid fa-microscope"></i> 1. El Nervio Trigémino y el Bruxismo</summary>
                     <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">El nervio trigémino controla los músculos de la masticación. Bajo niveles altos de estrés, tus músculos maseteros ejercen hasta 70kg de presión involuntaria mientras duermes (Bruxismo).</p>
-                    
                     <details style="background: rgba(0,0,0,0.6); padding: 1.5rem; border-radius: 1rem; margin-top: 1.5rem; border-left: 4px solid var(--valtara-alerta); cursor: pointer;">
                         <summary style="font-weight: bold; color: var(--valtara-alerta); font-size: 1.1rem; outline: none;"><i class="fa-solid fa-triangle-exclamation"></i> Impacto a largo plazo</summary>
-                        <p style="margin-top: 1rem; color: #ddd; font-size: 1.1rem; line-height: 1.7;">Si no se atiende, esto provoca el desgaste total de las piezas dentales, migrañas crónicas, fatiga visual severa y envejecimiento prematuro del tejido facial por falta de oxigenación celular.</p>
+                        <p style="margin-top: 1rem; color: #ddd; font-size: 1.1rem; line-height: 1.7;">Si no se atiende, esto provoca desgaste dental, migrañas crónicas y envejecimiento prematuro del tejido facial por falta de oxigenación celular.</p>
                     </details>
                 </details>
-
                 <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 1px solid rgba(242,201,76,0.3); cursor: pointer; transition: 0.3s;">
-                    <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-oro); outline: none;"><i class="fa-solid fa-prescription-bottle-medical"></i> 2. La Solución Clínica en Valtara</summary>
-                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Recomendamos prescribir la <strong>Rehabilitación Facial por Estrés ($419 o $529 MXN)</strong>. Utilizamos técnicas de termoterapia profunda y digitopresión para "despertar" el nervio y relajar la coraza facial.</p>
+                    <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-oro); outline: none;"><i class="fa-solid fa-prescription-bottle-medical"></i> 2. La Solución Clínica</summary>
+                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Recomendamos prescribir la <strong>Rehabilitación Facial por Estrés ($419 MXN)</strong>.</p>
                 </details>
             `,
-
             cervical: `
                 <i class="fa-solid fa-user-injured" style="font-size: 4rem; color: var(--valtara-cian-brillante); margin-bottom: 1rem;"></i>
                 <h4 style="font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem; font-family: var(--font-accent);">Cervicales, Nuca y Trapecios</h4>
-                <p style="color: var(--valtara-gris-texto); font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: 300;">La zona que soporta el peso del intelecto y el trabajo corporativo. Aprende qué está sucediendo:</p>
-                
+                <p style="color: var(--valtara-gris-texto); font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: 300;">La zona que soporta el peso del intelecto y el trabajo corporativo.</p>
                 <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1rem; border: 1px solid rgba(0,255,255,0.3); cursor: pointer; transition: 0.3s;">
                     <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-cian-brillante); outline: none;"><i class="fa-solid fa-mobile-screen-button"></i> 1. El Síndrome del "Text Neck"</summary>
-                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Una cabeza humana pesa unos 5kg. Sin embargo, al inclinar la cabeza hacia abajo para ver tu celular, la física multiplica ese peso. A 60 grados de inclinación, tu frágil cuello soporta ¡hasta 27 kilos de presión constante!</p>
-                    
-                    <details style="background: rgba(0,0,0,0.6); padding: 1.5rem; border-radius: 1rem; margin-top: 1.5rem; border-left: 4px solid var(--valtara-alerta); cursor: pointer;">
-                        <summary style="font-weight: bold; color: var(--valtara-alerta); font-size: 1.1rem; outline: none;"><i class="fa-solid fa-virus"></i> La formación de Nódulos (Nudos)</summary>
-                        <p style="margin-top: 1rem; color: #ddd; font-size: 1.1rem; line-height: 1.7;">El cuerpo, al sentirse en peligro de romperse por cargar tanto peso, envía colágeno y fibrina para endurecer el músculo y convertirlo en hueso falso (los famosos "nudos"). Esto bloquea el oxígeno al cerebro, causando niebla mental.</p>
-                    </details>
+                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">A 60 grados de inclinación para ver el celular, tu frágil cuello soporta hasta 27 kilos de presión constante.</p>
                 </details>
-
                 <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 1px solid rgba(242,201,76,0.3); cursor: pointer; transition: 0.3s;">
-                    <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-oro); outline: none;"><i class="fa-solid fa-dumbbell"></i> 2. La Solución Clínica en Valtara</summary>
-                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Para destruir esta "armadura" sólida, recomendamos el <strong>Masaje Deportivo y Descompresión ($978 MXN)</strong> o el <strong>Masaje en Silla ($199 MXN como complemento)</strong>. Usaremos fricción transversa profunda para derretir la tensión.</p>
+                    <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-oro); outline: none;"><i class="fa-solid fa-dumbbell"></i> 2. La Solución Clínica</summary>
+                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Recomendamos el <strong>Masaje Deportivo y Descompresión ($829 MXN)</strong>.</p>
                 </details>
             `,
-
             lumbar: `
                 <i class="fa-solid fa-child" style="font-size: 4rem; color: var(--valtara-cian-brillante); margin-bottom: 1rem;"></i>
                 <h4 style="font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem; font-family: var(--font-accent);">Región Lumbar y Ciática</h4>
-                <p style="color: var(--valtara-gris-texto); font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: 300;">El centro de gravedad del cuerpo. El sedentarismo lo está destruyendo. Mira cómo:</p>
-                
-                <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1rem; border: 1px solid rgba(0,255,255,0.3); cursor: pointer; transition: 0.3s;">
-                    <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-cian-brillante); outline: none;"><i class="fa-solid fa-chair"></i> 1. El Enemigo Silencioso: La Silla</summary>
-                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Permanecer sentado más de 6 horas al día hace que el músculo Psoas (flexor de la cadera) se acorte permanentemente. Esto tira de tus vértebras hacia adelante, comprimiendo los discos intervertebrales L4 y L5.</p>
-                    
-                    <details style="background: rgba(0,0,0,0.6); padding: 1.5rem; border-radius: 1rem; margin-top: 1.5rem; border-left: 4px solid var(--valtara-alerta); cursor: pointer;">
-                        <summary style="font-weight: bold; color: var(--valtara-alerta); font-size: 1.1rem; outline: none;"><i class="fa-solid fa-bolt"></i> El Pinzamiento del Nervio Ciático</summary>
-                        <p style="margin-top: 1rem; color: #ddd; font-size: 1.1rem; line-height: 1.7;">Cuando los discos se comprimen, aplastan el nervio ciático (el más grueso del cuerpo). Esto genera dolor punzante, ardor, y adormecimiento que baja por el glúteo hasta la pierna, impidiendo caminar correctamente.</p>
-                    </details>
-                </details>
-
+                <p style="color: var(--valtara-gris-texto); font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: 300;">El centro de gravedad del cuerpo. El sedentarismo lo está destruyendo.</p>
                 <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 1px solid rgba(242,201,76,0.3); cursor: pointer; transition: 0.3s;">
-                    <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-oro); outline: none;"><i class="fa-solid fa-person-praying"></i> 2. La Solución Clínica en Valtara</summary>
-                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Para salvar al nervio ciático, recomendamos el <strong>Masaje Tailandés Pasivo ($1,478 MXN)</strong>. A través de palancas y tracciones de yoga, descomprimimos milimétricamente el espacio entre tus vértebras para liberar el nervio.</p>
+                    <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-oro); outline: none;"><i class="fa-solid fa-person-praying"></i> La Solución Clínica</summary>
+                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Recomendamos el <strong>Masaje Tailandés Pasivo ($829 MXN)</strong> para descomprimir milimétricamente las vértebras.</p>
                 </details>
             `,
-
             linfa: `
                 <i class="fa-solid fa-shoe-prints" style="font-size: 4rem; color: var(--valtara-cian-brillante); margin-bottom: 1rem;"></i>
                 <h4 style="font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem; font-family: var(--font-accent);">Pesadez en las Piernas y Linfa</h4>
-                <p style="color: var(--valtara-gris-texto); font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: 300;">El sistema de drenaje natural de tu cuerpo se ha estancado. Entiende el proceso:</p>
-                
-                <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1rem; border: 1px solid rgba(0,255,255,0.3); cursor: pointer; transition: 0.3s;">
-                    <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-cian-brillante); outline: none;"><i class="fa-solid fa-water"></i> 1. El Fallo de la Bomba Linfática</summary>
-                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">A diferencia de la sangre que tiene al corazón para bombearla, el líquido linfático (encargado de limpiar toxinas) solo se mueve si TÚ te mueves. Si estás de pie o sentado todo el día, los líquidos y toxinas se acumulan en las piernas por pura gravedad.</p>
-                    
-                    <details style="background: rgba(0,0,0,0.6); padding: 1.5rem; border-radius: 1rem; margin-top: 1.5rem; border-left: 4px solid var(--valtara-alerta); cursor: pointer;">
-                        <summary style="font-weight: bold; color: var(--valtara-alerta); font-size: 1.1rem; outline: none;"><i class="fa-solid fa-biohazard"></i> Intoxicación Celular (Edemas)</summary>
-                        <p style="margin-top: 1rem; color: #ddd; font-size: 1.1rem; line-height: 1.7;">Esto produce edemas (hinchazón severa), várices, celulitis rebelde y una sensación de dolor sordo y cansancio extremo que no se quita ni siquiera durmiendo.</p>
-                    </details>
-                </details>
-
+                <p style="color: var(--valtara-gris-texto); font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: 300;">El sistema de drenaje natural de tu cuerpo se ha estancado.</p>
                 <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 1px solid rgba(242,201,76,0.3); cursor: pointer; transition: 0.3s;">
-                    <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-oro); outline: none;"><i class="fa-solid fa-droplet"></i> 2. La Solución Clínica en Valtara</summary>
-                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Existen dos vías: Para un enfoque estético e intenso, el <strong>Masaje Reductivo con Maderoterapia ($899 MXN)</strong>. Para un enfoque suave y post-quirúrgico, el <strong>Drenaje Linfático Manual (Bajo Valoración)</strong>.</p>
+                    <summary style="font-weight: 900; font-size: 1.25rem; color: var(--valtara-oro); outline: none;"><i class="fa-solid fa-droplet"></i> La Solución Clínica</summary>
+                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.15rem; line-height: 1.8;">Para un enfoque estético intenso: <strong>Masaje Reductivo ($899 MXN)</strong>. Enfoque suave: <strong>Drenaje Linfático Manual ($849 MXN)</strong>.</p>
                 </details>
             `
         };
@@ -254,65 +253,82 @@ const CoreEngine = {
         
         if(htmlContent && display) {
             display.style.opacity = 0;
-            
             setTimeout(() => {
                 display.innerHTML = htmlContent + `
                     <div style="text-align: center; margin-top: 2rem;">
-                        <a href="https://wa.me/5213348572070?text=Hola,%20realicé%20el%20triaje%20biomecánico%20educativo%20en%20su%20página%20y%20deseo%20agendar%20una%20terapia%20para%20esta%20zona." target="_blank" class="btn-primary" style="background: var(--valtara-whatsapp); border-color: var(--valtara-whatsapp); color: var(--valtara-negro-fondo); box-shadow: 0 1rem 3rem rgba(37,211,102,0.4);">
+                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-primary" style="background: var(--valtara-whatsapp); border-color: var(--valtara-whatsapp); color: var(--valtara-negro-fondo); box-shadow: 0 1rem 3rem rgba(37,211,102,0.4);">
                             <i class="fa-brands fa-whatsapp"></i> Chatear con el Especialista
                         </a>
                     </div>
                 `;
                 display.style.opacity = 1;
                 display.style.transition = 'opacity 0.5s ease';
-                
-                if(window.A11yEngine) A11yEngine.announce("Módulo educativo desplegado. Utilice las flechas para expandir la información científica.");
             }, 300);
         }
     }
 };
 
-window.addEventListener('DOMContentLoaded', () => { 
-    CoreEngine.init(); 
-});
 // ====================================================================================
-// GUARDIÁN MAESTRO DE MEDIOS (Evita cacofonía auditiva)
+// GUARDIÁN MAESTRO DE MEDIOS (Evita cacofonía y hace Fade-In / Fade-Out)
 // ====================================================================================
-window.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. Control de Audios Nativos (Ej. Sonoterapia)
-    // Cuando un audio empieza a sonar (evento 'play' o 'playing'), pausamos los demás
-    document.addEventListener('play', function(e) {
-        const audios = document.querySelectorAll('audio, video');
-        audios.forEach(media => {
-            if (media !== e.target) {
-                media.pause();
+window.ValtaraMedia = {
+    silenciarTodo: function(excepcion = null) {
+        // 1. Apagar audios/videos nativos con Fade Out
+        document.querySelectorAll('audio, video').forEach(media => {
+            if (media !== excepcion && !media.paused) {
+                this.fadeOut(media);
             }
         });
-
-        // Opcional: También pausar todos los iframes de YouTube enviando un mensaje
+        
+        // 2. Pausar Iframes de YouTube (requiere enablejsapi=1)
         const iframes = document.querySelectorAll('iframe[src*="youtube.com"]');
         iframes.forEach(iframe => {
-            iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            try {
+                iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            } catch(e) {}
         });
-    }, true); // El 'true' usa la fase de captura para detectar todos los eventos play
+    },
 
-    // 2. Control de YouTube Iframes
-    // Dado que YouTube está en un iframe (dominio cruzado), no podemos escuchar su evento 'play' directamente.
-    // El "truco" es detectar cuando el iframe recibe el Foco (es decir, el usuario le hizo clic para reproducirlo).
-    window.addEventListener('blur', function() {
-        if (document.activeElement && document.activeElement.tagName === 'IFRAME') {
-            // El usuario hizo clic en un video. Pausamos inmediatamente cualquier música nativa.
-            const audios = document.querySelectorAll('audio, video');
-            audios.forEach(media => media.pause());
-            
-            // Pausamos otros iframes de YouTube enviando el comando por PostMessage
-            const iframes = document.querySelectorAll('iframe[src*="youtube.com"]');
-            iframes.forEach(iframe => {
-                if (iframe !== document.activeElement) {
-                    iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                }
-            });
-        }
-    });
+    // Efecto Lujoso: Bajar volumen gradualmente
+    fadeOut: function(media) {
+        let vol = media.volume;
+        const fadeAudio = setInterval(() => {
+            if (vol > 0.05) {
+                vol -= 0.05;
+                media.volume = vol;
+            } else {
+                clearInterval(fadeAudio);
+                media.pause();
+                media.volume = 1; // Resetea para la próxima vez
+            }
+        }, 30); // Muy rápido y sutil
+    },
+
+    // Efecto Lujoso: Subir volumen gradualmente
+    fadeIn: function(media, targetVolume = 1) {
+        window.ValtaraMedia.silenciarTodo(media); // Apaga a los demás primero
+        media.volume = 0;
+        media.play();
+        let vol = 0;
+        const fadeAudio = setInterval(() => {
+            if (vol < targetVolume - 0.05) {
+                vol += 0.05;
+                media.volume = vol;
+            } else {
+                clearInterval(fadeAudio);
+                media.volume = targetVolume;
+            }
+        }, 50);
+    }
+};
+
+// Radar global para silenciar al dar clic a cualquier control multimedia
+window.addEventListener('click', function(e) {
+    if (e.target.closest('#btn-master-play') || e.target.closest('.carousel-card')) {
+        window.ValtaraMedia.silenciarTodo();
+    }
+}, true);
+
+window.addEventListener('DOMContentLoaded', () => { 
+    CoreEngine.init(); 
 });
