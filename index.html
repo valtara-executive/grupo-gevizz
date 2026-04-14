@@ -55,6 +55,24 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=(), camera=(), microphone=(self)">
+    
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self'; 
+        connect-src 'self' https://aura-server-erfj.vercel.app; 
+        font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; 
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; 
+        script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; 
+        frame-src 'self' https://www.youtube.com; 
+        img-src 'self' data: blob: https://cdn-icons-png.flaticon.com https://img.youtube.com;
+        worker-src 'self' blob:;
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self';
+        frame-ancestors 'none';
+        upgrade-insecure-requests;
+    ">
     
     <script>
         window.ValtaraDiagnostics = {
@@ -78,6 +96,7 @@
         window.addEventListener('error', function(e) { ValtaraDiagnostics.evaluarImpacto('ERR-SYS-01', 'Fallo en la arquitectura.', e.error || e.message, 'Recargue la página.'); });
         window.addEventListener('unhandledrejection', function(e) { ValtaraDiagnostics.evaluarImpacto('ERR-NET-02', 'Interrupción de red.', e.reason, 'Verifique su conexión.'); });
     </script>
+
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#050508">
     <link rel="apple-touch-icon" href="logo.png">
@@ -89,6 +108,9 @@
 
     <link rel="preload" href="css/main.css?v=38.2.0" as="style">
     <link rel="preload" href="css/components.css?v=38.2.0" as="style">
+    <link rel="preload" href="js/constructor_maestro.js?v=38.2.0" as="script">
+    <link rel="preload" href="js/core.js?v=38.2.0" as="script">
+    <link rel="preload" href="js/router.js?v=38.2.0" as="script">
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
@@ -97,12 +119,37 @@
     <link rel="stylesheet" href="css/components.css?v=38.2.0">
     
     <style>
-        .header-logo { height: 60px !important; display: flex !important; align-items: center !important; justify-content: flex-start !important; background: transparent !important; border: none !important; padding: 0 !important; width: auto !important; overflow: visible !important; }
+        /* ========================================================================== */
+        /* CSS INYECTADO: SOLUCIONES ARQUITECTÓNICAS (SIN CONTENT-VISIBILITY BUG)     */
+        /* ========================================================================== */
+        
+        /* 1. Logotipo Header */
+        .header-logo { height: 60px !important; display: flex !important; align-items: center !important; justify-content: flex-start !important; background: transparent !important; border: none !important; padding: 0 !important; width: auto !important; overflow: visible !important; will-change: transform; }
         .header-logo .logo-img { height: 100% !important; width: auto !important; max-height: 60px !important; object-fit: contain !important; filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4)) !important; transition: transform 0.3s ease; }
         .header-logo:hover .logo-img { transform: scale(1.05); }
         @media (max-width: 768px) { .header-logo { height: 55px !important; } .header-logo .logo-img { max-height: 55px !important; } }
+        
+        /* 2. Botón Seguro de Expediente Clínico */
         .btn-expediente-safe { width: 100%; display: flex; align-items: center; gap: 15px; padding: 1rem 1.5rem; border: none; background: rgba(242,201,76,0.05); color: var(--valtara-oro); font-size: 1.1rem; cursor: pointer; text-align: left; border-radius: 12px; transition: all 0.3s ease; margin-bottom: 10px; border-left: 3px solid var(--valtara-oro); }
-        .btn-expediente-safe:hover { background: rgba(242,201,76,0.15); transform: translateX(5px); }
+        .btn-expediente-safe:hover { background: rgba(242,201,76,0.15); transform: translate3d(5px, 0, 0); }
+
+        /* 3. LOGICA DE BOTONES FLOTANTES INTELIGENTES (SMART FABS) */
+        .float-controls {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+            will-change: transform, opacity;
+        }
+        /* Esta clase la inyectará core.js cuando se abra un panel lateral o el PDF */
+        .float-controls.fab-hidden {
+            transform: translate3d(150%, 0, 0) !important; /* Lo mueve fuera de la pantalla hacia la derecha */
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+        
+        /* Evitar colapso de pantalla oscura */
+        main section { 
+            /* Se eliminó content-visibility: auto para garantizar que el renderizado no falle en iOS/Android */
+            min-height: 100vh; /* Da una altura base segura para evitar parpadeos */
+        }
     </style>
 </head>
 <body class="system-loading">
@@ -112,7 +159,12 @@
     <div id="app-wrapper" aria-hidden="false">
 
         <div aria-hidden="true" class="ambient-engine" id="ambient-bg">
-            <div class="orb orb-1"></div> <div class="orb orb-2"></div> <div class="orb orb-3"></div> <div class="orb orb-4"></div> <div class="orb orb-5"></div> <div class="glass-overlay"></div>
+            <div class="orb orb-1"></div> 
+            <div class="orb orb-2"></div> 
+            <div class="orb orb-3"></div> 
+            <div class="orb orb-4"></div> 
+            <div class="orb orb-5"></div> 
+            <div class="glass-overlay"></div>
         </div>
 
         <header class="system-header" role="banner">
@@ -198,7 +250,7 @@
             </div>
         </dialog>
 
-        <aside class="float-controls float-right">
+        <aside class="float-controls float-right" id="smart-fabs">
             <button aria-haspopup="dialog" aria-controls="aura-modal" class="fab-btn fab-aura" id="fab-aura" onclick="document.getElementById('aura-modal').showModal();"><i class="fa-solid fa-robot"></i></button>
             <a href="https://wa.me/5213348572070" target="_blank" class="fab-btn fab-ws"><i class="fa-brands fa-whatsapp"></i></a>
         </aside>
@@ -263,8 +315,8 @@
     <script src="js/sonoterapia_introduccion.js?v=38.2.0" defer></script>
     <script src="js/sonoterapia_videos.js?v=38.2.0" defer></script>
     <script src="js/sonoterapia_audio.js?v=38.2.0" defer></script>
-
     <script src="js/global_footer.js?v=38.2.0" defer></script>
+    
     <script src="js/constructor_maestro.js?v=38.2.0" defer></script>
 
     <script src="js/a11y.js?v=38.2.0" defer></script>
@@ -279,4 +331,4 @@
     <script src="js/expediente_clinico.js?v=38.2.0" defer></script>
 
 </body>
-    </html>
+            </html>
