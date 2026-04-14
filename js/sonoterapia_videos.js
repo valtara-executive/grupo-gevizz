@@ -22,7 +22,7 @@ window.ValtaraModulos.sonoterapia_videos = `
             
             <article class="glass-card carousel-card" style="padding: 1.5rem; border-color: rgba(255,255,255,0.1);">
                 <div style="position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 1rem; overflow: hidden; margin-bottom: 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.5); cursor: pointer; background: #000;" 
-                     onclick="this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/aBsnQjJ2_Nk?autoplay=1\\' style=\\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;\\' allowfullscreen allow=\\'autoplay\\'></iframe>'">
+                     onclick="if(window.ValtaraMedia) window.ValtaraMedia.silenciarTodo(); this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/aBsnQjJ2_Nk?autoplay=1&enablejsapi=1\\' style=\\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;\\' allowfullscreen allow=\\'autoplay\\'></iframe>'">
                     <img loading="lazy" src="https://img.youtube.com/vi/aBsnQjJ2_Nk/hqdefault.jpg" alt="Frecuencia de Sanación" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6">
                     <i class="fa-solid fa-play" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem; color: var(--valtara-blanco); text-shadow: 0 0 25px rgba(0, 255, 255, 0.8); pointer-events: none;"></i>
                 </div>
@@ -32,7 +32,7 @@ window.ValtaraModulos.sonoterapia_videos = `
 
             <article class="glass-card carousel-card" style="padding: 1.5rem; border-color: rgba(255,255,255,0.1);">
                 <div style="position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 1rem; overflow: hidden; margin-bottom: 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.5); cursor: pointer; background: #000;" 
-                     onclick="this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/jpYb4AiMWCs?autoplay=1\\' style=\\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;\\' allowfullscreen allow=\\'autoplay\\'></iframe>'">
+                     onclick="if(window.ValtaraMedia) window.ValtaraMedia.silenciarTodo(); this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/jpYb4AiMWCs?autoplay=1&enablejsapi=1\\' style=\\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;\\' allowfullscreen allow=\\'autoplay\\'></iframe>'">
                     <img loading="lazy" src="https://img.youtube.com/vi/jpYb4AiMWCs/hqdefault.jpg" alt="Respiración Consciente" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6">
                     <i class="fa-solid fa-play" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem; color: var(--valtara-blanco); text-shadow: 0 0 25px rgba(0, 255, 255, 0.8); pointer-events: none;"></i>
                 </div>
@@ -42,7 +42,7 @@ window.ValtaraModulos.sonoterapia_videos = `
 
             <article class="glass-card carousel-card" style="padding: 1.5rem; border-color: rgba(255,255,255,0.1);">
                 <div style="position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 1rem; overflow: hidden; margin-bottom: 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.5); cursor: pointer; background: #000;" 
-                     onclick="this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/IShkpOm63gg?autoplay=1\\' style=\\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;\\' allowfullscreen allow=\\'autoplay\\'></iframe>'">
+                     onclick="if(window.ValtaraMedia) window.ValtaraMedia.silenciarTodo(); this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/IShkpOm63gg?autoplay=1&enablejsapi=1\\' style=\\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;\\' allowfullscreen allow=\\'autoplay\\'></iframe>'">
                     <img loading="lazy" src="https://img.youtube.com/vi/IShkpOm63gg/hqdefault.jpg" alt="Equilibrio Energético" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6">
                     <i class="fa-solid fa-play" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem; color: var(--valtara-blanco); text-shadow: 0 0 25px rgba(0, 255, 255, 0.8); pointer-events: none;"></i>
                 </div>
@@ -52,7 +52,7 @@ window.ValtaraModulos.sonoterapia_videos = `
 
             <article class="glass-card carousel-card" style="padding: 1.5rem; border-color: rgba(255,255,255,0.1);">
                 <div style="position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 1rem; overflow: hidden; margin-bottom: 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.5); cursor: pointer; background: #000;" 
-                     onclick="this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/22i6SofLVRY?autoplay=1\\' style=\\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;\\' allowfullscreen allow=\\'autoplay\\'></iframe>'">
+                     onclick="if(window.ValtaraMedia) window.ValtaraMedia.silenciarTodo(); this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/22i6SofLVRY?autoplay=1&enablejsapi=1\\' style=\\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;\\' allowfullscreen allow=\\'autoplay\\'></iframe>'">
                     <img loading="lazy" src="https://img.youtube.com/vi/22i6SofLVRY/hqdefault.jpg" alt="Paz Interior" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6">
                     <i class="fa-solid fa-play" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem; color: var(--valtara-blanco); text-shadow: 0 0 25px rgba(0, 255, 255, 0.8); pointer-events: none;"></i>
                 </div>
@@ -62,7 +62,7 @@ window.ValtaraModulos.sonoterapia_videos = `
 
             <article class="glass-card carousel-card" style="padding: 1.5rem; border-color: rgba(255,255,255,0.1);">
                 <div style="position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 1rem; overflow: hidden; margin-bottom: 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.5); cursor: pointer; background: #000;" 
-                     onclick="this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/g5WC1OMD3NE?autoplay=1\\' style=\\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;\\' allowfullscreen allow=\\'autoplay\\'></iframe>'">
+                     onclick="if(window.ValtaraMedia) window.ValtaraMedia.silenciarTodo(); this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/g5WC1OMD3NE?autoplay=1&enablejsapi=1\\' style=\\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;\\' allowfullscreen allow=\\'autoplay\\'></iframe>'">
                     <img loading="lazy" src="https://img.youtube.com/vi/g5WC1OMD3NE/hqdefault.jpg" alt="Descompresión Mental" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6">
                     <i class="fa-solid fa-play" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem; color: var(--valtara-blanco); text-shadow: 0 0 25px rgba(0, 255, 255, 0.8); pointer-events: none;"></i>
                 </div>
@@ -72,7 +72,7 @@ window.ValtaraModulos.sonoterapia_videos = `
 
             <article class="glass-card carousel-card" style="padding: 1.5rem; border-color: rgba(255,255,255,0.1);">
                 <div style="position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 1rem; overflow: hidden; margin-bottom: 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.5); cursor: pointer; background: #000;" 
-                     onclick="this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/2UseHaw_22Q?autoplay=1\\' style=\\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;\\' allowfullscreen allow=\\'autoplay\\'></iframe>'">
+                     onclick="if(window.ValtaraMedia) window.ValtaraMedia.silenciarTodo(); this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/2UseHaw_22Q?autoplay=1&enablejsapi=1\\' style=\\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;\\' allowfullscreen allow=\\'autoplay\\'></iframe>'">
                     <img loading="lazy" src="https://img.youtube.com/vi/2UseHaw_22Q/hqdefault.jpg" alt="Ondas Alfa" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6">
                     <i class="fa-solid fa-play" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem; color: var(--valtara-blanco); text-shadow: 0 0 25px rgba(0, 255, 255, 0.8); pointer-events: none;"></i>
                 </div>
@@ -82,7 +82,7 @@ window.ValtaraModulos.sonoterapia_videos = `
 
             <article class="glass-card carousel-card" style="padding: 1.5rem; border-color: rgba(255,255,255,0.1);">
                 <div style="position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 1rem; overflow: hidden; margin-bottom: 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.5); cursor: pointer; background: #000;" 
-                     onclick="this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/cq2Ef6rvL6g?autoplay=1\\' style=\\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;\\' allowfullscreen allow=\\'autoplay\\'></iframe>'">
+                     onclick="if(window.ValtaraMedia) window.ValtaraMedia.silenciarTodo(); this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/cq2Ef6rvL6g?autoplay=1&enablejsapi=1\\' style=\\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;\\' allowfullscreen allow=\\'autoplay\\'></iframe>'">
                     <img loading="lazy" src="https://img.youtube.com/vi/cq2Ef6rvL6g/hqdefault.jpg" alt="Relajación Profunda" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6">
                     <i class="fa-solid fa-play" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem; color: var(--valtara-blanco); text-shadow: 0 0 25px rgba(0, 255, 255, 0.8); pointer-events: none;"></i>
                 </div>
@@ -92,7 +92,7 @@ window.ValtaraModulos.sonoterapia_videos = `
 
             <article class="glass-card carousel-card" style="padding: 1.5rem; border-color: rgba(255,255,255,0.1);">
                 <div style="position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 1rem; overflow: hidden; margin-bottom: 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.5); cursor: pointer; background: #000;" 
-                     onclick="this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/59SSSzbGBWY?autoplay=1\\' style=\\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;\\' allowfullscreen allow=\\'autoplay\\'></iframe>'">
+                     onclick="if(window.ValtaraMedia) window.ValtaraMedia.silenciarTodo(); this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/59SSSzbGBWY?autoplay=1&enablejsapi=1\\' style=\\'position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;\\' allowfullscreen allow=\\'autoplay\\'></iframe>'">
                     <img loading="lazy" src="https://img.youtube.com/vi/59SSSzbGBWY/hqdefault.jpg" alt="Meditación de Cierre" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6">
                     <i class="fa-solid fa-play" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem; color: var(--valtara-blanco); text-shadow: 0 0 25px rgba(0, 255, 255, 0.8); pointer-events: none;"></i>
                 </div>
