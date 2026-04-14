@@ -1,52 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
-  <!-- Página Principal / Inicio -->
-  <url>
-    <loc>https://valtara.com.mx/</loc>
-    <lastmod>2026-03-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-  <!-- Catálogo de Restauración Biomecánica -->
-  <url>
-    <loc>https://valtara.com.mx/#restoration</loc>
-    <lastmod>2026-03-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
+    <url>
+        <loc>https://valtaraexecutive.com/</loc>
+        <lastmod>2026-04-14</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://valtaraexecutive.com/logo.png</image:loc>
+            <image:title>Valtara Executive Therapy - Clínica de Masoterapia</image:title>
+            <image:caption>Santuario de Restauración Biomecánica en CDMX</image:caption>
+        </image:image>
+    </url>
 
-  <!-- Manifiesto Codex Valtara -->
-  <url>
-    <loc>https://valtara.com.mx/#codex</loc>
-    <lastmod>2026-03-19</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
-  </url>
+    <url>
+        <loc>https://valtaraexecutive.com/masaje-deportivo-reforma</loc>
+        <lastmod>2026-04-14</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://valtaraexecutive.com/liberacion-miofascial-cdmx</loc>
+        <lastmod>2026-04-14</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://valtaraexecutive.com/terapia-biomecanica-ejecutiva</loc>
+        <lastmod>2026-04-14</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.90</priority>
+    </url>
 
-  <!-- Biblioteca Científica (Videos) -->
-  <url>
-    <loc>https://valtara.com.mx/#science</loc>
-    <lastmod>2026-03-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
+    <url>
+        <loc>https://valtaraexecutive.com/catalogo-masajes-clinicos</loc>
+        <lastmod>2026-04-14</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.90</priority>
+    </url>
+    <url>
+        <loc>https://valtaraexecutive.com/art-and-nails-estudio</loc>
+        <lastmod>2026-04-14</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.85</priority>
+    </url>
+    <url>
+        <loc>https://valtaraexecutive.com/sonoterapia-y-meditacion</loc>
+        <lastmod>2026-04-14</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.80</priority>
+    </url>
 
-  <!-- Ergonomía Universal (Inclusión) -->
-  <url>
-    <loc>https://valtara.com.mx/#ergonomics</loc>
-    <lastmod>2026-03-19</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
-  </url>
+    <url>
+        <loc>https://valtaraexecutive.com/ciencia-neurobiologia-del-dolor</loc>
+        <lastmod>2026-04-14</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.75</priority>
+    </url>
+    <url>
+        <loc>https://valtaraexecutive.com/herbario-clinico-aceites-esenciales</loc>
+        <lastmod>2026-04-14</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.70</priority>
+    </url>
+    <url>
+        <loc>https://valtaraexecutive.com/ergonomia-y-tejido-hidratado</loc>
+        <lastmod>2026-04-14</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.70</priority>
+    </url>
 
-  <!-- Marco Legal Institucional -->
-  <url>
-    <loc>https://valtara.com.mx/#legal</loc>
-    <lastmod>2026-03-19</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
+    <url>
+        <loc>https://valtaraexecutive.com/manifiesto-codex-valtara</loc>
+        <lastmod>2026-04-14</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://valtaraexecutive.com/politicas-privacidad-y-legal</loc>
+        <lastmod>2026-04-14</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.50</priority>
+    </url>
 </urlset>
