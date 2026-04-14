@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /* ====================================================================================
-   BLOQUE 3: COMPONENTES SOVEREIGN 16.0 (ZIG-ZAG, FABS, CARRUSELES Y AURA LUXURY)
+   BLOQUE 3: COMPONENTES SOVEREIGN V38.1 (ACELERACIÓN GPU Y CRISTAL TÉRMICO)
    ==================================================================================== */
 
 /* ------------------------------------------------------------------------------------
@@ -12,6 +12,8 @@
     text-transform: uppercase; letter-spacing: 0.15rem; 
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); 
     text-decoration: none; cursor: pointer; border: 2px solid transparent;
+    will-change: transform, box-shadow, background-color; /* Hardware Acceleration */
+    transform: translateZ(0);
 }
 
 .btn-primary {
@@ -20,7 +22,7 @@
 }
 .btn-primary:hover {
     background: var(--valtara-oro); color: var(--valtara-negro-fondo);
-    transform: translateY(-5px) scale(1.02); 
+    transform: translate3d(0, -5px, 0) scale(1.02); 
     box-shadow: 0 1.5rem 4rem rgba(242, 201, 76, 0.5), inset 0 0 2rem rgba(255,255,255,0.4);
 }
 
@@ -31,26 +33,29 @@
 }
 .btn-agenda-ahora:hover {
     background: var(--valtara-blanco); color: var(--valtara-negro-fondo);
-    border-color: var(--valtara-blanco); transform: translateY(-5px) scale(1.02); 
+    border-color: var(--valtara-blanco); transform: translate3d(0, -5px, 0) scale(1.02); 
     box-shadow: 0 1.5rem 4rem rgba(255, 255, 255, 0.6), inset 0 0 2rem rgba(255,255,255,0.8);
 }
 
 /* ------------------------------------------------------------------------------------
-   2. TARJETAS DE CRISTAL
+   2. TARJETAS DE CRISTAL (RENDERIZADO 2D ACELERADO)
    ------------------------------------------------------------------------------------ */
 .glass-card { 
     background: var(--cristal-fondo); 
-    backdrop-filter: blur(3.5rem); -webkit-backdrop-filter: blur(3.5rem); 
+    /* Optimización Térmica: blur 25px para componentes (no necesitan el 40px del fondo) */
+    backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
     border: 1px solid rgba(255, 255, 255, 0.1); 
     border-top: 1px solid rgba(255, 255, 255, 0.3); 
     border-left: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 2rem; padding: 3rem; display: flex; flex-direction: column; 
     transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 1.5rem 3.5rem rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.1);
-    transform-style: preserve-3d;
+    will-change: transform, border-color, box-shadow;
+    transform: translateZ(0); /* Capa compuesta dedicada en GPU */
 }
 .glass-card:hover {
-    border-color: var(--valtara-cian-brillante); transform: translateY(-10px) translateZ(10px);
+    border-color: var(--valtara-cian-brillante); 
+    transform: translate3d(0, -10px, 0); /* Evitamos translateZ para no forzar contexto 3D matemático pesado */
     box-shadow: 0 3rem 6rem rgba(0,0,0,0.95), inset 0 0 4rem rgba(0, 255, 255, 0.15), 0 0 2rem rgba(0, 255, 255, 0.2);
 }
 
@@ -62,10 +67,11 @@
     border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; 
     font-size: 5.5rem; color: var(--valtara-oro); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); 
     box-shadow: inset 0 0 3rem rgba(0,0,0,0.9), 0 1rem 2rem rgba(0,0,0,0.5);
+    will-change: transform, filter, border-color;
 }
 .glass-card.zig-zag .card-icon-wrapper { flex: 0 0 35%; min-height: 300px; }
 .glass-card:not(.zig-zag) .card-icon-wrapper { width: 100%; height: 12rem; margin-bottom: 2.5rem; }
-.glass-card:hover .card-icon-wrapper { transform: scale(1.05) translateZ(20px); border-color: currentColor; filter: brightness(1.3) drop-shadow(0 0 3rem currentColor); }
+.glass-card:hover .card-icon-wrapper { transform: scale(1.05); border-color: currentColor; filter: brightness(1.3) drop-shadow(0 0 3rem currentColor); }
 
 .card-content-wrapper { flex: 1; display: flex; flex-direction: column; justify-content: center; }
 .glass-card h3 { font-size: 2.2rem; font-family: var(--font-accent); margin-bottom: 1.5rem; color: var(--valtara-blanco); line-height: 1.3;}
@@ -78,12 +84,14 @@
 .marketing-text strong { color: var(--valtara-blanco); font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
 
 /* ------------------------------------------------------------------------------------
-   3. MODALES GIGANTES
+   3. MODALES GIGANTES (CONTENCIÓN DE PINTURA)
    ------------------------------------------------------------------------------------ */
 .modal-dialog {
-    margin: auto; background: var(--valtara-negro-modal); border: 2px solid var(--valtara-cian-brillante); border-radius: 2rem; padding: 0; color: var(--valtara-blanco); box-shadow: 0 4rem 10rem rgba(0,0,0,0.99), inset 0 0 5rem rgba(0, 255, 255, 0.05); opacity: 0; transform: translateY(50px) scale(0.95); transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    margin: auto; background: var(--valtara-negro-modal); border: 2px solid var(--valtara-cian-brillante); border-radius: 2rem; padding: 0; color: var(--valtara-blanco); box-shadow: 0 4rem 10rem rgba(0,0,0,0.99), inset 0 0 5rem rgba(0, 255, 255, 0.05); opacity: 0; transform: translate3d(0, 50px, 0) scale(0.95); transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    contain: paint layout; /* Evita que el scroll del modal afecte al body */
+    will-change: transform, opacity;
 }
-.modal-dialog[open] { opacity: 1; transform: translateY(0) scale(1); }
+.modal-dialog[open] { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
 .modal-dialog::backdrop { background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(15px); opacity: 0; transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
 .modal-dialog[open]::backdrop { opacity: 1; }
 
@@ -91,7 +99,7 @@
 .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 2.5rem 3.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 100%); }
 .modal-header h3 { font-size: 1.8rem; font-family: var(--font-accent); display: flex; align-items: center; gap: 1.5rem; letter-spacing: 0.1rem;}
 
-.close-modal-btn { background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.2); color: var(--valtara-blanco); width: 4.5rem; height: 4.5rem; border-radius: 50%; font-size: 1.6rem; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.close-modal-btn { background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.2); color: var(--valtara-blanco); width: 4.5rem; height: 4.5rem; border-radius: 50%; font-size: 1.6rem; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, box-shadow;}
 .close-modal-btn:hover { background: var(--valtara-alerta); border-color: var(--valtara-alerta); transform: rotate(90deg) scale(1.1); box-shadow: 0 0 3rem rgba(255, 51, 102, 0.8); }
 
 .modal-body { padding: 3.5rem; overflow-y: auto; flex-grow: 1; scrollbar-width: thin; scrollbar-color: var(--valtara-cian-brillante) transparent;}
@@ -102,15 +110,13 @@
 #a11y-modal { width: 95vw; max-width: 900px; border-color: var(--valtara-oro); }
 #a11y-modal .modal-header h3 { color: var(--valtara-oro); }
 .a11y-grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-.a11y-card-btn { background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.15); color: var(--valtara-blanco); padding: 2rem; border-radius: 1.2rem; display: flex; align-items: center; gap: 1.8rem; font-size: 1.25rem; font-weight: 700; cursor: pointer; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); text-align: left; box-shadow: 0 1rem 2rem rgba(0,0,0,0.3); }
-.a11y-card-btn i { font-size: 2.2rem; color: var(--valtara-oro-suave); width: 3rem; text-align: center; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-.a11y-card-btn:hover, .a11y-card-btn[aria-pressed="true"] { background: var(--valtara-oro); color: var(--valtara-negro-fondo); border-color: var(--valtara-oro); transform: translateY(-8px); box-shadow: 0 2rem 5rem rgba(242, 201, 76, 0.6); }
+.a11y-card-btn { background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.15); color: var(--valtara-blanco); padding: 2rem; border-radius: 1.2rem; display: flex; align-items: center; gap: 1.8rem; font-size: 1.25rem; font-weight: 700; cursor: pointer; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); text-align: left; box-shadow: 0 1rem 2rem rgba(0,0,0,0.3); will-change: transform, box-shadow, background-color;}
+.a11y-card-btn i { font-size: 2.2rem; color: var(--valtara-oro-suave); width: 3rem; text-align: center; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, color;}
+.a11y-card-btn:hover, .a11y-card-btn[aria-pressed="true"] { background: var(--valtara-oro); color: var(--valtara-negro-fondo); border-color: var(--valtara-oro); transform: translate3d(0, -8px, 0); box-shadow: 0 2rem 5rem rgba(242, 201, 76, 0.6); }
 .a11y-card-btn:hover i, .a11y-card-btn[aria-pressed="true"] i { color: var(--valtara-negro-fondo); transform: scale(1.2); }
 
 /* ------------------------------------------------------------------------------------
-   5. AURA AI 3.0 (INTERFAZ DE ULTRA-LUJO, CRISTAL Y ORO)
-   ====================================================================================
-   Esta sección ha sido completamente reconstruida para eliminar el estilo "juego".
+   5. AURA AI 3.0 (BURBUJAS ACELERADAS)
    ------------------------------------------------------------------------------------ */
 #aura-modal { width: 95vw; max-width: 1000px; height: 92vh; border-color: var(--valtara-oro); }
 #aura-modal .modal-header h3 { color: var(--valtara-oro); letter-spacing: 1px; }
@@ -123,10 +129,9 @@
     background: radial-gradient(circle at center, rgba(242, 201, 76, 0.05) 0%, transparent 80%);
 }
 
-.msg { max-width: 85%; padding: 1.8rem 2.2rem; font-size: 1.25rem; line-height: 1.9; border-radius: 2rem; animation: fadeInMsg 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-@keyframes fadeInMsg { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.msg { max-width: 85%; padding: 1.8rem 2.2rem; font-size: 1.25rem; line-height: 1.9; border-radius: 2rem; animation: fadeInMsg 0.5s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, opacity;}
+@keyframes fadeInMsg { from { opacity: 0; transform: translate3d(0, 30px, 0) scale(0.95); } to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); } }
 
-/* Burbuja del Bot (Aura) - Cristal Elegante Cian */
 .msg.bot { 
     background: linear-gradient(135deg, rgba(0,255,255,0.08), rgba(0,0,0,0.85));
     backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -137,7 +142,6 @@
     box-shadow: 0 1rem 3rem rgba(0,0,0,0.5), inset 0 0 2rem rgba(0,255,255,0.05);
 }
 
-/* Burbuja del Usuario - Cristal Elegante Dorado */
 .msg.user { 
     background: linear-gradient(135deg, rgba(242, 201, 76, 0.1), rgba(0,0,0,0.85)); 
     backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -148,7 +152,6 @@
     box-shadow: 0 1rem 3rem rgba(0,0,0,0.5), inset 0 0 2rem rgba(242,201,76,0.05);
 }
 
-/* Controles de Input (Oro y Elegancia) */
 .aura-controls { padding: 2.5rem 3.5rem; background: var(--valtara-negro-modal); border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 2rem; align-items: center; }
 
 #aura-input { 
@@ -156,11 +159,12 @@
     border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.6); 
     color: var(--valtara-blanco); font-size: 1.25rem; outline: none; 
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+    will-change: box-shadow, background-color, transform;
 }
 #aura-input:focus { 
     border-color: var(--valtara-oro); 
     box-shadow: 0 0 3rem rgba(242, 201, 76, 0.3), inset 0 0 2rem rgba(242, 201, 76, 0.1); 
-    background: rgba(242, 201, 76, 0.05); transform: translateY(-2px);
+    background: rgba(242, 201, 76, 0.05); transform: translate3d(0, -2px, 0);
 }
 
 #aura-send-btn { 
@@ -168,6 +172,7 @@
     border-radius: 50%; width: 5.5rem; height: 5.5rem; font-size: 2rem; 
     display: flex; justify-content: center; align-items: center; cursor: pointer; 
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 1rem 3rem rgba(242, 201, 76, 0.4); 
+    will-change: transform, box-shadow;
 }
 #aura-send-btn:hover { 
     background: var(--valtara-blanco); color: var(--valtara-negro-fondo); 
@@ -185,26 +190,26 @@
 .canvas-audio-wrapper { width: 100%; height: 250px; background: rgba(0,0,0,0.8); border: 2px solid rgba(0,255,255,0.3); border-radius: 1.5rem; margin-bottom: 3.5rem; overflow: hidden; position: relative; box-shadow: inset 0 0 5rem rgba(0,0,0,0.9), 0 1rem 3rem rgba(0,255,255,0.1); }
 canvas { width: 100%; height: 100%; display: block; }
 .audio-tracks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
-.track-btn { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.15); color: var(--valtara-blanco); padding: 1.8rem; border-radius: 1.2rem; display: flex; align-items: center; gap: 1.5rem; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); text-align: left; box-shadow: 0 1rem 2rem rgba(0,0,0,0.3); }
-.track-btn i { font-size: 2.2rem; color: var(--valtara-cian-brillante); width: 3rem; text-align: center; transition: 0.4s; }
-.track-btn:hover, .track-btn.playing { background: rgba(0,255,255,0.15); border-color: var(--valtara-cian-brillante); transform: translateY(-8px) scale(1.02); box-shadow: 0 2rem 4rem rgba(0,255,255,0.4); }
+.track-btn { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.15); color: var(--valtara-blanco); padding: 1.8rem; border-radius: 1.2rem; display: flex; align-items: center; gap: 1.5rem; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); text-align: left; box-shadow: 0 1rem 2rem rgba(0,0,0,0.3); will-change: transform, box-shadow, background-color;}
+.track-btn i { font-size: 2.2rem; color: var(--valtara-cian-brillante); width: 3rem; text-align: center; transition: 0.4s; will-change: transform, color;}
+.track-btn:hover, .track-btn.playing { background: rgba(0,255,255,0.15); border-color: var(--valtara-cian-brillante); transform: translate3d(0, -8px, 0) scale(1.02); box-shadow: 0 2rem 4rem rgba(0,255,255,0.4); }
 .track-btn.playing i { color: var(--valtara-blanco); text-shadow: 0 0 2rem var(--valtara-cian-brillante); transform: scale(1.2); }
-.master-play-btn { background: var(--valtara-cian-brillante); color: var(--valtara-negro-fondo); border: none; width: 7.5rem; height: 7.5rem; border-radius: 50%; font-size: 3rem; cursor: pointer; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 1.5rem 4rem rgba(0,255,255,0.5); }
+.master-play-btn { background: var(--valtara-cian-brillante); color: var(--valtara-negro-fondo); border: none; width: 7.5rem; height: 7.5rem; border-radius: 50%; font-size: 3rem; cursor: pointer; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 1.5rem 4rem rgba(0,255,255,0.5); will-change: transform, box-shadow;}
 .master-play-btn:hover { background: var(--valtara-blanco); transform: scale(1.2); box-shadow: 0 2.5rem 6rem rgba(0,255,255,0.8); }
 
 /* ------------------------------------------------------------------------------------
-   7. BOTONES FLOTANTES (FABS SÚPER VÍVIDOS Y CLAROS)
+   7. BOTONES FLOTANTES (FABS)
    ------------------------------------------------------------------------------------ */
-.float-controls { position: fixed; bottom: 3rem; display: flex; flex-direction: column; gap: 1.8rem; z-index: 10000; }
+.float-controls { position: fixed; bottom: 3rem; display: flex; flex-direction: column; gap: 1.8rem; z-index: 10000; transform: translateZ(0);}
 .float-left { left: 3rem; }
 .float-right { right: 3rem; }
-.fab-btn { width: 5.5rem; height: 5.5rem; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; cursor: pointer; text-decoration: none; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); border: none; }
+.fab-btn { width: 5.5rem; height: 5.5rem; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; cursor: pointer; text-decoration: none; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); border: none; will-change: transform, box-shadow, background-color;}
 .fab-music { background: var(--valtara-cian-brillante); color: var(--valtara-negro-fondo); box-shadow: 0 1.5rem 3rem rgba(0, 255, 255, 0.4); }
-.fab-music:hover { transform: translateY(-12px) scale(1.15); background: var(--valtara-blanco); box-shadow: 0 2.5rem 5rem rgba(0, 255, 255, 0.7); }
+.fab-music:hover { transform: translate3d(0, -12px, 0) scale(1.15); background: var(--valtara-blanco); box-shadow: 0 2.5rem 5rem rgba(0, 255, 255, 0.7); }
 .fab-aura { background: var(--valtara-morado-vivo); color: var(--valtara-blanco); box-shadow: 0 1.5rem 3rem rgba(178, 0, 255, 0.4); }
-.fab-aura:hover { transform: translateY(-12px) scale(1.15); background: var(--valtara-blanco); color: var(--valtara-morado-vivo); box-shadow: 0 2.5rem 5rem rgba(178, 0, 255, 0.7); }
+.fab-aura:hover { transform: translate3d(0, -12px, 0) scale(1.15); background: var(--valtara-blanco); color: var(--valtara-morado-vivo); box-shadow: 0 2.5rem 5rem rgba(178, 0, 255, 0.7); }
 .fab-ws { background: var(--valtara-whatsapp); color: var(--valtara-negro-fondo); box-shadow: 0 1.5rem 3rem rgba(37, 211, 102, 0.4); }
-.fab-ws:hover { transform: translateY(-12px) scale(1.15); background: var(--valtara-blanco); color: var(--valtara-whatsapp); box-shadow: 0 2.5rem 5rem rgba(37, 211, 102, 0.7); }
+.fab-ws:hover { transform: translate3d(0, -12px, 0) scale(1.15); background: var(--valtara-blanco); color: var(--valtara-whatsapp); box-shadow: 0 2.5rem 5rem rgba(37, 211, 102, 0.7); }
 
 /* ------------------------------------------------------------------------------------
    8. RESPONSIVIDAD MÓVIL
@@ -213,7 +218,7 @@ canvas { width: 100%; height: 100%; display: block; }
     .glass-card { padding: 2.5rem 2rem; border-radius: 1.5rem;}
     .glass-card.zig-zag, .glass-card.zig-zag:nth-child(even) { flex-direction: column !important; gap: 2rem; padding: 2rem; }
     .glass-card.zig-zag .card-icon-wrapper { flex: auto; min-height: 200px; font-size: 4rem; margin-bottom: 0; }
-    .mega-modal { width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; border: none; transform: translateY(100%); }
+    .mega-modal { width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; border: none; transform: translate3d(0, 100%, 0); }
     .modal-header { padding: 2rem; }
     .modal-body { padding: 2rem; }
     .aura-chat-window { padding: 2rem; gap: 2rem; }
@@ -228,13 +233,13 @@ canvas { width: 100%; height: 100%; display: block; }
 }
 
 /* ------------------------------------------------------------------------------------
-   9. CARRUSELES HORIZONTALES INMERSIVOS (SONOTERAPIA)
+   9. CARRUSELES HORIZONTALES INMERSIVOS (CONTENCIÓN DE SCROLL X)
    ------------------------------------------------------------------------------------ */
-.carousel-master-container { position: relative; width: 100%; margin: 0 auto; overflow: hidden; }
-.horizontal-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 2.5rem; padding: 2rem 1rem 4rem 1rem; scrollbar-width: none; -ms-overflow-style: none; scroll-behavior: smooth; }
+.carousel-master-container { position: relative; width: 100%; margin: 0 auto; overflow: hidden; contain: layout inline-size; }
+.horizontal-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 2.5rem; padding: 2rem 1rem 4rem 1rem; scrollbar-width: none; -ms-overflow-style: none; scroll-behavior: smooth; will-change: scroll-position; transform: translateZ(0);}
 .horizontal-carousel::-webkit-scrollbar { display: none; }
 .carousel-card { flex: 0 0 85%; max-width: 450px; scroll-snap-align: center; }
 .carousel-navigation { display: flex; justify-content: center; align-items: center; gap: 2.5rem; margin-top: 1rem; }
-.carousel-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: var(--valtara-blanco); width: 4.5rem; height: 4.5rem; border-radius: 50%; font-size: 1.5rem; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 1rem 2rem rgba(0,0,0,0.3); }
-.carousel-btn:hover, .carousel-btn:focus { background: var(--valtara-cian-brillante); color: var(--valtara-negro-fondo); border-color: var(--valtara-cian-brillante); transform: translateY(-5px) scale(1.1); box-shadow: 0 1.5rem 3rem rgba(0, 255, 255, 0.4); outline: none; }
+.carousel-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: var(--valtara-blanco); width: 4.5rem; height: 4.5rem; border-radius: 50%; font-size: 1.5rem; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 1rem 2rem rgba(0,0,0,0.3); will-change: transform, box-shadow, background-color;}
+.carousel-btn:hover, .carousel-btn:focus { background: var(--valtara-cian-brillante); color: var(--valtara-negro-fondo); border-color: var(--valtara-cian-brillante); transform: translate3d(0, -5px, 0) scale(1.1); box-shadow: 0 1.5rem 3rem rgba(0, 255, 255, 0.4); outline: none; }
 .carousel-indicator { font-family: monospace; font-size: 1.4rem; color: var(--valtara-oro-suave); letter-spacing: 0.2rem; background: rgba(0,0,0,0.6); padding: 0.8rem 2rem; border-radius: 2rem; border: 1px solid rgba(242, 201, 76, 0.2); box-shadow: inset 0 0 1.5rem rgba(0,0,0,0.8); }
