@@ -1,30 +1,50 @@
 /**
  * ====================================================================================
- * BLOQUE 5: CORE ENGINE V12.0 (SISTEMA OPERATIVO Y TRIAJE EDUCATIVO)
- * Controla modales, menú lateral, Mapa Biomecánico y SUSPENSIÓN TÉRMICA.
+ * BLOQUE 5: CORE ENGINE V38.1 (SISTEMA OPERATIVO Y ESCUDO TÉRMICO)
+ * Controla modales, triaje educativo, scroll fluido y apagado inteligente de GPU.
  * ====================================================================================
  */
 
 const CoreEngine = {
     init: function() {
-        // 1. Inyectar la Enciclopedia (Textos masivos) en el HTML vacío
         if(window.ValtaraData) ValtaraData.renderAll();
         
-        // 2. Inicializar Módulos de Interfaz
         this.initModals();
         this.initSideMenu();
         this.initBodyMap();
-        this.inyectarCSSAltaEficiencia(); // CSS dinámico para evitar sobrecalentamiento
+        this.inyectarCSSAltaEficiencia(); 
+        this.initThermalShield(); // INICIA EL NUEVO ESCUDO TÉRMICO
         
-        // 3. Retirar la pantalla de carga inicial del navegador suavemente
         setTimeout(() => {
             document.body.classList.remove('system-loading');
         }, 300);
     },
 
     // ================================================================================
-    // MOTOR TÉRMICO Y ACCESIBILIDAD (Detecta lector de pantalla)
+    // MOTOR TÉRMICO INTELIGENTE (Intersection Observer)
+    // Apaga la GPU cuando el usuario no está viendo las animaciones.
     // ================================================================================
+    initThermalShield: function() {
+        const ambientBg = document.getElementById('ambient-bg');
+        if(!ambientBg) return;
+
+        // "Ojo" digital que vigila si la parte superior de la página (view-home) está visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    // El usuario está arriba: Encender GPU y animaciones
+                    ambientBg.style.display = 'block';
+                } else {
+                    // El usuario hizo scroll hacia abajo: Apagar GPU para enfriar el celular
+                    ambientBg.style.display = 'none';
+                }
+            });
+        }, { threshold: 0.01 }); // Con que se vea el 1%, se enciende
+
+        const homeSection = document.getElementById('view-home');
+        if(homeSection) observer.observe(homeSection);
+    },
+
     inyectarCSSAltaEficiencia: function() {
         if(document.getElementById('eco-mode-styles')) return;
         const style = document.createElement('style');
@@ -45,86 +65,70 @@ const CoreEngine = {
         `;
         document.head.appendChild(style);
 
-        // Si usa la tecla TAB (lector de pantalla), activamos el modo Eco
         window.addEventListener('keydown', (e) => {
             if (e.key === 'Tab') document.body.classList.add('eco-mode');
         });
-        // Si toca la pantalla, asumimos dispositivo normal y devolvemos el lujo visual
+        
+        // El { passive: true } es CRUCIAL para evitar tirones en el scroll táctil
         window.addEventListener('touchstart', () => {
             document.body.classList.remove('eco-mode');
         }, { passive: true });
     },
 
     // ================================================================================
-    // CONTROLADOR MASIVO DE VENTANAS EMERGENTES (MODALES HTML5)
+    // CONTROLADOR DE MODALES (Delegación de eventos de alta velocidad)
     // ================================================================================
     initModals: function() {
-        const openBtns = document.querySelectorAll('[aria-haspopup="dialog"]');
-        const closeBtns = document.querySelectorAll('[data-close]');
-
-        openBtns.forEach(btn => {
-            btn.replaceWith(btn.cloneNode(true));
-            const newBtn = document.getElementById(btn.id) || document.querySelector(`[aria-haspopup="dialog"][id="${btn.id}"]`);
+        // En lugar de múltiples event listeners, usamos delegación en el document body para velocidad extrema
+        document.body.addEventListener('click', (e) => {
             
-            if(newBtn) {
-                newBtn.addEventListener('click', () => {
-                    let targetId = '';
+            // 1. ABRIR MODALES
+            const openBtn = e.target.closest('[aria-haspopup="dialog"]');
+            if(openBtn) {
+                let targetId = '';
+                if(openBtn.id === 'top-a11y-btn') targetId = 'a11y-modal'; 
+                if(openBtn.id === 'fab-audio') targetId = 'audio-modal';
+                if(openBtn.id === 'fab-aura') targetId = 'aura-modal';
+
+                const dialog = document.getElementById(targetId);
+                if(dialog && !dialog.open) {
+                    dialog.showModal(); 
+                    document.body.style.overflow = 'hidden'; 
+                    document.body.classList.add('pausar-ambiente'); // Parche térmico
                     
-                    if(newBtn.id === 'top-a11y-btn') targetId = 'a11y-modal'; 
-                    if(newBtn.id === 'fab-audio') targetId = 'audio-modal';
-                    if(newBtn.id === 'fab-aura') targetId = 'aura-modal';
-
-                    const dialog = document.getElementById(targetId);
-                    if(dialog && !dialog.open) {
-                        dialog.showModal(); 
-                        document.body.style.overflow = 'hidden'; 
-                        
-                        // PARCHE TÉRMICO: Congela las animaciones de fondo para enfriar el celular
-                        document.body.classList.add('pausar-ambiente');
-                        
-                        const nav = document.getElementById('main-nav');
-                        if(nav && nav.classList.contains('open')) {
-                            document.getElementById('menu-close-btn').click();
-                        }
-
-                        if(window.A11yEngine) A11yEngine.announce(`Ventana abierta: ${dialog.getAttribute('aria-label')}`);
+                    const nav = document.getElementById('main-nav');
+                    if(nav && nav.classList.contains('open')) {
+                        document.getElementById('menu-close-btn').click();
                     }
-                });
+                    if(window.A11yEngine) A11yEngine.announce(`Ventana abierta: ${dialog.getAttribute('aria-label')}`);
+                }
             }
-        });
 
-        closeBtns.forEach(btn => {
-            btn.replaceWith(btn.cloneNode(true));
-            const newBtn = document.querySelector(`[data-close="${btn.getAttribute('data-close')}"]`);
-            
-            if(newBtn) {
-                newBtn.addEventListener('click', () => {
-                    const targetId = newBtn.getAttribute('data-close');
-                    const dialog = document.getElementById(targetId);
-                    if(dialog && dialog.open) {
-                        dialog.style.opacity = '0';
-                        dialog.style.transform = 'translateY(50px) scale(0.95)';
-                        
-                        setTimeout(() => {
-                            dialog.close();
-                            dialog.style.opacity = '';
-                            dialog.style.transform = '';
-                            document.body.style.overflow = 'auto'; 
-                            
-                            // PARCHE TÉRMICO: Descongela el fondo cuando se cierra el modal
-                            document.body.classList.remove('pausar-ambiente');
+            // 2. CERRAR MODALES
+            const closeBtn = e.target.closest('[data-close]');
+            if(closeBtn) {
+                const targetId = closeBtn.getAttribute('data-close');
+                const dialog = document.getElementById(targetId);
+                if(dialog && dialog.open) {
+                    dialog.style.opacity = '0';
+                    dialog.style.transform = 'translateY(50px) scale(0.95)';
+                    
+                    setTimeout(() => {
+                        dialog.close();
+                        dialog.style.opacity = '';
+                        dialog.style.transform = '';
+                        document.body.style.overflow = 'auto'; 
+                        document.body.classList.remove('pausar-ambiente'); // Descongela fondo
+                    }, 400);
 
-                        }, 400);
-
-                        if(window.A11yEngine) A11yEngine.announce(`Ventana cerrada.`);
-                    }
-                });
+                    if(window.A11yEngine) A11yEngine.announce(`Ventana cerrada.`);
+                }
             }
         });
     },
 
     // ================================================================================
-    // CONTROLADOR DEL PANEL LATERAL (MENÚ DEL PACIENTE)
+    // PANEL LATERAL 
     // ================================================================================
     initSideMenu: function() {
         const menuBtn = document.getElementById('menu-toggle-btn');
@@ -137,11 +141,8 @@ const CoreEngine = {
                 menuBtn.setAttribute('aria-expanded', 'true');
                 nav.setAttribute('aria-hidden', 'false');
                 document.body.style.overflow = 'hidden'; 
-                
-                // PARCHE TÉRMICO: Congela las animaciones de fondo
                 document.body.classList.add('pausar-ambiente');
-
-                if(window.A11yEngine) A11yEngine.announce("Panel de control del paciente y menú de navegación abierto.");
+                if(window.A11yEngine) A11yEngine.announce("Panel de control abierto.");
             });
 
             closeBtn.addEventListener('click', () => {
@@ -149,17 +150,14 @@ const CoreEngine = {
                 menuBtn.setAttribute('aria-expanded', 'false');
                 nav.setAttribute('aria-hidden', 'true');
                 document.body.style.overflow = 'auto'; 
-                
-                // PARCHE TÉRMICO: Descongela las animaciones de fondo
                 document.body.classList.remove('pausar-ambiente');
-
                 if(window.A11yEngine) A11yEngine.announce("Panel cerrado.");
             });
         }
     },
 
     // ================================================================================
-    // MOTOR DE TRIAJE EDUCATIVO (MAPA BIOMECÁNICO EN CASCADA)
+    // MAPA BIOMECÁNICO (TRIAJE)
     // ================================================================================
     initBodyMap: function() {
         const mapContainer = document.getElementById('view-home');
@@ -269,27 +267,22 @@ const CoreEngine = {
 };
 
 // ====================================================================================
-// GUARDIÁN MAESTRO DE MEDIOS (Evita cacofonía y hace Fade-In / Fade-Out)
+// GUARDIÁN MAESTRO DE MEDIOS (Cacofonía y Fade)
 // ====================================================================================
 window.ValtaraMedia = {
     silenciarTodo: function(excepcion = null) {
-        // 1. Apagar audios/videos nativos con Fade Out
         document.querySelectorAll('audio, video').forEach(media => {
             if (media !== excepcion && !media.paused) {
                 this.fadeOut(media);
             }
         });
         
-        // 2. Pausar Iframes de YouTube (requiere enablejsapi=1)
         const iframes = document.querySelectorAll('iframe[src*="youtube.com"]');
         iframes.forEach(iframe => {
-            try {
-                iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-            } catch(e) {}
+            try { iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); } catch(e) {}
         });
     },
 
-    // Efecto Lujoso: Bajar volumen gradualmente
     fadeOut: function(media) {
         let vol = media.volume;
         const fadeAudio = setInterval(() => {
@@ -299,14 +292,13 @@ window.ValtaraMedia = {
             } else {
                 clearInterval(fadeAudio);
                 media.pause();
-                media.volume = 1; // Resetea para la próxima vez
+                media.volume = 1; 
             }
-        }, 30); // Muy rápido y sutil
+        }, 30); 
     },
 
-    // Efecto Lujoso: Subir volumen gradualmente
     fadeIn: function(media, targetVolume = 1) {
-        window.ValtaraMedia.silenciarTodo(media); // Apaga a los demás primero
+        window.ValtaraMedia.silenciarTodo(media); 
         media.volume = 0;
         media.play();
         let vol = 0;
@@ -322,12 +314,12 @@ window.ValtaraMedia = {
     }
 };
 
-// Radar global para silenciar al dar clic a cualquier control multimedia
+// Radar global ultra-rápido para silencio de medios
 window.addEventListener('click', function(e) {
     if (e.target.closest('#btn-master-play') || e.target.closest('.carousel-card')) {
         window.ValtaraMedia.silenciarTodo();
     }
-}, true);
+}, { capture: true, passive: true });
 
 window.addEventListener('DOMContentLoaded', () => { 
     CoreEngine.init(); 
