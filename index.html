@@ -13,8 +13,8 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="VALTARA | Executive Therapy">
     <meta property="og:description" content="Santuario de restauración biomecánica para el éxito corporativo en CDMX.">
-    <meta property="og:url" content="https://valtara-executive.github.io/">
-    <meta property="og:image" content="https://valtara-executive.github.io/logo.png">
+    <meta property="og:url" content="https://valtaraexecutive.com/">
+    <meta property="og:image" content="https://valtaraexecutive.com/logo.png">
 
     <script type="application/ld+json">
     {
@@ -22,9 +22,9 @@
       "@type": "MedicalBusiness",
       "name": "VALTARA: Executive Therapy",
       "alternateName": "Grupo Gevizz",
-      "image": "https://valtara-executive.github.io/logo.png",
-      "@id": "https://valtara-executive.github.io/",
-      "url": "https://valtara-executive.github.io/",
+      "image": "https://valtaraexecutive.com/logo.png",
+      "@id": "https://valtaraexecutive.com/",
+      "url": "https://valtaraexecutive.com/",
       "telephone": "+5213348572070",
       "priceRange": "$$$",
       "address": {
@@ -56,25 +56,6 @@
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     
-    <meta http-equiv="Content-Security-Policy" content="
-        default-src 'self'; 
-        connect-src 'self' https://aura-server-erfj.vercel.app; 
-        font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; 
-        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; 
-        script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; 
-        frame-src 'self' https://www.youtube.com; 
-        img-src 'self' data: blob: https://cdn-icons-png.flaticon.com https://img.youtube.com;
-        worker-src 'self' blob:;
-        object-src 'none';
-        base-uri 'self';
-        form-action 'self';
-        frame-ancestors 'none';
-        upgrade-insecure-requests;
-    ">
-
-    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
-    <meta http-equiv="Permissions-Policy" content="interest-cohort=(), camera=(), microphone=(self)">
-    
     <script>
         window.ValtaraDiagnostics = {
             logSilencioso: function(tipo, detalle) {
@@ -82,60 +63,20 @@
                 console.log("Detalle Forense:", detalle);
                 console.groupEnd();
             },
-
             evaluarImpacto: function(codigo, titulo, detalles, accionUsuario) {
-                const safeIgnores = [
-                    'shownotification', 'serviceworker', 'html2pdf', 'play()', 'fetch',                    
-                    'user aborted', 'network error', 'not allowed', 'failed to execute',
-                    'registration', 'active registration available'
-                ];
-                
-                let strDetails = "";
-                if (typeof detalles === 'object') {
-                    strDetails = (detalles.message || detalles.name || JSON.stringify(detalles)).toLowerCase();
-                } else {
-                    strDetails = String(detalles).toLowerCase();
-                }
-                
-                if (safeIgnores.some(keyword => strDetails.includes(keyword))) {
-                    this.logSilencioso(codigo, strDetails);
-                    return; 
-                }
-
+                const safeIgnores = [ 'shownotification', 'serviceworker', 'html2pdf', 'play()', 'fetch', 'user aborted', 'network error', 'not allowed', 'failed to execute', 'registration', 'active registration available' ];
+                let strDetails = (typeof detalles === 'object') ? (detalles.message || detalles.name || JSON.stringify(detalles)).toLowerCase() : String(detalles).toLowerCase();
+                if (safeIgnores.some(keyword => strDetails.includes(keyword))) { this.logSilencioso(codigo, strDetails); return; }
                 this.detonarProtocolo(codigo, titulo, strDetails, accionUsuario);
             },
-
             detonarProtocolo: function(codigo, titulo, detalles, accionUsuario) {
                 let errDiv = document.getElementById('valtara-system-guard');
-                if(!errDiv) {
-                    errDiv = document.createElement('div');
-                    errDiv.id = 'valtara-system-guard';
-                    errDiv.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(5,5,10,0.98); z-index:99999999; display:flex; justify-content:center; align-items:center; backdrop-filter:blur(20px); padding:20px;';
-                    document.body.appendChild(errDiv);
-                }
-                errDiv.innerHTML = `
-                    <div style="background:#111; border:1px solid #ff5555; border-radius:20px; padding:35px; max-width:500px; text-align:center; box-shadow:0 15px 50px rgba(255,85,85,0.2);">
-                        <div style="color:#ff5555; font-size:3.5rem; margin-bottom:15px; filter:drop-shadow(0 0 10px rgba(255,85,85,0.5));">&#9888;</div>
-                        <h2 style="color:white; font-family:'Playfair Display', serif; font-size:1.8rem; margin:0 0 10px 0;">Interrupción de Seguridad</h2>
-                        <p style="color:#aaa; font-size:1rem; margin-bottom:20px; line-height:1.5;">${titulo}</p>
-                        <div style="background:rgba(255,85,85,0.05); padding:15px; border-radius:12px; margin-bottom:25px; text-align:left; border-left:4px solid #ff5555;">
-                            <strong style="color:#ff5555; font-size:0.85rem; text-transform:uppercase; letter-spacing:1px;">Código Diagnóstico: ${codigo}</strong>
-                            <p style="color:#888; font-size:0.8rem; font-family:monospace; margin:8px 0 0 0; word-break:break-all;">${detalles}</p>
-                        </div>
-                        <p style="color:#aaa; font-size:0.95rem; margin-bottom:25px;">${accionUsuario}</p>
-                        <button onclick="location.reload(true)" style="background:transparent; border:2px solid #ff5555; color:#ff5555; padding:15px 30px; border-radius:12px; font-weight:900; cursor:pointer; text-transform:uppercase; letter-spacing:1px; width:100%; transition:0.3s;" onmouseover="this.style.background='rgba(255,85,85,0.1)'" onmouseout="this.style.background='transparent'">Restablecer Conexión Segura</button>
-                    </div>
-                `;
+                if(!errDiv) { errDiv = document.createElement('div'); errDiv.id = 'valtara-system-guard'; errDiv.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(5,5,10,0.98); z-index:99999999; display:flex; justify-content:center; align-items:center; backdrop-filter:blur(20px); padding:20px;'; document.body.appendChild(errDiv); }
+                errDiv.innerHTML = `<div style="background:#111; border:1px solid #ff5555; border-radius:20px; padding:35px; max-width:500px; text-align:center; box-shadow:0 15px 50px rgba(255,85,85,0.2);"><div style="color:#ff5555; font-size:3.5rem; margin-bottom:15px;">&#9888;</div><h2 style="color:white; font-family:'Playfair Display', serif; font-size:1.8rem; margin:0 0 10px 0;">Interrupción de Seguridad</h2><p style="color:#aaa; font-size:1rem; margin-bottom:20px; line-height:1.5;">${titulo}</p><button onclick="location.reload(true)" style="background:transparent; border:2px solid #ff5555; color:#ff5555; padding:15px 30px; border-radius:12px; font-weight:900; cursor:pointer; text-transform:uppercase; letter-spacing:1px; width:100%;">Restablecer Conexión Segura</button></div>`;
             }
         };
-
-        window.addEventListener('error', function(e) {
-            ValtaraDiagnostics.evaluarImpacto('ERR-SYS-01', 'Fallo en la arquitectura de la interfaz gráfica.', e.error || e.message, 'Por favor, recargue la página. Si el problema persiste, contacte a su Concierge.');
-        });
-
-        window.addEventListener('unhandledrejection', function(e) {
-            ValtaraDiagnostics.evaluarImpacto('ERR-NET-02', 'Interrupción de conectividad o recurso inaccesible.', e.reason, 'Verifique su conexión a internet o desactive bloqueadores de contenido estrictos.');
-        });
+        window.addEventListener('error', function(e) { ValtaraDiagnostics.evaluarImpacto('ERR-SYS-01', 'Fallo en la arquitectura.', e.error || e.message, 'Recargue la página.'); });
+        window.addEventListener('unhandledrejection', function(e) { ValtaraDiagnostics.evaluarImpacto('ERR-NET-02', 'Interrupción de red.', e.reason, 'Verifique su conexión.'); });
     </script>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#050508">
@@ -145,103 +86,46 @@
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-    <link rel="preconnect" href="https://aura-server-erfj.vercel.app" crossorigin="anonymous">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous">
 
-    <link rel="preload" href="css/main.css?v=38.1.0" as="style">
-    <link rel="preload" href="css/components.css?v=38.1.0" as="style">
-    <link rel="preload" href="js/constructor_maestro.js?v=38.1.0" as="script">
-    <link rel="preload" href="js/core.js?v=38.1.0" as="script">
+    <link rel="preload" href="css/main.css?v=38.2.0" as="style">
+    <link rel="preload" href="css/components.css?v=38.2.0" as="style">
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="css/main.css?v=38.1.0">
-    <link rel="stylesheet" href="css/components.css?v=38.1.0">
+    <link rel="stylesheet" href="css/main.css?v=38.2.0">
+    <link rel="stylesheet" href="css/components.css?v=38.2.0">
     
     <style>
-        /* CSS CONTAINMENT: Fluidez Absoluta (Jank-Free) */
-        main section {
-            content-visibility: auto;
-            contain-intrinsic-size: 1px 1000px;
-        }
-
-        /* ========================================================================== */
-        /* FORZADO DE TAMAÑO DE LOGOTIPO - V38.1                                      */
-        /* ========================================================================== */
-        .header-logo {
-            height: 60px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: flex-start !important;
-            background: transparent !important;
-            border: none !important;
-            padding: 0 !important;
-            width: auto !important;
-            overflow: visible !important;
-        }
-        
-        .header-logo .logo-img {
-            height: 100% !important;
-            width: auto !important;
-            max-height: 60px !important;
-            object-fit: contain !important;
-            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4)) !important; 
-            transition: transform 0.3s ease;
-        }
-
-        .header-logo:hover .logo-img {
-            transform: scale(1.05); 
-        }
-
-        @media (max-width: 768px) {
-            .header-logo { height: 55px !important; }
-            .header-logo .logo-img { max-height: 55px !important; }
-        }
-        /* ========================================================================== */
-
-        @keyframes pulseAuraGoldHTML { 0% { transform: scale(0.9); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 1; } }
-        .btn-expediente-safe {
-            width: 100%; display: flex; align-items: center; gap: 15px; padding: 1rem 1.5rem; 
-            border: none; background: rgba(242,201,76,0.05); color: var(--valtara-oro); 
-            font-size: 1.1rem; cursor: pointer; text-align: left; border-radius: 12px;
-            transition: all 0.3s ease; margin-bottom: 10px; border-left: 3px solid var(--valtara-oro);
-        }
+        .header-logo { height: 60px !important; display: flex !important; align-items: center !important; justify-content: flex-start !important; background: transparent !important; border: none !important; padding: 0 !important; width: auto !important; overflow: visible !important; }
+        .header-logo .logo-img { height: 100% !important; width: auto !important; max-height: 60px !important; object-fit: contain !important; filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4)) !important; transition: transform 0.3s ease; }
+        .header-logo:hover .logo-img { transform: scale(1.05); }
+        @media (max-width: 768px) { .header-logo { height: 55px !important; } .header-logo .logo-img { max-height: 55px !important; } }
+        .btn-expediente-safe { width: 100%; display: flex; align-items: center; gap: 15px; padding: 1rem 1.5rem; border: none; background: rgba(242,201,76,0.05); color: var(--valtara-oro); font-size: 1.1rem; cursor: pointer; text-align: left; border-radius: 12px; transition: all 0.3s ease; margin-bottom: 10px; border-left: 3px solid var(--valtara-oro); }
         .btn-expediente-safe:hover { background: rgba(242,201,76,0.15); transform: translateX(5px); }
     </style>
 </head>
 <body class="system-loading">
 
-    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma blindada Sovereign Valtara 38.1.0. Ecosistema biomécanico asegurado...</div>
+    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma blindada Sovereign Valtara 38.2.0...</div>
 
     <div id="app-wrapper" aria-hidden="false">
 
         <div aria-hidden="true" class="ambient-engine" id="ambient-bg">
-            <div class="orb orb-1"></div> 
-            <div class="orb orb-2"></div> 
-            <div class="orb orb-3"></div> 
-            <div class="orb orb-4"></div> 
-            <div class="orb orb-5"></div> 
-            <div class="glass-overlay"></div>
+            <div class="orb orb-1"></div> <div class="orb orb-2"></div> <div class="orb orb-3"></div> <div class="orb orb-4"></div> <div class="orb orb-5"></div> <div class="glass-overlay"></div>
         </div>
 
         <header class="system-header" role="banner">
-            <button aria-label="Inicio. Logotipo corporativo de Valtara Executive. Flor de loto geométrica dorada sobre nombre de marca." class="header-logo" id="logo-btn" onclick="Router.navigate('home')">
-                <img src="logo.png" alt="Logotipo corporativo de Valtara Executive." class="logo-img">
+            <button aria-label="Inicio" class="header-logo" id="logo-btn" onclick="Router.navigate('home')">
+                <img src="logo.png" alt="Valtara Executive" class="logo-img">
             </button>
-
             <div class="header-controls">
-                <button aria-label="Abrir panel de Accesibilidad e Inclusión" aria-haspopup="dialog" aria-controls="a11y-modal" class="header-action-btn a11y-btn-top" id="top-a11y-btn" onclick="document.getElementById('a11y-modal').showModal();">
-                    <i aria-hidden="true" class="fa-solid fa-universal-access"></i>
-                </button>
-
-                <button aria-label="Abrir menú de opciones" aria-expanded="false" aria-controls="main-nav" class="hamburger-btn" id="menu-toggle-btn">
-                    <i aria-hidden="true" class="fa-solid fa-bars"></i>
-                </button>
+                <button aria-label="Accesibilidad" aria-haspopup="dialog" aria-controls="a11y-modal" class="header-action-btn a11y-btn-top" id="top-a11y-btn" onclick="document.getElementById('a11y-modal').showModal();"><i aria-hidden="true" class="fa-solid fa-universal-access"></i></button>
+                <button aria-label="Menú" aria-expanded="false" aria-controls="main-nav" class="hamburger-btn" id="menu-toggle-btn"><i aria-hidden="true" class="fa-solid fa-bars"></i></button>
             </div>
         </header>
 
-        <nav aria-label="Menú Principal y Perfil" class="side-menu" id="main-nav" role="navigation" aria-hidden="true">
+        <nav aria-label="Menú Principal" class="side-menu" id="main-nav" role="navigation" aria-hidden="true">
             <div class="menu-header">
                 <div class="patient-profile-card">
                     <div class="profile-avatar" id="sidebar-avatar-icon"><i class="fa-solid fa-spa"></i></div>
@@ -250,181 +134,149 @@
                         <strong class="profile-name" id="menu-user-name">Invitado</strong>
                     </div>
                 </div>
-                <button aria-label="Cerrar menú" class="close-btn" id="menu-close-btn" onclick="document.getElementById('main-nav').classList.remove('open');">
-                    <i aria-hidden="true" class="fa-solid fa-xmark"></i>
-                </button>
+                <button aria-label="Cerrar menú" class="close-btn" id="menu-close-btn" onclick="document.getElementById('main-nav').classList.remove('open');"><i aria-hidden="true" class="fa-solid fa-xmark"></i></button>
             </div>
             
             <div class="menu-scroll-area">
                 <h3 class="menu-section-title">Explora nuestro espacio</h3>
                 <ul class="nav-list" role="menubar">
-                    <li role="none"><button role="menuitem" class="nav-item" data-target="home"><i class="fa-solid fa-house"></i> <span>Inicio y Mapa Interactivo</span></button></li>
-                    <li role="none"><button role="menuitem" class="nav-item" data-target="restoration"><i class="fa-solid fa-spa"></i> <span>Catálogo de Masajes</span></button></li>
-                    <li role="none"><button role="menuitem" class="nav-item" data-target="beauty"><i class="fa-solid fa-wand-magic-sparkles"></i> <span>Estudio de Manicura</span></button></li>
-                    <li role="none"><button role="menuitem" class="nav-item" data-target="sonotherapy"><i class="fa-solid fa-headphones-simple"></i> <span>Sala de Sonoterapia</span></button></li>
+                    <li role="none"><button role="menuitem" class="nav-item" data-target="home"><i class="fa-solid fa-house"></i> <span>Inicio y Mapa</span></button></li>
+                    <li role="none"><button role="menuitem" class="nav-item" data-target="restoration"><i class="fa-solid fa-spa"></i> <span>Catálogo Masajes</span></button></li>
+                    <li role="none"><button role="menuitem" class="nav-item" data-target="beauty"><i class="fa-solid fa-wand-magic-sparkles"></i> <span>Estudio Manicura</span></button></li>
+                    <li role="none"><button role="menuitem" class="nav-item" data-target="sonotherapy"><i class="fa-solid fa-headphones-simple"></i> <span>Sonoterapia</span></button></li>
                     <li role="none"><button role="menuitem" class="nav-item" data-target="science"><i class="fa-solid fa-microscope"></i> <span>Ciencia y Botánica</span></button></li>
-                    <li role="none"><button role="menuitem" class="nav-item" data-target="legal"><i class="fa-solid fa-shield-halved"></i> <span>Conócenos y Políticas</span></button></li>
+                    <li role="none"><button role="menuitem" class="nav-item" data-target="legal"><i class="fa-solid fa-shield-halved"></i> <span>Políticas</span></button></li>
                 </ul>
 
-                <h3 class="menu-section-title" style="margin-top: 2.5rem;">Tu Configuración</h3>
+                <h3 class="menu-section-title" style="margin-top: 2.5rem;">Configuración</h3>
                 <ul class="nav-list" role="menu">
-                    <li role="none">
-                        <button role="menuitem" class="btn-expediente-safe" id="btn-open-expediente" aria-haspopup="dialog" onclick="if(window.ExpedienteEngine) window.ExpedienteEngine.openOverlay();">
-                            <i class="fa-solid fa-file-signature"></i> <span>Mi Expediente Soberano</span>
-                        </button>
-                    </li>
-                    <li role="none">
-                        <button role="menuitem" class="nav-item btn-tool" id="btn-install-app" style="display: none; color: var(--valtara-oro); border: 1px solid var(--valtara-oro); background: rgba(242, 201, 76, 0.1); border-radius: 10px; margin-bottom: 10px;">
-                            <i class="fa-solid fa-download"></i> <span>Instalar App Valtara</span>
-                        </button>
-                    </li>
+                    <li role="none"><button role="menuitem" class="btn-expediente-safe" id="btn-open-expediente" aria-haspopup="dialog" onclick="if(window.ExpedienteEngine) window.ExpedienteEngine.openOverlay();"><i class="fa-solid fa-file-signature"></i> <span>Mi Expediente Soberano</span></button></li>
+                    <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-install-app" style="display: none; color: var(--valtara-oro); border: 1px solid var(--valtara-oro);"><i class="fa-solid fa-download"></i> <span>Instalar App Valtara</span></button></li>
                     <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-change-name-menu"><i class="fa-solid fa-pen"></i> <span>Editar mi Nombre</span></button></li>
                     <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-reset-session"><i class="fa-solid fa-power-off"></i> <span>Cerrar sesión</span></button></li>
                 </ul>
-
-                <a role="menuitem" href="https://wa.me/5213348572070" target="_blank" class="btn-ws-massive" style="margin-top: 3rem;">
-                    <i aria-hidden="true" class="fa-brands fa-whatsapp" style="font-size: 1.8rem;"></i> <span>Chatear por WhatsApp</span>
-                </a>
+                <a role="menuitem" href="https://wa.me/5213348572070" target="_blank" class="btn-ws-massive" style="margin-top: 3rem;"><i aria-hidden="true" class="fa-brands fa-whatsapp" style="font-size: 1.8rem;"></i> <span>Chatear por WhatsApp</span></a>
             </div>
         </nav>
 
         <dialog aria-label="Panel de Accesibilidad" class="modal-dialog mega-modal" id="a11y-modal">
             <div class="modal-content">
                 <header class="modal-header">
-                    <h3><i aria-hidden="true" class="fa-solid fa-universal-access"></i> Inclusión para Todos</h3>
-                    <button aria-label="Cerrar panel" class="close-modal-btn" onclick="document.getElementById('a11y-modal').close();"><i class="fa-solid fa-xmark"></i></button>
+                    <h3><i aria-hidden="true" class="fa-solid fa-universal-access"></i> Inclusión</h3>
+                    <button aria-label="Cerrar" class="close-modal-btn" onclick="document.getElementById('a11y-modal').close();"><i class="fa-solid fa-xmark"></i></button>
                 </header>
                 <div class="modal-body">
-                    <p style="color: var(--valtara-gris-texto); font-size: 1.15rem; margin-bottom: 2.5rem; font-weight: 300;">
-                        Queremos que te sientas cómodo. Adapta la página a lo que tus ojos y mente necesiten.
-                    </p>
                     <div class="a11y-grid-layout">
-                        <button class="a11y-card-btn" id="a11y-zoom-in" aria-pressed="false"><i class="fa-solid fa-magnifying-glass-plus"></i> <span>Acercar Página (Zoom +)</span></button>
-                        <button class="a11y-card-btn" id="a11y-zoom-out" aria-pressed="false"><i class="fa-solid fa-magnifying-glass-minus"></i> <span>Alejar Página (Zoom -)</span></button>
-                        <button class="a11y-card-btn" id="a11y-voice" aria-pressed="false"><i class="fa-solid fa-volume-high"></i> <span>Lectura en Voz Alta</span></button>
+                        <button class="a11y-card-btn" id="a11y-zoom-in" aria-pressed="false"><i class="fa-solid fa-magnifying-glass-plus"></i> <span>Acercar</span></button>
+                        <button class="a11y-card-btn" id="a11y-zoom-out" aria-pressed="false"><i class="fa-solid fa-magnifying-glass-minus"></i> <span>Alejar</span></button>
+                        <button class="a11y-card-btn" id="a11y-voice" aria-pressed="false"><i class="fa-solid fa-volume-high"></i> <span>Voz Alta</span></button>
                         <button class="a11y-card-btn" id="a11y-contrast" aria-pressed="false"><i class="fa-solid fa-circle-half-stroke"></i> <span>Alto Contraste</span></button>
-                        <button class="a11y-card-btn" id="a11y-invert" aria-pressed="false"><i class="fa-solid fa-droplet"></i> <span>Invertir Colores (No daña diseño)</span></button>
-                        <button class="a11y-card-btn" id="a11y-dyslexia" aria-pressed="false"><i class="fa-solid fa-font"></i> <span>Fuente para Dislexia</span></button>
-                        <button class="a11y-card-btn" id="a11y-spacing" aria-pressed="false"><i class="fa-solid fa-text-width"></i> <span>Espaciado Cognitivo</span></button>
-                        <button class="a11y-card-btn" id="a11y-motion" aria-pressed="false" style="border-color: #F72585;"><i class="fa-solid fa-stopwatch" style="color: #F72585;"></i> <span>Apagar Animaciones de Fondo</span></button>
+                        <button class="a11y-card-btn" id="a11y-invert" aria-pressed="false"><i class="fa-solid fa-droplet"></i> <span>Invertir Colores</span></button>
+                        <button class="a11y-card-btn" id="a11y-dyslexia" aria-pressed="false"><i class="fa-solid fa-font"></i> <span>Fuente Dislexia</span></button>
+                        <button class="a11y-card-btn" id="a11y-spacing" aria-pressed="false"><i class="fa-solid fa-text-width"></i> <span>Espaciado</span></button>
+                        <button class="a11y-card-btn" id="a11y-motion" aria-pressed="false" style="border-color: #F72585;"><i class="fa-solid fa-stopwatch" style="color: #F72585;"></i> <span>Apagar Animaciones</span></button>
                     </div>
                 </div>
             </div>
         </dialog>
 
-        <dialog aria-label="Asistente Virtual Aura" class="modal-dialog mega-modal" id="aura-modal" style="background: rgba(5, 5, 10, 0.45); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(242, 201, 76, 0.4);">
+        <dialog aria-label="Asistente Virtual Aura" class="modal-dialog mega-modal" id="aura-modal" style="background: rgba(5, 5, 10, 0.45); backdrop-filter: blur(25px); border: 1px solid rgba(242, 201, 76, 0.4);">
             <div class="modal-content aura-container" style="background: transparent;">
-                <header class="modal-header" style="background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%); border-bottom: 1px solid rgba(242,201,76,0.2);">
+                <header class="modal-header">
                     <h3 style="color: var(--valtara-oro);"><i aria-hidden="true" class="fa-solid fa-sparkles"></i> Asistente Aura</h3>
-                    <button aria-label="Cerrar asistente" class="close-modal-btn" onclick="document.getElementById('aura-modal').close();"><i class="fa-solid fa-xmark"></i></button>
+                    <button class="close-modal-btn" onclick="document.getElementById('aura-modal').close();"><i class="fa-solid fa-xmark"></i></button>
                 </header>
-                
-                <div aria-live="polite" class="aura-chat-window" id="aura-chat-container" style="position: relative; overflow: hidden; display: flex; flex-direction: column;">
-                    <div id="aura-welcome-screen" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: transparent; z-index: 50; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); padding: 1rem; overflow-y: auto;"></div>
-                    <div id="aura-chat" style="flex: 1; overflow-y: auto; padding: 2rem 1rem; z-index: 5; height: 100%; display: flex; flex-direction: column; gap: 1.5rem;"></div>
+                <div aria-live="polite" class="aura-chat-window" id="aura-chat-container">
+                    <div id="aura-welcome-screen" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: transparent; z-index: 50; transition: all 0.6s ease; padding: 1rem;"></div>
+                    <div id="aura-chat" style="flex: 1; overflow-y: auto; padding: 2rem 1rem; z-index: 5; display: flex; flex-direction: column; gap: 1.5rem;"></div>
                 </div>
-
-                <div class="aura-controls" style="display: flex; align-items: center; gap: 10px; z-index: 15; position: relative;">
-                    <button aria-label="Dictar mensaje por voz" id="aura-mic-btn" style="background: rgba(255,255,255,0.05); border: 1px solid var(--valtara-cian-brillante); color: var(--valtara-cian-brillante); font-size: 1.3rem; cursor: pointer; padding: 0; width: 50px; height: 50px; border-radius: 50%; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" title="Toca para hablar">
-                        <i aria-hidden="true" class="fa-solid fa-microphone"></i>
-                    </button>
-                    <label for="aura-input" class="sr-only">Escribe tu mensaje</label>
-                    <input type="text" id="aura-input" placeholder="Escribe o dicta tu mensaje..." inputmode="text" enterkeyhint="send" style="flex: 1;">
-                    <button aria-label="Enviar mensaje" id="aura-send-btn" style="flex-shrink: 0;"><i aria-hidden="true" class="fa-solid fa-paper-plane"></i></button>
+                <div class="aura-controls" style="display: flex; gap: 10px; z-index: 15;">
+                    <button id="aura-mic-btn" style="background: rgba(255,255,255,0.05); border: 1px solid var(--valtara-cian-brillante); color: var(--valtara-cian-brillante); border-radius: 50%; width: 50px; height: 50px;"><i class="fa-solid fa-microphone"></i></button>
+                    <input type="text" id="aura-input" placeholder="Escribe tu mensaje..." style="flex: 1;">
+                    <button id="aura-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
                 </div>
             </div>
         </dialog>
 
-        <aside aria-label="Asistencia y Contacto" class="float-controls float-right">
-            <button aria-label="Hablar con el Asistente Aura" aria-haspopup="dialog" aria-controls="aura-modal" class="fab-btn fab-aura" id="fab-aura" onclick="document.getElementById('aura-modal').showModal();">
-                <i aria-hidden="true" class="fa-solid fa-robot"></i>
-            </button>
-            <a aria-label="Contactar por WhatsApp" href="https://wa.me/5213348572070" target="_blank" class="fab-btn fab-ws" id="fab-whatsapp">
-                <i aria-hidden="true" class="fa-brands fa-whatsapp"></i>
-            </a>
+        <aside class="float-controls float-right">
+            <button aria-haspopup="dialog" aria-controls="aura-modal" class="fab-btn fab-aura" id="fab-aura" onclick="document.getElementById('aura-modal').showModal();"><i class="fa-solid fa-robot"></i></button>
+            <a href="https://wa.me/5213348572070" target="_blank" class="fab-btn fab-ws"><i class="fa-brands fa-whatsapp"></i></a>
         </aside>
 
-        <div id="onboarding-screen" class="full-screen-overlay" aria-hidden="false" role="dialog" aria-labelledby="onboarding-title">
+        <div id="onboarding-screen" class="full-screen-overlay" aria-hidden="false" role="dialog">
             <div class="onboarding-content">
-                <div class="glow-icon-wrapper" style="margin-bottom: 2rem;">
-                    <i aria-hidden="true" class="fa-solid fa-seedling gold-icon" style="font-size: 3.5rem; color: var(--valtara-cian-brillante); text-shadow: 0 0 20px rgba(0,255,255,0.4);"></i>
-                </div>
-                <h1 id="onboarding-title" style="font-family: var(--font-accent); font-size: 3.5rem; margin-bottom: 1rem; color: var(--valtara-blanco);">Bienvenido</h1>
-                <p style="color: var(--valtara-gris-texto); font-size: 1.3rem; margin-bottom: 3.5rem; font-weight: 300; letter-spacing: 1px;">¿Cómo podemos llamarte el día de hoy?</p>
-                <div class="input-group" style="background: transparent; border: none; box-shadow: none; padding: 0;">
+                <div class="glow-icon-wrapper" style="margin-bottom: 2rem;"><i class="fa-solid fa-seedling gold-icon" style="font-size: 3.5rem; color: var(--valtara-cian-brillante);"></i></div>
+                <h1 id="onboarding-title" style="font-family: var(--font-accent); font-size: 3.5rem; color: var(--valtara-blanco);">Bienvenido</h1>
+                <p style="color: var(--valtara-gris-texto); font-size: 1.3rem; margin-bottom: 3.5rem;">¿Cómo podemos llamarte el día de hoy?</p>
+                <div class="input-group">
                     <input type="radio" name="user_avatar" value="fa-spa" checked style="display:none;">
                     <div style="position: relative; max-width: 400px; margin: 0 auto;">
-                        <label for="welcome-name-input" class="sr-only">Tu nombre o apodo</label>
                         <i class="fa-solid fa-user" style="position: absolute; left: 1.5rem; top: 1.8rem; font-size: 1.2rem; color: var(--valtara-oro);"></i>
-                        <input type="text" id="welcome-name-input" placeholder="Ej. Antonio, Doctor..." autocomplete="off" style="padding-left: 4rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); text-align: left;">
+                        <input type="text" id="welcome-name-input" placeholder="Ej. Antonio, Doctor..." style="padding-left: 4rem;">
                     </div>
-                    <button id="welcome-start-btn" class="btn-primary" style="margin-top: 2rem; width: 100%; max-width: 400px; font-size: 1.2rem; padding: 1.5rem; background: rgba(255,255,255,0.05); color: #666; border-color: transparent; pointer-events: none; transition: all 0.4s ease;">
-                        <i class="fa-solid fa-door-open" style="margin-right: 10px;"></i> Entrar al Santuario
-                    </button>
+                    <button id="welcome-start-btn" class="btn-primary" style="margin-top: 2rem; width: 100%; pointer-events: none; background: rgba(255,255,255,0.05); color: #666; border-color: transparent;"><i class="fa-solid fa-door-open"></i> Entrar al Santuario</button>
                 </div>
-                <button id="welcome-skip-btn" class="btn-text-only" style="margin-top: 2.5rem; color: #aaa; font-size: 1.1rem; text-decoration: underline; background: transparent; border: none; cursor: pointer; transition: 0.3s;">
-                    Explorar como invitado
-                </button>
+                <button id="welcome-skip-btn" class="btn-text-only" style="margin-top: 2.5rem; color: #aaa; background: transparent; border: none; cursor: pointer;">Explorar como invitado</button>
             </div>
         </div>
 
         <main id="main-content" role="main" aria-live="polite">
-            <section aria-label="Página de Inicio y Mapa Interactivo" class="view-section active" id="view-home"></section>
-            <section aria-label="Catálogo de Masajes" class="view-section" id="view-restoration"></section>
-            <section aria-label="Estudio de Manicura" class="view-section" id="view-beauty"></section>
-            <section aria-label="Sala de Sonoterapia" class="view-section" id="view-sonotherapy"></section>
-            <section aria-label="Ciencia, Botánica y Manifiesto" class="view-section" id="view-science"></section>
-            <section aria-label="Nuestra Historia, Marco Legal y Políticas" class="view-section" id="view-legal"></section>
+            <section class="view-section active" id="view-home"></section>
+            <section class="view-section" id="view-restoration"></section>
+            <section class="view-section" id="view-beauty"></section>
+            <section class="view-section" id="view-sonotherapy"></section>
+            <section class="view-section" id="view-science"></section>
+            <section class="view-section" id="view-legal"></section>
         </main>
 
-        <footer aria-label="Pie de página corporativo" class="mega-footer" id="main-footer"></footer>
+        <footer class="mega-footer" id="main-footer"></footer>
     </div> 
     
-    <script src="js/inicio_bienvenida.js?v=38.1.0" defer></script>
-    <script src="js/inicio_refugio.js?v=38.1.0" defer></script>
-    <script src="js/inicio_promociones.js?v=38.1.0" defer></script>
-    <script src="js/inicio_arte_unas.js?v=38.1.0" defer></script>
-    <script src="js/inicio_mapa_cuerpo.js?v=38.1.0" defer></script>
-    <script src="js/inicio_redes_sociales.js?v=38.1.0" defer></script>
+    <script src="js/inicio_bienvenida.js?v=38.2.0" defer></script>
+    <script src="js/inicio_refugio.js?v=38.2.0" defer></script>
+    <script src="js/inicio_promociones.js?v=38.2.0" defer></script>
+    <script src="js/inicio_arte_unas.js?v=38.2.0" defer></script>
+    <script src="js/inicio_mapa_cuerpo.js?v=38.2.0" defer></script>
+    <script src="js/inicio_redes_sociales.js?v=38.2.0" defer></script>
 
-    <script src="js/catalogo_masajes.js?v=38.1.0" defer></script>
-    <script src="js/catalogo_belleza.js?v=38.1.0" defer></script>
+    <script src="js/catalogo_masajes.js?v=38.2.0" defer></script>
+    <script src="js/catalogo_belleza.js?v=38.2.0" defer></script>
 
-    <script src="js/ciencia_introduccion.js?v=38.1.0" defer></script>
-    <script src="js/ciencia_neurobiologia.js?v=38.1.0" defer></script>
-    <script src="js/ciencia_fascia.js?v=38.1.0" defer></script>
-    <script src="js/ciencia_acustica.js?v=38.1.0" defer></script>
-    <script src="js/ciencia_biomecanica.js?v=38.1.0" defer></script>
-    <script src="js/ciencia_botanica.js?v=38.1.0" defer></script>
-    <script src="js/ciencia_inclusion.js?v=38.1.0" defer></script>
-    <script src="js/ciencia_referencias.js?v=38.1.0" defer></script>
+    <script src="js/ciencia_introduccion.js?v=38.2.0" defer></script>
+    <script src="js/ciencia_neurobiologia.js?v=38.2.0" defer></script>
+    <script src="js/ciencia_fascia.js?v=38.2.0" defer></script>
+    <script src="js/ciencia_acustica.js?v=38.2.0" defer></script>
+    <script src="js/ciencia_biomecanica.js?v=38.2.0" defer></script>
+    <script src="js/ciencia_botanica.js?v=38.2.0" defer></script>
+    <script src="js/ciencia_inclusion.js?v=38.2.0" defer></script>
+    <script src="js/ciencia_referencias.js?v=38.2.0" defer></script>
     
-    <script src="js/juego_alquimista.js?v=38.1.0" defer></script>
+    <script src="js/juego_alquimista.js?v=38.2.0" defer></script>
 
-    <script src="js/legal_historia.js?v=38.1.0" defer></script>
-    <script src="js/legal_manifiesto.js?v=38.1.0" defer></script>
-    <script src="js/legal_transparencia.js?v=38.1.0" defer></script>
-    <script src="js/legal_preguntas.js?v=38.1.0" defer></script>
-    <script src="js/modal_terminos.js?v=38.1.0" defer></script>
-    <script src="js/modal_whitepaper.js?v=38.1.0" defer></script>
+    <script src="js/legal_historia.js?v=38.2.0" defer></script>
+    <script src="js/legal_manifiesto.js?v=38.2.0" defer></script>
+    <script src="js/legal_transparencia.js?v=38.2.0" defer></script>
+    <script src="js/legal_preguntas.js?v=38.2.0" defer></script>
+    <script src="js/modal_terminos.js?v=38.2.0" defer></script>
+    <script src="js/modal_whitepaper.js?v=38.2.0" defer></script>
 
-    <script src="js/sonoterapia_introduccion.js?v=38.1.0" defer></script>
-    <script src="js/sonoterapia_videos.js?v=38.1.0" defer></script>
-    <script src="js/sonoterapia_audio.js?v=38.1.0" defer></script>
+    <script src="js/sonoterapia_introduccion.js?v=38.2.0" defer></script>
+    <script src="js/sonoterapia_videos.js?v=38.2.0" defer></script>
+    <script src="js/sonoterapia_audio.js?v=38.2.0" defer></script>
 
-    <script src="js/global_footer.js?v=38.1.0" defer></script>
-    <script src="js/constructor_maestro.js?v=38.1.0" defer></script>
+    <script src="js/global_footer.js?v=38.2.0" defer></script>
+    <script src="js/constructor_maestro.js?v=38.2.0" defer></script>
 
-    <script src="js/a11y.js?v=38.1.0" defer></script>
-    <script src="js/user.js?v=38.1.0" defer></script>
-    <script src="js/aura.js?v=38.1.0" defer></script>
-    <script src="js/oasis.js?v=38.1.0" defer></script>
-    <script src="js/router.js?v=38.1.0" defer></script>
-    <script src="js/core.js?v=38.1.0" defer></script>
-    <script src="js/pwa.js?v=38.1.0" defer></script>
+    <script src="js/a11y.js?v=38.2.0" defer></script>
+    <script src="js/user.js?v=38.2.0" defer></script>
+    <script src="js/aura.js?v=38.2.0" defer></script>
+    <script src="js/oasis.js?v=38.2.0" defer></script>
+    <script src="js/router.js?v=38.2.0" defer></script>
+    <script src="js/core.js?v=38.2.0" defer></script>
+    <script src="js/pwa.js?v=38.2.0" defer></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous" defer></script>
-    <script src="js/expediente_clinico.js?v=38.1.0" defer></script>
+    <script src="js/expediente_clinico.js?v=38.2.0" defer></script>
 
 </body>
-</html>
+    </html>
