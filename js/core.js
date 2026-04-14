@@ -275,3 +275,44 @@ const CoreEngine = {
 window.addEventListener('DOMContentLoaded', () => { 
     CoreEngine.init(); 
 });
+// ====================================================================================
+// GUARDIÁN MAESTRO DE MEDIOS (Evita cacofonía auditiva)
+// ====================================================================================
+window.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Control de Audios Nativos (Ej. Sonoterapia)
+    // Cuando un audio empieza a sonar (evento 'play' o 'playing'), pausamos los demás
+    document.addEventListener('play', function(e) {
+        const audios = document.querySelectorAll('audio, video');
+        audios.forEach(media => {
+            if (media !== e.target) {
+                media.pause();
+            }
+        });
+
+        // Opcional: También pausar todos los iframes de YouTube enviando un mensaje
+        const iframes = document.querySelectorAll('iframe[src*="youtube.com"]');
+        iframes.forEach(iframe => {
+            iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        });
+    }, true); // El 'true' usa la fase de captura para detectar todos los eventos play
+
+    // 2. Control de YouTube Iframes
+    // Dado que YouTube está en un iframe (dominio cruzado), no podemos escuchar su evento 'play' directamente.
+    // El "truco" es detectar cuando el iframe recibe el Foco (es decir, el usuario le hizo clic para reproducirlo).
+    window.addEventListener('blur', function() {
+        if (document.activeElement && document.activeElement.tagName === 'IFRAME') {
+            // El usuario hizo clic en un video. Pausamos inmediatamente cualquier música nativa.
+            const audios = document.querySelectorAll('audio, video');
+            audios.forEach(media => media.pause());
+            
+            // Pausamos otros iframes de YouTube enviando el comando por PostMessage
+            const iframes = document.querySelectorAll('iframe[src*="youtube.com"]');
+            iframes.forEach(iframe => {
+                if (iframe !== document.activeElement) {
+                    iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                }
+            });
+        }
+    });
+});
