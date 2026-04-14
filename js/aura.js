@@ -1,11 +1,82 @@
 /**
  * ====================================================================================
- * BLOQUE 8: AURA AI ENGINE V20.0 (ULTRA-LUXURY, BULLETPROOF CARDS & TIME GREETING)
- * Solución definitiva a botones sordos (Event Delegation Global), eliminación de 
- * "Invitado" visual (Saludo por hora), manteniendo la identidad oculta para el servidor.
+ * BLOQUE 8: AURA AI ENGINE V21.0 (ULTRA-LUXURY & HAPTIC SENSORY MOTOR)
+ * Sistema de asistencia con retroalimentación sensorial (Web Audio API + Vibración).
+ * Saludo inteligente por hora e inyección dinámica de CSS "Modo Dios".
  * ====================================================================================
  */
 
+// ====================================================================================
+// MOTOR SENSORIAL (Generador de Sonidos y Vibración Nativa)
+// ====================================================================================
+const AuraSensory = {
+    ctx: null,
+    typingInterval: null,
+
+    init: function() {
+        // Desbloquea el motor de audio nativo del navegador al primer clic
+        if (!this.ctx) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if(AudioContext) this.ctx = new AudioContext();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume();
+        }
+    },
+
+    playTone: function(freq, type, duration, vol = 0.1) {
+        if(!this.ctx) return;
+        try {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+            
+            gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration); // Desvanecimiento suave
+            
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start();
+            osc.stop(this.ctx.currentTime + duration);
+        } catch(e) {}
+    },
+
+    playSend: function() {
+        this.init();
+        // Sonido: Pop rápido y grave
+        this.playTone(250, 'sine', 0.15, 0.2);
+        // Hápitco: Un golpe seco
+        if(navigator.vibrate) navigator.vibrate(15);
+    },
+
+    startTyping: function() {
+        this.init();
+        // Sonido: Latido digital (Tick... Tick...) cada 1.2 segundos
+        this.playTone(600, 'triangle', 0.1, 0.03);
+        this.typingInterval = setInterval(() => {
+            this.playTone(600, 'triangle', 0.1, 0.03);
+        }, 1200);
+    },
+
+    stopTyping: function() {
+        if(this.typingInterval) clearInterval(this.typingInterval);
+    },
+
+    playReceive: function() {
+        this.init();
+        this.stopTyping();
+        // Sonido: Acorde de Cristal (Ting - Ding)
+        setTimeout(() => this.playTone(880, 'sine', 0.4, 0.1), 0);
+        setTimeout(() => this.playTone(1108.73, 'sine', 0.6, 0.15), 150);
+        // Háptico: Doble pulsación suave
+        if(navigator.vibrate) navigator.vibrate([20, 50, 20]);
+    }
+};
+
+// ====================================================================================
+// CEREBRO DE AURA (Lógica, API y UI)
+// ====================================================================================
 const AuraEngine = {
     isOpen: false,
     isTyping: false, 
@@ -17,75 +88,53 @@ const AuraEngine = {
     activeSpeakBtn: null,   
 
     init: function() {
-        this.refreshIdentity(); // Cargamos el nombre silenciosamente para el servidor
-        this.forceInjectStyles(); // Inyectamos el CSS "Modo Dios"
+        this.refreshIdentity(); 
+        this.forceInjectStyles(); 
         this.initVoiceEngines(); 
-        this.bindEvents(); // Conectamos los radares de clics
+        this.bindEvents(); 
         
-        // Escucha silenciosamente si el UserEngine dice que hubo un cambio de nombre
         window.addEventListener('valtaraIdentityUpdated', () => {
             this.refreshIdentity();
         });
+        
+        // Desbloquear motor de audio en la primera interacción del usuario
+        window.addEventListener('click', () => AuraSensory.init(), { once: true });
+        window.addEventListener('touchstart', () => AuraSensory.init(), { once: true });
     },
 
-    // 1. SINCRONIZACIÓN SILENCIOSA DE IDENTIDAD (Aura sabe quién eres, aunque no lo muestre arriba)
     refreshIdentity: function() {
         try {
             const storedData = localStorage.getItem('valtara_vault_v15');
             if (storedData) {
                 const parsed = JSON.parse(storedData);
-                if (parsed && parsed.name && parsed.name !== "Apreciable visitante") {
-                    this.userName = parsed.name;
-                } else {
-                    this.userName = "Invitado";
-                }
+                this.userName = (parsed && parsed.name && parsed.name !== "Apreciable visitante") ? parsed.name : "Invitado";
             } else {
                 this.userName = "Invitado";
             }
-        } catch (e) { console.error("Error al leer la bóveda para Aura:", e); }
+        } catch (e) { console.error("Error Bóveda:", e); }
     },
 
-    // 2. MODO DIOS: AURA INYECTA SU PROPIO CSS Y DESTRUYE LOS ESTILOS BASURA
     forceInjectStyles: function() {
         if(document.getElementById('aura-god-mode-styles')) return;
         const style = document.createElement('style');
         style.id = 'aura-god-mode-styles';
         style.innerHTML = `
-            /* Fondos de Cristal Transparente */
-            #aura-modal { background: rgba(5, 5, 10, 0.45) !important; backdrop-filter: blur(25px) !important; -webkit-backdrop-filter: blur(25px) !important; border: 1px solid rgba(242, 201, 76, 0.4) !important; }
+            #aura-modal { background: rgba(5, 5, 10, 0.45) !important; border: 1px solid rgba(242, 201, 76, 0.4) !important; }
             .aura-container { background: transparent !important; }
             .modal-header { background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%) !important; border-bottom: 1px solid rgba(242,201,76,0.2) !important; }
             
-            /* Contenedor de Chat Flexible */
             #aura-chat { display: flex !important; flex-direction: column !important; gap: 1.5rem !important; padding: 2rem 1rem !important; }
             
-            /* REGLAS INQUEBRANTABLES PARA LAS BURBUJAS DE CHAT */
-            .msg {
-                max-width: 85% !important; width: fit-content !important; padding: 1.5rem 2rem !important; font-size: 1.25rem !important; line-height: 1.7 !important; border-radius: 2rem !important; box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important; backdrop-filter: blur(15px) !important; -webkit-backdrop-filter: blur(15px) !important; animation: slideInMsg 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
-            }
+            .msg { max-width: 85% !important; width: fit-content !important; padding: 1.5rem 2rem !important; font-size: 1.25rem !important; line-height: 1.7 !important; border-radius: 2rem !important; box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important; animation: slideInMsg 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
             
-            /* Burbuja del Usuario: Derecha, Dorada */
-            .msg.user {
-                align-self: flex-end !important; margin-left: auto !important; background: linear-gradient(135deg, rgba(242, 201, 76, 0.15), rgba(0,0,0,0.85)) !important; border: 1px solid rgba(242, 201, 76, 0.3) !important; border-right: 4px solid var(--valtara-oro) !important; border-bottom-right-radius: 0.5rem !important; color: var(--valtara-oro-suave) !important;
-            }
+            .msg.user { align-self: flex-end !important; margin-left: auto !important; background: linear-gradient(135deg, rgba(242, 201, 76, 0.15), rgba(0,0,0,0.85)) !important; border: 1px solid rgba(242, 201, 76, 0.3) !important; border-right: 4px solid var(--valtara-oro) !important; border-bottom-right-radius: 0.5rem !important; color: var(--valtara-oro-suave) !important; }
+            .msg.bot { align-self: flex-start !important; margin-right: auto !important; background: linear-gradient(135deg, rgba(0,255,255,0.08), rgba(0,0,0,0.85)) !important; border: 1px solid rgba(0,255,255,0.2) !important; border-left: 4px solid var(--valtara-cian-brillante) !important; border-bottom-left-radius: 0.5rem !important; color: var(--valtara-blanco) !important; }
 
-            /* Burbuja de Aura: Izquierda, Cian */
-            .msg.bot {
-                align-self: flex-start !important; margin-right: auto !important; background: linear-gradient(135deg, rgba(0,255,255,0.08), rgba(0,0,0,0.85)) !important; border: 1px solid rgba(0,255,255,0.2) !important; border-left: 4px solid var(--valtara-cian-brillante) !important; border-bottom-left-radius: 0.5rem !important; color: var(--valtara-blanco) !important;
-            }
-
-            /* LA CURA PARA LOS BOTONES FEOS DE WHATSAPP (Aura destruye el CSS de Vercel) */
-            .msg.bot a, .msg.bot button {
-                display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 12px !important; background: linear-gradient(135deg, var(--valtara-whatsapp), #128C7E) !important; color: var(--valtara-negro-fondo) !important; padding: 1.2rem 2.5rem !important; border-radius: 3rem !important; text-decoration: none !important; font-weight: 900 !important; font-family: var(--font-main) !important; margin-top: 1.5rem !important; border: none !important; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3) !important; white-space: normal !important; text-align: center !important; line-height: 1.3 !important; width: fit-content !important; max-width: 100% !important; transition: all 0.3s ease !important;
-            }
+            .msg.bot a, .msg.bot button { display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 12px !important; background: linear-gradient(135deg, var(--valtara-whatsapp), #128C7E) !important; color: var(--valtara-negro-fondo) !important; padding: 1.2rem 2.5rem !important; border-radius: 3rem !important; text-decoration: none !important; font-weight: 900 !important; font-family: var(--font-main) !important; margin-top: 1.5rem !important; border: none !important; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3) !important; text-align: center !important; width: fit-content !important; transition: all 0.3s ease !important; }
             .msg.bot a:hover { transform: translateY(-3px) scale(1.05) !important; box-shadow: 0 15px 35px rgba(37, 211, 102, 0.6) !important; color: #fff !important; }
 
-            /* Protegemos el botón de Audio de Aura */
-            .msg.bot .aura-speak-btn {
-                background: rgba(0,255,255,0.05) !important; border: 1px solid var(--valtara-cian-brillante) !important; color: var(--valtara-cian-brillante) !important; padding: 0 !important; width: 45px !important; height: 45px !important; border-radius: 50% !important; margin-top: 0 !important; margin-left: 15px !important; box-shadow: none !important;
-            }
+            .msg.bot .aura-speak-btn { background: rgba(0,255,255,0.05) !important; border: 1px solid var(--valtara-cian-brillante) !important; color: var(--valtara-cian-brillante) !important; padding: 0 !important; width: 45px !important; height: 45px !important; border-radius: 50% !important; margin-top: 0 !important; margin-left: 15px !important; box-shadow: none !important; }
 
-            /* Estilos para Tarjetas Panorámicas y Bienvenida */
             #aura-welcome-screen { background: transparent !important; z-index: 50 !important; }
             .aura-suggestion-card { background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.6) 100%); border-radius: 1.5rem; padding: 1.5rem; display: flex; align-items: center; gap: 1.5rem; text-align: left; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; border: 1px solid rgba(255,255,255,0.1); }
             .aura-suggestion-card:hover { transform: translateY(-5px); background: linear-gradient(90deg, rgba(242, 201, 76, 0.15) 0%, rgba(0,0,0,0.8) 100%); border-color: var(--valtara-oro) !important; }
@@ -96,80 +145,38 @@ const AuraEngine = {
         document.head.appendChild(style);
     },
 
-    // 3. PANTALLA DE BIENVENIDA DE ULTRA-LUJO (Muerte del "Invitado", Saludo por Hora)
     renderUltraLujoWelcome: function() {
         const welcomeContainer = document.getElementById('aura-welcome-screen');
         if(!welcomeContainer) return;
         
-        // Inteligencia temporal para el saludo
         const hour = new Date().getHours();
-        let timeGreeting = "Buenas noches";
-        if (hour >= 4 && hour < 12) timeGreeting = "Buenos días";
-        else if (hour >= 12 && hour < 19) timeGreeting = "Buenas tardes";
+        let timeGreeting = hour >= 4 && hour < 12 ? "Buenos días" : hour >= 12 && hour < 19 ? "Buenas tardes" : "Buenas noches";
 
         welcomeContainer.style.display = 'flex';
         welcomeContainer.style.opacity = '1';
-        welcomeContainer.style.visibility = 'visible';
         welcomeContainer.style.transform = 'translateY(0) scale(1)';
 
         welcomeContainer.innerHTML = `
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 700px; margin: auto; padding: 1rem;">
-                
                 <div style="position: relative; margin-bottom: 2.5rem; display: flex; justify-content: center; align-items: center;">
                     <div style="position: absolute; width: 140px; height: 140px; background: radial-gradient(circle, rgba(242,201,76,0.35) 0%, transparent 100%); border-radius: 50%; filter: blur(25px); animation: pulseAuraGold 3s infinite alternate;"></div>
                     <i class="fa-solid fa-sparkles" style="font-size: 4.5rem; color: var(--valtara-oro); position: relative; z-index: 2; text-shadow: 0 0 40px rgba(242,201,76,0.9);"></i>
                 </div>
-
-                <h2 style="font-size: 3.5rem; font-family: var(--font-accent); font-weight: 600; margin-bottom: 1rem; text-align: center; color: var(--valtara-blanco); line-height: 1.2;">
-                    ${timeGreeting}
-                </h2>
-                <p style="font-size: 1.3rem; color: #e2e2e8; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 4rem; text-align: center; border-bottom: 1px solid rgba(242,201,76,0.3); padding-bottom: 1.5rem;">
-                    ¿Cómo podemos ayudarte el día de hoy?
-                </p>
-
+                <h2 style="font-size: 3.5rem; font-family: var(--font-accent); font-weight: 600; margin-bottom: 1rem; text-align: center; color: var(--valtara-blanco); line-height: 1.2;">${timeGreeting}</h2>
+                <p style="font-size: 1.3rem; color: #e2e2e8; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 4rem; text-align: center; border-bottom: 1px solid rgba(242,201,76,0.3); padding-bottom: 1.5rem;">¿Cómo podemos ayudarte el día de hoy?</p>
+                
                 <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; width: 100%;">
                     <button class="aura-suggestion-card" data-query="Necesito un masaje relajante y descompresión física">
-                        <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0; box-shadow: inset 0 0 15px rgba(0,255,255,0.2);">
-                            <i class="fa-solid fa-spa" style="color: var(--valtara-cian-brillante); font-size: 2.2rem;"></i>
-                        </div>
-                        <div style="flex-grow: 1;">
-                            <span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Masaje Relajante</span>
-                            <span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Deseo agendar una sesión para liberar estrés acumulado.</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right" style="color: #666; font-size: 1.5rem; padding-left: 1rem;"></i>
+                        <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0;"><i class="fa-solid fa-spa" style="color: var(--valtara-cian-brillante); font-size: 2.2rem;"></i></div>
+                        <div style="flex-grow: 1;"><span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Masaje Relajante</span><span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Deseo agendar una sesión para liberar estrés acumulado.</span></div>
                     </button>
-
                     <button class="aura-suggestion-card" data-query="Me duele la espalda, el cuello o tengo tensión crónica por el trabajo">
-                        <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(242, 201, 76, 0.1); border: 1px solid rgba(242, 201, 76, 0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0; box-shadow: inset 0 0 15px rgba(242,201,76,0.2);">
-                            <i class="fa-solid fa-child-reaching" style="color: var(--valtara-oro); font-size: 2.2rem;"></i>
-                        </div>
-                        <div style="flex-grow: 1;">
-                            <span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Terapia Biomecánica</span>
-                            <span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Evaluación profunda y tratamiento de dolores musculares.</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right" style="color: #666; font-size: 1.5rem; padding-left: 1rem;"></i>
+                        <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(242, 201, 76, 0.1); border: 1px solid rgba(242, 201, 76, 0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0;"><i class="fa-solid fa-child-reaching" style="color: var(--valtara-oro); font-size: 2.2rem;"></i></div>
+                        <div style="flex-grow: 1;"><span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Terapia Biomecánica</span><span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Evaluación profunda y tratamiento de dolores musculares.</span></div>
                     </button>
-
                     <button class="aura-suggestion-card" data-query="Quiero conocer los precios de los servicios y paquetes">
-                        <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(178, 0, 255, 0.1); border: 1px solid rgba(178, 0, 255, 0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0; box-shadow: inset 0 0 15px rgba(178,0,255,0.2);">
-                            <i class="fa-solid fa-tag" style="color: var(--valtara-morado-vivo); font-size: 2.2rem;"></i>
-                        </div>
-                        <div style="flex-grow: 1;">
-                            <span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Tarifas y Paquetes</span>
-                            <span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Explorar el catálogo de inversiones en bienestar.</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right" style="color: #666; font-size: 1.5rem; padding-left: 1rem;"></i>
-                    </button>
-
-                    <button class="aura-suggestion-card" data-query="Quiero hablar directamente con un humano en WhatsApp">
-                        <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(37, 211, 102, 0.1); border: 1px solid rgba(37, 211, 102, 0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0; box-shadow: inset 0 0 15px rgba(37,211,102,0.2);">
-                            <i class="fa-brands fa-whatsapp" style="color: var(--valtara-whatsapp); font-size: 2.5rem;"></i>
-                        </div>
-                        <div style="flex-grow: 1;">
-                            <span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Asesoría Humana</span>
-                            <span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Redirigir a WhatsApp para atención personalizada por el Concierge.</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right" style="color: #666; font-size: 1.5rem; padding-left: 1rem;"></i>
+                        <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(178, 0, 255, 0.1); border: 1px solid rgba(178, 0, 255, 0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0;"><i class="fa-solid fa-tag" style="color: var(--valtara-morado-vivo); font-size: 2.2rem;"></i></div>
+                        <div style="flex-grow: 1;"><span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Tarifas y Paquetes</span><span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Explorar el catálogo de inversiones en bienestar.</span></div>
                     </button>
                 </div>
             </div>
@@ -183,23 +190,25 @@ const AuraEngine = {
             this.recognition.lang = 'es-MX'; 
             this.recognition.continuous = false;
             this.recognition.interimResults = false;
-            this.recognition.onresult = (event) => {
+            this.recognition.onresult = (e) => {
                 const inputField = document.getElementById('aura-input');
-                if(inputField) inputField.value = event.results[0][0].transcript;
+                if(inputField) inputField.value = e.results[0][0].transcript;
             };
-            this.recognition.onend = () => {
-                this.isRecording = false;
-                const micBtn = document.getElementById('aura-mic-btn');
-                if(micBtn) { micBtn.classList.remove('mic-recording'); micBtn.innerHTML = '<i aria-hidden="true" class="fa-solid fa-microphone"></i>'; }
-            };
-            this.recognition.onerror = () => {
-                this.isRecording = false;
-                const micBtn = document.getElementById('aura-mic-btn');
-                if(micBtn) { micBtn.classList.remove('mic-recording'); micBtn.innerHTML = '<i aria-hidden="true" class="fa-solid fa-microphone-slash"></i>'; setTimeout(() => { micBtn.innerHTML = '<i aria-hidden="true" class="fa-solid fa-microphone"></i>'; }, 2000); }
-            };
+            this.recognition.onend = () => { this.resetMicBtn(); };
+            this.recognition.onerror = () => { this.resetMicBtn(true); };
         } else {
             const micBtn = document.getElementById('aura-mic-btn');
             if(micBtn) micBtn.style.display = 'none';
+        }
+    },
+
+    resetMicBtn: function(isError = false) {
+        this.isRecording = false;
+        const micBtn = document.getElementById('aura-mic-btn');
+        if(micBtn) {
+            micBtn.classList.remove('mic-recording');
+            micBtn.innerHTML = isError ? '<i class="fa-solid fa-microphone-slash"></i>' : '<i class="fa-solid fa-microphone"></i>';
+            if(isError) setTimeout(() => { micBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>'; }, 2000);
         }
     },
 
@@ -212,18 +221,16 @@ const AuraEngine = {
 
         if(toggleBtn) {
             toggleBtn.addEventListener('click', () => {
-                if(!this.isOpen) {
-                    if(this.chatHistory.length === 0) {
-                        this.renderUltraLujoWelcome(); 
-                    }
-                }
+                if(!this.isOpen && this.chatHistory.length === 0) this.renderUltraLujoWelcome(); 
                 this.toggleModal();
             });
         }
-        
         if(closeBtn) closeBtn.addEventListener('click', () => this.toggleModal()); 
-        document.querySelectorAll('.close-modal-btn[data-close="aura-modal"]').forEach(btn => {
-            btn.addEventListener('click', () => { if(this.isOpen) this.toggleModal(); });
+        
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.close-modal-btn[data-close="aura-modal"]')) {
+                if(this.isOpen) this.toggleModal();
+            }
         });
 
         if(sendBtn) sendBtn.addEventListener('click', () => this.handleInput());
@@ -232,25 +239,17 @@ const AuraEngine = {
         if(micBtn && this.recognition) {
             micBtn.addEventListener('click', () => {
                 if(this.isRecording) { this.recognition.stop(); } 
-                else {
-                    try { this.recognition.start(); this.isRecording = true; micBtn.classList.add('mic-recording'); micBtn.innerHTML = '<i aria-hidden="true" class="fa-solid fa-stop"></i>'; } catch(e) {}
-                }
+                else { try { this.recognition.start(); this.isRecording = true; micBtn.classList.add('mic-recording'); micBtn.innerHTML = '<i class="fa-solid fa-stop"></i>'; } catch(e) {} }
             });
         }
 
-        // =================================================================================
-        // LA CURA DEFINITIVA: EVENT DELEGATION GLOBAL (RADAR MAESTRO)
-        // Con esto es imposible que un botón se quede "sordo" o "desconectado".
-        // =================================================================================
         const modalContainer = document.getElementById('aura-modal');
         if(modalContainer) {
             modalContainer.addEventListener('click', (e) => {
                 const targetCard = e.target.closest('.aura-suggestion-card');
                 if(targetCard) {
                     const query = targetCard.getAttribute('data-query');
-                    if(query) {
-                        this.processDirectQuery(query);
-                    }
+                    if(query) this.processDirectQuery(query);
                 }
             });
         }
@@ -266,58 +265,53 @@ const AuraEngine = {
     hideWelcomeScreen: function() {
         const welcomeScreen = document.getElementById('aura-welcome-screen');
         if(welcomeScreen && welcomeScreen.style.display !== 'none') {
-            welcomeScreen.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
             welcomeScreen.style.opacity = '0';
             welcomeScreen.style.transform = 'translateY(-50px) scale(0.95)';
-            setTimeout(() => { 
-                welcomeScreen.style.display = 'none'; 
-            }, 600); 
+            setTimeout(() => { welcomeScreen.style.display = 'none'; }, 600); 
         }
     },
 
     handleInput: function() {
         if(this.isTyping) return; 
-        window.speechSynthesis.cancel();
-        this.resetActiveSpeakBtn();
-
         const inputField = document.getElementById('aura-input');
-        if (!inputField) return;
-        const txt = inputField.value.trim(); 
-        if(txt === '') return; 
+        if (!inputField || inputField.value.trim() === '') return; 
         
+        const txt = inputField.value.trim(); 
+        inputField.value = ''; 
+        
+        // Efecto Sensorial y Lógica
+        AuraSensory.playSend();
         this.hideWelcomeScreen(); 
         this.appendMsg(txt, 'user'); 
-        inputField.value = ''; 
         this.sendMessageToAI(txt);
     },
 
     processDirectQuery: function(query) {
         if(this.isTyping) return;
-        window.speechSynthesis.cancel();
-        this.resetActiveSpeakBtn();
+        AuraSensory.playSend();
         this.hideWelcomeScreen(); 
-        
-        // Escribimos en el chat y lo mandamos a Vercel
         this.appendMsg(query, 'user');
         this.sendMessageToAI(query);
     },
 
     sendMessageToAI: async function(userText) {
         this.isTyping = true;
+        window.speechSynthesis.cancel();
+        this.resetActiveSpeakBtn();
+        
         const chatLog = document.getElementById('aura-chat');
         this.chatHistory.push({ role: "user", content: userText });
 
         const typingDiv = document.createElement('div');
         typingDiv.id = 'temp-typing';
-        typingDiv.style.cssText = "align-self: flex-start; margin-right: auto; max-width: 85%; padding: 1.5rem 2rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(0,255,255,0.05), rgba(0,0,0,0.8)); backdrop-filter: blur(15px); border: 1px solid rgba(0,255,255,0.2); border-left: 4px solid var(--valtara-cian-brillante); color: #fff; font-size: 1.2rem; display: flex; gap: 5px;";
+        typingDiv.style.cssText = "align-self: flex-start; margin-right: auto; max-width: 85%; padding: 1.5rem 2rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(0,255,255,0.05), rgba(0,0,0,0.8)); border: 1px solid rgba(0,255,255,0.2); border-left: 4px solid var(--valtara-cian-brillante); color: #fff; font-size: 1.2rem; display: flex; gap: 5px;";
         typingDiv.innerHTML = '<span style="animation: pulse 1s infinite alternate;">.</span><span style="animation: pulse 1s infinite alternate 0.2s;">.</span><span style="animation: pulse 1s infinite alternate 0.4s;">.</span>';
         chatLog.appendChild(typingDiv);
         chatLog.scrollTo({ top: chatLog.scrollHeight, behavior: 'smooth' });
 
-        if(window.A11yEngine) A11yEngine.announce("Aura está analizando tu caso...");
+        AuraSensory.startTyping();
 
         try {
-            // Mandamos a Vercel nuestro historial y NUESTRO NOMBRE REAL (userName) para que Aura nos reconozca
             const response = await fetch(this.apiUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -330,22 +324,18 @@ const AuraEngine = {
             const data = await response.json();
             let auraRespuesta = data.reply;
             
-            if (!auraRespuesta.includes("leve interrupción")) {
-                this.chatHistory.push({ role: "assistant", content: auraRespuesta });
-            }
+            if (!auraRespuesta.includes("leve interrupción")) this.chatHistory.push({ role: "assistant", content: auraRespuesta });
             
-            // CONVERTIDOR DE ENLACES Y LIMPIADOR DE ESTILOS BASURA
             let auraFormateada = auraRespuesta.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '<a href="$2" target="_blank"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem;"></i> $1</a>');
             auraFormateada = auraFormateada.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
-            
-            // AQUI MATAMOS LOS ESTILOS NEGROS FEO DE VERCEL
-            auraFormateada = auraFormateada.replace(/style="[^"]*"/gi, ''); 
-            
+            auraFormateada = auraFormateada.replace(/style="[^"]*"/gi, ''); // Limpiar estilos basura
             auraFormateada = auraFormateada.replace(/\n/g, '<br>');
             
+            AuraSensory.playReceive();
             this.appendMsg(auraFormateada, 'bot', true);
 
         } catch (error) {
+            AuraSensory.stopTyping();
             if(document.getElementById('temp-typing')) document.getElementById('temp-typing').remove();
             this.appendMsg(`Por una leve interrupción en nuestra red, no he podido procesar tu solicitud. Comunícate en WhatsApp:<br><br><a href="https://wa.me/5213348572070" target="_blank"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem;"></i> Abrir WhatsApp</a>`, 'bot', true);
             this.chatHistory.pop();
@@ -385,7 +375,6 @@ const AuraEngine = {
 
         const utterance = new SpeechSynthesisUtterance(tempDiv.innerText || tempDiv.textContent);
         utterance.lang = 'es-MX';
-        
         const voices = window.speechSynthesis.getVoices();
         const preferredVoice = voices.find(voice => voice.lang.includes('es') && voice.name.toLowerCase().includes('female'));
         if(preferredVoice) utterance.voice = preferredVoice;
@@ -395,7 +384,6 @@ const AuraEngine = {
         window.speechSynthesis.speak(utterance);
     },
 
-    // AQUI SE INYECTA EL HTML FINAL DE LOS MENSAJES
     appendMsg: function(txtOrHtml, sender, isHtml = false) {
         const log = document.getElementById('aura-chat');
         if(!log) return;
@@ -404,7 +392,8 @@ const AuraEngine = {
         div.className = `msg ${sender}`;
         
         const contentDiv = document.createElement('div');
-        if(isHtml) { contentDiv.innerHTML = txtOrHtml; } else { contentDiv.textContent = txtOrHtml; }
+        if(isHtml) contentDiv.innerHTML = txtOrHtml; 
+        else contentDiv.textContent = txtOrHtml; 
         
         if(sender === 'bot') {
             const speakBtn = document.createElement('button');
@@ -416,7 +405,6 @@ const AuraEngine = {
             flexContainer.style.display = 'flex'; 
             flexContainer.style.justifyContent = 'space-between'; 
             flexContainer.style.alignItems = 'flex-start';
-            
             flexContainer.appendChild(contentDiv); 
             flexContainer.appendChild(speakBtn);
             div.appendChild(flexContainer);
