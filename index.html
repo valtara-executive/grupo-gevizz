@@ -158,7 +158,7 @@
     <link rel="stylesheet" href="css/components.css?v=38.6.0">
     
     <!-- ==================================================================================== -->
-    <!-- ESTILOS CRÍTICOS INYECTADOS (REPARACIÓN DE BUGS MÓVILES Y SMART FABS)                -->
+    <!-- ESTILOS CRÍTICOS INYECTADOS E INCLUSIÓN ACCESIBLE TOTAL                              -->
     <!-- ==================================================================================== -->
     <style>
         /* PARCHE 1: Erradicación del Sticky Hover y Efectos Táctiles Atascados */
@@ -173,6 +173,35 @@
         button:active, a:active {
             transform: scale(0.96) !important; /* El botón se hunde al tocarlo, confirmando la acción físicamente */
             transition: transform 0.1s ease !important;
+        }
+
+        /* ACCESIBILIDAD AAA: Anillos de enfoque visibles para navegación por teclado */
+        :focus-visible {
+            outline: 3px solid var(--valtara-cian-brillante) !important;
+            outline-offset: 4px !important;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.6) !important;
+            border-radius: 4px;
+            transition: outline-offset 0.1s ease;
+        }
+
+        /* ACCESIBILIDAD AAA: Botón de Salto de Contenido (Skip Link) */
+        .skip-to-content {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            background: var(--valtara-oro);
+            color: #000;
+            padding: 15px 20px;
+            z-index: 9999999;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: top 0.3s ease;
+            border-bottom-right-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .skip-to-content:focus {
+            top: 0;
         }
 
         /* PARCHE 2: Logotipo Header Flotante */
@@ -235,15 +264,41 @@
             width: 100vw !important; height: 100vh !important; z-index: -1 !important; 
             display: block !important; pointer-events: none;
         }
+        
+        /* Clases utilitarias de accesibilidad pura */
+        .sr-only {
+            position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; 
+            overflow: hidden; clip: rect(0,0,0,0); border: 0;
+        }
     </style>
 </head>
 <body class="system-loading">
+
+    <!-- ==================================================================================== -->
+    <!-- FALLBACK PARA NAVEGADORES SIN JAVASCRIPT O SEGURIDAD EXTREMA                         -->
+    <!-- ==================================================================================== -->
+    <noscript>
+        <div style="background: #000; color: #fff; padding: 40px; text-align: center; border-bottom: 5px solid var(--valtara-oro); z-index: 999999999; position: relative;">
+            <i class="fa-solid fa-triangle-exclamation" style="color: var(--valtara-oro); font-size: 3rem; margin-bottom: 20px;"></i>
+            <h1 style="font-family: 'Playfair Display', serif;">Atención: JavaScript Requerido</h1>
+            <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto; line-height: 1.6;">
+                La experiencia interactiva, sensorial y de accesibilidad de <strong>Valtara Executive Therapy</strong> requiere que JavaScript esté habilitado. Por favor, habilítelo en la configuración de su navegador para acceder a nuestra plataforma corporativa de forma segura.
+            </p>
+        </div>
+    </noscript>
+
+    <!-- ENLACE DE SALTO (Accesibilidad de Navegación por Teclado Nivel AAA) -->
+    <a href="#main-content" class="skip-to-content" aria-label="Saltar navegación y pasar directo al contenido">Saltar al contenido principal</a>
 
     <!-- ==================================================================================== -->
     <!-- SISTEMA DE ACCESIBILIDAD (ARIA LIVE REGIONS)                                         -->
     <!-- Este lector invisible notifica a usuarios ciegos cuando la página cambia de vista    -->
     <!-- ==================================================================================== -->
     <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma blindada Sovereign Valtara 38.6.0...</div>
+    
+    <!-- Descripciones ocultas para contexto semántico de modales -->
+    <div id="aura-desc-hidden" class="sr-only">Este es el asistente virtual impulsado por inteligencia artificial. Puede dictar o escribir sus preguntas sobre nuestros servicios.</div>
+    <div id="a11y-desc-hidden" class="sr-only">Menú de herramientas de inclusión visual, cognitiva y motora. Utilice la tecla tabulador para navegar por las opciones.</div>
 
     <div id="app-wrapper" aria-hidden="false">
 
@@ -273,12 +328,12 @@
             <div class="header-controls">
                 <button aria-label="Abrir panel de Accesibilidad e Inclusión Visual" title="Opciones de Accesibilidad" aria-haspopup="dialog" aria-controls="a11y-modal" class="header-action-btn a11y-btn-top" id="top-a11y-btn" onclick="document.getElementById('a11y-modal').showModal();" type="button">
                     <i aria-hidden="true" class="fa-solid fa-universal-access"></i>
-                    <span class="sr-only">Accesibilidad</span>
+                    <span class="sr-only">Menú de Accesibilidad</span>
                 </button>
                 
                 <button aria-label="Abrir menú de navegación principal" title="Menú Principal" aria-expanded="false" aria-controls="main-nav" class="hamburger-btn" id="menu-toggle-btn" type="button">
                     <i aria-hidden="true" class="fa-solid fa-bars"></i>
-                    <span class="sr-only">Menú</span>
+                    <span class="sr-only">Menú de Navegación</span>
                 </button>
             </div>
         </header>
@@ -332,31 +387,40 @@
         </nav>
 
         <!-- ==================================================================================== -->
-        <!-- MODALES DE CONTROL DE ACCESIBILIDAD Y AURA AI (DIALOGS)                              -->
+        <!-- MODALES DE CONTROL DE ACCESIBILIDAD Y AURA AI (EXPANDIDO A V12.0)                    -->
         <!-- ==================================================================================== -->
-        <dialog aria-labelledby="a11y-modal-title" class="modal-dialog mega-modal" id="a11y-modal" aria-modal="true">
+        <dialog aria-labelledby="a11y-modal-title" aria-describedby="a11y-desc-hidden" class="modal-dialog mega-modal" id="a11y-modal" aria-modal="true" role="dialog">
             <div class="modal-content">
                 <header class="modal-header">
-                    <h3 id="a11y-modal-title"><i aria-hidden="true" class="fa-solid fa-universal-access"></i> Inclusión</h3>
+                    <h3 id="a11y-modal-title"><i aria-hidden="true" class="fa-solid fa-universal-access"></i> Panel de Inclusión</h3>
                     <button aria-label="Cerrar panel de accesibilidad" title="Cerrar" class="close-modal-btn" onclick="document.getElementById('a11y-modal').close();" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i></button>
                 </header>
                 <div class="modal-body">
-                    <div class="a11y-grid-layout" role="group" aria-label="Opciones visuales y cognitivas">
-                        <button class="a11y-card-btn" id="a11y-zoom-in" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-magnifying-glass-plus"></i> <span>Acercar</span></button>
-                        <button class="a11y-card-btn" id="a11y-zoom-out" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-magnifying-glass-minus"></i> <span>Alejar</span></button>
-                        <button class="a11y-card-btn" id="a11y-voice" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-volume-high"></i> <span>Voz Alta</span></button>
-                        <button class="a11y-card-btn" id="a11y-contrast" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-circle-half-stroke"></i> <span>Alto Contraste</span></button>
-                        <button class="a11y-card-btn" id="a11y-invert" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-droplet"></i> <span>Invertir Colores</span></button>
-                        <button class="a11y-card-btn" id="a11y-dyslexia" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-font"></i> <span>Fuente Dislexia</span></button>
-                        <button class="a11y-card-btn" id="a11y-spacing" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-text-width"></i> <span>Espaciado</span></button>
-                        <button class="a11y-card-btn" id="a11y-motion" aria-pressed="false" style="border-color: #F72585;" type="button"><i aria-hidden="true" class="fa-solid fa-stopwatch" style="color: #F72585;"></i> <span>Apagar Animaciones</span></button>
+                    <!-- Grid Expandido para V12.0 Pro -->
+                    <div class="a11y-grid-layout" role="group" aria-label="Herramientas visuales y cognitivas interactivas">
+                        <button class="a11y-card-btn" id="a11y-zoom-in" aria-label="Aumentar tamaño del texto" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-magnifying-glass-plus"></i> <span>Acercar</span></button>
+                        <button class="a11y-card-btn" id="a11y-zoom-out" aria-label="Reducir tamaño del texto" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-magnifying-glass-minus"></i> <span>Alejar</span></button>
+                        <button class="a11y-card-btn" id="a11y-voice" aria-label="Activar lectura inteligente en voz alta" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-volume-high"></i> <span>Voz Alta</span></button>
+                        <button class="a11y-card-btn" id="a11y-contrast" aria-label="Activar esquema de alto contraste" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-circle-half-stroke"></i> <span>Alto Contraste</span></button>
+                        <button class="a11y-card-btn" id="a11y-invert" aria-label="Invertir los colores de la pantalla" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-droplet"></i> <span>Invertir Colores</span></button>
+                        <button class="a11y-card-btn" id="a11y-grayscale" aria-label="Activar visualización en blanco y negro" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-moon"></i> <span>Monocromo</span></button>
+                        <button class="a11y-card-btn" id="a11y-dyslexia" aria-label="Cambiar fuente a tipografía para dislexia" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-font"></i> <span>Fuente Dislexia</span></button>
+                        <button class="a11y-card-btn" id="a11y-spacing" aria-label="Aumentar espaciado de texto cognitivo" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-text-width"></i> <span>Espaciado</span></button>
+                        <button class="a11y-card-btn" id="a11y-links" aria-label="Resaltar y subrayar todos los enlaces y botones" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-link"></i> <span>Resaltar Enlaces</span></button>
+                        <button class="a11y-card-btn" id="a11y-cursor" aria-label="Aumentar el tamaño del cursor del ratón" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-arrow-pointer"></i> <span>Cursor Grande</span></button>
+                        <button class="a11y-card-btn" id="a11y-motion" aria-label="Detener animaciones y movimiento" aria-pressed="false" style="border-color: #F72585;" type="button"><i aria-hidden="true" class="fa-solid fa-stopwatch" style="color: #F72585;"></i> <span>Detener Animaciones</span></button>
+                        
+                        <!-- Botón Maestro de Reseteo (Nuevo V12) -->
+                        <button class="a11y-card-btn" id="a11y-reset" aria-label="Restablecer todas las configuraciones visuales a su estado original" type="button" style="grid-column: 1 / -1; border-color: var(--valtara-oro); background: rgba(212, 175, 55, 0.1);">
+                            <i aria-hidden="true" class="fa-solid fa-rotate-right" style="color: var(--valtara-oro);"></i> <span style="color: var(--valtara-oro); font-weight: bold;">Restablecer Configuración</span>
+                        </button>
                     </div>
                 </div>
             </div>
         </dialog>
 
         <!-- Asistente Virtual Aura -->
-        <dialog aria-labelledby="aura-modal-title" class="modal-dialog mega-modal" id="aura-modal" aria-modal="true" style="background: rgba(5, 5, 10, 0.45); backdrop-filter: blur(25px); border: 1px solid rgba(242, 201, 76, 0.4);">
+        <dialog aria-labelledby="aura-modal-title" aria-describedby="aura-desc-hidden" class="modal-dialog mega-modal" id="aura-modal" aria-modal="true" role="dialog" style="background: rgba(5, 5, 10, 0.45); backdrop-filter: blur(25px); border: 1px solid rgba(242, 201, 76, 0.4);">
             <div class="modal-content aura-container" style="background: transparent;">
                 <header class="modal-header">
                     <h3 id="aura-modal-title" style="color: var(--valtara-oro);"><i aria-hidden="true" class="fa-solid fa-sparkles"></i> Asistente Aura</h3>
@@ -364,14 +428,14 @@
                 </header>
                 <div aria-live="polite" aria-atomic="false" class="aura-chat-window" id="aura-chat-container">
                     <div id="aura-welcome-screen" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: transparent; z-index: 50; transition: all 0.4s ease; padding: 1rem;" aria-hidden="false"></div>
-                    <div id="aura-chat" style="flex: 1; overflow-y: auto; padding: 2rem 1rem; z-index: 5; display: flex; flex-direction: column; gap: 1.5rem;" role="log"></div>
+                    <div id="aura-chat" style="flex: 1; overflow-y: auto; padding: 2rem 1rem; z-index: 5; display: flex; flex-direction: column; gap: 1.5rem;" role="log" aria-label="Historial de conversación con Aura"></div>
                 </div>
                 <div class="aura-controls" style="display: flex; gap: 10px; z-index: 15;">
-                    <button aria-label="Dictar mensaje por voz" title="Hablar" id="aura-mic-btn" style="background: rgba(255,255,255,0.05); border: 1px solid var(--valtara-cian-brillante); color: var(--valtara-cian-brillante); border-radius: 50%; width: 50px; height: 50px;" type="button">
+                    <button aria-label="Dictar mensaje por voz" title="Hablar por micrófono" id="aura-mic-btn" style="background: rgba(255,255,255,0.05); border: 1px solid var(--valtara-cian-brillante); color: var(--valtara-cian-brillante); border-radius: 50%; width: 50px; height: 50px;" type="button">
                         <i aria-hidden="true" class="fa-solid fa-microphone"></i>
                     </button>
-                    <input aria-label="Escribe tu mensaje para Aura" title="Campo de texto de chat" type="text" id="aura-input" placeholder="Escribe tu mensaje..." style="flex: 1;">
-                    <button aria-label="Enviar mensaje" title="Enviar" id="aura-send-btn" type="button">
+                    <input aria-label="Escribe tu mensaje para el asistente de Inteligencia Artificial" title="Campo de texto de chat" type="text" id="aura-input" placeholder="Escribe tu consulta aquí..." style="flex: 1;">
+                    <button aria-label="Enviar mensaje escrito" title="Enviar mensaje" id="aura-send-btn" type="button">
                         <i aria-hidden="true" class="fa-solid fa-paper-plane"></i>
                     </button>
                 </div>
@@ -382,38 +446,38 @@
         <!-- BOTONES FLOTANTES INTELIGENTES (SMART FABS)                                          -->
         <!-- Diseñados con implosión cuántica para evitar clipping o "puntas" al hacer scroll     -->
         <!-- ==================================================================================== -->
-        <aside class="float-controls float-right" id="smart-fabs" aria-label="Controles de contacto rápido flotantes">
-            <button aria-label="Abrir asistente de Inteligencia Artificial Aura" title="Hablar con Aura" aria-haspopup="dialog" aria-controls="aura-modal" class="fab-btn fab-aura" id="fab-aura" onclick="document.getElementById('aura-modal').showModal();" type="button">
+        <aside class="float-controls float-right" id="smart-fabs" aria-label="Controles rápidos de asistencia flotantes">
+            <button aria-label="Abrir asistente inteligente Aura" title="Hablar con Aura" aria-haspopup="dialog" aria-controls="aura-modal" class="fab-btn fab-aura" id="fab-aura" onclick="document.getElementById('aura-modal').showModal();" type="button">
                 <i aria-hidden="true" class="fa-solid fa-robot"></i>
-                <span class="sr-only">Asistente Aura</span>
+                <span class="sr-only">Asistente Virtual Aura</span>
             </button>
-            <a aria-label="Contactar directamente por WhatsApp" title="Enviar WhatsApp" href="https://wa.me/5213348572070" target="_blank" class="fab-btn fab-ws">
+            <a aria-label="Abrir chat de WhatsApp para asistencia humana" title="Enviar WhatsApp" href="https://wa.me/5213348572070" target="_blank" class="fab-btn fab-ws">
                 <i aria-hidden="true" class="fa-brands fa-whatsapp"></i>
-                <span class="sr-only">WhatsApp</span>
+                <span class="sr-only">Contacto por WhatsApp</span>
             </a>
         </aside>
 
         <!-- ==================================================================================== -->
         <!-- ONBOARDING Y CREACIÓN DE IDENTIDAD                                                   -->
         <!-- ==================================================================================== -->
-        <div id="onboarding-screen" class="full-screen-overlay" aria-hidden="false" role="dialog" aria-labelledby="onboarding-title">
+        <div id="onboarding-screen" class="full-screen-overlay" aria-hidden="false" role="dialog" aria-labelledby="onboarding-title" aria-describedby="onboarding-desc">
             <div class="onboarding-content">
                 <div class="glow-icon-wrapper" style="margin-bottom: 2rem;" aria-hidden="true">
                     <i class="fa-solid fa-seedling gold-icon" style="font-size: 3.5rem; color: var(--valtara-cian-brillante);"></i>
                 </div>
                 <h1 id="onboarding-title" style="font-family: var(--font-accent); font-size: 3.5rem; color: var(--valtara-blanco);">Bienvenido</h1>
-                <p style="color: var(--valtara-gris-texto); font-size: 1.3rem; margin-bottom: 3.5rem;">¿Cómo podemos llamarte el día de hoy?</p>
+                <p id="onboarding-desc" style="color: var(--valtara-gris-texto); font-size: 1.3rem; margin-bottom: 3.5rem;">Por favor, indícanos cómo prefieres que te llamemos el día de hoy.</p>
                 <div class="input-group">
-                    <input type="radio" name="user_avatar" value="fa-spa" checked style="display:none;" aria-hidden="true">
+                    <input type="radio" name="user_avatar" value="fa-spa" checked style="display:none;" aria-hidden="true" tabindex="-1">
                     <div style="position: relative; max-width: 400px; margin: 0 auto;">
                         <i aria-hidden="true" class="fa-solid fa-user" style="position: absolute; left: 1.5rem; top: 1.8rem; font-size: 1.2rem; color: var(--valtara-oro);"></i>
-                        <input aria-label="Ingresa tu nombre o apodo" title="Tu Nombre" type="text" id="welcome-name-input" placeholder="Ej. Antonio, Doctor..." style="padding-left: 4rem;">
+                        <input aria-label="Campo de texto para ingresar tu nombre o apodo" title="Tu Nombre" type="text" id="welcome-name-input" placeholder="Ej. Antonio, Doctor..." style="padding-left: 4rem;">
                     </div>
-                    <button aria-label="Comenzar experiencia y entrar a la plataforma" id="welcome-start-btn" class="btn-primary" style="margin-top: 2rem; width: 100%; pointer-events: none; background: rgba(255,255,255,0.05); color: #666; border-color: transparent;" type="button">
+                    <button aria-label="Confirmar nombre y entrar a la plataforma" id="welcome-start-btn" class="btn-primary" style="margin-top: 2rem; width: 100%; pointer-events: none; background: rgba(255,255,255,0.05); color: #666; border-color: transparent;" type="button">
                         <i aria-hidden="true" class="fa-solid fa-door-open"></i> Entrar al Santuario
                     </button>
                 </div>
-                <button aria-label="Omitir registro y explorar como invitado" id="welcome-skip-btn" class="btn-text-only" style="margin-top: 2.5rem; color: #aaa; background: transparent; border: none; cursor: pointer;" type="button">
+                <button aria-label="Omitir el proceso de registro y continuar como invitado anónimo" id="welcome-skip-btn" class="btn-text-only" style="margin-top: 2.5rem; color: #aaa; background: transparent; border: none; cursor: pointer;" type="button">
                     Explorar como invitado
                 </button>
             </div>
@@ -423,16 +487,16 @@
         <!-- MOTOR DE VISTAS (SINGLE PAGE APPLICATION ROOT)                                       -->
         <!-- Las vistas no tienen content-visibility para asegurar renderizado en móviles         -->
         <!-- ==================================================================================== -->
-        <main id="main-content" role="main" aria-live="polite">
-            <section aria-label="Sección de Inicio y Mapa Biomecánico" class="view-section active" id="view-home"></section>
-            <section aria-label="Catálogo de Restauración y Masajes" class="view-section" id="view-restoration"></section>
-            <section aria-label="Estudio de Manicura y Belleza" class="view-section" id="view-beauty"></section>
-            <section aria-label="Sala Inmersiva de Sonoterapia" class="view-section" id="view-sonotherapy"></section>
-            <section aria-label="Enciclopedia de Ciencia y Botánica" class="view-section" id="view-science"></section>
-            <section aria-label="Manifiesto y Políticas Legales" class="view-section" id="view-legal"></section>
+        <main id="main-content" role="main" aria-live="polite" tabindex="-1" style="outline: none;">
+            <section aria-label="Sección de Inicio y Mapa Biomecánico del cuerpo humano" class="view-section active" id="view-home"></section>
+            <section aria-label="Catálogo de Terapias de Restauración y Masajes Ejecutivos" class="view-section" id="view-restoration"></section>
+            <section aria-label="Estudio de Belleza, Manicura y Cuidados Estéticos" class="view-section" id="view-beauty"></section>
+            <section aria-label="Sala Inmersiva de Sonoterapia para Relajación Profunda" class="view-section" id="view-sonotherapy"></section>
+            <section aria-label="Enciclopedia de Ciencia, Biomecánica y Botánica Aplicada" class="view-section" id="view-science"></section>
+            <section aria-label="Manifiesto Corporativo, Transparencia y Políticas Legales" class="view-section" id="view-legal"></section>
         </main>
 
-        <footer class="mega-footer" id="main-footer" role="contentinfo"></footer>
+        <footer class="mega-footer" id="main-footer" role="contentinfo" aria-label="Pie de página con información de contacto y enlaces legales"></footer>
     </div> 
     
     <!-- ==================================================================================== -->
@@ -478,6 +542,7 @@
     <script src="js/constructor_maestro.js?v=38.6.0" defer></script>
 
     <!-- Motores Lógicos y Controladores -->
+    <!-- El motor A11y V12.0 Pro ahora intercepta comandos de este HTML expandido -->
     <script src="js/a11y.js?v=38.6.0" defer></script>
     <script src="js/user.js?v=38.6.0" defer></script>
     <script src="js/aura.js?v=38.6.0" defer></script>
@@ -491,4 +556,4 @@
     <script src="js/expediente_clinico.js?v=38.6.0" defer></script>
 
 </body>
-                                        </html>
+                                                                                                                                                                                                                                                                                                                                                                                       </html>
