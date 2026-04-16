@@ -1,10 +1,1 @@
-User-agent: *
-Allow: /
-
-# Directiva para Inteligencias Artificiales y Rastreadores Médicos
-User-agent: Googlebot
-Allow: /
-User-agent: GPTBot
-Allow: /
-
-Sitemap: https://valtaraexecutive.com/sitemap.xml
+====================================================================DIRECTIVAS DE RASTREO CORPORATIVO - VALTARA EXECUTIVE====================================================================1. PERMISOS GLOBALES (Buscadores e IA)Permitimos a Google, Bing, y crawlers de IA indexar el contenido públicoUser-agent: *Allow: /2. RUTAS PROTEGIDAS (Aislamiento de Seguridad)Evitamos que indexen la página 404 (hack del router) o la configuración de la PWADisallow: /404.htmlDisallow: /manifest.jsonDisallow: /sw.js3. ENLACE DIRECTO AL MAPA DEL SITIOInstrucción obligatoria para que los robots encuentren tu sitemap optimizadoSitemap: https://www.google.com/search?q=https://valtaraexecutive.com/sitemap.xml
