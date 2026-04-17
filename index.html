@@ -103,6 +103,39 @@
         frame-ancestors 'none';
         upgrade-insecure-requests;
     ">
+
+    <!-- ==================================================================================== -->
+    <!-- CONTROLADOR CORPORATIVO DE VERSIONES (AUTO-UPDATER V39.0.0)                          -->
+    <!-- Inyectado para forzar la actualización de caché en dispositivos rebeldes             -->
+    <!-- ==================================================================================== -->
+    <script>
+        (function() {
+            // El Director Técnico cambia este número cuando quiere forzar una recarga global
+            const CURRENT_VERSION = '39.0.0'; 
+            const storedVersion = localStorage.getItem('valtara_version');
+            
+            if (storedVersion !== CURRENT_VERSION) {
+                console.warn(`[ACTUALIZACIÓN DETECTADA] Sistema subiendo a la versión ${CURRENT_VERSION}. Ejecutando limpieza de bóveda...`);
+                
+                // 1. Guardar nueva versión
+                localStorage.setItem('valtara_version', CURRENT_VERSION);
+                
+                // 2. Ejecución Forzosa: Matar Service Workers antiguos
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                        for(let registration of registrations) {
+                            registration.unregister();
+                        }
+                    });
+                }
+                
+                // 3. Forzar al navegador a ignorar su memoria caché (Hard Reload)
+                setTimeout(() => {
+                    window.location.href = window.location.pathname + '?refresh=' + Date.now();
+                }, 150);
+            }
+        })();
+    </script>
     
     <!-- ==================================================================================== -->
     <!-- ALGORITMO GUARDIÁN DE DIAGNÓSTICO (PREVENCIÓN DE CAÍDAS)                             -->
@@ -143,19 +176,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
 
-    <!-- Precarga de Motores CSS y JS (Cache Busting V38.6.0) -->
-    <link rel="preload" href="css/main.css?v=38.6.0" as="style">
-    <link rel="preload" href="css/components.css?v=38.6.0" as="style">
-    <link rel="preload" href="js/constructor_maestro.js?v=38.6.0" as="script">
-    <link rel="preload" href="js/core.js?v=38.6.0" as="script">
-    <link rel="preload" href="js/router.js?v=38.6.0" as="script">
+    <!-- Precarga de Motores CSS y JS (ACTUALIZADO A V39.0.0 PARA CACHE BUSTING) -->
+    <link rel="preload" href="css/main.css?v=39.0.0" as="style">
+    <link rel="preload" href="css/components.css?v=39.0.0" as="style">
+    <link rel="preload" href="js/constructor_maestro.js?v=39.0.0" as="script">
+    <link rel="preload" href="js/core.js?v=39.0.0" as="script">
+    <link rel="preload" href="js/router.js?v=39.0.0" as="script">
     
     <!-- Fuentes Tipográficas -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="css/main.css?v=38.6.0">
-    <link rel="stylesheet" href="css/components.css?v=38.6.0">
+    <link rel="stylesheet" href="css/main.css?v=39.0.0">
+    <link rel="stylesheet" href="css/components.css?v=39.0.0">
     
     <!-- ==================================================================================== -->
     <!-- ESTILOS CRÍTICOS INYECTADOS E INCLUSIÓN ACCESIBLE TOTAL                              -->
@@ -294,7 +327,7 @@
     <!-- SISTEMA DE ACCESIBILIDAD (ARIA LIVE REGIONS)                                         -->
     <!-- Este lector invisible notifica a usuarios ciegos cuando la página cambia de vista    -->
     <!-- ==================================================================================== -->
-    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma blindada Sovereign Valtara 38.6.0...</div>
+    <div aria-live="assertive" aria-atomic="true" class="sr-only" id="a11y-announcer">Iniciando plataforma blindada Sovereign Valtara 39.0.0...</div>
     
     <!-- Descripciones ocultas para contexto semántico de modales -->
     <div id="aura-desc-hidden" class="sr-only">Este es el asistente virtual impulsado por inteligencia artificial. Puede dictar o escribir sus preguntas sobre nuestros servicios.</div>
@@ -500,60 +533,60 @@
     </div> 
     
     <!-- ==================================================================================== -->
-    <!-- INYECCIÓN DE SCRIPTS (ARQUITECTURA MODULAR DIFERIDA - V38.6.0)                       -->
+    <!-- INYECCIÓN DE SCRIPTS (ARQUITECTURA MODULAR DIFERIDA - V39.0.0)                       -->
     <!-- Todos usan "defer" para no bloquear el renderizado visual de la página web           -->
     <!-- ==================================================================================== -->
     
     <!-- Módulos de Vistas y Datos -->
-    <script src="js/inicio_bienvenida.js?v=38.6.0" defer></script>
-    <script src="js/inicio_refugio.js?v=38.6.0" defer></script>
-    <script src="js/inicio_promociones.js?v=38.6.0" defer></script>
-    <script src="js/inicio_arte_unas.js?v=38.6.0" defer></script>
-    <script src="js/inicio_mapa_cuerpo.js?v=38.6.0" defer></script>
-    <script src="js/inicio_redes_sociales.js?v=38.6.0" defer></script>
+    <script src="js/inicio_bienvenida.js?v=39.0.0" defer></script>
+    <script src="js/inicio_refugio.js?v=39.0.0" defer></script>
+    <script src="js/inicio_promociones.js?v=39.0.0" defer></script>
+    <script src="js/inicio_arte_unas.js?v=39.0.0" defer></script>
+    <script src="js/inicio_mapa_cuerpo.js?v=39.0.0" defer></script>
+    <script src="js/inicio_redes_sociales.js?v=39.0.0" defer></script>
 
-    <script src="js/catalogo_masajes.js?v=38.6.0" defer></script>
-    <script src="js/catalogo_belleza.js?v=38.6.0" defer></script>
+    <script src="js/catalogo_masajes.js?v=39.0.0" defer></script>
+    <script src="js/catalogo_belleza.js?v=39.0.0" defer></script>
 
-    <script src="js/ciencia_introduccion.js?v=38.6.0" defer></script>
-    <script src="js/ciencia_neurobiologia.js?v=38.6.0" defer></script>
-    <script src="js/ciencia_fascia.js?v=38.6.0" defer></script>
-    <script src="js/ciencia_acustica.js?v=38.6.0" defer></script>
-    <script src="js/ciencia_biomecanica.js?v=38.6.0" defer></script>
-    <script src="js/ciencia_botanica.js?v=38.6.0" defer></script>
-    <script src="js/ciencia_inclusion.js?v=38.6.0" defer></script>
-    <script src="js/ciencia_referencias.js?v=38.6.0" defer></script>
+    <script src="js/ciencia_introduccion.js?v=39.0.0" defer></script>
+    <script src="js/ciencia_neurobiologia.js?v=39.0.0" defer></script>
+    <script src="js/ciencia_fascia.js?v=39.0.0" defer></script>
+    <script src="js/ciencia_acustica.js?v=39.0.0" defer></script>
+    <script src="js/ciencia_biomecanica.js?v=39.0.0" defer></script>
+    <script src="js/ciencia_botanica.js?v=39.0.0" defer></script>
+    <script src="js/ciencia_inclusion.js?v=39.0.0" defer></script>
+    <script src="js/ciencia_referencias.js?v=39.0.0" defer></script>
     
-    <script src="js/juego_alquimista.js?v=38.6.0" defer></script>
+    <script src="js/juego_alquimista.js?v=39.0.0" defer></script>
 
-    <script src="js/legal_historia.js?v=38.6.0" defer></script>
-    <script src="js/legal_manifiesto.js?v=38.6.0" defer></script>
-    <script src="js/legal_transparencia.js?v=38.6.0" defer></script>
-    <script src="js/legal_preguntas.js?v=38.6.0" defer></script>
-    <script src="js/modal_terminos.js?v=38.6.0" defer></script>
-    <script src="js/modal_whitepaper.js?v=38.6.0" defer></script>
+    <script src="js/legal_historia.js?v=39.0.0" defer></script>
+    <script src="js/legal_manifiesto.js?v=39.0.0" defer></script>
+    <script src="js/legal_transparencia.js?v=39.0.0" defer></script>
+    <script src="js/legal_preguntas.js?v=39.0.0" defer></script>
+    <script src="js/modal_terminos.js?v=39.0.0" defer></script>
+    <script src="js/modal_whitepaper.js?v=39.0.0" defer></script>
 
-    <script src="js/sonoterapia_introduccion.js?v=38.6.0" defer></script>
-    <script src="js/sonoterapia_videos.js?v=38.6.0" defer></script>
-    <script src="js/sonoterapia_audio.js?v=38.6.0" defer></script>
-    <script src="js/global_footer.js?v=38.6.0" defer></script>
+    <script src="js/sonoterapia_introduccion.js?v=39.0.0" defer></script>
+    <script src="js/sonoterapia_videos.js?v=39.0.0" defer></script>
+    <script src="js/sonoterapia_audio.js?v=39.0.0" defer></script>
+    <script src="js/global_footer.js?v=39.0.0" defer></script>
     
     <!-- Constructor Maestro (Ensamblador) -->
-    <script src="js/constructor_maestro.js?v=38.6.0" defer></script>
+    <script src="js/constructor_maestro.js?v=39.0.0" defer></script>
 
     <!-- Motores Lógicos y Controladores -->
     <!-- El motor A11y V12.0 Pro ahora intercepta comandos de este HTML expandido -->
-    <script src="js/a11y.js?v=38.6.0" defer></script>
-    <script src="js/user.js?v=38.6.0" defer></script>
-    <script src="js/aura.js?v=38.6.0" defer></script>
-    <script src="js/oasis.js?v=38.6.0" defer></script>
-    <script src="js/router.js?v=38.6.0" defer></script>
-    <script src="js/core.js?v=38.6.0" defer></script>
-    <script src="js/pwa.js?v=38.6.0" defer></script>
+    <script src="js/a11y.js?v=39.0.0" defer></script>
+    <script src="js/user.js?v=39.0.0" defer></script>
+    <script src="js/aura.js?v=39.0.0" defer></script>
+    <script src="js/oasis.js?v=39.0.0" defer></script>
+    <script src="js/router.js?v=39.0.0" defer></script>
+    <script src="js/core.js?v=39.0.0" defer></script>
+    <script src="js/pwa.js?v=39.0.0" defer></script>
 
     <!-- Motor Generador de Expedientes Seguros Offline (Librería externa) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous" defer></script>
-    <script src="js/expediente_clinico.js?v=38.6.0" defer></script>
+    <script src="js/expediente_clinico.js?v=39.0.0" defer></script>
 
 </body>
-                                                                                                                                                                                                                                                                                                                                                                                       </html>
+</html>
