@@ -1,148 +1,151 @@
 /**
  * ====================================================================================
- * BLOQUE 10: ROUTER ENGINE V47.0 (ENRUTADOR SOBERANO SPA)
+ * BLOQUE 10: ROUTER ENGINE V51.0 (ENLACES LIMPIOS & ANTI-COLAPSO)
  * ------------------------------------------------------------------------------------
- * Gestor de navegación de Estado Único (Single Page Application).
- * Controla el historial del navegador, el botón "Atrás", el cierre automático 
- * de menús y la inyección de la clase .active para aislar pantallas.
+ * Gestor de navegación HTML5 History API (Clean URLs).
+ * Convierte rutas internas en URLs elegantes (ej. /masajes, /ciencia) y asegura
+ * que ninguna pantalla se quede "en blanco" al recargar.
  * ====================================================================================
  */
 
 const Router = {
-    // La pantalla que carga por defecto si no hay ninguna especificada
-    defaultRoute: 'home',
     currentRoute: '',
 
-    init: function() {
-        console.log("🧭 [ROUTER V47] Trazando coordenadas de navegación...");
+    // El Traductor de Lujo: Mapea el ID de tu HTML a la URL elegante que quieres ver
+    rutasLimpias: {
+        'home': '/inicio',
+        'restoration': '/masajes',
+        'beauty': '/belleza',
+        'sonotherapy': '/sonoterapia',
+        'science': '/ciencia',
+        'legal': '/manifiesto',
+        'aura': '/aura-ai',
+        'user-vault': '/boveda'
+    },
 
-        // 1. Escuchar los botones con el atributo data-target (Ej. Menú Lateral)
+    // El Traductor Inverso: Si alguien entra a /masajes, el sistema sabe que es 'restoration'
+    rutasInversas: {
+        '/': 'home',
+        '/inicio': 'home',
+        '/masajes': 'restoration',
+        '/belleza': 'beauty',
+        '/sonoterapia': 'sonotherapy',
+        '/ciencia': 'science',
+        '/manifiesto': 'legal',
+        '/aura-ai': 'aura',
+        '/boveda': 'user-vault'
+    },
+
+    init: function() {
+        console.log("🧭 [ROUTER V51] Trazando coordenadas de enlaces limpios...");
+
         this.bindLinks();
 
-        // 2. Escuchar los botones de "Atrás" / "Adelante" del celular o navegador
-        window.addEventListener('hashchange', () => this.handleHashChange());
+        // Escuchar cuando el usuario presiona "Atrás" o "Adelante" en su celular
+        window.addEventListener('popstate', () => this.handleLocation());
 
-        // 3. Cargar la vista inicial basada en la URL (o mandar al home)
-        this.handleHashChange();
+        // Forzar el renderizado inicial seguro (Anti-Pantalla en Blanco)
+        setTimeout(() => { this.handleLocation(); }, 200);
 
-        // 4. EXPOSICIÓN GLOBAL (CRÍTICO)
-        // Permite que los botones con onclick="Router.navigate('X')" en el HTML funcionen
         window.Router = this;
     },
 
-    // ================================================================================
-    // CAPTURA DE EVENTOS Y VÍNCULOS
-    // ================================================================================
     bindLinks: function() {
-        // Seleccionamos todos los elementos que tengan data-target="algo"
         const navLinks = document.querySelectorAll('[data-target]');
         
         navLinks.forEach(link => {
-            // Evitamos duplicar eventos si la función bindLinks se llama dos veces
-            link.replaceWith(link.cloneNode(true));
-        });
-
-        // Volvemos a seleccionar tras clonar para limpiarlos
-        const freshNavLinks = document.querySelectorAll('[data-target]');
-        freshNavLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
+            const newLink = link.cloneNode(true);
+            link.parentNode.replaceChild(newLink, link);
+            
+            newLink.addEventListener('click', (e) => {
                 e.preventDefault();
-                const target = link.getAttribute('data-target');
+                const target = newLink.getAttribute('data-target');
                 this.navigate(target);
             });
         });
     },
 
-    // ================================================================================
-    // CONTROLADOR DE HISTORIAL (HASH CHANGE)
-    // ================================================================================
-    handleHashChange: function() {
-        let hash = window.location.hash.replace('#', '');
+    handleLocation: function() {
+        // Obtenemos la URL actual limpia (ej. /masajes)
+        let path = window.location.pathname;
         
-        // Si no hay hash, o si alguien escribe una ruta inválida, nos vamos al inicio
-        if (!hash) {
-            hash = this.defaultRoute;
-            // No cambiamos el hash aquí para mantener la URL limpia en el inicio
-        }
-        
-        this.loadView(hash);
+        // Quitar la barra final si existe, por estética
+        if (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1);
+
+        // Si estamos en Github Pages, el path incluye el nombre del repo. Extraemos la última parte.
+        const pathParts = path.split('/');
+        const lastPart = '/' + pathParts[pathParts.length - 1];
+
+        // Buscar qué ID de vista le corresponde a esta URL
+        let viewId = this.rutasInversas[lastPart] || this.rutasInversas[path];
+
+        // Fallback blindado: Si la URL no existe, vete a inicio.
+        if (!viewId) viewId = 'home';
+
+        this.loadView(viewId);
     },
 
-    // ================================================================================
-    // FUNCIONES PÚBLICAS DE NAVEGACIÓN
-    // ================================================================================
-    navigate: function(target) {
-        // Al cambiar el hash de la ventana, se dispara automáticamente "handleHashChange"
-        window.location.hash = target;
+    navigate: function(targetId) {
+        // Traducimos el ID (ej. restoration) a la URL limpia (ej. /masajes)
+        const cleanPath = this.rutasLimpias[targetId] || '/' + targetId;
+
+        // Cambiamos la URL arriba sin recargar la página
+        window.history.pushState({}, "", cleanPath);
+        
+        this.loadView(targetId);
     },
 
     goBack: function() {
-        // Si hay historial previo en la sesión, usamos la función nativa del teléfono
-        if (window.history.length > 1 && window.location.hash !== '') {
+        if (window.history.length > 1 && window.location.pathname !== '/' && window.location.pathname !== '/inicio') {
             window.history.back();
         } else {
-            // Si entraron directo a un link profundo, los mandamos al inicio por seguridad
-            this.navigate(this.defaultRoute);
+            this.navigate('home');
         }
     },
 
-    // ================================================================================
-    // MOTOR DE RENDERIZADO VISUAL
-    // ================================================================================
     loadView: function(target) {
         const targetView = document.getElementById(`view-${target}`);
         
-        // 1. Escudo Anti-Caídas: Si la vista no existe, vuelve al inicio
+        // ESCUDO ANTI-BLANCO: Si no encontramos la vista en el HTML, reintentar en 100ms.
+        // Esto salva la página si el router fue más rápido que el constructor de inyectar el HTML.
         if (!targetView) {
-            console.warn(`⚠️ [ROUTER V47] La ruta '${target}' no existe en la matriz. Redirigiendo a Home.`);
-            if (this.currentRoute !== this.defaultRoute) {
-                this.navigate(this.defaultRoute);
-            }
+            console.warn(`⚠️ [ROUTER] Vista '${target}' no encontrada. Reintentando...`);
+            setTimeout(() => this.loadView('home'), 100);
             return;
         }
 
-        // 2. Apagar todas las vistas
+        // Apagar todas las vistas (Quitar clase active)
         document.querySelectorAll('.view-section').forEach(view => {
             view.classList.remove('active');
+            view.style.display = 'none'; // Seguro por doble vía
         });
 
-        // 3. Desactivar el resaltado de todos los botones del menú
+        // Desactivar botones del menú
         document.querySelectorAll('.nav-item').forEach(nav => {
             nav.classList.remove('active');
         });
 
-        // 4. Encender la vista solicitada (Dispara la animación CSS de entrada)
-        targetView.classList.add('active');
+        // Encender la vista solicitada (Esto hace que aparezcan las letras)
+        targetView.style.display = 'block';
+        setTimeout(() => targetView.classList.add('active'), 10);
 
-        // 5. Resaltar el botón del menú correspondiente
         const activeNav = document.querySelector(`.nav-item[data-target="${target}"]`);
         if (activeNav) activeNav.classList.add('active');
 
-        // 6. Actualizar el estado interno
         this.currentRoute = target;
-
-        // 7. CERRAR EL MENÚ LATERAL AUTOMÁTICAMENTE
         this.closeSidebarOnMobile();
-
-        // 8. SCROLL AL TOPE: Evita que la nueva página empiece a la mitad
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        // 9. FEEDBACK SENSORIAL (Si el motor está conectado)
         if (window.CoreEngine && typeof CoreEngine.triggerVibration === 'function') {
-            CoreEngine.triggerVibration(10); // Sutil confirmación táctil de cambio de página
+            CoreEngine.triggerVibration(10);
         }
 
-        // 10. ACCESIBILIDAD (Para lectores de pantalla en modo invidentes)
         if (window.A11yEngine && typeof A11yEngine.announce === 'function') {
-            // Anunciamos a los motores de voz que la vista cambió
-            const formattedName = target.replace('-', ' ').toUpperCase();
-            A11yEngine.announce(`Pantalla actual: ${formattedName}`);
+            const cleanName = this.rutasLimpias[target] ? this.rutasLimpias[target].replace('/', '').toUpperCase() : target;
+            A11yEngine.announce(`Pantalla actual: ${cleanName}`);
         }
     },
 
-    // ================================================================================
-    // FUNCIONES AUXILIARES
-    // ================================================================================
     closeSidebarOnMobile: function() {
         const sideMenu = document.getElementById('main-nav');
         const menuBtn = document.getElementById('menu-toggle-btn');
@@ -150,19 +153,15 @@ const Router = {
         if (sideMenu && sideMenu.classList.contains('open')) {
             sideMenu.classList.remove('open');
             if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
-            
-            // Retirar el bloqueo de scroll temporal si el modal fixer estaba inactivo
-            document.body.style.overflow = '';
+            if (window.CoreEngine && typeof CoreEngine.unlockBodyScroll === 'function') {
+                CoreEngine.unlockBodyScroll();
+            } else {
+                document.body.style.overflow = '';
+            }
         }
     }
 };
 
-// ====================================================================================
-// INICIALIZACIÓN
-// ====================================================================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Pequeño timeout para garantizar que los módulos de HTML se hayan inyectado
-    setTimeout(() => {
-        Router.init();
-    }, 150);
+    Router.init();
 });
