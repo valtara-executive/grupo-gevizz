@@ -1,151 +1,193 @@
 /**
  * ====================================================================================
- * BLOQUE 10: ROUTER ENGINE V51.0 (ENLACES LIMPIOS & ANTI-COLAPSO)
+ * BLOQUE 10: ROUTER ENGINE V56.0 (ENLACES LIMPIOS & SITEMAP SYNC)
  * ------------------------------------------------------------------------------------
- * Gestor de navegación HTML5 History API (Clean URLs).
- * Convierte rutas internas en URLs elegantes (ej. /masajes, /ciencia) y asegura
- * que ninguna pantalla se quede "en blanco" al recargar.
+ * Gestor de navegación HTML5 History API.
+ * Sincronizado estrictamente con el sitemap.xml oficial de Valtara Executive.
+ * Convierte clics internos en URLs elegantes y asegura la retención de SEO.
  * ====================================================================================
  */
 
 const Router = {
     currentRoute: '',
 
-    // El Traductor de Lujo: Mapea el ID de tu HTML a la URL elegante que quieres ver
+    // 1. EL TRADUCTOR DE SALIDA: De ID interno a URL elegante (Sitemap Exacto)
     rutasLimpias: {
-        'home': '/inicio',
-        'restoration': '/masajes',
-        'beauty': '/belleza',
+        'home': '/',
+        'restoration': '/catalogo-masajes',
+        'beauty': '/estudio-manicura',
         'sonotherapy': '/sonoterapia',
-        'science': '/ciencia',
-        'legal': '/manifiesto',
+        'science': '/ciencia-y-botanica',
+        'legal': '/manifiesto-y-privacidad',
         'aura': '/aura-ai',
-        'user-vault': '/boveda'
+        'user-vault': '/boveda-paciente'
     },
 
-    // El Traductor Inverso: Si alguien entra a /masajes, el sistema sabe que es 'restoration'
+    // 2. EL TRADUCTOR DE ENTRADA: De URL elegante a ID interno
     rutasInversas: {
         '/': 'home',
-        '/inicio': 'home',
-        '/masajes': 'restoration',
-        '/belleza': 'beauty',
+        '/index.html': 'home',
+        '/catalogo-masajes': 'restoration',
+        '/estudio-manicura': 'beauty',
         '/sonoterapia': 'sonotherapy',
-        '/ciencia': 'science',
-        '/manifiesto': 'legal',
+        '/ciencia-y-botanica': 'science',
+        '/manifiesto-y-privacidad': 'legal',
         '/aura-ai': 'aura',
-        '/boveda': 'user-vault'
+        '/boveda-paciente': 'user-vault'
     },
 
     init: function() {
-        console.log("🧭 [ROUTER V51] Trazando coordenadas de enlaces limpios...");
+        console.log("🧭 [ROUTER V56] Sincronizando coordenadas con Sitemap.xml...");
 
+        // Escuchar clics en los botones de navegación
         this.bindLinks();
 
-        // Escuchar cuando el usuario presiona "Atrás" o "Adelante" en su celular
+        // Escuchar el botón de "Atrás" / "Adelante" del navegador móvil/PC
         window.addEventListener('popstate', () => this.handleLocation());
 
-        // Forzar el renderizado inicial seguro (Anti-Pantalla en Blanco)
-        setTimeout(() => { this.handleLocation(); }, 200);
+        // Procesar la URL actual al entrar a la página
+        this.handleLocation();
 
+        // Exponer el enrutador al universo global para los botones flotantes (onclick)
         window.Router = this;
     },
 
+    // ================================================================================
+    // CAPTURA DE EVENTOS
+    // ================================================================================
     bindLinks: function() {
+        // Seleccionamos botones del menú lateral, tarjetas y promociones
         const navLinks = document.querySelectorAll('[data-target]');
         
         navLinks.forEach(link => {
+            // Clonamos para eliminar eventos duplicados si se llama dos veces
             const newLink = link.cloneNode(true);
-            link.parentNode.replaceChild(newLink, link);
+            if (link.parentNode) {
+                link.parentNode.replaceChild(newLink, link);
+            }
             
             newLink.addEventListener('click', (e) => {
                 e.preventDefault();
                 const target = newLink.getAttribute('data-target');
-                this.navigate(target);
+                if(target) this.navigate(target);
             });
         });
     },
 
+    // ================================================================================
+    // LECTOR DE URL (ENTRADA DIRECTA O POPSTATE)
+    // ================================================================================
     handleLocation: function() {
-        // Obtenemos la URL actual limpia (ej. /masajes)
+        // Obtener el path actual (ej. /catalogo-masajes)
         let path = window.location.pathname;
         
-        // Quitar la barra final si existe, por estética
-        if (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1);
+        // Normalizar quitando la barra final si la tiene (ej. /masajes/ -> /masajes)
+        if (path.length > 1 && path.endsWith('/')) {
+            path = path.slice(0, -1);
+        }
 
-        // Si estamos en Github Pages, el path incluye el nombre del repo. Extraemos la última parte.
+        // Si la PWA está en una subcarpeta (ej. GitHub Pages), extraemos solo el final
         const pathParts = path.split('/');
         const lastPart = '/' + pathParts[pathParts.length - 1];
 
-        // Buscar qué ID de vista le corresponde a esta URL
+        // Buscar a qué vista corresponde
         let viewId = this.rutasInversas[lastPart] || this.rutasInversas[path];
 
-        // Fallback blindado: Si la URL no existe, vete a inicio.
-        if (!viewId) viewId = 'home';
+        // Escudo de emergencia: Si la URL no existe (Error 404 interno), ir al home
+        if (!viewId) {
+            viewId = 'home';
+            // Sobrescribimos la URL fea en la barra por la raíz limpia
+            window.history.replaceState({}, "", "/");
+        }
 
         this.loadView(viewId);
     },
 
+    // ================================================================================
+    // NAVEGACIÓN ACTIVA (CLICS DEL USUARIO)
+    // ================================================================================
     navigate: function(targetId) {
-        // Traducimos el ID (ej. restoration) a la URL limpia (ej. /masajes)
-        const cleanPath = this.rutasLimpias[targetId] || '/' + targetId;
+        // Si ya estamos en la vista, no hacer nada para ahorrar recursos
+        if (this.currentRoute === targetId) {
+            this.closeSidebarOnMobile();
+            return;
+        }
 
-        // Cambiamos la URL arriba sin recargar la página
-        window.history.pushState({}, "", cleanPath);
+        // Encontrar la URL limpia para este destino
+        const cleanPath = this.rutasLimpias[targetId] || '/';
+
+        // Cambiar la URL en la barra del navegador SIN recargar la página
+        window.history.pushState({ view: targetId }, "", cleanPath);
         
         this.loadView(targetId);
     },
 
+    // ================================================================================
+    // RETROCESO SEGURO (BOTÓN ATRÁS)
+    // ================================================================================
     goBack: function() {
-        if (window.history.length > 1 && window.location.pathname !== '/' && window.location.pathname !== '/inicio') {
+        if (window.history.length > 1 && window.location.pathname !== '/') {
             window.history.back();
         } else {
+            // Si es la primera página que abren y le dan atrás, mandarlos al lobby
             this.navigate('home');
         }
     },
 
+    // ================================================================================
+    // MOTOR DE RENDERIZADO VISUAL
+    // ================================================================================
     loadView: function(target) {
         const targetView = document.getElementById(`view-${target}`);
         
-        // ESCUDO ANTI-BLANCO: Si no encontramos la vista en el HTML, reintentar en 100ms.
-        // Esto salva la página si el router fue más rápido que el constructor de inyectar el HTML.
         if (!targetView) {
-            console.warn(`⚠️ [ROUTER] Vista '${target}' no encontrada. Reintentando...`);
-            setTimeout(() => this.loadView('home'), 100);
+            console.warn(`⚠️ [ROUTER V56] Matriz visual '${target}' no encontrada. Redirigiendo a zona segura.`);
+            // Si el HTML aún no carga por completo, esperamos 100ms
+            setTimeout(() => this.navigate('home'), 100);
             return;
         }
 
-        // Apagar todas las vistas (Quitar clase active)
+        // 1. Apagar todas las vistas
         document.querySelectorAll('.view-section').forEach(view => {
             view.classList.remove('active');
-            view.style.display = 'none'; // Seguro por doble vía
+            view.style.display = 'none'; // Forzado físico
         });
 
-        // Desactivar botones del menú
+        // 2. Desactivar todos los botones del menú lateral
         document.querySelectorAll('.nav-item').forEach(nav => {
             nav.classList.remove('active');
         });
 
-        // Encender la vista solicitada (Esto hace que aparezcan las letras)
+        // 3. Encender la vista solicitada
         targetView.style.display = 'block';
-        setTimeout(() => targetView.classList.add('active'), 10);
+        // Pequeño timeout para permitir que el display:block se registre antes de la opacidad
+        setTimeout(() => targetView.classList.add('active'), 20);
 
+        // 4. Resaltar el botón del menú activo
         const activeNav = document.querySelector(`.nav-item[data-target="${target}"]`);
         if (activeNav) activeNav.classList.add('active');
 
+        // 5. Actualizar estado
         this.currentRoute = target;
+
+        // 6. Tareas de limpieza post-navegación
         this.closeSidebarOnMobile();
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
+        // 7. Feedback Sensorial (Vibración y Lectores de Pantalla)
         if (window.CoreEngine && typeof CoreEngine.triggerVibration === 'function') {
             CoreEngine.triggerVibration(10);
         }
 
         if (window.A11yEngine && typeof A11yEngine.announce === 'function') {
-            const cleanName = this.rutasLimpias[target] ? this.rutasLimpias[target].replace('/', '').toUpperCase() : target;
-            A11yEngine.announce(`Pantalla actual: ${cleanName}`);
+            const friendlyName = this.rutasLimpias[target] ? this.rutasLimpias[target].replace('/', '').replace(/-/g, ' ').toUpperCase() : target;
+            A11yEngine.announce(`Pantalla actual: ${friendlyName}`);
         }
     },
 
+    // ================================================================================
+    // AUXILIARES
+    // ================================================================================
     closeSidebarOnMobile: function() {
         const sideMenu = document.getElementById('main-nav');
         const menuBtn = document.getElementById('menu-toggle-btn');
@@ -153,6 +195,8 @@ const Router = {
         if (sideMenu && sideMenu.classList.contains('open')) {
             sideMenu.classList.remove('open');
             if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+            
+            // Liberar el candado físico si existe
             if (window.CoreEngine && typeof CoreEngine.unlockBodyScroll === 'function') {
                 CoreEngine.unlockBodyScroll();
             } else {
@@ -162,6 +206,9 @@ const Router = {
     }
 };
 
+// ====================================================================================
+// AUTO-ARRANQUE
+// ====================================================================================
 document.addEventListener('DOMContentLoaded', () => {
     Router.init();
 });
