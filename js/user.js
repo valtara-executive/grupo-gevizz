@@ -1,9 +1,9 @@
 /**
  * ====================================================================================
- * BLOQUE 7: USER ENGINE V42.0 (IDENTIDAD SOBERANA & CONCIERGE DIGITAL)
+ * BLOQUE 7: USER ENGINE V43.0 (IDENTIDAD SOBERANA, AURA SYNC & MULTI-AROMA)
  * ------------------------------------------------------------------------------------
- * Gestor de Perfil, Preferencias de Aromaterapia (Bóveda del Paciente), 
- * Generador Dinámico de Enlaces de WhatsApp y Control de Onboarding Minimalista.
+ * Gestor de Perfil, Preferencias Múltiples de Aromaterapia (Bóveda del Paciente), 
+ * Focus Trap Obligatorio para A11y, y Sincronización de Memoria con Aura AI.
  * ====================================================================================
  */
 
@@ -14,23 +14,15 @@ const UserEngine = {
     userData: {
         name: 'Paciente Soberano',
         isRegistered: false,
-        aromaPreference: 'Ninguno seleccionado', // Nueva integración V42
+        aromaPreferences: [], // V43: Ahora es un Array para permitir selecciones múltiples
         lastVisit: null
     },
-
-    // Pool de promociones ejecutivas (Tono de Ultra-Lujo)
-    promoPool: [
-        { icon: "fa-sun", color: "var(--valtara-oro-brillante)", title: "Privilegio Matutino", desc: "El silencio de la mañana es para los visionarios. Reserve su santuario entre las 9:00 AM y 12:00 PM y reciba un <strong>20% de cortesía corporativa</strong>." },
-        { icon: "fa-id-card-clip", color: "var(--valtara-cian-brillante)", title: "Valtara Sovereign Card", desc: "La constancia es la clave del alto rendimiento. Al completar dos intervenciones biomecánicas, <strong>su tercera sesión recibirá un 50% de cortesía</strong>." },
-        { icon: "fa-leaf", color: "var(--v-verde-quetzal)", title: "Upgrade Botánico", desc: "Eleve su experiencia. En la reserva de cualquier Masaje Neuro-Adaptativo de 90 minutos, incluimos <strong>Aromaterapia Premium y Piedras Calientes sin costo adicional</strong>." },
-        { icon: "fa-crown", color: "var(--valtara-oro)", title: "Membresía Ejecutiva", desc: "Para quienes exigen la perfección continua. Adquiera nuestro paquete de 5 sesiones y <strong>obtenga la sexta intervención biomecánica como cortesía total</strong>." }
-    ],
 
     // ================================================================================
     // 2. INICIALIZACIÓN DEL NÚCLEO DE IDENTIDAD
     // ================================================================================
     init: function() {
-        console.log("🛡️ [USER ENGINE V42] Verificando identidad y bóveda del paciente...");
+        console.log("🛡️ [USER ENGINE V43] Verificando identidad, A11y y Bóveda del paciente...");
         
         this.loadProfile();
         this.checkOnboarding();
@@ -38,7 +30,9 @@ const UserEngine = {
         this.updateUI();
         this.initAromatherapy();
         this.updateWhatsAppLinks();
-        this.generatePromos();
+        
+        // Intentar sincronizar con Aura AI después de un breve delay para asegurar su carga
+        setTimeout(() => this.integrateWithAura(), 1500);
     },
 
     // Utilidad: Conexión con el Motor Háptico del Core (Si existe)
@@ -57,13 +51,22 @@ const UserEngine = {
             if (savedData) {
                 const parsed = JSON.parse(savedData);
                 this.userData = { ...this.userData, ...parsed };
-                // Actualizar fecha de última visita silenciosamente
+                
+                // V43 Fix: Asegurar que aromaPreferences sea un array (por si viene de V42 como string)
+                if (typeof this.userData.aromaPreferences === 'string') {
+                    this.userData.aromaPreferences = [this.userData.aromaPreferences];
+                }
+                
                 this.userData.lastVisit = new Date().toISOString();
-                localStorage.setItem('valtara_sovereign_profile', JSON.stringify(this.userData));
+                this.saveLocalData();
             }
         } catch (e) {
             console.error("🔴 [USER ENGINE] Error al descifrar la Bóveda Local:", e);
         }
+    },
+
+    saveLocalData: function() {
+        localStorage.setItem('valtara_sovereign_profile', JSON.stringify(this.userData));
     },
 
     saveProfile: function(name, isGuest = false) {
@@ -74,48 +77,101 @@ const UserEngine = {
         this.userData.isRegistered = !isGuest;
         this.userData.lastVisit = new Date().toISOString();
 
-        localStorage.setItem('valtara_sovereign_profile', JSON.stringify(this.userData));
+        this.saveLocalData();
         console.log(`✨ [USER ENGINE] Identidad sellada: ${this.userData.name}`);
         
         this.hapticFeedback(20);
         this.updateUI();
         this.updateWhatsAppLinks();
+        this.integrateWithAura(); // Notificamos a la IA del nuevo nombre
         this.hideOnboarding();
     },
 
     // ================================================================================
-    // 4. ONBOARDING (EL PORTAL DE ENTRADA)
+    // 4. ONBOARDING (TRAMPA DE FOCO A11Y Y BLOQUEO DE FONDO)
     // ================================================================================
     checkOnboarding: function() {
         const onboardingScreen = document.getElementById('onboarding-screen');
+        const appWrapper = document.getElementById('app-wrapper');
+        const heritageBg = document.getElementById('ambient-bg');
+
         if (!onboardingScreen) return;
 
         if (this.userData.isRegistered || this.userData.name === 'Invitado VIP') {
-            // El paciente ya existe, ocultar pantalla inmediatamente
+            // Paciente conocido: Ocultar onboarding, habilitar fondo para Screen Readers
             onboardingScreen.style.display = 'none';
+            onboardingScreen.setAttribute('aria-hidden', 'true');
+            if(appWrapper) appWrapper.setAttribute('aria-hidden', 'false');
+            if(heritageBg) heritageBg.setAttribute('aria-hidden', 'true'); // El fondo vivo es decorativo
             document.body.style.overflow = 'auto';
+            this.releaseFocusTrap();
         } else {
-            // Es un paciente nuevo, bloquear scroll y mostrar pantalla
+            // Paciente nuevo: Mostrar onboarding, ocultar el resto para Screen Readers
+            onboardingScreen.style.display = 'flex';
             onboardingScreen.classList.remove('fade-out');
+            onboardingScreen.setAttribute('aria-hidden', 'false');
+            
+            // Ocultamos todo el resto de la web a los lectores de pantalla ciegos
+            if(appWrapper) appWrapper.setAttribute('aria-hidden', 'true');
+            
             document.body.style.overflow = 'hidden';
             
             const inputField = document.getElementById('welcome-name-input');
             if(inputField) setTimeout(() => inputField.focus(), 800);
+            
+            this.initFocusTrap(onboardingScreen);
         }
     },
 
     hideOnboarding: function() {
         const onboardingScreen = document.getElementById('onboarding-screen');
+        const appWrapper = document.getElementById('app-wrapper');
+
         if (onboardingScreen) {
             onboardingScreen.classList.add('fade-out');
             setTimeout(() => {
                 onboardingScreen.style.display = 'none';
+                onboardingScreen.setAttribute('aria-hidden', 'true');
+                if(appWrapper) appWrapper.setAttribute('aria-hidden', 'false'); // Devolvemos la web al Screen Reader
+                
                 document.body.style.overflow = 'auto';
-                // Mensaje de bienvenida de AURA
+                this.releaseFocusTrap();
+                
+                // Mensaje de bienvenida inyectado en AURA
                 if(window.AuraEngine) {
-                    AuraEngine.appendMsg(`Bienvenido al santuario, ${this.userData.name}. Estoy a tu disposición para cualquier consulta biomecánica.`, 'bot');
+                    AuraEngine.appendMsg(`El santuario ha sido preparado para ti, ${this.userData.name}. Estoy a tu disposición para cualquier consulta de biomecánica o sonoterapia.`, 'bot');
                 }
-            }, 800); // Coincide con la transición CSS
+            }, 800); 
+        }
+    },
+
+    // A11y: Evita que el usuario use TAB para salirse de la ventana de bienvenida
+    initFocusTrap: function(modalEl) {
+        this.focusTrapHandler = function(e) {
+            const focusableEls = modalEl.querySelectorAll('a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select, [tabindex]:not([tabindex="-1"])');
+            const firstEl = focusableEls[0];
+            const lastEl = focusableEls[focusableEls.length - 1];
+
+            if (e.key === 'Tab') {
+                if (e.shiftKey) { // Shift + Tab
+                    if (document.activeElement === firstEl) {
+                        lastEl.focus();
+                        e.preventDefault();
+                    }
+                } else { // Tab
+                    if (document.activeElement === lastEl) {
+                        firstEl.focus();
+                        e.preventDefault();
+                    }
+                }
+            }
+        };
+        document.addEventListener('keydown', this.focusTrapHandler);
+    },
+
+    releaseFocusTrap: function() {
+        if (this.focusTrapHandler) {
+            document.removeEventListener('keydown', this.focusTrapHandler);
         }
     },
 
@@ -126,7 +182,7 @@ const UserEngine = {
         const changeNameBtn = document.getElementById('btn-change-name-menu');
         const resetBtn = document.getElementById('btn-reset-session');
 
-        // Lógica de Validación de Input (Solo activa el botón si hay texto)
+        // Validación dinámica del input
         if (nameInput && startBtn) {
             nameInput.addEventListener('input', (e) => {
                 const val = e.target.value.trim();
@@ -134,16 +190,17 @@ const UserEngine = {
                     startBtn.style.pointerEvents = 'auto';
                     startBtn.style.background = 'var(--valtara-oro-brillante)';
                     startBtn.style.color = '#000';
-                    startBtn.style.boxShadow = '0 0 20px rgba(242, 201, 76, 0.5)';
+                    startBtn.style.boxShadow = '0 0 20px rgba(242, 201, 76, 0.6)';
+                    startBtn.setAttribute('aria-disabled', 'false');
                 } else {
                     startBtn.style.pointerEvents = 'none';
                     startBtn.style.background = 'rgba(255,255,255,0.05)';
                     startBtn.style.color = '#666';
                     startBtn.style.boxShadow = 'none';
+                    startBtn.setAttribute('aria-disabled', 'true');
                 }
             });
 
-            // Permitir usar "Enter" para confirmar
             nameInput.addEventListener('keypress', (e) => {
                 if(e.key === 'Enter' && nameInput.value.trim().length > 1) {
                     e.preventDefault();
@@ -162,15 +219,32 @@ const UserEngine = {
             });
         }
 
-        // Botones del Menú Lateral
+        // Botones del Menú Lateral (Cerrar Sesión / Cambiar Nombre)
         if (changeNameBtn) {
             changeNameBtn.addEventListener('click', () => {
                 this.hapticFeedback(15);
+                // Vaciamos el nombre para que lo escriba de nuevo
+                if(nameInput) nameInput.value = '';
+                if(startBtn) {
+                    startBtn.style.pointerEvents = 'none';
+                    startBtn.style.background = 'rgba(255,255,255,0.05)';
+                    startBtn.style.color = '#666';
+                }
+                
+                // Mostrar el onboarding de nuevo
                 const onboardingScreen = document.getElementById('onboarding-screen');
+                const appWrapper = document.getElementById('app-wrapper');
+                
                 if(onboardingScreen) {
                     onboardingScreen.style.display = 'flex';
-                    // Pequeño delay para asegurar que el display:flex tome efecto antes de quitar el fade
-                    setTimeout(() => onboardingScreen.classList.remove('fade-out'), 50);
+                    setTimeout(() => {
+                        onboardingScreen.classList.remove('fade-out');
+                        onboardingScreen.setAttribute('aria-hidden', 'false');
+                        if(appWrapper) appWrapper.setAttribute('aria-hidden', 'true'); // Ocultar fondo a Screen Readers
+                        document.body.style.overflow = 'hidden';
+                        this.initFocusTrap(onboardingScreen);
+                        if(nameInput) nameInput.focus();
+                    }, 50);
                     if(window.Router) Router.closeSidebarOnMobile();
                 }
             });
@@ -179,7 +253,7 @@ const UserEngine = {
         if (resetBtn) {
             resetBtn.addEventListener('click', () => {
                 this.hapticFeedback([20, 50, 20]);
-                if(confirm("¿Estás seguro de que deseas cerrar tu sesión? Esto borrará tus preferencias del dispositivo local.")){
+                if(confirm("¿Estás seguro de que deseas cerrar tu sesión? Esto borrará tu nombre y tus preferencias de aromas del dispositivo local.")){
                     localStorage.removeItem('valtara_sovereign_profile');
                     location.reload();
                 }
@@ -187,125 +261,136 @@ const UserEngine = {
         }
     },
 
+    // ================================================================================
+    // 5. ACTUALIZACIÓN DINÁMICA DE LA INTERFAZ (EL SALUDO INMORTAL)
+    // ================================================================================
     updateUI: function() {
         const menuGreeting = document.getElementById('menu-greeting');
         const menuName = document.getElementById('menu-user-name');
         const vaultName = document.getElementById('vault-user-name');
 
-        const isMorning = new Date().getHours() < 12;
-        const isAfternoon = new Date().getHours() >= 12 && new Date().getHours() < 19;
-        let greetingText = isMorning ? "Excelente mañana," : (isAfternoon ? "Buena tarde," : "Excelente noche,");
+        const hora = new Date().getHours();
+        let greetingText = "Excelente noche,"; // Por defecto (19:00 a 05:59)
+        
+        if (hora >= 6 && hora < 12) {
+            greetingText = "Excelente mañana,";
+        } else if (hora >= 12 && hora < 19) {
+            greetingText = "Buena tarde,";
+        }
 
+        // Aplicamos el saludo de forma garantizada
         if (menuGreeting) menuGreeting.innerText = greetingText;
         if (menuName) menuName.innerText = this.userData.name;
         if (vaultName) vaultName.innerText = this.userData.name;
     },
 
     // ================================================================================
-    // 5. BÓVEDA DEL PACIENTE: MOTOR DE AROMATERAPIA
+    // 6. BÓVEDA DEL PACIENTE: MOTOR DE AROMATERAPIA MÚLTIPLE (CHECKBOX HACK)
     // ================================================================================
     initAromatherapy: function() {
-        const aromaRadios = document.querySelectorAll('input[name="aroma_pref"]');
+        // En el HTML actual están como type="radio". Para permitir múltiples sin que toques el HTML,
+        // el JS los convertirá dinámicamente a type="checkbox". Magia pura.
+        const aromaInputs = document.querySelectorAll('input[name="aroma_pref"]');
         const whatsappBtn = document.querySelector('button[aria-label="Enviar mis preferencias de aromaterapia a WhatsApp"]');
 
-        if (aromaRadios.length === 0) return;
+        if (aromaInputs.length === 0) return;
 
-        // 1. Cargar preferencia guardada (si existe)
-        if (this.userData.aromaPreference && this.userData.aromaPreference !== 'Ninguno seleccionado') {
-            aromaRadios.forEach(radio => {
-                if (radio.value === this.userData.aromaPreference) {
-                    radio.checked = true;
-                }
-            });
-        }
+        aromaInputs.forEach(input => {
+            // Transformación al vuelo a Checkbox para multi-selección
+            input.setAttribute('type', 'checkbox');
+            
+            // Cargar preferencias guardadas
+            if (this.userData.aromaPreferences.includes(input.value)) {
+                input.checked = true;
+            }
 
-        // 2. Escuchar cambios de selección
-        aromaRadios.forEach(radio => {
-            radio.addEventListener('change', (e) => {
+            // Escuchar cambios
+            input.addEventListener('change', (e) => {
                 if(e.target.checked) {
-                    this.userData.aromaPreference = e.target.value;
-                    localStorage.setItem('valtara_sovereign_profile', JSON.stringify(this.userData));
-                    this.hapticFeedback(20);
-                    console.log(`[USER ENGINE] Aroma fijado: ${this.userData.aromaPreference}`);
-                    this.updateVaultWhatsAppButton(whatsappBtn);
+                    if(!this.userData.aromaPreferences.includes(e.target.value)) {
+                        this.userData.aromaPreferences.push(e.target.value);
+                    }
+                } else {
+                    this.userData.aromaPreferences = this.userData.aromaPreferences.filter(val => val !== e.target.value);
                 }
+                
+                this.saveLocalData();
+                this.hapticFeedback(15);
+                this.updateVaultWhatsAppButton(whatsappBtn);
+                this.integrateWithAura(); // Notificamos a la IA que el paciente cambió sus gustos
             });
         });
 
-        // 3. Inicializar el botón de la bóveda
+        // Inicializar el botón de la bóveda
         this.updateVaultWhatsAppButton(whatsappBtn);
     },
 
+    // ================================================================================
+    // 7. GENERADOR DE WHATSAPP DINÁMICO Y SOBERANO
+    // ================================================================================
     updateVaultWhatsAppButton: function(btn) {
         if (!btn) return;
         
         const phoneTarget = "5213348572070";
-        let customMessage = `Hola Concierge Valtara, soy ${this.userData.name}.`;
+        const hora = new Date().getHours();
+        const saludo = (hora >= 6 && hora < 12) ? "Buenos días" : (hora >= 12 && hora < 19) ? "Buenas tardes" : "Buenas noches";
         
-        if (this.userData.aromaPreference && this.userData.aromaPreference !== 'Ninguno seleccionado') {
-            customMessage += ` Para mi próxima sesión en el santuario, he seleccionado el ambiente olfativo: *${this.userData.aromaPreference}*. Te adjunto la captura de pantalla de mi Bóveda Soberana como respaldo.`;
+        let customMessage = `${saludo} Concierge Valtara, soy ${this.userData.name}.`;
+        
+        if (this.userData.aromaPreferences && this.userData.aromaPreferences.length > 0) {
+            // Unir aromas con comas y una "y" al final si son múltiples
+            const aromasText = this.userData.aromaPreferences.join(", ").replace(/,([^,]*)$/, ' y$1');
+            customMessage += ` Para mi próxima sesión en el santuario, requiero el siguiente ambiente olfativo: *${aromasText}*. Te adjunto la captura de pantalla de mi Bóveda Soberana como respaldo.`;
         } else {
             customMessage += ` Estoy configurando mi Bóveda Soberana y pronto te enviaré mis preferencias.`;
         }
 
         const encodedMessage = encodeURIComponent(customMessage);
         
-        // Reemplazamos el onclick genérico del HTML por la redirección real
         btn.onclick = () => {
             this.hapticFeedback([10, 30, 10]);
             window.open(`https://wa.me/${phoneTarget}?text=${encodedMessage}`, '_blank');
         };
     },
 
-    // ================================================================================
-    // 6. ENLACES GLOBALES DE WHATSAPP (BOTONES FLOTANTES Y MASAJES)
-    // ================================================================================
     updateWhatsAppLinks: function() {
-        // Seleccionamos todos los enlaces de WhatsApp de la plataforma, excepto los que no sean "a"
         const waLinks = document.querySelectorAll('a[href^="https://wa.me/"]');
         const phoneTarget = "5213348572070";
         let customMessage = "";
 
         if (this.userData.isRegistered) {
-            customMessage = `Hola Concierge, mi nombre es ${this.userData.name}. Me encuentro explorando el santuario digital y solicito asesoría ejecutiva para agendar una intervención biomecánica.`;
+            customMessage = `Hola Concierge, mi nombre es ${this.userData.name}. Solicito asesoría ejecutiva para agendar una intervención biomecánica en su santuario.`;
         } else {
-            customMessage = `Hola Concierge, me encuentro explorando su santuario digital como invitado. Solicito asesoría para conocer más sobre sus terapias de ultra-lujo y agendar una sesión.`;
+            customMessage = `Hola Concierge, me encuentro explorando su santuario digital como invitado. Solicito asesoría para conocer más sobre sus terapias de ultra-lujo.`;
         }
 
         const encodedMessage = encodeURIComponent(customMessage);
         waLinks.forEach(link => { 
-            link.href = `https://wa.me/${phoneTarget}?text=${encodedMessage}`; 
+            // Ignoramos el botón de la bóveda para no sobrescribir sus opciones múltiples
+            if(link.getAttribute('aria-label') !== "Enviar mis preferencias de aromaterapia a WhatsApp") {
+                link.href = `https://wa.me/${phoneTarget}?text=${encodedMessage}`; 
+            }
         });
     },
 
     // ================================================================================
-    // 7. GENERADOR DE PRIVILEGIOS Y PROMOCIONES (DYNAMIC INJECTION)
+    // 8. CONEXIÓN NEURONAL CON AURA AI (NUEVA INTEGRACIÓN V43)
+    // Le permite a la IA saber quién está hablando y qué le gusta.
     // ================================================================================
-    generatePromos: function() {
-        const pool = [...this.promoPool];
-        let finalPromos = [];
-
-        // Algoritmo para seleccionar promociones aleatorias (Máximo 3)
-        if (pool.length >= 3) {
-            for (let i = pool.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [pool[i], pool[j]] = [pool[j], pool[i]];
-            }
-            finalPromos = pool.slice(0, 3);
-        } else { 
-            finalPromos = pool; 
-        }
-
-        for (let i = 0; i < finalPromos.length; i++) {
-            const titleEl = document.getElementById(`promo${i+1}-title`);
-            const textEl = document.getElementById(`promo${i+1}-text`);
-            if (titleEl && textEl) {
-                // Aplicar estilos de lujo
-                titleEl.style.color = finalPromos[i].color;
-                titleEl.style.textShadow = `0 0 10px ${finalPromos[i].color}40`;
-                titleEl.innerHTML = `<i class="fa-solid ${finalPromos[i].icon}"></i> ${finalPromos[i].title}`;
-                textEl.innerHTML = finalPromos[i].desc;
-            }
+    integrateWithAura: function() {
+        if (window.AuraEngine && typeof window.AuraEngine.updatePatientContext === 'function') {
+            AuraEngine.updatePatientContext({
+                nombre: this.userData.name,
+                isRegistered: this.userData.isRegistered,
+                aromasPreferidos: this.userData.aromaPreferences
+            });
+            console.log("🧠 [USER ENGINE] Sincronización neuronal con Aura AI completada.");
+        } else {
+            // Si Aura no tiene el método aún, lo guardamos en una variable global para que Aura lo tome al nacer
+            window.ValtaraSovereignContext = {
+                nombre: this.userData.name,
+                aromasPreferidos: this.userData.aromaPreferences
+            };
         }
     }
 };
