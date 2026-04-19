@@ -1,22 +1,16 @@
 /**
  * ====================================================================================
- * BLOQUE 4: CONSTRUCTOR MAESTRO V54.0 (RENDERIZADO AUTÓNOMO Y PLACAS IMPERIALES)
+ * BLOQUE 4: CONSTRUCTOR MAESTRO V58.0 (RENDERIZADO AUTÓNOMO Y BLINDAJE)
  * ------------------------------------------------------------------------------------
- * Arquitectura anti-colapso. Este motor se ejecuta a sí mismo. Ya no depende de 
- * otros archivos JS para inyectar el contenido, garantizando que Valtara nunca 
- * se quede con la pantalla en blanco (Cero Efecto Dominó).
+ * Ensamblador de módulos. Su purificador ahora es quirúrgico: respeta el menú
+ * lateral y las ventanas emergentes para evitar colapsos de transparencia.
  * ====================================================================================
  */
 
-// ARMADURA ANTI-FALLOS: Si los módulos aún no cargan, preparamos el objeto.
 window.ValtaraModulos = window.ValtaraModulos || {};
 
 window.ValtaraData = {
     
-    // ================================================================================
-    // GENERADOR DE PLACAS IMPERIALES (ENCABEZADOS DE SECCIÓN)
-    // Inyecta estilos en línea para garantizar que siempre se vean de ultra-lujo
-    // ================================================================================
     crearPlaca: function(icono, titulo, subtitulo) {
         return `
         <div class="imperial-plaque" style="text-align: center; margin-bottom: 4rem; padding-top: 1rem;">
@@ -25,10 +19,6 @@ window.ValtaraData = {
             <p style="color: var(--ambient-primary, #D4AF37); font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.25rem; font-weight: 900; margin:0;">${subtitulo}</p>
         </div>`;
     },
-
-    // ================================================================================
-    // ENSAMBLAJE DE VISTAS (Fusión Segura de Módulos)
-    // ================================================================================
     
     get home() {
         return (window.ValtaraModulos.inicio_bienvenida || '') + 
@@ -76,7 +66,6 @@ window.ValtaraData = {
                (window.ValtaraModulos.legal_transparencia || '') +
                (window.ValtaraModulos.legal_preguntas || '') + 
                '</div>' + 
-               // Inyección de los Modales ocultos para que abran al dar clic en botones legales
                (window.ValtaraModulos.modal_terminos || '') + 
                (window.ValtaraModulos.modal_whitepaper || '');
     },
@@ -86,8 +75,7 @@ window.ValtaraData = {
     },
 
     // ====================================================================================
-    // PROTOCOLO DE PURIFICACIÓN (LIMPIEZA DE CÓDIGO HEREDADO)
-    // Elimina los fondos negros fijos antiguos para que la nueva transparencia Grid funcione
+    // EL PURIFICADOR QUIRÚRGICO (Respeta Modales y Menús)
     // ====================================================================================
     purificarVistas: function() {
         if(document.getElementById('purificador-imperial')) return;
@@ -95,27 +83,34 @@ window.ValtaraData = {
         const style = document.createElement('style');
         style.id = 'purificador-imperial';
         style.innerHTML = `
-            /* PURGA DE FONDOS VIEJOS PARA QUE RESALTE EL PAISAJE DEL MAIN.CSS */
-            .hero-view, .section-container, .body-map-container, .zone-info,
-            .tarjeta-oscura, .catalogo-seccion, article, .black-bg,
-            [style*="background: #050508"], [style*="background-color: #050508"], [style*="background: black"] {
+            /* SOLO borramos el fondo negro de los contenedores que están DENTRO de <main>.
+               Esto protege al <nav> (Menú Lateral) y a los <dialog> (Ventanas Emergentes) 
+               garantizando que sus colores oscuros sólidos no sean destruidos. */
+            
+            main .hero-view, 
+            main .section-container, 
+            main .body-map-container, 
+            main .zone-info,
+            main .tarjeta-oscura, 
+            main .catalogo-seccion, 
+            main article, 
+            main .black-bg,
+            main [style*="background: #050508"], 
+            main [style*="background-color: #050508"], 
+            main [style*="background: black"] {
                 background: transparent !important;
                 background-color: transparent !important;
                 box-shadow: none !important;
             }
             
-            /* Ajuste extra de purificación para imágenes sin fondo */
-            .img-fluid, .img-hero {
+            main .img-fluid, main .img-hero {
                 background: transparent !important;
             }
         `;
         document.head.appendChild(style);
-        console.log("🛡️ [VALTARA BUILDER] Protocolo de Purificación de Estilos activado.");
+        console.log("🛡️ [VALTARA BUILDER] Purificación quirúrgica activada. Modales protegidos.");
     },
 
-    // ====================================================================================
-    // SALUDO BIOLÓGICO INTELIGENTE
-    // ====================================================================================
     actualizarSaludo: function() {
         const heroTextObj = document.getElementById('hero-dynamic-text');
         if(!heroTextObj) return;
@@ -124,7 +119,6 @@ window.ValtaraData = {
             const hour = new Date().getHours();
             let nombrePaciente = "ejecutivo";
             
-            // Intenta extraer la memoria de User.js o Aura.js silenciosamente
             const storedProfile = localStorage.getItem('valtara_sovereign_profile');
             if (storedProfile) {
                 const parsedData = JSON.parse(storedProfile);
@@ -134,48 +128,28 @@ window.ValtaraData = {
             }
 
             let dynText = "";
-            if(hour >= 0 && hour < 6) {
-                dynText = `El silencio de la madrugada es el refugio de los visionarios, ${nombrePaciente}. Decodificamos la tensión de tu jornada mediante biomecánica de precisión.`;
-            }
-            else if(hour >= 6 && hour < 12) {
-                dynText = `Un nuevo día de alto rendimiento comienza, ${nombrePaciente}. Calibramos tu estructura muscular para que conquistes tu agenda con vitalidad absoluta.`;
-            }
-            else if(hour >= 12 && hour < 15) {
-                dynText = `El mediodía marca el clímax de la exigencia ejecutiva. Haz una pausa estratégica, ${nombrePaciente}; disolvemos el Burnout y te devolvemos a la cima.`;
-            }
-            else if(hour >= 15 && hour < 19) {
-                dynText = `La tarde avanza. No permitas que la armadura del estrés limite tu potencial, ${nombrePaciente}. Liberamos tus cadenas musculares para la ligereza total.`;
-            }
-            else if(hour >= 19 && hour < 21) {
-                dynText = `El sol desciende sobre la ciudad, ${nombrePaciente}. Disolvemos la adrenalina residual y preparamos tu cuerpo para la restauración nocturna.`;
-            }
-            else {
-                dynText = `La noche envuelve el santuario. Es momento de cederle el control a la regeneración celular, ${nombrePaciente}. Inducimos ondas alfa y restauramos tu esencia.`;
-            }
+            if(hour >= 0 && hour < 6) dynText = `El silencio de la madrugada es el refugio de los visionarios, ${nombrePaciente}. Decodificamos la tensión de tu jornada mediante biomecánica de precisión.`;
+            else if(hour >= 6 && hour < 12) dynText = `Un nuevo día de alto rendimiento comienza, ${nombrePaciente}. Calibramos tu estructura muscular para que conquistes tu agenda con vitalidad absoluta.`;
+            else if(hour >= 12 && hour < 15) dynText = `El mediodía marca el clímax de la exigencia ejecutiva. Haz una pausa estratégica, ${nombrePaciente}; disolvemos el Burnout y te devolvemos a la cima.`;
+            else if(hour >= 15 && hour < 19) dynText = `La tarde avanza. No permitas que la armadura del estrés limite tu potencial, ${nombrePaciente}. Liberamos tus cadenas musculares para la ligereza total.`;
+            else if(hour >= 19 && hour < 21) dynText = `El sol desciende sobre la ciudad, ${nombrePaciente}. Disolvemos la adrenalina residual y preparamos tu cuerpo para la restauración nocturna.`;
+            else dynText = `La noche envuelve el santuario. Es momento de cederle el control a la regeneración celular, ${nombrePaciente}. Inducimos ondas alfa y restauramos tu esencia.`;
+            
             heroTextObj.innerHTML = dynText;
         } catch(e) {
-            // Si algo falla, un mensaje por defecto ultra-elegante
             heroTextObj.innerHTML = "El rigor de la biomecánica clínica combinado con la relajación absoluta de un spa de ultra-lujo.";
         }
     },
 
-    // ====================================================================================
-    // MOTOR DE RENDERIZADO (INYECCIÓN DE CÓDIGO DURO AL HTML)
-    // ====================================================================================
     renderAll: function() {
         console.log("🏗️ [VALTARA BUILDER] Ensamblando arquitectura modular...");
 
         const setHTML = (id, content) => { 
             const el = document.getElementById(id); 
-            if(el) {
-                el.innerHTML = content; 
-            } else {
-                console.warn(`⚠️ [VALTARA BUILDER] Contenedor '${id}' no encontrado en el DOM.`);
-            }
+            if(el) el.innerHTML = content; 
         };
         
         try {
-            // 1. INYECTAR MÓDULOS EN SUS SECCIONES
             setHTML('view-home', this.home);
             setHTML('view-restoration', this.restoration);
             setHTML('view-beauty', this.beauty);
@@ -184,32 +158,20 @@ window.ValtaraData = {
             setHTML('view-sonotherapy', this.sonotherapy);
             setHTML('main-footer', this.footer);
 
-            // 2. PURIFICAR CSS VIEJO
             this.purificarVistas();
-
-            // 3. APLICAR SALUDO PERSONALIZADO
             this.actualizarSaludo();
 
-            // 4. RETIRAR PANTALLA DE CARGA (Libera la vista al usuario)
             document.body.classList.remove('system-loading');
-            
-            console.log("✅ [VALTARA BUILDER] Ensamblaje exitoso. Ecosistema listo.");
+            console.log("✅ [VALTARA BUILDER] Ensamblaje exitoso.");
             
         } catch (error) {
-            console.error("🔴 [VALTARA BUILDER] Fallo crítico durante el ensamblaje:", error);
-            // Escudo de emergencia: Mostrar al menos el contenedor principal
+            console.error("🔴 [VALTARA BUILDER] Fallo durante el ensamblaje:", error);
             document.body.classList.remove('system-loading');
         }
     }
 };
 
-// ====================================================================================
-// AUTONOMÍA ABSOLUTA: SE EJECUTA A SÍ MISMO SIN ESPERAR AL CORE.JS
-// ====================================================================================
+// AUTO-ARRANQUE
 document.addEventListener('DOMContentLoaded', () => {
-    // Un pequeñísimo respiro de 100ms para asegurar que los módulos de contenido (archivos .js)
-    // se hayan descargado de la red antes de intentar pegarlos en el HTML.
-    setTimeout(() => {
-        ValtaraData.renderAll();
-    }, 100);
+    setTimeout(() => { ValtaraData.renderAll(); }, 100);
 });
