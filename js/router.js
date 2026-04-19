@@ -204,3 +204,5 @@ const Router = {
 
 // Arrancar el motor en cuanto el DOM esté listo
 window.addEventListener('DOMContentLoaded', () => Router.init());
+// PARCHE V45.1: Exponer el Enrutador al DOM para los Smart FABs
+window.Router = Router;
