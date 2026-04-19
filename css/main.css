@@ -1,10 +1,10 @@
 @charset "UTF-8";
 /* ====================================================================================
-   BLOQUE 2: MOTOR VISUAL IMPERIAL V42.0 (LA OBRA MAESTRA)
-   - Sol Realista y Media Luna de Plata.
-   - Pirámides en 3D (Caras iluminadas y en sombra).
-   - Motor de Categorías: El fondo cambia de color según la sección activa.
-   - God Mode Integrado: Cero pantallas negras.
+   BLOQUE 2: MOTOR VISUAL IMPERIAL V44.0 (HACIENDA DEL FUTURO & GEOMETRÍA ILUMINADA)
+   - Fondo Índigo Abisal (Evita el "Black Hole").
+   - Pirámides 3D con luces LED reactivas.
+   - Encabezados "Placa de Hacienda" (Marcos ornamentales geométricos).
+   - Sol Realista y Media Luna.
    ==================================================================================== */
 
 :root { 
@@ -13,14 +13,14 @@
        ----------------------------------------- */
     --valtara-oro: #D4AF37; 
     --valtara-oro-brillante: #FCEABB; 
-    --valtara-negro-fondo: #030305; 
+    --valtara-negro-fondo: #070712; /* Índigo Abisal: Profundidad sin ser lúgubre */
     --valtara-blanco: #ffffff; 
     --valtara-gris-texto: #e2e2e8; 
     
-    --v-rosa-mexicano: #FF0055;
-    --v-verde-quetzal: #00FF88; 
+    --v-rosa-mexicano: #E01A59;
+    --v-verde-quetzal: #00A86B; 
     --v-azul-talavera: #00BFFF;
-    --v-ambar-sagrado: #FF8800; 
+    --v-ambar-sagrado: #FF9900; 
     --v-amatista: #B200FF;
 
     /* -----------------------------------------
@@ -33,9 +33,9 @@
     /* -----------------------------------------
        3. EL ASTRO (SOL POR DEFECTO)
        ----------------------------------------- */
-    --cielo-gradiente: linear-gradient(180deg, rgba(255, 136, 0, 0.15) 0%, transparent 70%);
-    --astro-box-shadow: 0 0 120px 40px rgba(255, 136, 0, 0.4), 0 0 250px 80px rgba(255, 0, 0, 0.2);
-    --astro-background: radial-gradient(circle, #FFFFFF 0%, #FFD700 20%, #FF8C00 60%, transparent 80%);
+    --cielo-gradiente: linear-gradient(180deg, rgba(255, 153, 0, 0.1) 0%, transparent 60%);
+    --astro-box-shadow: 0 0 100px rgba(255, 153, 0, 0.3);
+    --astro-background: radial-gradient(circle, rgba(255, 200, 0, 0.8) 0%, rgba(255, 153, 0, 0.4) 50%, transparent 80%);
     
     /* Tipografía y Geometría */
     --font-main: 'Lato', sans-serif;
@@ -48,7 +48,6 @@
 
 /* ====================================================================================
    MÚTACIONES DE COLOR POR CATEGORÍA (MAGIA MODERNA CSS)
-   Cuando el JS activa una vista, TODO el fondo cambia suavemente.
    ==================================================================================== */
 body:has(#view-restoration.active) {
     --ambient-primary: var(--v-verde-quetzal);
@@ -71,25 +70,25 @@ body:has(#view-science.active) {
     --ambient-tertiary: var(--v-verde-quetzal);
 }
 
-/* ====================================================================================
-   MODO NOCHE: LA MEDIA LUNA Y CIELO ESTRELLADO
-   ==================================================================================== */
+/* MODO NOCHE: LA MEDIA LUNA */
 body.modo-noche {
     --ambient-primary: var(--v-azul-talavera);
     --ambient-secondary: var(--v-amatista);
-    --cielo-gradiente: linear-gradient(180deg, rgba(0, 50, 150, 0.1) 0%, transparent 80%);
-    
-    /* TRUCO CSS PARA MEDIA LUNA: Fondo transparente + Sombra interior proyectada */
+    --cielo-gradiente: linear-gradient(180deg, rgba(0, 50, 150, 0.1) 0%, transparent 70%);
     --astro-background: transparent;
-    --astro-box-shadow: inset -25px -25px 0 0 rgba(200, 230, 255, 0.9), 0 0 50px rgba(100, 150, 255, 0.4);
-    --valtara-negro-fondo: #010102;
+    --astro-box-shadow: inset -20px -20px 0 0 rgba(200, 230, 255, 0.9), 0 0 40px rgba(100, 150, 255, 0.3);
+    --valtara-negro-fondo: #030306;
 }
 
 /* ====================================================================================
    ESTABILIZADORES BASE Y GOD MODE PATCH (SIN PANTALLAS NEGRAS)
    ==================================================================================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 15px; scroll-behavior: smooth; background: #030305 !important; }
+
+html { 
+    font-size: 15px; scroll-behavior: smooth; 
+    background-color: var(--valtara-negro-fondo) !important; 
+}
 @media (max-width: 850px) { html { font-size: 13px; } }
 
 body { 
@@ -102,8 +101,9 @@ body {
     transition: --ambient-primary 2s ease, --ambient-secondary 2s ease;
 }
 
-/* Elevamos toda la plataforma para que flote sobre el paisaje */
-#app-wrapper, #main-content { position: relative !important; z-index: 10 !important; background: transparent !important; width: 100%; min-height: 100vh;}
+#app-wrapper, #main-content { 
+    position: relative !important; z-index: 10 !important; background: transparent !important; width: 100%; min-height: 100vh;
+}
 *:focus-visible { outline: 3px solid var(--valtara-oro); outline-offset: 4px; border-radius: 6px; box-shadow: 0 0 15px rgba(212,175,55,0.8); }
 
 /* Aniquilación de Muros Negros Heredados */
@@ -117,7 +117,7 @@ body {
    ==================================================================================== */
 .heritage-background { 
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-    z-index: 0 !important; overflow: hidden; background: #030305 !important; 
+    z-index: 0 !important; overflow: hidden; background: transparent !important; 
     transform: translateZ(0); backface-visibility: hidden;
 }
 
@@ -128,63 +128,57 @@ body {
     transition: background 2s ease; pointer-events: none; z-index: 1;
 }
 
-/* 2. EL ASTRO CELESTIAL (SOL REALISTA / MEDIA LUNA) */
+/* 2. EL ASTRO CELESTIAL */
 .celestial-sphere {
-    position: absolute; top: 8vh; left: 50%; transform: translateX(-50%);
-    width: 30vw; height: 30vw; max-width: 250px; max-height: 250px;
+    position: absolute; top: 12vh; left: 50%; transform: translateX(-50%);
+    width: 40vw; height: 40vw; max-width: 350px; max-height: 350px;
     border-radius: 50%;
     background: var(--astro-background);
     box-shadow: var(--astro-box-shadow);
     transition: all 2s ease;
     z-index: 2; pointer-events: none;
     will-change: opacity, transform;
-    animation: astroBreathe 10s infinite alternate ease-in-out;
+    animation: astroBreathe 12s infinite alternate ease-in-out;
 }
-@keyframes astroBreathe { 0% { opacity: 0.85; transform: translateX(-50%) translateY(0) scale(1); } 100% { opacity: 1; transform: translateX(-50%) translateY(-10px) scale(1.02); } }
+@keyframes astroBreathe { 0% { opacity: 0.8; transform: translateX(-50%) translateY(0) scale(1); } 100% { opacity: 1; transform: translateX(-50%) translateY(-15px) scale(1.05); } }
 
 /* 3. ESFERAS ORBES REACTIVAS A LA CATEGORÍA */
 .neon-orb {
-    position: absolute; border-radius: 50%; filter: blur(7rem);
+    position: absolute; border-radius: 50%; filter: blur(6rem);
     mix-blend-mode: screen; pointer-events: none; z-index: 3;
     transition: background 2s ease, opacity 2s ease;
     animation: orbPulse 8s infinite alternate ease-in-out;
 }
-@keyframes orbPulse { 0% { opacity: 0.5; } 100% { opacity: 0.9; } }
+@keyframes orbPulse { 0% { opacity: 0.4; } 100% { opacity: 0.8; } }
 
-.neon-orb-1 { width: 50vw; height: 50vw; background: var(--ambient-primary); bottom: -10%; left: -10%; animation-delay: 0s;}
-.neon-orb-2 { width: 40vw; height: 40vw; background: var(--ambient-secondary); top: 15%; right: -5%; animation-delay: -3s;}
-.neon-orb-3 { width: 55vw; height: 55vw; background: var(--ambient-tertiary); bottom: -15%; right: -10%; animation-delay: -6s;}
+.neon-orb-1 { width: 55vw; height: 55vw; background: var(--ambient-primary); bottom: -10%; left: -10%; animation-delay: 0s;}
+.neon-orb-2 { width: 45vw; height: 45vw; background: var(--ambient-secondary); top: 15%; right: -5%; animation-delay: -3s;}
+.neon-orb-3 { width: 60vw; height: 60vw; background: var(--ambient-tertiary); bottom: -15%; right: -10%; animation-delay: -6s;}
 
-/* ====================================================================================
-   ARQUITECTURA 3D: PIRÁMIDES ILUMINADAS
-   ==================================================================================== */
+/* 4. ARQUITECTURA 3D: PIRÁMIDES ILUMINADAS */
 .pyramid-base {
     position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-    width: 140vw; max-width: 1600px; height: 45vh;
+    width: 140vw; max-width: 1600px; height: 40vh;
     z-index: 4; pointer-events: none;
 }
-/* Cara Derecha de la Pirámide (Iluminada por el Astro) */
+/* Cara Derecha (Luz principal) */
 .pyramid-base::before {
-    content: ''; position: absolute; bottom: 0; left: 50%;
-    width: 50%; height: 100%;
-    background: linear-gradient(135deg, rgba(212,175,55,0.4) 0%, rgba(5,5,8,0.9) 80%);
+    content: ''; position: absolute; bottom: 0; left: 50%; width: 50%; height: 100%;
+    background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(5,5,8,0.95) 80%);
     clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
     transition: background 2s ease;
 }
-/* Cara Izquierda de la Pirámide (En Sombra) */
+/* Cara Izquierda (Sombra) */
 .pyramid-base::after {
-    content: ''; position: absolute; bottom: 0; right: 50%;
-    width: 50%; height: 100%;
-    background: linear-gradient(225deg, rgba(212,175,55,0.1) 0%, rgba(3,3,5,0.95) 80%);
+    content: ''; position: absolute; bottom: 0; right: 50%; width: 50%; height: 100%;
+    background: linear-gradient(225deg, rgba(212,175,55,0.05) 0%, rgba(3,3,5,0.98) 80%);
     clip-path: polygon(100% 0%, 100% 100%, 0% 100%);
     transition: background 2s ease;
 }
 
-/* Pirámide Menor Secundaria */
 .pyramid-shadow {
     position: absolute; bottom: 0; left: 25%; transform: translateX(-50%);
-    width: 80vw; max-width: 800px; height: 25vh;
-    z-index: 5; pointer-events: none;
+    width: 80vw; max-width: 800px; height: 25vh; z-index: 5; pointer-events: none;
 }
 .pyramid-shadow::before {
     content: ''; position: absolute; bottom: 0; left: 50%; width: 50%; height: 100%;
@@ -197,103 +191,107 @@ body {
     clip-path: polygon(100% 0%, 100% 100%, 0% 100%); opacity: 0.15; transition: background 2s ease;
 }
 
-/* ====================================================================================
-   FAUNA ABSTRACTA: COLIBRÍ Y MARIPOSA (Elegancia Geométrica)
-   ==================================================================================== */
-.fauna-colibri {
-    position: absolute; top: 30%; left: 15%; width: 100px; height: 100px;
-    z-index: 6; pointer-events: none; opacity: 0.6;
-    transform: rotate(15deg);
-    filter: drop-shadow(0 0 10px var(--ambient-primary));
-    animation: hoverColibri 6s infinite alternate ease-in-out;
-    transition: filter 2s ease;
-}
-/* Ala principal */
-.fauna-colibri::before {
-    content: ''; position: absolute; top: 0; left: 50%;
-    width: 30px; height: 70px; background: linear-gradient(135deg, var(--valtara-oro-brillante), transparent);
-    clip-path: polygon(0% 100%, 100% 0%, 100% 100%);
-    transform-origin: bottom left; animation: aleteo 0.1s infinite alternate linear;
-}
-/* Pico */
-.fauna-colibri::after {
-    content: ''; position: absolute; bottom: 15px; right: -15px;
-    width: 40px; height: 3px; background: var(--ambient-primary);
-    border-radius: 3px; transform: rotate(-20deg); transition: background 2s ease;
-}
-
-.fauna-mariposa {
-    position: absolute; top: 20%; right: 18%; width: 80px; height: 80px;
-    z-index: 6; pointer-events: none; opacity: 0.7;
-    filter: drop-shadow(0 0 15px var(--ambient-tertiary));
-    animation: hoverMariposa 12s infinite alternate-reverse ease-in-out;
-    transition: filter 2s ease;
-}
-/* Alas Mariposa Monarca */
-.fauna-mariposa::before, .fauna-mariposa::after {
-    content: ''; position: absolute; top: 20%;
-    width: 40px; height: 50px; background: radial-gradient(circle at center, var(--valtara-oro-brillante) 0%, var(--ambient-tertiary) 100%);
-    border-radius: 50% 50% 0 50%; transition: background 2s ease;
-}
-.fauna-mariposa::before { left: 0; transform-origin: right center; animation: aleteoLento 1s infinite alternate ease-in-out; }
-.fauna-mariposa::after { right: 0; transform-origin: left center; border-radius: 50% 50% 50% 0; animation: aleteoLento 1s infinite alternate-reverse ease-in-out; }
-
-@keyframes hoverColibri { 0% { transform: translateY(0) translateX(0) rotate(10deg); } 100% { transform: translateY(-20px) translateX(15px) rotate(-5deg); } }
-@keyframes hoverMariposa { 0% { transform: translateY(0) scale(0.9); } 100% { transform: translateY(-40px) scale(1.1); } }
-@keyframes aleteo { 0% { transform: rotate(-30deg) scaleX(1); } 100% { transform: rotate(-45deg) scaleX(0.2); } }
-@keyframes aleteoLento { 0% { transform: rotateY(0deg); } 100% { transform: rotateY(60deg); } }
-
-/* Velo final muy sutil */
 .glass-overlay { 
     position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-    background: radial-gradient(circle at center, transparent 0%, rgba(3,3,5,0.15) 100%);
+    background: radial-gradient(circle at center, transparent 0%, rgba(3,3,5,0.4) 100%);
     z-index: 7; pointer-events: none;
 }
 
 /* ====================================================================================
-   PORTAL DE ONBOARDING (EL SOL DORADO)
+   LOS ENCABEZADOS DE HACIENDA (PLACA IMPERIAL)
+   Arte CSS: Marcos decorativos, esquinas geométricas y cristal.
    ==================================================================================== */
-.full-screen-overlay {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(3, 3, 5, 0.45) !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    z-index: 99999; display: flex; justify-content: center; align-items: center;
-    transition: opacity 0.8s var(--ease-out-expo), visibility 0.8s;
-    transform: translateZ(0); 
-}
-.full-screen-overlay.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
-.onboarding-content { text-align: center; max-width: 650px; padding: 3rem 2rem; animation: floatUp 1s var(--ease-bento) forwards; position: relative; z-index: 2;}
-@keyframes floatUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
-.glow-icon-wrapper i { 
-    color: var(--valtara-oro-brillante); font-size: 5rem;
-    filter: drop-shadow(0 0 30px rgba(242, 201, 76, 0.9)); 
-    margin-bottom: 1.5rem; animation: pulseSol 3s infinite alternate;
-} 
-@keyframes pulseSol { from { transform: scale(1); filter: drop-shadow(0 0 20px rgba(242, 201, 76, 0.6)); } to { transform: scale(1.15); filter: drop-shadow(0 0 50px rgba(255, 230, 100, 1)); } }
+/* Contenedor Maestro de la Placa */
+.imperial-plaque {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2.5rem 4rem;
+    margin: 2rem auto 5rem auto;
+    max-width: 900px;
+    
+    /* El Cristal de la Placa */
+    background: linear-gradient(135deg, rgba(15,15,20,0.6) 0%, rgba(5,5,10,0.8) 100%);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    
+    /* Bordes Base */
+    border: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(255,255,255,0.25);
+    border-bottom: 2px solid var(--ambient-primary);
+    
+    border-radius: 12px;
+    box-shadow: 0 2rem 4rem rgba(0,0,0,0.7), inset 0 0 20px rgba(0,0,0,0.5);
+    overflow: hidden; /* Mantiene los adornos dentro */
+}
 
-.input-group { 
-    background: rgba(255,255,255,0.02); border: 1px solid rgba(212,175,55,0.4); 
-    padding: 3rem; border-radius: 25px; box-shadow: 0 2rem 5rem rgba(0,0,0,0.8), inset 0 0 20px rgba(212,175,55,0.1); 
+/* Decoración Geométrica 1 (Greca Izquierda) */
+.imperial-plaque::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 60px; height: 100%;
+    /* Patrón de Hacienda Maya en CSS */
+    background-image: 
+        radial-gradient(circle at 100% 50%, transparent 20%, var(--ambient-primary) 21%, var(--ambient-primary) 34%, transparent 35%),
+        radial-gradient(circle at 0% 50%, transparent 20%, var(--ambient-primary) 21%, var(--ambient-primary) 34%, transparent 35%);
+    background-size: 30px 40px;
+    background-position: 0 0, 15px 20px;
+    opacity: 0.15;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    transition: all 1s ease;
 }
-.input-group input[type="text"] { 
-    width: 100%; background: rgba(0,0,0,0.7); border: 2px solid rgba(255,255,255,0.2); 
-    color: var(--valtara-blanco); padding: 1.5rem; font-size: 1.3rem; border-radius: 15px; 
-    text-align: center; outline: none; transition: all 0.3s ease; font-family: var(--font-main);
-    box-shadow: inset 0 0 15px rgba(0,0,0,0.9);
+
+/* Decoración Geométrica 2 (Destello Derecho) */
+.imperial-plaque::after {
+    content: ''; position: absolute; top: -50%; right: -20%;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, var(--ambient-primary) 0%, transparent 70%);
+    opacity: 0.2; filter: blur(20px);
+    animation: plaqueGlow 6s infinite alternate ease-in-out;
 }
-.input-group input[type="text"]:focus { 
-    border-color: var(--valtara-oro-brillante); box-shadow: 0 0 30px rgba(242, 201, 76, 0.7), inset 0 0 10px rgba(0,0,0,0.8); 
-    background: rgba(212, 175, 55, 0.15); 
+@keyframes plaqueGlow { 0% { transform: scale(1) translate(0,0); opacity: 0.15;} 100% { transform: scale(1.2) translate(-20px, 20px); opacity: 0.3;} }
+
+/* Tipografía de la Placa */
+.imperial-plaque h2, .imperial-plaque h1 {
+    font-family: var(--font-accent);
+    font-size: 3rem;
+    color: var(--valtara-blanco);
+    text-shadow: 0 2px 15px rgba(0,0,0,0.9);
+    margin: 0;
+    position: relative; z-index: 2;
+    letter-spacing: 1px;
+}
+
+/* El Icono Monumental */
+.imperial-plaque .plaque-icon {
+    font-size: 3.5rem;
+    color: var(--ambient-primary);
+    filter: drop-shadow(0 0 15px rgba(0,0,0,0.8)) drop-shadow(0 0 20px var(--ambient-primary));
+    position: relative; z-index: 2;
+    transition: color 1s ease;
+}
+
+/* Modificadores de Hacienda por Sección (Sub-estilos para las Placas) */
+/* Botánica (Hojas sutiles) */
+.view-section#view-restoration .imperial-plaque::before {
+    background: repeating-linear-gradient(45deg, transparent, transparent 10px, var(--v-verde-quetzal) 10px, var(--v-verde-quetzal) 12px);
+    opacity: 0.2;
+}
+/* Cuarzo (Diamantes) */
+.view-section#view-beauty .imperial-plaque::before {
+    background: radial-gradient(var(--v-rosa-mexicano) 2px, transparent 3px);
+    background-size: 15px 15px; opacity: 0.3;
 }
 
 /* ====================================================================================
-   CABECERA Y MENÚ LATERAL (CRISTAL PURO)
+   CABECERA Y BOTONES DE CRISTAL
    ==================================================================================== */
 .system-header { 
     position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); z-index: 2000; 
     display: flex; justify-content: space-between; align-items: center; 
-    background: rgba(3, 3, 5, 0.3); border-bottom: 1px solid rgba(255,255,255,0.1); 
-    padding: 0 3.5rem; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
+    background: rgba(3, 3, 5, 0.5); border-bottom: 1px solid rgba(255,255,255,0.1); 
+    padding: 0 3.5rem; backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
     transform: translateZ(0); 
 }
 .header-controls { display: flex; align-items: center; gap: 1.2rem; }
@@ -304,40 +302,39 @@ body {
     transition: all 0.3s var(--ease-bento); cursor: pointer; color: var(--valtara-blanco); 
 }
 .header-action-btn:hover, .hamburger-btn:hover { 
-    background: rgba(255,255,255,0.2); border-color: var(--valtara-oro-brillante); 
-    color: var(--valtara-oro-brillante); transform: scale(1.08); box-shadow: 0 0 20px rgba(242, 201, 76, 0.5);
+    background: rgba(255,255,255,0.15); border-color: var(--valtara-oro-brillante); 
+    color: var(--valtara-oro-brillante); transform: scale(1.08); box-shadow: 0 0 20px rgba(242, 201, 76, 0.3);
 }
 
+/* ====================================================================================
+   MENÚ LATERAL BENTO GRID (LA CUADRÍCULA VIVA)
+   ==================================================================================== */
 .side-menu { 
     position: fixed; top: 0; right: -100%; width: 42rem; max-width: 100vw; height: 100vh; 
-    background: rgba(3, 3, 5, 0.85); border-left: 2px solid var(--valtara-oro); 
-    z-index: 3000; transition: right 0.5s var(--ease-bento); display: flex; flex-direction: column; 
+    background: rgba(5, 5, 8, 0.95); border-left: 2px solid var(--ambient-primary); 
+    z-index: 3000; transition: right 0.5s var(--ease-bento), border-color 2s ease; display: flex; flex-direction: column; 
     backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px); 
     box-shadow: -1rem 0 6rem rgba(0,0,0,0.9); transform: translateZ(0);
 }
 .side-menu.open { right: 0; }
-.menu-header { padding: 3rem 3rem 2rem 3rem; border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; background: rgba(0,0,0,0.4); flex-shrink: 0; }
+
+.menu-header { padding: 3rem 3rem 2rem 3rem; border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; background: rgba(0,0,0,0.3); flex-shrink: 0; }
 .close-btn { 
     position: absolute; top: 2.5rem; right: 3rem; background: rgba(255,255,255,0.1); 
-    border: 1px solid rgba(255,255,255,0.3); color: var(--valtara-blanco); 
+    border: 1px solid rgba(255,255,255,0.25); color: var(--valtara-blanco); 
     width: 3.5rem; height: 3.5rem; border-radius: 50%; cursor: pointer; 
     transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; font-size: 1.4rem; 
 }
-.close-btn:hover { background: rgba(255, 51, 102, 0.5); border-color: #FF3366; color: #FFF; transform: rotate(90deg); box-shadow: 0 0 25px rgba(255, 51, 102, 0.8);}
+.close-btn:hover { background: rgba(255, 51, 102, 0.4); border-color: #E01A59; color: #FFF; transform: rotate(90deg); box-shadow: 0 0 20px rgba(224, 26, 89, 0.6);}
 
 .patient-profile-card { display: flex; align-items: center; gap: 1.5rem; }
-.profile-avatar { width: 5.5rem; height: 5.5rem; background: rgba(212,175,55,0.2); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; color: var(--valtara-oro-brillante); border: 2px solid var(--valtara-oro-brillante); box-shadow: 0 0 15px rgba(242, 201, 76, 0.6);}
-.profile-name { font-size: 2rem; color: var(--valtara-blanco); font-family: var(--font-accent); text-shadow: 0 0 10px rgba(255,255,255,0.4);}
+.profile-avatar { width: 5.5rem; height: 5.5rem; background: rgba(212,175,55,0.15); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; color: var(--valtara-oro-brillante); border: 2px solid var(--valtara-oro-brillante); box-shadow: 0 0 15px rgba(242, 201, 76, 0.3);}
+.profile-name { font-size: 2rem; color: var(--valtara-blanco); font-family: var(--font-accent); text-shadow: 0 0 10px rgba(0,0,0,0.8);}
 
 .menu-scroll-area { padding: 2rem 3rem 6rem 3rem; overflow-y: auto; flex-grow: 1; }
 .menu-section-title { font-size: 0.9rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.15rem; margin-bottom: 1.5rem; font-weight: 900; }
 
-/* ====================================================================================
-   EL BENTO GRID SOBERANO (CUADRÍCULA DE CATEGORÍAS)
-   ==================================================================================== */
-.bento-nav-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; list-style: none; margin-bottom: 2rem;
-}
+.bento-nav-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; list-style: none; margin-bottom: 2rem; }
 .bento-nav-grid .nav-item {
     width: 100%; height: 100%; padding: 2rem 1.5rem; border-radius: 20px; 
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); 
@@ -345,104 +342,107 @@ body {
     transition: all 0.3s var(--ease-bento); cursor: pointer; font-weight: 700; font-size: 1.15rem; text-align: center;
 }
 
-/* Colores representativos por categoría */
-.bento-nav-grid li:nth-child(1) .nav-item { border-bottom: 4px solid var(--valtara-oro-brillante); background: linear-gradient(to top, rgba(242,201,76,0.15) 0%, rgba(0,0,0,0) 100%); }
-.bento-nav-grid li:nth-child(2) .nav-item { border-bottom: 4px solid var(--v-verde-quetzal); background: linear-gradient(to top, rgba(0,255,136,0.15) 0%, rgba(0,0,0,0) 100%); }
-.bento-nav-grid li:nth-child(3) .nav-item { border-bottom: 4px solid var(--v-rosa-mexicano); background: linear-gradient(to top, rgba(255,0,85,0.15) 0%, rgba(0,0,0,0) 100%); }
-.bento-nav-grid li:nth-child(4) .nav-item { border-bottom: 4px solid var(--v-azul-talavera); background: linear-gradient(to top, rgba(0,191,255,0.15) 0%, rgba(0,0,0,0) 100%); }
-.bento-nav-grid li:nth-child(5) .nav-item { border-bottom: 4px solid var(--v-ambar-sagrado); background: linear-gradient(to top, rgba(255,136,0,0.15) 0%, rgba(0,0,0,0) 100%); }
+.bento-nav-grid li:nth-child(1) .nav-item { border-bottom: 4px solid var(--valtara-oro-brillante); background: linear-gradient(to top, rgba(242,201,76,0.1) 0%, rgba(0,0,0,0) 100%); }
+.bento-nav-grid li:nth-child(2) .nav-item { border-bottom: 4px solid var(--v-verde-quetzal); background: linear-gradient(to top, rgba(0,168,107,0.1) 0%, rgba(0,0,0,0) 100%); }
+.bento-nav-grid li:nth-child(3) .nav-item { border-bottom: 4px solid var(--v-rosa-mexicano); background: linear-gradient(to top, rgba(224,26,89,0.1) 0%, rgba(0,0,0,0) 100%); }
+.bento-nav-grid li:nth-child(4) .nav-item { border-bottom: 4px solid var(--v-azul-talavera); background: linear-gradient(to top, rgba(0,191,255,0.1) 0%, rgba(0,0,0,0) 100%); }
+.bento-nav-grid li:nth-child(5) .nav-item { border-bottom: 4px solid var(--v-ambar-sagrado); background: linear-gradient(to top, rgba(255,153,0,0.1) 0%, rgba(0,0,0,0) 100%); }
 .bento-nav-grid li:nth-child(6) .nav-item { border-bottom: 4px solid var(--valtara-blanco); } 
 
 .bento-nav-grid .nav-item i { font-size: 2.5rem; transition: transform 0.3s ease; }
-.bento-nav-grid li:nth-child(1) .nav-item i { color: var(--valtara-oro-brillante); filter: drop-shadow(0 0 10px var(--valtara-oro-brillante)); }
-.bento-nav-grid li:nth-child(2) .nav-item i { color: var(--v-verde-quetzal); filter: drop-shadow(0 0 10px var(--v-verde-quetzal)); }
-.bento-nav-grid li:nth-child(3) .nav-item i { color: #FF3388; filter: drop-shadow(0 0 10px #FF3388); }
-.bento-nav-grid li:nth-child(4) .nav-item i { color: var(--v-azul-talavera); filter: drop-shadow(0 0 10px var(--v-azul-talavera)); }
-.bento-nav-grid li:nth-child(5) .nav-item i { color: var(--v-ambar-sagrado); filter: drop-shadow(0 0 10px var(--v-ambar-sagrado)); }
+.bento-nav-grid li:nth-child(1) .nav-item i { color: var(--valtara-oro-brillante); }
+.bento-nav-grid li:nth-child(2) .nav-item i { color: var(--v-verde-quetzal); }
+.bento-nav-grid li:nth-child(3) .nav-item i { color: var(--v-rosa-mexicano); }
+.bento-nav-grid li:nth-child(4) .nav-item i { color: var(--v-azul-talavera); }
+.bento-nav-grid li:nth-child(5) .nav-item i { color: var(--v-ambar-sagrado); }
 .bento-nav-grid li:nth-child(6) .nav-item i { color: var(--valtara-blanco); }
 
 .bento-nav-grid .nav-item:hover, .bento-nav-grid .nav-item.active { 
     transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.6); background: rgba(255,255,255,0.15);
 }
-.bento-nav-grid .nav-item:hover i { transform: scale(1.2); }
+.bento-nav-grid .nav-item:hover i { transform: scale(1.2); filter: drop-shadow(0 0 10px currentColor); }
 
-.btn-tool { flex-direction: row !important; padding: 1.5rem !important; border-bottom: none !important; border-left: 4px solid transparent; background: rgba(0,0,0,0.5) !important; }
-.btn-tool:hover { background: rgba(255,255,255,0.15) !important; transform: translateX(8px) !important; }
-.highlight-tool { border-left: 4px solid var(--valtara-cian-brillante); background: linear-gradient(90deg, rgba(0,255,255,0.15) 0%, transparent 100%) !important; }
-.highlight-tool i { color: var(--valtara-cian-brillante); font-size: 1.8rem; filter: drop-shadow(0 0 10px var(--valtara-cian-brillante));}
-
-/* ====================================================================================
-   VISTAS DEDICADAS (SPA ANIMATIONS)
-   ==================================================================================== */
-.view-section { display: none; opacity: 0; padding: 6rem 2rem; max-width: var(--max-width); margin: 0 auto; position: relative; z-index: 10; }
-.view-section.active { display: block; animation: fadeInView 0.6s var(--ease-out-expo) forwards; }
-@keyframes fadeInView { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-/* ====================================================================================
-   BÓVEDA DEL PACIENTE (AROMAS)
-   ==================================================================================== */
-.aroma-grid label { transition: all 0.3s var(--ease-bento); border: 2px solid rgba(255,255,255,0.15); position: relative; overflow: hidden; background: rgba(0,0,0,0.7);}
-.aroma-grid label::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: var(--valtara-oro-brillante); opacity: 0; transition: 0.3s; z-index: 0;}
-.aroma-grid label i, .aroma-grid label span { position: relative; z-index: 1; transition: 0.3s; }
-
-.aroma-grid label:hover { border-color: rgba(242,201,76,0.6); background: rgba(242,201,76,0.15); }
-.aroma-grid label:has(input:checked) { border-color: var(--valtara-oro-brillante); transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.8), 0 0 20px rgba(242,201,76,0.4); }
-.aroma-grid label:has(input:checked)::before { opacity: 0.25; }
-.aroma-grid label:has(input:checked) span { color: var(--valtara-oro-brillante) !important; font-weight: 900; }
-.aroma-grid label:has(input:checked) i { filter: drop-shadow(0 0 15px var(--valtara-oro-brillante)); transform: scale(1.2);}
-
-/* ====================================================================================
-   MODALES Y ACCESIBILIDAD PURA (VIBRANTES)
-   ==================================================================================== */
-.modal-dialog {
-    background: rgba(5, 5, 8, 0.95); border: 2px solid var(--valtara-oro); border-radius: 25px;
-    padding: 0; max-width: 500px; width: 90%; color: var(--valtara-blanco);
-    backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); box-shadow: 0 2rem 6rem rgba(0,0,0,0.9), 0 0 30px rgba(212,175,55,0.3);
-    transform: translateZ(0);
+/* VISTAS DEDICADAS (SPA ANIMATIONS) */
+.view-section { 
+    display: none; opacity: 0; 
+    /* Margen superior para evitar el colapso del menú flotante */
+    padding: calc(var(--nav-height) + 3rem) 2rem 6rem 2rem; 
+    max-width: var(--max-width); margin: 0 auto; position: relative; z-index: 10; 
 }
-.modal-dialog::backdrop { background: rgba(0, 0, 5, 0.8); backdrop-filter: blur(10px); }
-
-.a11y-grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.a11y-card-btn {
-    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 15px;
-    padding: 1.5rem 1rem; color: var(--valtara-blanco); display: flex; flex-direction: column; align-items: center; gap: 10px;
-    cursor: pointer; transition: all 0.3s ease; font-family: var(--font-main); text-align: center; font-weight: bold;
-}
-.a11y-card-btn i { font-size: 2rem; color: var(--valtara-oro-brillante); filter: drop-shadow(0 0 10px rgba(242,201,76,0.6));}
-.a11y-card-btn:hover { background: rgba(242,201,76,0.2); border-color: var(--valtara-oro-brillante); transform: translateY(-5px); }
-.a11y-card-btn[aria-pressed="true"] { background: var(--valtara-oro-brillante); color: #000; box-shadow: 0 0 20px rgba(242,201,76,0.8);}
-.a11y-card-btn[aria-pressed="true"] i { color: #000; filter: none;}
+.view-section.active { display: block; animation: fadeInView 0.8s var(--ease-out-expo) forwards; }
+@keyframes fadeInView { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ====================================================================================
-   RESPONSIVIDAD Y AJUSTES MÓVILES (PERFECCIÓN)
+   PORTAL DE ONBOARDING (EL SOL DORADO SÓLIDO)
    ==================================================================================== */
-.mega-footer { background: rgba(3,3,5,0.95); border-top: 2px solid var(--valtara-oro-brillante); padding: 6rem 2rem 4rem 2rem; margin-top: 5rem; position: relative; z-index: 10;}
+.full-screen-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: var(--valtara-negro-fondo) !important; /* SÓLIDO: Bloquea todo el fondo */
+    z-index: 99999; display: flex; justify-content: center; align-items: center;
+    transition: opacity 0.8s var(--ease-out-expo), visibility 0.8s;
+    transform: translateZ(0); 
+}
+/* Efecto decorativo de sol inmenso en el onboarding */
+.full-screen-overlay::before {
+    content: ''; position: absolute; top: -20%; left: 50%; transform: translateX(-50%);
+    width: 80vw; height: 80vw; border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 60%);
+    pointer-events: none; z-index: 0;
+}
+.full-screen-overlay.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
+.onboarding-content { text-align: center; max-width: 650px; padding: 3rem 2rem; animation: floatUp 1s var(--ease-bento) forwards; position: relative; z-index: 2;}
+
+.glow-icon-wrapper i { 
+    color: var(--valtara-oro-brillante); font-size: 5rem;
+    filter: drop-shadow(0 0 30px rgba(242, 201, 76, 0.6)); 
+    margin-bottom: 1.5rem; animation: pulseSol 3s infinite alternate;
+} 
+
+.input-group { 
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.3); 
+    padding: 3.5rem; border-radius: 25px; box-shadow: 0 2rem 5rem rgba(0,0,0,0.8), inset 0 0 20px rgba(212,175,55,0.05); 
+}
+.input-group input[type="text"] { 
+    width: 100%; background: rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.2); 
+    color: var(--valtara-blanco); padding: 1.5rem; font-size: 1.3rem; border-radius: 15px; 
+    text-align: center; outline: none; transition: all 0.3s ease; font-family: var(--font-main);
+}
+.input-group input[type="text"]:focus { 
+    border-color: var(--valtara-oro-brillante); box-shadow: 0 0 30px rgba(242, 201, 76, 0.4); 
+    background: rgba(212, 175, 55, 0.1); 
+}
+
+/* ====================================================================================
+   RESPONSIVIDAD Y AJUSTES MÓVILES
+   ==================================================================================== */
+.mega-footer { background: rgba(3,3,5,0.98); border-top: 2px solid var(--ambient-primary); padding: 6rem 2rem 4rem 2rem; margin-top: 5rem; position: relative; z-index: 10;}
 
 @media (max-width: 850px) {
     html { font-size: 11px !important; } 
     .system-header { padding: 0 1.5rem; }
     .side-menu { width: 100vw; }
-    .menu-header { padding: 2rem 1.5rem; }
-    .menu-scroll-area { padding: 2rem 1.5rem; }
     .bento-nav-grid { gap: 12px; }
     .bento-nav-grid .nav-item { padding: 1.8rem 1rem; font-size: 1.25rem;}
-    .bento-nav-grid .nav-item i { font-size: 2.2rem; }
     .input-group { padding: 2.5rem 1.5rem; }
-    .view-section { padding: 4rem 1.5rem; }
+    .view-section { padding: calc(var(--nav-height) + 2rem) 1.5rem 4rem 1.5rem !important; }
     
-    /* Adaptación Visual Móvil (Pirámides y Sol más grandes en proporción) */
-    .celestial-sphere { width: 50vw; height: 50vw; top: 15vh; }
+    /* Adaptación Visual Móvil */
+    .celestial-sphere { width: 50vw; height: 50vw; top: 12vh; }
     .pyramid-base { height: 35vh; width: 180vw; }
-    .neon-orb { filter: blur(5rem); } 
     
-    .fauna-colibri { top: 20%; width: 70px; height: 70px; }
-    .fauna-mariposa { top: 12%; right: 10%; width: 60px; height: 60px; }
+    /* Adaptación Placa Imperial Móvil */
+    .imperial-plaque {
+        flex-direction: column; text-align: center; padding: 2rem;
+        border-radius: 15px; margin: 1rem auto 3rem auto; gap: 1rem;
+    }
+    .imperial-plaque::before { width: 100%; height: 20px; top: 0; left: 0; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); background-size: 20px 20px;}
+    .imperial-plaque h2, .imperial-plaque h1 { font-size: 2.2rem; }
+    .imperial-plaque .plaque-icon { font-size: 3rem; margin-top: 1rem;}
 }
 
 /* UTILIDADES Y REGLA DE LECTURA (TDAH) */
 .reading-guide-active body::after {
     content: ''; position: fixed; top: 50%; left: 0; width: 100vw; height: 100vh;
     background: rgba(0,0,0,0.85); border-top: 3px solid var(--valtara-oro-brillante);
-    z-index: 999999; pointer-events: none; transition: top 0.1s linear;
-    box-shadow: 0 -10px 30px rgba(242,201,76,0.3);
-}
+    z-index: 999999; pointer-events: none;
+       }
