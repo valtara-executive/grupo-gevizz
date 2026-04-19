@@ -379,3 +379,41 @@ body {
     z-index: 999999; pointer-events: none; transition: top 0.1s linear;
     box-shadow: 0 -10px 30px rgba(242,201,76,0.3);
    }
+/* ====================================================================================
+   PARCHE DE EMERGENCIA V41.3: DESTRUCCIÓN TOTAL DE LA OSCURIDAD (GOD MODE)
+   Este bloque obliga al navegador móvil a mostrar el fondo.
+   ==================================================================================== */
+
+/* 1. Volvemos el cuerpo de la página transparente para poder ver lo que hay detrás */
+html {
+    background: #030305 !important; /* Fallback de seguridad */
+}
+body {
+    background-color: transparent !important; 
+}
+
+/* 2. Rescatamos la obra de arte del abismo negativo y la ponemos en la capa 0 */
+.heritage-background {
+    z-index: 0 !important; 
+    background-color: #030305 !important;
+}
+
+/* 3. Elevamos toda la plataforma web (botones, textos, menús) a la capa 10 */
+#app-wrapper, #main-content {
+    position: relative !important;
+    z-index: 10 !important;
+    background: transparent !important;
+}
+
+/* 4. Aniquilación nuclear de los viejos muros negros del JavaScript heredado */
+.view-section, .hero-view, .section-container, .body-map-container, 
+.zone-info, .tarjeta-oscura, .catalogo-seccion, article, .black-bg {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important; /* Destruye sombras oscuras viejas */
+}
+
+/* 5. Aseguramos que el Onboarding (Bienvenida) deje pasar la luz del Sol */
+.full-screen-overlay {
+    background: rgba(3, 3, 5, 0.5) !important;
+}
