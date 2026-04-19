@@ -1,216 +1,316 @@
 @charset "UTF-8";
 /* ====================================================================================
-   BLOQUE 3: COMPONENTES SOVEREIGN V41.0 (ACELERACIÓN SEGURA & ULTRA-LUJO)
-   Tarjetas, Botones, Interfaz de Aura AI y Carruseles. Adaptados para SPA Views.
+   BLOQUE 3: COMPONENTES SOVEREIGN V42.0 (CRISTAL REACTIVO & ULTRA-LUJO)
+   Tarjetas, Botones, Interfaz de Aura AI, Carruseles y Modales.
+   Diseñados para interactuar dinámicamente con los colores vivos del main.css.
+   CERO FONDOS NEGROS SÓLIDOS - Todo es cristal esmerilado.
    ==================================================================================== */
 
 /* ------------------------------------------------------------------------------------
-   BOTONES DE CONVERSIÓN (LLAMADAS A LA ACCIÓN)
+   1. BOTONES DE CONVERSIÓN (LLAMADAS A LA ACCIÓN & SOBERANÍA)
    ------------------------------------------------------------------------------------ */
 .btn-primary, .btn-agenda-ahora {
     display: inline-flex; justify-content: center; align-items: center; gap: 1rem;
-    padding: 1.5rem 2.5rem; border-radius: 3rem; font-weight: 900; font-size: 1.2rem;
-    text-transform: uppercase; letter-spacing: 0.15rem; 
+    padding: 1.5rem 2.8rem; border-radius: 4rem; font-weight: 900; font-size: 1.25rem;
+    text-transform: uppercase; letter-spacing: 0.2rem; 
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
-    text-decoration: none; cursor: pointer; border: 2px solid transparent;
-    transform: translateZ(0); /* Anti-flicker */
+    text-decoration: none; cursor: pointer; 
+    transform: translateZ(0); position: relative; overflow: hidden;
 }
 
+/* El Botón Primario (Oro y Cristal) */
 .btn-primary { 
-    background: rgba(212, 175, 55, 0.05); color: var(--valtara-oro); 
-    border-color: var(--valtara-oro); box-shadow: inset 0 0 1.5rem rgba(212, 175, 55, 0.1); 
+    background: rgba(212, 175, 55, 0.1); color: var(--valtara-oro-brillante); 
+    border: 1px solid rgba(242, 201, 76, 0.4); 
+    box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.1), 0 10px 20px rgba(0,0,0,0.3); 
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.btn-primary::before {
+    content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transform: skewX(-25deg); transition: 0.5s; z-index: -1;
 }
 .btn-primary:hover { 
-    background: var(--valtara-oro); color: var(--valtara-negro-fondo); 
-    transform: translateY(-5px); 
-    box-shadow: 0 1.5rem 3rem rgba(212, 175, 55, 0.4), inset 0 0 2rem rgba(255,255,255,0.5); 
+    background: var(--valtara-oro-brillante); color: var(--valtara-negro-fondo); 
+    transform: translateY(-5px); border-color: var(--valtara-blanco);
+    box-shadow: 0 1.5rem 3rem rgba(212, 175, 55, 0.5), inset 0 0 15px rgba(255,255,255,0.8); 
 }
+.btn-primary:hover::before { left: 150%; transition: 0.7s; }
 
+/* El Botón de WhatsApp (Conversión Directa) */
 .btn-agenda-ahora { 
-    width: 100%; background: #25D366; color: var(--valtara-negro-fondo); 
-    border-color: #25D366; margin-top: auto; 
-    box-shadow: 0 1rem 2.5rem rgba(37, 211, 102, 0.2); 
+    width: 100%; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); 
+    color: var(--valtara-blanco); border: 1px solid #25D366; margin-top: auto; 
+    box-shadow: 0 1rem 3rem rgba(37, 211, 102, 0.3), inset 0 2px 5px rgba(255,255,255,0.5); 
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 .btn-agenda-ahora:hover { 
-    background: var(--valtara-blanco); color: var(--valtara-negro-fondo); 
+    background: var(--valtara-blanco); color: #128C7E; 
     border-color: var(--valtara-blanco); transform: translateY(-5px); 
-    box-shadow: 0 1.5rem 3.5rem rgba(255, 255, 255, 0.4); 
+    box-shadow: 0 1.5rem 4rem rgba(37, 211, 102, 0.6); text-shadow: none;
 }
 
 /* ------------------------------------------------------------------------------------
-   TARJETAS DE SERVICIO (CATÁLOGO DE MASAJES Y UÑAS - GLASSMORPHISM)
+   2. TARJETAS DE SERVICIO (GLASSMORPHISM REACTIVO AL ENTORNO)
+   Estas tarjetas absorben la luz de las esferas que tienen detrás.
    ------------------------------------------------------------------------------------ */
 .glass-card { 
-    background: rgba(15, 15, 20, 0.5); 
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
-    border: 1px solid rgba(255, 255, 255, 0.08); 
-    border-top: 1px solid rgba(255, 255, 255, 0.2); 
+    /* El secreto: Muy poca opacidad de fondo, mucho desenfoque */
+    background: rgba(10, 10, 15, 0.35); 
+    backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
+    
+    /* Bisel 3D: Luz arriba e izquierda, sombra abajo y derecha */
+    border-top: 1px solid rgba(255, 255, 255, 0.25); 
     border-left: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 2rem; padding: 3rem; display: flex; flex-direction: column; 
+    border-right: 1px solid rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+    
+    border-radius: 2.5rem; padding: 3.5rem; display: flex; flex-direction: column; 
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 1.5rem 3.5rem rgba(0,0,0,0.5);
-    transform: translateZ(0);
+    box-shadow: 0 2rem 5rem rgba(0,0,0,0.6), inset 0 0 40px rgba(0,0,0,0.5);
+    transform: translateZ(0); position: relative; overflow: hidden;
 }
+
+/* Resplandor Reactivo: Adopta el color de la categoría al hacer hover */
 .glass-card:hover { 
-    border-color: rgba(212, 175, 55, 0.5); transform: translateY(-8px); 
-    box-shadow: 0 2.5rem 5rem rgba(0,0,0,0.8), inset 0 0 3rem rgba(212, 175, 55, 0.05); 
+    border-color: var(--ambient-primary); transform: translateY(-10px); 
+    box-shadow: 0 3rem 6rem rgba(0,0,0,0.8), 0 0 30px rgba(var(--ambient-primary), 0.2), inset 0 0 30px rgba(255,255,255,0.05); 
 }
+
+/* Estructura Zig-Zag para el Catálogo */
 .glass-card.zig-zag { flex-direction: row; align-items: stretch; gap: 4rem; padding: 2.5rem; }
 .glass-card.zig-zag:nth-child(even) { flex-direction: row-reverse; }
 
+/* Icono de la Tarjeta (Insignia Metálica) */
 .card-icon-wrapper { 
-    background: linear-gradient(135deg, rgba(20,20,25,0.9), rgba(5,5,10,0.95)); 
-    border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.1); 
+    background: linear-gradient(135deg, rgba(30,30,40,0.7), rgba(5,5,10,0.9)); 
+    border-radius: 2rem; border: 1px solid rgba(255,255,255,0.15); 
     display: flex; align-items: center; justify-content: center; 
-    font-size: 5rem; color: var(--valtara-oro); 
+    font-size: 5rem; color: var(--ambient-primary); /* Toma el color de la sección */
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
-    box-shadow: inset 0 0 2rem rgba(0,0,0,0.8); 
+    box-shadow: inset 0 0 3rem rgba(0,0,0,0.8), 0 10px 20px rgba(0,0,0,0.4); 
+    position: relative; overflow: hidden;
+}
+.card-icon-wrapper::after {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at top left, rgba(255,255,255,0.1), transparent);
 }
 .glass-card.zig-zag .card-icon-wrapper { flex: 0 0 35%; min-height: 280px; }
-.glass-card:not(.zig-zag) .card-icon-wrapper { width: 100%; height: 12rem; margin-bottom: 2.5rem; }
+.glass-card:not(.zig-zag) .card-icon-wrapper { width: 100%; height: 14rem; margin-bottom: 2.5rem; font-size: 6rem;}
+
 .glass-card:hover .card-icon-wrapper { 
-    transform: scale(1.03); border-color: var(--valtara-oro); 
-    filter: drop-shadow(0 0 20px rgba(212,175,55,0.3)); 
+    transform: scale(1.05); border-color: var(--ambient-primary); 
+    color: var(--valtara-blanco);
+    filter: drop-shadow(0 0 20px var(--ambient-primary)); 
 }
 
-.card-content-wrapper { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-.glass-card h3 { font-size: 2.2rem; font-family: var(--font-accent); margin-bottom: 1.2rem; color: var(--valtara-blanco); line-height: 1.3;}
+/* Textos de la Tarjeta */
+.card-content-wrapper { flex: 1; display: flex; flex-direction: column; justify-content: center; z-index: 2;}
+.glass-card h3 { font-size: 2.4rem; font-family: var(--font-accent); margin-bottom: 1.2rem; color: var(--valtara-blanco); line-height: 1.3; text-shadow: 0 2px 5px rgba(0,0,0,0.5);}
 
-/* Metadatos (Precios y Tiempos) */
+/* Metadatos (Precios y Tiempos - Diseño tipo Placa) */
 .card-meta-info { 
     display: flex; justify-content: space-between; align-items: center; 
-    background: rgba(0,0,0,0.6); padding: 1.2rem 2rem; border-radius: 1rem; 
-    font-size: 1.1rem; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.05); 
-    font-weight: 700; 
+    background: rgba(0,0,0,0.6); padding: 1.2rem 2.5rem; border-radius: 1.5rem; 
+    font-size: 1.15rem; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.08); 
+    font-weight: 700; box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
 }
-.card-meta-info .duracion { color: var(--valtara-gris-texto); display: flex; align-items: center; gap: 8px;}
-.card-meta-info .duracion i { color: #00FFCC; }
-.card-meta-info .precio { color: var(--valtara-oro); font-size: 1.35rem; font-weight: 900;}
+.card-meta-info .duracion { color: var(--valtara-gris-texto); display: flex; align-items: center; gap: 10px;}
+.card-meta-info .duracion i { color: var(--valtara-cian-brillante); font-size: 1.3rem;}
+.card-meta-info .precio { color: var(--valtara-oro-brillante); font-size: 1.4rem; font-weight: 900; letter-spacing: 1px;}
 
-.marketing-text { font-size: 1.15rem; color: #ccc; line-height: 1.8; margin-bottom: 2.5rem; flex-grow: 1; text-align: justify; font-weight: 300; }
-.marketing-text strong { color: var(--valtara-blanco); font-weight: 700; }
+.marketing-text { font-size: 1.2rem; color: #d0d0d0; line-height: 1.9; margin-bottom: 2.5rem; flex-grow: 1; text-align: justify; font-weight: 300; }
+.marketing-text strong { color: var(--valtara-blanco); font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.2);}
 
 /* ------------------------------------------------------------------------------------
-   MODALES TRADICIONALES (A11Y, TÉRMINOS, AUDIO)
+   3. AURA AI 3.0 (INTERFAZ HUD SOBERANA)
+   Como ahora es una vista completa, la hacemos parecer un centro de comando.
+   ------------------------------------------------------------------------------------ */
+.aura-container { 
+    background: transparent; height: 100%; display: flex; flex-direction: column;
+}
+.aura-chat-window { 
+    background: rgba(5, 5, 8, 0.4); border-radius: 25px; border: 1px solid rgba(0, 255, 204, 0.15);
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.7), 0 10px 30px rgba(0,0,0,0.5);
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    position: relative; overflow: hidden;
+}
+/* Rejilla sutil cibernética en el fondo del chat */
+.aura-chat-window::before {
+    content: ''; position: absolute; top:0; left:0; width: 100%; height: 100%;
+    background-image: linear-gradient(rgba(0, 255, 204, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 204, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px; pointer-events: none; z-index: 0;
+}
+
+.msg { 
+    max-width: 88%; padding: 1.6rem 2.2rem; font-size: 1.2rem; line-height: 1.8; 
+    border-radius: 1.8rem; animation: fadeInMsg 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+    opacity: 0; transform: translateY(20px); position: relative; z-index: 1;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Mensaje de AURA (IA) - Estilo Holográfico */
+.msg.bot { 
+    background: linear-gradient(135deg, rgba(0, 255, 204, 0.08), rgba(5, 10, 15, 0.8)); 
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(0, 255, 204, 0.2); border-left: 4px solid var(--valtara-cian-brillante); 
+    align-self: flex-start; border-bottom-left-radius: 0.5rem; color: var(--valtara-blanco); 
+}
+.msg.bot::before { content: '\f0e7'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: -12px; left: -12px; background: var(--valtara-negro-fondo); color: var(--valtara-cian-brillante); width: 25px; height: 25px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px; border: 1px solid var(--valtara-cian-brillante);}
+
+/* Mensaje del Paciente - Estilo Dorado Ejecutivo */
+.msg.user { 
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(15, 10, 5, 0.8)); 
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(212, 175, 55, 0.2); border-right: 4px solid var(--valtara-oro-brillante); 
+    align-self: flex-end; border-bottom-right-radius: 0.5rem; color: #FCEABB; 
+}
+
+/* Controles de Entrada de Aura */
+.aura-controls { 
+    padding: 1.5rem; background: rgba(5, 5, 10, 0.7) !important; border-radius: 2rem !important; 
+    border: 1px solid rgba(255,255,255,0.1) !important; display: flex; gap: 1.5rem; align-items: center; 
+    backdrop-filter: blur(20px); box-shadow: 0 10px 30px rgba(0,0,0,0.6) !important;
+}
+#aura-input { 
+    flex-grow: 1; padding: 1.6rem 2.5rem; border-radius: 4rem; 
+    border: 1px solid rgba(255,255,255,0.15) !important; background: rgba(0,0,0,0.6) !important; 
+    color: var(--valtara-blanco) !important; font-size: 1.2rem !important; outline: none; transition: all 0.4s ease; 
+}
+#aura-input:focus { 
+    border-color: var(--valtara-cian-brillante) !important; box-shadow: 0 0 20px rgba(0, 255, 204, 0.2), inset 0 0 15px rgba(0,0,0,0.8) !important; 
+    background: rgba(0, 255, 204, 0.05) !important; 
+}
+#aura-send-btn { 
+    background: var(--valtara-oro-brillante) !important; color: #000 !important; border: none; 
+    border-radius: 50% !important; width: 4.5rem !important; height: 4.5rem !important; font-size: 1.8rem !important; 
+    display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.4s ease; 
+    box-shadow: 0 5px 15px rgba(242, 201, 76, 0.4) !important; 
+}
+#aura-send-btn:hover { transform: scale(1.1) rotate(15deg); box-shadow: 0 10px 25px rgba(242, 201, 76, 0.8) !important; }
+#aura-mic-btn { 
+    border: 1px solid var(--valtara-cian-brillante) !important; color: var(--valtara-cian-brillante) !important; 
+    background: rgba(0,255,204,0.05) !important; width: 4.5rem !important; height: 4.5rem !important; border-radius: 50% !important;
+}
+#aura-mic-btn:hover { background: var(--valtara-cian-brillante) !important; color: #000 !important; transform: scale(1.1); box-shadow: 0 0 20px rgba(0,255,204,0.5);}
+
+/* ------------------------------------------------------------------------------------
+   4. MODALES CLÁSICOS (TÉRMINOS, AUDIO)
    ------------------------------------------------------------------------------------ */
 .modal-dialog { 
-    margin: auto; background: rgba(10, 10, 15, 0.95); 
-    border: 1px solid rgba(255,255,255,0.15); border-radius: 2rem; padding: 0; 
-    color: var(--valtara-blanco); box-shadow: 0 4rem 8rem rgba(0,0,0,0.8); 
-    opacity: 0; transform: translateY(30px) scale(0.98); 
+    margin: auto; background: rgba(5, 5, 8, 0.85); 
+    border: 1px solid rgba(255,255,255,0.15); border-top: 1px solid rgba(255,255,255,0.3); border-radius: 2rem; padding: 0; 
+    color: var(--valtara-blanco); box-shadow: 0 4rem 10rem rgba(0,0,0,0.9); 
+    opacity: 0; transform: translateY(40px) scale(0.95); 
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
+    backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px);
 }
 .modal-dialog[open] { opacity: 1; transform: translateY(0) scale(1); }
-.modal-dialog::backdrop { background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); opacity: 0; transition: 0.5s; }
+.modal-dialog::backdrop { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); opacity: 0; transition: 0.5s; }
 .modal-dialog[open]::backdrop { opacity: 1; }
 
 .modal-content { display: flex; flex-direction: column; height: 100%; }
 .modal-header { 
     display: flex; justify-content: space-between; align-items: center; 
-    padding: 2rem 3rem; border-bottom: 1px solid rgba(255,255,255,0.05); 
+    padding: 2.5rem 3rem; border-bottom: 1px solid rgba(255,255,255,0.08); 
+    background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
 }
-.modal-header h3 { font-size: 1.6rem; font-family: var(--font-accent); display: flex; align-items: center; gap: 1rem;}
-.modal-body { padding: 3rem; overflow-y: auto; flex-grow: 1; }
+.modal-header h3 { font-size: 1.6rem; font-family: var(--font-accent); display: flex; align-items: center; gap: 1.2rem; text-shadow: 0 2px 5px rgba(0,0,0,0.5);}
+.modal-body { padding: 3rem; overflow-y: auto; flex-grow: 1; scrollbar-width: thin; scrollbar-color: var(--valtara-oro) transparent;}
+
+/* Scrollbars Elegantes para Webkit (Chrome/Safari) */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.4); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--valtara-oro-brillante); }
 
 /* ------------------------------------------------------------------------------------
-   AURA AI 3.0 (AHORA COMO VISTA DEDICADA SPA, NO MODAL)
+   5. BOTONES FLOTANTES (SMART FABS)
    ------------------------------------------------------------------------------------ */
-.aura-chat-window { 
-    background: rgba(0,0,0,0.3); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05);
-    box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
-}
-.msg { 
-    max-width: 85%; padding: 1.5rem 2rem; font-size: 1.15rem; line-height: 1.7; 
-    border-radius: 1.5rem; animation: fadeInMsg 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-    opacity: 0; transform: translateY(15px);
-}
-@keyframes fadeInMsg { to { opacity: 1; transform: translateY(0); } }
-
-/* Mensaje de AURA (La IA) */
-.msg.bot { 
-    background: rgba(10, 20, 30, 0.8); backdrop-filter: blur(10px); 
-    border: 1px solid rgba(0, 255, 204, 0.15); border-left: 4px solid #00FFCC; 
-    align-self: flex-start; border-bottom-left-radius: 0.3rem; color: var(--valtara-blanco); 
-}
-/* Mensaje del Paciente */
-.msg.user { 
-    background: rgba(30, 25, 10, 0.8); backdrop-filter: blur(10px); 
-    border: 1px solid rgba(212, 175, 55, 0.15); border-right: 4px solid var(--valtara-oro); 
-    align-self: flex-end; border-bottom-right-radius: 0.3rem; color: #FCEABB; 
-}
-
-/* ------------------------------------------------------------------------------------
-   AUDIO ENGINE VISUALIZER (SONOTERAPIA)
-   ------------------------------------------------------------------------------------ */
-.canvas-audio-wrapper { 
-    width: 100%; height: 220px; background: rgba(0,0,0,0.6); 
-    border: 1px solid rgba(0, 107, 63, 0.4); /* Verde Quetzal touch */
-    border-radius: 1.5rem; margin-bottom: 3rem; overflow: hidden; position: relative; 
-}
-.audio-tracks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
-.track-btn { 
-    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); 
-    color: var(--valtara-blanco); padding: 1.5rem; border-radius: 1rem; 
-    display: flex; align-items: center; gap: 1.5rem; font-size: 1.1rem; font-weight: 700; 
-    cursor: pointer; transition: all 0.4s ease; text-align: left; 
-}
-.track-btn i { font-size: 1.8rem; color: #006B3F; width: 2.5rem; text-align: center; transition: 0.3s; }
-.track-btn:hover, .track-btn.playing { 
-    background: rgba(0, 107, 63, 0.15); border-color: #006B3F; transform: translateY(-5px); 
-}
-.track-btn.playing i { color: var(--valtara-blanco); text-shadow: 0 0 15px #006B3F; transform: scale(1.2); }
-
-/* ------------------------------------------------------------------------------------
-   BOTONES FLOTANTES (FABS)
-   ------------------------------------------------------------------------------------ */
-.float-controls { position: fixed; bottom: 2.5rem; display: flex; flex-direction: column; gap: 1.5rem; z-index: 10000; }
-.float-left { left: 2.5rem; }
-.float-right { right: 2.5rem; }
+.float-controls { position: fixed; bottom: 3rem; display: flex; flex-direction: column; gap: 1.8rem; z-index: 10000; }
+.float-left { left: 3rem; }
+.float-right { right: 3rem; }
 .fab-btn { 
-    width: 4.5rem; height: 4.5rem; border-radius: 50%; display: flex; 
-    justify-content: center; align-items: center; font-size: 2rem; cursor: pointer; 
+    width: 5rem; height: 5rem; border-radius: 50%; display: flex; 
+    justify-content: center; align-items: center; font-size: 2.2rem; cursor: pointer; 
     text-decoration: none; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); border: none; 
+    position: relative; overflow: hidden;
 }
-.fab-aura { background: rgba(22, 64, 150, 0.9); color: var(--valtara-blanco); box-shadow: 0 1rem 2rem rgba(22, 64, 150, 0.4); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);}
-.fab-aura:hover { transform: translateY(-8px) scale(1.1); background: var(--valtara-blanco); color: #164096; }
-.fab-ws { background: #25D366; color: var(--valtara-negro-fondo); box-shadow: 0 1rem 2rem rgba(37, 211, 102, 0.3); }
-.fab-ws:hover { transform: translateY(-8px) scale(1.1); background: var(--valtara-blanco); color: #25D366; }
+/* Efecto de cristal para los Fabs */
+.fab-btn::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent); border-radius: 50%; pointer-events: none;}
+
+.fab-aura { background: var(--v-amatista); color: var(--valtara-blanco); box-shadow: 0 1rem 3rem rgba(178, 0, 255, 0.5), inset 0 0 15px rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.2);}
+.fab-aura:hover { transform: translateY(-10px) scale(1.1); background: var(--valtara-blanco); color: var(--v-amatista); box-shadow: 0 2rem 4rem rgba(178, 0, 255, 0.8); }
+
+.fab-ws { background: #25D366; color: var(--valtara-negro-fondo); box-shadow: 0 1rem 3rem rgba(37, 211, 102, 0.5), inset 0 0 15px rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.4);}
+.fab-ws:hover { transform: translateY(-10px) scale(1.1); background: var(--valtara-blanco); color: #25D366; box-shadow: 0 2rem 4rem rgba(37, 211, 102, 0.8); }
 
 /* ------------------------------------------------------------------------------------
-   CARRUSELES HORIZONTALES (PROMOCIONES Y ARTE)
+   6. CARRUSELES HORIZONTALES (PROMOCIONES Y ARTE - SCROLL PERFECTO)
    ------------------------------------------------------------------------------------ */
-.carousel-master-container { position: relative; width: 100%; margin: 0 auto; overflow: hidden; }
+.carousel-master-container { position: relative; width: 100%; margin: 0 auto; overflow: hidden; padding: 1rem 0;}
 .horizontal-carousel { 
     display: flex; overflow-x: auto; scroll-snap-type: x mandatory; 
-    gap: 2rem; padding: 1rem 1rem 3rem 1rem; scrollbar-width: none; scroll-behavior: smooth; 
+    gap: 2.5rem; padding: 1rem 1rem 4rem 1rem; scrollbar-width: none; scroll-behavior: smooth; 
 }
 .horizontal-carousel::-webkit-scrollbar { display: none; }
-.carousel-card { flex: 0 0 85%; max-width: 400px; scroll-snap-align: center; }
+.carousel-card { flex: 0 0 85%; max-width: 450px; scroll-snap-align: center; }
 
-.carousel-navigation { display: flex; justify-content: center; align-items: center; gap: 2rem; margin-top: 1rem; }
+.carousel-navigation { display: flex; justify-content: center; align-items: center; gap: 2.5rem; margin-top: 1rem; }
 .carousel-btn { 
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); 
-    color: var(--valtara-blanco); width: 3.5rem; height: 3.5rem; border-radius: 50%; 
-    font-size: 1.2rem; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s ease; 
+    color: var(--valtara-blanco); width: 4rem; height: 4rem; border-radius: 50%; 
+    font-size: 1.4rem; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s ease; 
+    backdrop-filter: blur(10px);
 }
-.carousel-btn:hover { background: var(--valtara-oro); color: #000; border-color: var(--valtara-oro); transform: scale(1.1); }
-.carousel-indicator { font-family: monospace; font-size: 1.2rem; color: #aaa; letter-spacing: 0.1rem; background: rgba(0,0,0,0.5); padding: 0.5rem 1.5rem; border-radius: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+.carousel-btn:hover { background: var(--ambient-primary); color: #000; border-color: var(--ambient-primary); transform: scale(1.15); box-shadow: 0 0 20px rgba(var(--ambient-primary), 0.5);}
+.carousel-indicator { font-family: monospace; font-size: 1.4rem; color: var(--valtara-blanco); letter-spacing: 0.2rem; background: rgba(0,0,0,0.6); padding: 0.8rem 2rem; border-radius: 2rem; border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 0 10px rgba(0,0,0,0.8);}
 
 /* ------------------------------------------------------------------------------------
-   RESPONSIVIDAD MÓVIL DE COMPONENTES
+   7. SONOTERAPIA & VISUALIZADOR DE AUDIO
+   ------------------------------------------------------------------------------------ */
+.canvas-audio-wrapper { 
+    width: 100%; height: 260px; background: rgba(5,5,10,0.8); 
+    border: 1px solid rgba(0, 191, 255, 0.3); /* Azul Talavera */
+    border-radius: 2rem; margin-bottom: 3.5rem; overflow: hidden; position: relative; 
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.9), 0 10px 30px rgba(0,191,255,0.15);
+}
+.audio-tracks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.8rem; }
+.track-btn { 
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); 
+    color: var(--valtara-blanco); padding: 1.8rem; border-radius: 1.5rem; 
+    display: flex; align-items: center; gap: 1.5rem; font-size: 1.15rem; font-weight: 700; 
+    cursor: pointer; transition: all 0.4s ease; text-align: left; 
+    backdrop-filter: blur(10px);
+}
+.track-btn i { font-size: 2rem; color: var(--v-azul-talavera); width: 2.5rem; text-align: center; transition: 0.3s; }
+.track-btn:hover, .track-btn.playing { 
+    background: rgba(0, 191, 255, 0.1); border-color: var(--v-azul-talavera); transform: translateY(-5px); 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+.track-btn.playing i { color: var(--valtara-blanco); text-shadow: 0 0 15px var(--v-azul-talavera); transform: scale(1.2); }
+
+/* ------------------------------------------------------------------------------------
+   8. RESPONSIVIDAD MÓVIL (COMPRESIÓN PERFECTA)
    ------------------------------------------------------------------------------------ */
 @media (max-width: 850px) {
-    .glass-card { padding: 2rem 1.5rem; border-radius: 1.5rem;}
-    .glass-card.zig-zag, .glass-card.zig-zag:nth-child(even) { flex-direction: column !important; gap: 1.5rem; padding: 1.5rem; }
-    .glass-card.zig-zag .card-icon-wrapper { flex: auto; min-height: 180px; font-size: 4rem; margin-bottom: 0; }
-    .card-meta-info { flex-direction: column; gap: 10px; text-align: center; align-items: stretch; padding: 1rem;}
+    .glass-card { padding: 2.5rem 1.8rem; border-radius: 1.8rem;}
+    .glass-card.zig-zag, .glass-card.zig-zag:nth-child(even) { flex-direction: column !important; gap: 2rem; padding: 1.8rem; }
+    .glass-card.zig-zag .card-icon-wrapper { flex: auto; min-height: 220px; font-size: 4.5rem; margin-bottom: 0; }
+    .card-meta-info { flex-direction: column; gap: 12px; text-align: center; align-items: stretch; padding: 1.5rem;}
     
-    .msg { max-width: 95%; padding: 1.2rem 1.5rem; font-size: 1.1rem; }
+    .msg { max-width: 95%; padding: 1.4rem 1.8rem; font-size: 1.1rem; }
     
     .float-controls { flex-direction: row; bottom: 1.5rem; }
     .float-left { left: 1.5rem; }
     .float-right { right: 1.5rem; }
-    .fab-btn { width: 4rem; height: 4rem; font-size: 1.8rem; }
+    .fab-btn { width: 4.2rem; height: 4.2rem; font-size: 1.8rem; }
     
-    .btn-primary, .btn-agenda-ahora { padding: 1.2rem 1.5rem; font-size: 1rem; }
-   }
+    .btn-primary, .btn-agenda-ahora { padding: 1.4rem 2rem; font-size: 1.1rem; }
+}
+
+/* ==========================================
+   PARCHES DE ESTABILIDAD
+   ========================================== */
+.close-btn, .close-modal-btn { min-width: 52px !important; min-height: 52px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; }
+.card-icon-wrapper i { max-width: 100% !important; height: auto !important; display: block !important; }
