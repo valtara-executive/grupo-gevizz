@@ -1,899 +1,345 @@
 @charset "UTF-8";
 /**
  * ====================================================================================
- * BLOQUE 3: COMPONENTES SOBERANOS V44.0 (CRISTAL DE HACIENDA Y ULTRA-LUJO)
+ * BLOQUE 3: COMPONENTES DE ULTRA-LUJO V53.0 (GRID ADAPTATIVO Y CRISTAL AHUMADO)
  * ------------------------------------------------------------------------------------
- * Arquitectura de interfaz de usuario. Todo elemento aquí está diseñado para 
- * interactuar con el fondo "Índigo Abisal" y las luces reactivas de las pirámides.
+ * - Arquitectura Flexbox y Grid: Las tarjetas NUNCA se enciman. Fluyen naturalmente.
+ * - Glassmorfismo Sólido: Fondos oscuros al 85% para máxima legibilidad.
+ * - Interacciones Ligeras: Cero keyframes pesados. Solo transiciones CSS puras.
  * ====================================================================================
  */
 
 /* ====================================================================================
-   1. BOTONES DE CONVERSIÓN (LLAMADAS A LA ACCIÓN Y HERRAMIENTAS)
+   1. BOTONES DE CONVERSIÓN (LLAMADAS A LA ACCIÓN)
    ==================================================================================== */
-
 .btn-primary, 
 .btn-agenda-ahora {
     position: relative;
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    gap: 1.2rem;
-    padding: 1.6rem 3rem;
-    border-radius: 4rem;
+    gap: 1rem;
+    padding: 1.2rem 2.5rem;
+    border-radius: 3rem;
     font-family: var(--font-main);
-    font-weight: 900;
-    font-size: 1.25rem;
+    font-weight: bold;
+    font-size: 1.15rem;
     text-transform: uppercase;
-    letter-spacing: 0.25rem;
+    letter-spacing: 0.15rem;
     text-decoration: none;
     cursor: pointer;
     overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    transform: translateZ(0); /* Aceleración de hardware */
+    transition: all 0.3s ease;
     z-index: 1;
 }
 
 /* El Botón Primario (Oro y Cristal Esmerilado) */
 .btn-primary {
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(10, 10, 15, 0.8) 100%);
+    background: rgba(15, 15, 20, 0.8);
     color: var(--valtara-oro-brillante);
     border: 1px solid rgba(242, 201, 76, 0.4);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.6), 
-        inset 0 0 20px rgba(212, 175, 55, 0.1);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
-
-/* Efecto de barrido de luz metálica */
-.btn-primary::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -150%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transform: skewX(-25deg);
-    transition: left 0.7s ease-in-out;
-    z-index: -1;
-}
-
-.btn-primary:hover, 
-.btn-primary:focus-visible {
+.btn-primary:hover, .btn-primary:focus-visible {
     background: var(--valtara-oro-brillante);
-    color: var(--valtara-negro-fondo);
+    color: #000;
     border-color: var(--valtara-blanco);
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 
-        0 20px 40px rgba(212, 175, 55, 0.4), 
-        inset 0 0 15px rgba(255, 255, 255, 0.8);
-}
-
-.btn-primary:hover::before {
-    left: 150%;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
 }
 
 /* Botón de WhatsApp (Conversión Directa) */
 .btn-agenda-ahora {
-    width: 100%;
-    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    background: #128C7E;
     color: var(--valtara-blanco);
     border: 1px solid #25D366;
-    border-top: 1px solid rgba(255, 255, 255, 0.4);
-    margin-top: auto;
-    box-shadow: 
-        0 15px 30px rgba(37, 211, 102, 0.3), 
-        inset 0 2px 10px rgba(255, 255, 255, 0.3);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
-
 .btn-agenda-ahora:hover {
-    background: var(--valtara-blanco);
-    color: #128C7E;
-    border-color: var(--valtara-blanco);
-    transform: translateY(-6px);
-    box-shadow: 0 20px 45px rgba(37, 211, 102, 0.5);
-    text-shadow: none;
+    background: #25D366;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
 }
-
-.btn-agenda-ahora i {
-    font-size: 1.5rem;
-}
+.btn-agenda-ahora i { font-size: 1.4rem; }
 
 /* ====================================================================================
-   2. TARJETAS DE CRISTAL (GLASSMORPHISM REACTIVO DE ALTA DENSIDAD)
+   2. TARJETAS DE CRISTAL AHUMADO (LA BASE DEL CATÁLOGO)
    ==================================================================================== */
-
 .glass-card {
-    /* Fondo semi-sólido oscuro para dar "peso" y evitar que se pierda con las pirámides */
-    background: linear-gradient(145deg, rgba(20, 20, 28, 0.75) 0%, rgba(8, 8, 12, 0.95) 100%);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    /* Fondo muy oscuro (85% opacidad) para que el texto resalte sobre el paisaje */
+    background: rgba(12, 12, 16, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     
-    /* Bisel de cristal (Simula grosor y refracción de luz) */
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-top: 1px solid rgba(255, 255, 255, 0.15);
-    border-left: 1px solid rgba(255, 255, 255, 0.08);
-    border-right: 1px solid rgba(0, 0, 0, 0.6);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.8);
     
-    border-radius: 2.5rem;
-    padding: 3.5rem;
+    padding: 3rem;
     display: flex;
     flex-direction: column;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    gap: 1.5rem;
     
-    /* Sombras masivas para flotar sobre el fondo */
-    box-shadow: 
-        0 25px 60px rgba(0, 0, 0, 0.8), 
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    transform: translateZ(0);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease, border-color 0.3s ease;
 }
-
-/* Efecto Reactivo al pasar el mouse (Absorbe la luz de la categoría) */
 .glass-card:hover {
+    transform: translateY(-5px);
     border-top-color: var(--ambient-primary);
-    border-left-color: rgba(var(--ambient-primary), 0.5);
-    transform: translateY(-12px);
-    box-shadow: 
-        0 35px 70px rgba(0, 0, 0, 0.9), 
-        0 0 40px rgba(0, 0, 0, 0.5), /* Sombreo ambiental */
-        inset 0 1px 20px rgba(255, 255, 255, 0.03);
-}
-
-/* Estructura Zig-Zag (Catálogo de Masajes y Ciencia) */
-.glass-card.zig-zag {
-    flex-direction: row;
-    align-items: stretch;
-    gap: 4rem;
-    padding: 2.5rem;
-}
-.glass-card.zig-zag:nth-child(even) {
-    flex-direction: row-reverse;
 }
 
 /* -----------------------------------------
-   2.1. Contenedores Internos de la Tarjeta
+   Estructura Zig-Zag (Catálogo Adaptativo)
+   CRÍTICO: flex-wrap permite que si la foto no cabe, baje el texto automáticamente
    ----------------------------------------- */
-   
-.card-icon-wrapper {
-    background: radial-gradient(circle at top left, rgba(40, 40, 50, 0.8) 0%, rgba(10, 10, 15, 0.95) 100%);
-    border-radius: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    display: flex;
+.glass-card.zig-zag {
+    flex-direction: row;
+    flex-wrap: wrap; /* La regla de oro: Si no cabe, baja */
     align-items: center;
-    justify-content: center;
-    color: var(--ambient-primary); /* Camaleónico */
-    font-size: 5rem;
-    position: relative;
+    gap: 3rem;
+}
+.glass-card.zig-zag:nth-child(even) {
+    flex-direction: row-reverse;
+    flex-wrap: wrap-reverse; /* Mantiene la armonía visual al romper la línea */
+}
+
+/* Contenedores Internos: Base flexible de 300px mínimo */
+.card-icon-wrapper, .card-content-wrapper {
+    flex: 1 1 300px;
+}
+
+.card-icon-wrapper {
+    border-radius: 15px;
     overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.9), 0 15px 30px rgba(0, 0, 0, 0.6);
+    position: relative;
+    min-height: 280px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.card-icon-wrapper img {
+    width: 100%; height: 100%; object-fit: cover;
 }
 
-.glass-card.zig-zag .card-icon-wrapper {
-    flex: 0 0 35%;
-    min-height: 300px;
-}
-
-.glass-card:not(.zig-zag) .card-icon-wrapper {
-    width: 100%;
-    height: 15rem;
-    margin-bottom: 2.5rem;
-    font-size: 6.5rem;
-}
-
-/* Pulso de luz interna en el icono al hacer hover */
-.glass-card:hover .card-icon-wrapper {
-    transform: scale(1.03);
-    border-color: var(--ambient-primary);
-    color: var(--valtara-blanco);
-    filter: drop-shadow(0 0 25px var(--ambient-primary));
-    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.9), 0 15px 30px rgba(0, 0, 0, 0.8);
-}
-
-.card-content-wrapper {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    z-index: 2;
-}
-
-/* Tipografía Interna */
+/* Tipografía de las tarjetas */
 .glass-card h3 {
-    font-size: 2.6rem;
+    font-size: 2.2rem;
     font-family: var(--font-accent);
-    margin-bottom: 1.2rem;
     color: var(--valtara-blanco);
     line-height: 1.2;
-    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.9);
-    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
 }
-
 .marketing-text {
-    font-size: 1.25rem;
-    color: rgba(230, 230, 240, 0.9);
-    line-height: 1.8;
-    margin-bottom: 2.5rem;
-    flex-grow: 1;
+    font-size: 1.15rem;
+    color: #ccc;
+    line-height: 1.7;
     text-align: justify;
     font-weight: 300;
 }
-
 .marketing-text strong {
     color: var(--valtara-blanco);
-    font-weight: 700;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    font-weight: bold;
 }
 
-/* Placa de Metadatos (Precio y Duración) */
+/* Placa de Precio y Duración */
 .card-meta-info {
     display: flex;
+    flex-wrap: wrap; /* Si el precio y el tiempo no caben juntos, se apilan */
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(90deg, rgba(5, 5, 10, 0.8) 0%, rgba(15, 15, 20, 0.6) 100%);
-    padding: 1.4rem 2.8rem;
-    border-radius: 1.5rem;
-    margin-bottom: 2.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-left: 3px solid var(--ambient-primary); /* Acento camaleónico */
-    box-shadow: inset 0 2px 15px rgba(0, 0, 0, 0.9);
+    gap: 1rem;
+    background: rgba(5, 5, 8, 0.6);
+    padding: 1.2rem 2rem;
+    border-radius: 12px;
+    border-left: 3px solid var(--ambient-primary);
 }
-
-.card-meta-info .duracion {
-    color: var(--valtara-gris-texto);
-    font-size: 1.2rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.card-meta-info .duracion i {
-    color: var(--ambient-primary);
-    font-size: 1.4rem;
-}
-
-.card-meta-info .precio {
-    color: var(--valtara-oro-brillante);
-    font-size: 1.6rem;
-    font-weight: 900;
-    letter-spacing: 1.5px;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
-}
+.card-meta-info .duracion { color: #aaa; font-weight: bold; font-size: 1.1rem; }
+.card-meta-info .duracion i { color: var(--ambient-primary); margin-right: 8px; }
+.card-meta-info .precio { color: var(--valtara-oro-brillante); font-size: 1.4rem; font-weight: 900; }
 
 /* ====================================================================================
-   3. AURA AI V44 (HUD BIOMECÁNICO Y CHAT DE CRISTAL)
+   3. AURA AI HUD (INTERFAZ DE CHAT DE IA)
    ==================================================================================== */
-
 .aura-container {
-    background: transparent;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-/* Ventana de Chat (Pantalla de Nave) */
+/* El cuadro principal del chat */
 .aura-chat-window {
-    background: linear-gradient(180deg, rgba(10, 10, 15, 0.6) 0%, rgba(5, 5, 8, 0.9) 100%);
-    border-radius: 25px;
-    border: 1px solid rgba(0, 255, 204, 0.15); /* Acento cian por defecto para IA */
+    background: rgba(10, 10, 15, 0.85);
+    border-radius: 20px;
+    border: 1px solid rgba(0, 255, 204, 0.15);
     border-top: 1px solid rgba(0, 255, 204, 0.3);
-    box-shadow: 
-        inset 0 0 60px rgba(0, 0, 0, 0.8), 
-        0 15px 40px rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    position: relative;
-    overflow: hidden;
-    flex: 1;
+    backdrop-filter: blur(15px);
+    flex: 1; /* Ocupa todo el espacio disponible hacia abajo */
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
-/* Rejilla de diagnóstico médico en el fondo de Aura */
-.aura-chat-window::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-image: 
-        linear-gradient(rgba(0, 255, 204, 0.04) 1px, transparent 1px), 
-        linear-gradient(90deg, rgba(0, 255, 204, 0.04) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-}
-
-/* Área de mensajes scrolleable */
 #aura-chat {
     flex: 1;
     overflow-y: auto;
     padding: 2rem;
-    display: none; /* Se oculta hasta el primer mensaje */
+    display: none;
     flex-direction: column;
-    gap: 2rem;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 255, 204, 0.4) transparent;
+    gap: 1.5rem;
 }
 
-/* -----------------------------------------
-   3.1. Burbujas de Mensaje (Holográficas)
-   ----------------------------------------- */
+/* Burbujas de Mensaje */
 .msg {
     max-width: 85%;
-    padding: 1.8rem 2.5rem;
-    font-size: 1.25rem;
-    line-height: 1.7;
-    border-radius: 2rem;
-    position: relative;
-    z-index: 1;
-    animation: fadeInMsg 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    opacity: 0;
-    transform: translateY(20px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    padding: 1.5rem 2rem;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    border-radius: 1.5rem;
+    animation: fadeInMsg 0.3s ease forwards;
 }
-@keyframes fadeInMsg { 
-    to { opacity: 1; transform: translateY(0); } 
-}
+@keyframes fadeInMsg { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Aura (La IA) - Verde Cian Neón */
+/* Mensaje del Robot (Cian) */
 .msg.bot {
-    background: linear-gradient(135deg, rgba(0, 255, 204, 0.1) 0%, rgba(5, 10, 15, 0.8) 100%);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(0, 255, 204, 0.25);
+    background: rgba(5, 10, 15, 0.8);
+    border: 1px solid rgba(0, 255, 204, 0.2);
     border-left: 4px solid var(--valtara-cian-brillante);
     align-self: flex-start;
-    border-bottom-left-radius: 0.5rem;
+    border-bottom-left-radius: 5px;
     color: var(--valtara-blanco);
 }
-
-/* Insignia visual del bot */
-.msg.bot::before {
-    content: '\f0e7'; /* fa-bolt */
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-    position: absolute;
-    top: -15px;
-    left: -15px;
-    background: var(--valtara-negro-fondo);
-    color: var(--valtara-cian-brillante);
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    border: 1px solid var(--valtara-cian-brillante);
-    box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
-}
-
-/* Usuario (El Paciente) - Oro Brillante */
+/* Mensaje del Usuario (Oro) */
 .msg.user {
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(15, 10, 5, 0.8) 100%);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(212, 175, 55, 0.3);
+    background: rgba(20, 15, 5, 0.8);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     border-right: 4px solid var(--valtara-oro-brillante);
     align-self: flex-end;
-    border-bottom-right-radius: 0.5rem;
+    border-bottom-right-radius: 5px;
     color: #FFF9E6;
 }
 
-/* -----------------------------------------
-   3.2. Controles de Entrada (Panel de Mando)
-   ----------------------------------------- */
+/* Controles de escritura */
 .aura-controls {
-    padding: 1.8rem;
-    background: rgba(5, 5, 10, 0.85) !important;
-    border-radius: 2.5rem !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+    padding: 1.5rem;
+    background: rgba(5, 5, 10, 0.95);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
     align-items: center;
-    backdrop-filter: blur(25px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8) !important;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
 }
-
 #aura-input {
     flex-grow: 1;
-    padding: 1.6rem 2.8rem;
-    border-radius: 4rem;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    background: rgba(0, 0, 0, 0.7) !important;
-    color: var(--valtara-blanco) !important;
-    font-size: 1.25rem !important;
+    padding: 1.2rem 2rem;
+    border-radius: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--valtara-blanco);
+    font-size: 1.1rem;
     outline: none;
-    transition: all 0.4s ease;
-    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.8);
+    transition: border-color 0.3s;
 }
+#aura-input:focus { border-color: var(--valtara-cian-brillante); }
 
-#aura-input:focus {
-    border-color: var(--valtara-cian-brillante) !important;
-    background: rgba(0, 255, 204, 0.05) !important;
-    box-shadow: 
-        0 0 25px rgba(0, 255, 204, 0.2), 
-        inset 0 0 15px rgba(0, 0, 0, 0.9) !important;
-}
-
-/* Botones del HUD */
 #aura-send-btn, #aura-mic-btn {
-    width: 4.8rem !important;
-    height: 4.8rem !important;
-    border-radius: 50% !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.8rem !important;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 4rem; height: 4rem; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    font-size: 1.4rem; cursor: pointer; border: none; transition: transform 0.2s;
 }
-
-#aura-send-btn {
-    background: var(--valtara-oro-brillante) !important;
-    color: #000 !important;
-    border: none;
-    box-shadow: 0 8px 20px rgba(242, 201, 76, 0.4) !important;
-}
-#aura-send-btn:hover {
-    transform: scale(1.12) rotate(15deg);
-    box-shadow: 0 12px 30px rgba(242, 201, 76, 0.8) !important;
-}
-
-#aura-mic-btn {
-    background: rgba(0, 255, 204, 0.05) !important;
-    color: var(--valtara-cian-brillante) !important;
-    border: 1px solid var(--valtara-cian-brillante) !important;
-}
-#aura-mic-btn:hover {
-    background: var(--valtara-cian-brillante) !important;
-    color: #000 !important;
-    transform: scale(1.1);
-    box-shadow: 0 0 25px rgba(0, 255, 204, 0.5);
-}
+#aura-send-btn { background: var(--valtara-oro-brillante); color: #000; }
+#aura-send-btn:hover { transform: scale(1.1); }
+#aura-mic-btn { background: rgba(0, 255, 204, 0.1); color: var(--valtara-cian-brillante); border: 1px solid var(--valtara-cian-brillante); }
 
 /* ====================================================================================
-   4. BÓVEDA DEL PACIENTE (SELECCIÓN MÚLTIPLE DE AROMAS)
+   4. BÓVEDA DEL PACIENTE (GRID ADAPTATIVO PARA AROMAS)
    ==================================================================================== */
-
 .aroma-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    /* MAGIA GRID: Si la pantalla es chica, mete menos columnas, si es grande, mete más */
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 1.5rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
 }
 
 .aroma-grid label {
-    background: linear-gradient(180deg, rgba(25, 25, 30, 0.8) 0%, rgba(10, 10, 15, 0.9) 100%);
+    background: rgba(20, 20, 25, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 1.5rem;
-    padding: 2rem 1rem;
+    border-radius: 15px;
+    padding: 1.5rem 1rem;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+    display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    transition: all 0.3s ease; text-align: center;
 }
+.aroma-grid label span { color: #aaa; font-weight: bold; font-size: 1rem; }
+.aroma-grid label i { font-size: 2rem; }
 
-/* Resplandor base oculto */
-.aroma-grid label::before {
-    content: '';
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 0; height: 0;
-    background: var(--valtara-cian-brillante); /* Color de acento para la selección */
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
-    z-index: 0;
-}
-
-.aroma-grid label i, 
-.aroma-grid label span {
-    position: relative;
-    z-index: 1;
-    transition: all 0.3s ease;
-}
-
-.aroma-grid label span {
-    font-size: 1.05rem;
-    color: var(--valtara-gris-texto);
-    font-weight: 700;
-    text-align: center;
-}
-
-.aroma-grid label i {
-    font-size: 2.2rem;
-    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8));
-}
-
-/* Interacción Hover */
-.aroma-grid label:hover {
-    border-color: rgba(0, 255, 204, 0.4);
-    transform: translateY(-5px);
-}
-
-/* ESTADO SELECCIONADO (Multi-Select Ready V44) */
+/* ESTADO SELECCIONADO (Checkbox oculto) */
 .aroma-grid label:has(input:checked) {
+    background: rgba(0, 255, 204, 0.1);
     border-color: var(--valtara-cian-brillante);
-    transform: translateY(-8px);
-    box-shadow: 
-        0 15px 30px rgba(0, 0, 0, 0.8), 
-        0 0 25px rgba(0, 255, 204, 0.3);
+    transform: translateY(-4px);
 }
-
-.aroma-grid label:has(input:checked)::before {
-    width: 200%;
-    height: 200%;
-    opacity: 0.15; /* Resplandor interno expansivo */
-}
-
-.aroma-grid label:has(input:checked) span {
-    color: var(--valtara-blanco);
-    text-shadow: 0 0 10px rgba(0, 255, 204, 0.8);
-}
-
-.aroma-grid label:has(input:checked) i {
-    transform: scale(1.25);
-    filter: drop-shadow(0 0 15px var(--valtara-cian-brillante));
-}
+.aroma-grid label:has(input:checked) span { color: var(--valtara-blanco); }
+.aroma-grid label:has(input:checked) i { filter: drop-shadow(0 0 10px currentColor); }
 
 /* ====================================================================================
    5. BOTONES FLOTANTES (SMART FABS)
    ==================================================================================== */
 .float-controls {
-    position: fixed;
-    bottom: 3.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    z-index: 10000;
+    position: fixed; bottom: 3rem; display: flex; flex-direction: column; gap: 1.5rem; z-index: 1500;
 }
-.float-left { left: 3.5rem; }
-.float-right { right: 3.5rem; }
+.float-right { right: 3rem; }
 
 .fab-btn {
-    width: 5.5rem;
-    height: 5.5rem;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2.4rem;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
-    overflow: hidden;
+    width: 4.5rem; height: 4.5rem; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    font-size: 2rem; cursor: pointer; text-decoration: none;
+    transition: transform 0.3s ease;
 }
-
-/* Reflejo de cristal curvo sobre el botón circular */
-.fab-btn::before {
-    content: ''; position: absolute; top: 0; left: 0;
-    width: 100%; height: 50%;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
-    border-radius: 50% 50% 0 0;
-    pointer-events: none;
-}
-
-/* FAB Aura AI */
-.fab-aura {
-    background: linear-gradient(135deg, var(--v-amatista) 0%, #6b0099 100%);
-    color: var(--valtara-blanco);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 
-        0 15px 35px rgba(178, 0, 255, 0.6), 
-        inset 0 -5px 15px rgba(0, 0, 0, 0.5);
-}
-.fab-aura:hover {
-    transform: translateY(-12px) scale(1.1);
-    background: var(--valtara-blanco);
-    color: var(--v-amatista);
-    box-shadow: 0 25px 50px rgba(178, 0, 255, 0.9);
-}
-
-/* FAB WhatsApp */
-.fab-ws {
-    background: linear-gradient(135deg, #25D366 0%, #1da851 100%);
-    color: var(--valtara-blanco);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 
-        0 15px 35px rgba(37, 211, 102, 0.6), 
-        inset 0 -5px 15px rgba(0, 0, 0, 0.3);
-}
-.fab-ws:hover {
-    transform: translateY(-12px) scale(1.1);
-    background: var(--valtara-blanco);
-    color: #25D366;
-    box-shadow: 0 25px 50px rgba(37, 211, 102, 0.9);
-}
+.fab-aura { background: var(--v-amatista); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+.fab-ws { background: #25D366; color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+.fab-btn:hover { transform: translateY(-5px) scale(1.05); }
 
 /* ====================================================================================
-   6. CARRUSELES (DESPLAZAMIENTO SUAVE Y MARCOS DE GALERÍA)
-   ==================================================================================== */
-.carousel-master-container {
-    position: relative;
-    width: 100%;
-    margin: 0 auto;
-    overflow: hidden;
-    padding: 2rem 0;
-}
-
-.horizontal-carousel {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 3rem;
-    padding: 1rem 2rem 4rem 2rem;
-    scrollbar-width: none; /* Ocultar scrollbar en Firefox */
-    scroll-behavior: smooth;
-}
-.horizontal-carousel::-webkit-scrollbar { display: none; } /* Ocultar scrollbar en Chrome */
-
-/* Marcos de Galería para imágenes */
-.carousel-card {
-    flex: 0 0 85%;
-    max-width: 480px;
-    scroll-snap-align: center;
-    border-radius: 2rem;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
-    position: relative;
-    background: #000;
-}
-
-/* Controles de Navegación del Carrusel */
-.carousel-navigation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 3rem;
-    margin-top: 1rem;
-}
-
-.carousel-btn {
-    background: rgba(25, 25, 30, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--valtara-blanco);
-    width: 4.5rem;
-    height: 4.5rem;
-    border-radius: 50%;
-    font-size: 1.6rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    backdrop-filter: blur(10px);
-}
-.carousel-btn:hover {
-    background: var(--ambient-primary); /* Color dinámico */
-    color: #000;
-    border-color: var(--ambient-primary);
-    transform: scale(1.15);
-    box-shadow: 0 0 25px rgba(var(--ambient-primary), 0.6);
-}
-
-.carousel-indicator {
-    font-family: monospace;
-    font-size: 1.4rem;
-    color: var(--valtara-blanco);
-    letter-spacing: 0.2rem;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 1rem 2.5rem;
-    border-radius: 3rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
-}
-
-/* ====================================================================================
-   7. SONOTERAPIA & VISUALIZADOR DE AUDIO
-   ==================================================================================== */
-.canvas-audio-wrapper {
-    width: 100%;
-    height: 280px;
-    background: linear-gradient(180deg, rgba(10, 10, 15, 0.8) 0%, rgba(5, 5, 8, 0.95) 100%);
-    border: 1px solid rgba(0, 191, 255, 0.3); /* Azul Talavera fijo */
-    border-radius: 2.5rem;
-    margin-bottom: 4rem;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 
-        inset 0 0 60px rgba(0, 0, 0, 0.9), 
-        0 15px 40px rgba(0, 191, 255, 0.2);
-}
-
-.audio-tracks-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-}
-
-.track-btn {
-    background: rgba(20, 20, 25, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--valtara-blanco);
-    padding: 2rem;
-    border-radius: 1.8rem;
-    display: flex;
-    align-items: center;
-    gap: 1.8rem;
-    font-size: 1.25rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    text-align: left;
-    backdrop-filter: blur(10px);
-}
-
-.track-btn i {
-    font-size: 2.2rem;
-    color: var(--v-azul-talavera);
-    width: 3rem;
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-.track-btn:hover, 
-.track-btn.playing {
-    background: rgba(0, 191, 255, 0.15);
-    border-color: var(--v-azul-talavera);
-    transform: translateY(-8px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
-}
-
-.track-btn.playing i {
-    color: var(--valtara-blanco);
-    text-shadow: 0 0 20px var(--v-azul-talavera);
-    transform: scale(1.3);
-}
-
-/* ====================================================================================
-   8. MODALES GLOBALES (POLÍTICAS Y AVISOS)
-   ==================================================================================== */
-.modal-dialog {
-    margin: auto;
-    background: linear-gradient(135deg, rgba(20, 20, 25, 0.95) 0%, rgba(5, 5, 8, 0.98) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 2.5rem;
-    padding: 0;
-    color: var(--valtara-blanco);
-    box-shadow: 0 5rem 10rem rgba(0, 0, 0, 0.95), inset 0 0 30px rgba(255, 255, 255, 0.05);
-    opacity: 0;
-    transform: translateY(50px) scale(0.95);
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
-    width: 90%;
-    max-width: 600px;
-}
-
-.modal-dialog[open] {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-}
-
-.modal-dialog::backdrop {
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(12px);
-    opacity: 0;
-    transition: opacity 0.6s ease;
-}
-.modal-dialog[open]::backdrop { opacity: 1; }
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 3rem 3.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 100%);
-}
-
-.modal-header h3 {
-    font-size: 1.8rem;
-    font-family: var(--font-accent);
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-    margin: 0;
-}
-
-.modal-body {
-    padding: 3.5rem;
-    overflow-y: auto;
-    max-height: 60vh;
-    font-size: 1.15rem;
-    color: #ccc;
-    line-height: 1.8;
-}
-
-/* ====================================================================================
-   9. SCROLLBARS ELEGANTES (WEBKIT)
-   ==================================================================================== */
-::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
-::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-}
-::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    border: 2px solid rgba(0, 0, 0, 0.3); /* Simula padding interno */
-}
-::-webkit-scrollbar-thumb:hover {
-    background: var(--ambient-primary, var(--valtara-oro-brillante));
-}
-
-/* ====================================================================================
-   10. RESPONSIVIDAD MÓVIL DE ULTRA-PRECISIÓN
+   6. RESPONSIVIDAD ESTRICTA (MÓVILES)
    ==================================================================================== */
 @media (max-width: 850px) {
-    /* Tarjetas y Contenedores */
-    .glass-card { padding: 2.5rem 1.8rem; border-radius: 2rem; }
-    .glass-card.zig-zag, 
-    .glass-card.zig-zag:nth-child(even) { 
-        flex-direction: column !important; gap: 2.5rem; padding: 2rem; 
+    /* Las tarjetas reducen sus espacios internos en móviles */
+    .glass-card { padding: 2rem 1.5rem; border-radius: 15px; }
+    
+    /* El Zig-Zag se apila verticalmente de forma limpia */
+    .glass-card.zig-zag, .glass-card.zig-zag:nth-child(even) {
+        flex-direction: column;
+        gap: 1.5rem;
     }
-    .glass-card.zig-zag .card-icon-wrapper { 
-        flex: auto; min-height: 240px; font-size: 5rem; margin-bottom: 0; 
-    }
+    .card-icon-wrapper { min-height: 220px; width: 100%; }
     
-    /* Tipografía en Tarjetas */
-    .glass-card h3 { font-size: 2.2rem; text-align: center; }
-    .marketing-text { font-size: 1.15rem; }
+    /* Tipografía Móvil */
+    .glass-card h3 { font-size: 1.8rem; text-align: center; }
+    .marketing-text { font-size: 1.1rem; }
     
-    /* Placa de Precios */
-    .card-meta-info { 
-        flex-direction: column; gap: 15px; text-align: center; 
-        align-items: stretch; padding: 1.8rem; border-left: none; border-top: 3px solid var(--ambient-primary);
-    }
-    .card-meta-info .duracion { justify-content: center; }
+    /* Ajuste de Precios */
+    .card-meta-info { flex-direction: column; text-align: center; padding: 1.5rem; }
     
-    /* Botones Principales */
-    .btn-primary, .btn-agenda-ahora { padding: 1.5rem 2rem; font-size: 1.15rem; }
+    /* Botones Móviles */
+    .btn-primary, .btn-agenda-ahora { padding: 1.2rem 1.5rem; font-size: 1rem; width: 100%; justify-content: center; }
     
-    /* Aura AI Mobile */
-    .msg { max-width: 92%; padding: 1.5rem 2rem; font-size: 1.15rem; }
-    #aura-chat { padding: 1.5rem 1rem; }
-    .aura-controls { padding: 1.2rem; flex-wrap: wrap; justify-content: center; gap: 1rem;}
-    #aura-input { width: 100%; flex: none; order: -1; margin-bottom: 0.5rem;}
+    /* Aura Chat Ajuste Móvil */
+    .msg { max-width: 95%; padding: 1.2rem 1.5rem; font-size: 1.05rem; }
+    #aura-chat { padding: 1rem; gap: 1rem; }
+    .aura-controls { flex-wrap: wrap; padding: 1rem; }
+    #aura-input { width: 100%; order: -1; margin-bottom: 0.5rem; }
     
-    /* Smart FABs */
-    .float-controls { flex-direction: row; bottom: 2rem; }
-    .float-left { left: 2rem; }
-    .float-right { right: 2rem; }
-    .fab-btn { width: 4.8rem; height: 4.8rem; font-size: 2rem; }
-    
-    /* Modales */
-    .modal-header { padding: 2rem; }
-    .modal-body { padding: 2rem; }
+    /* Botones Flotantes */
+    .float-controls { bottom: 1.5rem; }
+    .float-right { right: 1.5rem; }
+    .fab-btn { width: 4rem; height: 4rem; font-size: 1.6rem; }
 }
 
 /* ====================================================================================
-   11. PARCHES DE ESTABILIDAD
+   7. UTILIDADES DE COMPATIBILIDAD
    ==================================================================================== */
-.close-btn, .close-modal-btn { 
-    min-width: 56px !important; min-height: 56px !important; 
-    display: inline-flex !important; align-items: center !important; justify-content: center !important; 
-}
-.card-icon-wrapper i { max-width: 100% !important; height: auto !important; display: block !important; }
+.sr-only { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
+img { max-width: 100%; height: auto; display: block; }
