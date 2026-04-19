@@ -1,16 +1,31 @@
 /**
  * ====================================================================================
- * BLOQUE 6: ROUTER ENGINE V39.0 (CLEAN URLS & ANTI-PANTALLA NEGRA)
- * Enrutamiento History API (Sin "#") con Mapeo SEO Bidireccional.
+ * BLOQUE 6: MOTOR DE ENRUTAMIENTO SOBERANO V42.0 (SPA & SMART BREADCRUMBS)
+ * Control de vistas dedicadas, historial de navegación interno y gatillo visual.
+ * Diseñado para Valtara Executive Therapy.
  * ====================================================================================
  */
 
 const Router = {
-    // Los IDs internos de tus secciones (No tocamos esto para no romper tu HTML)
-    routes: ['home', 'restoration', 'beauty', 'sonotherapy', 'science', 'legal'],
+    // 1. REGISTRO MAESTRO DE VISTAS (El ecosistema completo)
+    // Si una vista no está aquí, el router la bloquea por seguridad.
+    routes: [
+        'home', 
+        'restoration', 
+        'beauty', 
+        'sonotherapy', 
+        'science', 
+        'legal', 
+        'aura',         // NUEVO: Vista dedicada de IA
+        'user-vault'    // NUEVO: Bóveda del paciente
+    ],
     
-    // 1. MAPEO DE ENTRADA (URL Limpia -> ID de Vista Interna)
-    // Esto le dice a Google y al navegador qué sección abrir cuando alguien entra a la URL
+    // 2. MEMORIA DE NAVEGACIÓN (Para la flecha de "Volver")
+    historyStack: [],
+    currentRoute: 'home',
+
+    // 3. MAPEO SEO BIDIRECCIONAL (URL Limpia <-> ID Interno)
+    // Permite que Google indexe páginas completas aunque sea una SPA.
     pathToViewMap: {
         '/': 'home',
         '/catalogo-masajes': 'restoration',
@@ -18,138 +33,156 @@ const Router = {
         '/sonoterapia': 'sonotherapy',
         '/ciencia-y-botanica': 'science',
         '/politicas': 'legal',
+        '/aura-ai-triaje': 'aura',
+        '/boveda-paciente': 'user-vault',
         
-        // Redirecciones SEO históricas (Las mantenemos por si alguien guardó estos links)
+        // Redirecciones SEO históricas (Antiguos links guardados)
         '/masaje-deportivo-reforma': 'restoration',
         '/liberacion-miofascial-cdmx': 'restoration',
         '/terapia-biomecanica-ejecutiva': 'restoration',
-        '/catalogo-masajes-clinicos': 'restoration',
         '/art-and-nails-estudio': 'beauty',
-        '/sonoterapia-y-meditacion': 'sonotherapy',
-        '/ciencia-neurobiologia-del-dolor': 'science',
-        '/herbario-clinico-aceites-esenciales': 'science',
-        '/ergonomia-y-tejido-hidratado': 'science',
-        '/manifiesto-codex-valtara': 'legal',
-        '/politicas-privacidad-y-legal': 'legal'
+        '/ciencia-neurobiologia-del-dolor': 'science'
     },
 
-    // 2. MAPEO DE SALIDA (ID de Vista Interna -> URL Limpia)
-    // Esto es lo que se escribirá en la barra de direcciones sin recargar la página
-    viewToPathMap: {
-        'home': '/',
-        'restoration': '/catalogo-masajes',
-        'beauty': '/estudio-manicura',
-        'sonotherapy': '/sonoterapia',
-        'science': '/ciencia-y-botanica',
-        'legal': '/politicas'
-    },
+    // Invertimos el mapa para generar URLs limpias al navegar
+    viewToPathMap: {},
 
+    // ====================================================================================
+    // INICIALIZACIÓN DEL NÚCLEO
+    // ====================================================================================
     init: function() {
-        this.bindEvents();
-        
-        // Intercepción del archivo 404.html (El hack de la PWA para GitHub Pages)
-        const redirectUrl = sessionStorage.redirect;
-        delete sessionStorage.redirect; 
+        console.log("[VALTARA ROUTER V42] Iniciando Enrutador Soberano...");
 
-        if (redirectUrl) {
-            const urlObj = new URL(redirectUrl);
-            const path = urlObj.pathname; 
-            
-            // Buscar la vista que corresponde a la URL limpia
-            const targetView = this.pathToViewMap[path];
-            if (targetView) {
-                this.navigate(targetView, false); // false = no duplicar en historial
-            } else {
-                this.navigate('home', false); 
+        // Construir mapa inverso (ID Interno -> URL)
+        for (const [path, view] of Object.entries(this.pathToViewMap)) {
+            if (!this.viewToPathMap[view] || path.length < this.viewToPathMap[view].length) {
+                this.viewToPathMap[view] = path; 
             }
-        } else {
-            // Entrada normal (Ej: el usuario escribió valtaraexecutive.com/politicas)
-            this.handleRoute();
         }
 
-        // Escuchar los botones "Atrás/Adelante" del navegador móvil/escritorio
-        window.addEventListener('popstate', () => this.handleRoute());
-    },
-
-    bindEvents: function() {
+        // Interceptar clics en todos los botones de navegación
         document.body.addEventListener('click', (e) => {
-            const link = e.target.closest('[data-target]');
-            if(link) {
+            const navBtn = e.target.closest('[data-target]');
+            if (navBtn) {
                 e.preventDefault();
-                // Extrae el ID interno (ej. 'restoration')
-                const target = link.getAttribute('data-target');
-                this.navigate(target);
-                
-                // Cierra el menú móvil si estaba abierto
-                const nav = document.getElementById('main-nav');
-                if(nav && nav.classList.contains('open')) {
-                    document.getElementById('menu-close-btn').click();
-                }
+                const targetView = navBtn.getAttribute('data-target');
+                this.navigate(targetView);
             }
         });
+
+        // Escuchar el botón "Atrás" del navegador del teléfono/PC
+        window.addEventListener('popstate', (e) => {
+            if (e.state && e.state.view) {
+                this.navigate(e.state.view, true, true);
+            } else {
+                this.navigateFromURL(true);
+            }
+        });
+
+        // Primera carga: Leer la URL y abrir la sección correcta
+        this.navigateFromURL(false);
     },
 
-    handleRoute: function() {
-        // LEEMOS LA RUTA REAL (Pathname) EN VEZ DEL HASH (#)
-        const currentPath = window.location.pathname;
-        
-        // Identificamos qué vista renderizar basándonos en el mapeo
-        let targetView = this.pathToViewMap[currentPath];
-        
-        // Si no existe la ruta (Ej: escribieron algo mal), mandamos al inicio
-        if(!targetView || !this.routes.includes(targetView)) {
-            targetView = 'home';
+    // ====================================================================================
+    // LÓGICA DE NAVEGACIÓN (LA MAGIA DE TRANSICIÓN)
+    // ====================================================================================
+    navigate: function(viewId, isBackAction = false, isPopState = false) {
+        // Validación de seguridad
+        if (!this.routes.includes(viewId)) {
+            console.error(`[ROUTER] Intento de acceso a ruta fantasma: ${viewId}. Redirigiendo a home.`);
+            viewId = 'home';
         }
-        
-        this.renderView(targetView);
-    },
 
-    navigate: function(target, updateHistory = true) {
-        if(!this.routes.includes(target)) return;
-        
-        // Convertimos el ID interno (ej. 'beauty') a su URL oficial (ej. '/estudio-manicura')
-        const cleanPath = this.viewToPathMap[target] || '/';
+        // Evitar recargar la misma vista
+        if (this.currentRoute === viewId && this.historyStack.length > 0) return;
 
-        if(updateHistory) {
-            // MAGIA: Cambia la URL visible en el navegador SIN usar "#" y SIN recargar la página
-            window.history.pushState(null, null, cleanPath);
+        console.log(`[ROUTER] Transicionando hacia: ${viewId}`);
+
+        // 1. GESTIÓN DEL HISTORIAL (MIGAJAS DE PAN)
+        if (!isBackAction && this.currentRoute !== viewId) {
+            // Guardamos dónde estábamos antes de ir a la nueva vista
+            this.historyStack.push(this.currentRoute);
         }
-        this.renderView(target);
-    },
+        this.currentRoute = viewId;
 
-    // LA SOLUCIÓN DEFINITIVA A LA PANTALLA NEGRA
-    renderView: function(viewId) {
-        window.scrollTo({ top: 0, behavior: 'instant' });
+        // 2. ACTUALIZACIÓN DE LA URL (Sin recargar la página)
+        if (!isPopState) {
+            const newPath = this.viewToPathMap[viewId] || '/';
+            history.pushState({ view: viewId }, '', newPath);
+        }
 
-        // 1. Apagado estricto
+        // 3. APAGADO DE TODAS LAS VISTAS
         document.querySelectorAll('.view-section').forEach(section => {
             section.classList.remove('active');
             section.style.opacity = '0';
             section.style.display = 'none';
         });
 
-        // 2. Encendido forzado
+        // 4. ENCENDIDO DE LA VISTA OBJETIVO Y GATILLO VISUAL
         const activeSection = document.getElementById(`view-${viewId}`);
-        if(activeSection) {
+        if (activeSection) {
             activeSection.style.display = 'block';
             
-            // Forzar al navegador a pintar el DOM antes de animar (Evita Black Screen of Death)
+            // FORZADO DE RENDERIZADO (El antídoto para el bug de Android)
+            // Obliga al navegador a repintar el DOM, asegurando que el CSS :has() 
+            // cambie los colores del fondo (Pirámides, Sol, Esferas).
             window.requestAnimationFrame(() => {
                 window.requestAnimationFrame(() => {
                     activeSection.classList.add('active');
                     activeSection.style.opacity = '1';
+                    
+                    // Inyección de estado en el body por seguridad
+                    document.body.setAttribute('data-vista-activa', viewId);
                 });
             });
 
-            if(window.A11yEngine) A11yEngine.announce(`Pantalla cambiada a: ${activeSection.getAttribute('aria-label')}`);
-            this.updateMenuHighlight(viewId);
+            // 5. ACCESIBILIDAD Y EXPERIENCIA
+            if (window.A11yEngine) {
+                A11yEngine.announce(`Pantalla cambiada a: ${activeSection.getAttribute('aria-label')}`);
+            }
             
-            if(viewId === 'sonotherapy' && window.AuraEngine) {
+            this.updateMenuHighlight(viewId);
+            this.closeSidebarOnMobile();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // 6. TRIGGERS ESPECÍFICOS POR SECCIÓN
+            if (viewId === 'sonotherapy' && window.AuraEngine) {
                 setTimeout(() => {
-                    AuraEngine.appendMsg("Para una inmersión biomecánica total en la sala de acústica, recomiendo el uso de auriculares de alta fidelidad.", "bot");
-                }, 1000);
+                    AuraEngine.appendMsg("Para una inmersión biomecánica total en la sala de acústica, recomiendo el uso de auriculares de alta fidelidad con cancelación de ruido.", "bot");
+                }, 1500);
+            }
+            if (viewId === 'aura' && window.AuraEngine) {
+                setTimeout(() => {
+                    document.getElementById('aura-input').focus();
+                }, 800);
             }
         }
+    },
+
+    // ====================================================================================
+    // EL BOTÓN "VOLVER" (SISTEMA DE RETORNO INTELIGENTE)
+    // ====================================================================================
+    goBack: function() {
+        if (this.historyStack.length > 0) {
+            // Sacamos la última vista visitada
+            const previousView = this.historyStack.pop();
+            console.log(`[ROUTER] Retornando a la vista anterior: ${previousView}`);
+            // Navegamos hacia ella marcándola como acción de retorno para no crear un loop
+            this.navigate(previousView, true);
+        } else {
+            // Si no hay historial (ej. entró directo a Aura por un link), lo mandamos a Home
+            console.log(`[ROUTER] No hay historial. Retornando al santuario principal.`);
+            this.navigate('home', true);
+        }
+    },
+
+    // ====================================================================================
+    // UTILIDADES DEL ENRUTADOR
+    // ====================================================================================
+    navigateFromURL: function(isPopState = false) {
+        const currentPath = window.location.pathname;
+        const viewId = this.pathToViewMap[currentPath] || 'home';
+        this.navigate(viewId, false, isPopState);
     },
 
     updateMenuHighlight: function(viewId) {
@@ -159,7 +192,15 @@ const Router = {
                 item.classList.add('active');
             }
         });
+    },
+
+    closeSidebarOnMobile: function() {
+        const sideMenu = document.getElementById('main-nav');
+        if (sideMenu && sideMenu.classList.contains('open')) {
+            sideMenu.classList.remove('open');
+        }
     }
 };
 
+// Arrancar el motor en cuanto el DOM esté listo
 window.addEventListener('DOMContentLoaded', () => Router.init());
