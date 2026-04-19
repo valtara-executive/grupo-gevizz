@@ -1,11 +1,11 @@
 @charset "UTF-8";
 /**
  * ====================================================================================
- * BLOQUE 2: MOTOR VISUAL MODULAR V53.0 (PAISAJES ESTÁTICOS Y ULTRA-LUJO)
+ * BLOQUE 2: MOTOR VISUAL MAESTRO V60.0 (PAISAJES DINÁMICOS Y FLUIDEZ ABSOLUTA)
  * ------------------------------------------------------------------------------------
- * - Cero animaciones pesadas (Anti-calentamiento de CPU).
- * - Paisajes Radiales de Color que mutan según la sección activa.
- * - Blindaje de Menús y Modales (Cero transparencias indeseadas).
+ * - Scroll natural restaurado (Cero bloqueos rígidos indeseados).
+ * - Paisajes Radiales: El fondo ya no es negro; es un abismo iluminado.
+ * - Conexión total con el Router y los Módulos de Valtara.
  * ====================================================================================
  */
 
@@ -16,16 +16,17 @@
     --valtara-blanco: #ffffff;
     --valtara-gris-texto: #e2e2e8;
     
-    /* COLORES DE SECCIÓN */
+    /* ACENTOS BIOMECÁNICOS */
     --v-rosa-mexicano: #E01A59;
     --v-verde-quetzal: #00A86B;
     --v-azul-talavera: #00BFFF;
     --v-ambar-sagrado: #FF9900;
     --v-amatista: #B200FF;
+    --valtara-cian-brillante: #00FFCC;
 
-    /* VARIABLES DE FONDO DINÁMICO (Cambian con el Router) */
-    --bg-color: #070712; /* Índigo abisal por defecto */
-    --bg-landscape: radial-gradient(circle at top right, rgba(212, 175, 55, 0.15) 0%, rgba(7, 7, 18, 1) 60%);
+    /* VARIABLES DE AMBIENTE (Cambiadas por el Router SPA) */
+    --bg-color-base: #070712;
+    --ambient-glow: rgba(212, 175, 55, 0.15); /* Oro por defecto */
     --ambient-primary: var(--valtara-oro);
 
     /* GEOMETRÍA */
@@ -36,114 +37,102 @@
 }
 
 /* ====================================================================================
-   1. MUTACIONES DE PAISAJE (CAMBIO DE COLOR SIN ANIMACIONES PESADAS)
+   1. MUTACIONES DEL PAISAJE (CONTROLADAS POR EL ROUTER.JS)
    ==================================================================================== */
-body:has(#view-restoration.active) {
-    --bg-color: #020a06;
-    --bg-landscape: radial-gradient(circle at top right, rgba(0, 168, 107, 0.15) 0%, rgba(2, 10, 6, 1) 70%);
-    --ambient-primary: var(--v-verde-quetzal);
-}
-body:has(#view-beauty.active) {
-    --bg-color: #0a0205;
-    --bg-landscape: radial-gradient(circle at top left, rgba(224, 26, 89, 0.15) 0%, rgba(10, 2, 5, 1) 70%);
-    --ambient-primary: var(--v-rosa-mexicano);
-}
-body:has(#view-sonotherapy.active) {
-    --bg-color: #02050f;
-    --bg-landscape: radial-gradient(circle at center top, rgba(0, 191, 255, 0.15) 0%, rgba(2, 5, 15, 1) 70%);
-    --ambient-primary: var(--v-azul-talavera);
-}
-body:has(#view-science.active) {
-    --bg-color: #0f0802;
-    --bg-landscape: radial-gradient(circle at bottom right, rgba(255, 153, 0, 0.15) 0%, rgba(15, 8, 2, 1) 70%);
-    --ambient-primary: var(--v-ambar-sagrado);
-}
+body:has(#view-restoration.active) { --ambient-glow: rgba(0, 168, 107, 0.15); --ambient-primary: var(--v-verde-quetzal); }
+body:has(#view-beauty.active) { --ambient-glow: rgba(224, 26, 89, 0.15); --ambient-primary: var(--v-rosa-mexicano); }
+body:has(#view-sonotherapy.active) { --ambient-glow: rgba(0, 191, 255, 0.15); --ambient-primary: var(--v-azul-talavera); }
+body:has(#view-science.active) { --ambient-glow: rgba(255, 153, 0, 0.15); --ambient-primary: var(--v-ambar-sagrado); }
+body:has(#view-aura.active) { --ambient-glow: rgba(0, 255, 204, 0.15); --ambient-primary: var(--valtara-cian-brillante); }
+body:has(#view-user-vault.active) { --ambient-glow: rgba(212, 175, 55, 0.15); --ambient-primary: var(--valtara-oro-brillante); }
 
 /* ====================================================================================
-   2. ESTABILIZADORES BASE Y RESET FÍSICO
+   2. FÍSICA Y RESET (RECUPERANDO EL SCROLL FLUIDO)
    ==================================================================================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
-    font-size: 15px;
+    font-size: 15px; /* Proporción áurea para PC */
     scroll-behavior: smooth;
-    background-color: var(--bg-color);
+    background-color: var(--bg-color-base);
 }
-@media (max-width: 850px) { html { font-size: 13px; } }
+@media (max-width: 850px) { html { font-size: 13px; } } /* Adaptación táctil móvil */
 
 body {
-    background-color: var(--bg-color);
-    background-image: var(--bg-landscape);
+    /* El fondo es fijo, pero el contenido fluye sobre él libremente */
+    background-color: var(--bg-color-base);
+    background-image: radial-gradient(circle at top right, var(--ambient-glow) 0%, var(--bg-color-base) 70%);
     background-attachment: fixed;
     color: var(--valtara-blanco);
     font-family: var(--font-main);
     line-height: 1.8;
-    overflow-x: hidden;
-    overscroll-behavior-y: none;
-    transition: background-color 1.5s ease, background-image 1.5s ease;
+    
+    /* Deslizamiento natural */
+    min-height: 100vh;
+    overflow-x: hidden; 
+    overscroll-behavior-y: none; /* Solo mata el rebote molesto de iOS, no el scroll */
+    transition: background-image 1.5s ease;
 }
 
-*:focus-visible { 
-    outline: 2px solid var(--valtara-oro); 
-    outline-offset: 4px; 
-    border-radius: 4px; 
+/* Solo bloqueamos la pantalla cuando el JS inyecta esta clase (Ej. al abrir el menú) */
+body.scroll-locked {
+    overflow: hidden !important;
+    touch-action: none !important;
 }
 
-/* Limpieza de transparencias raras heredadas */
-.black-bg, .legacy-container { background: transparent !important; box-shadow: none !important; }
+*:focus-visible { outline: 2px solid var(--ambient-primary); outline-offset: 4px; border-radius: 4px; }
 
 /* ====================================================================================
-   3. ENCABEZADO SUPERIOR (SISTEMA DE NAVEGACIÓN FIJO)
+   3. ENCABEZADO SUPERIOR (SISTEMA DE NAVEGACIÓN)
    ==================================================================================== */
 .system-header {
     position: fixed;
     top: 0; left: 0; width: 100%; height: var(--nav-height);
     z-index: 2000;
     display: flex; justify-content: space-between; align-items: center;
-    background: rgba(7, 7, 12, 0.85); /* Oscuro para legibilidad */
+    background: rgba(7, 7, 12, 0.7); /* Cristal oscuro */
     border-bottom: 1px solid rgba(255,255,255,0.05);
     padding: 0 3.5rem;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: all 0.3s ease;
 }
 .header-controls { display: flex; align-items: center; gap: 1.2rem; }
 
 .header-action-btn, .hamburger-btn {
-    background: rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.1);
     width: 4rem; height: 4rem; border-radius: 50%;
     font-size: 1.4rem; display: flex; justify-content: center; align-items: center;
     color: var(--valtara-blanco); cursor: pointer; transition: all 0.3s ease;
 }
 .header-action-btn:hover, .hamburger-btn:hover {
-    background: rgba(255,255,255,0.15);
-    border-color: var(--valtara-oro-brillante);
-    color: var(--valtara-oro-brillante);
+    background: rgba(255,255,255,0.1);
+    border-color: var(--ambient-primary);
+    color: var(--ambient-primary);
+    transform: translateY(-2px);
 }
 
 /* ====================================================================================
-   4. MENÚ LATERAL BENTO GRID (BLINDAJE SÓLIDO ANTI-TRANSPARENCIA)
+   4. MENÚ LATERAL BENTO GRID (MURO DE OBSIDIANA)
    ==================================================================================== */
 .side-menu {
     position: fixed;
     top: 0; right: -100%;
     width: 40rem; max-width: 100vw; height: 100vh;
-    /* FONDO SÓLIDO: Cero transparencias para que no se vean las tarjetas de abajo */
-    background-color: #070710 !important; 
+    background-color: #05050A !important; /* Muro sólido, nada se asoma detrás */
     border-left: 2px solid var(--ambient-primary);
     z-index: 3000;
     transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     display: flex; flex-direction: column;
-    box-shadow: -10px 0 50px rgba(0,0,0,0.9);
-    overflow-y: auto;
+    box-shadow: -20px 0 50px rgba(0,0,0,0.9);
+    overflow-y: auto; /* Permite scroll solo dentro del menú */
 }
 .side-menu.open { right: 0; }
 
 .menu-header {
-    padding: 3rem;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    background: #050508;
-    display: flex; justify-content: space-between; align-items: center;
+    padding: 3rem; border-bottom: 1px solid rgba(255,255,255,0.05);
+    background: #030305; display: flex; justify-content: space-between; align-items: center;
 }
 .close-btn {
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
@@ -151,70 +140,53 @@ body {
     cursor: pointer; display: flex; justify-content: center; align-items: center;
     font-size: 1.4rem; transition: all 0.3s ease;
 }
-.close-btn:hover { background: rgba(224, 26, 89, 0.2); border-color: #E01A59; color: #FFF; }
-
-.patient-profile-card { display: flex; align-items: center; gap: 1.5rem; }
-.profile-avatar { width: 5rem; height: 5rem; background: rgba(212,175,55,0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2rem; color: var(--valtara-oro-brillante); border: 1px solid var(--valtara-oro); }
-.profile-name { font-size: 1.8rem; color: var(--valtara-blanco); font-family: var(--font-accent); display: block; }
-.profile-greeting { font-size: 1rem; color: #888; }
-
-.menu-scroll-area { padding: 2rem 3rem 6rem 3rem; }
-.menu-section-title { font-size: 0.9rem; color: #888; text-transform: uppercase; letter-spacing: 0.15rem; margin-bottom: 1.5rem; font-weight: bold; }
-
-/* Grid de Botones del Menú */
-.bento-nav-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; list-style: none; margin-bottom: 2rem; }
-.bento-nav-grid .nav-item {
-    width: 100%; padding: 2rem 1rem; border-radius: 15px;
-    background: #11111a; border: 1px solid rgba(255,255,255,0.05);
-    color: var(--valtara-blanco); display: flex; flex-direction: column; align-items: center; gap: 1rem;
-    cursor: pointer; font-weight: bold; font-size: 1.1rem; text-align: center; transition: all 0.3s ease;
-}
-/* Colores por botón */
-.bento-nav-grid li:nth-child(1) .nav-item { border-bottom: 3px solid var(--valtara-oro-brillante); }
-.bento-nav-grid li:nth-child(2) .nav-item { border-bottom: 3px solid var(--v-verde-quetzal); }
-.bento-nav-grid li:nth-child(3) .nav-item { border-bottom: 3px solid var(--v-rosa-mexicano); }
-.bento-nav-grid li:nth-child(4) .nav-item { border-bottom: 3px solid var(--v-azul-talavera); }
-.bento-nav-grid li:nth-child(5) .nav-item { border-bottom: 3px solid var(--v-ambar-sagrado); }
-
-.bento-nav-grid .nav-item i { font-size: 2.2rem; }
-.bento-nav-grid .nav-item:hover, .bento-nav-grid .nav-item.active {
-    background: rgba(255,255,255,0.05);
-    transform: translateY(-5px);
-}
+.close-btn:hover { background: rgba(224, 26, 89, 0.2); border-color: #E01A59; color: #FFF; transform: rotate(90deg); }
 
 /* ====================================================================================
-   5. VENTANAS EMERGENTES (MODALES CIEGOS Y BLINDADOS)
+   5. VENTANAS EMERGENTES (MODALES ACCESIBILIDAD Y TÉRMINOS)
    ==================================================================================== */
 dialog.modal-dialog, dialog.mega-modal, .modal-content {
-    background-color: #0a0a14 !important; /* Fondo ultra sólido */
+    background-color: #07070F !important;
     border: 1px solid rgba(255,255,255,0.1) !important;
+    border-top: 2px solid var(--ambient-primary) !important;
     border-radius: 20px !important;
     color: var(--valtara-blanco);
     
-    /* ESTO ARREGLA LAS ESQUINAS FEAS TRANSPARENTES */
+    /* Protege que nada desborde los bordes curvos */
     overflow: hidden !important; 
     
     padding: 0; margin: auto; max-width: 600px; width: 90%;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+    box-shadow: 0 30px 80px rgba(0,0,0,1) !important;
 }
-dialog::backdrop { background: rgba(3, 3, 5, 0.9); backdrop-filter: blur(5px); }
+dialog::backdrop { 
+    background: rgba(3, 3, 5, 0.85); 
+    backdrop-filter: blur(10px); 
+}
 
 .modal-header {
-    padding: 2.5rem; background: #050508; border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 2.5rem; background: #030306; border-bottom: 1px solid rgba(255,255,255,0.05);
     display: flex; justify-content: space-between; align-items: center;
 }
 .modal-header h3 { font-family: var(--font-accent); font-size: 1.8rem; margin: 0; }
-.modal-body { padding: 2.5rem; max-height: 65vh; overflow-y: auto; color: #ccc; line-height: 1.6;}
+.modal-body { 
+    padding: 2.5rem; 
+    max-height: 70vh; 
+    overflow-y: auto; /* Permite leer todos los términos y condiciones */
+    color: #ccc; 
+    line-height: 1.7;
+}
 
 /* ====================================================================================
-   6. GESTIÓN DE VISTAS (SPA ARCHITECTURE)
+   6. GESTIÓN DE VISTAS SPA (TRANSICIONES Y ESPACIOS)
    ==================================================================================== */
 .view-section {
-    display: none; opacity: 0;
+    display: none; 
+    opacity: 0;
+    /* Respeta el espacio del nav para no encimarse */
     padding: calc(var(--nav-height) + 3rem) 2rem 6rem 2rem;
-    max-width: var(--max-width); margin: 0 auto;
+    max-width: var(--max-width); 
+    margin: 0 auto;
 }
-/* La vista solo se muestra y anima si tiene la clase .active dada por el Router */
 .view-section.active {
     display: block;
     animation: fadeInView 0.6s ease-out forwards;
@@ -224,18 +196,34 @@ dialog::backdrop { background: rgba(3, 3, 5, 0.9); backdrop-filter: blur(5px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* PLACAS IMPERIALES DE SECCIÓN (Encabezados generados por el JS) */
+.imperial-plaque { text-align: center; margin-bottom: 4rem; padding-top: 1rem; }
+.imperial-plaque i { font-size: 3.5rem; color: var(--ambient-primary); margin-bottom: 1.5rem; filter: drop-shadow(0 0 15px rgba(255,255,255,0.1)); transition: color 1s ease; }
+.imperial-plaque h2 { font-family: var(--font-accent); font-size: 3.2rem; margin-bottom: 0.5rem; text-shadow: 0 4px 15px rgba(0,0,0,0.8); }
+.imperial-plaque p { color: var(--ambient-primary); font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.25rem; font-weight: 900; transition: color 1s ease; }
+
 /* ====================================================================================
-   7. FOOTER Y RESPONSIVIDAD
+   7. FOOTER CORPORATIVO
    ==================================================================================== */
 .mega-footer {
     background: #030305;
     border-top: 1px solid rgba(255,255,255,0.05);
-    padding: 5rem 2rem; margin-top: 5rem;
+    padding: 5rem 2rem; 
+    margin-top: 5rem;
 }
 
+/* ====================================================================================
+   8. RESPONSIVIDAD ESTRICTA PARA MÓVILES
+   ==================================================================================== */
 @media (max-width: 850px) {
     .system-header { padding: 0 1.5rem; }
-    .side-menu { width: 100vw; } /* Ocupa toda la pantalla en móvil */
+    .side-menu { width: 100vw; } /* El menú ocupa 100% de la pantalla */
     .menu-header, .menu-scroll-area { padding: 2rem 1.5rem; }
     .view-section { padding: calc(var(--nav-height) + 1.5rem) 1.5rem 4rem 1.5rem; }
+    .imperial-plaque h2 { font-size: 2.5rem; }
+}
+
+/* PARCHE DE PURIFICACIÓN INCORPORADO DIRECTO EN CSS (Evita fallos de JS) */
+.black-bg, .tarjeta-oscura, .legacy-container, [style*="background: #050508"] {
+    background: transparent !important;
 }
