@@ -4,7 +4,7 @@
  * BLOQUE 2: MOTOR VISUAL MAESTRO V61.0 (LUJO ABISAL Y FLUIDEZ)
  * ------------------------------------------------------------------------------------
  * - Restauración del Dark Mode absoluto (#070712).
- * - Scroll natural y fluido (sin bloqueos de Qwen).
+ * - Scroll natural y fluido (sin bloqueos de scroll-bleed).
  * - Conexión perfecta con el Router.js de Valtara.
  * ====================================================================================
  */
@@ -112,7 +112,7 @@ body {
 .close-btn:hover { background: rgba(224, 26, 89, 0.2); border-color: #E01A59; color: #FFF; transform: rotate(90deg); }
 
 /* ====================================================================================
-   5. GESTIÓN DE VISTAS SPA (LO QUE QWEN ROMPIÓ)
+   5. GESTIÓN DE VISTAS SPA
    ==================================================================================== */
 .view-section {
     display: none; opacity: 0;
@@ -130,7 +130,7 @@ body {
 .imperial-plaque h2 { font-family: var(--font-accent); font-size: 3.5rem; margin-bottom: 0.5rem; text-shadow: 0 4px 15px rgba(0,0,0,0.8); }
 .imperial-plaque p { color: var(--ambient-primary); font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.25rem; font-weight: 900; }
 
-/* MODALES */
+/* MODALES BLINDADOS */
 dialog, .modal-content {
     background-color: #07070F !important; border: 1px solid rgba(255,255,255,0.1) !important;
     border-top: 2px solid var(--ambient-primary) !important; border-radius: 20px !important;
@@ -141,7 +141,14 @@ dialog::backdrop { background: rgba(3, 3, 5, 0.85); backdrop-filter: blur(10px);
 .modal-header { padding: 2.5rem; background: #030306; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
 .modal-body { padding: 2.5rem; max-height: 70vh; overflow-y: auto; color: #ccc; line-height: 1.7; }
 
-/* RESPONSIVIDAD */
+/* FOOTER GLOBAL */
+.mega-footer {
+    background: #030305;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 5rem 2rem; margin-top: 5rem;
+}
+
+/* RESPONSIVIDAD ESTRICTA */
 @media (max-width: 850px) {
     .system-header { padding: 0 1.5rem; }
     .side-menu { width: 100vw; }
@@ -150,5 +157,5 @@ dialog::backdrop { background: rgba(3, 3, 5, 0.85); backdrop-filter: blur(10px);
     .imperial-plaque h2 { font-size: 2.8rem; }
 }
 
-/* PURIFICADOR DE ESTILOS VIEJOS */
-.black-bg, .tarjeta-oscura, .legacy-container, [style*="background: #050508"] { background: transparent !important; }
+/* PURIFICADOR DE ESTILOS VIEJOS (Para que las tarjetas JS no rompan el diseño) */
+.black-bg, .tarjeta-oscura, .legacy-container, [style*="background: #050508"] { background: transparent !important; box-shadow: none !important; }
