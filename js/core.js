@@ -392,3 +392,38 @@ window.addEventListener('click', function(e) {
 window.addEventListener('DOMContentLoaded', () => { 
     CoreEngine.init(); 
 });
+// ========================================================================
+// PARCHE GUARDIÁN ANTI-CONGELAMIENTO (SCROLL UNLOCKER)
+// Libera la pantalla si el sistema olvida quitar el candado físico.
+// ========================================================================
+document.addEventListener('click', (e) => {
+    // Escuchamos si el usuario tocó un enlace de navegación o un botón para cerrar
+    if (e.target.closest('[data-target]') || e.target.closest('.close-btn') || e.target.closest('.close-modal-btn')) {
+        
+        // Le damos 400 milisegundos de ventaja para que terminen las animaciones de cierre
+        setTimeout(() => {
+            const menuAbierto = document.querySelector('.side-menu.open');
+            const modalAbierto = document.querySelector('dialog[open]');
+            
+            // Si el menú y los modales ya están cerrados, pero el cuerpo sigue congelado...
+            if (!menuAbierto && !modalAbierto) {
+                // ...destruimos los candados físicos a la fuerza.
+                document.body.style.overflow = '';
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                document.documentElement.style.overflow = '';
+                document.body.classList.remove('scroll-locked');
+            }
+        }, 400); 
+    }
+});
+
+// Respaldo extra: Si el usuario usa el botón "Atrás" del celular
+window.addEventListener('popstate', () => {
+    setTimeout(() => {
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.documentElement.style.overflow = '';
+    }, 100);
+});
