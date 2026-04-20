@@ -1,2759 +1,712 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grupo Gevizz — Soluciones Empresariales</title>
-    <link href="https://cdn.jsdelivr.net/npm/fontsource-inter@5.0.0/index.css" rel="stylesheet">
-    <style>
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #0f2b46;
-            --primary-light: #1a3d5c;
-            --accent: #00b4d8;
-            --accent-glow: #00d4ff;
-            --gold: #d4a853;
-            --gold-light: #e8c97a;
-            --dark: #0a1628;
-            --light: #f0f4f8;
-            --gray: #8899aa;
-            --white: #ffffff;
-            --transition: cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--dark);
-            color: var(--white);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* ===== PRELOADER ===== */
-        .preloader {
-            position: fixed;
-            inset: 0;
-            background: var(--dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-        }
-
-        .preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .preloader-logo {
-            font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: 6px;
-            background: linear-gradient(135deg, var(--accent), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: pulse-loader 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse-loader {
-            0%, 100% { opacity: 0.4; transform: scale(0.98); }
-            50% { opacity: 1; transform: scale(1.02); }
-        }
-
-        /* ===== CURSOR ===== */
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s ease;
-            mix-blend-mode: difference;
-        }
-
-        .cursor-ring {
-            width: 40px;
-            height: 40px;
-            border: 1.5px solid var(--accent);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
-            transition: transform 0.3s var(--transition), width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
-            transform: translate(-50%, -50%);
-        }
-
-        .cursor-ring.hover {
-            width: 60px;
-            height: 60px;
-            border-color: var(--gold);
-        }
-
-        /* ===== NAV ===== */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 1.2rem 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.4s var(--transition);
-            backdrop-filter: blur(0px);
-        }
-
-        nav.scrolled {
-            background: rgba(10, 22, 40, 0.92);
-            backdrop-filter: blur(20px);
-            padding: 0.8rem 3rem;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-            text-decoration: none;
-            color: var(--white);
-        }
-
-        .nav-logo-icon {
-            width: 42px;
-            height: 42px;
-            position: relative;
-        }
-
-        .nav-logo-icon svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .nav-logo-text {
-            font-size: 1.35rem;
-            font-weight: 800;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .nav-logo-text span {
-            color: var(--accent);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--gray);
-            text-decoration: none;
-            font-size: 0.88rem;
-            font-weight: 500;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            position: relative;
-            transition: color 0.3s ease;
-            padding: 0.3rem 0;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent), var(--gold));
-            transition: width 0.4s var(--transition);
-        }
-
-        .nav-links a:hover {
-            color: var(--white);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-cta {
-            background: linear-gradient(135deg, var(--accent), #0096c7);
-            color: var(--white) !important;
-            padding: 0.65rem 1.6rem !important;
-            border-radius: 50px;
-            font-weight: 600 !important;
-            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
-        }
-
-        .nav-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 180, 216, 0.35);
-        }
-
-        .nav-cta::after {
-            display: none !important;
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        .hamburger span {
-            width: 28px;
-            height: 2px;
-            background: var(--white);
-            transition: all 0.3s ease;
-            transform-origin: center;
-        }
-
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
-
-        /* ===== HERO ===== */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            padding: 6rem 3rem 4rem;
-        }
-
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-        }
-
-        .hero-bg::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: 
-                radial-gradient(ellipse at 20% 50%, rgba(0, 180, 216, 0.12) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 20%, rgba(212, 168, 83, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, rgba(0, 150, 199, 0.06) 0%, transparent 50%);
-        }
-
-        .grid-overlay {
-            position: absolute;
-            inset: 0;
-            background-image: 
-                linear-gradient(rgba(0, 180, 216, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 180, 216, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-            animation: gridMove 20s linear infinite;
-        }
-
-        @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(60px, 60px); }
-        }
-
-        .hero-particles {
-            position: absolute;
-            inset: 0;
-        }
-
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 50%;
-            opacity: 0;
-            animation: particleFloat 8s ease-in-out infinite;
-        }
-
-        @keyframes particleFloat {
-            0% { opacity: 0; transform: translateY(100vh) scale(0); }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { opacity: 0; transform: translateY(-20vh) scale(1); }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-left {
-            animation: fadeInUp 1s var(--transition) 0.5s both;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(0, 180, 216, 0.1);
-            border: 1px solid rgba(0, 180, 216, 0.2);
-            padding: 0.5rem 1.2rem;
-            border-radius: 50px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 2rem;
-        }
-
-        .hero-badge-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: blink 2s ease-in-out infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        .hero-title {
-            font-size: clamp(2.5rem, 5vw, 4.2rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            letter-spacing: -1px;
-        }
-
-        .hero-title .line {
-            display: block;
-        }
-
-        .hero-title .highlight {
-            background: linear-gradient(135deg, var(--accent), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-description {
-            font-size: 1.1rem;
-            color: var(--gray);
-            max-width: 520px;
-            margin-bottom: 2.5rem;
-            line-height: 1.8;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1.2rem;
-            flex-wrap: wrap;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            background: linear-gradient(135deg, var(--accent), #0096c7);
-            color: var(--white);
-            padding: 1rem 2.2rem;
-            border-radius: 60px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            letter-spacing: 0.5px;
-            transition: all 0.4s var(--transition);
-            border: none;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--gold), var(--gold-light));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .btn-primary:hover::before {
-            opacity: 1;
-        }
-
-        .btn-primary span {
-            position: relative;
-            z-index: 1;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(0, 180, 216, 0.35);
-        }
-
-        .btn-outline {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            background: transparent;
-            color: var(--white);
-            padding: 1rem 2.2rem;
-            border-radius: 60px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            letter-spacing: 0.5px;
-            border: 1.5px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.4s var(--transition);
-            cursor: pointer;
-        }
-
-        .btn-outline:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(212, 168, 83, 0.15);
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 3rem;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .stat-item {
-            text-align: left;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--accent), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.2;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            color: var(--gray);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-top: 0.3rem;
-        }
-
-        .hero-right {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: fadeInUp 1s var(--transition) 0.8s both;
-        }
-
-        .hero-visual {
-            position: relative;
-            width: 100%;
-            max-width: 550px;
-        }
-
-        .hero-3d-container {
-            width: 100%;
-            aspect-ratio: 1;
-            position: relative;
-        }
-
-        .orbit-ring {
-            position: absolute;
-            border: 1px solid rgba(0, 180, 216, 0.15);
-            border-radius: 50%;
-            animation: rotateOrbit 20s linear infinite;
-        }
-
-        .orbit-ring:nth-child(1) {
-            inset: 5%;
-            animation-duration: 15s;
-        }
-
-        .orbit-ring:nth-child(2) {
-            inset: 15%;
-            animation-duration: 20s;
-            animation-direction: reverse;
-            border-color: rgba(212, 168, 83, 0.12);
-        }
-
-        .orbit-ring:nth-child(3) {
-            inset: 25%;
-            animation-duration: 25s;
-        }
-
-        @keyframes rotateOrbit {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .orbit-node {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background: var(--accent);
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(0, 180, 216, 0.5);
-        }
-
-        .orbit-ring:nth-child(1) .orbit-node { top: 0; left: 50%; transform: translate(-50%, -50%); }
-        .orbit-ring:nth-child(2) .orbit-node { bottom: 0; right: 0; transform: translate(50%, 50%); background: var(--gold); box-shadow: 0 0 20px rgba(212, 168, 83, 0.5); }
-        .orbit-ring:nth-child(3) .orbit-node { top: 50%; left: 0; transform: translate(-50%, -50%); }
-
-        .hero-center-logo {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, rgba(0, 180, 216, 0.15), rgba(212, 168, 83, 0.1));
-            border: 1px solid rgba(0, 180, 216, 0.2);
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-            animation: floatCenter 6s ease-in-out infinite;
-        }
-
-        @keyframes floatCenter {
-            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
-            50% { transform: translate(-50%, -50%) translateY(-15px); }
-        }
-
-        .hero-center-logo svg {
-            width: 60px;
-            height: 60px;
-        }
-
-        /* ===== SECTION STYLES ===== */
-        section {
-            padding: 8rem 3rem;
-            position: relative;
-        }
-
-        .section-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 5rem;
-        }
-
-        .section-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.78rem;
-            font-weight: 600;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 1.2rem;
-        }
-
-        .section-tag::before,
-        .section-tag::after {
-            content: '';
-            width: 30px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent));
-        }
-
-        .section-tag::after {
-            background: linear-gradient(90deg, var(--accent), transparent);
-        }
-
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            font-weight: 800;
-            line-height: 1.15;
-            letter-spacing: -0.5px;
-        }
-
-        .section-title .highlight {
-            background: linear-gradient(135deg, var(--accent), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: var(--gray);
-            max-width: 600px;
-            margin: 1.2rem auto 0;
-            line-height: 1.7;
-        }
-
-        /* ===== ABOUT ===== */
-        .about {
-            background: linear-gradient(180deg, var(--dark) 0%, rgba(15, 43, 70, 0.3) 50%, var(--dark) 100%);
-        }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5rem;
-            align-items: center;
-        }
-
-        .about-image {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            aspect-ratio: 4/3;
-        }
-
-        .about-image-bg {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .about-image-pattern {
-            position: absolute;
-            inset: 0;
-            background-image: 
-                radial-gradient(circle at 25% 25%, rgba(0, 180, 216, 0.15) 1px, transparent 1px),
-                radial-gradient(circle at 75% 75%, rgba(212, 168, 83, 0.1) 1px, transparent 1px);
-            background-size: 30px 30px;
-        }
-
-        .about-image-content {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-        }
-
-        .about-image-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            background: rgba(0, 180, 216, 0.1);
-            border: 1px solid rgba(0, 180, 216, 0.2);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .about-image-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .about-image-text span {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 400;
-            color: var(--gray);
-            letter-spacing: 5px;
-            margin-top: 0.5rem;
-        }
-
-        .about-image-badge {
-            position: absolute;
-            bottom: -20px;
-            right: -20px;
-            background: linear-gradient(135deg, var(--accent), #0096c7);
-            color: var(--white);
-            padding: 1.2rem 1.8rem;
-            border-radius: 16px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            box-shadow: 0 15px 40px rgba(0, 180, 216, 0.3);
-        }
-
-        .about-content h3 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            line-height: 1.3;
-        }
-
-        .about-content p {
-            color: var(--gray);
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-
-        .about-features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.2rem;
-            margin-top: 2rem;
-        }
-
-        .about-feature {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 0.8rem;
-            background: rgba(0, 180, 216, 0.05);
-            border: 1px solid rgba(0, 180, 216, 0.08);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .about-feature:hover {
-            background: rgba(0, 180, 216, 0.1);
-            border-color: rgba(0, 180, 216, 0.2);
-            transform: translateX(5px);
-        }
-
-        .about-feature-icon {
-            width: 36px;
-            height: 36px;
-            min-width: 36px;
-            background: rgba(0, 180, 216, 0.1);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-            font-size: 1rem;
-        }
-
-        .about-feature span {
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        /* ===== SERVICES ===== */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .service-card {
-            background: rgba(15, 43, 70, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 2.5rem;
-            transition: all 0.5s var(--transition);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), var(--gold));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.5s var(--transition);
-        }
-
-        .service-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .service-card:hover {
-            background: rgba(15, 43, 70, 0.6);
-            border-color: rgba(0, 180, 216, 0.15);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .service-icon {
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, rgba(0, 180, 216, 0.1), rgba(212, 168, 83, 0.05));
-            border: 1px solid rgba(0, 180, 216, 0.15);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            transition: all 0.4s ease;
-        }
-
-        .service-card:hover .service-icon {
-            background: linear-gradient(135deg, rgba(0, 180, 216, 0.2), rgba(212, 168, 83, 0.1));
-            transform: scale(1.05);
-        }
-
-        .service-icon svg {
-            width: 28px;
-            height: 28px;
-            stroke: var(--accent);
-            fill: none;
-            stroke-width: 1.5;
-        }
-
-        .service-card h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-        }
-
-        .service-card p {
-            color: var(--gray);
-            font-size: 0.92rem;
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-        }
-
-        .service-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--accent);
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: gap 0.3s ease;
-        }
-
-        .service-link:hover {
-            gap: 0.8rem;
-        }
-
-        .service-link svg {
-            width: 16px;
-            height: 16px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2;
-        }
-
-        /* ===== MODULES / PRODUCTS ===== */
-        .modules {
-            background: linear-gradient(180deg, var(--dark) 0%, rgba(15, 43, 70, 0.2) 50%, var(--dark) 100%);
-        }
-
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-        }
-
-        .module-card {
-            background: rgba(15, 43, 70, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.5s var(--transition);
-            cursor: pointer;
-        }
-
-        .module-card:hover {
-            border-color: rgba(0, 180, 216, 0.2);
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-        }
-
-        .module-preview {
-            height: 200px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .module-preview-bg {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .module-card:nth-child(1) .module-preview-bg {
-            background: linear-gradient(135deg, #0a2540, #0d3b66);
-        }
-
-        .module-card:nth-child(2) .module-preview-bg {
-            background: linear-gradient(135deg, #1a0a2e, #2d1b69);
-        }
-
-        .module-card:nth-child(3) .module-preview-bg {
-            background: linear-gradient(135deg, #0a2e1a, #1b6940);
-        }
-
-        .module-card:nth-child(4) .module-preview-bg {
-            background: linear-gradient(135deg, #2e1a0a, #694a1b);
-        }
-
-        .module-mockup {
-            width: 85%;
-            height: 75%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px 12px 0 0;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .mockup-header {
-            height: 28px;
-            background: rgba(255, 255, 255, 0.08);
-            display: flex;
-            align-items: center;
-            padding: 0 12px;
-            gap: 6px;
-        }
-
-        .mockup-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-
-        .mockup-dot:nth-child(1) { background: #ff5f57; }
-        .mockup-dot:nth-child(2) { background: #febc2e; }
-        .mockup-dot:nth-child(3) { background: #28c840; }
-
-        .mockup-body {
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .mockup-line {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 3px;
-        }
-
-        .mockup-line:nth-child(1) { width: 60%; }
-        .mockup-line:nth-child(2) { width: 80%; }
-        .mockup-line:nth-child(3) { width: 45%; }
-        .mockup-line:nth-child(4) { width: 70%; }
-
-        .module-info {
-            padding: 2rem;
-        }
-
-        .module-tag {
-            display: inline-block;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--accent);
-            background: rgba(0, 180, 216, 0.1);
-            padding: 0.3rem 0.8rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-        }
-
-        .module-card h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.6rem;
-        }
-
-        .module-card p {
-            color: var(--gray);
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-        .module-tech {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .tech-badge {
-            font-size: 0.72rem;
-            font-weight: 500;
-            padding: 0.3rem 0.7rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 6px;
-            color: var(--gray);
-        }
-
-        /* ===== TEAM ===== */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-        }
-
-        .team-card {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(15, 43, 70, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            transition: all 0.5s var(--transition);
-        }
-
-        .team-card:hover {
-            border-color: rgba(0, 180, 216, 0.15);
-            transform: translateY(-5px);
-        }
-
-        .team-avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin: 0 auto 1.2rem;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .team-avatar svg {
-            width: 50px;
-            height: 50px;
-            stroke: var(--accent);
-            fill: none;
-            stroke-width: 1;
-            opacity: 0.6;
-        }
-
-        .team-card h4 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
-        }
-
-        .team-role {
-            font-size: 0.82rem;
-            color: var(--accent);
-            font-weight: 500;
-            margin-bottom: 1rem;
-        }
-
-        .team-bio {
-            font-size: 0.85rem;
-            color: var(--gray);
-            line-height: 1.6;
-        }
-
-        .team-socials {
-            display: flex;
-            justify-content: center;
-            gap: 0.8rem;
-            margin-top: 1.2rem;
-        }
-
-        .team-social-link {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gray);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .team-social-link:hover {
-            background: rgba(0, 180, 216, 0.15);
-            border-color: rgba(0, 180, 216, 0.3);
-            color: var(--accent);
-        }
-
-        .team-social-link svg {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
-        }
-
-        /* ===== TESTIMONIALS ===== */
-        .testimonials {
-            background: linear-gradient(180deg, var(--dark) 0%, rgba(15, 43, 70, 0.2) 50%, var(--dark) 100%);
-        }
-
-        .testimonials-slider {
-            position: relative;
-            max-width: 900px;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-
-        .testimonial-track {
-            display: flex;
-            transition: transform 0.6s var(--transition);
-        }
-
-        .testimonial-slide {
-            min-width: 100%;
-            padding: 0 1rem;
-        }
-
-        .testimonial-card {
-            background: rgba(15, 43, 70, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 3rem;
-            text-align: center;
-        }
-
-        .testimonial-quote {
-            font-size: 3rem;
-            color: var(--accent);
-            opacity: 0.3;
-            line-height: 1;
-            margin-bottom: 1rem;
-        }
-
-        .testimonial-text {
-            font-size: 1.15rem;
-            color: var(--light);
-            line-height: 1.8;
-            font-style: italic;
-            margin-bottom: 2rem;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .testimonial-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--gold));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .testimonial-info h5 {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .testimonial-info span {
-            font-size: 0.82rem;
-            color: var(--gray);
-        }
-
-        .testimonial-controls {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .testimonial-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: rgba(15, 43, 70, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .testimonial-btn:hover {
-            background: rgba(0, 180, 216, 0.15);
-            border-color: rgba(0, 180, 216, 0.3);
-        }
-
-        .testimonial-btn svg {
-            width: 20px;
-            height: 20px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2;
-        }
-
-        .testimonial-dots {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .testimonial-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .testimonial-dot.active {
-            background: var(--accent);
-            width: 24px;
-            border-radius: 4px;
-        }
-
-        /* ===== CONTACT ===== */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 4rem;
-        }
-
-        .contact-info h3 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .contact-info p {
-            color: var(--gray);
-            line-height: 1.7;
-            margin-bottom: 2rem;
-        }
-
-        .contact-details {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .contact-item-icon {
-            width: 48px;
-            height: 48px;
-            min-width: 48px;
-            background: rgba(0, 180, 216, 0.1);
-            border: 1px solid rgba(0, 180, 216, 0.15);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .contact-item-icon svg {
-            width: 20px;
-            height: 20px;
-            stroke: var(--accent);
-            fill: none;
-            stroke-width: 1.5;
-        }
-
-        .contact-item-text h5 {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 0.2rem;
-        }
-
-        .contact-item-text span {
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
-
-        .contact-form {
-            background: rgba(15, 43, 70, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 2.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.82rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--gray);
-            margin-bottom: 0.5rem;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 0.9rem 1.2rem;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            color: var(--white);
-            font-family: inherit;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.1);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .form-group select option {
-            background: var(--dark);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-
-        .form-submit {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, var(--accent), #0096c7);
-            color: var(--white);
-            border: none;
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.4s var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .form-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(0, 180, 216, 0.3);
-        }
-
-        .form-submit:active {
-            transform: translateY(0);
-        }
-
-        /* ===== FOOTER ===== */
-        footer {
-            background: rgba(5, 12, 24, 0.8);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 5rem 3rem 2rem;
-        }
-
-        .footer-grid {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 4rem;
-        }
-
-        .footer-brand p {
-            color: var(--gray);
-            font-size: 0.9rem;
-            line-height: 1.7;
-            margin-top: 1rem;
-            max-width: 300px;
-        }
-
-        .footer-col h4 {
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--white);
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-col ul {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        .footer-col ul a {
-            color: var(--gray);
-            text-decoration: none;
-            font-size: 0.88rem;
-            transition: color 0.3s ease;
-        }
-
-        .footer-col ul a:hover {
-            color: var(--accent);
-        }
-
-        .footer-bottom {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-bottom p {
-            color: var(--gray);
-            font-size: 0.82rem;
-        }
-
-        .footer-socials {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .footer-social {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gray);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .footer-social:hover {
-            background: rgba(0, 180, 216, 0.15);
-            border-color: rgba(0, 180, 216, 0.3);
-            color: var(--accent);
-            transform: translateY(-3px);
-        }
-
-        .footer-social svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-        }
-
-        /* ===== SCROLL ANIMATIONS ===== */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s var(--transition);
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-        .reveal-delay-4 { transition-delay: 0.4s; }
-
-        /* ===== MOBILE MENU ===== */
-        .mobile-menu {
-            position: fixed;
-            inset: 0;
-            background: rgba(10, 22, 40, 0.98);
-            backdrop-filter: blur(20px);
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2rem;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.5s var(--transition);
-        }
-
-        .mobile-menu.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .mobile-menu a {
-            color: var(--white);
-            text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            transition: color 0.3s ease;
-        }
-
-        .mobile-menu a:hover {
-            color: var(--accent);
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1200px) {
-            .team-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 1024px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-description {
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .hero-buttons {
-                justify-content: center;
-            }
-
-            .hero-stats {
-                justify-content: center;
-            }
-
-            .hero-right {
-                display: none;
-            }
-
-            .about-grid {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            section {
-                padding: 5rem 1.5rem;
-            }
-
-            nav {
-                padding: 1rem 1.5rem;
-            }
-
-            nav.scrolled {
-                padding: 0.7rem 1.5rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .hero {
-                padding: 6rem 1.5rem 4rem;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .modules-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .team-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-stats {
-                gap: 2rem;
-                flex-wrap: wrap;
-            }
-
-            .about-features {
-                grid-template-columns: 1fr;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            .cursor-dot, .cursor-ring {
-                display: none;
-            }
-        }
-
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--dark);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-light);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent);
-        }
-
-        /* ===== BACK TO TOP ===== */
-        .back-to-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), #0096c7);
-            color: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 100;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px);
-            transition: all 0.4s var(--transition);
-            border: none;
-            box-shadow: 0 8px 25px rgba(0, 180, 216, 0.3);
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .back-to-top:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(0, 180, 216, 0.4);
-        }
-
-        .back-to-top svg {
-            width: 20px;
-            height: 20px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2.5;
-        }
-
-        /* ===== NOTIFICATION ===== */
-        .notification {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: rgba(15, 43, 70, 0.95);
-            border: 1px solid rgba(0, 180, 216, 0.3);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            color: var(--white);
-            font-weight: 500;
-            z-index: 10000;
-            transition: transform 0.5s var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .notification.show {
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .notification-icon {
-            color: var(--accent);
-        }
-
-        .notification-icon svg {
-            width: 20px;
-            height: 20px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Valtara Executive Therapy — Clínica biomecánica y spa de ultra-lujo para ejecutivos con Burnout.">
+  <meta name="theme-color" content="#070712">
+
+  <title>Valtara Executive Therapy</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- CSS Principal -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
 </head>
+
 <body>
-    <!-- Preloader -->
-    <div class="preloader" id="preloader">
-        <div class="preloader-logo">GEVIZZ</div>
+
+  <!-- ============================================
+       PANTALLA DE ONBOARDING
+       ============================================ -->
+  <div class="onboarding-screen" id="onboarding-screen">
+    <h1 class="onboarding-logo">VALTARA <span>EXECUTIVE</span></h1>
+    <p class="onboarding-subtitle">
+      Clínica biomecánica y santuario de restauración ejecutiva. 
+      Diseñado para quienes lideran y necesitan reconstruirse.
+    </p>
+
+    <div class="onboarding-features">
+      <div class="onboarding-feature">
+        <i class="fa-solid fa-spa"></i>
+        <h4>Restauración</h4>
+        <p>Terapias biomecánicas y masajes de precisión ejecutiva.</p>
+      </div>
+      <div class="onboarding-feature">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <h4>Estética</h4>
+        <p>Protocolos de belleza con tecnología de última generación.</p>
+      </div>
+      <div class="onboarding-feature">        <i class="fa-solid fa-brain"></i>
+        <h4>Aura AI</h4>
+        <p>Asistente inteligente para bienestar y seguimiento clínico.</p>
+      </div>
     </div>
 
-    <!-- Custom Cursor -->
-    <div class="cursor-dot" id="cursorDot"></div>
-    <div class="cursor-ring" id="cursorRing"></div>
-
-    <!-- Navigation -->
-    <nav id="navbar">
-        <a href="#" class="nav-logo">
-            <div class="nav-logo-icon">
-                <svg viewBox="0 0 42 42" fill="none">
-                    <rect x="2" y="2" width="38" height="38" rx="10" stroke="url(#logoGrad)" stroke-width="2"/>
-                    <path d="M14 16h14M14 21h10M14 26h12" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round"/>
-                    <circle cx="32" cy="26" r="4" fill="url(#logoGrad)" opacity="0.6"/>
-                    <defs>
-                        <linearGradient id="logoGrad" x1="0" y1="0" x2="42" y2="42">
-                            <stop stop-color="#00b4d8"/>
-                            <stop offset="1" stop-color="#d4a853"/>
-                        </linearGradient>
-                    </defs>
-                </svg>
-            </div>
-            <div class="nav-logo-text"><span>Grupo</span> Gevizz</div>
-        </a>
-        <ul class="nav-links">
-            <li><a href="#inicio">Inicio</a></li>
-            <li><a href="#nosotros">Nosotros</a></li>
-            <li><a href="#servicios">Servicios</a></li>
-            <li><a href="#modulos">Módulos</a></li>
-            <li><a href="#equipo">Equipo</a></li>
-            <li><a href="#contacto" class="nav-cta">Contacto</a></li>
-        </ul>
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <a href="#inicio" class="mobile-link">Inicio</a>
-        <a href="#nosotros" class="mobile-link">Nosotros</a>
-        <a href="#servicios" class="mobile-link">Servicios</a>
-        <a href="#modulos" class="mobile-link">Módulos</a>
-        <a href="#equipo" class="mobile-link">Equipo</a>
-        <a href="#contacto" class="mobile-link">Contacto</a>
-    </div>
-
-    <!-- Hero Section -->
-    <section class="hero" id="inicio">
-        <div class="hero-bg">
-            <div class="grid-overlay"></div>
-            <div class="hero-particles" id="heroParticles"></div>
-        </div>
-        <div class="hero-content">
-            <div class="hero-left">
-                <div class="hero-badge">
-                    <div class="hero-badge-dot"></div>
-                    Innovación Empresarial
-                </div>
-                <h1 class="hero-title">
-                    <span class="line">Transformamos</span>
-                    <span class="line"><span class="highlight">Ideas</span> en Soluciones</span>
-                    <span class="line">Digitales</span>
-                </h1>
-                <p class="hero-description">
-                    Grupo Gevizz es líder en desarrollo de software empresarial, ofreciendo módulos integrados que optimizan procesos, potencian la productividad y aceleran el crecimiento de su organización.
-                </p>
-                <div class="hero-buttons">
-                    <a href="#modulos" class="btn-primary">
-                        <span>Explorar Módulos</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </a>
-                    <a href="#contacto" class="btn-outline">
-                        <span>Agendar Demo</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    </a>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <div class="stat-number" data-count="150">0</div>
-                        <div class="stat-label">Clientes Activos</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" data-count="12">0</div>
-                        <div class="stat-label">Módulos</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" data-count="99">0</div>
-                        <div class="stat-label">% Satisfacción</div>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-right">
-                <div class="hero-visual">
-                    <div class="hero-3d-container">
-                        <div class="orbit-ring">
-                            <div class="orbit-node"></div>
-                        </div>
-                        <div class="orbit-ring">
-                            <div class="orbit-node"></div>
-                        </div>
-                        <div class="orbit-ring">
-                            <div class="orbit-node"></div>
-                        </div>
-                        <div class="hero-center-logo">
-                            <svg viewBox="0 0 60 60" fill="none">
-                                <rect x="8" y="8" width="44" height="44" rx="12" stroke="url(#heroLogoGrad)" stroke-width="2"/>
-                                <path d="M20 24h20M20 30h14M20 36h16" stroke="url(#heroLogoGrad)" stroke-width="2.5" stroke-linecap="round"/>
-                                <circle cx="42" cy="36" r="5" stroke="url(#heroLogoGrad)" stroke-width="2"/>
-                                <circle cx="42" cy="36" r="2" fill="url(#heroLogoGrad)"/>
-                                <defs>
-                                    <linearGradient id="heroLogoGrad" x1="0" y1="0" x2="60" y2="60">
-                                        <stop stop-color="#00b4d8"/>
-                                        <stop offset="1" stop-color="#d4a853"/>
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="nosotros">
-        <div class="section-container">
-            <div class="section-header reveal">
-                <div class="section-tag">Sobre Nosotros</div>
-                <h2 class="section-title">Innovación que <span class="highlight">Impulsa</span><br>el Futuro Empresarial</h2>
-                <p class="section-subtitle">Con más de una década de experiencia, Grupo Gevizz se ha consolidado como referente en soluciones tecnológicas integrales para empresas de todos los tamaños.</p>
-            </div>
-            <div class="about-grid">
-                <div class="about-image reveal">
-                    <div class="about-image-bg">
-                        <div class="about-image-pattern"></div>
-                        <div class="about-image-content">
-                            <div class="about-image-icon">
-                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00b4d8" stroke-width="1.5" stroke-linecap="round">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                                </svg>
-                            </div>
-                            <div class="about-image-text">
-                                GEVIZZ
-                                <span>Enterprise Solutions</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="about-image-badge">+10 Años</div>
-                </div>
-                <div class="about-content reveal reveal-delay-2">
-                    <h3>Construimos el ecosistema digital que su empresa necesita</h3>
-                    <p>En Grupo Gevizz, combinamos tecnología de vanguardia con un profundo entendimiento de las necesidades empresariales. Nuestros módulos están diseñados para integrarse perfectamente, creando un flujo de trabajo eficiente y escalable.</p>
-                    <p>Desde la gestión de recursos hasta la analítica avanzada, cada solución es desarrollada con estándares de calidad que garantizan rendimiento, seguridad y confiabilidad.</p>
-                    <div class="about-features">
-                        <div class="about-feature">
-                            <div class="about-feature-icon">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                            </div>
-                            <span>API REST Integrada</span>
-                        </div>
-                        <div class="about-feature">
-                            <div class="about-feature-icon">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-                            </div>
-                            <span>Seguridad Avanzada</span>
-                        </div>
-                        <div class="about-feature">
-                            <div class="about-feature-icon">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                            </div>
-                            <span>Alto Rendimiento</span>
-                        </div>
-                        <div class="about-feature">
-                            <div class="about-feature-icon">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-                            </div>
-                            <span>Soporte 24/7</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="services" id="servicios">
-        <div class="section-container">
-            <div class="section-header reveal">
-                <div class="section-tag">Nuestros Servicios</div>
-                <h2 class="section-title">Soluciones <span class="highlight">Integrales</span><br>para Cada Necesidad</h2>
-                <p class="section-subtitle">Ofrecemos un portafolio completo de servicios diseñados para transformar digitalmente su organización.</p>
-            </div>
-            <div class="services-grid">
-                <div class="service-card reveal reveal-delay-1">
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                            <line x1="8" y1="21" x2="16" y2="21"/>
-                            <line x1="12" y1="17" x2="12" y2="21"/>
-                        </svg>
-                    </div>
-                    <h3>Desarrollo de Software</h3>
-                    <p>Aplicaciones web y móviles personalizadas, diseñadas con arquitecturas modernas y escalables que se adaptan a su negocio.</p>
-                    <a href="#modulos" class="service-link">
-                        Explorar
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                    </a>
-                </div>
-                <div class="service-card reveal reveal-delay-2">
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 20V10"/>
-                            <path d="M18 20V4"/>
-                            <path d="M6 20v-4"/>
-                        </svg>
-                    </div>
-                    <h3>Analítica de Datos</h3>
-                    <p>Transforme sus datos en decisiones estratégicas con dashboards inteligentes, reportes automatizados y modelos predictivos.</p>
-                    <a href="#modulos" class="service-link">
-                        Explorar
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                    </a>
-                </div>
-                <div class="service-card reveal reveal-delay-3">
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-                            <circle cx="9" cy="7" r="4"/>
-                            <path d="M23 21v-2a4 4 0 00-3-3.87"/>
-                            <path d="M16 3.13a4 4 0 010 7.75"/>
-                        </svg>
-                    </div>
-                    <h3>Gestión de RRHH</h3>
-                    <p>Plataforma integral para administración de talento humano, nómina, evaluaciones de desempeño y capacitación.</p>
-                    <a href="#modulos" class="service-link">
-                        Explorar
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                    </a>
-                </div>
-                <div class="service-card reveal reveal-delay-1">
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="3"/>
-                            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
-                        </svg>
-                    </div>
-                    <h3>Automatización</h3>
-                    <p>Optimice procesos empresariales con workflows automatizados, integración de sistemas y reducción de tareas manuales.</p>
-                    <a href="#modulos" class="service-link">
-                        Explorar
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                    </a>
-                </div>
-                <div class="service-card reveal reveal-delay-2">
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
-                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                            <line x1="12" y1="22.08" x2="12" y2="12"/>
-                        </svg>
-                    </div>
-                    <h3>Infraestructura Cloud</h3>
-                    <p>Migración, despliegue y gestión de infraestructura en la nube con alta disponibilidad y escalabilidad garantizada.</p>
-                    <a href="#modulos" class="service-link">
-                        Explorar
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                    </a>
-                </div>
-                <div class="service-card reveal reveal-delay-3">
-                    <div class="service-icon">
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-                            <line x1="1" y1="10" x2="23" y2="10"/>
-                        </svg>
-                    </div>
-                    <h3>E-Commerce</h3>
-                    <p>Plataformas de comercio electrónico robustas con gestión de inventario, pasarelas de pago y logística integrada.</p>
-                    <a href="#modulos" class="service-link">
-                        Explorar
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Modules Section -->
-    <section class="modules" id="modulos">
-        <div class="section-container">
-            <div class="section-header reveal">
-                <div class="section-tag">Nuestros Módulos</div>
-                <h2 class="section-title">Ecosistema de <span class="highlight">Módulos</span><br>Interconectados</h2>
-                <p class="section-subtitle">Cada módulo funciona de forma independiente o como parte de un ecosistema integrado para maximizar la eficiencia.</p>
-            </div>
-            <div class="modules-grid">
-                <div class="module-card reveal reveal-delay-1">
-                    <div class="module-preview">
-                        <div class="module-preview-bg">
-                            <div class="module-mockup">
-                                <div class="mockup-header">
-                                    <div class="mockup-dot"></div>
-                                    <div class="mockup-dot"></div>
-                                    <div class="mockup-dot"></div>
-                                </div>
-                                <div class="mockup-body">
-                                    <div class="mockup-line"></div>
-                                    <div class="mockup-line"></div>
-                                    <div class="mockup-line"></div>
-                                    <div class="mockup-line"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="module-info">
-                        <span class="module-tag">ERP Core</span>
-                        <h3>Gestión Empresarial</h3>
-                        <p>Módulo central que integra finanzas, inventarios, compras y ventas en una plataforma unificada con reportes en tiempo real.</p>
-                        <div class="module-tech">
-                            <span class="tech-badge">Node.js</span>
-                            <span class="tech-badge">PostgreSQL</span>
-                            <span class="tech-badge">React</span>
-                            <span class="tech-badge">GraphQL</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="module-card reveal reveal-delay-2">
-                    <div class="module-preview">
-                        <div class="module-preview-bg">
-                            <div class="module-mockup">
-                                <div class="mockup-header">
-                                    <div class="mockup-dot"></div>
-                                    <div class="mockup-dot"></div>
-                                    <div class="mockup-dot"></div>
-                                </div>
-                                <div class="mockup-body">
-                                    <div class="mockup-line"></div>
-                                    <div class="mockup-line"></div>
-                                    <div class="mockup-line"></div>
-                                    <div class="mockup-line"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="module-info">
-                        <span class="module-tag">Analytics</span>
-                        <h3>Business Intelligence</h3>
-                        <p>Dashboards interactivos con KPIs personalizados, análisis predictivo y visualización de datos avanzada para toma de decisiones.</p>
-                        <div class="module-tech">
-                            <span class="tech-badge">Python</span>
-                            <span class="tech-badge">D3.js</span>
-                            <span class="tech-badge">ML</span>
-                            <span class="tech-badge">AWS</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="module-card reveal reveal-delay-3">
-                    <div class="module-preview">
-                        <div class="module-preview-bg">
-                            <div class="module-mockup">
-                                <div class="mockup-header">
-                                    <div class="mockup-dot"></div>
-                                    <div class="mockup-dot"></div>
-                                    <div class="mockup-dot"></div>
-                                </div>
-                                <div class="mockup-body">
-                                    <div class="mockup-line"></div>
-                                    <div class="mockup-line"></div>
-                                    <div class="mockup-line"></div>
-                                    <div class="mockup-line"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="module-info">
-                        <span class="module-tag">CRM</span>
-                        <h3>Relación con Clientes</h3>
-                        <p>Gestión completa del ciclo de vida del cliente: leads, oportunidades, seguimiento, pipeline de ventas y automatización de marketing.</p>
-                        <div class="module-tech">
-                            <span class="tech-badge">Vue.js</span>
-                            <span class="tech-badge">MongoDB</span>
-                            <span class="tech-badge">Socket.io</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="module-card reveal reveal-delay-4">
-                    <div class="module-preview">
-                        <div class="module-preview-bg">
-                            <div class="module-mockup">
-                                <div class="mockup-header">
-                                    <div class="mockup-dot"></div>
-                                    <div class="mockup-dot"></div>
-                                    <div class="mockup-dot"></div>
-                                </div>
-                                <div class="mockup-body">
-                                    <div class="mockup-line"></div>
-                                    <div class="mockup-line"></div>
-                                    <div class="mockup-line"></div>
-                                    <div class="mockup-line"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="module-info">
-                        <span class="module-tag">Supply Chain</span>
-                        <h3>Cadena de Suministro</h3>
-                        <p>Control total de la cadena logística: proveedores, almacenes, distribución, trazabilidad y optimización de rutas en tiempo real.</p>
-                        <div class="module-tech">
-                            <span class="tech-badge">Go</span>
-                            <span class="tech-badge">Redis</span>
-                            <span class="tech-badge">Docker</span>
-                            <span class="tech-badge">Kubernetes</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Team Section -->
-    <section class="team" id="equipo">
-        <div class="section-container">
-            <div class="section-header reveal">
-                <div class="section-tag">Nuestro Equipo</div>
-                <h2 class="section-title">Profesionales que <span class="highlight">Hacen</span><br>la Diferencia</h2>
-                <p class="section-subtitle">Un equipo multidisciplinario comprometido con la excelencia y la innovación tecnológica.</p>
-            </div>
-            <div class="team-grid">
-                <div class="team-card reveal reveal-delay-1">
-                    <div class="team-avatar">
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                            <circle cx="12" cy="7" r="4"/>
-                        </svg>
-                    </div>
-                    <h4>Carlos Mendoza</h4>
-                    <div class="team-role">CEO & Fundador</div>
-                    <p class="team-bio">Visionario tecnológico con 15+ años liderando transformación digital en empresas Fortune 500.</p>
-                    <div class="team-socials">
-                        <a href="#" class="team-social-link">
-                            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 6a2 2 0 100-4 2 2 0 000 4z"/></svg>
-                        </a>
-                        <a href="#" class="team-social-link">
-                            <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="team-card reveal reveal-delay-2">
-                    <div class="team-avatar">
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                            <circle cx="12" cy="7" r="4"/>
-                        </svg>
-                    </div>
-                    <h4>Ana Rodríguez</h4>
-                    <div class="team-role">CTO</div>
-                    <p class="team-bio">Arquitecta de software especializada en sistemas distribuidos y microservicios de alta disponibilidad.</p>
-                    <div class="team-socials">
-                        <a href="#" class="team-social-link">
-                            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 6a2 2 0 100-4 2 2 0 000 4z"/></svg>
-                        </a>
-                        <a href="#" class="team-social-link">
-                            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="team-card reveal reveal-delay-3">
-                    <div class="team-avatar">
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                            <circle cx="12" cy="7" r="4"/>
-                        </svg>
-                    </div>
-                    <h4>Miguel Torres</h4>
-                    <div class="team-role">Director de Producto</div>
-                    <p class="team-bio">Estratega de producto con enfoque en UX/UI y metodologías ágiles para desarrollo centrado en el usuario.</p>
-                    <div class="team-socials">
-                        <a href="#" class="team-social-link">
-                            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 6a2 2 0 100-4 2 2 0 000 4z"/></svg>
-                        </a>
-                        <a href="#" class="team-social-link">
-                            <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="team-card reveal reveal-delay-4">
-                    <div class="team-avatar">
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                            <circle cx="12" cy="7" r="4"/>
-                        </svg>
-                    </div>
-                    <h4>Laura Sánchez</h4>
-                    <div class="team-role">Lead Developer</div>
-                    <p class="team-bio">Desarrolladora full-stack con expertise en React, Node.js y arquitecturas cloud-native escalables.</p>
-                    <div class="team-socials">
-                        <a href="#" class="team-social-link">
-                            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-                        </a>
-                        <a href="#" class="team-social-link">
-                            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 6a2 2 0 100-4 2 2 0 000 4z"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials">
-        <div class="section-container">
-            <div class="section-header reveal">
-                <div class="section-tag">Testimonios</div>
-                <h2 class="section-title">Lo que Dicen <span class="highlight">Nuestros</span><br>Clientes</h2>
-            </div>
-            <div class="testimonials-slider reveal">
-                <div class="testimonial-track" id="testimonialTrack">
-                    <div class="testimonial-slide">
-                        <div class="testimonial-card">
-                            <div class="testimonial-quote">"</div>
-                            <p class="testimonial-text">Grupo Gevizz transformó completamente nuestra operación. La integración de sus módulos redujo nuestros tiempos de procesamiento en un 60% y mejoró significativamente la toma de decisiones.</p>
-                            <div class="testimonial-author">
-                                <div class="testimonial-avatar">RM</div>
-                                <div class="testimonial-info">
-                                    <h5>Roberto Martínez</h5>
-                                    <span>Director de Operaciones, TechCorp</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-slide">
-                        <div class="testimonial-card">
-                            <div class="testimonial-quote">"</div>
-                            <p class="testimonial-text">El equipo de Gevizz no solo entregó un producto excepcional, sino que nos acompañó en cada etapa del proceso. Su soporte post-implementación es simplemente incomparable.</p>
-                            <div class="testimonial-author">
-                                <div class="testimonial-avatar">PG</div>
-                                <div class="testimonial-info">
-                                    <h5>Patricia Gómez</h5>
-                                    <span>CEO, InnovaGroup</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-slide">
-                        <div class="testimonial-card">
-                            <div class="testimonial-quote">"</div>
-                            <p class="testimonial-text">La plataforma de analytics nos permitió identificar oportunidades de mercado que antes pasaban desapercibidas. ROI positivo desde el primer trimestre de implementación.</p>
-                            <div class="testimonial-author">
-                                <div class="testimonial-avatar">JL</div>
-                                <div class="testimonial-info">
-                                    <h5>Jorge López</h5>
-                                    <span>CFO, DataDriven Inc.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-controls">
-                    <button class="testimonial-btn" id="prevBtn">
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                    </button>
-                    <button class="testimonial-btn" id="nextBtn">
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                    </button>
-                </div>
-                <div class="testimonial-dots" id="testimonialDots">
-                    <div class="testimonial-dot active" data-index="0"></div>
-                    <div class="testimonial-dot" data-index="1"></div>
-                    <div class="testimonial-dot" data-index="2"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact" id="contacto">
-        <div class="section-container">
-            <div class="section-header reveal">
-                <div class="section-tag">Contacto</div>
-                <h2 class="section-title">Comencemos a <span class="highlight">Construir</span><br>Juntos</h2>
-                <p class="section-subtitle">Estamos listos para entender sus necesidades y diseñar la solución perfecta para su empresa.</p>
-            </div>
-            <div class="contact-grid">
-                <div class="contact-info reveal">
-                    <h3>Hablemos de su próximo proyecto</h3>
-                    <p>Complete el formulario y nuestro equipo se pondrá en contacto con usted en menos de 24 horas para agendar una consulta personalizada.</p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <div class="contact-item-icon">
-                                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
-                                    <circle cx="12" cy="10" r="3"/>
-                                </svg>
-                            </div>
-                            <div class="contact-item-text">
-                                <h5>Oficina Central</h5>
-                                <span>Ciudad de México, México</span>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-item-icon">
-                                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                    <polyline points="22,6 12,13 2,6"/>
-                                </svg>
-                            </div>
-                            <div class="contact-item-text">
-                                <h5>Email</h5>
-                                <span>contacto@grupogevizz.com</span>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-item-icon">
-                                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
-                                </svg>
-                            </div>
-                            <div class="contact-item-text">
-                                <h5>Teléfono</h5>
-                                <span>+52 (55) 1234-5678</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <form class="contact-form reveal reveal-delay-2" id="contactForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="name">Nombre</label>
-                            <input type="text" id="name" name="name" placeholder="Su nombre completo" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" placeholder="correo@empresa.com" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="company">Empresa</label>
-                            <input type="text" id="company" name="company" placeholder="Nombre de su empresa">
-                        </div>
-                        <div class="form-group">
-                            <label for="service">Servicio de Interés</label>
-                            <select id="service" name="service">
-                                <option value="">Seleccionar servicio</option>
-                                <option value="erp">ERP / Gestión Empresarial</option>
-                                <option value="analytics">Business Intelligence</option>
-                                <option value="crm">CRM</option>
-                                <option value="supply">Cadena de Suministro</option>
-                                <option value="custom">Desarrollo a Medida</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Mensaje</label>
-                        <textarea id="message" name="message" placeholder="Cuéntenos sobre su proyecto..." rows="4"></textarea>
-                    </div>
-                    <button type="submit" class="form-submit">Enviar Mensaje</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <a href="#" class="nav-logo">
-                    <div class="nav-logo-icon">
-                        <svg viewBox="0 0 42 42" fill="none">
-                            <rect x="2" y="2" width="38" height="38" rx="10" stroke="url(#logoGrad2)" stroke-width="2"/>
-                            <path d="M14 16h14M14 21h10M14 26h12" stroke="url(#logoGrad2)" stroke-width="2.5" stroke-linecap="round"/>
-                            <circle cx="32" cy="26" r="4" fill="url(#logoGrad2)" opacity="0.6"/>
-                            <defs>
-                                <linearGradient id="logoGrad2" x1="0" y1="0" x2="42" y2="42">
-                                    <stop stop-color="#00b4d8"/>
-                                    <stop offset="1" stop-color="#d4a853"/>
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <div class="nav-logo-text"><span>Grupo</span> Gevizz</div>
-                </a>
-                <p>Transformando la gestión empresarial a través de tecnología innovadora y soluciones integradas desde hace más de una década.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Empresa</h4>
-                <ul>
-                    <li><a href="#nosotros">Nosotros</a></li>
-                    <li><a href="#equipo">Equipo</a></li>
-                    <li><a href="#">Carreras</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Servicios</h4>
-                <ul>
-                    <li><a href="#modulos">ERP Core</a></li>
-                    <li><a href="#modulos">Analytics</a></li>
-                    <li><a href="#modulos">CRM</a></li>
-                    <li><a href="#modulos">Supply Chain</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Recursos</h4>
-                <ul>
-                    <li><a href="#">Documentación</a></li>
-                    <li><a href="#">API Reference</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">GitHub</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Grupo Gevizz. Todos los derechos reservados.</p>
-            <div class="footer-socials">
-                <a href="#" class="footer-social">
-                    <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 6a2 2 0 100-4 2 2 0 000 4z"/></svg>
-                </a>
-                <a href="#" class="footer-social">
-                    <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
-                </a>
-                <a href="#" class="footer-social">
-                    <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-                </a>
-                <a href="#" class="footer-social">
-                    <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                </a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Back to Top -->
-    <button class="back-to-top" id="backToTop">
-        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+    <button class="onboarding-enter-btn" data-target="enter-experience">
+      Ingresar a la Experiencia <i class="fa-solid fa-arrow-right"></i>
     </button>
+  </div>
 
-    <!-- Notification -->
-    <div class="notification" id="notification">
-        <div class="notification-icon">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        </div>
-        <span id="notificationText">Mensaje enviado exitosamente</span>
+  <!-- ============================================
+       HEADER PRINCIPAL
+       ============================================ -->
+  <header class="site-header" id="site-header">
+    <div class="header-left">
+      <button class="header-btn" id="btn-accessibility" aria-label="Accesibilidad">
+        <i class="fa-solid fa-universal-access"></i>
+      </button>
+      <a href="#" class="logo" data-target="view-home">VALTARA <span>EXECUTIVE</span></a>
+    </div>
+    <div class="header-right">
+      <button class="header-lang" aria-label="Cambiar idioma">ES</button>
+      <button class="header-btn" id="btn-menu-toggle" aria-label="Abrir menú">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================================
+       OVERLAY DEL MENÚ
+       ============================================ -->
+  <div class="side-menu-overlay" id="side-menu-overlay"></div>
+
+  <!-- ============================================
+       MENÚ LATERAL (Side Menu)
+       ============================================ -->
+  <nav class="side-menu" id="main-nav">
+    <div class="side-menu-header">
+      <span class="logo">VALTARA</span>
+      <button class="side-menu-close" id="btn-menu-close" aria-label="Cerrar menú">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
     </div>
 
-    <script>
-        // ===== PRELOADER =====
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('preloader').classList.add('hidden');
-            }, 1500);
-        });
+    <div class="side-menu-nav">
+      <div class="menu-bento">
+        <button class="menu-btn" data-target="view-home">
+          <i class="fa-solid fa-house"></i>
+          Inicio        </button>
+        <button class="menu-btn" data-target="view-restoration">
+          <i class="fa-solid fa-spa"></i>
+          Restauración
+        </button>
+        <button class="menu-btn" data-target="view-beauty">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          Belleza
+        </button>
+        <button class="menu-btn" data-target="view-sonotherapy">
+          <i class="fa-solid fa-music"></i>
+          Sonoterapia
+        </button>
+        <button class="menu-btn" data-target="view-science">
+          <i class="fa-solid fa-flask-vial"></i>
+          Ciencia
+        </button>
+        <button class="menu-btn" data-target="view-legal">
+          <i class="fa-solid fa-scale-balanced"></i>
+          Legal
+        </button>
+        <button class="menu-btn" data-target="view-user-vault">
+          <i class="fa-solid fa-vault"></i>
+          Mi Bóveda
+        </button>
+        <button class="menu-btn" data-target="view-aura">
+          <i class="fa-solid fa-robot"></i>
+          Aura AI
+        </button>
+      </div>
+    </div>
 
-        // ===== CUSTOM CURSOR =====
-        const cursorDot = document.getElementById('cursorDot');
-        const cursorRing = document.getElementById('cursorRing');
-        let mouseX = 0, mouseY = 0;
-        let ringX = 0, ringY = 0;
+    <div class="menu-divider"></div>
 
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            cursorDot.style.left = mouseX - 4 + 'px';
-            cursorDot.style.top = mouseY - 4 + 'px';
-        });
+    <div class="menu-footer">
+      <p>Valtara Executive Therapy © 2025</p>
+      <p style="margin-top: 4px; font-size: 0.65rem; opacity: 0.5;">v3.0.0 — PWA Certified</p>
+    </div>
+  </nav>
 
-        function animateCursorRing() {
-            ringX += (mouseX - ringX) * 0.15;
-            ringY += (mouseY - ringY) * 0.15;
-            cursorRing.style.left = ringX + 'px';
-            cursorRing.style.top = ringY + 'px';
-            requestAnimationFrame(animateCursorRing);
-        }
-        animateCursorRing();
+  <!-- ============================================
+       CONTENIDO PRINCIPAL (SPA)
+       ============================================ -->
+  <main id="main-content">
 
-        document.querySelectorAll('a, button, .service-card, .module-card, .team-card').forEach(el => {
-            el.addEventListener('mouseenter', () => cursorRing.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursorRing.classList.remove('hover'));
-        });
+    <!-- ===== INICIO ===== -->
+    <section id="view-home" class="view-section active">
+      <div class="hero-banner">
+        <h1>Restauración <span>Ejecutiva</span><br>de Clase Mundial</h1>
+        <p>          Bienvenido a Valtara. Un espacio donde la ciencia biomecánica, la estética avanzada 
+          y la inteligencia artificial convergen para reconstruir su rendimiento.
+        </p>
+        <div class="hero-cta-group">
+          <button class="btn-primary" data-target="view-restoration">
+            <i class="fa-solid fa-calendar-check"></i> Reservar Sesión
+          </button>
+          <button class="btn-primary btn-outline" data-target="view-science">
+            <i class="fa-solid fa-microscope"></i> Conocer la Ciencia
+          </button>
+        </div>
+      </div>
 
-        // ===== NAVBAR SCROLL =====
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-item">
+          <div class="stat-number">97%</div>
+          <div class="stat-label">Reducción de Burnout</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">2,400+</div>
+          <div class="stat-label">Ejecutivos Atendidos</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">14</div>
+          <div class="stat-label">Protocolos Clínicos</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Aura AI Disponible</div>
+        </div>
+      </div>
 
-        // ===== HAMBURGER MENU =====
-        const hamburger = document.getElementById('hamburger');
-        const mobileMenu = document.getElementById('mobileMenu');
+      <!-- Servicios Destacados -->
+      <div class="section-header">
+        <div class="section-line"></div>
+        <h2>Servicios <span class="text-gold">Signature</span></h2>
+        <p>Protocolos exclusivos diseñados para la élite corporativa.</p>
+      </div>
 
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            mobileMenu.classList.toggle('active');
-            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-        });
+      <div class="card-grid">
+        <div class="glass-card">
+          <div class="card-icon"><i class="fa-solid fa-hand-holding-medical"></i></div>
+          <h3>Masaje Biomecánico Profundo</h3>
+          <p>Liberación miofascial con precisión milimétrica. 90 minutos de restauración muscular para ejecutivos de alto rendimiento.</p>
+          <div class="card-footer">
+            <span class="card-tag">90 min</span>
+            <span class="card-tag">Presencial</span>
+          </div>
+        </div>
+        <div class="glass-card cyan-accent">
+          <div class="card-icon"><i class="fa-solid fa-face-smile-beam"></i></div>
+          <h3>Facial Quantum Glow</h3>
+          <p>Rejuvenecimiento facial con tecnología LED de espectro completo y sérum de péptidos bioactivos importados.</p>
+          <div class="card-footer">
+            <span class="card-tag">60 min</span>
+            <span class="card-tag">No invasivo</span>
+          </div>
+        </div>
 
-        document.querySelectorAll('.mobile-link').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                mobileMenu.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-        });
+        <div class="glass-card green-accent">
+          <div class="card-icon"><i class="fa-solid fa-leaf"></i></div>
+          <h3>Aromaterapia Ejecutiva</h3>
+          <p>Selección personalizada de aceites esenciales para optimizar cortisol, enfoque y calidad del sueño.</p>
+          <div class="card-footer">
+            <span class="card-tag">Personalizado</span>
+            <span class="card-tag">Aura AI</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        // ===== PARTICLES =====
-        const particlesContainer = document.getElementById('heroParticles');
-        for (let i = 0; i < 30; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 8 + 's';
-            particle.style.animationDuration = (6 + Math.random() * 6) + 's';
-            if (Math.random() > 0.7) {
-                particle.style.background = '#d4a853';
-            }
-            particlesContainer.appendChild(particle);
-        }
+    <!-- ===== RESTAURACIÓN (Masajes) ===== -->
+    <section id="view-restoration" class="view-section">
+      <div class="section-header">
+        <div class="section-line"></div>
+        <h2>Restauración <span class="text-gold">Corporal</span></h2>
+        <p>Terapias diseñadas para eliminar el estrés biomecánico acumulado por la vida ejecutiva.</p>
+      </div>
 
-        // ===== COUNTER ANIMATION =====
-        const counters = document.querySelectorAll('.stat-number');
-        let countersAnimated = false;
+      <div class="service-list">
+        <div class="service-item">
+          <div class="service-icon"><i class="fa-solid fa-hand-fist"></i></div>
+          <div class="service-info">
+            <h4>Deep Tissue Executive</h4>
+            <p>Liberación de nudos profundos en trapecios, lumbares y cervicales. Presión controlada por terapeuta certificado.</p>
+          </div>
+          <span class="service-price">$180</span>
+        </div>
 
-        function animateCounters() {
-            if (countersAnimated) return;
-            counters.forEach(counter => {
-                const target = parseInt(counter.getAttribute('data-count'));
-                const duration = 2000;
-                const start = performance.now();
+        <div class="service-item">
+          <div class="service-icon"><i class="fa-solid fa-fire"></i></div>
+          <div class="service-info">
+            <h4>Hot Stone Ritual</h4>
+            <p>Piedras volcánicas a temperatura exacta sobre puntos de tensión meridianos. Restauración completa del sistema nervioso.</p>
+          </div>
+          <span class="service-price">$220</span>
+        </div>
+        <div class="service-item">
+          <div class="service-icon"><i class="fa-solid fa-droplet"></i></div>
+          <div class="service-info">
+            <h4>Lymphatic Drainage</h4>
+            <p>Drenaje linfático manual para desinflamar y acelerar la recuperación post-viaje o post-reunión intensiva.</p>
+          </div>
+          <span class="service-price">$150</span>
+        </div>
 
-                function updateCounter(currentTime) {
-                    const elapsed = currentTime - start;
-                    const progress = Math.min(elapsed / duration, 1);
-                    const eased = 1 - Math.pow(1 - progress, 3);
-                    counter.textContent = Math.floor(eased * target) + (target === 99 ? '%' : '+');
-                    if (progress < 1) {
-                        requestAnimationFrame(updateCounter);
-                    }
-                }
-                requestAnimationFrame(updateCounter);
-            });
-            countersAnimated = true;
-        }
+        <div class="service-item">
+          <div class="service-icon"><i class="fa-solid fa-bolt"></i></div>
+          <div class="service-info">
+            <h4>Percussion Therapy Gun</h4>
+            <p>Terapia de percusión de grado clínico con cabezales especializados. Ideal para contracturas por trabajo de escritorio.</p>
+          </div>
+          <span class="service-price">$120</span>
+        </div>
 
-        // ===== SCROLL REVEAL =====
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        <div class="service-item">
+          <div class="service-icon"><i class="fa-solid fa-sun"></i></div>
+          <div class="service-info">
+            <h4>Full Body Restoration Suite</h4>
+            <p>Paquete premium: masaje + sauna infrarroja + aromaterapia + sesión de Aura AI. 3 horas de restauración total.</p>
+          </div>
+          <span class="service-price">$450</span>
+        </div>
+      </div>
+    </section>
 
-        revealElements.forEach(el => revealObserver.observe(el));
+    <!-- ===== BELLEZA ===== -->
+    <section id="view-beauty" class="view-section">
+      <div class="section-header">
+        <div class="section-line"></div>
+        <h2>Estética <span class="text-gold">Avanzada</span></h2>
+        <p>Protocolos de belleza con tecnología médica de última generación para resultados visibles y duraderos.</p>
+      </div>
 
-        // Counter observer
-        const statsSection = document.querySelector('.hero-stats');
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounters();
-                }
-            });
-        }, { threshold: 0.5 });
+      <div class="card-grid card-grid-2col">
+        <div class="glass-card">
+          <div class="card-icon"><i class="fa-solid fa-sun"></i></div>
+          <h3>LED Phototherapy Facial</h3>
+          <p>Espectro rojo y azul para estimulación de colágeno y eliminación de bacterias. 3 sesiones recomendadas.</p>
+          <div class="card-footer">
+            <span class="card-tag">45 min</span>
+            <span class="card-tag">$160/sesión</span>
+          </div>
+        </div>
 
-        if (statsSection) statsObserver.observe(statsSection);
+        <div class="glass-card pink-accent">
+          <div class="card-icon"><i class="fa-solid fa-gem"></i></div>          <h3>Diamond Microdermabrasion</h3>
+          <p>Exfoliación mecánica con puntas de diamante. Renueva la epidermis y elimina manchas por estrés oxidativo.</p>
+          <div class="card-footer">
+            <span class="card-tag">60 min</span>
+            <span class="card-tag">$200</span>
+          </div>
+        </div>
 
-        // ===== TESTIMONIAL SLIDER =====
-        let currentSlide = 0;
-        const track = document.getElementById('testimonialTrack');
-        const dots = document.querySelectorAll('.testimonial-dot');
-        const totalSlides = 3;
+        <div class="glass-card cyan-accent">
+          <div class="card-icon"><i class="fa-solid fa-syringe"></i></div>
+          <h3>Hydra Boost Infusion</h3>
+          <p>Infusión de ácido hialurónico y vitaminas por vía transdérmica. Hidratación profunda sin agujas.</p>
+          <div class="card-footer">
+            <span class="card-tag">40 min</span>
+            <span class="card-tag">$180</span>
+          </div>
+        </div>
 
-        function goToSlide(index) {
-            currentSlide = index;
-            track.style.transform = `translateX(-${currentSlide * 100}%)`;
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentSlide);
-            });
-        }
+        <div class="glass-card green-accent">
+          <div class="card-icon"><i class="fa-solid fa-eye"></i></div>
+          <h3>Eye Contour Revival</h3>
+          <p>Tratamiento específico para ojeras y líneas de expresión perioculares. Crioterapia + sérum de vitamina K.</p>
+          <div class="card-footer">
+            <span class="card-tag">30 min</span>
+            <span class="card-tag">$130</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        document.getElementById('prevBtn').addEventListener('click', () => {
-            goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
-        });
+    <!-- ===== SONOTERAPIA ===== -->
+    <section id="view-sonotherapy" class="view-section">
+      <div class="section-header">
+        <div class="section-line"></div>
+        <h2>Sono<span class="text-cyan">terapia</span></h2>
+        <p>Frecuencias binaurales y ondas de sonido para reprogramar su estado mental.</p>
+      </div>
 
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            goToSlide((currentSlide + 1) % totalSlides);
-        });
+      <div class="sonotherapy-player">
+        <p class="freq-label">Frecuencia Activa</p>
+        <div class="freq-display">528 Hz</div>
+        <p style="color: var(--text-muted); margin-bottom: var(--spacing-md);">
+          Frecuencia del ADN — Reparación celular y transformación
+        </p>
+        <div class="sonotherapy-controls">
+          <button aria-label="Anterior"><i class="fa-solid fa-backward-step"></i></button>
+          <button class="play-btn" aria-label="Reproducir"><i class="fa-solid fa-play"></i></button>
+          <button aria-label="Siguiente"><i class="fa-solid fa-forward-step"></i></button>
+        </div>
+      </div>
+      <div class="card-grid">
+        <div class="glass-card cyan-accent">
+          <div class="card-icon"><i class="fa-solid fa-moon"></i></div>
+          <h3>Delta Sleep Protocol</h3>
+          <p>Ondas delta (0.5–4 Hz) para inducción de sueño profundo. Ideal para ejecutivos con insomnio crónico.</p>
+        </div>
 
-        dots.forEach(dot => {
-            dot.addEventListener('click', () => {
-                goToSlide(parseInt(dot.getAttribute('data-index')));
-            });
-        });
+        <div class="glass-card cyan-accent">
+          <div class="card-icon"><i class="fa-solid fa-brain"></i></div>
+          <h3>Alpha Focus Flow</h3>
+          <p>Frecuencias alfa (8–12 Hz) para concentración y claridad mental. Sesión de 30 minutos pre-reunión.</p>
+        </div>
 
-        // Auto-play
-        let autoplay = setInterval(() => {
-            goToSlide((currentSlide + 1) % totalSlides);
-        }, 5000);
+        <div class="glass-card cyan-accent">
+          <div class="card-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+          <h3>Theta Deep Calm</h3>
+          <p>Ondas theta (4–8 Hz) para meditación profunda y reducción de ansiedad. Sesión guiada con Aura AI.</p>
+        </div>
+      </div>
+    </section>
 
-        document.querySelector('.testimonials-slider').addEventListener('mouseenter', () => {
-            clearInterval(autoplay);
-        });
+    <!-- ===== CIENCIA ===== -->
+    <section id="view-science" class="view-section">
+      <div class="section-header">
+        <div class="section-line"></div>
+        <h2>La <span class="text-gold">Ciencia</span> detrás de Valtara</h2>
+        <p>Cada protocolo está respaldado por investigación biomecánica y neurociencia aplicada.</p>
+      </div>
 
-        document.querySelector('.testimonials-slider').addEventListener('mouseleave', () => {
-            autoplay = setInterval(() => {
-                goToSlide((currentSlide + 1) % totalSlides);
-            }, 5000);
-        });
+      <div class="glass-card" style="margin-bottom: var(--spacing-xl);">
+        <div class="card-icon"><i class="fa-solid fa-dna"></i></div>
+        <h3>Neuroplasticidad Ejecutiva</h3>
+        <p>
+          Nuestros protocolos combinan estimulación somatosensorial, aromaterapia neuroquímica y 
+          frecuencias binaurales para inducir neuroplasticidad dirigida. El resultado: reconexión de 
+          circuitos neuronales dañados por estrés crónico, restauración de la capacidad de decisión 
+          y eliminación del burnout en un promedio de 6 sesiones.
+        </p>
+      </div>
 
-        // ===== CONTACT FORM =====
-        const contactForm = document.getElementById('contactForm');
-        const notification = document.getElementById('notification');
-        const notificationText = document.getElementById('notificationText');
+      <div class="card-grid">
+        <div class="glass-card">
+          <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+          <h3>Resultados Medibles</h3>
+          <p>97% de reducción en niveles de cortisol salival después de 4 semanas de protocolo continuo.</p>
+        </div>
 
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Simulate form submission
-            const submitBtn = contactForm.querySelector('.form-submit');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Enviando...';
-            submitBtn.disabled = true;
+        <div class="glass-card">
+          <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>          <h3>Seguridad Clínica</h3>
+          <p>Todos los tratamientos son supervisados por personal médico certificado y cumplen estándares ISO 13485.</p>
+        </div>
 
-            setTimeout(() => {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-                contactForm.reset();
-                
-                notificationText.textContent = '¡Mensaje enviado exitosamente! Nos pondremos en contacto pronto.';
-                notification.classList.add('show');
-                
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 4000);
-            }, 1500);
-        });
+        <div class="glass-card">
+          <div class="card-icon"><i class="fa-solid fa-microscope"></i></div>
+          <h3>Investigación Continua</h3>
+          <p>Colaboración con laboratorios de neurociencia para actualizar protocolos con los últimos hallazgos.</p>
+        </div>
+      </div>
+    </section>
 
-        // ===== BACK TO TOP =====
-        const backToTop = document.getElementById('backToTop');
-        
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 500) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
-        });
+    <!-- ===== LEGAL ===== -->
+    <section id="view-legal" class="view-section">
+      <div class="section-header">
+        <div class="section-line"></div>
+        <h2>Aviso <span class="text-gold">Legal</span></h2>
+      </div>
 
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+      <div class="legal-content">
+        <h3>Términos y Condiciones</h3>
+        <p>
+          Al utilizar los servicios de Valtara Executive Therapy, usted acepta los siguientes términos 
+          y condiciones. Todos los servicios son de carácter complementario y no reemplazan el tratamiento 
+          médico convencional.
+        </p>
 
-        // ===== SMOOTH SCROLL FOR NAV LINKS =====
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const offsetTop = target.offsetTop - 80;
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
+        <h3>Política de Privacidad</h3>
+        <p>
+          Sus datos biométricos, historial clínico y preferencias de aromaterapia son almacenados en 
+          su Bóveda personal cifrada. No compartimos información con terceros sin su consentimiento explícito.
+        </p>
+        <ul>
+          <li>Los datos se almacenan con cifrado AES-256.</li>
+          <li>Usted tiene derecho a la portabilidad y eliminación de sus datos.</li>
+          <li>Las sesiones de Aura AI no son grabadas ni utilizadas para entrenamiento sin autorización.</li>
+        </ul>
 
-        // ===== TILT EFFECT ON CARDS =====
-        document.querySelectorAll('.service-card, .module-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 20;
-                const rotateY = (centerX - x) / 20;
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-            });
+        <h3>Política de Cancelación</h3>
+        <p>
+          Las cancelaciones realizadas con más de 24 horas de anticipación no generan cargo. 
+          Cancelaciones dentro de las 24 horas previas serán facturadas al 50% del valor del servicio.
+        </p>
 
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-            });
-        });
+        <h3>Limitación de Responsabilidad</h3>
+        <p>
+          Valtara Executive Therapy no garantiza resultados médicos específicos. Los resultados 
+          varían según el individuo, la adherencia al protocolo y factores externos no controlables.
+        </p>
+      </div>    </section>
 
-        // ===== TYPING EFFECT ON HERO (optional enhancement) =====
-        const heroDescription = document.querySelector('.hero-description');
-        if (heroDescription) {
-            const originalText = heroDescription.textContent;
-            // Already visible, keeping as is for better UX
-        }
-    </script>
+    <!-- ===== AURA AI (Inmersivo — sin header/footer) ===== -->
+    <section id="view-aura" class="view-section view-aura-full">
+      <div class="aura-container">
+        <div class="aura-header">
+          <div class="aura-brand">
+            <div class="aura-icon"><i class="fa-solid fa-robot"></i></div>
+            <h3>AURA <span>AI</span></h3>
+          </div>
+          <div class="aura-status">
+            <span class="pulse-dot"></span>
+            Activa
+          </div>
+        </div>
+
+        <div class="aura-messages" id="aura-messages">
+          <div class="aura-msg ai">
+            <div class="aura-msg-avatar"><i class="fa-solid fa-robot"></i></div>
+            <div>
+              <div class="aura-msg-bubble">
+                Bienvenido a Valtara. Soy Aura, su asistente de bienestar ejecutivo. ¿En qué puedo asistirle hoy?
+              </div>
+              <div class="aura-msg-time">Ahora</div>
+            </div>
+          </div>
+
+          <div class="aura-msg user">
+            <div class="aura-msg-avatar"><i class="fa-solid fa-user"></i></div>
+            <div>
+              <div class="aura-msg-bubble">
+                Necesito reducir mi estrés antes de la junta del lunes.
+              </div>
+              <div class="aura-msg-time">Ahora</div>
+            </div>
+          </div>
+
+          <div class="aura-msg ai">
+            <div class="aura-msg-avatar"><i class="fa-solid fa-robot"></i></div>
+            <div>
+              <div class="aura-msg-bubble">
+                Entendido. Le recomiendo un protocolo combinado:<br><br>
+                🧘 <strong>1.</strong> Sesión de 30 min con ondas Theta para calma profunda.<br>
+                💆 <strong>2.</strong> Masaje biomecánico de cuello y hombros.<br>
+                🌿 <strong>3.</strong> Aromaterapia con Lavanda + Bergamota en su Bóveda.<br><br>
+                ¿Deseo reservar estas sesiones?
+              </div>
+              <div class="aura-msg-time">Ahora</div>
+            </div>
+          </div>        </div>
+
+        <div class="aura-suggestions">
+          <button class="aura-suggestion-btn">Reservar masaje</button>
+          <button class="aura-suggestion-btn">Frecuencias para dormir</button>
+          <button class="aura-suggestion-btn">Mi perfil de aromas</button>
+          <button class="aura-suggestion-btn">Reporte de estrés</button>
+        </div>
+
+        <div class="aura-input-bar">
+          <input type="text" class="aura-input" placeholder="Escriba su consulta a Aura..." aria-label="Mensaje para Aura AI">
+          <button class="aura-send-btn" aria-label="Enviar mensaje">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BÓVEDA DEL USUARIO ===== -->
+    <section id="view-user-vault" class="view-section">
+      <div class="vault-profile">
+        <div class="vault-avatar"><i class="fa-solid fa-user"></i></div>
+        <div class="vault-info">
+          <h3>Ángel</h3>
+          <p>Miembro desde Enero 2025 · 12 sesiones completadas</p>
+        </div>
+        <div class="vault-membership">
+          <span class="badge">Platinum</span>
+        </div>
+      </div>
+
+      <div class="vault-header">
+        <h3>Mi Bóveda de <span class="text-gold">Aromas</span></h3>
+        <div class="vault-stats">
+          <span class="vault-stat">Seleccionados: <strong id="aroma-count">0</strong>/12</span>
+        </div>
+      </div>
+
+      <div class="aroma-grid">
+        <div class="aroma-item">
+          <input type="checkbox" id="aroma-lavanda" name="aroma">
+          <label for="aroma-lavanda" class="aroma-label">
+            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
+            <span class="aroma-icon">💜</span>
+            <span class="aroma-name">Lavanda</span>
+            <span class="aroma-desc">Calma y sueño profundo</span>
+          </label>
+        </div>
+
+        <div class="aroma-item">          <input type="checkbox" id="aroma-bergamota" name="aroma">
+          <label for="aroma-bergamota" class="aroma-label">
+            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
+            <span class="aroma-icon">🍋</span>
+            <span class="aroma-name">Bergamota</span>
+            <span class="aroma-desc">Alegría y claridad</span>
+          </label>
+        </div>
+
+        <div class="aroma-item">
+          <input type="checkbox" id="aroma-sandalo" name="aroma">
+          <label for="aroma-sandalo" class="aroma-label">
+            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
+            <span class="aroma-icon">🪵</span>
+            <span class="aroma-name">Sándalo</span>
+            <span class="aroma-desc">Grounding y enfoque</span>
+          </label>
+        </div>
+
+        <div class="aroma-item">
+          <input type="checkbox" id="aroma-eucalipto" name="aroma">
+          <label for="aroma-eucalipto" class="aroma-label">
+            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
+            <span class="aroma-icon">🌿</span>
+            <span class="aroma-name">Eucalipto</span>
+            <span class="aroma-desc">Respiración y energía</span>
+          </label>
+        </div>
+
+        <div class="aroma-item">
+          <input type="checkbox" id="aroma-ylang" name="aroma">
+          <label for="aroma-ylang" class="aroma-label">
+            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
+            <span class="aroma-icon">🌸</span>
+            <span class="aroma-name">Ylang Ylang</span>
+            <span class="aroma-desc">Relajación sensual</span>
+          </label>
+        </div>
+
+        <div class="aroma-item">
+          <input type="checkbox" id="aroma-menta" name="aroma">
+          <label for="aroma-menta" class="aroma-label">
+            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
+            <span class="aroma-icon">🌱</span>
+            <span class="aroma-name">Menta</span>
+            <span class="aroma-desc">Estimulación mental</span>
+          </label>
+        </div>
+
+        <div class="aroma-item">          <input type="checkbox" id="aroma-rosa" name="aroma">
+          <label for="aroma-rosa" class="aroma-label">
+            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
+            <span class="aroma-icon">🌹</span>
+            <span class="aroma-name">Rosa Damascena</span>
+            <span class="aroma-desc">Equilibrio emocional</span>
+          </label>
+        </div>
+
+        <div class="aroma-item">
+          <input type="checkbox" id="aroma-incienso" name="aroma">
+          <label for="aroma-incienso" class="aroma-label">
+            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
+            <span class="aroma-icon">🕯️</span>
+            <span class="aroma-name">Incienso</span>
+            <span class="aroma-desc">Meditación profunda</span>
+          </label>
+        </div>
+
+        <div class="aroma-item">
+          <input type="checkbox" id="aroma-vetiver" name="aroma">
+          <label for="aroma-vetiver" class="aroma-label">
+            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
+            <span class="aroma-icon">🌾</span>
+            <span class="aroma-name">Vetiver</span>
+            <span class="aroma-desc">Anclaje y paz</span>
+          </label>
+        </div>
+
+        <div class="aroma-item">
+          <input type="checkbox" id="aroma-pomelo" name="aroma">
+          <label for="aroma-pomelo" class="aroma-label">
+            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
+            <span class="aroma-icon">🍊</span>
+            <span class="aroma-name">Pomelo</span>
+            <span class="aroma-desc">Energía matutina</span>
+          </label>
+        </div>
+
+        <div class="aroma-item">
+          <input type="checkbox" id="aroma-cedro" name="aroma">
+          <label for="aroma-cedro" class="aroma-label">
+            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
+            <span class="aroma-icon">🌲</span>
+            <span class="aroma-name">Cedro</span>
+            <span class="aroma-desc">Confianza y fuerza</span>
+          </label>
+        </div>
+
+        <div class="aroma-item">          <input type="checkbox" id="aroma-manuka" name="aroma">
+          <label for="aroma-manuka" class="aroma-label">
+            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
+            <span class="aroma-icon">🍯</span>
+            <span class="aroma-name">Manuka</span>
+            <span class="aroma-desc">Sanación y protección</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================
+       FOOTER (Mega-Footer)
+       ============================================ -->
+  <footer class="mega-footer" id="mega-footer">
+    <div class="mega-footer-inner">
+      <div class="footer-brand">
+        <div class="logo">VALTARA <span>EXECUTIVE</span></div>
+        <p>Clínica biomecánica y santuario de restauración ejecutiva. Donde la ciencia se encuentra con el lujo.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="#" data-target="view-restoration">Restauración Corporal</a></li>
+          <li><a href="#" data-target="view-beauty">Estética Avanzada</a></li>
+          <li><a href="#" data-target="view-sonotherapy">Sonoterapia</a></li>
+          <li><a href="#" data-target="view-aura">Aura AI</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#" data-target="view-science">Nuestra Ciencia</a></li>
+          <li><a href="#" data-target="view-legal">Aviso Legal</a></li>
+          <li><a href="#">Contacto</a></li>
+          <li><a href="#">Carreras</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="mailto:concierge@valtara.com">concierge@valtara.com</a></li>
+          <li><a href="tel:+525512345678">+52 55 1234 5678</a></li>
+          <li><a href="#">Ciudad de México, MX</a></li>
+        </ul>      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 Valtara Executive Therapy. Todos los derechos reservados.</p>
+      <div class="footer-socials">
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="#" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       BOTONES FLOTANTES (Smart FABs)
+       ============================================ -->
+  <button class="fab-btn fab-whatsapp" aria-label="Contactar por WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </button>
+
+  <button class="fab-btn fab-aura" data-target="view-aura" aria-label="Abrir Aura AI">
+    <i class="fa-solid fa-robot"></i>
+  </button>
+
 </body>
-</html>
-
+          </html>
