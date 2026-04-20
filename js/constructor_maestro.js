@@ -1,116 +1,38 @@
 /**
  * ====================================================================================
- * BLOQUE 4: CONSTRUCTOR MAESTRO V58.0 (RENDERIZADO AUTÓNOMO Y BLINDAJE)
+ * BLOQUE 4: CONSTRUCTOR MAESTRO V63.0 (ENSAMBLAJE SEGURO Y LIBERACIÓN DE SCROLL)
  * ------------------------------------------------------------------------------------
- * Ensamblador de módulos. Su purificador ahora es quirúrgico: respeta el menú
- * lateral y las ventanas emergentes para evitar colapsos de transparencia.
+ * Lee los módulos de contenido (JavaScript) y los inyecta en el esqueleto HTML.
+ * Al finalizar, destruye los bloqueos de carga para permitir el scroll natural.
  * ====================================================================================
  */
 
+// Aseguramos que el objeto global exista para no causar errores si un módulo tarda en cargar
 window.ValtaraModulos = window.ValtaraModulos || {};
 
-window.ValtaraData = {
+const ValtaraData = {
     
+    // Función auxiliar para inyectar múltiples módulos en un solo contenedor
+    renderView: function(id, ...modules) {
+        const container = document.getElementById(id);
+        if (container) {
+            container.innerHTML = modules.map(m => window.ValtaraModulos[m] || '').join('');
+        } else {
+            console.warn(`⚠️ [Constructor] Contenedor '${id}' no encontrado en el HTML.`);
+        }
+    },
+
+    // Generador de Títulos de Lujo (Placas Imperiales)
     crearPlaca: function(icono, titulo, subtitulo) {
         return `
-        <div class="imperial-plaque" style="text-align: center; margin-bottom: 4rem; padding-top: 1rem;">
-            <i class="fa-solid ${icono}" style="font-size: 3.5rem; color: var(--ambient-primary, #D4AF37); margin-bottom: 1.5rem; filter: drop-shadow(0 0 15px rgba(255,255,255,0.1));"></i>
-            <h2 style="font-family: var(--font-accent, serif); font-size: 3rem; margin-bottom: 0.5rem; color: var(--valtara-blanco, #fff); text-shadow: 0 4px 15px rgba(0,0,0,0.8);">${titulo}</h2>
-            <p style="color: var(--ambient-primary, #D4AF37); font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.25rem; font-weight: 900; margin:0;">${subtitulo}</p>
+        <div class="imperial-plaque">
+            <i class="fa-solid ${icono}"></i>
+            <h2>${titulo}</h2>
+            <p>${subtitulo}</p>
         </div>`;
     },
-    
-    get home() {
-        return (window.ValtaraModulos.inicio_bienvenida || '') + 
-               (window.ValtaraModulos.inicio_refugio || '') + 
-               (window.ValtaraModulos.inicio_promociones || '') + 
-               (window.ValtaraModulos.inicio_arte_unas || '') + 
-               (window.ValtaraModulos.inicio_mapa_cuerpo || '') + 
-               (window.ValtaraModulos.inicio_redes_sociales || '');
-    },
 
-    get restoration() {
-        return this.crearPlaca('fa-spa', 'Masoterapia', 'Restauración Biomecánica') + 
-               (window.ValtaraModulos.catalogo_masajes || '');
-    },
-
-    get beauty() {
-        return this.crearPlaca('fa-wand-magic-sparkles', 'Art & Nails', 'Estudio de Belleza Integral') + 
-               (window.ValtaraModulos.catalogo_belleza || '');
-    },
-
-    get sonotherapy() {
-        return this.crearPlaca('fa-water', 'Sonoterapia', 'Inmersión Acústica y Ondas Alfa') + 
-               (window.ValtaraModulos.sonoterapia_introduccion || '') +
-               (window.ValtaraModulos.sonoterapia_videos || '') +
-               (window.ValtaraModulos.sonoterapia_audio || '');
-    },
-
-    get science() {
-        return this.crearPlaca('fa-dna', 'Ciencia Aplicada', 'Nuestra Matriz Biomecánica') + 
-               (window.ValtaraModulos.ciencia_introduccion || '') + 
-               (window.ValtaraModulos.ciencia_neurobiologia || '') + 
-               (window.ValtaraModulos.ciencia_fascia || '') + 
-               (window.ValtaraModulos.ciencia_acustica || '') + 
-               (window.ValtaraModulos.ciencia_biomecanica || '') + 
-               (window.ValtaraModulos.ciencia_botanica || '') + 
-               (window.ValtaraModulos.ciencia_inclusion || '') + 
-               (window.ValtaraModulos.ciencia_referencias || '');
-    },
-
-    get legal() {
-        return this.crearPlaca('fa-shield-halved', 'Manifiesto', 'Transparencia Corporativa') + 
-               '<div style="max-width: 1100px; margin: 0 auto;">' + 
-               (window.ValtaraModulos.legal_historia || '') +
-               (window.ValtaraModulos.legal_manifiesto || '') +
-               (window.ValtaraModulos.legal_transparencia || '') +
-               (window.ValtaraModulos.legal_preguntas || '') + 
-               '</div>' + 
-               (window.ValtaraModulos.modal_terminos || '') + 
-               (window.ValtaraModulos.modal_whitepaper || '');
-    },
-
-    get footer() {
-        return window.ValtaraModulos.global_footer || '';
-    },
-
-    // ====================================================================================
-    // EL PURIFICADOR QUIRÚRGICO (Respeta Modales y Menús)
-    // ====================================================================================
-    purificarVistas: function() {
-        if(document.getElementById('purificador-imperial')) return;
-        
-        const style = document.createElement('style');
-        style.id = 'purificador-imperial';
-        style.innerHTML = `
-            /* SOLO borramos el fondo negro de los contenedores que están DENTRO de <main>.
-               Esto protege al <nav> (Menú Lateral) y a los <dialog> (Ventanas Emergentes) 
-               garantizando que sus colores oscuros sólidos no sean destruidos. */
-            
-            main .hero-view, 
-            main .section-container, 
-            main .body-map-container, 
-            main .zone-info,
-            main .tarjeta-oscura, 
-            main .catalogo-seccion, 
-            main article, 
-            main .black-bg,
-            main [style*="background: #050508"], 
-            main [style*="background-color: #050508"], 
-            main [style*="background: black"] {
-                background: transparent !important;
-                background-color: transparent !important;
-                box-shadow: none !important;
-            }
-            
-            main .img-fluid, main .img-hero {
-                background: transparent !important;
-            }
-        `;
-        document.head.appendChild(style);
-        console.log("🛡️ [VALTARA BUILDER] Purificación quirúrgica activada. Modales protegidos.");
-    },
-
+    // El Saludo Inteligente
     actualizarSaludo: function() {
         const heroTextObj = document.getElementById('hero-dynamic-text');
         if(!heroTextObj) return;
@@ -141,37 +63,94 @@ window.ValtaraData = {
         }
     },
 
-    renderAll: function() {
-        console.log("🏗️ [VALTARA BUILDER] Ensamblando arquitectura modular...");
-
-        const setHTML = (id, content) => { 
-            const el = document.getElementById(id); 
-            if(el) el.innerHTML = content; 
-        };
+    // MOTOR PRINCIPAL DE ENSAMBLAJE
+    init: function() {
+        console.log("🏗️ [VALTARA BUILDER] Iniciando ensamblaje de la clínica...");
         
         try {
-            setHTML('view-home', this.home);
-            setHTML('view-restoration', this.restoration);
-            setHTML('view-beauty', this.beauty);
-            setHTML('view-science', this.science);
-            setHTML('view-legal', this.legal);
-            setHTML('view-sonotherapy', this.sonotherapy);
-            setHTML('main-footer', this.footer);
+            // 1. INICIO (El Santuario)
+            this.renderView('view-home', 
+                'inicio_bienvenida', 'inicio_refugio', 'inicio_promociones', 
+                'inicio_arte_unas', 'inicio_mapa_cuerpo', 'inicio_redes_sociales'
+            );
 
-            this.purificarVistas();
+            // 2. MASAJES (Inyectando la Placa Imperial + El Catálogo)
+            const restContainer = document.getElementById('view-restoration');
+            if(restContainer) {
+                restContainer.innerHTML = this.crearPlaca('fa-spa', 'Masoterapia', 'Restauración Biomecánica') + 
+                                          (window.ValtaraModulos.catalogo_masajes || '');
+            }
+
+            // 3. UÑAS (Art & Nails)
+            const beautyContainer = document.getElementById('view-beauty');
+            if(beautyContainer) {
+                beautyContainer.innerHTML = this.crearPlaca('fa-wand-magic-sparkles', 'Art & Nails', 'Estudio de Belleza Integral') + 
+                                            (window.ValtaraModulos.catalogo_belleza || '');
+            }
+
+            // 4. SONOTERAPIA
+            const sonoContainer = document.getElementById('view-sonotherapy');
+            if(sonoContainer) {
+                sonoContainer.innerHTML = this.crearPlaca('fa-water', 'Sonoterapia', 'Inmersión Acústica y Ondas Alfa') + 
+                                          (window.ValtaraModulos.sonoterapia_introduccion || '') +
+                                          (window.ValtaraModulos.sonoterapia_videos || '') +
+                                          (window.ValtaraModulos.sonoterapia_audio || '');
+            }
+
+            // 5. CIENCIA APLICADA
+            const cienciaContainer = document.getElementById('view-science');
+            if(cienciaContainer) {
+                cienciaContainer.innerHTML = this.crearPlaca('fa-dna', 'Ciencia Aplicada', 'Nuestra Matriz Biomecánica') + 
+                                             (window.ValtaraModulos.ciencia_introduccion || '') + 
+                                             (window.ValtaraModulos.ciencia_neurobiologia || '') + 
+                                             (window.ValtaraModulos.ciencia_fascia || '') + 
+                                             (window.ValtaraModulos.ciencia_acustica || '') + 
+                                             (window.ValtaraModulos.ciencia_biomecanica || '') + 
+                                             (window.ValtaraModulos.ciencia_botanica || '') + 
+                                             (window.ValtaraModulos.ciencia_inclusion || '') + 
+                                             (window.ValtaraModulos.ciencia_referencias || '');
+            }
+
+            // 6. MANIFIESTO LEGAL Y MODALES
+            const legalContainer = document.getElementById('view-legal');
+            if(legalContainer) {
+                legalContainer.innerHTML = this.crearPlaca('fa-shield-halved', 'Manifiesto', 'Transparencia Corporativa') + 
+                                           '<div style="max-width: 1100px; margin: 0 auto;">' + 
+                                           (window.ValtaraModulos.legal_historia || '') +
+                                           (window.ValtaraModulos.legal_manifiesto || '') +
+                                           (window.ValtaraModulos.legal_transparencia || '') +
+                                           (window.ValtaraModulos.legal_preguntas || '') + 
+                                           '</div>' + 
+                                           (window.ValtaraModulos.modal_terminos || '') + 
+                                           (window.ValtaraModulos.modal_whitepaper || '');
+            }
+
+            // 7. PIE DE PÁGINA (FOOTER)
+            this.renderView('main-footer', 'global_footer');
+
+            // 8. EJECUTAR EL SALUDO
             this.actualizarSaludo();
 
+        } catch(error) {
+            console.error("🔴 [VALTARA BUILDER] Error durante la inyección de módulos:", error);
+        } finally {
+            // ========================================================================
+            // PASO CRÍTICO DE SUPERVIVENCIA: LIBERAR EL SCROLL
+            // (Esto se ejecuta SIEMPRE, incluso si hubo un error arriba)
+            // ========================================================================
             document.body.classList.remove('system-loading');
-            console.log("✅ [VALTARA BUILDER] Ensamblaje exitoso.");
-            
-        } catch (error) {
-            console.error("🔴 [VALTARA BUILDER] Fallo durante el ensamblaje:", error);
-            document.body.classList.remove('system-loading');
+            document.body.style.overflow = ''; 
+            document.documentElement.style.overflow = '';
+            console.log("🔓 [VALTARA BUILDER] Ensamblaje finalizado. Scroll liberado.");
         }
     }
 };
 
-// AUTO-ARRANQUE
+// AUTO-ARRANQUE AUTÓNOMO
 document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => { ValtaraData.renderAll(); }, 100);
+    // Le damos a la red 150 milisegundos de ventaja para terminar de descargar 
+    // tus archivos pesados antes de intentar pegarlos.
+    setTimeout(() => { 
+        ValtaraData.init(); 
+    }, 150);
 });
