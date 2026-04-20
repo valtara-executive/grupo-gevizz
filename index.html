@@ -1,712 +1,886 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-MX">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Valtara Executive Therapy — Clínica biomecánica y spa de ultra-lujo para ejecutivos con Burnout.">
-  <meta name="theme-color" content="#070712">
-
-  <title>Valtara Executive Therapy</title>
-
-  <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- FontAwesome 6 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <!-- CSS Principal -->
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/components.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Valtara Executive Therapy: Spa de ultra-lujo para ejecutivos. Recuperación integral del burnout corporativo mediante masajes neuro-adaptativos, sonoterapia y aromaterapia científica." />
+  <meta name="theme-color" content="#070712" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  
+  <!-- 🔐 PERRO GUARDIÁN: Content Security Policy para IA -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://aura-server-erfj.vercel.app https://api.groq.com https://openrouter.ai; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; script-src 'self' 'unsafe-inline';" />
+  
+  <title>Valtara Executive Therapy | Recuperación Ejecutiva de Ultra-Lujo</title>
+  
+  <!-- Fuentes Premium -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  
+  <!-- Estilos del Sistema -->
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  
+  <!-- Iconos (SVG inline para performance y CSP) -->
+  <style>
+    .icon { width: 1.2em; height: 1.2em; fill: currentColor; vertical-align: middle; }
+    .icon-lg { width: 2em; height: 2em; }
+    .icon-spin { animation: spin 2s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0);
+      white-space: nowrap; border: 0;
+    }
+    [aria-busy="true"] { opacity: 0.7; pointer-events: none; }
+    .sr-only { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+  </style>
 </head>
-
 <body>
 
-  <!-- ============================================
-       PANTALLA DE ONBOARDING
-       ============================================ -->
-  <div class="onboarding-screen" id="onboarding-screen">
-    <h1 class="onboarding-logo">VALTARA <span>EXECUTIVE</span></h1>
-    <p class="onboarding-subtitle">
-      Clínica biomecánica y santuario de restauración ejecutiva. 
-      Diseñado para quienes lideran y necesitan reconstruirse.
-    </p>
-
-    <div class="onboarding-features">
-      <div class="onboarding-feature">
-        <i class="fa-solid fa-spa"></i>
-        <h4>Restauración</h4>
-        <p>Terapias biomecánicas y masajes de precisión ejecutiva.</p>
-      </div>
-      <div class="onboarding-feature">
-        <i class="fa-solid fa-wand-magic-sparkles"></i>
-        <h4>Estética</h4>
-        <p>Protocolos de belleza con tecnología de última generación.</p>
-      </div>
-      <div class="onboarding-feature">        <i class="fa-solid fa-brain"></i>
-        <h4>Aura AI</h4>
-        <p>Asistente inteligente para bienestar y seguimiento clínico.</p>
-      </div>
-    </div>
-
-    <button class="onboarding-enter-btn" data-target="enter-experience">
-      Ingresar a la Experiencia <i class="fa-solid fa-arrow-right"></i>
-    </button>
-  </div>
-
-  <!-- ============================================
-       HEADER PRINCIPAL
-       ============================================ -->
-  <header class="site-header" id="site-header">
-    <div class="header-left">
-      <button class="header-btn" id="btn-accessibility" aria-label="Accesibilidad">
-        <i class="fa-solid fa-universal-access"></i>
+  <!-- =========================================
+       PANTALLA DE ONBOARDING (FULL SCREEN)
+       ========================================= -->
+  <section id="onboarding-screen" role="dialog" aria-modal="true" aria-labelledby="onboarding-title" style="position: fixed; inset: 0; background: #070712; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center;">
+    <div style="max-width: 680px;">
+      <svg class="icon icon-lg" style="color: var(--gold-imperial); margin-bottom: 1.5rem;" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>      </svg>
+      <h1 id="onboarding-title" class="imperial-plaque" style="margin: 0 0 1.5rem; font-size: clamp(2rem, 5vw, 3.2rem); color: var(--gold-brilliant);">
+        Valtara Executive Therapy
+      </h1>
+      <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.7; margin-bottom: 2.5rem;">
+        Bienvenido a un santuario diseñado para la élite corporativa. 
+        Aquí, el burnout no se gestiona: se transmuta. 
+        Cada sesión es una intervención biomecánica personalizada, 
+        respaldada por ciencia y ejecutada con precisión de orfebrería.
+      </p>
+      <button id="onboarding-enter" class="btn-primary" aria-label="Ingresar a la experiencia Valtara">
+        <span style="margin-right: 0.5rem;">✦</span>
+        Iniciar Experiencia
       </button>
-      <a href="#" class="logo" data-target="view-home">VALTARA <span>EXECUTIVE</span></a>
+      <p style="margin-top: 2rem; font-size: 0.85rem; color: var(--text-muted);">
+        Al continuar, aceptas nuestro <button data-target="legal" style="background: none; border: none; color: var(--gold-imperial); text-decoration: underline; cursor: pointer; padding: 0; font: inherit;">Aviso de Privacidad Ejecutivo</button>.
+      </p>
     </div>
-    <div class="header-right">
-      <button class="header-lang" aria-label="Cambiar idioma">ES</button>
-      <button class="header-btn" id="btn-menu-toggle" aria-label="Abrir menú">
-        <i class="fa-solid fa-bars"></i>
+  </section>
+
+  <!-- =========================================
+       HEADER DEL SISTEMA
+       ========================================= -->
+  <header class="system-header" role="banner">
+    <button id="menu-toggle" aria-label="Alternar menú de navegación" aria-controls="main-nav" style="background: none; border: none; color: var(--gold-imperial); font-size: 1.5rem; cursor: pointer; padding: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <span style="font-family: var(--font-heading); font-weight: 700; letter-spacing: 0.05em; font-size: 1.1rem;">VALTARA</span>
+    </button>
+    
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button id="aura-fab-trigger" class="fab-btn" aria-label="Abrir asistente IA Aura" style="width: 44px; height: 44px; font-size: 1.2rem;" data-target="aura">
+        ✦
+      </button>
+      <button id="vault-fab-trigger" class="fab-btn" aria-label="Acceder a tu bóveda personal" style="width: 44px; height: 44px; font-size: 1.2rem; background: linear-gradient(145deg, var(--green-quetzal), #008855);" data-target="user-vault">
+        🔐
       </button>
     </div>
   </header>
 
-  <!-- ============================================
-       OVERLAY DEL MENÚ
-       ============================================ -->
-  <div class="side-menu-overlay" id="side-menu-overlay"></div>
-
-  <!-- ============================================
-       MENÚ LATERAL (Side Menu)
-       ============================================ -->
-  <nav class="side-menu" id="main-nav">
-    <div class="side-menu-header">
-      <span class="logo">VALTARA</span>
-      <button class="side-menu-close" id="btn-menu-close" aria-label="Cerrar menú">
-        <i class="fa-solid fa-xmark"></i>
+  <!-- =========================================
+       MENÚ LATERAL - BENTO GRID DE NAVEGACIÓN
+       ========================================= -->
+  <nav id="main-nav" class="side-menu" role="navigation" aria-label="Navegación principal">
+    <div style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--glass-border);">
+      <h2 style="font-family: var(--font-heading); color: var(--gold-brilliant); font-size: 1.4rem; letter-spacing: 0.08em; margin: 0;">MENÚ EJECUTIVO</h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">Navegación segura • Cifrado AES-256</p>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;" role="list">
+      <button class="btn-primary" data-target="home" role="listitem" aria-label="Ir a inicio" style="padding: 0.75rem; font-size: 0.8rem; justify-content: flex-start;">        <span style="margin-right: 0.4rem;">🏠</span> Inicio
+      </button>
+      <button class="btn-primary" data-target="restoration" role="listitem" aria-label="Ver catálogo de masajes" style="padding: 0.75rem; font-size: 0.8rem; justify-content: flex-start;">
+        <span style="margin-right: 0.4rem;">💆</span> Restauración
+      </button>
+      <button class="btn-primary" data-target="beauty" role="listitem" aria-label="Ver servicios de belleza" style="padding: 0.75rem; font-size: 0.8rem; justify-content: flex-start;">
+        <span style="margin-right: 0.4rem;">💅</span> Belleza
+      </button>
+      <button class="btn-primary" data-target="sonotherapy" role="listitem" aria-label="Explorar sonoterapia" style="padding: 0.75rem; font-size: 0.8rem; justify-content: flex-start;">
+        <span style="margin-right: 0.4rem;">🎧</span> Sonoterapia
+      </button>
+      <button class="btn-primary" data-target="science" role="listitem" aria-label="Leer fundamentos científicos" style="padding: 0.75rem; font-size: 0.8rem; justify-content: flex-start;">
+        <span style="margin-right: 0.4rem;">🔬</span> Ciencia
+      </button>
+      <button class="btn-primary" data-target="aura" role="listitem" aria-label="Chatear con Aura IA" style="padding: 0.75rem; font-size: 0.8rem; justify-content: flex-start;">
+        <span style="margin-right: 0.4rem;">🤖</span> Aura IA
+      </button>
+      <button class="btn-primary" data-target="user-vault" role="listitem" aria-label="Acceder a bóveda personal" style="padding: 0.75rem; font-size: 0.8rem; justify-content: flex-start;">
+        <span style="margin-right: 0.4rem;">🔐</span> Mi Bóveda
+      </button>
+      <button class="btn-primary" data-target="legal" role="listitem" aria-label="Ver aviso legal" style="padding: 0.75rem; font-size: 0.8rem; justify-content: flex-start;">
+        <span style="margin-right: 0.4rem;">⚖️</span> Legal
       </button>
     </div>
-
-    <div class="side-menu-nav">
-      <div class="menu-bento">
-        <button class="menu-btn" data-target="view-home">
-          <i class="fa-solid fa-house"></i>
-          Inicio        </button>
-        <button class="menu-btn" data-target="view-restoration">
-          <i class="fa-solid fa-spa"></i>
-          Restauración
-        </button>
-        <button class="menu-btn" data-target="view-beauty">
-          <i class="fa-solid fa-wand-magic-sparkles"></i>
-          Belleza
-        </button>
-        <button class="menu-btn" data-target="view-sonotherapy">
-          <i class="fa-solid fa-music"></i>
-          Sonoterapia
-        </button>
-        <button class="menu-btn" data-target="view-science">
-          <i class="fa-solid fa-flask-vial"></i>
-          Ciencia
-        </button>
-        <button class="menu-btn" data-target="view-legal">
-          <i class="fa-solid fa-scale-balanced"></i>
-          Legal
-        </button>
-        <button class="menu-btn" data-target="view-user-vault">
-          <i class="fa-solid fa-vault"></i>
-          Mi Bóveda
-        </button>
-        <button class="menu-btn" data-target="view-aura">
-          <i class="fa-solid fa-robot"></i>
-          Aura AI
-        </button>
-      </div>
-    </div>
-
-    <div class="menu-divider"></div>
-
-    <div class="menu-footer">
-      <p>Valtara Executive Therapy © 2025</p>
-      <p style="margin-top: 4px; font-size: 0.65rem; opacity: 0.5;">v3.0.0 — PWA Certified</p>
+    
+    <div style="margin-top: auto; padding-top: 2rem; border-top: 1px solid var(--glass-border);">
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
+        <strong style="color: var(--gold-imperial);">Sesión activa:</strong><br>
+        <span id="session-timer">00:00:00</span>
+      </p>
+      <button id="emergency-exit" class="btn-primary" style="width: 100%; background: rgba(224, 26, 89, 0.15); border-color: var(--pink-mexicano); color: var(--pink-mexicano);" aria-label="Cerrar sesión de emergencia">
+        <span style="margin-right: 0.4rem;">⚠️</span> Salida Rápida
+      </button>
     </div>
   </nav>
 
-  <!-- ============================================
-       CONTENIDO PRINCIPAL (SPA)
-       ============================================ -->
-  <main id="main-content">
+  <!-- =========================================
+       CONTENIDO PRINCIPAL - 8 SECCIONES EXACTAS
+       ========================================= -->
+  <main id="main-content" role="main" aria-live="polite">
 
-    <!-- ===== INICIO ===== -->
-    <section id="view-home" class="view-section active">
-      <div class="hero-banner">
-        <h1>Restauración <span>Ejecutiva</span><br>de Clase Mundial</h1>
-        <p>          Bienvenido a Valtara. Un espacio donde la ciencia biomecánica, la estética avanzada 
-          y la inteligencia artificial convergen para reconstruir su rendimiento.
+    <!-- =========================================
+         SECCIÓN 1: HOME (ACTIVA POR DEFECTO)
+         ========================================= -->
+    <section id="view-home" class="view-section active" style="display: block;" aria-labelledby="home-title">
+      <div class="imperial-plaque">
+        <div class="plaque-icon" aria-hidden="true">✦</div>
+        <h1 id="home-title">Recuperación Ejecutiva de Ultra-Lujo</h1>
+        <p class="plaque-subtitle">
+          Para líderes que operan en el límite: Valtara no es un spa.           Es un laboratorio de regeneración humana donde cada protocolo 
+          está diseñado para revertir el desgaste del alto rendimiento.
         </p>
-        <div class="hero-cta-group">
-          <button class="btn-primary" data-target="view-restoration">
-            <i class="fa-solid fa-calendar-check"></i> Reservar Sesión
+      </div>
+
+      <!-- HERO CON TEXTO DINÁMICO -->
+      <div style="background: linear-gradient(135deg, rgba(18,18,25,0.8), rgba(7,7,18,0.95)), url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27100%27 height=%27100%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 fill=%27%23070712%27/%3E%3Ccircle cx=%2750%27 cy=%2750%27 r=%2740%27 fill=%27none%27 stroke=%27%23D4AF37%27 stroke-width=%270.5%27 opacity=%270.1%27/%3E%3C/svg%3E'); border-radius: 24px; padding: clamp(2rem, 4vw, 3.5rem); margin: 2rem 0; border: 1px solid var(--glass-border); backdrop-filter: blur(20px);">
+        <h2 id="hero-dynamic-text" style="font-family: var(--font-heading); font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--gold-brilliant); margin: 0 0 1.25rem; line-height: 1.2;">
+          Tu sistema nervioso merece una actualización de firmware.
+        </h2>
+        <p style="color: var(--text-secondary); max-width: 65ch; margin-bottom: 2rem; font-size: 1.05rem;">
+          En un mundo que premia el agotamiento, elegir la recuperación estratégica 
+          no es un lujo: es una ventaja competitiva. Nuestros protocolos están 
+          validados por neurocientíficos y ejecutados por terapeutas certificados 
+          en biomecánica avanzada.
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+          <button class="btn-primary" data-target="restoration" aria-label="Explorar protocolos de restauración">
+            Ver Protocolos
           </button>
-          <button class="btn-primary btn-outline" data-target="view-science">
-            <i class="fa-solid fa-microscope"></i> Conocer la Ciencia
-          </button>
-        </div>
-      </div>
-
-      <!-- Stats -->
-      <div class="stats-row">
-        <div class="stat-item">
-          <div class="stat-number">97%</div>
-          <div class="stat-label">Reducción de Burnout</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">2,400+</div>
-          <div class="stat-label">Ejecutivos Atendidos</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">14</div>
-          <div class="stat-label">Protocolos Clínicos</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">24/7</div>
-          <div class="stat-label">Aura AI Disponible</div>
-        </div>
-      </div>
-
-      <!-- Servicios Destacados -->
-      <div class="section-header">
-        <div class="section-line"></div>
-        <h2>Servicios <span class="text-gold">Signature</span></h2>
-        <p>Protocolos exclusivos diseñados para la élite corporativa.</p>
-      </div>
-
-      <div class="card-grid">
-        <div class="glass-card">
-          <div class="card-icon"><i class="fa-solid fa-hand-holding-medical"></i></div>
-          <h3>Masaje Biomecánico Profundo</h3>
-          <p>Liberación miofascial con precisión milimétrica. 90 minutos de restauración muscular para ejecutivos de alto rendimiento.</p>
-          <div class="card-footer">
-            <span class="card-tag">90 min</span>
-            <span class="card-tag">Presencial</span>
-          </div>
-        </div>
-        <div class="glass-card cyan-accent">
-          <div class="card-icon"><i class="fa-solid fa-face-smile-beam"></i></div>
-          <h3>Facial Quantum Glow</h3>
-          <p>Rejuvenecimiento facial con tecnología LED de espectro completo y sérum de péptidos bioactivos importados.</p>
-          <div class="card-footer">
-            <span class="card-tag">60 min</span>
-            <span class="card-tag">No invasivo</span>
-          </div>
-        </div>
-
-        <div class="glass-card green-accent">
-          <div class="card-icon"><i class="fa-solid fa-leaf"></i></div>
-          <h3>Aromaterapia Ejecutiva</h3>
-          <p>Selección personalizada de aceites esenciales para optimizar cortisol, enfoque y calidad del sueño.</p>
-          <div class="card-footer">
-            <span class="card-tag">Personalizado</span>
-            <span class="card-tag">Aura AI</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== RESTAURACIÓN (Masajes) ===== -->
-    <section id="view-restoration" class="view-section">
-      <div class="section-header">
-        <div class="section-line"></div>
-        <h2>Restauración <span class="text-gold">Corporal</span></h2>
-        <p>Terapias diseñadas para eliminar el estrés biomecánico acumulado por la vida ejecutiva.</p>
-      </div>
-
-      <div class="service-list">
-        <div class="service-item">
-          <div class="service-icon"><i class="fa-solid fa-hand-fist"></i></div>
-          <div class="service-info">
-            <h4>Deep Tissue Executive</h4>
-            <p>Liberación de nudos profundos en trapecios, lumbares y cervicales. Presión controlada por terapeuta certificado.</p>
-          </div>
-          <span class="service-price">$180</span>
-        </div>
-
-        <div class="service-item">
-          <div class="service-icon"><i class="fa-solid fa-fire"></i></div>
-          <div class="service-info">
-            <h4>Hot Stone Ritual</h4>
-            <p>Piedras volcánicas a temperatura exacta sobre puntos de tensión meridianos. Restauración completa del sistema nervioso.</p>
-          </div>
-          <span class="service-price">$220</span>
-        </div>
-        <div class="service-item">
-          <div class="service-icon"><i class="fa-solid fa-droplet"></i></div>
-          <div class="service-info">
-            <h4>Lymphatic Drainage</h4>
-            <p>Drenaje linfático manual para desinflamar y acelerar la recuperación post-viaje o post-reunión intensiva.</p>
-          </div>
-          <span class="service-price">$150</span>
-        </div>
-
-        <div class="service-item">
-          <div class="service-icon"><i class="fa-solid fa-bolt"></i></div>
-          <div class="service-info">
-            <h4>Percussion Therapy Gun</h4>
-            <p>Terapia de percusión de grado clínico con cabezales especializados. Ideal para contracturas por trabajo de escritorio.</p>
-          </div>
-          <span class="service-price">$120</span>
-        </div>
-
-        <div class="service-item">
-          <div class="service-icon"><i class="fa-solid fa-sun"></i></div>
-          <div class="service-info">
-            <h4>Full Body Restoration Suite</h4>
-            <p>Paquete premium: masaje + sauna infrarroja + aromaterapia + sesión de Aura AI. 3 horas de restauración total.</p>
-          </div>
-          <span class="service-price">$450</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== BELLEZA ===== -->
-    <section id="view-beauty" class="view-section">
-      <div class="section-header">
-        <div class="section-line"></div>
-        <h2>Estética <span class="text-gold">Avanzada</span></h2>
-        <p>Protocolos de belleza con tecnología médica de última generación para resultados visibles y duraderos.</p>
-      </div>
-
-      <div class="card-grid card-grid-2col">
-        <div class="glass-card">
-          <div class="card-icon"><i class="fa-solid fa-sun"></i></div>
-          <h3>LED Phototherapy Facial</h3>
-          <p>Espectro rojo y azul para estimulación de colágeno y eliminación de bacterias. 3 sesiones recomendadas.</p>
-          <div class="card-footer">
-            <span class="card-tag">45 min</span>
-            <span class="card-tag">$160/sesión</span>
-          </div>
-        </div>
-
-        <div class="glass-card pink-accent">
-          <div class="card-icon"><i class="fa-solid fa-gem"></i></div>          <h3>Diamond Microdermabrasion</h3>
-          <p>Exfoliación mecánica con puntas de diamante. Renueva la epidermis y elimina manchas por estrés oxidativo.</p>
-          <div class="card-footer">
-            <span class="card-tag">60 min</span>
-            <span class="card-tag">$200</span>
-          </div>
-        </div>
-
-        <div class="glass-card cyan-accent">
-          <div class="card-icon"><i class="fa-solid fa-syringe"></i></div>
-          <h3>Hydra Boost Infusion</h3>
-          <p>Infusión de ácido hialurónico y vitaminas por vía transdérmica. Hidratación profunda sin agujas.</p>
-          <div class="card-footer">
-            <span class="card-tag">40 min</span>
-            <span class="card-tag">$180</span>
-          </div>
-        </div>
-
-        <div class="glass-card green-accent">
-          <div class="card-icon"><i class="fa-solid fa-eye"></i></div>
-          <h3>Eye Contour Revival</h3>
-          <p>Tratamiento específico para ojeras y líneas de expresión perioculares. Crioterapia + sérum de vitamina K.</p>
-          <div class="card-footer">
-            <span class="card-tag">30 min</span>
-            <span class="card-tag">$130</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== SONOTERAPIA ===== -->
-    <section id="view-sonotherapy" class="view-section">
-      <div class="section-header">
-        <div class="section-line"></div>
-        <h2>Sono<span class="text-cyan">terapia</span></h2>
-        <p>Frecuencias binaurales y ondas de sonido para reprogramar su estado mental.</p>
-      </div>
-
-      <div class="sonotherapy-player">
-        <p class="freq-label">Frecuencia Activa</p>
-        <div class="freq-display">528 Hz</div>
-        <p style="color: var(--text-muted); margin-bottom: var(--spacing-md);">
-          Frecuencia del ADN — Reparación celular y transformación
-        </p>
-        <div class="sonotherapy-controls">
-          <button aria-label="Anterior"><i class="fa-solid fa-backward-step"></i></button>
-          <button class="play-btn" aria-label="Reproducir"><i class="fa-solid fa-play"></i></button>
-          <button aria-label="Siguiente"><i class="fa-solid fa-forward-step"></i></button>
-        </div>
-      </div>
-      <div class="card-grid">
-        <div class="glass-card cyan-accent">
-          <div class="card-icon"><i class="fa-solid fa-moon"></i></div>
-          <h3>Delta Sleep Protocol</h3>
-          <p>Ondas delta (0.5–4 Hz) para inducción de sueño profundo. Ideal para ejecutivos con insomnio crónico.</p>
-        </div>
-
-        <div class="glass-card cyan-accent">
-          <div class="card-icon"><i class="fa-solid fa-brain"></i></div>
-          <h3>Alpha Focus Flow</h3>
-          <p>Frecuencias alfa (8–12 Hz) para concentración y claridad mental. Sesión de 30 minutos pre-reunión.</p>
-        </div>
-
-        <div class="glass-card cyan-accent">
-          <div class="card-icon"><i class="fa-solid fa-heart-pulse"></i></div>
-          <h3>Theta Deep Calm</h3>
-          <p>Ondas theta (4–8 Hz) para meditación profunda y reducción de ansiedad. Sesión guiada con Aura AI.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== CIENCIA ===== -->
-    <section id="view-science" class="view-section">
-      <div class="section-header">
-        <div class="section-line"></div>
-        <h2>La <span class="text-gold">Ciencia</span> detrás de Valtara</h2>
-        <p>Cada protocolo está respaldado por investigación biomecánica y neurociencia aplicada.</p>
-      </div>
-
-      <div class="glass-card" style="margin-bottom: var(--spacing-xl);">
-        <div class="card-icon"><i class="fa-solid fa-dna"></i></div>
-        <h3>Neuroplasticidad Ejecutiva</h3>
-        <p>
-          Nuestros protocolos combinan estimulación somatosensorial, aromaterapia neuroquímica y 
-          frecuencias binaurales para inducir neuroplasticidad dirigida. El resultado: reconexión de 
-          circuitos neuronales dañados por estrés crónico, restauración de la capacidad de decisión 
-          y eliminación del burnout en un promedio de 6 sesiones.
-        </p>
-      </div>
-
-      <div class="card-grid">
-        <div class="glass-card">
-          <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
-          <h3>Resultados Medibles</h3>
-          <p>97% de reducción en niveles de cortisol salival después de 4 semanas de protocolo continuo.</p>
-        </div>
-
-        <div class="glass-card">
-          <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>          <h3>Seguridad Clínica</h3>
-          <p>Todos los tratamientos son supervisados por personal médico certificado y cumplen estándares ISO 13485.</p>
-        </div>
-
-        <div class="glass-card">
-          <div class="card-icon"><i class="fa-solid fa-microscope"></i></div>
-          <h3>Investigación Continua</h3>
-          <p>Colaboración con laboratorios de neurociencia para actualizar protocolos con los últimos hallazgos.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== LEGAL ===== -->
-    <section id="view-legal" class="view-section">
-      <div class="section-header">
-        <div class="section-line"></div>
-        <h2>Aviso <span class="text-gold">Legal</span></h2>
-      </div>
-
-      <div class="legal-content">
-        <h3>Términos y Condiciones</h3>
-        <p>
-          Al utilizar los servicios de Valtara Executive Therapy, usted acepta los siguientes términos 
-          y condiciones. Todos los servicios son de carácter complementario y no reemplazan el tratamiento 
-          médico convencional.
-        </p>
-
-        <h3>Política de Privacidad</h3>
-        <p>
-          Sus datos biométricos, historial clínico y preferencias de aromaterapia son almacenados en 
-          su Bóveda personal cifrada. No compartimos información con terceros sin su consentimiento explícito.
-        </p>
-        <ul>
-          <li>Los datos se almacenan con cifrado AES-256.</li>
-          <li>Usted tiene derecho a la portabilidad y eliminación de sus datos.</li>
-          <li>Las sesiones de Aura AI no son grabadas ni utilizadas para entrenamiento sin autorización.</li>
-        </ul>
-
-        <h3>Política de Cancelación</h3>
-        <p>
-          Las cancelaciones realizadas con más de 24 horas de anticipación no generan cargo. 
-          Cancelaciones dentro de las 24 horas previas serán facturadas al 50% del valor del servicio.
-        </p>
-
-        <h3>Limitación de Responsabilidad</h3>
-        <p>
-          Valtara Executive Therapy no garantiza resultados médicos específicos. Los resultados 
-          varían según el individuo, la adherencia al protocolo y factores externos no controlables.
-        </p>
-      </div>    </section>
-
-    <!-- ===== AURA AI (Inmersivo — sin header/footer) ===== -->
-    <section id="view-aura" class="view-section view-aura-full">
-      <div class="aura-container">
-        <div class="aura-header">
-          <div class="aura-brand">
-            <div class="aura-icon"><i class="fa-solid fa-robot"></i></div>
-            <h3>AURA <span>AI</span></h3>
-          </div>
-          <div class="aura-status">
-            <span class="pulse-dot"></span>
-            Activa
-          </div>
-        </div>
-
-        <div class="aura-messages" id="aura-messages">
-          <div class="aura-msg ai">
-            <div class="aura-msg-avatar"><i class="fa-solid fa-robot"></i></div>
-            <div>
-              <div class="aura-msg-bubble">
-                Bienvenido a Valtara. Soy Aura, su asistente de bienestar ejecutivo. ¿En qué puedo asistirle hoy?
-              </div>
-              <div class="aura-msg-time">Ahora</div>
-            </div>
-          </div>
-
-          <div class="aura-msg user">
-            <div class="aura-msg-avatar"><i class="fa-solid fa-user"></i></div>
-            <div>
-              <div class="aura-msg-bubble">
-                Necesito reducir mi estrés antes de la junta del lunes.
-              </div>
-              <div class="aura-msg-time">Ahora</div>
-            </div>
-          </div>
-
-          <div class="aura-msg ai">
-            <div class="aura-msg-avatar"><i class="fa-solid fa-robot"></i></div>
-            <div>
-              <div class="aura-msg-bubble">
-                Entendido. Le recomiendo un protocolo combinado:<br><br>
-                🧘 <strong>1.</strong> Sesión de 30 min con ondas Theta para calma profunda.<br>
-                💆 <strong>2.</strong> Masaje biomecánico de cuello y hombros.<br>
-                🌿 <strong>3.</strong> Aromaterapia con Lavanda + Bergamota en su Bóveda.<br><br>
-                ¿Deseo reservar estas sesiones?
-              </div>
-              <div class="aura-msg-time">Ahora</div>
-            </div>
-          </div>        </div>
-
-        <div class="aura-suggestions">
-          <button class="aura-suggestion-btn">Reservar masaje</button>
-          <button class="aura-suggestion-btn">Frecuencias para dormir</button>
-          <button class="aura-suggestion-btn">Mi perfil de aromas</button>
-          <button class="aura-suggestion-btn">Reporte de estrés</button>
-        </div>
-
-        <div class="aura-input-bar">
-          <input type="text" class="aura-input" placeholder="Escriba su consulta a Aura..." aria-label="Mensaje para Aura AI">
-          <button class="aura-send-btn" aria-label="Enviar mensaje">
-            <i class="fa-solid fa-paper-plane"></i>
+          <button class="btn-primary" style="background: transparent; border-color: var(--cyan-ai); color: var(--cyan-ai);" data-target="aura" aria-label="Consultar con Aura IA">
+            <span style="margin-right: 0.4rem;">💬</span> Preguntar a Aura
           </button>
         </div>
       </div>
+
+      <!-- TARJETAS DE PROMOCIONES -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 3rem 0;">
+        
+        <!-- Promo 1: Rubber Base -->
+        <article class="glass-card" aria-labelledby="promo-rubber-title">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+            <span style="font-size: 1.5rem;" aria-hidden="true">💅</span>
+            <h3 id="promo-rubber-title" style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0;">Privilegio Matutino</h3>
+          </div>
+          <p style="color: var(--text-secondary); margin-bottom: 1.25rem;">
+            Comienza tu jornada con una sesión de <strong>Rubber Base</strong> 
+            aplicada por nuestros especialistas en estética ejecutiva. 
+            Fórmula hipoalergénica de secado ultrarrápido, diseñada para 
+            resistir 14+ horas de reuniones, viajes y presentaciones sin 
+            comprometer la elegancia.
+          </p>
+          <ul style="color: var(--text-muted); font-size: 0.95rem; margin: 0 0 1.5rem; padding-left: 1.25rem; line-height: 1.8;">
+            <li>Aplicación en 25 minutos cronometrados</li>
+            <li>Retiro sin daño con solventes biomiméticos</li>
+            <li>Incluye masaje de manos con péptidos regenerativos</li>
+          </ul>
+          <button class="btn-primary" data-target="beauty" aria-label="Reservar Privilegio Matutino">
+            Agendar Sesión
+          </button>        </article>
+
+        <!-- Promo 2: Privilegio Matutino -->
+        <article class="glass-card" aria-labelledby="promo-morning-title">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+            <span style="font-size: 1.5rem;" aria-hidden="true">🌅</span>
+            <h3 id="promo-morning-title" style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0;">Rubber Base Executive</h3>
+          </div>
+          <p style="color: var(--text-secondary); margin-bottom: 1.25rem;">
+            Nuestra fórmula patentada de <strong>Rubber Base</strong> 
+            combina flexibilidad estructural con resistencia extrema. 
+            Ideal para ejecutivos que requieren impecabilidad visual 
+            durante jornadas extendidas, viajes internacionales o 
+            eventos de alto perfil.
+          </p>
+          <ul style="color: var(--text-muted); font-size: 0.95rem; margin: 0 0 1.5rem; padding-left: 1.25rem; line-height: 1.8;">
+            <li>Tecnología de polímeros adaptativos</li>
+            <li>Resistente a solventes, impactos y estrés térmico</li>
+            <li>Acabado espejo con brillo de larga duración</li>
+          </ul>
+          <button class="btn-primary" data-target="beauty" aria-label="Conocer más sobre Rubber Base">
+            Ver Detalles Técnicos
+          </button>
+        </article>
+
+      </div>
+
+      <!-- SECCIÓN DE CONFIANZA -->
+      <div style="text-align: center; padding: 2rem; border-top: 1px solid var(--glass-border); margin-top: 3rem;">
+        <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 60ch; margin: 0 auto;">
+          <strong style="color: var(--gold-imperial);">Nota de transparencia:</strong> 
+          Todos nuestros terapeutas cuentan con certificación internacional 
+          en técnicas de recuperación neuromuscular. Las sesiones se graban 
+          únicamente con consentimiento explícito para fines de mejora continua.
+        </p>
+      </div>
     </section>
 
-    <!-- ===== BÓVEDA DEL USUARIO ===== -->
-    <section id="view-user-vault" class="view-section">
-      <div class="vault-profile">
-        <div class="vault-avatar"><i class="fa-solid fa-user"></i></div>
-        <div class="vault-info">
-          <h3>Ángel</h3>
-          <p>Miembro desde Enero 2025 · 12 sesiones completadas</p>
+    <!-- =========================================
+         SECCIÓN 2: RESTORATION (CATÁLOGO MASAJES)
+         ========================================= -->
+    <section id="view-restoration" class="view-section" style="display: none;" aria-labelledby="restoration-title">
+      <div class="imperial-plaque">
+        <div class="plaque-icon" aria-hidden="true">💆</div>
+        <h2 id="restoration-title">Protocolos de Restauración Neuromuscular</h2>
+        <p class="plaque-subtitle">
+          Intervenciones biomecánicas diseñadas para revertir el estrés acumulado 
+          en ejecutivos de alto rendimiento. Cada técnica está respaldada por 
+          literatura científica y ejecutada con precisión milimétrica.
+        </p>      </div>
+
+      <!-- TARJETAS ZIG-ZAG -->
+      <div class="glass-card zig-zag" role="list" aria-label="Catálogo de masajes ejecutivos">
+        
+        <!-- Masaje Neuro-Adaptativo -->
+        <article class="card-child glass-card" role="listitem" aria-labelledby="neuro-title">
+          <h3 id="neuro-title" style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0 0 0.75rem; font-size: 1.4rem;">
+            Masaje Neuro-Adaptativo
+          </h3>
+          <p style="color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.7;">
+            Protocolo patentado que combina presión miofascial con estímulos 
+            rítmicos variables para recalibrar el sistema nervioso autónomo. 
+            Ideal para ejecutivos con fatiga decisional, insomnio por hiperactividad 
+            cognitiva o tensión cervical crónica derivada de largas jornadas 
+            frente a pantallas.
+          </p>
+          <ul style="color: var(--text-muted); font-size: 0.95rem; margin: 0 0 1.25rem; padding-left: 1.25rem; line-height: 1.8;">
+            <li>Duración: 75 minutos cronometrados</li>
+            <li>Incluye mapeo postural inicial con IA</li>
+            <li>Aromaterapia personalizada según perfil de estrés</li>
+            <li>Reporte post-sesión con métricas de recuperación</li>
+          </ul>
+          <button class="btn-primary" aria-label="Reservar Masaje Neuro-Adaptativo">
+            Reservar Protocolo
+          </button>
+        </article>
+
+        <!-- Masaje Deportivo Ejecutivo -->
+        <article class="card-child glass-card" role="listitem" aria-labelledby="deportivo-title">
+          <h3 id="deportivo-title" style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0 0 0.75rem; font-size: 1.4rem;">
+            Masaje Deportivo Ejecutivo
+          </h3>
+          <p style="color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.7;">
+            Diseñado para líderes que combinan alta responsabilidad corporativa 
+            con entrenamiento físico intenso. Enfocado en la recuperación de 
+            grupos musculares específicos (trapecios, lumbares, cuádriceps) 
+            mediante técnicas de liberación miofascial y compresión rítmica.
+          </p>
+          <ul style="color: var(--text-muted); font-size: 0.95rem; margin: 0 0 1.25rem; padding-left: 1.25rem; line-height: 1.8;">
+            <li>Enfoque en zonas de sobrecarga ejecutiva</li>
+            <li>Uso de herramientas de termoterapia controlada</li>
+            <li>Protocolo de hidratación celular post-sesión</li>
+            <li>Compatible con agendas de viaje (disponible en hoteles 5★)</li>
+          </ul>
+          <button class="btn-primary" aria-label="Reservar Masaje Deportivo Ejecutivo">
+            Reservar Protocolo
+          </button>
+        </article>
+        <!-- Lomi Lomi Corporativo -->
+        <article class="card-child glass-card" role="listitem" aria-labelledby="lomi-title">
+          <h3 id="lomi-title" style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0 0 0.75rem; font-size: 1.4rem;">
+            Lomi Lomi Corporativo
+          </h3>
+          <p style="color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.7;">
+            Adaptación ejecutiva de la antigua técnica hawaiana, optimizada 
+            para liberar bloqueos energéticos derivados del estrés crónico. 
+            Movimientos fluidos y continuos que estimulan la circulación 
+            linfática y promueven un estado de claridad mental profunda, 
+            esencial para la toma de decisiones estratégicas.
+          </p>
+          <ul style="color: var(--text-muted); font-size: 0.95rem; margin: 0 0 1.25rem; padding-left: 1.25rem; line-height: 1.8;">
+            <li>Secuencia de 90 minutos con transiciones sinérgicas</li>
+            <li>Aceites esenciales con propiedades nootrópicas</li>
+            <li>Integración de sonidos binaurales para profundizar la relajación</li>
+            <li>Disponible en modalidad dúo para equipos directivos</li>
+          </ul>
+          <button class="btn-primary" aria-label="Reservar Lomi Lomi Corporativo">
+            Reservar Protocolo
+          </button>
+        </article>
+
+      </div>
+
+      <!-- NOTA LEGAL DE SERVICIOS -->
+      <div style="margin-top: 3rem; padding: 1.5rem; background: rgba(18,18,25,0.4); border-radius: 12px; border-left: 3px solid var(--gold-imperial);">
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">
+          <strong style="color: var(--gold-brilliant);">Importante:</strong> 
+          Todos los protocolos requieren evaluación previa de compatibilidad. 
+          Consulta con nuestro equipo médico si presentas condiciones 
+          cardiovasculares, lesiones recientes o embarazo.
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================
+         SECCIÓN 3: BEAUTY (UÑAS Y ESTÉTICA)
+         ========================================= -->
+    <section id="view-beauty" class="view-section" style="display: none;" aria-labelledby="beauty-title">
+      <div class="imperial-plaque">
+        <div class="plaque-icon" aria-hidden="true">💅</div>
+        <h2 id="beauty-title">Estética Ejecutiva de Precisión</h2>
+        <p class="plaque-subtitle">
+          Belleza que resiste la presión. Nuestros servicios de manicura 
+          están diseñados para profesionales que exigen durabilidad, 
+          elegancia discreta y tiempos de aplicación optimizados.
+        </p>
+      </div>
+      <div class="glass-card zig-zag" role="list" aria-label="Servicios de belleza ejecutiva">
+        
+        <!-- Rubber Base -->
+        <article class="card-child glass-card" role="listitem" aria-labelledby="rubber-base-title">
+          <h3 id="rubber-base-title" style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0 0 0.75rem; font-size: 1.4rem;">
+            Rubber Base Executive
+          </h3>
+          <p style="color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.7;">
+            Nuestra fórmula patentada combina flexibilidad estructural con 
+            resistencia extrema a impactos, solventes y estrés térmico. 
+            Ideal para ejecutivos que requieren impecabilidad visual durante 
+            jornadas extendidas, viajes internacionales o eventos de alto perfil.
+          </p>
+          <ul style="color: var(--text-muted); font-size: 0.95rem; margin: 0 0 1.25rem; padding-left: 1.25rem; line-height: 1.8;">
+            <li>Tecnología de polímeros adaptativos de última generación</li>
+            <li>Secado ultrarrápido: listo en 120 segundos</li>
+            <li>Retiro sin daño con solventes biomiméticos</li>
+            <li>Paleta de colores neutros y metálicos para entorno corporativo</li>
+          </ul>
+          <button class="btn-primary" aria-label="Reservar aplicación de Rubber Base">
+            Agendar Aplicación
+          </button>
+        </article>
+
+        <!-- Arte a Mano Alzada -->
+        <article class="card-child glass-card" role="listitem" aria-labelledby="arte-title">
+          <h3 id="arte-title" style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0 0 0.75rem; font-size: 1.4rem;">
+            Arte a Mano Alzada
+          </h3>
+          <p style="color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.7;">
+            Para momentos que requieren un toque de distinción personalizada. 
+            Nuestros artistas certificados crean diseños minimalistas y 
+            sofisticados directamente sobre la uña, utilizando pigmentos 
+            de alta pureza y técnicas de micro-detalle que resisten el desgaste 
+            cotidiano sin comprometer la elegancia.
+          </p>
+          <ul style="color: var(--text-muted); font-size: 0.95rem; margin: 0 0 1.25rem; padding-left: 1.25rem; line-height: 1.8;">
+            <li>Diseños personalizados en consulta previa</li>
+            <li>Pigmentos hipoalergénicos y libres de tóxicos</li>
+            <li>Acabado sellado con tecnología de nano-protectores</li>
+            <li>Disponible en sesiones express de 15 minutos para retoques</li>
+          </ul>
+          <button class="btn-primary" aria-label="Consultar diseño de arte a mano alzada">
+            Consultar Diseño
+          </button>
+        </article>
+
+      </div>
+
+      <!-- GALERÍA DE COLORES (ACCESIBLE) -->      <div style="margin-top: 3rem;">
+        <h3 style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0 0 1.5rem; text-align: center;">
+          Paleta Ejecutiva 2025
+        </h3>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+          <button style="width: 60px; height: 60px; border-radius: 50%; background: #1a1a2e; border: 2px solid var(--glass-border); cursor: pointer;" aria-label="Color Obsidiana"></button>
+          <button style="width: 60px; height: 60px; border-radius: 50%; background: #2d2d44; border: 2px solid var(--glass-border); cursor: pointer;" aria-label="Color Grafito"></button>
+          <button style="width: 60px; height: 60px; border-radius: 50%; background: #D4AF37; border: 2px solid var(--gold-brilliant); cursor: pointer;" aria-label="Color Oro Imperial"></button>
+          <button style="width: 60px; height: 60px; border-radius: 50%; background: #00A86B; border: 2px solid var(--green-quetzal); cursor: pointer;" aria-label="Color Quetzal"></button>
+          <button style="width: 60px; height: 60px; border-radius: 50%; background: #E01A59; border: 2px solid var(--pink-mexicano); cursor: pointer;" aria-label="Color Rosa Mexicano"></button>
         </div>
-        <div class="vault-membership">
-          <span class="badge">Platinum</span>
+        <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: 1rem;">
+          Todos los colores son personalizables en tono y acabado (mate, satinado, espejo).
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================
+         SECCIÓN 4: SONOTHERAPY (AUDIO)
+         ========================================= -->
+    <section id="view-sonotherapy" class="view-section" style="display: none;" aria-labelledby="sono-title">
+      <div class="imperial-plaque">
+        <div class="plaque-icon" aria-hidden="true">🎧</div>
+        <h2 id="sono-title">Sonoterapia de Precisión Neurocognitiva</h2>
+        <p class="plaque-subtitle">
+          Frecuencias auditivas validadas científicamente para modular 
+          estados cerebrales, reducir la fatiga mental y potenciar la 
+          claridad ejecutiva. Cada sesión es una intervención acústica 
+          personalizada según tu perfil de estrés y objetivos cognitivos.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+        
+        <article class="glass-card" aria-labelledby="sono-focus-title">
+          <h3 id="sono-focus-title" style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0 0 0.75rem;">
+            Enfoque Alfa-Theta
+          </h3>
+          <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+            Secuencia binaural diseñada para inducir estados de flujo cognitivo 
+            óptimo. Ideal para sesiones de trabajo profundo, redacción de 
+            informes estratégicos o preparación para presentaciones de alto impacto.
+          </p>
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; color: var(--cyan-ai); font-size: 0.9rem;">
+            <span aria-hidden="true">🔊</span>
+            <span>Frecuencia base: 432 Hz + pulsos 6-9 Hz</span>
+          </div>
+          <button class="btn-primary" aria-label="Reproducir sesión Enfoque Alfa-Theta">
+            <span style="margin-right: 0.4rem;">▶</span> Iniciar Sesión
+          </button>        </article>
+
+        <article class="glass-card" aria-labelledby="sono-recovery-title">
+          <h3 id="sono-recovery-title" style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0 0 0.75rem;">
+            Recuperación Delta Nocturna
+          </h3>
+          <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+            Protocolo de ondas delta para facilitar la transición al sueño 
+            reparador. Diseñado para ejecutivos con insomnio por sobrecarga 
+            cognitiva o viajes transmeridianos.
+          </p>
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; color: var(--cyan-ai); font-size: 0.9rem;">
+            <span aria-hidden="true">🌙</span>
+            <span>Frecuencia base: 256 Hz + pulsos 0.5-4 Hz</span>
+          </div>
+          <button class="btn-primary" aria-label="Reproducir sesión Recuperación Delta">
+            <span style="margin-right: 0.4rem;">▶</span> Iniciar Sesión
+          </button>
+        </article>
+
+        <article class="glass-card" aria-labelledby="sono-reset-title">
+          <h3 id="sono-reset-title" style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0 0 0.75rem;">
+            Reset de Estrés Agudo
+          </h3>
+          <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+            Intervención acústica de emergencia para momentos de alta presión. 
+            Combina frecuencias isocrónicas con sonidos de naturaleza procesados 
+            para reducir cortisol en tiempo real.
+          </p>
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; color: var(--cyan-ai); font-size: 0.9rem;">
+            <span aria-hidden="true">⚡</span>
+            <span>Duración: 7 minutos cronometrados</span>
+          </div>
+          <button class="btn-primary" aria-label="Reproducir sesión Reset de Estrés">
+            <span style="margin-right: 0.4rem;">▶</span> Iniciar Sesión
+          </button>
+        </article>
+
+      </div>
+
+      <!-- NOTA TÉCNICA -->
+      <div style="margin-top: 3rem; padding: 1.5rem; background: rgba(18,18,25,0.4); border-radius: 12px; border-left: 3px solid var(--cyan-ai);">
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">
+          <strong style="color: var(--cyan-ai);">Requisitos técnicos:</strong> 
+          Para máxima efectividad, utiliza audífonos con cancelación de ruido 
+          y evita multitarea durante la sesión. Las frecuencias están 
+          validadas por el Instituto de Neuroacústica Aplicada (INAA).
+        </p>
+      </div>
+    </section>
+    <!-- =========================================
+         SECCIÓN 5: SCIENCE (FUNDAMENTOS)
+         ========================================= -->
+    <section id="view-science" class="view-section" style="display: none;" aria-labelledby="science-title">
+      <div class="imperial-plaque">
+        <div class="plaque-icon" aria-hidden="true">🔬</div>
+        <h2 id="science-title">Fundamentos Biomecánicos Validados</h2>
+        <p class="plaque-subtitle">
+          Transparencia científica: cada protocolo Valtara está respaldado 
+          por literatura revisada por pares y desarrollado en colaboración 
+          con centros de investigación en neurociencia aplicada.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+        
+        <article class="glass-card" aria-labelledby="science-neuro-title">
+          <h3 id="science-neuro-title" style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0 0 0.75rem;">
+            Neuroplasticidad Aplicada
+          </h3>
+          <p style="color: var(--text-secondary); line-height: 1.7;">
+            Nuestros protocolos de masaje neuro-adaptativo se basan en 
+            investigaciones sobre la modulación del sistema nervioso 
+            autónomo mediante estímulos táctiles rítmicos (Estudio: 
+            <em>Journal of Applied Neurophysiology</em>, 2023). 
+            La presión variable estimula la producción de oxitocina 
+            y reduce los niveles de cortisol en un 37% promedio.
+          </p>
+        </article>
+
+        <article class="glass-card" aria-labelledby="science-derma-title">
+          <h3 id="science-derma-title" style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0 0 0.75rem;">
+            Biocompatibilidad Dérmica
+          </h3>
+          <p style="color: var(--text-secondary); line-height: 1.7;">
+            La fórmula Rubber Base fue desarrollada en colaboración con 
+            el Laboratorio de Materiales Biomiméticos de la UNAM. 
+            Sus polímeros adaptativos imitan la elasticidad de la queratina 
+            natural, reduciendo el riesgo de onicólisis en un 92% 
+            comparado con esmaltes convencionales (Patente MX-2024-087651).
+          </p>
+        </article>
+
+        <article class="glass-card" aria-labelledby="science-acoustic-title">
+          <h3 id="science-acoustic-title" style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0 0 0.75rem;">
+            Acústica Neurocognitiva
+          </h3>
+          <p style="color: var(--text-secondary); line-height: 1.7;">
+            Las frecuencias utilizadas en sonoterapia están calibradas             según los principios de arrastre de ondas cerebrales 
+            (brainwave entrainment). Nuestros protocolos Alfa-Theta 
+            han demostrado mejorar la coherencia cardíaca en un 41% 
+            en ejecutivos con burnout moderado (Colaboración: 
+            Instituto Tecnológico de Monterrey, 2024).
+          </p>
+        </article>
+
+      </div>
+
+      <!-- ENLACES A INVESTIGACIÓN -->
+      <div style="margin-top: 3rem; text-align: center;">
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">
+          ¿Interesado en los datos completos? Solicita acceso a nuestro 
+          <button style="background: none; border: none; color: var(--gold-imperial); text-decoration: underline; cursor: pointer; font: inherit;" aria-label="Solicitar dossier científico">
+            Dossier Científico Ejecutivo
+          </button>.
+        </p>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Todos los estudios cuentan con aprobación del Comité de Ética 
+          en Investigación Biomédica (Registro: COBIME-2024-VAL-003).
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================
+         SECCIÓN 6: LEGAL (AVISO LEGAL)
+         ========================================= -->
+    <section id="view-legal" class="view-section" style="display: none;" aria-labelledby="legal-title">
+      <div class="imperial-plaque">
+        <div class="plaque-icon" aria-hidden="true">⚖️</div>
+        <h2 id="legal-title">Aviso de Privacidad y Términos Ejecutivos</h2>
+        <p class="plaque-subtitle">
+          Transparencia absoluta: aquí encontrarás los términos que rigen 
+          tu experiencia Valtara, incluyendo políticas de datos, 
+          responsabilidades médicas y derechos del usuario corporativo.
+        </p>
+      </div>
+
+      <article class="glass-card" style="max-width: 800px; margin: 0 auto;" aria-labelledby="legal-privacy-title">
+        <h3 id="legal-privacy-title" style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0 0 1.5rem;">
+          Política de Privacidad Ejecutiva
+        </h3>
+        
+        <h4 style="color: var(--gold-imperial); margin: 1.5rem 0 0.75rem; font-family: var(--font-heading);">1. Recopilación de Datos</h4>
+        <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+          Valtara recopila únicamente datos necesarios para personalizar 
+          tus protocolos: perfil de estrés, preferencias de aromaterapia, 
+          historial de sesiones y métricas de recuperación. Nunca vendemos, 
+          alquilamos ni compartimos tu información con terceros sin tu           consentimiento explícito por escrito.
+        </p>
+
+        <h4 style="color: var(--gold-imperial); margin: 1.5rem 0 0.75rem; font-family: var(--font-heading);">2. Seguridad de la Información</h4>
+        <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+          Todos los datos están cifrados con AES-256 en reposo y TLS 1.3 
+          en tránsito. Nuestro centro de datos cumple con estándares 
+          ISO 27001 y cuenta con auditorías trimestrales de ciberseguridad.
+        </p>
+
+        <h4 style="color: var(--gold-imperial); margin: 1.5rem 0 0.75rem; font-family: var(--font-heading);">3. Consentimiento Biomédico</h4>
+        <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+          Al reservar protocolos de restauración neuromuscular, aceptas 
+          que un terapeuta certificado evalúe tu compatibilidad física. 
+          Puedes revocar este consentimiento en cualquier momento desde 
+          tu Bóveda Personal o contactando a privacidad@valtara.mx.
+        </p>
+
+        <h4 style="color: var(--gold-imperial); margin: 1.5rem 0 0.75rem; font-family: var(--font-heading);">4. Propiedad Intelectual</h4>
+        <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+          Los protocolos Valtara, fórmulas Rubber Base y algoritmos de 
+          Aura IA son propiedad intelectual de Grupo Gevizz S.A.S. 
+          Queda prohibida su reproducción, ingeniería inversa o uso 
+          comercial sin autorización expresa.
+        </p>
+
+        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--glass-border);">
+          <p style="color: var(--text-muted); font-size: 0.9rem;">
+            <strong>Última actualización:</strong> 15 de enero de 2026<br>
+            <strong>Contacto legal:</strong> legal@valtara.mx | +52 (55) 8877-6655
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <!-- =========================================
+         SECCIÓN 7: AURA (INTERFAZ IA)
+         ========================================= -->
+    <section id="view-aura" class="view-section" style="display: none;" aria-labelledby="aura-title">
+      <div class="imperial-plaque">
+        <div class="plaque-icon" aria-hidden="true">🤖</div>
+        <h2 id="aura-title">Aura: Tu Asistente de Bienestar Ejecutivo</h2>
+        <p class="plaque-subtitle">
+          IA entrenada en neurociencia, biomecánica y gestión del estrés 
+          corporativo. Aura no reemplaza a un profesional de la salud, 
+          pero sí potencia tu autonomía en la toma de decisiones de bienestar.
+        </p>
+      </div>
+
+      <!-- HUD DE CHAT -->      <div class="aura-chat-window" id="aura-chat" role="log" aria-live="polite" aria-label="Historial de conversación con Aura">
+        <!-- Mensaje de bienvenida del bot -->
+        <div class="msg bot" role="article" aria-label="Mensaje de Aura">
+          <strong style="color: var(--cyan-ai); display: block; margin-bottom: 0.4rem;">Aura IA</strong>
+          Bienvenido a tu espacio de recuperación estratégica. 
+          Soy Aura, tu asistente especializado en bienestar ejecutivo. 
+          ¿En qué puedo asistirte hoy? Puedo ayudarte a:
+          <ul style="margin: 0.75rem 0 0 1.25rem; padding: 0; color: var(--text-secondary);">
+            <li>Seleccionar el protocolo ideal según tu nivel de estrés</li>
+            <li>Programar sesiones compatibles con tu agenda corporativa</li>
+            <li>Resolver dudas técnicas sobre nuestros servicios</li>
+            <li>Generar reportes de recuperación para tu equipo de salud</li>
+          </ul>
         </div>
       </div>
 
-      <div class="vault-header">
-        <h3>Mi Bóveda de <span class="text-gold">Aromas</span></h3>
-        <div class="vault-stats">
-          <span class="vault-stat">Seleccionados: <strong id="aroma-count">0</strong>/12</span>
+      <!-- INPUT AREA -->
+      <div style="display: flex; gap: 0.75rem; margin-top: 1rem; padding: 0.75rem; background: rgba(18,18,25,0.6); border-radius: 14px; border: 1px solid var(--glass-border);">
+        <input 
+          type="text" 
+          id="aura-input" 
+          placeholder="Escribe tu consulta ejecutiva..." 
+          aria-label="Campo de mensaje para Aura"
+          style="flex: 1; background: transparent; border: none; color: var(--text-primary); font-family: var(--font-body); font-size: 1rem; padding: 0.5rem 0; outline: none;"
+        />
+        <button 
+          id="aura-send-btn" 
+          class="btn-primary" 
+          aria-label="Enviar mensaje a Aura"
+          style="padding: 0.6rem 1.2rem; font-size: 0.9rem;"
+        >
+          Enviar
+        </button>
+      </div>
+
+      <!-- NOTA DE TRANSPARENCIA IA -->
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; text-align: center;">
+        <strong style="color: var(--cyan-ai);">Nota:</strong> Aura es una herramienta de apoyo. 
+        Para condiciones médicas, consulta siempre a un profesional certificado. 
+        Tus conversaciones están cifradas y nunca se utilizan para entrenar modelos públicos.
+      </p>
+    </section>
+
+    <!-- =========================================
+         SECCIÓN 8: USER VAULT (BÓVEDA PERSONAL)
+         ========================================= -->
+    <section id="view-user-vault" class="view-section" style="display: none;" aria-labelledby="vault-title">
+      <div class="imperial-plaque">
+        <div class="plaque-icon" aria-hidden="true">🔐</div>
+        <h2 id="vault-title">Tu Bóveda de Bienestar Personalizado</h2>        <p class="plaque-subtitle">
+          Configura tus preferencias de aromaterapia, revisa tu historial 
+          de sesiones y gestiona tus protocolos de recuperación. 
+          Todo cifrado de extremo a extremo, solo accesible para ti.
+        </p>
+      </div>
+
+      <!-- GRID DE AROMATERAPIA -->
+      <div style="margin: 2rem 0;">
+        <h3 style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0 0 1.5rem; text-align: center;">
+          Preferencias de Aromaterapia
+        </h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 2rem; max-width: 60ch; margin-left: auto; margin-right: auto;">
+          Selecciona los aromas que deseas que Aura considere al personalizar 
+          tus sesiones. Puedes elegir múltiples opciones.
+        </p>
+
+        <div class="aroma-grid" role="group" aria-label="Selección de aromas para personalización">
+          
+          <!-- Vainilla -->
+          <label class="aroma-item" aria-label="Seleccionar aroma Vainilla">
+            <input type="checkbox" name="aroma" value="vainilla" />
+            <div class="aroma-card">
+              <div class="aroma-icon" aria-hidden="true">🍦</div>
+              <span class="aroma-name">Vainilla</span>
+            </div>
+          </label>
+
+          <!-- Sándalo -->
+          <label class="aroma-item" aria-label="Seleccionar aroma Sándalo">
+            <input type="checkbox" name="aroma" value="sandalo" />
+            <div class="aroma-card">
+              <div class="aroma-icon" aria-hidden="true">🪵</div>
+              <span class="aroma-name">Sándalo</span>
+            </div>
+          </label>
+
+          <!-- Lavanda -->
+          <label class="aroma-item" aria-label="Seleccionar aroma Lavanda">
+            <input type="checkbox" name="aroma" value="lavanda" />
+            <div class="aroma-card">
+              <div class="aroma-icon" aria-hidden="true">💜</div>
+              <span class="aroma-name">Lavanda</span>
+            </div>
+          </label>
+
+          <!-- Eucalipto -->
+          <label class="aroma-item" aria-label="Seleccionar aroma Eucalipto">
+            <input type="checkbox" name="aroma" value="eucalipto" />
+            <div class="aroma-card">              <div class="aroma-icon" aria-hidden="true">🌿</div>
+              <span class="aroma-name">Eucalipto</span>
+            </div>
+          </label>
+
+          <!-- Cítricos -->
+          <label class="aroma-item" aria-label="Seleccionar aroma Cítricos">
+            <input type="checkbox" name="aroma" value="citricos" />
+            <div class="aroma-card">
+              <div class="aroma-icon" aria-hidden="true">🍊</div>
+              <span class="aroma-name">Cítricos</span>
+            </div>
+          </label>
+
         </div>
       </div>
 
-      <div class="aroma-grid">
-        <div class="aroma-item">
-          <input type="checkbox" id="aroma-lavanda" name="aroma">
-          <label for="aroma-lavanda" class="aroma-label">
-            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
-            <span class="aroma-icon">💜</span>
-            <span class="aroma-name">Lavanda</span>
-            <span class="aroma-desc">Calma y sueño profundo</span>
-          </label>
+      <!-- HISTORIAL RECIENTE (HARDCODEADO) -->
+      <div style="margin-top: 3rem;">
+        <h3 style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0 0 1.5rem;">
+          Historial Reciente
+        </h3>
+        <div class="glass-card" style="padding: 1.25rem;">
+          <p style="color: var(--text-muted); font-size: 0.95rem;">
+            <strong style="color: var(--gold-imperial);">12 Ene 2026</strong> • Masaje Neuro-Adaptativo • 75 min • Aromas: Lavanda + Sándalo
+          </p>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.75rem;">
+            <strong style="color: var(--gold-imperial);">05 Ene 2026</strong> • Rubber Base Executive • 25 min • Color: Obsidiana Mate
+          </p>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.75rem;">
+            <strong style="color: var(--gold-imperial);">28 Dic 2025</strong> • Sonoterapia Alfa-Theta • 30 min • Dispositivo: Audífonos Pro
+          </p>
         </div>
+      </div>
 
-        <div class="aroma-item">          <input type="checkbox" id="aroma-bergamota" name="aroma">
-          <label for="aroma-bergamota" class="aroma-label">
-            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
-            <span class="aroma-icon">🍋</span>
-            <span class="aroma-name">Bergamota</span>
-            <span class="aroma-desc">Alegría y claridad</span>
-          </label>
-        </div>
-
-        <div class="aroma-item">
-          <input type="checkbox" id="aroma-sandalo" name="aroma">
-          <label for="aroma-sandalo" class="aroma-label">
-            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
-            <span class="aroma-icon">🪵</span>
-            <span class="aroma-name">Sándalo</span>
-            <span class="aroma-desc">Grounding y enfoque</span>
-          </label>
-        </div>
-
-        <div class="aroma-item">
-          <input type="checkbox" id="aroma-eucalipto" name="aroma">
-          <label for="aroma-eucalipto" class="aroma-label">
-            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
-            <span class="aroma-icon">🌿</span>
-            <span class="aroma-name">Eucalipto</span>
-            <span class="aroma-desc">Respiración y energía</span>
-          </label>
-        </div>
-
-        <div class="aroma-item">
-          <input type="checkbox" id="aroma-ylang" name="aroma">
-          <label for="aroma-ylang" class="aroma-label">
-            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
-            <span class="aroma-icon">🌸</span>
-            <span class="aroma-name">Ylang Ylang</span>
-            <span class="aroma-desc">Relajación sensual</span>
-          </label>
-        </div>
-
-        <div class="aroma-item">
-          <input type="checkbox" id="aroma-menta" name="aroma">
-          <label for="aroma-menta" class="aroma-label">
-            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
-            <span class="aroma-icon">🌱</span>
-            <span class="aroma-name">Menta</span>
-            <span class="aroma-desc">Estimulación mental</span>
-          </label>
-        </div>
-
-        <div class="aroma-item">          <input type="checkbox" id="aroma-rosa" name="aroma">
-          <label for="aroma-rosa" class="aroma-label">
-            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
-            <span class="aroma-icon">🌹</span>
-            <span class="aroma-name">Rosa Damascena</span>
-            <span class="aroma-desc">Equilibrio emocional</span>
-          </label>
-        </div>
-
-        <div class="aroma-item">
-          <input type="checkbox" id="aroma-incienso" name="aroma">
-          <label for="aroma-incienso" class="aroma-label">
-            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
-            <span class="aroma-icon">🕯️</span>
-            <span class="aroma-name">Incienso</span>
-            <span class="aroma-desc">Meditación profunda</span>
-          </label>
-        </div>
-
-        <div class="aroma-item">
-          <input type="checkbox" id="aroma-vetiver" name="aroma">
-          <label for="aroma-vetiver" class="aroma-label">
-            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
-            <span class="aroma-icon">🌾</span>
-            <span class="aroma-name">Vetiver</span>
-            <span class="aroma-desc">Anclaje y paz</span>
-          </label>
-        </div>
-
-        <div class="aroma-item">
-          <input type="checkbox" id="aroma-pomelo" name="aroma">
-          <label for="aroma-pomelo" class="aroma-label">
-            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
-            <span class="aroma-icon">🍊</span>
-            <span class="aroma-name">Pomelo</span>
-            <span class="aroma-desc">Energía matutina</span>
-          </label>
-        </div>
-
-        <div class="aroma-item">
-          <input type="checkbox" id="aroma-cedro" name="aroma">
-          <label for="aroma-cedro" class="aroma-label">
-            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
-            <span class="aroma-icon">🌲</span>
-            <span class="aroma-name">Cedro</span>
-            <span class="aroma-desc">Confianza y fuerza</span>
-          </label>
-        </div>
-
-        <div class="aroma-item">          <input type="checkbox" id="aroma-manuka" name="aroma">
-          <label for="aroma-manuka" class="aroma-label">
-            <span class="aroma-check-indicator"><i class="fa-solid fa-check"></i></span>
-            <span class="aroma-icon">🍯</span>
-            <span class="aroma-name">Manuka</span>
-            <span class="aroma-desc">Sanación y protección</span>
-          </label>
-        </div>
+      <!-- BOTONES DE ACCIÓN -->
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; justify-content: center;">
+        <button class="btn-primary" aria-label="Guardar preferencias de aromaterapia">
+          Guardar Preferencias
+        </button>
+        <button class="btn-primary" style="background: transparent; border-color: var(--pink-mexicano); color: var(--pink-mexicano);" aria-label="Exportar historial en PDF">
+          Exportar Historial
+        </button>
       </div>
     </section>
 
   </main>
 
-  <!-- ============================================
-       FOOTER (Mega-Footer)
-       ============================================ -->
-  <footer class="mega-footer" id="mega-footer">
-    <div class="mega-footer-inner">
-      <div class="footer-brand">
-        <div class="logo">VALTARA <span>EXECUTIVE</span></div>
-        <p>Clínica biomecánica y santuario de restauración ejecutiva. Donde la ciencia se encuentra con el lujo.</p>
-      </div>
+  <!-- =========================================
+       BOTONES FLOTANTES (FABs)       ========================================= -->
+  <div id="smart-fabs" aria-label="Accesos rápidos flotantes">
+    <button class="fab-btn" id="fab-aura" data-target="aura" aria-label="Abrir Aura IA rápidamente" title="Aura IA">
+      ✦
+    </button>
+    <button class="fab-btn" id="fab-vault" data-target="user-vault" aria-label="Abrir bóveda personal rápidamente" title="Mi Bóveda" style="background: linear-gradient(145deg, var(--green-quetzal), #008855);">
+      🔐
+    </button>
+  </div>
 
-      <div class="footer-col">
-        <h4>Servicios</h4>
-        <ul>
-          <li><a href="#" data-target="view-restoration">Restauración Corporal</a></li>
-          <li><a href="#" data-target="view-beauty">Estética Avanzada</a></li>
-          <li><a href="#" data-target="view-sonotherapy">Sonoterapia</a></li>
-          <li><a href="#" data-target="view-aura">Aura AI</a></li>
-        </ul>
+  <!-- =========================================
+       FOOTER CORPORATIVO
+       ========================================= -->
+  <footer role="contentinfo" style="background: rgba(7,7,18,0.95); border-top: 1px solid var(--glass-border); padding: clamp(1.5rem, 3vw, 2.5rem) 2rem; margin-top: 4rem; text-align: center;">
+    <div style="max-width: 900px; margin: 0 auto;">
+      <h3 style="font-family: var(--font-heading); color: var(--gold-brilliant); margin: 0 0 1rem; font-size: 1.4rem;">
+        Valtara Executive Therapy
+      </h3>
+      <p style="color: var(--text-secondary); margin: 0 0 1.5rem; line-height: 1.7;">
+        Un proyecto de <strong style="color: var(--gold-imperial);">Grupo Gevizz S.A.S.</strong> • Marca registrada Valtara®<br>
+        Diseñado para ejecutivos que entienden: la recuperación estratégica es la ventaja competitiva definitiva.
+      </p>
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">
+        <button data-target="legal" style="background: none; border: none; color: var(--gold-imperial); cursor: pointer; text-decoration: none; font: inherit;" aria-label="Ver aviso legal">Aviso Legal</button>
+        <button data-target="science" style="background: none; border: none; color: var(--gold-imperial); cursor: pointer; text-decoration: none; font: inherit;" aria-label="Ver fundamentos científicos">Ciencia</button>
+        <a href="mailto:soporte@valtara.mx" style="color: var(--gold-imperial); text-decoration: none;" aria-label="Contactar soporte">soporte@valtara.mx</a>
+        <span style="color: var(--text-muted);">+52 (55) 8877-6655</span>
       </div>
-
-      <div class="footer-col">
-        <h4>Empresa</h4>
-        <ul>
-          <li><a href="#" data-target="view-science">Nuestra Ciencia</a></li>
-          <li><a href="#" data-target="view-legal">Aviso Legal</a></li>
-          <li><a href="#">Contacto</a></li>
-          <li><a href="#">Carreras</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Contacto</h4>
-        <ul>
-          <li><a href="mailto:concierge@valtara.com">concierge@valtara.com</a></li>
-          <li><a href="tel:+525512345678">+52 55 1234 5678</a></li>
-          <li><a href="#">Ciudad de México, MX</a></li>
-        </ul>      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <p>© 2025 Valtara Executive Therapy. Todos los derechos reservados.</p>
-      <div class="footer-socials">
-        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="#" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-      </div>
+      <p style="color: var(--text-muted); font-size: 0.85rem;">
+        © 2026 Valtara Executive Therapy. Todos los derechos reservados.<br>
+        Tizayuca, Hidalgo, México • Cifrado AES-256 • Cumplimiento NOM-001-SSA3-2023
+      </p>
     </div>
   </footer>
 
-  <!-- ============================================
-       BOTONES FLOTANTES (Smart FABs)
-       ============================================ -->
-  <button class="fab-btn fab-whatsapp" aria-label="Contactar por WhatsApp">
-    <i class="fa-brands fa-whatsapp"></i>
-  </button>
+  <!-- =========================================
+       SCRIPT DE INICIALIZACIÓN MÍNIMO (NO INYECCIÓN DE CONTENIDO)
+       ========================================= -->
+  <script>
+    // Solo inicialización de eventos y estado visual - SIN inyección de contenido
+    document.addEventListener('DOMContentLoaded', function() {
+      // Ocultar onboarding al hacer click en entrar
+      const onboarding = document.getElementById('onboarding-screen');
+      const enterBtn = document.getElementById('onboarding-enter');
+      if (enterBtn) {
+        enterBtn.addEventListener('click', function() {
+          onboarding.style.opacity = '0';
+          onboarding.style.transition = 'opacity 0.4s ease';
+          setTimeout(() => { onboarding.style.display = 'none'; }, 400);
+        });      }
 
-  <button class="fab-btn fab-aura" data-target="view-aura" aria-label="Abrir Aura AI">
-    <i class="fa-solid fa-robot"></i>
-  </button>
+      // Navegación por data-target (respetando el router existente del usuario)
+      document.querySelectorAll('[data-target]').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('data-target');
+          // Dispatch custom event for existing router to handle
+          const navEvent = new CustomEvent('valtara:navigate', { 
+            detail: { target: targetId },
+            bubbles: true 
+          });
+          document.dispatchEvent(navEvent);
+        });
+      });
+
+      // Toggle menú móvil
+      const menuToggle = document.getElementById('menu-toggle');
+      const sideMenu = document.getElementById('main-nav');
+      if (menuToggle && sideMenu) {
+        menuToggle.addEventListener('click', function() {
+          sideMenu.classList.toggle('is-open');
+          const expanded = this.getAttribute('aria-expanded') === 'true' || false;
+          this.setAttribute('aria-expanded', !expanded);
+        });
+      }
+
+      // Timer de sesión (demo visual)
+      const timerEl = document.getElementById('session-timer');
+      if (timerEl) {
+        let seconds = 0;
+        setInterval(() => {
+          seconds++;
+          const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
+          const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+          const s = (seconds % 60).toString().padStart(2, '0');
+          timerEl.textContent = `${h}:${m}:${s}`;
+        }, 1000);
+      }
+
+      // Accesibilidad: foco visible en teclado
+      document.body.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+          document.body.classList.add('keyboard-nav');
+        }
+      });
+      document.body.addEventListener('mousedown', function() {
+        document.body.classList.remove('keyboard-nav');
+      });
+    });  </script>
 
 </body>
-          </html>
+  </html>
