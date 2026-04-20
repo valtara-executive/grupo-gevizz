@@ -1,17 +1,13 @@
 /**
  * ====================================================================================
- * BLOQUE 10: ROUTER ENGINE V41.0 (SITEMAP SYNC & DINAMIC SEO)
- * ------------------------------------------------------------------------------------
- * Gestor de navegación HTML5 History API.
- * Sincronizado estrictamente con sitemap.xml.
- * INCLUYE: Actualización dinámica de Meta Tags (Open Graph) para compartir en redes.
+ * NÚCLEO DE NAVEGACIÓN Y SEO DINÁMICO (rr.js)
  * ====================================================================================
  */
 
 const Router = {
     currentRoute: '',
 
-    // 1. SINCRONIZACIÓN ESTRICTA CON SITEMAP.XML
+    // 1. DICCIONARIO DE RUTAS
     routes: {
         'home': '/',
         'restoration': '/catalogo-masajes',
@@ -23,166 +19,98 @@ const Router = {
         'user-vault': '/boveda-paciente'
     },
 
-    // 2. METADATOS DINÁMICOS PARA COMPARTIR EN REDES (OPEN GRAPH)
+    // 2. METADATOS DE ULTRA-LUJO
     seoData: {
-        'home': {
-            title: 'VALTARA | Executive Therapy & Biomechanics',
-            desc: 'Santuario de masoterapia, biomecánica y bienestar de ultra-lujo en Reforma, CDMX y Tizayuca.',
-            img: 'https://valtaraexecutive.com/logo.png'
-        },
-        'restoration': {
-            title: 'Catálogo de Masajes | VALTARA',
-            desc: 'Descubre nuestros masajes neuro-adaptativos, lomi lomi y descompresión deportiva para ejecutivos.',
-            img: 'https://valtaraexecutive.com/gallery/r1.jpg' // Foto de masaje
-        },
-        'beauty': {
-            title: 'Art & Nails Estudio | VALTARA',
-            desc: 'Estética integral de alta gama. Sistemas Rubber Base, Acrílico y Pedicura SPA.',
-            img: 'https://valtaraexecutive.com/gallery/gel1.jpg' // Foto de uñas
-        },
-        'sonotherapy': {
-            title: 'Sonoterapia Inmersiva | VALTARA',
-            desc: 'Inmersión acústica y ondas alfa para disolver el burnout corporativo.',
-            img: 'https://valtaraexecutive.com/logo.png'
-        },
-        'science': {
-            title: 'Nuestra Ciencia | VALTARA',
-            desc: 'Conoce la matriz biomecánica y los fundamentos neurobiológicos de nuestra terapia.',
-            img: 'https://valtaraexecutive.com/logo.png'
-        },
-        'legal': {
-            title: 'Manifiesto y Privacidad | VALTARA',
-            desc: 'Transparencia corporativa, historia y políticas de Valtara Executive Therapy.',
-            img: 'https://valtaraexecutive.com/logo.png'
-        },
-        'aura': {
-            title: 'Aura AI | VALTARA',
-            desc: 'Triaje biomecánico impulsado por Inteligencia Artificial para el paciente ejecutivo.',
-            img: 'https://valtaraexecutive.com/logo.png'
-        },
-        'user-vault': {
-            title: 'Mi Bóveda Privada | VALTARA',
-            desc: 'Santuario de datos del paciente. Configura tu expediente y aromaterapia clínica.',
-            img: 'https://valtaraexecutive.com/logo.png'
-        }
+        'home': { title: 'VALTARA | Executive Therapy', desc: 'Santuario de restauración biomecánica.', img: 'https://valtaraexecutive.com/logo.png' },
+        'restoration': { title: 'Masoterapia Clínica | VALTARA', desc: 'Protocolos de descompresión muscular para ejecutivos.', img: 'https://valtaraexecutive.com/gallery/r1.jpg' },
+        'beauty': { title: 'Art & Nails Studio | VALTARA', desc: 'Sistemas Rubber Base y pedicura SPA.', img: 'https://valtaraexecutive.com/gallery/gel1.jpg' },
+        'sonotherapy': { title: 'Sonoterapia Acústica | VALTARA', desc: 'Terapia de frecuencias para disolver el Burnout.', img: 'https://valtaraexecutive.com/logo.png' },
+        'science': { title: 'Matriz Biomecánica | VALTARA', desc: 'Fundamentos neurobiológicos de nuestra terapia.', img: 'https://valtaraexecutive.com/logo.png' },
+        'legal': { title: 'Transparencia Corporativa | VALTARA', desc: 'Términos de servicio y el manifiesto ético.', img: 'https://valtaraexecutive.com/logo.png' },
+        'aura': { title: 'Aura AI | VALTARA', desc: 'Asistente inteligente para triaje clínico.', img: 'https://valtaraexecutive.com/logo.png' },
+        'user-vault': { title: 'Mi Bóveda de Paciente | VALTARA', desc: 'Acceso seguro a tu expediente clínico digital.', img: 'https://valtaraexecutive.com/logo.png' }
     },
 
     init: function() {
-        console.log("🧭 [ROUTER V41] Sincronizando coordenadas SEO y Sitemap...");
-        
-        // Escuchar el botón nativo de "Atrás/Adelante" del celular
+        // RECUPERACIÓN DE RUTA FANTASMA (El parche del 404)
+        const redirectedPath = sessionStorage.getItem('redirect');
+        if (redirectedPath) {
+            sessionStorage.removeItem('redirect');
+            const cleanPath = redirectedPath.replace(window.location.origin, '');
+            window.history.replaceState(null, null, cleanPath);
+        }
+
         window.addEventListener('popstate', () => this.loadFromUrl());
-        
-        // Delegación de eventos: Escucha clics sin destruir los botones (Fija Promociones y FABs)
-        this.bindLinks();
-        
-        // Cargar vista inicial
+        this.bindGlobalEvents();
         this.loadFromUrl();
-        
-        // Exponer al objeto global
         window.Router = this;
     },
 
-    bindLinks: function() {
+    bindGlobalEvents: function() {
         document.body.addEventListener('click', (e) => {
-            // Busca si el elemento clickeado o sus padres tienen data-target
-            const targetElement = e.target.closest('[data-target]');
-            if (targetElement) {
+            const link = e.target.closest('[data-target]');
+            if (link) {
                 e.preventDefault();
-                const viewId = targetElement.getAttribute('data-target');
-                this.navigate(viewId);
+                this.navigate(link.getAttribute('data-target'));
             }
         });
     },
 
     navigate: function(id) {
-        if (this.currentRoute === id) return; // Evita recargar si ya estás ahí
-        
+        if (this.currentRoute === id) return;
         const path = this.routes[id] || '/';
-        // Cambia la URL en la barra del navegador sin recargar la página
         window.history.pushState({view: id}, "", path);
         this.showView(id);
     },
 
     loadFromUrl: function() {
-        // Limpiamos la URL actual para que coincida con nuestro diccionario
         let path = window.location.pathname;
-        if (path.length > 1 && path.endsWith('/')) {
-            path = path.slice(0, -1);
-        }
-        
-        const pathParts = path.split('/');
-        const lastPart = '/' + pathParts[pathParts.length - 1];
-
-        // Buscar qué vista corresponde a esta URL
-        let viewId = Object.keys(this.routes).find(key => this.routes[key] === lastPart || this.routes[key] === path);
-        
-        // Si no existe (Ej. Error 404), mándalo a casa
-        if (!viewId) {
-            viewId = 'home';
-            window.history.replaceState({}, "", "/");
-        }
-        
+        if (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1);
+        const viewId = Object.keys(this.routes).find(key => this.routes[key] === path) || 'home';
         this.showView(viewId);
     },
 
     showView: function(id) {
-        // 1. Apagar todas las vistas
-        document.querySelectorAll('.view-section').forEach(section => {
-            section.classList.remove('active');
-        });
-        
-        // 2. Encender la vista objetivo
-        const targetView = document.getElementById(`view-${id}`);
-        if (targetView) {
-            targetView.classList.add('active');
-            // Subir al tope de la página suavemente
+        document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(`view-${id}`);
+        if (target) {
+            target.classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+        
+        this.updateMetaTags(id);
+        this.currentRoute = id;
 
-        // 3. Apagar menú si está abierto
+        // Cierra el menú lateral si está abierto
         const nav = document.getElementById('main-nav');
         if (nav && nav.classList.contains('open')) {
             nav.classList.remove('open');
-            if(window.CoreEngine && typeof window.CoreEngine.unlockBodyScroll === 'function'){
+            if(window.CoreEngine && typeof window.CoreEngine.unlockBodyScroll === 'function') {
                 window.CoreEngine.unlockBodyScroll();
             }
         }
-
-        // 4. Actualizar los metadatos SEO dinámicamente
-        this.updateMetaTags(id);
-        this.currentRoute = id;
     },
 
     updateMetaTags: function(id) {
         const data = this.seoData[id] || this.seoData['home'];
-        
-        // Actualizar Título
         document.title = data.title;
         
-        // Función auxiliar para actualizar o crear Meta Tags
-        const setMeta = (attrName, attrValue, content) => {
-            let meta = document.querySelector(`meta[${attrName}="${attrValue}"]`);
-            if (!meta) {
-                meta = document.createElement('meta');
-                meta.setAttribute(attrName, attrValue);
-                document.head.appendChild(meta);
+        const updateOrStore = (attr, val, content) => {
+            let el = document.querySelector(`meta[${attr}="${val}"]`);
+            if (!el) {
+                el = document.createElement('meta');
+                el.setAttribute(attr, val);
+                document.head.appendChild(el);
             }
-            meta.setAttribute('content', content);
+            el.setAttribute('content', content);
         };
 
-        // Open Graph (Facebook, LinkedIn, WhatsApp)
-        setMeta('property', 'og:title', data.title);
-        setMeta('property', 'og:description', data.desc);
-        setMeta('property', 'og:image', data.img);
-        setMeta('property', 'og:url', window.location.href);
-        
-        // Standard SEO
-        setMeta('name', 'description', data.desc);
+        updateOrStore('name', 'description', data.desc);
+        updateOrStore('property', 'og:title', data.title);
+        updateOrStore('property', 'og:description', data.desc);
+        updateOrStore('property', 'og:image', data.img);
+        updateOrStore('property', 'og:url', window.location.href);
     }
 };
 
-// AUTO-ARRANQUE
-document.addEventListener('DOMContentLoaded', () => {
-    Router.init();
-});
+document.addEventListener('DOMContentLoaded', () => Router.init());
