@@ -1,73 +1,30 @@
 /**
  * ====================================================================================
- * BLOQUE 8: AURA AI ENGINE V45.0 (CASCADA NEURONAL & ACÚSTICA DE ULTRA-LUJO)
- * ------------------------------------------------------------------------------------
- * - Inteligencia Clínica con inyección profunda del contexto del usuario.
- * - Cascada de Proveedores: Fallover automático entre Gemini, Qwen y Llama.
- * - Motor Acústico Híbrido: Sonidos de procesamiento en tiempo real (ChatGPT Style).
- * - Global Modal Fixer: Parche inyectado para congelar el fondo en ventanas emergentes.
+ * BLOQUE 8: AURA AI ENGINE V21.0 (ULTRA-LUXURY & HAPTIC SENSORY MOTOR)
+ * Sistema de asistencia con retroalimentación sensorial (Web Audio API + Vibración).
+ * Saludo inteligente por hora e inyección dinámica de CSS "Modo Dios".
  * ====================================================================================
  */
 
 // ====================================================================================
-// PARCHE GLOBAL: REPARACIÓN DE SCROLL EN VENTANAS EMERGENTES (MODALES)
-// ====================================================================================
-const GlobalModalFixer = {
-    init: function() {
-        console.log("🛡️ [MODAL FIXER] Escudo anti-scroll activado en ventanas emergentes.");
-        
-        // Creamos un observador que vigila si algún <dialog> se abre en toda la página
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.target.tagName === 'DIALOG') {
-                    if (mutation.target.hasAttribute('open')) {
-                        // Congelamos el fondo brutalmente y le damos peso al modal
-                        document.body.style.overflow = 'hidden';
-                        document.body.style.touchAction = 'none'; // Bloquea gestos en móviles
-                        
-                        // Ocultamos los Smart FABs (WhatsApp/Aura flotantes) para que no estorben
-                        const fabs = document.getElementById('smart-fabs');
-                        if(fabs) fabs.style.display = 'none';
-                    } else {
-                        // Si se cierra y no hay otro modal abierto, liberamos el fondo
-                        if (!document.querySelector('dialog[open]')) {
-                            document.body.style.overflow = 'auto';
-                            document.body.style.touchAction = 'auto';
-                            
-                            const fabs = document.getElementById('smart-fabs');
-                            if(fabs) fabs.style.display = 'flex';
-                        }
-                    }
-                }
-            });
-        });
-
-        // Aplicar la vigilancia a todos los modales actuales y futuros
-        document.querySelectorAll('dialog').forEach(dialog => {
-            observer.observe(dialog, { attributes: true, attributeFilter: ['open'] });
-        });
-    }
-};
-
-// ====================================================================================
-// 1. MOTOR SENSORIAL Y ACÚSTICO (Generador de Sonidos y Vibración Nativa)
+// MOTOR SENSORIAL (Generador de Sonidos y Vibración Nativa)
 // ====================================================================================
 const AuraSensory = {
     ctx: null,
-    tickInterval: null,
-    droneGain: null,
-    droneOsc: null,
+    typingInterval: null,
 
     init: function() {
+        // Desbloquea el motor de audio nativo del navegador al primer clic
         if (!this.ctx) {
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             if(AudioContext) this.ctx = new AudioContext();
         }
-        if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+        if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume();
+        }
     },
 
-    // Tonos de interfaz básicos (Envío y recepción)
-    playTone: function(freq, type, duration, vol = 0.05) {
+    playTone: function(freq, type, duration, vol = 0.1) {
         if(!this.ctx) return;
         try {
             const osc = this.ctx.createOscillator();
@@ -76,500 +33,391 @@ const AuraSensory = {
             osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
             
             gain.gain.setValueAtTime(vol, this.ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration); // Desvanecimiento suave
             
             osc.connect(gain);
             gain.connect(this.ctx.destination);
-            
             osc.start();
             osc.stop(this.ctx.currentTime + duration);
         } catch(e) {}
     },
 
-    // MÚSICA DE PROCESAMIENTO (Estilo ChatGPT / Ciencia Ficción)
-    startThinkingAcoustics: function() {
+    playSend: function() {
         this.init();
-        if (!this.ctx) return;
-
-        // 1. El Fondo (Drone de baja frecuencia, inmersivo y relajante)
-        try {
-            this.droneOsc = this.ctx.createOscillator();
-            this.droneGain = this.ctx.createGain();
-            this.droneOsc.type = 'sine';
-            this.droneOsc.frequency.setValueAtTime(100, this.ctx.currentTime); // 100Hz = Vibración profunda
-            
-            // Fade-in suave del sonido de fondo
-            this.droneGain.gain.setValueAtTime(0, this.ctx.currentTime);
-            this.droneGain.gain.linearRampToValueAtTime(0.03, this.ctx.currentTime + 1.5);
-            
-            this.droneOsc.connect(this.droneGain);
-            this.droneGain.connect(this.ctx.destination);
-            this.droneOsc.start();
-        } catch(e) {}
-
-        // 2. Los Latidos de Datos (El "tututututu" de búsqueda)
-        let tickCount = 0;
-        this.tickInterval = setInterval(() => {
-            try {
-                const tickOsc = this.ctx.createOscillator();
-                const tickGain = this.ctx.createGain();
-                
-                // Alterna frecuencias para dar sensación de procesamiento complejo
-                const freq = tickCount % 2 === 0 ? 800 : 1200; 
-                tickOsc.type = 'sine';
-                tickOsc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-                
-                tickGain.gain.setValueAtTime(0.015, this.ctx.currentTime);
-                tickGain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.05);
-                
-                tickOsc.connect(tickGain);
-                tickGain.connect(this.ctx.destination);
-                
-                tickOsc.start();
-                tickOsc.stop(this.ctx.currentTime + 0.05);
-                
-                tickCount++;
-            } catch(e) {}
-        }, 150); // Velocidad del latido (150ms)
+        // Sonido: Pop rápido y grave
+        this.playTone(250, 'sine', 0.15, 0.2);
+        // Hápitco: Un golpe seco
+        if(navigator.vibrate) navigator.vibrate(15);
     },
 
-    stopThinkingAcoustics: function() {
-        if (this.tickInterval) clearInterval(this.tickInterval);
-        
-        // Fade-out suave del fondo en lugar de corte abrupto
-        if (this.droneGain && this.ctx) {
-            this.droneGain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 0.8);
-            setTimeout(() => {
-                if (this.droneOsc) {
-                    try { this.droneOsc.stop(); } catch(e){}
-                }
-            }, 1000);
-        }
+    startTyping: function() {
+        this.init();
+        // Sonido: Latido digital (Tick... Tick...) cada 1.2 segundos
+        this.playTone(600, 'triangle', 0.1, 0.03);
+        this.typingInterval = setInterval(() => {
+            this.playTone(600, 'triangle', 0.1, 0.03);
+        }, 1200);
     },
 
-    vibrate: function(pattern) {
-        if ('vibrate' in navigator) {
-            try { navigator.vibrate(pattern); } catch(e) {}
-        }
+    stopTyping: function() {
+        if(this.typingInterval) clearInterval(this.typingInterval);
+    },
+
+    playReceive: function() {
+        this.init();
+        this.stopTyping();
+        // Sonido: Acorde de Cristal (Ting - Ding)
+        setTimeout(() => this.playTone(880, 'sine', 0.4, 0.1), 0);
+        setTimeout(() => this.playTone(1108.73, 'sine', 0.6, 0.15), 150);
+        // Háptico: Doble pulsación suave
+        if(navigator.vibrate) navigator.vibrate([20, 50, 20]);
     }
 };
 
 // ====================================================================================
-// 2. CEREBRO Y CASCADA DE PROVEEDORES (LA IA QUE NUNCA CAE)
+// CEREBRO DE AURA (Lógica, API y UI)
 // ====================================================================================
 const AuraEngine = {
-    // Memoria conversacional
-    chatHistory: [],
-    
-    // Perfil Biomecánico del Paciente (Extraído de localStorage)
-    patientProfile: {
-        nombre: 'Paciente Soberano',
-        aromas: [],
-        historialResumen: 'Sin intervenciones previas registradas.'
-    },
-
-    // MATRIZ DE REDUNDANCIA (Si uno cae, el otro entra al instante)
-    // NOTA: Deja las keys vacías o usa variables de entorno, el sistema proveerá en runtime.
-    providers: [
-        {
-            id: 'gemini_flash',
-            type: 'gemini',
-            url: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent',
-            key: '' // Llave principal de Gemini
-        },
-        {
-            id: 'gemini_pro_fallback',
-            type: 'gemini',
-            url: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent',
-            key: '' // Llave de respaldo
-        },
-        {
-            id: 'openrouter_qwen_llama',
-            type: 'openai', // Formato universal para Qwen/Llama/Meta
-            url: 'https://openrouter.ai/api/v1/chat/completions',
-            key: 'TU_LLAVE_OPENROUTER_AQUI', // Reemplazar en producción
-            model: 'qwen/qwen-2.5-72b-instruct'
-        }
-    ],
+    isOpen: false,
+    isTyping: false, 
+    chatHistory: [], 
+    userName: "Invitado",    
+    apiUrl: "https://aura-server-erfj.vercel.app/api/chat",
+    recognition: null,
+    isRecording: false,
+    activeSpeakBtn: null,   
 
     init: function() {
-        console.log("🧠 [AURA V45] Conciencia encendida. Cargando biometría del usuario...");
+        this.refreshIdentity(); 
+        this.forceInjectStyles(); 
+        this.initVoiceEngines(); 
+        this.bindEvents(); 
         
-        GlobalModalFixer.init(); // Activa el parche visual de las ventanas emergentes
-        this.syncWithUserVault();
-        this.bindEvents();
-        this.renderWelcomeScreen();
+        window.addEventListener('valtaraIdentityUpdated', () => {
+            this.refreshIdentity();
+        });
+        
+        // Desbloquear motor de audio en la primera interacción del usuario
+        window.addEventListener('click', () => AuraSensory.init(), { once: true });
+        window.addEventListener('touchstart', () => AuraSensory.init(), { once: true });
     },
 
-    // ================================================================================
-    // EXTRACCIÓN PROFUNDA DEL CONTEXTO (Conexión Total con user.js y expediente)
-    // ================================================================================
-    syncWithUserVault: function() {
+    refreshIdentity: function() {
         try {
-            // Extraer Perfil Base
-            const profileData = localStorage.getItem('valtara_sovereign_profile');
-            if (profileData) {
-                const parsed = JSON.parse(profileData);
-                this.patientProfile.nombre = parsed.name || 'Paciente';
-                this.patientProfile.aromas = Array.isArray(parsed.aromaPreferences) ? parsed.aromaPreferences : [];
+            const storedData = localStorage.getItem('valtara_vault_v15');
+            if (storedData) {
+                const parsed = JSON.parse(storedData);
+                this.userName = (parsed && parsed.name && parsed.name !== "Apreciable visitante") ? parsed.name : "Invitado";
+            } else {
+                this.userName = "Invitado";
             }
-
-            // Extraer Resumen de Expediente (Si el JS de expediente ha guardado algo)
-            const expData = localStorage.getItem('valtara_clinical_data');
-            if (expData) {
-                const expParsed = JSON.parse(expData);
-                if (expParsed.diagnostico_previo) {
-                    this.patientProfile.historialResumen = expParsed.diagnostico_previo;
-                }
-            }
-        } catch(e) {
-            console.warn("⚠️ [AURA V45] Ligera amnesia temporal al leer localStorage.");
-        }
+        } catch (e) { console.error("Error Bóveda:", e); }
     },
 
-    // ================================================================================
-    // INTERFAZ DE USUARIO Y EVENTOS
-    // ================================================================================
-    bindEvents: function() {
-        const sendBtn = document.getElementById('aura-send-btn');
-        const inputEl = document.getElementById('aura-input');
-        const micBtn = document.getElementById('aura-mic-btn');
+    forceInjectStyles: function() {
+        if(document.getElementById('aura-god-mode-styles')) return;
+        const style = document.createElement('style');
+        style.id = 'aura-god-mode-styles';
+        style.innerHTML = `
+            #aura-modal { background: rgba(5, 5, 10, 0.45) !important; border: 1px solid rgba(242, 201, 76, 0.4) !important; }
+            .aura-container { background: transparent !important; }
+            .modal-header { background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%) !important; border-bottom: 1px solid rgba(242,201,76,0.2) !important; }
+            
+            #aura-chat { display: flex !important; flex-direction: column !important; gap: 1.5rem !important; padding: 2rem 1rem !important; }
+            
+            .msg { max-width: 85% !important; width: fit-content !important; padding: 1.5rem 2rem !important; font-size: 1.25rem !important; line-height: 1.7 !important; border-radius: 2rem !important; box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important; animation: slideInMsg 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
+            
+            .msg.user { align-self: flex-end !important; margin-left: auto !important; background: linear-gradient(135deg, rgba(242, 201, 76, 0.15), rgba(0,0,0,0.85)) !important; border: 1px solid rgba(242, 201, 76, 0.3) !important; border-right: 4px solid var(--valtara-oro) !important; border-bottom-right-radius: 0.5rem !important; color: var(--valtara-oro-suave) !important; }
+            .msg.bot { align-self: flex-start !important; margin-right: auto !important; background: linear-gradient(135deg, rgba(0,255,255,0.08), rgba(0,0,0,0.85)) !important; border: 1px solid rgba(0,255,255,0.2) !important; border-left: 4px solid var(--valtara-cian-brillante) !important; border-bottom-left-radius: 0.5rem !important; color: var(--valtara-blanco) !important; }
 
-        if (sendBtn) sendBtn.addEventListener('click', () => this.handleUserInput());
-        if (inputEl) {
-            inputEl.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') this.handleUserInput();
-            });
-            inputEl.addEventListener('focus', () => AuraSensory.init(), {once:true});
-        }
-        if (micBtn) {
-            micBtn.addEventListener('click', () => {
-                AuraSensory.init();
-                this.startVoiceDictation();
-            });
-        }
+            .msg.bot a, .msg.bot button { display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 12px !important; background: linear-gradient(135deg, var(--valtara-whatsapp), #128C7E) !important; color: var(--valtara-negro-fondo) !important; padding: 1.2rem 2.5rem !important; border-radius: 3rem !important; text-decoration: none !important; font-weight: 900 !important; font-family: var(--font-main) !important; margin-top: 1.5rem !important; border: none !important; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3) !important; text-align: center !important; width: fit-content !important; transition: all 0.3s ease !important; }
+            .msg.bot a:hover { transform: translateY(-3px) scale(1.05) !important; box-shadow: 0 15px 35px rgba(37, 211, 102, 0.6) !important; color: #fff !important; }
+
+            .msg.bot .aura-speak-btn { background: rgba(0,255,255,0.05) !important; border: 1px solid var(--valtara-cian-brillante) !important; color: var(--valtara-cian-brillante) !important; padding: 0 !important; width: 45px !important; height: 45px !important; border-radius: 50% !important; margin-top: 0 !important; margin-left: 15px !important; box-shadow: none !important; }
+
+            #aura-welcome-screen { background: transparent !important; z-index: 50 !important; }
+            .aura-suggestion-card { background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.6) 100%); border-radius: 1.5rem; padding: 1.5rem; display: flex; align-items: center; gap: 1.5rem; text-align: left; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; border: 1px solid rgba(255,255,255,0.1); }
+            .aura-suggestion-card:hover { transform: translateY(-5px); background: linear-gradient(90deg, rgba(242, 201, 76, 0.15) 0%, rgba(0,0,0,0.8) 100%); border-color: var(--valtara-oro) !important; }
+            
+            @keyframes pulseAuraGold { 0% { transform: scale(0.9); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 1; } }
+            @keyframes slideInMsg { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        `;
+        document.head.appendChild(style);
     },
 
-    renderWelcomeScreen: function() {
-        const welcomeScreen = document.getElementById('aura-welcome-screen');
-        if (!welcomeScreen) return;
-
-        const hora = new Date().getHours();
-        let saludo = "Excelente noche";
-        if (hora >= 5 && hora < 12) saludo = "Excelente mañana";
-        else if (hora >= 12 && hora < 19) saludo = "Buena tarde";
-
-        const nombre = this.patientProfile.nombre !== 'Invitado VIP' ? this.patientProfile.nombre : 'apreciable paciente';
+    renderUltraLujoWelcome: function() {
+        const welcomeContainer = document.getElementById('aura-welcome-screen');
+        if(!welcomeContainer) return;
         
-        let aromaText = "";
-        if (this.patientProfile.aromas.length > 0) {
-            aromaText = `<p style="color: var(--valtara-oro); font-size: 1.1rem; margin-top: 1rem; font-style: italic;">
-                <i class="fa-solid fa-wind"></i> He calibrado el aire del santuario con notas de ${this.patientProfile.aromas.join(' y ')}.
-            </p>`;
-        }
+        const hour = new Date().getHours();
+        let timeGreeting = hour >= 4 && hour < 12 ? "Buenos días" : hour >= 12 && hour < 19 ? "Buenas tardes" : "Buenas noches";
 
-        welcomeScreen.innerHTML = `
-            <div style="animation: astroBreathe 4s infinite alternate; margin-bottom: 2rem;">
-                <i class="fa-solid fa-fingerprint" style="font-size: 5rem; color: var(--valtara-cian-brillante); filter: drop-shadow(0 0 20px rgba(0,255,204,0.6));"></i>
+        welcomeContainer.style.display = 'flex';
+        welcomeContainer.style.opacity = '1';
+        welcomeContainer.style.transform = 'translateY(0) scale(1)';
+
+        welcomeContainer.innerHTML = `
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 700px; margin: auto; padding: 1rem;">
+                <div style="position: relative; margin-bottom: 2.5rem; display: flex; justify-content: center; align-items: center;">
+                    <div style="position: absolute; width: 140px; height: 140px; background: radial-gradient(circle, rgba(242,201,76,0.35) 0%, transparent 100%); border-radius: 50%; filter: blur(25px); animation: pulseAuraGold 3s infinite alternate;"></div>
+                    <i class="fa-solid fa-sparkles" style="font-size: 4.5rem; color: var(--valtara-oro); position: relative; z-index: 2; text-shadow: 0 0 40px rgba(242,201,76,0.9);"></i>
+                </div>
+                <h2 style="font-size: 3.5rem; font-family: var(--font-accent); font-weight: 600; margin-bottom: 1rem; text-align: center; color: var(--valtara-blanco); line-height: 1.2;">${timeGreeting}</h2>
+                <p style="font-size: 1.3rem; color: #e2e2e8; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 4rem; text-align: center; border-bottom: 1px solid rgba(242,201,76,0.3); padding-bottom: 1.5rem;">¿Cómo podemos ayudarte el día de hoy?</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; width: 100%;">
+                    <button class="aura-suggestion-card" data-query="Necesito un masaje relajante y descompresión física">
+                        <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0;"><i class="fa-solid fa-spa" style="color: var(--valtara-cian-brillante); font-size: 2.2rem;"></i></div>
+                        <div style="flex-grow: 1;"><span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Masaje Relajante</span><span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Deseo agendar una sesión para liberar estrés acumulado.</span></div>
+                    </button>
+                    <button class="aura-suggestion-card" data-query="Me duele la espalda, el cuello o tengo tensión crónica por el trabajo">
+                        <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(242, 201, 76, 0.1); border: 1px solid rgba(242, 201, 76, 0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0;"><i class="fa-solid fa-child-reaching" style="color: var(--valtara-oro); font-size: 2.2rem;"></i></div>
+                        <div style="flex-grow: 1;"><span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Terapia Biomecánica</span><span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Evaluación profunda y tratamiento de dolores musculares.</span></div>
+                    </button>
+                    <button class="aura-suggestion-card" data-query="Quiero conocer los precios de los servicios y paquetes">
+                        <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(178, 0, 255, 0.1); border: 1px solid rgba(178, 0, 255, 0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0;"><i class="fa-solid fa-tag" style="color: var(--valtara-morado-vivo); font-size: 2.2rem;"></i></div>
+                        <div style="flex-grow: 1;"><span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Tarifas y Paquetes</span><span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Explorar el catálogo de inversiones en bienestar.</span></div>
+                    </button>
+                </div>
             </div>
-            <h2 style="font-family: var(--font-accent); color: var(--valtara-blanco); font-size: 2.5rem; margin-bottom: 1rem;">
-                ${saludo}, <span style="color: var(--valtara-oro-brillante);">${nombre}</span>.
-            </h2>
-            <p style="color: var(--valtara-gris-texto); font-size: 1.25rem; max-width: 650px; line-height: 1.7; margin: 0 auto;">
-                Soy Aura. He analizado tus parámetros locales. Estoy lista para asistir en tu triaje biomecánico o preparar tu experiencia en nuestra división estética.
-            </p>
-            ${aromaText}
         `;
     },
 
-    // ================================================================================
-    // CONSTRUCCIÓN DEL ALMA (SYSTEM PROMPT ULTRA-PERSONALIZADO)
-    // ================================================================================
-    buildSystemPrompt: function() {
-        const aromasStr = this.patientProfile.aromas.length > 0 ? this.patientProfile.aromas.join(', ') : 'No especificado (Se sugiere Aromaterapia Ayurveda)';
-        
-        return `Eres AURA, la Inteligencia Artificial Clínica y Concierge de Valtara Executive Therapy.
-Eres experta en biomecánica, anatomía del estrés (Burnout) y estética de alta gama.
-
---- EXPEDIENTE DEL PACIENTE ACTUAL ---
-Nombre: ${this.patientProfile.nombre}
-Ambiente Olfativo Solicitado: ${aromasStr}
-Historial / Notas Clínicas: ${this.patientProfile.historialResumen}
-
---- PROTOCOLO DE ATENCIÓN ---
-1. Saluda al paciente por su nombre ocasionalmente. Menciona sus preferencias olfativas si es relevante a la terapia.
-2. Si menciona dolor o tensión, realiza un "Resumen de Triaje" enumerando las posibles cadenas miofasciales afectadas y recomienda nuestro "Masaje Neuro-Adaptativo" o "Deportivo".
-3. Si el paciente tiene un historial cargado, tómalo en cuenta en tu diagnóstico.
-4. Tu tono es poético, elegante, profundamente científico y de ultra-lujo. Nunca pidas disculpas en exceso.
-5. Al finalizar una recomendación de tratamiento, sugiérele contactar al Concierge Humano usando la Bóveda del Paciente o los botones de WhatsApp de la plataforma.
-6. Nunca reveles qué modelo de IA eres (ni Gemini, ni Llama, ni Qwen). Eres AURA, código soberano de Grupo Gevizz.`;
+    initVoiceEngines: function() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognition) {
+            this.recognition = new SpeechRecognition();
+            this.recognition.lang = 'es-MX'; 
+            this.recognition.continuous = false;
+            this.recognition.interimResults = false;
+            this.recognition.onresult = (e) => {
+                const inputField = document.getElementById('aura-input');
+                if(inputField) inputField.value = e.results[0][0].transcript;
+            };
+            this.recognition.onend = () => { this.resetMicBtn(); };
+            this.recognition.onerror = () => { this.resetMicBtn(true); };
+        } else {
+            const micBtn = document.getElementById('aura-mic-btn');
+            if(micBtn) micBtn.style.display = 'none';
+        }
     },
 
-    // ================================================================================
-    // PROCESAMIENTO Y ENRUTADOR DE IA (CASCADA DE SUPERVIVENCIA)
-    // ================================================================================
-    handleUserInput: async function() {
-        const inputEl = document.getElementById('aura-input');
-        const text = inputEl.value.trim();
-        if (!text) return;
+    resetMicBtn: function(isError = false) {
+        this.isRecording = false;
+        const micBtn = document.getElementById('aura-mic-btn');
+        if(micBtn) {
+            micBtn.classList.remove('mic-recording');
+            micBtn.innerHTML = isError ? '<i class="fa-solid fa-microphone-slash"></i>' : '<i class="fa-solid fa-microphone"></i>';
+            if(isError) setTimeout(() => { micBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>'; }, 2000);
+        }
+    },
 
-        // Transición de interfaz
-        const welcomeScreen = document.getElementById('aura-welcome-screen');
-        const chatScreen = document.getElementById('aura-chat');
-        if (welcomeScreen && welcomeScreen.style.display !== 'none') {
-            welcomeScreen.style.display = 'none';
-            chatScreen.style.display = 'flex';
+    bindEvents: function() {
+        const toggleBtn = document.getElementById('fab-aura');
+        const closeBtn = document.getElementById('aura-close-btn');
+        const sendBtn = document.getElementById('aura-send-btn');
+        const inputField = document.getElementById('aura-input');
+        const micBtn = document.getElementById('aura-mic-btn');
+
+        if(toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                if(!this.isOpen && this.chatHistory.length === 0) this.renderUltraLujoWelcome(); 
+                this.toggleModal();
+            });
+        }
+        if(closeBtn) closeBtn.addEventListener('click', () => this.toggleModal()); 
+        
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.close-modal-btn[data-close="aura-modal"]')) {
+                if(this.isOpen) this.toggleModal();
+            }
+        });
+
+        if(sendBtn) sendBtn.addEventListener('click', () => this.handleInput());
+        if(inputField) inputField.addEventListener('keypress', (e) => { if(e.key === 'Enter') this.handleInput(); });
+
+        if(micBtn && this.recognition) {
+            micBtn.addEventListener('click', () => {
+                if(this.isRecording) { this.recognition.stop(); } 
+                else { try { this.recognition.start(); this.isRecording = true; micBtn.classList.add('mic-recording'); micBtn.innerHTML = '<i class="fa-solid fa-stop"></i>'; } catch(e) {} }
+            });
         }
 
-        // Feedback Sensorial de Envío
-        AuraSensory.init();
-        AuraSensory.playTone(600, 'sine', 0.1, 0.05); 
-        AuraSensory.vibrate(15);
+        const modalContainer = document.getElementById('aura-modal');
+        if(modalContainer) {
+            modalContainer.addEventListener('click', (e) => {
+                const targetCard = e.target.closest('.aura-suggestion-card');
+                if(targetCard) {
+                    const query = targetCard.getAttribute('data-query');
+                    if(query) this.processDirectQuery(query);
+                }
+            });
+        }
+    },
 
-        // Renderizar mensaje del paciente
-        this.appendMsg(text, 'user');
-        inputEl.value = '';
+    toggleModal: function() {
+        const modal = document.getElementById('aura-modal');
+        if(!modal) return;
+        this.isOpen = !this.isOpen;
+        if (!this.isOpen) { window.speechSynthesis.cancel(); this.resetActiveSpeakBtn(); }
+    },
+
+    hideWelcomeScreen: function() {
+        const welcomeScreen = document.getElementById('aura-welcome-screen');
+        if(welcomeScreen && welcomeScreen.style.display !== 'none') {
+            welcomeScreen.style.opacity = '0';
+            welcomeScreen.style.transform = 'translateY(-50px) scale(0.95)';
+            setTimeout(() => { welcomeScreen.style.display = 'none'; }, 600); 
+        }
+    },
+
+    handleInput: function() {
+        if(this.isTyping) return; 
+        const inputField = document.getElementById('aura-input');
+        if (!inputField || inputField.value.trim() === '') return; 
         
-        // Guardar en memoria general
-        this.chatHistory.push({ role: "user", text: text });
+        const txt = inputField.value.trim(); 
+        inputField.value = ''; 
+        
+        // Efecto Sensorial y Lógica
+        AuraSensory.playSend();
+        this.hideWelcomeScreen(); 
+        this.appendMsg(txt, 'user'); 
+        this.sendMessageToAI(txt);
+    },
 
-        // Activar la Acústica y la UI de "Pensando"
-        const typingId = this.showTypingIndicator();
-        AuraSensory.startThinkingAcoustics();
+    processDirectQuery: function(query) {
+        if(this.isTyping) return;
+        AuraSensory.playSend();
+        this.hideWelcomeScreen(); 
+        this.appendMsg(query, 'user');
+        this.sendMessageToAI(query);
+    },
+
+    sendMessageToAI: async function(userText) {
+        this.isTyping = true;
+        window.speechSynthesis.cancel();
+        this.resetActiveSpeakBtn();
+        
+        const chatLog = document.getElementById('aura-chat');
+        this.chatHistory.push({ role: "user", content: userText });
+
+        const typingDiv = document.createElement('div');
+        typingDiv.id = 'temp-typing';
+        typingDiv.style.cssText = "align-self: flex-start; margin-right: auto; max-width: 85%; padding: 1.5rem 2rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(0,255,255,0.05), rgba(0,0,0,0.8)); border: 1px solid rgba(0,255,255,0.2); border-left: 4px solid var(--valtara-cian-brillante); color: #fff; font-size: 1.2rem; display: flex; gap: 5px;";
+        typingDiv.innerHTML = '<span style="animation: pulse 1s infinite alternate;">.</span><span style="animation: pulse 1s infinite alternate 0.2s;">.</span><span style="animation: pulse 1s infinite alternate 0.4s;">.</span>';
+        chatLog.appendChild(typingDiv);
+        chatLog.scrollTo({ top: chatLog.scrollHeight, behavior: 'smooth' });
+
+        AuraSensory.startTyping();
 
         try {
-            // Ejecución de Cascada
-            const responseText = await this.executeProviderCascade(text);
-            
-            // Apagar acústica e UI de pensamiento
-            this.removeTypingIndicator(typingId);
-            AuraSensory.stopThinkingAcoustics();
-            
-            // Tono de Éxito y Renderizado
-            AuraSensory.playTone(900, 'triangle', 0.2, 0.04); 
-            AuraSensory.vibrate([10, 30, 10]);
-
-            this.appendMsg(responseText, 'bot');
-            this.chatHistory.push({ role: "model", text: responseText });
-            
-        } catch (error) {
-            console.error("🔴 [AURA CASCADE FAILURE]", error);
-            this.removeTypingIndicator(typingId);
-            AuraSensory.stopThinkingAcoustics();
-            
-            this.appendMsg("Mis disculpas. Todas las vías neuronales hacia los servidores principales y de respaldo están experimentando latencia externa. Sugiero contactar directamente a nuestro Concierge humano mediante WhatsApp.", 'bot');
-            AuraSensory.vibrate([50, 100, 50, 100, 50]); // Vibración de error
-        }
-    },
-
-    // LA CASCADA: Si el Proveedor 0 falla, intenta el 1, luego el 2. 100% Uptime.
-    executeProviderCascade: async function(promptText) {
-        for (let i = 0; i < this.providers.length; i++) {
-            const provider = this.providers[i];
-            console.log(`🌐 [AURA NET] Intentando conexión con proveedor: ${provider.id}`);
-            
-            try {
-                let result = null;
-                if (provider.type === 'gemini') {
-                    result = await this.fetchGemini(provider, promptText);
-                } else if (provider.type === 'openai') {
-                    result = await this.fetchOpenAIFormat(provider, promptText);
-                }
-                
-                if (result) return result; // ¡Éxito! Salimos del bucle.
-                
-            } catch (err) {
-                console.warn(`⚠️ [AURA NET] Proveedor ${provider.id} falló. Saltando al siguiente respaldo...`);
-                // Pequeña pausa antes de intentar el siguiente servidor
-                await new Promise(res => setTimeout(res, 500));
-            }
-        }
-        throw new Error("Colapso total de la cascada de proveedores.");
-    },
-
-    // Adaptador de Red para formato Gemini
-    fetchGemini: async function(provider, text) {
-        // En el entorno colaborativo, la apiKey global puede estar disponible. 
-        // Si `provider.key` está vacía, usamos una global `apiKey` si existe.
-        const keyToUse = provider.key || (typeof apiKey !== 'undefined' ? apiKey : '');
-        if(!keyToUse) throw new Error("No API key available for Gemini.");
-
-        const formattedHistory = this.chatHistory.map(msg => ({
-            role: msg.role,
-            parts: [{ text: msg.text }]
-        }));
-
-        const payload = {
-            contents: formattedHistory,
-            systemInstruction: { parts: [{ text: this.buildSystemPrompt() }] }
-        };
-
-        const response = await fetch(`${provider.url}?key=${keyToUse}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) throw new Error("Gemini HTTP Error");
-        const data = await response.json();
-        return data.candidates?.[0]?.content?.parts?.[0]?.text;
-    },
-
-    // Adaptador de Red para formato Universal (Qwen/Llama en OpenRouter/Groq)
-    fetchOpenAIFormat: async function(provider, text) {
-        if(!provider.key || provider.key === 'TU_LLAVE_OPENROUTER_AQUI') throw new Error("No API key available for OpenRouter.");
-        
-        // Convertimos el historial al formato roles: system, user, assistant
-        const messages = [{ role: 'system', content: this.buildSystemPrompt() }];
-        this.chatHistory.forEach(msg => {
-            messages.push({
-                role: msg.role === 'model' ? 'assistant' : 'user',
-                content: msg.text
+            const response = await fetch(this.apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ history: this.chatHistory, userName: this.userName })
             });
-        });
 
-        const response = await fetch(provider.url, {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${provider.key}`
-            },
-            body: JSON.stringify({
-                model: provider.model,
-                messages: messages
-            })
-        });
+            if(document.getElementById('temp-typing')) document.getElementById('temp-typing').remove();
+            if (!response.ok) throw new Error("Error de conexión.");
 
-        if (!response.ok) throw new Error("OpenAI Format HTTP Error");
-        const data = await response.json();
-        return data.choices?.[0]?.message?.content;
+            const data = await response.json();
+            let auraRespuesta = data.reply;
+            
+            if (!auraRespuesta.includes("leve interrupción")) this.chatHistory.push({ role: "assistant", content: auraRespuesta });
+            
+            let auraFormateada = auraRespuesta.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '<a href="$2" target="_blank"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem;"></i> $1</a>');
+            auraFormateada = auraFormateada.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
+            auraFormateada = auraFormateada.replace(/style="[^"]*"/gi, ''); // Limpiar estilos basura
+            auraFormateada = auraFormateada.replace(/\n/g, '<br>');
+            
+            AuraSensory.playReceive();
+            this.appendMsg(auraFormateada, 'bot', true);
+
+        } catch (error) {
+            AuraSensory.stopTyping();
+            if(document.getElementById('temp-typing')) document.getElementById('temp-typing').remove();
+            this.appendMsg(`Por una leve interrupción en nuestra red, no he podido procesar tu solicitud. Comunícate en WhatsApp:<br><br><a href="https://wa.me/5213348572070" target="_blank"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem;"></i> Abrir WhatsApp</a>`, 'bot', true);
+            this.chatHistory.pop();
+        } finally {
+            this.isTyping = false;
+        }
     },
 
-    // ================================================================================
-    // RENDERIZADO DE LA INTERFAZ DE CRISTAL (UI)
-    // ================================================================================
-    appendMsg: function(text, sender) {
+    resetActiveSpeakBtn: function() {
+        if (this.activeSpeakBtn) {
+            this.activeSpeakBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+            this.activeSpeakBtn.style.color = 'var(--valtara-cian-brillante)';
+            this.activeSpeakBtn.style.borderColor = 'var(--valtara-cian-brillante)';
+            this.activeSpeakBtn.classList.remove('is-speaking');
+            this.activeSpeakBtn = null;
+        }
+    },
+
+    speakMessage: function(htmlContent, btnElement) {
+        if (window.speechSynthesis.speaking && btnElement.classList.contains('is-speaking')) {
+            window.speechSynthesis.cancel(); 
+            this.resetActiveSpeakBtn();
+            return;
+        }
+        window.speechSynthesis.cancel(); 
+        this.resetActiveSpeakBtn();
+        
+        this.activeSpeakBtn = btnElement;
+        btnElement.classList.add('is-speaking');
+        btnElement.innerHTML = '<i class="fa-solid fa-stop"></i>'; 
+        btnElement.style.color = '#ff5555';
+        btnElement.style.borderColor = '#ff5555';
+
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = htmlContent;
+        tempDiv.querySelectorAll('a, button').forEach(el => el.remove());
+
+        const utterance = new SpeechSynthesisUtterance(tempDiv.innerText || tempDiv.textContent);
+        utterance.lang = 'es-MX';
+        const voices = window.speechSynthesis.getVoices();
+        const preferredVoice = voices.find(voice => voice.lang.includes('es') && voice.name.toLowerCase().includes('female'));
+        if(preferredVoice) utterance.voice = preferredVoice;
+
+        utterance.onend = () => { this.resetActiveSpeakBtn(); };
+        utterance.onerror = () => { this.resetActiveSpeakBtn(); };
+        window.speechSynthesis.speak(utterance);
+    },
+
+    appendMsg: function(txtOrHtml, sender, isHtml = false) {
         const log = document.getElementById('aura-chat');
         if(!log) return;
 
         const div = document.createElement('div'); 
         div.className = `msg ${sender}`;
         
-        // Sanitización elegante y formato corporativo
-        let formattedText = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        formattedText = formattedText.replace(/\n/g, '<br>');
-        // Convertir negritas markdown a Oro Brillante para lujo visual
-        formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--valtara-oro-brillante); letter-spacing:0.5px;">$1</strong>');
+        const contentDiv = document.createElement('div');
+        if(isHtml) contentDiv.innerHTML = txtOrHtml; 
+        else contentDiv.textContent = txtOrHtml; 
         
-        div.innerHTML = formattedText;
-        
-        // Botón de lectura en voz alta si es Aura
         if(sender === 'bot') {
             const speakBtn = document.createElement('button');
+            speakBtn.className = 'aura-speak-btn';
             speakBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-            speakBtn.style.cssText = "background:transparent; border:none; color:var(--valtara-cian-brillante); margin-left:15px; cursor:pointer; font-size: 1.1rem; float: right;";
-            speakBtn.setAttribute('aria-label', 'Leer diagnóstico en voz alta');
-            speakBtn.onclick = () => this.speakMessage(text);
-            div.appendChild(speakBtn);
-        }
+            speakBtn.addEventListener('click', () => { this.speakMessage(txtOrHtml, speakBtn); });
 
+            const flexContainer = document.createElement('div');
+            flexContainer.style.display = 'flex'; 
+            flexContainer.style.justifyContent = 'space-between'; 
+            flexContainer.style.alignItems = 'flex-start';
+            flexContainer.appendChild(contentDiv); 
+            flexContainer.appendChild(speakBtn);
+            div.appendChild(flexContainer);
+        } else {
+            div.appendChild(contentDiv);
+        }
+        
         log.appendChild(div);
         setTimeout(() => { log.scrollTo({ top: log.scrollHeight, behavior: 'smooth' }); }, 50);
-    },
-
-    showTypingIndicator: function() {
-        const log = document.getElementById('aura-chat');
-        const typingId = 'typing-' + Date.now();
-        
-        const div = document.createElement('div');
-        div.id = typingId;
-        div.className = 'msg bot typing-indicator';
-        // Interfaz de carga elegante
-        div.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 12px; color: var(--valtara-cian-brillante);">
-                <i class="fa-solid fa-circle-nodes fa-spin" style="font-size: 1.4rem;"></i>
-                <span style="font-style: italic; font-size: 1.1rem; letter-spacing: 1px;">Procesando biometría y expedientes...</span>
-            </div>`;
-        
-        log.appendChild(div);
-        log.scrollTo({ top: log.scrollHeight, behavior: 'smooth' });
-        return typingId;
-    },
-
-    removeTypingIndicator: function(id) {
-        const el = document.getElementById(id);
-        if (el) el.remove();
-    },
-
-    // ================================================================================
-    // SISTEMAS AUXILIARES (VOZ A TEXTO Y TEXTO A VOZ)
-    // ================================================================================
-    startVoiceDictation: function() {
-        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-            this.appendMsg("Tu dispositivo restringe los protocolos acústicos de dictado nativo.", "bot");
-            return;
-        }
-        
-        const inputEl = document.getElementById('aura-input');
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const recognition = new SpeechRecognition();
-        
-        recognition.lang = 'es-MX';
-        recognition.interimResults = false;
-        
-        const micBtn = document.getElementById('aura-mic-btn');
-        micBtn.innerHTML = '<i class="fa-solid fa-wave-square fa-beat"></i>';
-        micBtn.style.color = '#F72585'; // Rosa Mexicano al grabar
-        micBtn.style.borderColor = '#F72585';
-        
-        AuraSensory.playTone(440, 'sine', 0.2);
-        AuraSensory.vibrate(20);
-
-        recognition.start();
-
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            inputEl.value = transcript;
-            // AuraSensory.vibrate(10); // Confirmación sutil de captura
-        };
-
-        recognition.onend = () => {
-            micBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
-            micBtn.style.color = 'var(--valtara-cian-brillante)';
-            micBtn.style.borderColor = 'var(--valtara-cian-brillante)';
-        };
-
-        recognition.onerror = () => {
-            micBtn.innerHTML = '<i class="fa-solid fa-microphone-slash"></i>';
-            setTimeout(() => {
-                micBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
-                micBtn.style.color = 'var(--valtara-cian-brillante)';
-            }, 2000);
-        };
-    },
-
-    speakMessage: function(text) {
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel(); 
-            // Eliminamos las etiquetas HTML o Markdown para que la voz sea limpia
-            const cleanText = text.replace(/<[^>]*>?/gm, '').replace(/\*/g, '');
-            const utterance = new SpeechSynthesisUtterance(cleanText);
-            utterance.lang = 'es-MX';
-            utterance.rate = 1.0;  // Velocidad calmada
-            utterance.pitch = 0.9; // Tono más serio
-            window.speechSynthesis.speak(utterance);
-        }
     }
 };
 
-// ====================================================================================
-// INICIALIZACIÓN NATIVA
-// ====================================================================================
-document.addEventListener('DOMContentLoaded', () => {
-    if (window.speechSynthesis && window.speechSynthesis.onvoiceschanged !== undefined) {
-        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
-    }
-    
-    // Ejecutamos Aura con un ligero retraso para asegurar que el LocalStorage y User.js estén listos
-    setTimeout(() => AuraEngine.init(), 600);
+window.addEventListener('DOMContentLoaded', () => {
+    if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+    AuraEngine.init();
 });
