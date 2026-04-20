@@ -1,190 +1,445 @@
 <!DOCTYPE html>
-<html lang="es" dir="ltr">
+<html lang="es-MX">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <title>VALTARA | Executive Therapy</title>
-    <meta name="theme-color" content="#070712">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#0a0c10">
     
-    <meta http-equiv="Content-Security-Policy" content="
-        default-src 'self'; 
-        connect-src 'self' https://aura-server-erfj.vercel.app https://api.groq.com https://openrouter.ai https://generativelanguage.googleapis.com; 
-        font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; 
-        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; 
-        script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; 
-        img-src 'self' data: blob: https://cdn-icons-png.flaticon.com;
-    ">
+    <!-- ========================================== -->
+    <!-- MOTOR SEO Y METADATOS PARA IA / BUSCADORES -->
+    <!-- ========================================== -->
+    <title>Valtara Executive Therapy | Clínica de Masoterapia y Spa de Lujo</title>
+    <meta name="description" content="Santuario de Restauración Biomecánica y Spa de Lujo. Especialistas en Masoterapia Descontracturante, Sonoterapia, y Arte en Uñas (Manicurismo). Cobertura en Tizayuca, CDMX (Reforma, Cuauhtémoc, Benito Juárez). Tratamientos guiados por IA Aura.">
+    <meta name="keywords" content="Masoterapia, Spa de lujo, Biomecánica, Masaje descontracturante, Manicurismo, Sonoterapia, Tizayuca, CDMX, Paseo de la Reforma, Alcaldía Cuauhtémoc, Benito Juárez, Relajación ejecutiva, IA médica, Expediente Clínico">
+    <meta name="author" content="Grupo Gevizz">
+    
+    <!-- Open Graph / Redes Sociales y Vistas Previas -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://valtaraexecutive.com/">
+    <meta property="og:title" content="Valtara Executive Therapy | Masoterapia & Sonoterapia">
+    <meta property="og:description" content="Catálogo de masajes, estudio de manicura y refugio de sonoterapia en Tizayuca y Zona Metropolitana CDMX. Tu expediente soberano te espera.">
+    <meta property="og:image" content="https://valtaraexecutive.com/logo.png">
 
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Verificación Google Console -->
+    <meta name="google-site-verification" content="649f28629369d903" />
 
-    <link rel="stylesheet" href="css/main.css?v=62.0.0">
-    <link rel="stylesheet" href="css/components.css?v=62.0.0">
+    <!-- Datos Estructurados JSON-LD para IAs y Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HealthAndBeautyBusiness",
+      "name": "Valtara Executive Therapy",
+      "image": "https://valtaraexecutive.com/logo.png",
+      "@id": "https://valtaraexecutive.com",
+      "url": "https://valtaraexecutive.com",
+      "telephone": "",
+      "description": "Clínica biomecánica y spa de ultra-lujo ofreciendo masoterapia, manicurismo, y sonoterapia guiada por inteligencia artificial (Aura IA).",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Tizayuca",
+        "addressRegion": "Hidalgo",
+        "addressCountry": "MX"
+      },
+      "areaServed": [
+        "Tizayuca",
+        "Ciudad de México",
+        "Paseo de la Reforma",
+        "Alcaldía Cuauhtémoc",
+        "Alcaldía Benito Juárez"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Servicios Valtara",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Catálogo de Masajes",
+              "description": "Terapias de restauración biomecánica, masaje descontracturante y relajación fascial profunda."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Estudio de Manicura (Art & Nails)",
+              "description": "Diseño de uñas de lujo, cuidado estético y tratamientos de belleza."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Sonoterapia",
+              "description": "Santuario acústico y frecuencias curativas para el sistema nervioso."
+            }
+          }
+        ]
+      }
+    }
+    </script>
 
+    <!-- Fuentes Tipográficas Lujosas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- ========================================== -->
+    <!-- ESTILOS CSS (Cortar y pegar en css/main.css y css/components.css) -->
+    <!-- ========================================== -->
     <style>
-        body:has(#view-aura.active) .system-header, body:has(#view-user-vault.active) .system-header,
-        body:has(#view-aura.active) #smart-fabs, body:has(#view-user-vault.active) #smart-fabs { display: none !important; }
-        body:has(#view-aura.active) .view-section, body:has(#view-user-vault.active) .view-section { padding-top: 1.5rem !important; }
+        /* === INICIO MAIN.CSS (Sistema de Diseño Base) === */
+        :root {
+            /* Colorimetría: Revista de Lujo (No negro puro) */
+            --bg-base: #07090e; /* Azul abisal muy oscuro */
+            --bg-surface: #0f121a;
+            
+            /* Acentos definidos en arquitectura */
+            --gold-imperial: #D4AF37;
+            --green-quetzal: #006B3C;
+            --rose-mexicano: #E05073;
+            --cyan-ia: #00B8D4;
+            --text-primary: #F0F2F5;
+            --text-secondary: #A0A5B5;
+
+            /* Glassmorphism avanzado (Cristal Esmerilado) */
+            --glass-bg: rgba(15, 18, 26, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            
+            /* Tipografía */
+            --font-headings: 'Cinzel', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(0, 184, 212, 0.03) 0%, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Tipografía Editorial */
+        h1, h2, h3, h4 {
+            font-family: var(--font-headings);
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--gold-imperial);
+            margin-bottom: 1rem;
+        }
+
+        /* Bloqueo de scroll para modales e IA */
+        body.scroll-locked {
+            overflow: hidden;
+        }
+        /* === FIN MAIN.CSS === */
+
+        /* === INICIO COMPONENTS.CSS (Grillas, Tarjetas, Botones) === */
+        
+        /* Layout Maestro */
+        #app-container {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* Cascarones de Secciones (El Constructor JS inyecta aquí) */
+        .view-section {
+            display: none; /* Ocultas por defecto */
+            width: 100%;
+            padding: 4rem 2rem;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .view-section.active {
+            display: block; /* Router.js cambia esta clase */
+        }
+
+        /* Pantalla Completa VIP (Aura y Expediente) */
+        .view-section.fullscreen-mode.active {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            background: var(--bg-base);
+            padding: 2rem;
+            overflow-y: auto;
+            backdrop-filter: blur(20px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Grillas de Revista (Imágenes Perfectas) */
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Paneles Glassmorphism (Tarjetas) */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .glass-panel:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.3); /* Destello dorado sutil */
+        }
+
+        /* Contenedores de Fotos (Ajuste Perfecto) */
+        .img-editorial {
+            width: 100%;
+            height: 250px;
+            object-fit: cover; /* Ensambla la foto sin deformarla */
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            filter: brightness(0.9) contrast(1.1); /* Tono elegante */
+        }
+
+        /* Botones Lujosos y Accesibles */
+        .btn-lujo {
+            display: inline-block;
+            padding: 12px 28px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        /* Colores Dinámicos de Botones (Regla: Contraste adecuado) */
+        .btn-white {
+            background: #ffffff;
+            color: #000000;
+        }
+        .btn-red {
+            background: var(--rose-mexicano);
+            color: #ffffff;
+        }
+        .btn-dark {
+            background: #111111;
+            color: #ffffff;
+            border: 1px solid #333;
+        }
+        .btn-gold {
+            background: var(--gold-imperial);
+            color: #000000;
+        }
+        .btn-cyan {
+            background: var(--cyan-ia);
+            color: #000000;
+            box-shadow: 0 0 15px rgba(0, 184, 212, 0.4);
+        }
+
+        .btn-lujo:hover {
+            filter: brightness(1.15);
+            transform: scale(1.02);
+        }
+
+        /* Menú Lateral (Sidebar Inyectable) */
+        #sidebar-shell {
+            width: 280px;
+            background: var(--bg-surface);
+            border-right: 1px solid var(--glass-border);
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: var(--font-headings);
+            font-size: 1.1rem;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--gold-imperial);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        /* Ítems VIP del Menú */
+        .nav-item.vip-aura {
+            color: var(--cyan-ia);
+            border: 1px solid rgba(0, 184, 212, 0.2);
+            margin-top: 2rem;
+        }
+        .nav-item.vip-expediente {
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+            background: rgba(255,255,255,0.02);
+        }
+
+        /* Responsivo Editorial */
+        @media (max-width: 900px) {
+            #app-container { flex-direction: column; }
+            #sidebar-shell { 
+                width: 100%; 
+                height: auto; 
+                position: relative;
+                flex-direction: row;
+                flex-wrap: wrap;
+                border-right: none;
+                border-bottom: 1px solid var(--glass-border);
+            }
+            .view-section { padding: 2rem 1rem; }
+        }
+        /* === FIN COMPONENTS.CSS === */
     </style>
 </head>
+<body>
 
-<body class="system-loading">
-
+    <!-- ========================================== -->
+    <!-- BLOQUE SEO INVISIBLE (Para IAs y Buscadores) -->
+    <!-- Extraído dinámicamente para indexación dura -->
+    <!-- ========================================== -->
     <noscript>
-        <div style="background: #070712; color: #d4af37; padding: 50px; font-family: 'Playfair Display', serif; z-index: 999999999; position: relative; text-align: center;">
-            <h1>VALTARA | Executive Therapy</h1>
-            <p>Santuario Soberano. Por favor, habilita JavaScript para experimentar el ultra-lujo y la IA Aura.</p>
+        <div id="seo-core" style="display: block; opacity: 0.9;">
+            <h1>Valtara Executive Therapy - Clínica Biomecánica y Spa</h1>
+            <p>Bienvenidos a Valtara Executive. Combinamos clínica biomecánica estricta con un spa de ultra-lujo. Zonas de cobertura: Tizayuca, Ciudad de México (CDMX), Paseo de la Reforma, Alcaldía Cuauhtémoc, Benito Juárez.</p>
+            
+            <h2>Catálogo de Masajes y Biomecánica</h2>
+            <p>Servicios de masoterapia avanzada, masaje descontracturante, relajación de fascias y neurobiología aplicada para el alivio del dolor y el estrés ejecutivo.</p>
+            
+            <h2>Estudio de Manicura y Belleza</h2>
+            <p>Arte en uñas, manicurismo de lujo y tratamientos botánicos diseñados para la estética y el bienestar integral.</p>
+            
+            <h2>Sonoterapia y Acústica</h2>
+            <p>Audios, videos e inmersión acústica. Frecuencias diseñadas para disolver el estrés bajo un cristal de relajación.</p>
+
+            <h2>Aura IA & Expediente Soberano</h2>
+            <p>Innovación médica con Inteligencia Artificial. Triage clínico mediante Aura y control absoluto de tu salud a través de nuestro Expediente Clínico Soberano para usuarios registrados.</p>
         </div>
     </noscript>
 
-    <div aria-live="polite" class="sr-only" id="a11y-announcer">Iniciando sistema Valtara...</div>
-
-    <header class="system-header" id="system-header">
-        <button class="header-logo" id="logo-btn" data-target="home" aria-label="Ir a Inicio" style="background: transparent; border: none;">
-            <img src="logo.png" alt="Valtara Logo" class="logo-img" style="height: 50px; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));">
-        </button>
-        <div class="header-controls">
-            <button class="header-action-btn" onclick="document.getElementById('a11y-modal').showModal();" aria-label="Accesibilidad"><i class="fa-solid fa-universal-access"></i></button>
-            <button class="hamburger-btn" id="menu-toggle-btn" aria-label="Abrir Menú"><i class="fa-solid fa-bars"></i></button>
-        </div>
-    </header>
-
-    <nav class="side-menu" id="main-nav">
-        <div class="menu-header">
-            <div class="patient-profile-card" style="display: flex; gap: 1rem; align-items: center;">
-                <div class="profile-avatar" style="width: 50px; height: 50px; background: rgba(212,175,55,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--valtara-oro); border: 1px solid var(--valtara-oro);"><i class="fa-solid fa-spa"></i></div>
-                <div class="profile-info">
-                    <span class="profile-greeting" style="color: #888; font-size: 0.9rem;">¡Hola!</span><br>
-                    <strong class="profile-name" id="menu-user-name" style="color: white; font-family: var(--font-accent); font-size: 1.5rem;">Invitado</strong>
-                </div>
-            </div>
-            <button class="close-btn" id="menu-close-btn" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
-        </div>
+    <!-- ========================================== -->
+    <!-- CASCARÓN ARQUITECTÓNICO (SPA) -->
+    <!-- ========================================== -->
+    <div id="app-container">
         
-        <div class="menu-scroll-area" style="padding: 2rem 3rem;">
-            <h3 style="color: #666; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 1.5rem;">Nuestros Espacios</h3>
+        <!-- SIDEBAR: El Enrutador delega eventos click en estos nav-items -->
+        <!-- constructor_maestro.js puede enriquecer o modificar esto -->
+        <nav id="sidebar-shell" aria-label="Menú Principal">
+            <div class="logo-area" style="text-align: center; margin-bottom: 2rem;">
+                <img src="logo.png" alt="Valtara Executive Logo" style="max-width: 120px;">
+            </div>
+
+            <a href="/" class="nav-item active" data-target="view-home">Inicio</a>
+            <a href="/catalogo-masajes" class="nav-item" data-target="view-catalogo-masajes">Catálogo de Masajes</a>
+            <a href="/estudio-manicura" class="nav-item" data-target="view-estudio-manicura">Estudio de Manicura</a>
+            <a href="/sonoterapia" class="nav-item" data-target="view-sonoterapia">Santuario Sonoterapia</a>
+            <a href="/ciencia-y-botanica" class="nav-item" data-target="view-ciencia">Ciencia y Botánica</a>
+            <a href="/legal" class="nav-item" data-target="view-legal">Legal y Transparencia</a>
             
-            <ul style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; list-style: none; padding: 0; margin-bottom: 3rem;">
-                <li><button data-target="home" style="width: 100%; padding: 2rem 1rem; background: #11111a; border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid var(--valtara-oro-brillante); border-radius: 15px; color: white; cursor: pointer; transition: 0.3s;"><i class="fa-solid fa-house" style="font-size: 2rem; margin-bottom: 10px;"></i><br>Santuario</button></li>
-                <li><button data-target="restoration" style="width: 100%; padding: 2rem 1rem; background: #11111a; border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid var(--v-verde-quetzal); border-radius: 15px; color: white; cursor: pointer; transition: 0.3s;"><i class="fa-solid fa-hands-holding-circle" style="font-size: 2rem; margin-bottom: 10px;"></i><br>Masoterapia</button></li>
-                <li><button data-target="beauty" style="width: 100%; padding: 2rem 1rem; background: #11111a; border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid var(--v-rosa-mexicano); border-radius: 15px; color: white; cursor: pointer; transition: 0.3s;"><i class="fa-solid fa-wand-magic-sparkles" style="font-size: 2rem; margin-bottom: 10px;"></i><br>Art & Nails</button></li>
-                <li><button data-target="sonotherapy" style="width: 100%; padding: 2rem 1rem; background: #11111a; border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid var(--v-azul-talavera); border-radius: 15px; color: white; cursor: pointer; transition: 0.3s;"><i class="fa-solid fa-water" style="font-size: 2rem; margin-bottom: 10px;"></i><br>Sonoterapia</button></li>
-                <li><button data-target="science" style="width: 100%; padding: 2rem 1rem; background: #11111a; border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid var(--v-ambar-sagrado); border-radius: 15px; color: white; cursor: pointer; transition: 0.3s;"><i class="fa-solid fa-dna" style="font-size: 2rem; margin-bottom: 10px;"></i><br>Ciencia</button></li>
-                <li><button data-target="legal" style="width: 100%; padding: 2rem 1rem; background: #11111a; border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid #888; border-radius: 15px; color: white; cursor: pointer; transition: 0.3s;"><i class="fa-solid fa-shield-halved" style="font-size: 2rem; margin-bottom: 10px;"></i><br>Manifiesto</button></li>
-            </ul>
+            <!-- Accesos VIP a Pantalla Completa -->
+            <a href="/aura-ia" class="nav-item vip-aura" data-target="view-aura">⟡ Aura IA Clínica</a>
+            <a href="/expediente" class="nav-item vip-expediente" data-target="view-expediente">Expediente Soberano</a>
+        </nav>
 
-            <h3 style="color: #666; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 1.5rem;">Soberanía</h3>
-            <button data-target="aura" style="width: 100%; padding: 1.5rem; background: var(--v-amatista); color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 1.1rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 1rem;"><i class="fa-solid fa-sparkles"></i> Aura AI - Triaje</button>
-            <button data-target="user-vault" style="width: 100%; padding: 1.5rem; background: rgba(255,255,255,0.05); color: var(--valtara-oro); border: 1px solid rgba(212,175,55,0.3); border-radius: 15px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 10px;"><i class="fa-solid fa-user-shield"></i> Mi Bóveda</button>
-        </div>
-    </nav>
-
-    <dialog id="a11y-modal">
-        <div class="modal-content">
-            <header class="modal-header"><h3><i class="fa-solid fa-universal-access"></i> Inclusión</h3><button class="close-btn" onclick="document.getElementById('a11y-modal').close();"><i class="fa-solid fa-xmark"></i></button></header>
-            <div class="modal-body"><p style="text-align: center;">Panel de neuro-inclusión en proceso de conexión.</p></div>
-        </div>
-    </dialog>
-
-    <aside class="float-controls float-right" id="smart-fabs">
-        <button class="fab-btn fab-aura" data-target="aura" aria-label="Abrir Aura AI"><i class="fa-solid fa-robot"></i></button>
-        <a href="https://wa.me/5213348572070" target="_blank" class="fab-btn fab-ws" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-    </aside>
-
-    <main id="main-content">
-        <section id="view-home" class="view-section active"></section>
-        <section id="view-restoration" class="view-section"></section>
-        <section id="view-beauty" class="view-section"></section>
-        <section id="view-sonotherapy" class="view-section"></section>
-        <section id="view-science" class="view-section"></section>
-        <section id="view-legal" class="view-section"></section>
-
-        <section id="view-aura" class="view-section">
-            <div style="padding: 1.5rem 2rem; border-bottom: 1px solid rgba(0,255,204,0.15); display: flex; align-items: center; gap: 15px; background: rgba(7,7,12,0.9); backdrop-filter: blur(25px); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 1rem;">
-                <button data-target="home" aria-label="Volver" style="background:transparent; border:1px solid rgba(0,255,204,0.3); color:var(--valtara-cian-brillante); font-size:1.5rem; cursor:pointer; width: 50px; height: 50px; border-radius: 50%; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-arrow-left"></i></button>
-                <h2 style="font-family: var(--font-accent); color: white; margin: 0; font-size: 2.2rem;"><i class="fa-solid fa-sparkles" style="color:var(--valtara-cian-brillante);"></i> Aura AI</h2>
-            </div>
+        <!-- ÁREA DE CONTENIDO DINÁMICO: router.js alterna la clase 'active' -->
+        <main id="content-area" aria-live="polite">
             
-            <div class="aura-container" style="max-width: 1000px; margin: 0 auto; height: calc(100vh - 160px); display: flex; flex-direction: column;">
-                <div class="aura-chat-window" id="aura-chat" style="flex: 1; background: rgba(10, 10, 15, 0.7); backdrop-filter: blur(20px); border-radius: 20px; border: 1px solid rgba(0, 255, 204, 0.15); padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem;">
-                    <div style="text-align:center; padding-top: 4rem;">
-                        <i class="fa-solid fa-brain" style="font-size: 6rem; color: rgba(255,255,255,0.05); margin-bottom: 2rem;"></i>
-                        <h2 style="color: #666; font-family: monospace; letter-spacing: 2px; font-size: 1.2rem;">INICIANDO CONEXIÓN NEURONAL...</h2>
-                    </div>
-                </div>
-                
-                <div class="aura-controls" style="padding: 1.5rem; background: rgba(5, 5, 10, 0.8); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; gap: 1.5rem; align-items: center; margin-top: 1rem;">
-                    <button id="aura-mic-btn" style="width: 4rem; height: 4rem; border-radius: 50%; background: rgba(0, 255, 204, 0.05); color: var(--valtara-cian-brillante); border: 1px solid var(--valtara-cian-brillante); cursor: pointer; font-size: 1.5rem;"><i class="fa-solid fa-microphone"></i></button>
-                    <input type="text" id="aura-input" placeholder="Ej. Tengo tensión en trapecios por estrés..." style="flex: 1; padding: 1.2rem 2rem; border-radius: 3rem; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: white; font-size: 1.15rem; outline: none;">
-                    <button id="aura-send-btn" style="width: 4rem; height: 4rem; border-radius: 50%; background: var(--valtara-oro-brillante); color: #000; border: none; cursor: pointer; font-size: 1.5rem;"><i class="fa-solid fa-paper-plane"></i></button>
-                </div>
-            </div>
-        </section>
+            <!-- INICIO (Aquí inyectan inicio_*.js) -->
+            <section id="view-home" class="view-section active">
+                <!-- Constructor Maestro inyecta inicio_bienvenida, inicio_refugio, etc. -->
+            </section>
 
-        <section id="view-user-vault" class="view-section">
-            <div style="padding: 1.5rem 2rem; border-bottom: 1px solid rgba(212,175,55,0.2); display: flex; align-items: center; background: rgba(7,7,12,0.9); backdrop-filter: blur(25px); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                <button data-target="home" aria-label="Volver" style="background:transparent; border:1px solid rgba(212,175,55,0.3); color:var(--valtara-oro-brillante); font-size:1.5rem; cursor:pointer; width: 50px; height: 50px; border-radius: 50%; display:flex; align-items:center; justify-content:center; margin-right: 20px;"><i class="fa-solid fa-arrow-left"></i></button>
-                <h2 style="font-family: var(--font-accent); color: white; margin: 0; font-size: 2.2rem;"><i class="fa-solid fa-user-shield" style="color:var(--valtara-oro);"></i> Mi Bóveda</h2>
-            </div>
-            
-            <div style="max-width: 1000px; margin: 0 auto; padding: 4rem 1rem;">
-                <div style="text-align: center; margin-bottom: 5rem;">
-                    <i class="fa-solid fa-circle-user" style="font-size: 7rem; color: var(--valtara-oro-brillante); filter: drop-shadow(0 0 25px rgba(242,201,76,0.3)); margin-bottom: 1.5rem;"></i>
-                    <h3 id="vault-user-name" style="font-size: 3.5rem; font-family: var(--font-accent); color: white; margin: 0 0 1rem 0;">Paciente</h3>
-                    <p style="color: #aaa; font-size: 1.3rem; max-width: 650px; margin: 0 auto;">Santuario privado de datos. Gestiona tu expediente biométrico cifrado o personaliza las variables olfativas de tu sesión.</p>
-                </div>
+            <!-- MASAJES (Aquí inyecta catalogo_masajes.js) -->
+            <section id="view-catalogo-masajes" class="view-section">
+            </section>
 
-                <div class="glass-card" style="border-left: 5px solid var(--valtara-oro); margin-bottom: 4rem;">
-                    <h4 style="color: var(--valtara-oro); font-size: 2rem; font-family: var(--font-accent); margin: 0 0 1.5rem 0;"><i class="fa-solid fa-file-medical"></i> Expediente Biomecánico</h4>
-                    <p style="color: #ccc; margin-bottom: 2rem; font-size: 1.2rem;">Visualiza o descarga un PDF interactivo con el resumen detallado de tus intervenciones y el triaje de Aura AI.</p>
-                    <button class="btn-primary" style="width: 100%; border-radius: 15px;"><i class="fa-solid fa-file-pdf"></i> Acceder a mi Expediente</button>
-                </div>
+            <!-- MANICURA (Aquí inyecta catalogo_belleza.js) -->
+            <section id="view-estudio-manicura" class="view-section">
+            </section>
 
-                <div class="glass-card" style="border-left: 5px solid var(--valtara-cian-brillante);">
-                    <h4 style="color: var(--valtara-cian-brillante); font-size: 2rem; font-family: var(--font-accent); margin: 0 0 1.5rem 0;"><i class="fa-solid fa-leaf"></i> Aromaterapia Clínica</h4>
-                    <p style="color: #ccc; margin-bottom: 2rem; font-size: 1.2rem;">Selecciona notas olfativas para preparar el ambiente de tu suite.</p>
-                    
-                    <div class="aroma-grid">
-                        <label><input type="checkbox" name="aroma_pref" value="Vainilla" style="display:none;"> <i class="fa-solid fa-ice-cream" style="color:#FCEABB;"></i> <span>Vainilla Papantla</span></label>
-                        <label><input type="checkbox" name="aroma_pref" value="Sándalo" style="display:none;"> <i class="fa-solid fa-tree" style="color:#D2B48C;"></i> <span>Sándalo Sagrado</span></label>
-                        <label><input type="checkbox" name="aroma_pref" value="Lavanda" style="display:none;"> <i class="fa-brands fa-pagelines" style="color:#E6E6FA;"></i> <span>Lavanda Silvestre</span></label>
-                        <label><input type="checkbox" name="aroma_pref" value="Eucalipto" style="display:none;"> <i class="fa-solid fa-wind" style="color:#5F9EA0;"></i> <span>Eucalipto Clínico</span></label>
-                    </div>
-                    
-                    <button class="btn-primary" style="width: 100%; border-radius: 15px; background: transparent; border: 2px solid var(--valtara-cian-brillante); color: var(--valtara-cian-brillante);"><i class="fa-brands fa-whatsapp"></i> Emitir pase a Concierge</button>
-                </div>
-            </div>
-        </section>
-    </main>
+            <!-- SONOTERAPIA (Aquí inyectan sonoterapia_*.js y oasis.js) -->
+            <section id="view-sonoterapia" class="view-section">
+            </section>
 
-    <footer id="main-footer" class="mega-footer"></footer>
+            <!-- CIENCIA (Aquí inyectan ciencia_*.js) -->
+            <section id="view-ciencia" class="view-section">
+            </section>
 
-    <script src="js/inicio_bienvenida.js" defer></script>
-    <script src="js/inicio_refugio.js" defer></script>
-    <script src="js/inicio_promociones.js" defer></script>
-    <script src="js/inicio_arte_unas.js" defer></script>
-    <script src="js/inicio_mapa_cuerpo.js" defer></script>
-    <script src="js/inicio_redes_sociales.js" defer></script>
+            <!-- LEGAL (Aquí inyectan legal_*.js) -->
+            <section id="view-legal" class="view-section">
+            </section>
 
-    <script src="js/catalogo_masajes.js" defer></script>
-    <script src="js/catalogo_belleza.js" defer></script>
+            <!-- AURA IA (Inmersión Pantalla Completa) -->
+            <section id="view-aura" class="view-section fullscreen-mode">
+                <!-- aura.js toma el control total aquí -->
+            </section>
 
-    <script src="js/ciencia_introduccion.js" defer></script>
-    <script src="js/ciencia_biomecanica.js" defer></script>
+            <!-- EXPEDIENTE SOBERANO (Inmersión Pantalla Completa) -->
+            <section id="view-expediente" class="view-section fullscreen-mode">
+                <!-- expediente_clinico.js dibuja el form clínico aquí -->
+            </section>
 
-    <script src="js/legal_manifiesto.js" defer></script>
-    <script src="js/legal_transparencia.js" defer></script>
-    <script src="js/modal_terminos.js" defer></script>
+        </main>
+    </div>
 
-    <script src="js/sonoterapia_introduccion.js" defer></script>
-    <script src="js/sonoterapia_audio.js" defer></script>
-    
-    <script src="js/global_footer.js" defer></script>
-    
-    <script src="js/constructor_maestro.js" defer></script>
-    <script src="js/router.js" defer></script>
-    <script src="js/core.js" defer></script>
-    <script src="js/aura.js" defer></script>
+    <!-- ========================================== -->
+    <!-- MOTORES Y SISTEMA NERVIOSO JS -->
+    <!-- Cargados al final para no bloquear renderizado -->
+    <!-- ========================================== -->
+    <!-- 1. Carga de Base de Datos y Accesibilidad -->
+    <script type="module" src="js/data.js"></script>
+    <script type="module" src="js/a11y.js"></script>
 
+    <!-- 2. Carga de Lógica Core y Router -->
+    <script type="module" src="js/core.js"></script>
+    <script type="module" src="js/router.js"></script>
+
+    <!-- 3. Carga del Constructor Maestro (Ensamblador) -->
+    <script type="module" src="js/constructor_maestro.js"></script>
+
+    <!-- 4. PWA Service Worker -->
+    <script type="module" src="js/pwa.js"></script>
 </body>
 </html>
