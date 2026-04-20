@@ -1,230 +1,256 @@
 <!DOCTYPE html>
 <html lang="es" dir="ltr" prefix="og: https://ogp.me/ns#">
 <head>
-<script>
-  (function() {
-    var redirect = sessionStorage.redirect;
-    delete sessionStorage.redirect;
-    if (redirect && redirect !== location.href) {
-      history.replaceState(null, null, redirect);
-    }
-  })();
-</script>
+    <script>
+      (function() {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
     <!-- ==================================================================================== -->
     <!-- NÚCLEO DE RENDERIZADO Y METADATOS BÁSICOS                                            -->
     <!-- ==================================================================================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
-    <!-- Título optimizado para el algoritmo de Google Search e Inteligencias Artificiales -->
+    <!-- Título optimizado para el algoritmo de Google Search y LLMs -->
     <title>VALTARA | Executive Therapy & Biomechanics CDMX, Tizayuca y Pachuca</title>
+    <meta name="description" content="Santuario de masajes, biomecánica y bienestar corporativo en Paseo de la Reforma 195. Atención de ultra-lujo en CDMX, Estado de México, Hidalgo (Tizayuca, Pachuca) y Morelos. Art & Nails Studio, Sonoterapia y Aura AI.">
+    <meta name="keywords" content="Masaje deportivo CDMX, Terapia biomecánica Reforma, Masoterapia clínica, Grupo Gevizz, Valtara Executive, Lujo, Bienestar Corporativo, Masajes Los Héroes Tizayuca, Masajes Pachuca, SPA CDMX, Art & Nails, Rubber base, Acrílico, Sonoterapia acústica, Reflexología, Aceites esenciales">
+    <meta name="author" content="Grupo Gevizz S.A.S.">
     
-    <!-- EXPANSIÓN SEO MASIVA PARA MOTORES DE BÚSQUEDA E IA -->
-    <meta name="description" content="Valtara Executive Therapy por Grupo Gevizz. Santuario de masajes clínicos, biomecánica, descompresión de fascias y Art & Nails Studio de ultra-lujo. Ubicaciones: Paseo de la Reforma 195 (CDMX), Tizayuca y Pachuca. Alto rendimiento corporativo y relajación neurobiológica.">
-    <meta name="keywords" content="Valtara, Grupo Gevizz, Masoterapia Clínica, Masaje deportivo CDMX, Terapia biomecánica Reforma 195, Masajes Los Héroes Tizayuca, Masajes Pachuca, SPA CDMX, Art & Nails, Rubber Base, Uñas Acrílicas, Sonoterapia Acústica, Aura AI, Fitoterapia, Lujo, Bienestar Corporativo, Liberación Miofascial">
-    <meta name="author" content="Grupo Gevizz S.A.S. - Fundador: Ángel">
+    <!-- Directivas agresivas para el motor de búsqueda (Indexación profunda) -->
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     
-    <!-- OPEN GRAPH (Redes Sociales y WhatsApp) -->
-    <meta property="og:site_name" content="Valtara Executive Therapy">
-    <meta property="og:title" content="VALTARA | Clínica de Masoterapia, Biomecánica y Estudio de Belleza">
-    <meta property="og:description" content="Descubre un santuario de ultra-lujo para el alto rendimiento ejecutivo. Masoterapia clínica, Aura AI, Sonoterapia y Art & Nails en CDMX, Tizayuca y Pachuca.">
+    <!-- Open Graph para Redes Sociales y Enlaces (WhatsApp, Facebook, LinkedIn) -->
+    <meta property="og:title" content="Valtara Executive Therapy | El Santuario Biomecánico">
+    <meta property="og:description" content="Santuario de masoterapia clínica, biomecánica y estudio de belleza de ultra-lujo diseñada para el alto rendimiento ejecutivo. Ubicados en CDMX (Reforma), Tizayuca y Pachuca.">
     <meta property="og:image" content="https://valtaraexecutive.com/logo.png">
-    <meta property="og:url" content="https://valtaraexecutive.com/">
+    <meta property="og:url" content="https://valtaraexecutive.com">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Grupo Gevizz">
     <meta property="og:locale" content="es_MX">
 
-    <!-- TWITTER CARDS -->
+    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="VALTARA Executive Therapy | Grupo Gevizz">
-    <meta name="twitter:description" content="Santuario de masoterapia clínica y belleza de ultra-lujo en CDMX, Tizayuca y Pachuca.">
+    <meta name="twitter:title" content="Valtara Executive Therapy by Grupo Gevizz">
+    <meta name="twitter:description" content="Descubre la cúspide de la masoterapia clínica y biomecánica en México. CDMX, Tizayuca, Pachuca y Morelos.">
     <meta name="twitter:image" content="https://valtaraexecutive.com/logo.png">
 
-    <!-- ENLACES CANÓNICOS Y PWA -->
-    <link rel="canonical" href="https://valtaraexecutive.com/">
+    <!-- Enlaces Canónicos y App Manifest -->
+    <link rel="canonical" href="https://valtaraexecutive.com">
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="logo.png" type="image/png">
-    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="icon" type="image/png" href="logo.png">
     <meta name="theme-color" content="#0a0a0a">
 
-    <!-- ESTILOS GLOBALES -->
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/components.css">
+    <!-- Pre-conexiones para rendimiento SPA -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "HealthAndBeautyBusiness",
-  "name": "Valtara Executive Therapy",
-  "alternateName": "Grupo Gevizz",
-  "image": "https://valtaraexecutive.com/logo.png",
-  "@id": "https://valtaraexecutive.com",
-  "url": "https://valtaraexecutive.com",
-  "telephone": "+5213348572070",
-  "priceRange": "$$$",
-  "description": "Santuario de masoterapia clínica, biomecánica y estudio de belleza de ultra-lujo diseñada para el alto rendimiento ejecutivo.",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Paseo de la Reforma 195",
-    "addressLocality": "Ciudad de México",
-    "addressRegion": "CDMX",
-    "addressCountry": "MX"
-  },
-  "founder": {
-    "@type": "Person",
-    "name": "Ángel"
-  },
-  "areaServed": [
-    { "@type": "City", "name": "Ciudad de México" },
-    { "@type": "City", "name": "Tizayuca" },
-    { "@type": "City", "name": "Pachuca" }
-  ],
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "Servicios Clínicos y Estéticos de Valtara",
-    "itemListElement": [
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Masoterapia Clínica y Descompresión" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Art & Nails Studio (Rubber Base y Acrílico)" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sonoterapia Acústica" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Aura AI Biomecánica" } }
-    ]
-  }
-}
-</script>
+    <!-- Hojas de Estilo Base -->
+    <link rel="stylesheet" href="css/main.css?v=40.0.0">
+    <link rel="stylesheet" href="css/components.css?v=40.0.0">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HealthAndBeautyBusiness",
+      "name": "Valtara Executive Therapy",
+      "alternateName": "Grupo Gevizz",
+      "image": "https://valtaraexecutive.com/logo.png",
+      "@id": "https://valtaraexecutive.com",
+      "url": "https://valtaraexecutive.com",
+      "telephone": "+5213348572070",
+      "priceRange": "$$$",
+      "description": "Santuario de masoterapia clínica, biomecánica y estudio de belleza de ultra-lujo diseñada para el alto rendimiento ejecutivo.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Paseo de la Reforma 195",
+        "addressLocality": "Ciudad de México",
+        "addressRegion": "CDMX",
+        "addressCountry": "MX"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Ángel"
+      },
+      "areaServed": [
+        { "@type": "City", "name": "Ciudad de México" },
+        { "@type": "City", "name": "Tizayuca" },
+        { "@type": "City", "name": "Pachuca" },
+        { "@type": "State", "name": "Morelos" },
+        { "@type": "State", "name": "Estado de México" }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Servicios Clínicos y Estéticos de Valtara",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Masoterapia Clínica y Descompresión" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Art & Nails Studio (Rubber Base y Acrílico)" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sonoterapia Acústica" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Aura AI Biomecánica" } }
+        ]
+      }
+    }
+    </script>
 </head>
 <body>
-    <!-- CONTENEDOR PRINCIPAL SPA -->
-    <div id="app" class="valtara-app-shell"></div>
+    <!-- ==================================================================================== -->
+    <!-- BLOQUE DE SEO EXTREMO PARA IAs Y MOTORES DE BÚSQUEDA (Visualmente Oculto)            -->
+    <!-- Este bloque asegura que el conocimiento profundo de JS esté indexado desde el DOM    -->
+    <!-- ==================================================================================== -->
+    <div id="seo-knowledge-base" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;" aria-live="polite">
+        <article>
+            <h1>Valtara Executive Therapy: El Santuario de Restauración Biomecánica y Lujo de Grupo Gevizz</h1>
+            <p>Bienvenido a casa. En Valtara Executive Therapy, una firma de <strong>Grupo Gevizz S.A.S.</strong>, hemos redefinido el concepto del bienestar corporativo y el alto rendimiento ejecutivo. Nuestro enfoque clínico no es un simple spa; es un ecosistema médico, botánico, acústico y estético diseñado meticulosamente para restaurar la biomecánica de líderes, ejecutivos y personas que exigen lo máximo de sus cuerpos y mentes.</p>
+            
+            <h2>¿Quiénes Somos y Nuestra Historia?</h2>
+            <p>Fundada por el visionario Ángel, Valtara nació de la necesidad de fusionar la ciencia anatómica con el confort del ultra-lujo. Entendemos que el estrés de la alta dirección, las horas frente a monitores y la presión diaria generan patologías invisibles en la fascia y el sistema nervioso. Como parte de Grupo Gevizz, nuestro manifiesto es claro: "Restaurar el cuerpo humano mediante un enfoque holístico, combinando biotecnología, Aura AI y la sabiduría ancestral de la fitoterapia".</p>
+            
+            <h2>Nuestras Ubicaciones Estratégicas</h2>
+            <ul>
+                <li><strong>Ciudad de México (CDMX):</strong> Ubicados en el corazón financiero del país, Paseo de la Reforma 195, nuestro santuario principal atiende a la élite corporativa, ofreciendo una vía de escape al ritmo frenético de la capital.</li>
+                <li><strong>Tizayuca (Los Héroes) e Hidalgo:</strong> Expandiendo nuestro modelo clínico para brindar terapias de descompresión profunda y servicios de belleza a una de las zonas de mayor desarrollo residencial.</li>
+                <li><strong>Pachuca, Estado de México y Morelos:</strong> Nuestra red de cobertura abarca los principales centros neurálgicos, asegurando que el estándar Gevizz llegue a quienes buscan excelencia biomecánica.</li>
+            </ul>
+
+            <h2>Catálogo de Masoterapia y Clínica Biomecánica</h2>
+            <p>El núcleo de Valtara es nuestra ingeniería muscular. Ofrecemos tratamientos que abordan la raíz del dolor:</p>
+            <ul>
+                <li><strong>Masaje Descontracturante Profundo:</strong> Liberación de puntos gatillo y nudos miofasciales, ideal para atletas y ejecutivos con sobrecarga postural.</li>
+                <li><strong>Terapia Biomecánica y Liberación Miofascial:</strong> Un estudio profundo de las cadenas musculares, reeducando la postura a través del trabajo en el tejido conectivo.</li>
+                <li><strong>Reflexología y Drenaje Linfático:</strong> Técnicas para mejorar la microcirculación y desintoxicar el organismo tras viajes largos o jornadas extenuantes.</li>
+            </ul>
+
+            <h2>Valtara Art & Nails Studio: Estética de Lujo</h2>
+            <p>La belleza es una extensión del bienestar. Nuestro puente hacia la manicuría de clase mundial no tiene igual. Especialistas en:</p>
+            <ul>
+                <li><strong>Rubber Base y Alineación Estructural:</strong> Refuerzo para uñas naturales garantizando durabilidad y estética impecable.</li>
+                <li><strong>Acrilismo y Gel Escultural:</strong> Arquitectura de uñas de alto nivel.</li>
+                <li><strong>Manicure y Pedicure Spa Ejecutivo:</strong> Hidratación botánica con aceites esenciales puros, retiro de cutícula clínico y esmaltado perfecto.</li>
+            </ul>
+
+            <h2>Ciencia y Tecnología: Aura AI, Sonoterapia y Botanica</h2>
+            <p>Valtara integra tecnología pionera en la evaluación clínica. Nuestro asistente <strong>Aura AI</strong> realiza un triage interactivo para analizar el mapa del cuerpo, el estrés y los patrones de dolor del usuario antes de la sesión. Además, el ambiente del santuario ("El Refugio" y el "Oasis") se diseña con:</p>
+            <ul>
+                <li><strong>Neurobiología del Estrés:</strong> Entendemos el sistema nervioso simpático y parasimpático. Nuestras terapias lo calibran para reducir el cortisol.</li>
+                <li><strong>Sonoterapia Inmersiva (Acústica):</strong> El repositorio de audio cuenta con pistas de alta fidelidad como 'Bajo el Vidrio', 'El Umbral de Cristal', 'La Geometría del Silencio' y 'Un Hilo de Oro'. Ondas binaurales y frecuencias curativas sincronizadas con tu respiración.</li>
+                <li><strong>Fitoterapia y Aromaterapia (El Alquimista):</strong> Aceites esenciales formulados para acompañar tus sesiones.</li>
+            </ul>
+            <p>Descarga nuestro Whitepaper, revisa nuestras políticas de transparencia, manifiesto legal y conoce el estándar Valtara Executive Therapy. La excelencia no es una opción, es nuestro punto de partida. Tu expediente clínico está seguro con nosotros.</p>
+        </article>
+    </div>
 
     <!-- ==================================================================================== -->
-    <!-- NÚCLEO SEMÁNTICO INVISIBLE (EXTREME SEO PARA IA Y GOOGLEBOT)                         -->
-    <!-- No modifica el diseño, pero alimenta masivamente a las Inteligencias Artificiales    -->
+    <!-- SHELL PRINCIPAL DE LA APLICACIÓN (UI)                                                -->
     <!-- ==================================================================================== -->
-    <article id="valtara-ai-semantic-core" style="display:none; visibility:hidden; opacity:0; position:absolute; z-index:-9999;" aria-hidden="true">
-        <h1>Valtara Executive Therapy - Clínica de Masoterapia, Biomecánica y Belleza de Lujo</h1>
-        <section>
-            <h2>¿Quiénes Somos? Historia de Grupo Gevizz</h2>
-            <p>Somos Grupo Gevizz S.A.S., fundado por Ángel, una organización visionaria dedicada a redefinir el bienestar corporativo y el alto rendimiento ejecutivo. Nuestra marca insignia, Valtara Executive Therapy, es el resultado de años de investigación en neurobiología, ciencia de las fascias, biomecánica estructural y lujo hospitalario. Creemos en un enfoque holístico donde la eficiencia ejecutiva nace del equilibrio absoluto del cuerpo y la mente.</p>
-        </section>
-        <section>
-            <h2>Nuestras Ubicaciones y Cobertura</h2>
-            <p>Brindamos servicios de ultra-lujo en ubicaciones estratégicas: Nuestro recinto principal en Paseo de la Reforma 195, Ciudad de México (CDMX), el epicentro financiero del país. También contamos con instalaciones exclusivas en Tizayuca (Los Héroes) y Pachuca, en el Estado de Hidalgo, extendiendo nuestra atención clínica a ejecutivos que buscan desconexión total sin comprometer la calidad. Servimos también al Estado de México y Morelos a través de consultas especializadas y seguimiento PWA.</p>
-        </section>
-        <section>
-            <h2>Masoterapia Clínica, Fascias y Biomecánica</h2>
-            <p>Nuestro enfoque científico trasciende el masaje tradicional. Utilizamos conocimientos profundos de la anatomía humana, abordando cadenas musculares y el sistema miofascial. Nuestros catálogos incluyen: Masaje descontracturante clínico, terapia de descompresión articular, liberación miofascial para corrección de postura por trabajo de escritorio (ergonomía), y estimulación del sistema nervioso parasimpático para contrarrestar el estrés crónico (neurobiología).</p>
-        </section>
-        <section>
-            <h2>Valtara Art & Nails Studio</h2>
-            <p>La belleza y la estética son pilares del bienestar. Nuestro puente hacia la manicuría avanzada, Art & Nails, ofrece servicios estéticos de primer nivel: Manicura rusa, aplicación de Rubber Base de alta durabilidad, diseño en acrílico esculpido y esmaltado semipermanente, utilizando únicamente productos hipoalergénicos de gama alta para garantizar la salud de las uñas naturales.</p>
-        </section>
-        <section>
-            <h2>Sonoterapia Acústica y El Refugio Oasis</h2>
-            <p>El estrés se desintegra a través del sonido. Hemos desarrollado un repositorio de sonoterapia inmersiva y gamificación. Pistas como "Manto sin Orillas", "Bajo el Vidrio" y el "Juego del Alquimista" (aromaterapia y fitoterapia botánica) calibran las ondas cerebrales hacia estados Delta y Theta. Utilizamos aceites esenciales botánicos puros que interactúan con el sistema límbico para potenciar los resultados de la masoterapia.</p>
-        </section>
-        <section>
-            <h2>Innovación Tecnológica: Aura AI y Accesibilidad (A11y)</h2>
-            <p>Hemos integrado tecnología de punta en nuestra atención. AURA es nuestro Asistente de IA diseñado para realizar un triage clínico interactivo, evaluando el mapa del dolor corporal y la biomecánica del paciente antes de su sesión. Nuestra plataforma (PWA) permite crear expedientes clínicos privados, guardando un historial preciso, con interfaces completamente adaptadas mediante navegación por teclado y lectores de pantalla (A11y).</p>
-        </section>
-    </article>
+    <div id="constructor-maestro">
+        <!-- Navegación, modales y header inyectados por constructor_maestro.js -->
+    </div>
+
+    <main id="app-root" class="spa-container">
+        <!-- El enrutador inyectará aquí de manera dinámica las vistas de las secciones: -->
+        <!-- inicio, catalogo_masajes, catalogo_belleza, oasis, expedientes, etc.        -->
+    </main>
+
+    <footer id="global-footer">
+        <!-- Footer global inyectado por global_footer.js -->
+    </footer>
 
     <!-- ==================================================================================== -->
-    <!-- MOTOR DINÁMICO DE SALUDO Y SUGERENCIAS (Intervención Limpia del DOM)                 -->
+    <!-- SCRIPT DE PARCHES DINÁMICOS Y DE ACCESIBILIDAD (Saludos y Sugerencias)               -->
     <!-- ==================================================================================== -->
     <script>
-        (function() {
-            // 1. Lógica del Tiempo
-            const date = new Date();
-            const hour = date.getHours();
-            
-            let greetingStr = "Buenos días";
-            let suggestTimeStr = "12:00 PM";
-            let extraActionStr = "un Masaje Descontracturante";
+      (function() {
+        // Configuración de Saludos Dinámicos según la hora
+        document.addEventListener("DOMContentLoaded", function() {
+          const hour = new Date().getHours();
+          let saludoDinamico = "Buenas noches, Bienvenido a casa";
+          let sugerenciaDinamica = "Para esta noche, te recomendamos una sesión de descompresión con aromaterapia profunda. Agenda ahora y acompáñala con un té relajante para un descanso óptimo.";
+          
+          if (hour >= 5 && hour < 12) {
+            saludoDinamico = "Buenos días, Bienvenido a casa";
+            sugerenciaDinamica = "Te sugerimos agendar ahora para disfrutar de un té matcha o infusión revitalizante al llegar, iniciando tu jornada ejecutiva con el máximo rendimiento.";
+          } else if (hour >= 12 && hour < 19) {
+            saludoDinamico = "Buenas tardes, Bienvenido a casa";
+            sugerenciaDinamica = "Un momento ideal. Agenda tu sesión esta tarde y acompáñala con un té blanco para liberar la carga del día y renovar tu enfoque.";
+          }
 
-            if (hour >= 5 && hour < 12) {
-                greetingStr = "Buenos días";
-                suggestTimeStr = "14:00 hrs";
-                extraActionStr = "nuestra Terapia Biomecánica de Descompresión para iniciar el día al máximo";
-            } else if (hour >= 12 && hour < 19) {
-                greetingStr = "Buenas tardes";
-                suggestTimeStr = "19:00 hrs";
-                extraActionStr = "un espacio en el Refugio de Sonoterapia y un té relajante para liberar tensión";
-            } else {
-                greetingStr = "Buenas noches";
-                suggestTimeStr = "mañana a las 10:00 AM";
-                extraActionStr = "una sesión de Art & Nails Studio o un Masaje Relajante para preparar tu descanso";
-            }
+          // Variables globales por si el JS central (ej. inicio_bienvenida.js) las desea consultar
+          window.VALTARA_SALUDO_DIA = saludoDinamico;
+          window.VALTARA_SUGERENCIA_DIA = sugerenciaDinamica;
 
-            const welcomeFinal = `${greetingStr}, Bienvenido a casa`;
-            const suggestionFinal = `Te sugerimos agendar ${extraActionStr} después de las ${suggestTimeStr}. Disfruta de un té de nuestra selección botánica y tómate un respiro.`;
+          // Observer para inyectar dinámicamente los textos en la UI sin romper el diseño/CSS actual
+          const targetNode = document.getElementById('app-root') || document.body;
+          const config = { childList: true, subtree: true, characterData: true };
 
-            // 2. Observador de Mutaciones Seguro (Parcha los textos sin tocar la estructura HTML/CSS)
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach(mutation => {
-                    mutation.addedNodes.forEach(node => {
-                        if (node.nodeType === Node.ELEMENT_NODE) {
-                            // Busca textos para reemplazar basados en las palabras clave del diseño actual
-                            const walkDOM = (n) => {
-                                if (n.nodeType === Node.TEXT_NODE) {
-                                    let text = n.textContent;
-                                    let modified = false;
-
-                                    // Interceptar y cambiar el título principal
-                                    if (text.includes('Executive Terapia') || text.includes('Executive Therapy') || text.trim() === 'Valtara Executive') {
-                                        text = welcomeFinal;
-                                        modified = true;
-                                    }
-                                    
-                                    // Interceptar las sugerencias dinámicas del inicio
-                                    if (text.includes('sugerencias dinámicas') || text.includes('agendas después de') || text.includes('ts y agendas')) {
-                                        text = suggestionFinal;
-                                        modified = true;
-                                    }
-
-                                    if (modified) n.textContent = text;
-                                } else if (n.nodeType === Node.ELEMENT_NODE && n.nodeName !== 'SCRIPT' && n.nodeName !== 'STYLE') {
-                                    n.childNodes.forEach(walkDOM);
-                                }
-                            };
-                            walkDOM(node);
-                        }
-                    });
+          const callback = function(mutationsList, observer) {
+            for(let mutation of mutationsList) {
+              if (mutation.type === 'childList') {
+                // Modificar Títulos de Bienvenida
+                const headings = document.querySelectorAll('h1, h2, .saludo-principal, .welcome-text');
+                headings.forEach(h => {
+                  // Si encuentra el texto default y aún no lo hemos parcheado
+                  if (h.innerText && (h.innerText.includes('executive terapia') || h.innerText.toLowerCase().includes('executive therapy')) && !h.hasAttribute('data-saludo-listo')) {
+                     // Mantenemos la etiqueta y el estilo, alterando suavemente el HTML interior
+                     h.innerHTML = `${saludoDinamico} <br><span class="subtitle-therapy" style="font-size:0.65em; opacity:0.85; font-weight:normal;">Executive Therapy</span>`;
+                     h.setAttribute('data-saludo-listo', 'true');
+                  }
+                  // Parche genérico por si es un h1 más simple
+                  else if (h.innerText && h.innerText.toLowerCase().trim() === 'buenos días' && !h.hasAttribute('data-saludo-listo')) {
+                      h.innerText = saludoDinamico;
+                      h.setAttribute('data-saludo-listo', 'true');
+                  }
                 });
-            });
 
-            // Iniciar observador en el contenedor principal de la aplicación SPA
-            document.addEventListener('DOMContentLoaded', () => {
-                const appRoot = document.getElementById('app') || document.body;
-                observer.observe(appRoot, { childList: true, subtree: true });
-            });
-        })();
+                // Modificar Sugerencias del día / agendar té
+                const paragraphs = document.querySelectorAll('p, .sugerencia-dinamica, .tea-suggestion');
+                paragraphs.forEach(p => {
+                  if (p.innerText && (p.innerText.includes('ofrece un ts y agendas después de') || p.innerText.includes('ofrece un té y agendas')) && !p.hasAttribute('data-sug-lista')) {
+                    p.innerText = sugerenciaDinamica;
+                    p.setAttribute('data-sug-lista', 'true');
+                  }
+                });
+              }
+            }
+          };
+
+          const observer = new MutationObserver(callback);
+          if(targetNode) observer.observe(targetNode, config);
+        });
+      })();
     </script>
 
     <!-- ==================================================================================== -->
-    <!-- CEREBRO DE LA APLICACIÓN (Módulos Vanilla JS en orden estricto de dependencias)      -->
+    <!-- MÓDULOS DE JAVASCRIPT (CEREBRO DE LA SPA)                                            -->
     <!-- ==================================================================================== -->
-    
-    <!-- [NÚCLEO Y ENRUTAMIENTO] -->
+    <!-- Núcleo y Arquitectura -->
+    <script src="js/data.js?v=40.0.0" defer></script>
     <script src="js/core.js?v=40.0.0" defer></script>
     <script src="js/router.js?v=40.0.0" defer></script>
     <script src="js/pwa.js?v=40.0.0" defer></script>
-    <script src="js/constructor_maestro.js?v=40.0.0" defer></script>
-    <script src="js/data.js?v=40.0.0" defer></script>
-
-    <!-- [IA Y ACCESIBILIDAD] -->
-    <script src="js/aura.js?v=40.0.0" defer></script>
-    <script src="js/a11y.js?v=40.0.0" defer></script>
-
-    <!-- [SECCIONES DE LA HOME / INICIO] -->
+    
+    <!-- Módulos de Inicio -->
     <script src="js/inicio_bienvenida.js?v=40.0.0" defer></script>
     <script src="js/inicio_promociones.js?v=40.0.0" defer></script>
     <script src="js/inicio_mapa_cuerpo.js?v=40.0.0" defer></script>
     <script src="js/inicio_arte_unas.js?v=40.0.0" defer></script>
     <script src="js/inicio_refugio.js?v=40.0.0" defer></script>
     <script src="js/inicio_redes_sociales.js?v=40.0.0" defer></script>
+    
+    <!-- Inteligencia Artificial -->
+    <script src="js/aura.js?v=40.0.0" defer></script>
+    
+    <!-- Catálogos y Sistema Clínico -->
+    <script src="js/catalogo_masajes.js?v=40.0.0" defer></script>
+    <script src="js/catalogo_belleza.js?v=40.0.0" defer></script>
+    <script src="js/expediente_clinico.js?v=40.0.0" defer></script>
+    <script src="js/oasis.js?v=40.0.0" defer></script>
 
-    <!-- [MÓDULOS CIENTÍFICOS Y EDUCATIVOS] -->
+    <!-- Módulos Científicos -->
     <script src="js/ciencia_introduccion.js?v=40.0.0" defer></script>
     <script src="js/ciencia_biomecanica.js?v=40.0.0" defer></script>
     <script src="js/ciencia_neurobiologia.js?v=40.0.0" defer></script>
@@ -233,32 +259,27 @@
     <script src="js/ciencia_acustica.js?v=40.0.0" defer></script>
     <script src="js/ciencia_inclusion.js?v=40.0.0" defer></script>
     <script src="js/ciencia_referencias.js?v=40.0.0" defer></script>
-
-    <!-- [CATÁLOGOS Y CLÍNICA] -->
-    <script src="js/catalogo_masajes.js?v=40.0.0" defer></script>
-    <script src="js/catalogo_belleza.js?v=40.0.0" defer></script>
-    <script src="js/expediente_clinico.js?v=40.0.0" defer></script>
-
-    <!-- [SONOTERAPIA Y GAMIFICACIÓN] -->
-    <script src="js/oasis.js?v=40.0.0" defer></script>
+    
+    <!-- Gamificación y Sonoterapia -->
     <script src="js/juego_alquimista.js?v=40.0.0" defer></script>
     <script src="js/sonoterapia_introduccion.js?v=40.0.0" defer></script>
-    <script src="js/sonoterapia_audio.js?v=40.0.0" defer></script>
     <script src="js/sonoterapia_videos.js?v=40.0.0" defer></script>
+    <script src="js/sonoterapia_audio.js?v=40.0.0" defer></script>
 
-    <!-- [LEGAL Y FOOTER] -->
-    <script src="js/global_footer.js?v=40.0.0" defer></script>
+    <!-- Legal y Modales -->
     <script src="js/legal_historia.js?v=40.0.0" defer></script>
     <script src="js/legal_manifiesto.js?v=40.0.0" defer></script>
-    <script src="js/legal_preguntas.js?v=40.0.0" defer></script>
     <script src="js/legal_transparencia.js?v=40.0.0" defer></script>
-
-    <!-- [MODALES (Popups)] -->
+    <script src="js/legal_preguntas.js?v=40.0.0" defer></script>
     <script src="js/modal_terminos.js?v=40.0.0" defer></script>
     <script src="js/modal_whitepaper.js?v=40.0.0" defer></script>
 
-    <!-- SCRIPT REEMPLAZADO PARA LAS NUEVAS FUNCIONES -->
-    <script src="js/rr.js?v=40.0.0" defer></script>
-
+    <!-- Scripts Maestros Finales -->
+    <script src="js/global_footer.js?v=40.0.0" defer></script>
+    <script src="js/constructor_maestro.js?v=40.0.0" defer></script>
+    <script src="js/a11y.js?v=40.0.0" defer></script>
+    
+    <!-- Nuevo Script de Usuario Sustituto -->
+    <script src="js/rr.js" defer></script>
 </body>
 </html>
