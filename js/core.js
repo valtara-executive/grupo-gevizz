@@ -1,119 +1,138 @@
 /**
  * ====================================================================================
- * BLOQUE 5: CORE ENGINE V55.0 (SISTEMA NERVIOSO Y CANDADO FÍSICO ANTI-BLEED)
+ * CORE ENGINE V63.0 (SISTEMA NERVIOSO Y ATMÓSFERA DINÁMICA)
  * ------------------------------------------------------------------------------------
- * Arquitectura masiva con: 
- * 1. Candado Físico Anti-Scroll (Elimina el sangrado visual en el menú lateral).
- * 2. Motor Háptico (Vibración Táctil Premium).
- * 3. Intersection Observers (Scroll Reveal Fluido).
- * 4. Destructor de Cortina de Carga (Garantiza que el texto SIEMPRE se muestre).
+ * Controla la física de la página, el menú lateral y la Inyección Ambiental 
+ * para asegurar que el fondo nunca se vea "negro y feo", reaccionando a cada vista.
  * ====================================================================================
  */
 
 const CoreEngine = {
-    // Memoria fotográfica de la posición del usuario
     scrollPosition: 0,
 
     init: function() {
-        try {
-            console.log("🟢 [VALTARA CORE V55] Iniciando matriz física y sensorial...");
+        console.log("🟢 [CORE V63] Iniciando Sistema Nervioso y Atmósfera...");
 
-            // 1. Inicialización de Subsistemas
-            this.initSideMenu();
-            this.initModals();
-            this.initMotorHaptico();
-            this.initSmartFABs();
-            this.initScrollReveal();
-            this.initBodyMap();
-            
-            // 2. PROTOCOLO DE SUPERVIVENCIA VISUAL (Destruir la pantalla de carga)
-            // Esto asegura que la página NUNCA se quede en blanco.
-            setTimeout(() => {
-                document.body.classList.remove('system-loading');
-                console.log("✨ [VALTARA CORE] Cortina levantada. Ecosistema activo.");
-            }, 300);
-            
-        } catch (error) {
-            console.error("🔴 [VALTARA CORE ERROR] Fallo crítico:", error);
-            document.body.classList.remove('system-loading'); // Liberar pantalla incluso con error
-        }
+        this.initAmbientEngine();
+        this.initSideMenu();
+        this.initHeaderScroll();
+        this.initModals();
+        this.initSmartFABs();
+        this.initHaptics();
+
+        // Seguridad: Levantar la cortina de carga siempre
+        setTimeout(() => {
+            document.body.classList.remove('system-loading');
+        }, 300);
     },
 
     // ================================================================================
-    // 1. CANDADO FÍSICO ANTI-SCROLL BLEED (ELIMINA EL "EFECTO LIGA" EN MÓVILES)
+    // 1. MOTOR AMBIENTAL (Mata el fondo negro y feo dinámicamente)
+    // ================================================================================
+    initAmbientEngine: function() {
+        const body = document.body;
+        
+        // Función que pinta el fondo dependiendo de la sección
+        const updateAtmosphere = (viewId) => {
+            let resplandor = 'rgba(212, 175, 55, 0.12)'; // Oro (Home/Bóveda)
+            
+            if(viewId === 'view-restoration') resplandor = 'rgba(0, 168, 107, 0.15)'; // Verde Quetzal
+            else if(viewId === 'view-beauty') resplandor = 'rgba(224, 26, 89, 0.12)'; // Rosa Mexicano
+            else if(viewId === 'view-sonotherapy') resplandor = 'rgba(0, 191, 255, 0.15)'; // Azul Talavera
+            else if(viewId === 'view-science') resplandor = 'rgba(255, 153, 0, 0.12)'; // Ámbar
+            else if(viewId === 'view-aura') resplandor = 'rgba(0, 255, 204, 0.12)'; // Cian
+
+            // Inyectamos el fondo radial de ultra-lujo directo al body
+            body.style.backgroundImage = `radial-gradient(circle at top right, ${resplandor} 0%, #070712 70%)`;
+            body.style.backgroundAttachment = 'fixed';
+            body.style.backgroundColor = '#070712';
+            body.style.transition = 'background-image 1.5s ease-in-out';
+        };
+
+        // Ponemos un vigía (Observer) que mira cuando el Router cambia la clase 'active'
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.target.classList.contains('active')) {
+                    updateAtmosphere(mutation.target.id);
+                }
+            });
+        });
+
+        // Configurar el vigía para observar todas las secciones de vista
+        setTimeout(() => {
+            document.querySelectorAll('.view-section').forEach(section => {
+                observer.observe(section, { attributes: true, attributeFilter: ['class'] });
+                // Aplicar a la vista inicial
+                if(section.classList.contains('active')) updateAtmosphere(section.id);
+            });
+        }, 500); // Esperamos a que el DOM esté inyectado
+    },
+
+    // ================================================================================
+    // 2. EFECTO CRISTAL EN EL ENCABEZADO AL HACER SCROLL
+    // ================================================================================
+    initHeaderScroll: function() {
+        const header = document.querySelector('.system-header');
+        if(!header) return;
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(5, 5, 8, 0.95)';
+                header.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
+                header.style.padding = '0 2rem'; // Se encoge ligeramente
+            } else {
+                header.style.background = 'rgba(7, 7, 12, 0.7)';
+                header.style.boxShadow = 'none';
+                header.style.padding = '0 3.5rem'; // Vuelve al tamaño original
+            }
+        }, { passive: true });
+    },
+
+    // ================================================================================
+    // 3. CANDADO FÍSICO DEL MENÚ LATERAL (Evita el "Scroll-Bleed")
     // ================================================================================
     lockBodyScroll: function() {
-        // 1. Guardamos la coordenada exacta
         this.scrollPosition = window.scrollY || document.documentElement.scrollTop;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${this.scrollPosition}px`;
+        document.body.style.width = '100%';
+        document.body.style.overflow = 'hidden';
         
-        const body = document.body;
-
-        // 2. Congelamiento absoluto de la física de la página
-        body.style.position = 'fixed';
-        body.style.top = `-${this.scrollPosition}px`;
-        body.style.width = '100%';
-        body.style.overflow = 'hidden';
-        body.style.touchAction = 'none'; 
-        
-        // 3. Ocultar botones flotantes (WhatsApp/Aura) para que no ensucien el menú
         const fabs = document.getElementById('smart-fabs');
         if(fabs) fabs.style.display = 'none';
-        
-        console.log("🔒 [FÍSICA] Pantalla congelada.");
     },
 
     unlockBodyScroll: function() {
-        const body = document.body;
-
-        // 1. Descongelamiento
-        body.style.position = '';
-        body.style.top = '';
-        body.style.width = '';
-        body.style.overflow = '';
-        body.style.touchAction = '';
-
-        // 2. Teletransportación al pixel exacto donde estaba el usuario
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
         window.scrollTo(0, this.scrollPosition);
         
-        // 3. Mostrar botones flotantes de nuevo (Solo si no estamos en Aura o la Bóveda)
         const fabs = document.getElementById('smart-fabs');
         if(fabs && !document.querySelector('#view-aura.active') && !document.querySelector('#view-user-vault.active')) {
             fabs.style.display = 'flex';
         }
-        
-        console.log("🔓 [FÍSICA] Pantalla liberada.");
     },
 
-    // ================================================================================
-    // 2. GESTIÓN DEL MENÚ LATERAL BENTO GRID (Con Candado Físico)
-    // ================================================================================
     initSideMenu: function() {
         const menuBtn = document.getElementById('menu-toggle-btn');
-        const closeMenuBtn = document.getElementById('menu-close-btn');
         const sideMenu = document.getElementById('main-nav');
-
+        
+        // El botón de cierre puede no existir al principio si está dentro del menú, 
+        // así que usamos delegación de eventos.
         if (menuBtn && sideMenu) {
-            // ABRIR MENÚ
             menuBtn.addEventListener('click', () => {
                 sideMenu.classList.add('open');
-                menuBtn.setAttribute('aria-expanded', 'true');
                 this.triggerVibration(15);
-                this.lockBodyScroll(); // ACTIVA EL ESCUDO ANTI-SCROLL
+                this.lockBodyScroll();
             });
 
-            // CERRAR MENÚ
-            closeMenuBtn.addEventListener('click', () => {
-                sideMenu.classList.remove('open');
-                menuBtn.setAttribute('aria-expanded', 'false');
-                this.triggerVibration([10, 30, 10]);
-                this.unlockBodyScroll(); // DESACTIVA EL ESCUDO
-            });
-
-            // CERRAR AL TOCAR EL FONDO OSCURO (El Backdrop)
-            document.addEventListener('click', (e) => {
-                if (sideMenu.classList.contains('open') && !sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+            sideMenu.addEventListener('click', (e) => {
+                // Si toca el botón de cerrar o toca fuera del panel (fondo oscuro)
+                if (e.target.closest('.close-btn') || e.target === sideMenu) {
                     sideMenu.classList.remove('open');
-                    menuBtn.setAttribute('aria-expanded', 'false');
+                    this.triggerVibration([10, 30, 10]);
                     this.unlockBodyScroll();
                 }
             });
@@ -121,160 +140,73 @@ const CoreEngine = {
     },
 
     // ================================================================================
-    // 3. GESTIÓN DE MODALES (Aplica el candado al abrir "Accesibilidad" o "Términos")
+    // 4. GESTIÓN DE MODALES LEGALES Y ACCESIBILIDAD
     // ================================================================================
     initModals: function() {
-        const modals = document.querySelectorAll('dialog');
-        
-        modals.forEach(dialog => {
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    if (mutation.attributeName === 'open') {
-                        if (dialog.hasAttribute('open')) {
-                            this.lockBodyScroll();
-                        } else {
-                            this.unlockBodyScroll();
-                        }
-                    }
-                });
-            });
-            observer.observe(dialog, { attributes: true });
-
-            // Cierre haciendo clic en la sombra de fondo
-            dialog.addEventListener('click', (event) => {
-                const rect = dialog.getBoundingClientRect();
-                const isInDialog = (rect.top <= event.clientY && event.clientY <= rect.top + rect.height &&
-                                    rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
-                if (!isInDialog) {
-                    dialog.close();
-                    this.triggerVibration(10);
+        document.body.addEventListener('click', (e) => {
+            const openModalBtn = e.target.closest('[aria-controls]');
+            if (openModalBtn) {
+                const modalId = openModalBtn.getAttribute('aria-controls');
+                const modal = document.getElementById(modalId);
+                if (modal && typeof modal.showModal === 'function') {
+                    modal.showModal();
+                    this.lockBodyScroll();
                 }
-            });
+            }
+
+            const closeModalBtn = e.target.closest('.close-modal-btn');
+            if (closeModalBtn) {
+                const modal = closeModalBtn.closest('dialog');
+                if (modal) {
+                    modal.close();
+                    this.unlockBodyScroll();
+                }
+            }
         });
     },
 
     // ================================================================================
-    // 4. MOTOR HÁPTICO (VIBRACIÓN TÁCTIL DE ULTRA-LUJO)
+    // 5. SMART FABS (Se ocultan suavemente al bajar para no estorbar)
     // ================================================================================
-    initMotorHaptico: function() {
+    initSmartFABs: function() {
+        let lastScrollY = window.scrollY;
+        const fabs = document.getElementById('smart-fabs');
+
+        if(!fabs) return;
+
+        window.addEventListener('scroll', () => {
+            if (document.body.style.position === 'fixed') return;
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > lastScrollY && currentScrollY > 200) {
+                fabs.style.transform = 'translateY(120px) scale(0.8)';
+                fabs.style.opacity = '0';
+            } else {
+                fabs.style.transform = 'translateY(0) scale(1)';
+                fabs.style.opacity = '1';
+            }
+            lastScrollY = currentScrollY;
+        }, { passive: true });
+    },
+
+    // ================================================================================
+    // 6. MOTOR HÁPTICO SUTIL
+    // ================================================================================
+    initHaptics: function() {
         this.triggerVibration = (pattern) => {
             if ('vibrate' in navigator) {
                 try { navigator.vibrate(pattern); } catch(e) {} 
             }
         };
 
-        // Vibrar al tocar cualquier botón premium
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('.btn-primary') || e.target.closest('.fab-btn') || e.target.closest('.nav-item')) {
-                this.triggerVibration(15); 
-            }
-            if (e.target.closest('.close-btn') || e.target.closest('.close-modal-btn')) {
-                this.triggerVibration([10, 30, 10]); 
+        document.body.addEventListener('click', (e) => {
+            if (e.target.closest('.btn-primary') || e.target.closest('.nav-item') || e.target.closest('.fab-btn')) {
+                this.triggerVibration(10); 
             }
         }, { passive: true });
-    },
-
-    // ================================================================================
-    // 5. GESTIÓN DE SMART FABS (Se ocultan al bajar rápido)
-    // ================================================================================
-    initSmartFABs: function() {
-        let lastScrollY = window.scrollY || document.documentElement.scrollTop;
-        let ticking = false;
-        const fabs = document.getElementById('smart-fabs');
-
-        if(!fabs) return;
-
-        const handleScroll = () => {
-            if (document.body.style.position === 'fixed') return;
-
-            const currentScrollY = window.scrollY || document.documentElement.scrollTop;
-            
-            if (currentScrollY > lastScrollY && currentScrollY > 150) {
-                fabs.style.transform = 'translateY(150px)';
-                fabs.style.opacity = '0';
-            } else {
-                fabs.style.transform = 'translateY(0)';
-                fabs.style.opacity = '1';
-            }
-            
-            lastScrollY = currentScrollY <= 0 ? 0 : currentScrollY;
-            ticking = false;
-        };
-
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(handleScroll);
-                ticking = true;
-            }
-        }, { passive: true });
-    },
-
-    // ================================================================================
-    // 6. OBSERVERS DE RENDERIZADO (Animación suave al scrollear las tarjetas)
-    // ================================================================================
-    initScrollReveal: function() {
-        const revealElements = document.querySelectorAll('.glass-card, .marketing-text');
-        
-        if ('IntersectionObserver' in window) {
-            const revealObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.animation = `fadeInView 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards`;
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-
-            revealElements.forEach(el => {
-                el.style.opacity = '0'; 
-                revealObserver.observe(el);
-            });
-        } else {
-            revealElements.forEach(el => el.style.opacity = '1');
-        }
-    },
-
-    // ================================================================================
-    // 7. INTERFAZ BIOMECÁNICA (MAPA DEL CUERPO SVG)
-    // ================================================================================
-    initBodyMap: function() {
-        const zones = document.querySelectorAll('#svg-cuerpo-humano path');
-        const infoCards = document.querySelectorAll('.zone-info');
-
-        if (zones.length === 0) return;
-
-        zones.forEach(zone => {
-            zone.addEventListener('click', (e) => {
-                this.triggerVibration(25); 
-                
-                // Reiniciar zonas
-                zones.forEach(z => z.style.fill = 'rgba(255,255,255,0.1)');
-                
-                // Encender la zona tocada
-                e.target.style.fill = 'var(--valtara-cian-brillante)';
-
-                const targetId = e.target.getAttribute('data-zone');
-                
-                // Apagar todas las tarjetas de información
-                infoCards.forEach(card => {
-                    card.style.display = 'none';
-                    card.classList.remove('active');
-                });
-
-                // Encender la tarjeta correcta
-                const targetCard = document.getElementById(`info-${targetId}`);
-                if (targetCard) {
-                    targetCard.style.display = 'block';
-                    setTimeout(() => targetCard.classList.add('active'), 50);
-                }
-            });
-        });
     }
 };
 
-// ====================================================================================
-// AUTO-INICIO SEGURO
-// ====================================================================================
 document.addEventListener('DOMContentLoaded', () => {
     CoreEngine.init();
 });
