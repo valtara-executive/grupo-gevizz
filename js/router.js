@@ -1,122 +1,188 @@
 /**
  * ====================================================================================
- * BLOQUE 6: ROUTER ENGINE V38.4 (ENRUTAMIENTO BLINDADO ANTI-PANTALLA NEGRA)
- * Transiciones forzadas por requestAnimationFrame para máxima compatibilidad móvil.
+ * BLOQUE 10: ROUTER ENGINE V41.0 (SITEMAP SYNC & DINAMIC SEO)
+ * ------------------------------------------------------------------------------------
+ * Gestor de navegación HTML5 History API.
+ * Sincronizado estrictamente con sitemap.xml.
+ * INCLUYE: Actualización dinámica de Meta Tags (Open Graph) para compartir en redes.
  * ====================================================================================
  */
 
 const Router = {
-    routes: ['home', 'restoration', 'beauty', 'sonotherapy', 'science', 'legal'],
-    
-    seoRoutesMap: {
-        '/masaje-deportivo-reforma': 'restoration',
-        '/liberacion-miofascial-cdmx': 'restoration',
-        '/terapia-biomecanica-ejecutiva': 'restoration',
-        '/catalogo-masajes-clinicos': 'restoration',
-        '/art-and-nails-estudio': 'beauty',
-        '/sonoterapia-y-meditacion': 'sonotherapy',
-        '/ciencia-neurobiologia-del-dolor': 'science',
-        '/herbario-clinico-aceites-esenciales': 'science',
-        '/ergonomia-y-tejido-hidratado': 'science',
-        '/manifiesto-codex-valtara': 'legal',
-        '/politicas-privacidad-y-legal': 'legal'
+    currentRoute: '',
+
+    // 1. SINCRONIZACIÓN ESTRICTA CON SITEMAP.XML
+    routes: {
+        'home': '/',
+        'restoration': '/catalogo-masajes',
+        'beauty': '/estudio-manicura',
+        'sonotherapy': '/sonoterapia',
+        'science': '/ciencia-y-botanica',
+        'legal': '/manifiesto-y-privacidad',
+        'aura': '/aura-ai',
+        'user-vault': '/boveda-paciente'
+    },
+
+    // 2. METADATOS DINÁMICOS PARA COMPARTIR EN REDES (OPEN GRAPH)
+    seoData: {
+        'home': {
+            title: 'VALTARA | Executive Therapy & Biomechanics',
+            desc: 'Santuario de masoterapia, biomecánica y bienestar de ultra-lujo en Reforma, CDMX y Tizayuca.',
+            img: 'https://valtaraexecutive.com/logo.png'
+        },
+        'restoration': {
+            title: 'Catálogo de Masajes | VALTARA',
+            desc: 'Descubre nuestros masajes neuro-adaptativos, lomi lomi y descompresión deportiva para ejecutivos.',
+            img: 'https://valtaraexecutive.com/gallery/r1.jpg' // Foto de masaje
+        },
+        'beauty': {
+            title: 'Art & Nails Estudio | VALTARA',
+            desc: 'Estética integral de alta gama. Sistemas Rubber Base, Acrílico y Pedicura SPA.',
+            img: 'https://valtaraexecutive.com/gallery/gel1.jpg' // Foto de uñas
+        },
+        'sonotherapy': {
+            title: 'Sonoterapia Inmersiva | VALTARA',
+            desc: 'Inmersión acústica y ondas alfa para disolver el burnout corporativo.',
+            img: 'https://valtaraexecutive.com/logo.png'
+        },
+        'science': {
+            title: 'Nuestra Ciencia | VALTARA',
+            desc: 'Conoce la matriz biomecánica y los fundamentos neurobiológicos de nuestra terapia.',
+            img: 'https://valtaraexecutive.com/logo.png'
+        },
+        'legal': {
+            title: 'Manifiesto y Privacidad | VALTARA',
+            desc: 'Transparencia corporativa, historia y políticas de Valtara Executive Therapy.',
+            img: 'https://valtaraexecutive.com/logo.png'
+        },
+        'aura': {
+            title: 'Aura AI | VALTARA',
+            desc: 'Triaje biomecánico impulsado por Inteligencia Artificial para el paciente ejecutivo.',
+            img: 'https://valtaraexecutive.com/logo.png'
+        },
+        'user-vault': {
+            title: 'Mi Bóveda Privada | VALTARA',
+            desc: 'Santuario de datos del paciente. Configura tu expediente y aromaterapia clínica.',
+            img: 'https://valtaraexecutive.com/logo.png'
+        }
     },
 
     init: function() {
-        this.bindEvents();
+        console.log("🧭 [ROUTER V41] Sincronizando coordenadas SEO y Sitemap...");
         
-        const redirectUrl = sessionStorage.redirect;
-        delete sessionStorage.redirect; 
-
-        if (redirectUrl) {
-            const urlObj = new URL(redirectUrl);
-            const path = urlObj.pathname; 
-            const targetView = this.seoRoutesMap[path];
-            if (targetView) {
-                this.navigate(targetView, false); 
-            } else {
-                this.navigate('home', false); 
-            }
-        } else {
-            this.handleRoute();
-        }
-
-        window.addEventListener('popstate', () => this.handleRoute());
+        // Escuchar el botón nativo de "Atrás/Adelante" del celular
+        window.addEventListener('popstate', () => this.loadFromUrl());
+        
+        // Delegación de eventos: Escucha clics sin destruir los botones (Fija Promociones y FABs)
+        this.bindLinks();
+        
+        // Cargar vista inicial
+        this.loadFromUrl();
+        
+        // Exponer al objeto global
+        window.Router = this;
     },
 
-    bindEvents: function() {
+    bindLinks: function() {
         document.body.addEventListener('click', (e) => {
-            const link = e.target.closest('[data-target]');
-            if(link) {
+            // Busca si el elemento clickeado o sus padres tienen data-target
+            const targetElement = e.target.closest('[data-target]');
+            if (targetElement) {
                 e.preventDefault();
-                const target = link.getAttribute('data-target');
-                this.navigate(target);
-                
-                const nav = document.getElementById('main-nav');
-                if(nav && nav.classList.contains('open')) {
-                    document.getElementById('menu-close-btn').click();
-                }
+                const viewId = targetElement.getAttribute('data-target');
+                this.navigate(viewId);
             }
         });
     },
 
-    handleRoute: function() {
-        let hash = window.location.hash.replace('#', '');
-        if(!hash || !this.routes.includes(hash)) hash = 'home';
-        this.renderView(hash);
+    navigate: function(id) {
+        if (this.currentRoute === id) return; // Evita recargar si ya estás ahí
+        
+        const path = this.routes[id] || '/';
+        // Cambia la URL en la barra del navegador sin recargar la página
+        window.history.pushState({view: id}, "", path);
+        this.showView(id);
     },
 
-    navigate: function(target, updateHistory = true) {
-        if(!this.routes.includes(target)) return;
-        if(updateHistory) {
-            window.history.pushState(null, null, `#${target}`);
+    loadFromUrl: function() {
+        // Limpiamos la URL actual para que coincida con nuestro diccionario
+        let path = window.location.pathname;
+        if (path.length > 1 && path.endsWith('/')) {
+            path = path.slice(0, -1);
         }
-        this.renderView(target);
+        
+        const pathParts = path.split('/');
+        const lastPart = '/' + pathParts[pathParts.length - 1];
+
+        // Buscar qué vista corresponde a esta URL
+        let viewId = Object.keys(this.routes).find(key => this.routes[key] === lastPart || this.routes[key] === path);
+        
+        // Si no existe (Ej. Error 404), mándalo a casa
+        if (!viewId) {
+            viewId = 'home';
+            window.history.replaceState({}, "", "/");
+        }
+        
+        this.showView(viewId);
     },
 
-    // LA SOLUCIÓN DEFINITIVA A LA PANTALLA NEGRA
-    renderView: function(viewId) {
-        window.scrollTo({ top: 0, behavior: 'instant' });
-
-        // 1. Apagado estricto
+    showView: function(id) {
+        // 1. Apagar todas las vistas
         document.querySelectorAll('.view-section').forEach(section => {
             section.classList.remove('active');
-            section.style.opacity = '0';
-            section.style.display = 'none';
         });
+        
+        // 2. Encender la vista objetivo
+        const targetView = document.getElementById(`view-${id}`);
+        if (targetView) {
+            targetView.classList.add('active');
+            // Subir al tope de la página suavemente
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-        // 2. Encendido forzado
-        const activeSection = document.getElementById(`view-${viewId}`);
-        if(activeSection) {
-            activeSection.style.display = 'block';
-            
-            // Forzar al navegador a pintar el DOM antes de animar (Evita Black Screen of Death)
-            window.requestAnimationFrame(() => {
-                window.requestAnimationFrame(() => {
-                    activeSection.classList.add('active');
-                    activeSection.style.opacity = '1';
-                });
-            });
-
-            if(window.A11yEngine) A11yEngine.announce(`Pantalla cambiada a: ${activeSection.getAttribute('aria-label')}`);
-            this.updateMenuHighlight(viewId);
-            
-            if(viewId === 'sonotherapy' && window.AuraEngine) {
-                setTimeout(() => {
-                    AuraEngine.appendMsg("Para una inmersión biomecánica total en la sala de acústica, recomiendo el uso de auriculares de alta fidelidad.", "bot");
-                }, 1000);
+        // 3. Apagar menú si está abierto
+        const nav = document.getElementById('main-nav');
+        if (nav && nav.classList.contains('open')) {
+            nav.classList.remove('open');
+            if(window.CoreEngine && typeof window.CoreEngine.unlockBodyScroll === 'function'){
+                window.CoreEngine.unlockBodyScroll();
             }
         }
+
+        // 4. Actualizar los metadatos SEO dinámicamente
+        this.updateMetaTags(id);
+        this.currentRoute = id;
     },
 
-    updateMenuHighlight: function(viewId) {
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.classList.remove('active');
-            if(item.getAttribute('data-target') === viewId) {
-                item.classList.add('active');
+    updateMetaTags: function(id) {
+        const data = this.seoData[id] || this.seoData['home'];
+        
+        // Actualizar Título
+        document.title = data.title;
+        
+        // Función auxiliar para actualizar o crear Meta Tags
+        const setMeta = (attrName, attrValue, content) => {
+            let meta = document.querySelector(`meta[${attrName}="${attrValue}"]`);
+            if (!meta) {
+                meta = document.createElement('meta');
+                meta.setAttribute(attrName, attrValue);
+                document.head.appendChild(meta);
             }
-        });
+            meta.setAttribute('content', content);
+        };
+
+        // Open Graph (Facebook, LinkedIn, WhatsApp)
+        setMeta('property', 'og:title', data.title);
+        setMeta('property', 'og:description', data.desc);
+        setMeta('property', 'og:image', data.img);
+        setMeta('property', 'og:url', window.location.href);
+        
+        // Standard SEO
+        setMeta('name', 'description', data.desc);
     }
 };
 
-window.addEventListener('DOMContentLoaded', () => Router.init());
+// AUTO-ARRANQUE
+document.addEventListener('DOMContentLoaded', () => {
+    Router.init();
+});
