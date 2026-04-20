@@ -1,20 +1,25 @@
 /**
  * ====================================================================================
- * BLOQUE 8: AURA AI ENGINE V21.0 (ULTRA-LUXURY & HAPTIC SENSORY MOTOR)
- * Sistema de asistencia con retroalimentación sensorial (Web Audio API + Vibración).
- * Saludo inteligente por hora e inyección dinámica de CSS "Modo Dios".
+ * AURA AI ENGINE (PRODUCCIÓN - SENSORY UPDATE)
+ * ------------------------------------------------------------------------------------
+ * - Sonido de espera tipo GPT (Respiración de baja frecuencia).
+ * - Doble Pop al enviar y vibraciones hápticas.
+ * - Teclado y micrófono desbloqueados desde el inicio.
+ * - Indicador visual "Pensando...".
+ * - Enlaces y API de producción intactos.
  * ====================================================================================
  */
 
 // ====================================================================================
-// MOTOR SENSORIAL (Generador de Sonidos y Vibración Nativa)
+// 1. MOTOR SENSORIAL (Sonidos GPT y Vibración)
 // ====================================================================================
 const AuraSensory = {
     ctx: null,
-    typingInterval: null,
+    thinkingInterval: null,
+    osc: null,
+    gain: null,
 
     init: function() {
-        // Desbloquea el motor de audio nativo del navegador al primer clic
         if (!this.ctx) {
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             if(AudioContext) this.ctx = new AudioContext();
@@ -33,7 +38,7 @@ const AuraSensory = {
             osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
             
             gain.gain.setValueAtTime(vol, this.ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration); // Desvanecimiento suave
+            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration); 
             
             osc.connect(gain);
             gain.connect(this.ctx.destination);
@@ -42,47 +47,70 @@ const AuraSensory = {
         } catch(e) {}
     },
 
+    // DOBLE POP (Al enviar mensaje)
     playSend: function() {
         this.init();
-        // Sonido: Pop rápido y grave
-        this.playTone(250, 'sine', 0.15, 0.2);
-        // Hápitco: Un golpe seco
-        if(navigator.vibrate) navigator.vibrate(15);
+        this.playTone(400, 'sine', 0.1, 0.15); // Primer pop
+        setTimeout(() => this.playTone(500, 'sine', 0.1, 0.2), 100); // Segundo pop más agudo
+        if(navigator.vibrate) navigator.vibrate([15, 30, 15]); // Doble vibración corta
     },
 
-    startTyping: function() {
+    // GPT BREATH (Sonido de espera / buscando)
+    startThinking: function() {
         this.init();
-        // Sonido: Latido digital (Tick... Tick...) cada 1.2 segundos
-        this.playTone(600, 'triangle', 0.1, 0.03);
-        this.typingInterval = setInterval(() => {
-            this.playTone(600, 'triangle', 0.1, 0.03);
-        }, 1200);
+        try {
+            this.osc = this.ctx.createOscillator();
+            this.gain = this.ctx.createGain();
+            
+            this.osc.type = 'sine';
+            this.osc.frequency.setValueAtTime(180, this.ctx.currentTime); // Frecuencia grave tipo GPT
+            
+            // Efecto de respiración rítmica (Fade In / Fade Out)
+            this.gain.gain.setValueAtTime(0, this.ctx.currentTime);
+            this.gain.gain.linearRampToValueAtTime(0.06, this.ctx.currentTime + 1);
+            this.gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 2);
+            
+            this.osc.connect(this.gain);
+            this.gain.connect(this.ctx.destination);
+            
+            this.osc.start();
+            
+            this.thinkingInterval = setInterval(() => {
+                this.gain.gain.linearRampToValueAtTime(0.06, this.ctx.currentTime + 1);
+                this.gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 2);
+            }, 2000);
+        } catch(e) {}
     },
 
-    stopTyping: function() {
-        if(this.typingInterval) clearInterval(this.typingInterval);
+    stopThinking: function() {
+        if(this.thinkingInterval) clearInterval(this.thinkingInterval);
+        if(this.osc) {
+            try { this.osc.stop(); this.osc.disconnect(); } catch(e){}
+        }
     },
 
+    // ACORDE DE CRISTAL (Al recibir mensaje)
     playReceive: function() {
         this.init();
-        this.stopTyping();
-        // Sonido: Acorde de Cristal (Ting - Ding)
+        this.stopThinking();
         setTimeout(() => this.playTone(880, 'sine', 0.4, 0.1), 0);
         setTimeout(() => this.playTone(1108.73, 'sine', 0.6, 0.15), 150);
-        // Háptico: Doble pulsación suave
         if(navigator.vibrate) navigator.vibrate([20, 50, 20]);
     }
 };
 
 // ====================================================================================
-// CEREBRO DE AURA (Lógica, API y UI)
+// 2. CEREBRO DE AURA (Lógica, UI y Conexión de Producción)
 // ====================================================================================
 const AuraEngine = {
     isOpen: false,
     isTyping: false, 
     chatHistory: [], 
     userName: "Invitado",    
+    
+    // ENLACE DE PRODUCCIÓN INTACTO
     apiUrl: "https://aura-server-erfj.vercel.app/api/chat",
+    
     recognition: null,
     isRecording: false,
     activeSpeakBtn: null,   
@@ -92,22 +120,38 @@ const AuraEngine = {
         this.forceInjectStyles(); 
         this.initVoiceEngines(); 
         this.bindEvents(); 
+        this.enableInputs(); // Desbloquea inputs desde el inicio
         
         window.addEventListener('valtaraIdentityUpdated', () => {
             this.refreshIdentity();
         });
         
-        // Desbloquear motor de audio en la primera interacción del usuario
+        // Desbloquear motor de audio nativo en el primer tap
         window.addEventListener('click', () => AuraSensory.init(), { once: true });
         window.addEventListener('touchstart', () => AuraSensory.init(), { once: true });
     },
 
+    // DESBLOQUEO DE TECLADO Y DICTADO
+    enableInputs: function() {
+        const inputField = document.getElementById('aura-input');
+        const micBtn = document.getElementById('aura-mic-btn');
+        if(inputField) {
+            inputField.disabled = false;
+            inputField.style.pointerEvents = 'auto';
+        }
+        if(micBtn) {
+            micBtn.disabled = false;
+            micBtn.style.pointerEvents = 'auto';
+            micBtn.style.opacity = '1';
+        }
+    },
+
     refreshIdentity: function() {
         try {
-            const storedData = localStorage.getItem('valtara_vault_v15');
+            const storedData = localStorage.getItem('valtara_vault_v15') || localStorage.getItem('valtara_sovereign_profile');
             if (storedData) {
                 const parsed = JSON.parse(storedData);
-                this.userName = (parsed && parsed.name && parsed.name !== "Apreciable visitante") ? parsed.name : "Invitado";
+                this.userName = (parsed && parsed.name && parsed.name !== "Apreciable visitante" && parsed.name !== "Invitado VIP") ? parsed.name : "Invitado";
             } else {
                 this.userName = "Invitado";
             }
@@ -135,12 +179,16 @@ const AuraEngine = {
 
             .msg.bot .aura-speak-btn { background: rgba(0,255,255,0.05) !important; border: 1px solid var(--valtara-cian-brillante) !important; color: var(--valtara-cian-brillante) !important; padding: 0 !important; width: 45px !important; height: 45px !important; border-radius: 50% !important; margin-top: 0 !important; margin-left: 15px !important; box-shadow: none !important; }
 
-            #aura-welcome-screen { background: transparent !important; z-index: 50 !important; }
-            .aura-suggestion-card { background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.6) 100%); border-radius: 1.5rem; padding: 1.5rem; display: flex; align-items: center; gap: 1.5rem; text-align: left; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; border: 1px solid rgba(255,255,255,0.1); }
+            /* Pantalla de bienvenida no bloquea el click abajo */
+            #aura-welcome-screen { background: transparent !important; z-index: 50 !important; pointer-events: none; }
+            .aura-suggestion-card { pointer-events: auto; background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.6) 100%); border-radius: 1.5rem; padding: 1.5rem; display: flex; align-items: center; gap: 1.5rem; text-align: left; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; border: 1px solid rgba(255,255,255,0.1); }
             .aura-suggestion-card:hover { transform: translateY(-5px); background: linear-gradient(90deg, rgba(242, 201, 76, 0.15) 0%, rgba(0,0,0,0.8) 100%); border-color: var(--valtara-oro) !important; }
             
+            .aura-controls { pointer-events: auto !important; position: relative; z-index: 60 !important; }
+
             @keyframes pulseAuraGold { 0% { transform: scale(0.9); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 1; } }
             @keyframes slideInMsg { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+            @keyframes pulseThinking { 0% { opacity: 0.4; } 100% { opacity: 1; } }
         `;
         document.head.appendChild(style);
     },
@@ -157,7 +205,7 @@ const AuraEngine = {
         welcomeContainer.style.transform = 'translateY(0) scale(1)';
 
         welcomeContainer.innerHTML = `
-            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 700px; margin: auto; padding: 1rem;">
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 700px; margin: auto; padding: 1rem; pointer-events: none;">
                 <div style="position: relative; margin-bottom: 2.5rem; display: flex; justify-content: center; align-items: center;">
                     <div style="position: absolute; width: 140px; height: 140px; background: radial-gradient(circle, rgba(242,201,76,0.35) 0%, transparent 100%); border-radius: 50%; filter: blur(25px); animation: pulseAuraGold 3s infinite alternate;"></div>
                     <i class="fa-solid fa-sparkles" style="font-size: 4.5rem; color: var(--valtara-oro); position: relative; z-index: 2; text-shadow: 0 0 40px rgba(242,201,76,0.9);"></i>
@@ -165,7 +213,7 @@ const AuraEngine = {
                 <h2 style="font-size: 3.5rem; font-family: var(--font-accent); font-weight: 600; margin-bottom: 1rem; text-align: center; color: var(--valtara-blanco); line-height: 1.2;">${timeGreeting}</h2>
                 <p style="font-size: 1.3rem; color: #e2e2e8; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 4rem; text-align: center; border-bottom: 1px solid rgba(242,201,76,0.3); padding-bottom: 1.5rem;">¿Cómo podemos ayudarte el día de hoy?</p>
                 
-                <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; width: 100%;">
+                <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; width: 100%; pointer-events: auto;">
                     <button class="aura-suggestion-card" data-query="Necesito un masaje relajante y descompresión física">
                         <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); display: flex; justify-content: center; align-items: center; flex-shrink: 0;"><i class="fa-solid fa-spa" style="color: var(--valtara-cian-brillante); font-size: 2.2rem;"></i></div>
                         <div style="flex-grow: 1;"><span style="color: var(--valtara-blanco); font-size: 1.5rem; font-weight: 700; font-family: var(--font-accent); display: block; margin-bottom: 0.3rem;">Masaje Relajante</span><span style="color: #aaa; font-size: 1.1rem; font-weight: 300; line-height: 1.4;">Deseo agendar una sesión para liberar estrés acumulado.</span></div>
@@ -193,6 +241,7 @@ const AuraEngine = {
             this.recognition.onresult = (e) => {
                 const inputField = document.getElementById('aura-input');
                 if(inputField) inputField.value = e.results[0][0].transcript;
+                this.handleInput(); // Auto-envía el mensaje al terminar de dictar
             };
             this.recognition.onend = () => { this.resetMicBtn(); };
             this.recognition.onerror = () => { this.resetMicBtn(true); };
@@ -208,6 +257,7 @@ const AuraEngine = {
         if(micBtn) {
             micBtn.classList.remove('mic-recording');
             micBtn.innerHTML = isError ? '<i class="fa-solid fa-microphone-slash"></i>' : '<i class="fa-solid fa-microphone"></i>';
+            micBtn.style.color = "var(--valtara-cian-brillante)";
             if(isError) setTimeout(() => { micBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>'; }, 2000);
         }
     },
@@ -238,8 +288,17 @@ const AuraEngine = {
 
         if(micBtn && this.recognition) {
             micBtn.addEventListener('click', () => {
+                AuraSensory.init(); // Permiso de audio
                 if(this.isRecording) { this.recognition.stop(); } 
-                else { try { this.recognition.start(); this.isRecording = true; micBtn.classList.add('mic-recording'); micBtn.innerHTML = '<i class="fa-solid fa-stop"></i>'; } catch(e) {} }
+                else { 
+                    try { 
+                        this.recognition.start(); 
+                        this.isRecording = true; 
+                        micBtn.classList.add('mic-recording'); 
+                        micBtn.innerHTML = '<i class="fa-solid fa-stop"></i>'; 
+                        micBtn.style.color = "var(--v-rosa-mexicano)";
+                    } catch(e) {} 
+                }
             });
         }
 
@@ -279,8 +338,7 @@ const AuraEngine = {
         const txt = inputField.value.trim(); 
         inputField.value = ''; 
         
-        // Efecto Sensorial y Lógica
-        AuraSensory.playSend();
+        AuraSensory.playSend(); // Doble Pop
         this.hideWelcomeScreen(); 
         this.appendMsg(txt, 'user'); 
         this.sendMessageToAI(txt);
@@ -288,7 +346,7 @@ const AuraEngine = {
 
     processDirectQuery: function(query) {
         if(this.isTyping) return;
-        AuraSensory.playSend();
+        AuraSensory.playSend(); // Doble pop
         this.hideWelcomeScreen(); 
         this.appendMsg(query, 'user');
         this.sendMessageToAI(query);
@@ -302,14 +360,16 @@ const AuraEngine = {
         const chatLog = document.getElementById('aura-chat');
         this.chatHistory.push({ role: "user", content: userText });
 
+        // MENSAJE TEMPORAL "PENSANDO..."
         const typingDiv = document.createElement('div');
         typingDiv.id = 'temp-typing';
-        typingDiv.style.cssText = "align-self: flex-start; margin-right: auto; max-width: 85%; padding: 1.5rem 2rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(0,255,255,0.05), rgba(0,0,0,0.8)); border: 1px solid rgba(0,255,255,0.2); border-left: 4px solid var(--valtara-cian-brillante); color: #fff; font-size: 1.2rem; display: flex; gap: 5px;";
-        typingDiv.innerHTML = '<span style="animation: pulse 1s infinite alternate;">.</span><span style="animation: pulse 1s infinite alternate 0.2s;">.</span><span style="animation: pulse 1s infinite alternate 0.4s;">.</span>';
+        typingDiv.className = 'msg bot';
+        typingDiv.style.cssText = "opacity: 0.8; font-style: italic; max-width: 85%; padding: 1.5rem 2rem; border-radius: 2rem; background: linear-gradient(135deg, rgba(0,255,255,0.05), rgba(0,0,0,0.8)); border: 1px solid rgba(0,255,255,0.2); border-left: 4px solid var(--valtara-cian-brillante); color: #fff; align-self: flex-start; margin-right: auto;";
+        typingDiv.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" style="color: var(--valtara-cian-brillante); margin-right: 10px; font-size: 1.2rem;"></i> <span style="animation: pulseThinking 1.5s infinite alternate;">Pensando...</span>';
         chatLog.appendChild(typingDiv);
         chatLog.scrollTo({ top: chatLog.scrollHeight, behavior: 'smooth' });
 
-        AuraSensory.startTyping();
+        AuraSensory.startThinking(); // Sonido GPT Breath
 
         try {
             const response = await fetch(this.apiUrl, {
@@ -328,14 +388,14 @@ const AuraEngine = {
             
             let auraFormateada = auraRespuesta.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '<a href="$2" target="_blank"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem;"></i> $1</a>');
             auraFormateada = auraFormateada.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
-            auraFormateada = auraFormateada.replace(/style="[^"]*"/gi, ''); // Limpiar estilos basura
+            auraFormateada = auraFormateada.replace(/style="[^"]*"/gi, ''); 
             auraFormateada = auraFormateada.replace(/\n/g, '<br>');
             
             AuraSensory.playReceive();
             this.appendMsg(auraFormateada, 'bot', true);
 
         } catch (error) {
-            AuraSensory.stopTyping();
+            AuraSensory.stopThinking();
             if(document.getElementById('temp-typing')) document.getElementById('temp-typing').remove();
             this.appendMsg(`Por una leve interrupción en nuestra red, no he podido procesar tu solicitud. Comunícate en WhatsApp:<br><br><a href="https://wa.me/5213348572070" target="_blank"><i class="fa-brands fa-whatsapp" style="font-size: 1.5rem;"></i> Abrir WhatsApp</a>`, 'bot', true);
             this.chatHistory.pop();
