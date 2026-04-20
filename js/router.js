@@ -1,177 +1,83 @@
-/**
- * ====================================================================================
- * BLOQUE 10: ROUTER ENGINE V58.0 (SITEMAP SYNC & EVENT DELEGATION)
- * ------------------------------------------------------------------------------------
- * Gestor de navegación HTML5 History API.
- * 1. Rutas exactas basadas en sitemap.xml.
- * 2. Delegación de eventos: Resucita los botones de WhatsApp y Aura flotantes.
- * ====================================================================================
- */
+import { ConstructorMaestro } from './constructor_maestro.js';
 
-const Router = {
-    currentRoute: '',
-
-    // MAPA DE RUTAS (Sincronizado estrictamente con tu sitemap.xml)
-    rutasLimpias: {
-        'home': '/',
-        'restoration': '/catalogo-masajes',
-        'beauty': '/estudio-manicura',
-        'sonotherapy': '/sonoterapia',
-        'science': '/ciencia-y-botanica',
-        'legal': '/manifiesto-y-privacidad',
-        'aura': '/aura-ai',
-        'user-vault': '/boveda-paciente'
-    },
-
-    rutasInversas: {
-        '/': 'home',
-        '/index.html': 'home',
-        '/catalogo-masajes': 'restoration',
-        '/estudio-manicura': 'beauty',
-        '/sonoterapia': 'sonotherapy',
-        '/ciencia-y-botanica': 'science',
-        '/manifiesto-y-privacidad': 'legal',
-        '/aura-ai': 'aura',
-        '/boveda-paciente': 'user-vault'
+export const Router = {
+    // Mapa de rutas oficial sincronizado con sitemap.xml
+    rutas: {
+        '/': 'view-home',
+        '/catalogo-masajes': 'view-catalogo-masajes',
+        '/estudio-manicura': 'view-estudio-manicura',
+        '/sonoterapia': 'view-sonoterapia',
+        '/ciencia-y-botanica': 'view-ciencia',
+        '/legal': 'view-legal',
+        '/aura-ia': 'view-aura',
+        '/expediente': 'view-expediente'
     },
 
     init: function() {
-        console.log("🧭 [ROUTER V58] Sincronizando coordenadas y activando Delegación de Eventos...");
-
-        // 1. Activar la escucha de clics en toda la pantalla (Revive los botones)
-        this.bindGlobalLinks();
-
-        // 2. Escuchar botones nativos del celular (Atrás/Adelante)
-        window.addEventListener('popstate', () => this.handleLocation());
-
-        // 3. Procesar la URL al cargar la página
-        this.handleLocation();
-
-        // 4. Exponer al universo global
-        window.Router = this;
-    },
-
-    // ================================================================================
-    // DELEGACIÓN DE EVENTOS (LA MAGIA QUE REVIVE LOS BOTONES)
-    // ================================================================================
-    bindGlobalLinks: function() {
-        // En lugar de tocar los botones, escuchamos el cuerpo entero de la página.
-        // Si el clic viene de un elemento con data-target, lo interceptamos.
-        document.body.addEventListener('click', (e) => {
-            // Busca si lo que tocaste (o su contenedor) tiene el atributo data-target
-            const link = e.target.closest('[data-target]');
-            
-            if (link) {
-                // Previene que el navegador haga un salto brusco
+        // 1. Escuchar clics globales para delegación de eventos
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('[data-target]');
+            if (target) {
                 e.preventDefault();
-                
-                const target = link.getAttribute('data-target');
-                if(target) this.navigate(target);
+                const ruta = target.getAttribute('href') || `/${target.getAttribute('data-target').replace('view-', '')}`;
+                this.navegar(ruta);
             }
         });
-    },
 
-    // ================================================================================
-    // LECTOR DE URL Y NAVEGACIÓN
-    // ================================================================================
-    handleLocation: function() {
-        let path = window.location.pathname;
-        if (path.length > 1 && path.endsWith('/')) {
-            path = path.slice(0, -1);
-        }
-
-        const pathParts = path.split('/');
-        const lastPart = '/' + pathParts[pathParts.length - 1];
-
-        let viewId = this.rutasInversas[lastPart] || this.rutasInversas[path];
-
-        if (!viewId) {
-            viewId = 'home';
-            window.history.replaceState({}, "", "/");
-        }
-
-        this.loadView(viewId);
-    },
-
-    navigate: function(targetId) {
-        if (this.currentRoute === targetId) {
-            this.closeSidebarOnMobile();
-            return;
-        }
-
-        const cleanPath = this.rutasLimpias[targetId] || '/';
-        window.history.pushState({ view: targetId }, "", cleanPath);
-        
-        this.loadView(targetId);
-    },
-
-    goBack: function() {
-        if (window.history.length > 1 && window.location.pathname !== '/') {
-            window.history.back();
-        } else {
-            this.navigate('home');
-        }
-    },
-
-    // ================================================================================
-    // MOTOR VISUAL DE TRANSICIÓN
-    // ================================================================================
-    loadView: function(target) {
-        const targetView = document.getElementById(`view-${target}`);
-        
-        if (!targetView) {
-            setTimeout(() => this.navigate('home'), 100);
-            return;
-        }
-
-        // Apagar todas las vistas
-        document.querySelectorAll('.view-section').forEach(view => {
-            view.classList.remove('active');
-            view.style.display = 'none';
+        // 2. Manejar botones físicos/virtuales de retroceso (Popstate)
+        window.addEventListener('popstate', (e) => {
+            this.renderizarVista(window.location.pathname, false);
         });
 
-        // Desactivar botones del menú
-        document.querySelectorAll('.nav-item').forEach(nav => {
-            nav.classList.remove('active');
-        });
-
-        // Encender la vista solicitada
-        targetView.style.display = 'block';
-        setTimeout(() => targetView.classList.add('active'), 20);
-
-        // Resaltar botón del menú
-        const activeNav = document.querySelector(`.nav-item[data-target="${target}"]`);
-        if (activeNav) activeNav.classList.add('active');
-
-        this.currentRoute = target;
-        this.closeSidebarOnMobile();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        if (window.CoreEngine && typeof CoreEngine.triggerVibration === 'function') {
-            CoreEngine.triggerVibration(10);
-        }
-
-        if (window.A11yEngine && typeof A11yEngine.announce === 'function') {
-            const friendlyName = this.rutasLimpias[target] ? this.rutasLimpias[target].replace('/', '').replace(/-/g, ' ').toUpperCase() : target;
-            A11yEngine.announce(`Pantalla actual: ${friendlyName}`);
-        }
+        // 3. Carga inicial al refrescar
+        this.renderizarVista(window.location.pathname, true);
     },
 
-    closeSidebarOnMobile: function() {
-        const sideMenu = document.getElementById('main-nav');
-        const menuBtn = document.getElementById('menu-toggle-btn');
+    navegar: function(path) {
+        if (window.location.pathname === path) return;
         
-        if (sideMenu && sideMenu.classList.contains('open')) {
-            sideMenu.classList.remove('open');
-            if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+        // Actualizar URL sin recargar
+        window.history.pushState({ path }, '', path);
+        this.renderizarVista(path);
+    },
+
+    renderizarVista: function(path, scrollUp = true) {
+        // Fallback para 404 o raíz
+        const vistaId = this.rutas[path] || 'view-home';
+        
+        // 1. Gestionar clases de visibilidad
+        const secciones = document.querySelectorAll('.view-section');
+        secciones.forEach(s => s.classList.remove('active'));
+
+        const seccionActiva = document.getElementById(vistaId);
+        if (seccionActiva) {
+            seccionActiva.classList.add('active');
             
-            if (window.CoreEngine && typeof CoreEngine.unlockBodyScroll === 'function') {
-                CoreEngine.unlockBodyScroll();
+            // 2. Llamar al Constructor para inyectar los módulos JS
+            ConstructorMaestro.construir(vistaId);
+
+            // 3. Manejo de scroll y UI
+            if (scrollUp) window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // 4. Bloqueo de scroll para modos Fullscreen (Aura/Expediente)
+            if (seccionActiva.classList.contains('fullscreen-mode')) {
+                document.body.classList.add('scroll-locked');
             } else {
-                document.body.style.overflow = '';
+                document.body.classList.remove('scroll-locked');
             }
         }
+
+        // Actualizar estado del menú
+        this.actualizarMenu(vistaId);
+    },
+
+    actualizarMenu: function(vistaId) {
+        const links = document.querySelectorAll('.nav-item');
+        links.forEach(l => {
+            l.classList.toggle('active', l.getAttribute('data-target') === vistaId);
+        });
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => { Router.init(); });
+// Iniciar sistema
+document.addEventListener('DOMContentLoaded', () => Router.init());
