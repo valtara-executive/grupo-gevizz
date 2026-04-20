@@ -2,8 +2,8 @@
 <html lang="es" dir="ltr" prefix="og: https://ogp.me/ns#">
 <head>
     <!-- ==================================================================================== -->
-    <!-- PARCHE DE ENRUTAMIENTO SPA (GITHUB PAGES 404 FIX)                                    -->
-    <!-- Este script captura la ruta original si el usuario entra directo desde un link.      -->
+    <!-- 1. PARCHE DE ENRUTAMIENTO SPA (GITHUB PAGES 404 FIX)                                 -->
+    <!-- Captura rutas fantasmas directas (ej. /catalogo-masajes) y las redirige al Router.   -->
     <!-- ==================================================================================== -->
     <script>
       (function() {
@@ -16,40 +16,44 @@
     </script>
 
     <!-- ==================================================================================== -->
-    <!-- NÚCLEO DE RENDERIZADO Y METADATOS BÁSICOS                                            -->
+    <!-- 2. NÚCLEO DE RENDERIZADO Y METADATOS BÁSICOS                                         -->
     <!-- ==================================================================================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     
-    <!-- Título ultra-optimizado para SEO Local -->
+    <!-- TÍTULOS Y DESCRIPCIONES (Ultra-Optimizados para SEO Local CDMX e Hidalgo) -->
     <title>VALTARA | Executive Therapy & Biomechanics CDMX, Tizayuca y Pachuca</title>
-    <meta name="description" content="Santuario de masoterapia clínica, biomecánica y bienestar corporativo de ultra-lujo. Atención especializada para ejecutivos en CDMX (Paseo de la Reforma), Estado de México e Hidalgo (Tizayuca, Pachuca). Resolvemos el burnout y dolor crónico.">
-    <meta name="keywords" content="Masaje deportivo CDMX, Terapia biomecánica Reforma, Masoterapia clínica Tizayuca, Grupo Gevizz, Valtara Executive, Masajes relajantes Pachuca, Lomi Lomi, Descompresión muscular, SPA CDMX, Art & Nails, Pedicura clínica, Sonoterapia, Inteligencia artificial clínica">
-    <meta name="author" content="Grupo Gevizz S.A.S.">
+    <meta name="description" content="Santuario de masajes, biomecánica y bienestar corporativo en Paseo de la Reforma 195. Atención de ultra-lujo en CDMX, Estado de México, Hidalgo (Tizayuca, Pachuca). Resolvemos el burnout ejecutivo, ofrecemos masoterapia clínica, sistemas Rubber Base en manicura, pedicura SPA y sonoterapia acústica.">
+    <meta name="keywords" content="Masaje deportivo CDMX, Terapia biomecánica Reforma, Masoterapia clínica, Grupo Gevizz, Valtara Executive, Lujo, Bienestar Corporativo, Masajes Los Héroes Tizayuca, Masajes Pachuca, SPA CDMX, Art & Nails, Rubber Base, Pedicura SPA, Aromaterapia clínica, Sonoterapia acústica, Descompresión muscular, Lomi Lomi">
+    <meta name="author" content="Grupo Gevizz S.A.S. - Fundado por Ángel">
     <meta name="theme-color" content="#070712">
     
-    <!-- PWA Manifest -->
+    <!-- DIRECTIVAS AGRESIVAS PARA BUSCADORES -->
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://valtaraexecutive.com/">
+    
+    <!-- PWA MANIFEST -->
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="logo.png">
-    
-    <!-- Directivas para el motor de búsqueda (Indexación profunda) -->
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    
+    <link rel="apple-touch-icon" href="logo.png">
+
     <!-- ==================================================================================== -->
-    <!-- OPEN GRAPH (PARA COMPARTIR EN WHATSAPP, FACEBOOK, LINKEDIN)                          -->
-    <!-- Estas etiquetas serán actualizadas dinámicamente por js/router.js al navegar.        -->
+    <!-- 3. OPEN GRAPH (PARA COMPARTIR EN WHATSAPP, FACEBOOK, LINKEDIN)                       -->
+    <!-- Estas etiquetas previenen que los enlaces se vean vacíos en redes.                   -->
     <!-- ==================================================================================== -->
     <meta property="og:locale" content="es_MX">
     <meta property="og:type" content="website">
     <meta property="og:title" content="VALTARA | Executive Therapy & Biomechanics">
-    <meta property="og:description" content="Santuario de masoterapia clínica y biomecánica corporativa en Paseo de la Reforma y Tizayuca.">
+    <meta property="og:description" content="Santuario de masoterapia clínica, manicuría de autor y biomecánica corporativa en CDMX y Tizayuca. Elevamos el rendimiento humano.">
     <meta property="og:url" content="https://valtaraexecutive.com/">
-    <meta property="og:site_name" content="Valtara Executive">
+    <meta property="og:site_name" content="Valtara Executive Therapy">
     <meta property="og:image" content="https://valtaraexecutive.com/logo.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
     <!-- ==================================================================================== -->
-    <!-- SCHEMA.ORG / JSON-LD (SEO TÁCTICO PARA GOOGLE LOCAL BUSINESS)                        -->
-    <!-- Le dice exactamente a Google qué es la empresa, dónde opera y qué servicios ofrece.  -->
+    <!-- 4. SCHEMA.ORG / JSON-LD (EL CEREBRO DEL SEO PARA GOOGLE)                             -->
+    <!-- Descripción profunda del negocio, precios, zonas de operación y servicios.           -->
     <!-- ==================================================================================== -->
     <script type="application/ld+json">
     {
@@ -62,29 +66,69 @@
       "url": "https://valtaraexecutive.com",
       "telephone": "+5213348572070",
       "priceRange": "$$$",
-      "description": "Clínica de masoterapia, biomecánica y estudio de belleza de ultra-lujo diseñada para el alto rendimiento ejecutivo.",
+      "description": "Clínica de masoterapia, biomecánica y estudio de belleza de ultra-lujo diseñada para el alto rendimiento ejecutivo. Tratamientos de neurobiología y fascia.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Paseo de la Reforma 195",
+        "addressLocality": "Ciudad de México",
+        "addressRegion": "CDMX",
+        "addressCountry": "MX"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Ángel"
+      },
       "areaServed": [
         { "@type": "City", "name": "Ciudad de México" },
         { "@type": "City", "name": "Tizayuca" },
+        { "@type": "Neighborhood", "name": "Los Héroes Tizayuca" },
         { "@type": "City", "name": "Pachuca" },
         { "@type": "State", "name": "Hidalgo" },
         { "@type": "State", "name": "Estado de México" }
       ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
-        "name": "Servicios Clínicos y Estéticos",
+        "name": "Servicios Clínicos y Estéticos de Valtara",
         "itemListElement": [
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Masaje Deportivo y Biomecánico" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Descompresión Muscular Lomi Lomi" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Art & Nails Studio (Rubber Base)" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sonoterapia Inmersiva" } }
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Masoterapia Clínica y Descompresión",
+              "description": "Terapia biomecánica para alivio de estrés crónico, masaje deportivo y rituales Lomi Lomi."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Art & Nails Studio",
+              "description": "Estética integral de manos y pies con asepsia nivel clínico. Aplicación de sistemas Rubber Base, acrílico, y pedicura SPA profunda."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Sonoterapia Acústica",
+              "description": "Sesiones de inmersión sonora para la estimulación de ondas cerebrales Alfa y Theta, combatiendo el Burnout ejecutivo."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Aura AI",
+              "description": "Sistema de Inteligencia Artificial para el triaje clínico y personalización del bienestar biomecánico."
+            }
+          }
         ]
       }
     }
     </script>
 
     <!-- ==================================================================================== -->
-    <!-- SEGURIDAD (CSP) PARA IA Y VERCEL                                                     -->
+    <!-- 5. SEGURIDAD CSP Y CONEXIONES EXTERNAS                                               -->
     <!-- ==================================================================================== -->
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self'; 
@@ -92,7 +136,7 @@
         font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; 
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; 
         script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; 
-        media-src 'self';
+        media-src 'self' data: blob:;
         img-src 'self' data: blob: https://cdn-icons-png.flaticon.com https://valtaraexecutive.com;
     ">
 
@@ -100,98 +144,118 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-    <!-- HOJAS DE ESTILO DEL SISTEMA -->
-    <link rel="stylesheet" href="css/main.css?v=45.0">
-    <link rel="stylesheet" href="css/components.css?v=45.0">
+    <!-- CSS DEL SISTEMA -->
+    <link rel="stylesheet" href="css/main.css?v=50.0">
+    <link rel="stylesheet" href="css/components.css?v=50.0">
 </head>
 
 <body class="system-loading">
 
-    <div aria-live="polite" class="sr-only" id="a11y-announcer">Iniciando arquitectura biomécanica Valtara...</div>
+    <!-- Lector de pantalla para Accesibilidad (A11y) -->
+    <div aria-live="polite" class="sr-only" id="a11y-announcer">Iniciando arquitectura biomécanica de Valtara Executive...</div>
 
     <!-- ==================================================================================== -->
-    <!-- ENCABEZADO SUPERIOR (SISTEMA NERVIOSO UI)                                            -->
+    <!-- ENCABEZADO SUPERIOR Y NAVEGACIÓN                                                     -->
     <!-- ==================================================================================== -->
     <header class="system-header" id="system-header">
-        <button class="header-logo" id="logo-btn" data-target="home" aria-label="Volver al inicio" style="background: transparent; border: none; cursor: pointer;">
+        <button class="header-logo" id="logo-btn" data-target="home" aria-label="Volver al Santuario Principal" style="background: transparent; border: none; cursor: pointer;">
             <img src="logo.png" alt="Logotipo Oficial Valtara Executive" class="logo-img" style="height: 50px;">
         </button>
         <div class="header-controls">
-            <button class="header-action-btn" onclick="document.getElementById('a11y-modal').showModal();" aria-label="Opciones de Accesibilidad Visual"><i class="fa-solid fa-universal-access"></i></button>
+            <button class="header-action-btn" aria-controls="a11y-modal" aria-label="Opciones de Accesibilidad Visual"><i class="fa-solid fa-universal-access"></i></button>
             <button class="hamburger-btn" id="menu-toggle-btn" aria-label="Desplegar Navegación"><i class="fa-solid fa-bars"></i></button>
         </div>
     </header>
 
     <!-- ==================================================================================== -->
-    <!-- MENÚ LATERAL BENTO GRID (SINC CON USER.JS)                                           -->
+    <!-- MENÚ LATERAL (CUADRÍCULA / GRID) - OPTIMIZADO PARA UX                                -->
     <!-- ==================================================================================== -->
     <nav class="side-menu" id="main-nav">
-        <div class="menu-header">
+        <div class="menu-header" style="padding: 2rem 2.5rem; background: #030305; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
             <div class="patient-profile-card" style="display: flex; gap: 1.2rem; align-items: center;">
                 <div class="profile-avatar" style="width: 55px; height: 55px; background: rgba(212,175,55,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--valtara-oro); border: 1px solid var(--valtara-oro);"><i class="fa-solid fa-spa"></i></div>
                 <div class="profile-info">
-                    <span class="profile-greeting" style="color: #aaa; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;">Bienvenido</span><br>
-                    <!-- ESTE ID ES CONTROLADO POR JS/USER.JS -->
-                    <strong class="profile-name" id="menu-user-name" style="color: white; font-family: var(--font-accent); font-size: 1.6rem;">Invitado</strong>
+                    <span class="profile-greeting" style="color: #aaa; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Soberanía Digital</span><br>
+                    <!-- ESTE ID SE CONECTA A JS/USER.JS PARA MOSTRAR TU NOMBRE -->
+                    <strong class="profile-name" id="menu-user-name" style="color: white; font-family: var(--font-accent); font-size: 1.4rem;">Invitado VIP</strong>
                 </div>
             </div>
-            <button class="close-btn" id="menu-close-btn" aria-label="Cerrar Navegación"><i class="fa-solid fa-xmark"></i></button>
+            <button class="close-btn" id="menu-close-btn" aria-label="Cerrar Navegación" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; width: 3rem; height: 3rem; border-radius: 50%;"><i class="fa-solid fa-xmark"></i></button>
         </div>
         
-        <div class="menu-scroll-area" style="padding: 2.5rem 3rem;">
+        <div class="menu-scroll-area" style="padding: 2.5rem;">
             <h3 style="color: #777; text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; margin-bottom: 1.5rem; font-weight: 900;">Nuestros Espacios</h3>
             
-            <ul style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; list-style: none; padding: 0; margin-bottom: 3.5rem;">
-                <li><button data-target="home" style="width: 100%; padding: 2rem 1rem; background: #11111a; border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid var(--valtara-oro-brillante); border-radius: 15px; color: white; cursor: pointer;"><i class="fa-solid fa-house" style="font-size: 2.2rem; margin-bottom: 12px;"></i><br>Santuario</button></li>
-                <li><button data-target="restoration" style="width: 100%; padding: 2rem 1rem; background: #11111a; border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid #00A86B; border-radius: 15px; color: white; cursor: pointer;"><i class="fa-solid fa-hands-holding-circle" style="font-size: 2.2rem; margin-bottom: 12px;"></i><br>Masoterapia</button></li>
-                <li><button data-target="beauty" style="width: 100%; padding: 2rem 1rem; background: #11111a; border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid #E01A59; border-radius: 15px; color: white; cursor: pointer;"><i class="fa-solid fa-wand-magic-sparkles" style="font-size: 2.2rem; margin-bottom: 12px;"></i><br>Art & Nails</button></li>
-                <li><button data-target="sonotherapy" style="width: 100%; padding: 2rem 1rem; background: #11111a; border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid #00BFFF; border-radius: 15px; color: white; cursor: pointer;"><i class="fa-solid fa-water" style="font-size: 2.2rem; margin-bottom: 12px;"></i><br>Sonoterapia</button></li>
-                <li><button data-target="science" style="width: 100%; padding: 2rem 1rem; background: #11111a; border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid #FF9900; border-radius: 15px; color: white; cursor: pointer;"><i class="fa-solid fa-dna" style="font-size: 2.2rem; margin-bottom: 12px;"></i><br>Ciencia</button></li>
-                <li><button data-target="legal" style="width: 100%; padding: 2rem 1rem; background: #11111a; border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid #888; border-radius: 15px; color: white; cursor: pointer;"><i class="fa-solid fa-shield-halved" style="font-size: 2.2rem; margin-bottom: 12px;"></i><br>Manifiesto</button></li>
+            <!-- CUADRÍCULA DE NAVEGACIÓN -->
+            <ul style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; list-style: none; padding: 0; margin-bottom: 3.5rem;">
+                <li><button class="nav-item-grid" data-target="home" style="width: 100%; height: 100%; padding: 1.8rem 0.5rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid #D4AF37; border-radius: 12px; color: white; cursor: pointer; transition: 0.3s;"><i class="fa-solid fa-house" style="font-size: 2rem; margin-bottom: 10px; color: #D4AF37;"></i><br><span style="font-size:0.9rem; font-weight:bold; letter-spacing:1px;">Santuario</span></button></li>
+                <li><button class="nav-item-grid" data-target="restoration" style="width: 100%; height: 100%; padding: 1.8rem 0.5rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid #00A86B; border-radius: 12px; color: white; cursor: pointer; transition: 0.3s;"><i class="fa-solid fa-hands-holding-circle" style="font-size: 2rem; margin-bottom: 10px; color: #00A86B;"></i><br><span style="font-size:0.9rem; font-weight:bold; letter-spacing:1px;">Biomecánica</span></button></li>
+                <li><button class="nav-item-grid" data-target="beauty" style="width: 100%; height: 100%; padding: 1.8rem 0.5rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid #E01A59; border-radius: 12px; color: white; cursor: pointer; transition: 0.3s;"><i class="fa-solid fa-wand-magic-sparkles" style="font-size: 2rem; margin-bottom: 10px; color: #E01A59;"></i><br><span style="font-size:0.9rem; font-weight:bold; letter-spacing:1px;">Art & Nails</span></button></li>
+                <li><button class="nav-item-grid" data-target="sonotherapy" style="width: 100%; height: 100%; padding: 1.8rem 0.5rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid #00BFFF; border-radius: 12px; color: white; cursor: pointer; transition: 0.3s;"><i class="fa-solid fa-water" style="font-size: 2rem; margin-bottom: 10px; color: #00BFFF;"></i><br><span style="font-size:0.9rem; font-weight:bold; letter-spacing:1px;">Sonoterapia</span></button></li>
+                <li><button class="nav-item-grid" data-target="science" style="width: 100%; height: 100%; padding: 1.8rem 0.5rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid #FF9900; border-radius: 12px; color: white; cursor: pointer; transition: 0.3s;"><i class="fa-solid fa-dna" style="font-size: 2rem; margin-bottom: 10px; color: #FF9900;"></i><br><span style="font-size:0.9rem; font-weight:bold; letter-spacing:1px;">Ciencia</span></button></li>
+                <li><button class="nav-item-grid" data-target="legal" style="width: 100%; height: 100%; padding: 1.8rem 0.5rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-bottom: 3px solid #888; border-radius: 12px; color: white; cursor: pointer; transition: 0.3s;"><i class="fa-solid fa-shield-halved" style="font-size: 2rem; margin-bottom: 10px; color: #888;"></i><br><span style="font-size:0.9rem; font-weight:bold; letter-spacing:1px;">Legal</span></button></li>
             </ul>
 
-            <h3 style="color: #777; text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; margin-bottom: 1.5rem; font-weight: 900;">Soberanía y Datos</h3>
-            <button data-target="aura" style="width: 100%; padding: 1.5rem; background: #9b59b6; color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 1.15rem; font-weight: bold; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 12px; box-shadow: 0 10px 20px rgba(155, 89, 182, 0.3);"><i class="fa-solid fa-sparkles"></i> Aura AI - Triaje</button>
-            <button data-target="user-vault" style="width: 100%; padding: 1.5rem; background: rgba(255,255,255,0.03); color: var(--valtara-oro); border: 1px solid rgba(212,175,55,0.3); border-radius: 15px; cursor: pointer; font-size: 1.15rem; display: flex; align-items: center; justify-content: center; gap: 12px;"><i class="fa-solid fa-user-shield"></i> Mi Bóveda Clínica</button>
+            <h3 style="color: #777; text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; margin-bottom: 1.5rem; font-weight: 900;">Conexión Neural</h3>
+            <button data-target="aura" style="width: 100%; padding: 1.5rem; background: #9b59b6; color: white; border: none; border-radius: 12px; cursor: pointer; font-size: 1.15rem; font-weight: bold; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 12px; box-shadow: 0 10px 20px rgba(155, 89, 182, 0.3);"><i class="fa-solid fa-sparkles"></i> Aura AI - Triaje</button>
+            <button data-target="user-vault" style="width: 100%; padding: 1.5rem; background: rgba(255,255,255,0.03); color: #D4AF37; border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; cursor: pointer; font-size: 1.15rem; display: flex; align-items: center; justify-content: center; gap: 12px;"><i class="fa-solid fa-user-shield"></i> Mi Bóveda Clínica</button>
         </div>
     </nav>
 
-    <!-- MODAL DE ACCESIBILIDAD -->
+    <!-- MODALES DE UI -->
     <dialog id="a11y-modal">
-        <div class="modal-content">
-            <header class="modal-header"><h3><i class="fa-solid fa-universal-access"></i> Inclusión</h3><button class="close-modal-btn" data-close="a11y-modal"><i class="fa-solid fa-xmark"></i></button></header>
-            <div class="modal-body"><p style="text-align: center;">Módulo de neuro-inclusión en proceso de calibración clínica.</p></div>
+        <div class="modal-content" style="background: #070712; border: 1px solid #D4AF37; border-radius: 15px; color: white;">
+            <header class="modal-header" style="padding: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between;">
+                <h3><i class="fa-solid fa-universal-access"></i> Inclusión</h3>
+                <button class="close-modal-btn" data-close="a11y-modal" style="background:none; border:none; color:white; font-size:1.5rem;"><i class="fa-solid fa-xmark"></i></button>
+            </header>
+            <div class="modal-body" style="padding: 2rem;">
+                <p style="text-align: center;">Módulo de neuro-inclusión y accesibilidad visual de Valtara en proceso de calibración clínica.</p>
+            </div>
         </div>
     </dialog>
 
-    <!-- CONTROLES FLOTANTES -->
-    <aside class="float-controls float-right" id="smart-fabs">
-        <button class="fab-btn fab-aura" data-target="aura" aria-label="Abrir asistente Aura AI"><i class="fa-solid fa-robot"></i></button>
-        <a href="https://wa.me/5213348572070" target="_blank" class="fab-btn fab-ws" aria-label="Contactar a Concierge por WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+    <!-- BOTONES FLOTANTES SMART FABS -->
+    <aside class="float-controls float-right" id="smart-fabs" style="position: fixed; bottom: 3rem; right: 3rem; z-index: 1000; display: flex; flex-direction: column; gap: 1rem;">
+        <button class="fab-btn fab-aura" data-target="aura" aria-label="Abrir asistente Aura AI" style="width: 60px; height: 60px; border-radius: 50%; background: #9b59b6; color: white; border: none; font-size: 1.5rem; box-shadow: 0 5px 15px rgba(155,89,182,0.5); cursor:pointer;"><i class="fa-solid fa-robot"></i></button>
+        <a href="https://wa.me/5213348572070" target="_blank" class="fab-btn fab-ws" aria-label="Contactar a Concierge por WhatsApp" style="width: 60px; height: 60px; border-radius: 50%; background: #25D366; color: white; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.8rem; box-shadow: 0 5px 15px rgba(37,211,102,0.5);"><i class="fa-brands fa-whatsapp"></i></a>
     </aside>
 
     <!-- ==================================================================================== -->
     <!-- LIENZO SPA - CONTENEDOR PRINCIPAL DE ENRUTAMIENTO                                    -->
     <!-- ==================================================================================== -->
     <main id="main-content">
-        <!-- Vistas inyectadas por constructor_maestro.js -->
-        <section id="view-home" class="view-section active"></section>
-        <section id="view-restoration" class="view-section"></section>
-        <section id="view-beauty" class="view-section"></section>
+        <!-- Vistas inyectadas dinámicamente. Contienen Fallbacks SEO para lectura agresiva. -->
+        <section id="view-home" class="view-section active">
+            <!-- Fallback SEO para Google -->
+            <noscript>
+                <h1>Valtara Executive Therapy</h1>
+                <p>La mejor clínica de Masajes y Biomecánica en CDMX y Tizayuca Hidalgo.</p>
+            </noscript>
+        </section>
+        
+        <section id="view-restoration" class="view-section">
+            <noscript><h2>Masaje Descontracturante y Deportivo en Paseo de la Reforma y Los Héroes Tizayuca.</h2></noscript>
+        </section>
+        
+        <section id="view-beauty" class="view-section">
+            <noscript><h2>Art & Nails Studio - Manicura Clínica, Acrílico y Rubber Base.</h2></noscript>
+        </section>
+        
         <section id="view-sonotherapy" class="view-section"></section>
         <section id="view-science" class="view-section"></section>
         <section id="view-legal" class="view-section"></section>
 
         <!-- ================================================================================ -->
-        <!-- AURA AI (INTEGRACIÓN MULTIMODELO SENSORIAL JS/AURA.JS)                           -->
+        <!-- AURA AI (UI HARDCODEADA PARA INTEGRACIÓN DIRECTA CON JS/AURA.JS)                 -->
         <!-- ================================================================================ -->
-        <section id="view-aura" class="view-section">
-            <div style="padding: 1.5rem; border-bottom: 1px solid rgba(0,255,204,0.15); display: flex; align-items: center; gap: 15px; background: rgba(7,7,12,0.9); border-radius: 20px; margin-bottom: 1rem;">
+        <section id="view-aura" class="view-section" style="padding-top: 8rem; max-width: 1000px; margin: 0 auto;">
+            <div style="padding: 1.5rem; border-bottom: 1px solid rgba(0,255,204,0.15); display: flex; align-items: center; gap: 15px; background: rgba(7,7,12,0.9); border-radius: 20px; margin-bottom: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                 <button data-target="home" aria-label="Regresar al inicio" style="background:transparent; border:1px solid rgba(0,255,204,0.3); color:#00FFCC; font-size:1.5rem; cursor:pointer; width: 50px; height: 50px; border-radius: 50%;"><i class="fa-solid fa-arrow-left"></i></button>
                 <h2 style="font-family: var(--font-accent); color: white; margin: 0; font-size: 2.2rem;"><i class="fa-solid fa-sparkles" style="color:#00FFCC;"></i> Aura AI</h2>
             </div>
             
-            <div class="aura-container" style="max-width: 1000px; margin: 0 auto; height: calc(100vh - 160px); display: flex; flex-direction: column;">
+            <div class="aura-container" style="height: calc(100vh - 200px); display: flex; flex-direction: column;">
                 <div class="aura-chat-window" id="aura-chat" style="flex: 1; background: rgba(10, 10, 15, 0.7); border-radius: 20px; border: 1px solid rgba(0, 255, 204, 0.15); padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem;">
                 </div>
                 
@@ -206,8 +270,8 @@
         <!-- ================================================================================ -->
         <!-- BÓVEDA DEL PACIENTE (SINC CON JS/USER.JS)                                        -->
         <!-- ================================================================================ -->
-        <section id="view-user-vault" class="view-section">
-            <div style="padding: 1.5rem; border-bottom: 1px solid rgba(212,175,55,0.2); display: flex; align-items: center; background: rgba(7,7,12,0.9); border-radius: 20px;">
+        <section id="view-user-vault" class="view-section" style="padding-top: 8rem;">
+            <div style="padding: 1.5rem; border-bottom: 1px solid rgba(212,175,55,0.2); display: flex; align-items: center; background: rgba(7,7,12,0.9); border-radius: 20px; max-width: 1000px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                 <button data-target="home" aria-label="Regresar al inicio" style="background:transparent; border:1px solid rgba(212,175,55,0.3); color:var(--valtara-oro-brillante); font-size:1.5rem; cursor:pointer; width: 50px; height: 50px; border-radius: 50%; margin-right: 20px;"><i class="fa-solid fa-arrow-left"></i></button>
                 <h2 style="font-family: var(--font-accent); color: white; margin: 0; font-size: 2.2rem;"><i class="fa-solid fa-user-shield" style="color:var(--valtara-oro);"></i> Mi Bóveda Clínica</h2>
             </div>
@@ -215,20 +279,20 @@
             <div style="max-width: 1000px; margin: 0 auto; padding: 4rem 1rem;">
                 <div style="text-align: center; margin-bottom: 5rem;">
                     <i class="fa-solid fa-circle-user" style="font-size: 7.5rem; color: var(--valtara-oro-brillante); margin-bottom: 1.5rem; filter: drop-shadow(0 0 20px rgba(242,201,76,0.3));"></i>
-                    <!-- ESTE ID ES CONTROLADO POR JS/USER.JS -->
+                    <!-- ESTE ID ES CONTROLADO EXCLUSIVAMENTE POR JS/USER.JS -->
                     <h3 id="vault-user-name" style="font-size: 3.8rem; font-family: var(--font-accent); color: white; margin: 0 0 1rem 0;">Paciente VIP</h3>
-                    <p style="color: #aaa; font-size: 1.3rem; max-width: 600px; margin: 0 auto;">Santuario privado de datos. Gestiona tus preferencias olfativas y consulta tu expediente en total soberanía.</p>
+                    <p style="color: #aaa; font-size: 1.3rem; max-width: 600px; margin: 0 auto;">Santuario privado de datos. Gestiona tus preferencias olfativas y consulta tu expediente en total soberanía digital.</p>
                 </div>
 
-                <div class="glass-card" style="border-left: 5px solid #00FFCC; margin-bottom: 3rem;">
+                <div class="glass-card" style="border-left: 5px solid #00FFCC; margin-bottom: 3rem; background: rgba(255,255,255,0.02); padding: 3rem; border-radius: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
                     <h4 style="color: #00FFCC; font-size: 2.2rem; font-family: var(--font-accent); margin: 0 0 1.5rem 0;"><i class="fa-solid fa-leaf"></i> Aromaterapia Clínica</h4>
-                    <p style="color: #ccc; margin-bottom: 2.5rem; font-size: 1.2rem;">Selecciona las notas olfativas para calibrar el ambiente de tu próxima sesión. Tus selecciones alimentan a Aura AI.</p>
+                    <p style="color: #ccc; margin-bottom: 2.5rem; font-size: 1.2rem;">Selecciona las notas olfativas para calibrar el ambiente de tu próxima sesión. Tus selecciones alimentan tu perfil biomecánico.</p>
                     
-                    <div class="aroma-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem;">
+                    <div class="aroma-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem;">
                         <!-- CHECKBOXES CONTROLADOS Y GUARDADOS POR JS/USER.JS -->
-                        <label style="background: rgba(25,25,35,0.5); padding: 2.5rem 1rem; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;"><input type="checkbox" name="aroma_pref" value="Vainilla" style="display:none;"> <i class="fa-solid fa-ice-cream" style="color:#FCEABB; font-size: 2.5rem; margin-bottom: 15px;"></i><br> <span style="color:#fff; font-weight: bold; font-size: 1.1rem;">Vainilla Dulce</span></label>
+                        <label style="background: rgba(25,25,35,0.5); padding: 2.5rem 1rem; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;"><input type="checkbox" name="aroma_pref" value="Vainilla" style="display:none;"> <i class="fa-solid fa-ice-cream" style="color:#FCEABB; font-size: 2.5rem; margin-bottom: 15px;"></i><br> <span style="color:#fff; font-weight: bold; font-size: 1.1rem;">Vainilla Papantla</span></label>
                         <label style="background: rgba(25,25,35,0.5); padding: 2.5rem 1rem; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;"><input type="checkbox" name="aroma_pref" value="Sándalo" style="display:none;"> <i class="fa-solid fa-tree" style="color:#D2B48C; font-size: 2.5rem; margin-bottom: 15px;"></i><br> <span style="color:#fff; font-weight: bold; font-size: 1.1rem;">Sándalo Sagrado</span></label>
-                        <label style="background: rgba(25,25,35,0.5); padding: 2.5rem 1rem; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;"><input type="checkbox" name="aroma_pref" value="Lavanda" style="display:none;"> <i class="fa-brands fa-pagelines" style="color:#E6E6FA; font-size: 2.5rem; margin-bottom: 15px;"></i><br> <span style="color:#fff; font-weight: bold; font-size: 1.1rem;">Lavanda Pura</span></label>
+                        <label style="background: rgba(25,25,35,0.5); padding: 2.5rem 1rem; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;"><input type="checkbox" name="aroma_pref" value="Lavanda" style="display:none;"> <i class="fa-brands fa-pagelines" style="color:#E6E6FA; font-size: 2.5rem; margin-bottom: 15px;"></i><br> <span style="color:#fff; font-weight: bold; font-size: 1.1rem;">Lavanda Francesa</span></label>
                         <label style="background: rgba(25,25,35,0.5); padding: 2.5rem 1rem; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;"><input type="checkbox" name="aroma_pref" value="Eucalipto" style="display:none;"> <i class="fa-solid fa-wind" style="color:#5F9EA0; font-size: 2.5rem; margin-bottom: 15px;"></i><br> <span style="color:#fff; font-weight: bold; font-size: 1.1rem;">Eucalipto Clínico</span></label>
                     </div>
                 </div>
@@ -236,60 +300,65 @@
         </section>
     </main>
 
+    <!-- PIE DE PÁGINA INYECTADO DINÁMICAMENTE -->
     <footer id="main-footer" class="mega-footer"></footer>
 
     <!-- ==================================================================================== -->
-    <!-- MOTOR DE CARGA MODULAR DE JAVASCRIPT (MAPEO EXACTO AL REPOSITORIO)                   -->
-    <!-- Todos utilizan defer para no bloquear el renderizado visual de la página.            -->
+    <!-- MOTOR DE CARGA MODULAR DE JAVASCRIPT (MAPEO EXACTO DE LAS 33 DEPENDENCIAS)           -->
+    <!-- Orden crítico respetado. Uso de defer para no bloquear el renderizado del usuario.   -->
     <!-- ==================================================================================== -->
     
-    <!-- 1. SECCIONES DE LA HOME -->
-    <script src="js/inicio_bienvenida.js" defer></script>
-    <script src="js/inicio_promociones.js" defer></script>
-    <script src="js/inicio_mapa_cuerpo.js" defer></script>
-    <script src="js/inicio_arte_unas.js" defer></script>
-    <script src="js/inicio_refugio.js" defer></script>
-    <script src="js/inicio_redes_sociales.js" defer></script>
+    <!-- 1. CEREBRO, FÍSICA Y ARQUITECTURA -->
+    <script src="js/core.js?v=50.0" defer></script>
+    <script src="js/router.js?v=50.0" defer></script>
+    <script src="js/constructor_maestro.js?v=50.0" defer></script>
+    <script src="js/pwa.js?v=50.0" defer></script>
+    <!-- NOTA: data.js lo cargas si es necesario para tu estado global -->
+    <!-- <script src="js/data.js?v=50.0" defer></script> -->
 
-    <!-- 2. CATÁLOGOS Y CLÍNICA -->
-    <script src="js/catalogo_masajes.js" defer></script>
-    <script src="js/catalogo_belleza.js" defer></script>
-    <script src="js/expediente_clinico.js" defer></script>
+    <!-- 2. IDENTIDAD Y AURA AI -->
+    <script src="js/user.js?v=50.0" defer></script>
+    <script src="js/aura.js?v=50.0" defer></script>
+    <script src="js/a11y.js?v=50.0" defer></script>
 
-    <!-- 3. MÓDULOS CIENTÍFICOS -->
-    <script src="js/ciencia_introduccion.js" defer></script>
-    <script src="js/ciencia_biomecanica.js" defer></script>
-    <script src="js/ciencia_neurobiologia.js" defer></script>
-    <script src="js/ciencia_fascia.js" defer></script>
-    <script src="js/ciencia_botanica.js" defer></script>
-    <script src="js/ciencia_acustica.js" defer></script>
-    <script src="js/ciencia_inclusion.js" defer></script>
-    <script src="js/ciencia_referencias.js" defer></script>
+    <!-- 3. INICIO Y PORTADA -->
+    <script src="js/inicio_bienvenida.js?v=50.0" defer></script>
+    <script src="js/inicio_promociones.js?v=50.0" defer></script>
+    <script src="js/inicio_mapa_cuerpo.js?v=50.0" defer></script>
+    <script src="js/inicio_arte_unas.js?v=50.0" defer></script>
+    <script src="js/inicio_refugio.js?v=50.0" defer></script>
+    <script src="js/inicio_redes_sociales.js?v=50.0" defer></script>
 
-    <!-- 4. SONOTERAPIA Y EXPERIENCIAS -->
-    <script src="js/sonoterapia_introduccion.js" defer></script>
-    <script src="js/sonoterapia_audio.js" defer></script>
-    <script src="js/sonoterapia_videos.js" defer></script>
-    <script src="js/oasis.js" defer></script>
-    <script src="js/juego_alquimista.js" defer></script>
+    <!-- 4. CATÁLOGOS Y EXPEDIENTE -->
+    <script src="js/catalogo_masajes.js?v=50.0" defer></script>
+    <script src="js/catalogo_belleza.js?v=50.0" defer></script>
+    <script src="js/expediente_clinico.js?v=50.0" defer></script>
 
-    <!-- 5. LEGAL Y MODALES -->
-    <script src="js/legal_historia.js" defer></script>
-    <script src="js/legal_manifiesto.js" defer></script>
-    <script src="js/legal_transparencia.js" defer></script>
-    <script src="js/legal_preguntas.js" defer></script>
-    <script src="js/modal_terminos.js" defer></script>
-    <script src="js/modal_whitepaper.js" defer></script>
-    <script src="js/global_footer.js" defer></script>
+    <!-- 5. MÓDULOS CIENTÍFICOS Y ACADÉMICOS -->
+    <script src="js/ciencia_introduccion.js?v=50.0" defer></script>
+    <script src="js/ciencia_biomecanica.js?v=50.0" defer></script>
+    <script src="js/ciencia_neurobiologia.js?v=50.0" defer></script>
+    <script src="js/ciencia_fascia.js?v=50.0" defer></script>
+    <script src="js/ciencia_botanica.js?v=50.0" defer></script>
+    <script src="js/ciencia_acustica.js?v=50.0" defer></script>
+    <script src="js/ciencia_inclusion.js?v=50.0" defer></script>
+    <script src="js/ciencia_referencias.js?v=50.0" defer></script>
 
-    <!-- 6. NÚCLEO, ENRUTAMIENTO E INTELIGENCIA ARTIFICIAL (EL CEREBRO) -->
-    <script src="js/core.js" defer></script>
-    <script src="js/constructor_maestro.js" defer></script>
-    <script src="js/a11y.js" defer></script>
-    <script src="js/user.js" defer></script>    <!-- Identidad y Bóveda (Aromas) -->
-    <script src="js/router.js" defer></script>  <!-- Motor de SEO y Enlaces -->
-    <script src="js/aura.js" defer></script>    <!-- IA Sensorial Multimodelo -->
-    <script src="js/pwa.js" defer></script>     <!-- Soporte Offline App -->
+    <!-- 6. SONOTERAPIA Y OASIS DIGITAL -->
+    <script src="js/sonoterapia_introduccion.js?v=50.0" defer></script>
+    <script src="js/sonoterapia_audio.js?v=50.0" defer></script>
+    <script src="js/sonoterapia_videos.js?v=50.0" defer></script>
+    <script src="js/oasis.js?v=50.0" defer></script>
+    <script src="js/juego_alquimista.js?v=50.0" defer></script>
+
+    <!-- 7. MARCO LEGAL Y POLÍTICAS -->
+    <script src="js/global_footer.js?v=50.0" defer></script>
+    <script src="js/legal_historia.js?v=50.0" defer></script>
+    <script src="js/legal_manifiesto.js?v=50.0" defer></script>
+    <script src="js/legal_transparencia.js?v=50.0" defer></script>
+    <script src="js/legal_preguntas.js?v=50.0" defer></script>
+    <script src="js/modal_terminos.js?v=50.0" defer></script>
+    <script src="js/modal_whitepaper.js?v=50.0" defer></script>
 
 </body>
-</html>
+                                                                                                                                                                                                                         </html>
