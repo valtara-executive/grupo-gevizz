@@ -1,1 +1,179 @@
-. 
+@charset "UTF-8";
+/* ====================================================================================
+   BLOQUE 2: MOTOR VISUAL SOVEREIGN V38.5 (ANIMACIONES SNAPPY Y ESTABILIDAD)
+   ==================================================================================== */
+
+:root { 
+    --valtara-oro: #F2C94C; 
+    --valtara-oro-suave: #FCEABB; 
+    --valtara-negro-fondo: #050508; 
+    --valtara-negro-modal: rgba(10, 10, 15, 0.95);
+    --valtara-blanco: #ffffff; 
+    --valtara-gris-texto: #e2e2e8; 
+    
+    --valtara-cian-brillante: #00FFFF;
+    --valtara-morado-vivo: #B200FF;
+    --valtara-verde-menta: #00FFAA;
+    --valtara-dorado-arena: #FFD700;
+    --valtara-magenta-profundo: #F72585; 
+    --valtara-whatsapp: #25D366; 
+    --valtara-alerta: #FF3366;
+
+    --grad-magic: linear-gradient(135deg, var(--valtara-morado-vivo), var(--valtara-magenta-profundo));
+    --grad-cristal: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.01) 100%);
+    
+    --cristal-fondo: rgba(15, 15, 25, 0.55); 
+    --cristal-borde: rgba(255, 255, 255, 0.15); 
+    --cristal-sombra: 0 2rem 5rem rgba(0, 0, 0, 0.7);
+    
+    --font-main: 'Lato', sans-serif;
+    --font-accent: 'Playfair Display', serif;
+    --nav-height: 6rem; 
+    --max-width: 1200px;
+    /* Curva matemática intacta para mantener el efecto de gravedad iOS */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); 
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 15px; scroll-behavior: smooth; }
+@media (max-width: 850px) { html { font-size: 13px; } }
+
+body { 
+    background-color: var(--valtara-negro-fondo); 
+    color: var(--valtara-blanco); 
+    font-family: var(--font-main); 
+    line-height: 1.8; 
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    overflow-y: auto; 
+    overscroll-behavior-y: none;
+}
+
+#app-wrapper { width: 100%; min-height: 100vh; transform-origin: top center; transition: transform 0.45s var(--ease-out-expo); }
+*:focus-visible { outline: 3px solid var(--valtara-cian-brillante); outline-offset: 4px; border-radius: 4px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+/* ------------------------------------------------------------------------------------
+   MOTOR AMBIENTAL (ORBES Y CRISTAL DE FONDO)
+   ------------------------------------------------------------------------------------ */
+.ambient-engine { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; background: var(--valtara-negro-fondo); }
+.orb { position: absolute; border-radius: 50%; filter: blur(8rem); opacity: 0.75; mix-blend-mode: screen; animation: floatOrb 25s infinite cubic-bezier(0.4, 0, 0.2, 1) alternate; transform: translateZ(0); }
+.orb-1 { width: 55vw; height: 55vw; background: var(--valtara-morado-vivo); top: -10%; left: -10%; }
+.orb-2 { width: 65vw; height: 65vw; background: var(--valtara-verde-menta); bottom: -15%; right: -15%; animation-delay: -5s; opacity: 0.65;}
+.orb-3 { width: 45vw; height: 45vw; background: var(--valtara-dorado-arena); top: 35%; left: 35%; animation-delay: -10s; opacity: 0.55; }
+.orb-4 { width: 50vw; height: 50vw; background: var(--valtara-cian-brillante); bottom: 5%; left: -5%; animation-delay: -15s; opacity: 0.65;}
+.orb-5 { width: 40vw; height: 40vw; background: var(--valtara-magenta-profundo); top: 20%; right: 10%; animation-delay: -7s; opacity: 0.5;}
+
+@keyframes floatOrb {
+    0% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); opacity: 0.7; }
+    33% { transform: translate3d(5vw, 8vh, 0) scale(1.1) rotate(15deg); opacity: 0.9; }
+    66% { transform: translate3d(-4vw, 15vh, 0) scale(0.95) rotate(-10deg); opacity: 0.6; }
+    100% { transform: translate3d(8vw, -5vh, 0) scale(1.15) rotate(5deg); opacity: 0.8; }
+}
+
+.glass-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); background: radial-gradient(circle at center, transparent 0%, rgba(5,5,8,0.3) 100%); z-index: 1; pointer-events: none; transform: translateZ(0); }
+
+/* ------------------------------------------------------------------------------------
+   ONBOARDING Y AVATARES ANIMADOS
+   ------------------------------------------------------------------------------------ */
+.full-screen-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at center, rgba(10,10,20,0.95) 0%, rgba(2,2,4,0.98) 100%); z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.6s var(--ease-out-expo), visibility 0.6s; }
+.full-screen-overlay.fade-out { opacity: 0; visibility: hidden; pointer-events: none; transform: scale(1.05); }
+.onboarding-content { text-align: center; max-width: 650px; padding: 3rem 2rem; animation: floatUp 0.8s var(--ease-out-expo) forwards; }
+@keyframes floatUp { from { opacity: 0; transform: translateY(50px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.glow-icon-wrapper i { animation: breathe 4s infinite cubic-bezier(0.4, 0, 0.2, 1); color: var(--valtara-verde-menta); text-shadow: 0 0 3rem rgba(0, 255, 170, 0.6); }
+@keyframes breathe { 0% { transform: scale(1); filter: brightness(1); text-shadow: 0 0 2rem rgba(0, 255, 170, 0.4); } 50% { transform: scale(1.15); filter: brightness(1.4); text-shadow: 0 0 5rem rgba(0, 255, 170, 0.9); } 100% { transform: scale(1); filter: brightness(1); text-shadow: 0 0 2rem rgba(0, 255, 170, 0.4); } }
+.input-group { background: var(--grad-cristal); border: 1px solid rgba(255,255,255,0.15); padding: 3.5rem; border-radius: 2rem; backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); box-shadow: 0 2rem 8rem rgba(0,0,0,0.9), inset 0 1px 1px rgba(255,255,255,0.2); }
+.avatar-grid { display: flex; flex-wrap: wrap; gap: 1.8rem; justify-content: center; margin-bottom: 2rem; }
+.avatar-option { cursor: pointer; text-align: center; position: relative; }
+.avatar-option input { display: none; }
+.avatar-icon { display: flex; justify-content: center; align-items: center; width: 5.5rem; height: 5.5rem; border-radius: 50%; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); font-size: 2.2rem; color: #888; transition: all 0.4s var(--ease-out-expo); margin: 0 auto 0.8rem auto; box-shadow: inset 0 0 1rem rgba(0,0,0,0.5); }
+.avatar-name { font-size: 0.95rem; color: #888; font-weight: 900; transition: all 0.4s ease; text-transform: uppercase; letter-spacing: 0.1rem;}
+.avatar-option:hover .avatar-icon { background: rgba(255,255,255,0.1); color: var(--valtara-blanco); transform: translateY(-8px) scale(1.05); border-color: rgba(255,255,255,0.3); box-shadow: 0 1rem 2rem rgba(0,0,0,0.3); }
+.avatar-option input:checked + .avatar-icon { border-color: var(--valtara-cian-brillante); color: var(--valtara-negro-fondo); background: var(--valtara-cian-brillante); box-shadow: 0 0 3rem rgba(0, 255, 255, 0.7), inset 0 0 1rem rgba(255,255,255,0.8); transform: translateY(-10px) scale(1.15); }
+.avatar-option input:checked ~ .avatar-name { color: var(--valtara-cian-brillante); text-shadow: 0 0 10px rgba(0,255,255,0.3); }
+.input-group input[type="text"] { width: 100%; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); color: var(--valtara-blanco); padding: 1.6rem; font-size: 1.3rem; border-radius: 1.2rem; text-align: center; outline: none; transition: all 0.35s var(--ease-out-expo); box-shadow: inset 0 0 1rem rgba(0,0,0,0.5); }
+.input-group input[type="text"]:focus { border-color: var(--valtara-cian-brillante); box-shadow: 0 0 2.5rem rgba(0, 255, 255, 0.3), inset 0 0 1.5rem rgba(0,255,255,0.1); background: rgba(0, 255, 255, 0.05); transform: translateY(-2px); }
+
+/* ------------------------------------------------------------------------------------
+   CABECERA
+   ------------------------------------------------------------------------------------ */
+.system-header { position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); z-index: 2000; display: flex; justify-content: space-between; align-items: center; background: rgba(4, 4, 8, 0.65); border-bottom: 1px solid var(--cristal-borde); padding: 0 3.5rem; backdrop-filter: blur(3rem); -webkit-backdrop-filter: blur(3rem); box-shadow: 0 1rem 3rem rgba(0,0,0,0.5); }
+.header-controls { display: flex; align-items: center; gap: 1.5rem; }
+.header-action-btn, .hamburger-btn { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.2); width: 4rem; height: 4rem; border-radius: 50%; font-size: 1.5rem; display: flex; justify-content: center; align-items: center; transition: all 0.4s var(--ease-out-expo); cursor: pointer; color: var(--valtara-blanco); }
+.header-action-btn:hover, .hamburger-btn:hover { background: var(--valtara-blanco); color: var(--valtara-negro-fondo); box-shadow: 0 0 2.5rem rgba(255,255,255,0.6); transform: translateY(-3px) scale(1.1); }
+
+/* ------------------------------------------------------------------------------------
+   MENÚ LATERAL (SNAPPY)
+   ------------------------------------------------------------------------------------ */
+.side-menu { position: fixed; top: 0; right: -100%; width: 40rem; max-width: 100vw; height: 100vh; background: rgba(4, 4, 10, 0.85); border-left: 1px solid var(--valtara-cian-brillante); z-index: 3000; transition: right 0.55s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; backdrop-filter: blur(4rem); -webkit-backdrop-filter: blur(4rem); box-shadow: -2rem 0 8rem rgba(0,255,255,0.15), -1rem 0 4rem rgba(0,0,0,0.9); }
+.side-menu.open { right: 0; }
+.menu-header { padding: 3.5rem 3rem 2.5rem 3rem; border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; background: var(--grad-cristal); flex-shrink: 0; }
+.close-btn { position: absolute; top: 2.5rem; right: 3rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: var(--valtara-blanco); width: 3.5rem; height: 3.5rem; border-radius: 50%; cursor: pointer; transition: all 0.35s var(--ease-out-expo); display: flex; justify-content: center; align-items: center; font-size: 1.3rem; }
+.close-btn:hover { background: var(--valtara-alerta); border-color: var(--valtara-alerta); transform: rotate(90deg) scale(1.1); box-shadow: 0 0 2.5rem rgba(255, 51, 102, 0.8); }
+.patient-profile-card { display: flex; align-items: center; gap: 1.8rem; }
+.profile-avatar { width: 6rem; height: 6rem; background: rgba(0,0,0,0.5); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2.8rem; color: var(--valtara-cian-brillante); box-shadow: 0 0.5rem 2.5rem rgba(0, 255, 255, 0.4); border: 2px solid var(--valtara-cian-brillante); }
+.profile-info { display: flex; flex-direction: column; }
+.profile-greeting { font-size: 1.2rem; color: var(--valtara-gris-texto); font-style: italic; }
+.profile-name { font-size: 2.2rem; color: var(--valtara-blanco); font-family: var(--font-accent); text-shadow: 0 0 15px rgba(255,255,255,0.2);}
+.menu-scroll-area { padding: 2.5rem 3rem 6rem 3rem; overflow-y: auto; flex-grow: 1; scrollbar-width: thin; scrollbar-color: var(--valtara-cian-brillante) transparent;}
+.menu-section-title { font-size: 1.05rem; color: var(--valtara-verde-menta); text-transform: uppercase; letter-spacing: 0.2rem; margin-bottom: 1.5rem; margin-top: 2rem; font-weight: 900; }
+.nav-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+.nav-item { width: 100%; text-align: left; padding: 1.5rem 1.8rem; border-radius: 1.2rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); color: var(--valtara-blanco); font-size: 1.25rem; display: flex; align-items: center; gap: 1.8rem; transition: all 0.35s var(--ease-out-expo); cursor: pointer; font-weight: 700; box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.2); }
+.nav-item i { font-size: 1.8rem; color: var(--valtara-oro); width: 2.5rem; text-align: center; transition: 0.35s; }
+.nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.08); border-color: var(--valtara-oro); transform: translateX(12px); box-shadow: 0 1rem 2.5rem rgba(242, 201, 76, 0.2);}
+.nav-item:hover i, .nav-item.active i { transform: scale(1.2); filter: drop-shadow(0 0 10px var(--valtara-oro)); }
+.btn-ws-massive { display: flex; align-items: center; justify-content: center; gap: 1.2rem; background: var(--valtara-whatsapp); color: var(--valtara-negro-fondo); padding: 2rem; border-radius: 1.2rem; text-decoration: none; font-weight: 900; font-size: 1.4rem; transition: all 0.4s var(--ease-out-expo); text-transform: uppercase; letter-spacing: 0.15rem; box-shadow: 0 1rem 2rem rgba(37,211,102,0.3); }
+.btn-ws-massive:hover { background: var(--valtara-blanco); transform: translateY(-6px); box-shadow: 0 2rem 4rem rgba(37, 211, 102, 0.6); }
+
+/* ------------------------------------------------------------------------------------
+   GRID Y CONTENEDOR SPA
+   ------------------------------------------------------------------------------------ */
+#main-content { padding-top: var(--nav-height); width: 100%; min-height: 100vh; position: relative; z-index: 1;}
+.view-section { display: none; opacity: 0; padding: 6rem 2rem; max-width: var(--max-width); margin: 0 auto; }
+.view-section.active { display: block; opacity: 1; animation: fadeInView 0.55s var(--ease-out-expo) forwards; }
+@keyframes fadeInView { from { opacity: 0; transform: translateY(30px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+
+.grid-container { display: grid; gap: 3.5rem; margin-top: 3rem; }
+.grid-2-cols { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
+.grid-3-cols { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+/* ------------------------------------------------------------------------------------
+   MEGA FOOTER Y RESPONSIVIDAD
+   ------------------------------------------------------------------------------------ */
+.mega-footer { background: rgba(2,2,3,0.98); border-top: 1px solid var(--valtara-morado-vivo); padding: 7rem 2rem 4rem 2rem; margin-top: 6rem; position: relative; z-index: 1; box-shadow: 0 -2rem 5rem rgba(178,0,255,0.1);}
+
+@media (max-width: 850px) {
+    html { font-size: 10px !important; } 
+    .system-header { padding: 0 1.5rem; }
+    .side-menu { width: 100vw; }
+    .input-group { padding: 2.5rem 1.5rem; }
+    .avatar-icon { width: 4rem; height: 4rem; font-size: 1.8rem; }
+    .grid-2-cols, .grid-3-cols { grid-template-columns: 1fr; }
+    .hero-view h1 { font-size: 3.8rem !important; }
+    .body-map-container { padding: 2.5rem 1.5rem !important; gap: 2rem !important; }
+    .zone-info { padding: 2.5rem 1.5rem !important; }
+    .btn-primary, .btn-agenda-ahora { padding: 1.4rem 1.8rem !important; font-size: 1.15rem !important; }
+}
+
+/* ==========================================
+   PARCHES DE ESTABILIDAD MÓVIL Y SAFARI
+   ========================================== */
+body.invert-colors { filter: invert(1) hue-rotate(180deg); background-color: #fff; }
+body.invert-colors img, body.invert-colors video, body.invert-colors iframe, body.invert-colors .ambient-engine, body.invert-colors .avatar-icon, body.invert-colors .fab-btn, body.invert-colors .card-icon-wrapper { filter: invert(1) hue-rotate(180deg) !important; }
+
+.full-screen-overlay { height: 100% !important; min-height: 100dvh !important; overflow-y: auto !important; align-items: flex-start !important; padding: 4rem 1.5rem !important; }
+.onboarding-content { margin: auto !important; padding: 2rem !important; width: 100% !important; }
+
+#menu-btn, #aura-close-btn, #menu-close-btn, .close-btn, .top-bar-btn { min-width: 52px !important; min-height: 52px !important; padding: 12px !important; font-size: 1.8rem !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; }
+.card-icon-wrapper, .glow-icon-wrapper { flex-shrink: 0 !important; min-width: 85px !important; min-height: 85px !important; height: auto !important; width: auto !important; }
+.card-icon-wrapper i, .glow-icon-wrapper i { max-width: 100% !important; height: auto !important; display: block !important; }
+header, .top-nav-bar { gap: 1.2rem !important; }
+
+.close-btn, #aura-close-btn, #menu-close-btn { position: absolute !important; top: 20px !important; right: 20px !important; z-index: 9999 !important; background: rgba(20, 20, 30, 0.95) !important; border: 1px solid rgba(0, 255, 255, 0.4) !important; border-radius: 50% !important; }
+.glass-modal h2, .glass-modal h3, #audio-modal h2, #a11y-modal h2 { position: relative !important; z-index: 9000 !important; padding-right: 4rem !important; flex-shrink: 0 !important; margin-top: 1rem !important; }
+.glass-modal, #a11y-modal, #audio-modal, #aura-modal { position: fixed !important; overflow-y: auto !important; overflow-x: hidden !important; }
+
+body.pausar-ambiente .ambient-engine * { animation-play-state: paused !important; }
+
