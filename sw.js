@@ -1,166 +1,126 @@
 /**
  * ====================================================================================
- * VALTARA EXECUTIVE THERAPY - SERVICE WORKER SOBERANO V39.0 (PRO EDITION)
+ * VALTARA EXECUTIVE THERAPY - SERVICE WORKER SOBERANO V40.0
  * Arquitectura: Multi-Bóveda, Network-First Híbrido y Bypass de Streaming.
- * Este archivo controla el 100% de las peticiones de red del dispositivo del usuario.
  * ====================================================================================
  */
 
-const VERSION = '39.0';
+const VERSION = '40.0';
 const CORE_CACHE = `valtara-core-v${VERSION}`;
 const IMAGE_CACHE = `valtara-images-v${VERSION}`;
-const MAX_IMAGES = 60; // Límite para no saturar el almacenamiento del dispositivo
-const DEBUG_MODE = false; // Cambiar a true para ver la Matrix en la consola
+const MAX_IMAGES = 60;
+const DEBUG_MODE = false;
 
-// 1. ACTIVOS CRÍTICOS (Pre-carga Inmediata)
-// Se han actualizado con las variables de Cache Busting (v=39.0.0)
+// ACTIVOS CRÍTICOS — versión sincronizada con index.html (?v=40.0.0)
 const CORE_ASSETS = [
   './',
   './index.html',
-  './css/main.css?v=39.0.0',
-  './css/components.css?v=39.0.0',
+  './css/main.css?v=40.0.0',
+  './css/components.css?v=40.0.0',
   './logo.png',
-  './js/constructor_maestro.js?v=39.0.0',
-  './js/core.js?v=39.0.0',
-  './js/router.js?v=39.0.0',
-  './js/user.js?v=39.0.0',
-  './js/aura.js?v=39.0.0'
+  './manifest.json',
+  './js/constructor_maestro.js?v=40.0.0',
+  './js/core.js?v=40.0.0',
+  './js/router.js?v=40.0.0',
+  './js/user.js?v=40.0.0',
+  './js/aura.js?v=40.0.0',
+  './js/pwa.js?v=40.0.0'
 ];
 
-/**
- * ------------------------------------------------------------------------------------
- * UTILERÍA: LOGGER CORPORATIVO
- * ------------------------------------------------------------------------------------
- */
 const log = (msg, type = 'info') => {
     if (!DEBUG_MODE) return;
-    const colors = {
-        info: 'color: #00e676',
-        warn: 'color: #ffca28',
-        err: 'color: #ff5252',
-        cache: 'color: #00b0ff'
-    };
+    const colors = { info:'color:#00e676', warn:'color:#ffca28', err:'color:#ff5252', cache:'color:#00b0ff' };
     console.log(`%c[SW Valtara V${VERSION}] ${msg}`, colors[type]);
 };
 
-/**
- * ------------------------------------------------------------------------------------
- * UTILERÍA: RECOLECTOR DE BASURA (GARBAGE COLLECTOR)
- * Evita que la caché de imágenes crezca infinitamente.
- * ------------------------------------------------------------------------------------
- */
 const trimCache = async (cacheName, maxItems) => {
     try {
         const cache = await caches.open(cacheName);
         const keys = await cache.keys();
         if (keys.length > maxItems) {
-            log(`Bóveda ${cacheName} llena (${keys.length}). Purgando archivo más antiguo...`, 'warn');
             await cache.delete(keys[0]);
-            trimCache(cacheName, maxItems); // Llamada recursiva hasta estar bajo el límite
+            trimCache(cacheName, maxItems);
         }
-    } catch (e) {
-        log(`Error en Garbage Collector: ${e}`, 'err');
-    }
+    } catch (e) { log(`GC Error: ${e}`, 'err'); }
 };
 
-/**
- * ------------------------------------------------------------------------------------
- * FASE 1: INSTALACIÓN (Creación de Bóvedas)
- * ------------------------------------------------------------------------------------
- */
+// FASE 1: INSTALACIÓN
 self.addEventListener('install', (event) => {
-    log('Fase de Instalación Iniciada. Sellando bóvedas...', 'info');
+    log('Instalación iniciada. Sellando bóvedas...', 'info');
     event.waitUntil(
         caches.open(CORE_CACHE).then((cache) => {
             log('Pre-cargando activos críticos...', 'cache');
             return cache.addAll(CORE_ASSETS);
         })
     );
-    self.skipWaiting(); // Forzar activación inmediata
+    self.skipWaiting();
 });
 
-/**
- * ------------------------------------------------------------------------------------
- * FASE 2: ACTIVACIÓN (Aniquilación de versiones anteriores)
- * ------------------------------------------------------------------------------------
- */
+// FASE 2: ACTIVACIÓN — elimina bóvedas de versiones anteriores
 self.addEventListener('activate', (event) => {
-    log('Fase de Activación. Desplegando tropas de limpieza...', 'info');
+    log('Activación. Limpiando bóvedas obsoletas...', 'info');
     const validCaches = [CORE_CACHE, IMAGE_CACHE];
-    
     event.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
+        caches.keys().then((cacheNames) =>
+            Promise.all(
                 cacheNames.map((cacheName) => {
                     if (!validCaches.includes(cacheName)) {
                         log(`Destruyendo bóveda obsoleta: ${cacheName}`, 'err');
                         return caches.delete(cacheName);
                     }
                 })
-            );
-        })
+            )
+        )
     );
-    self.clients.claim(); // Tomar control de todas las pestañas abiertas
+    self.clients.claim();
 });
 
-/**
- * ------------------------------------------------------------------------------------
- * FASE 3: INTERCEPTOR OMNISCIENTE DE RED (FETCH)
- * El cerebro que decide de dónde sale la información según su tipo.
- * ------------------------------------------------------------------------------------
- */
+// FASE 3: INTERCEPTOR DE RED
 self.addEventListener('fetch', (event) => {
     const req = event.request;
     const url = new URL(req.url);
 
-    // Ignorar peticiones no-GET y extensiones de navegador
     if (req.method !== 'GET') return;
     if (url.protocol.startsWith('chrome-extension')) return;
 
-    // Ignorar APIs externas, YouTube y Google Fonts (dejar que el navegador decida)
-    if (url.hostname !== location.hostname) {
-        // Excepción: Solo cacheadas las tipografías si lo deseas, por ahora bypass
+    // Recursos externos (fonts, CDN, APIs): dejar que el navegador decida
+    if (url.hostname !== location.hostname) return;
+
+    // A) BYPASS DE AUDIO — evita error 206 en streaming
+    if (req.url.match(/\.(mp3|wav|ogg)$/)) {
+        log(`Streaming audio bypass: ${url.pathname}`, 'warn');
         return;
     }
 
-    // A) BYPASS DE AUDIO (Sonoterapia) - Evita el error 206 de rango parcial
-    if (req.url.match(/\.(mp3|wav|ogg)$/)) {
-        log(`Streaming de Audio Detectado. Bypass a red directa: ${url.pathname}`, 'warn');
-        return; // El navegador maneja el streaming nativo
-    }
-
-    // B) ESTRATEGIA NETWORK-FIRST (Para HTML principal y Navegación)
-    // Garantiza que siempre veas la última versión de la estructura si tienes internet.
-    if (req.mode === 'navigate' || req.headers.get('accept').includes('text/html')) {
+    // B) NETWORK-FIRST para HTML y navegación
+    if (req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html')) {
         event.respondWith(
             fetch(req).then((networkResponse) => {
-                const responseToCache = networkResponse.clone();
-                caches.open(CORE_CACHE).then((cache) => cache.put(req, responseToCache));
+                const clone = networkResponse.clone();
+                caches.open(CORE_CACHE).then((cache) => cache.put(req, clone));
                 return networkResponse;
             }).catch(() => {
-                log('Sin red. Entregando HTML de la bóveda (Modo Bunker)', 'warn');
+                log('Sin red. Entregando HTML desde bóveda (Modo Bunker)', 'warn');
                 return caches.match(req).then(cached => cached || caches.match('./index.html'));
             })
         );
         return;
     }
 
-    // C) ESTRATEGIA CACHE-FIRST CON ACTUALIZACIÓN EN SEGUNDO PLANO (Para Imágenes)
+    // C) CACHE-FIRST para imágenes
     if (req.destination === 'image' || req.url.match(/\.(jpg|jpeg|png|webp|gif|svg)$/)) {
         event.respondWith(
             caches.match(req).then((cachedResponse) => {
                 const fetchPromise = fetch(req).then((networkResponse) => {
                     if (networkResponse && networkResponse.status === 200) {
-                        const responseToCache = networkResponse.clone();
+                        const clone = networkResponse.clone();
                         caches.open(IMAGE_CACHE).then((cache) => {
-                            cache.put(req, responseToCache);
-                            trimCache(IMAGE_CACHE, MAX_IMAGES); // Ejecuta limpieza
+                            cache.put(req, clone);
+                            trimCache(IMAGE_CACHE, MAX_IMAGES);
                         });
                     }
                     return networkResponse;
-                }).catch((err) => {
-                    log(`Fallo de red al buscar imagen: ${url.pathname}`, 'err');
-                    // Fallback Offline Dinámico: Un SVG generado en código para que no se vea feo
+                }).catch(() => {
                     if (!cachedResponse) {
                         return new Response(
                             '<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#0a0a0a"/><text x="50%" y="50%" font-family="sans-serif" font-size="20" fill="#D4AF37" text-anchor="middle" dominant-baseline="middle">Valtara: Imagen Offline</text></svg>',
@@ -168,74 +128,52 @@ self.addEventListener('fetch', (event) => {
                         );
                     }
                 });
-                
-                log(cachedResponse ? `Imagen servida desde bóveda a 0ms: ${url.pathname}` : `Buscando imagen en red: ${url.pathname}`, 'cache');
                 return cachedResponse || fetchPromise;
             })
         );
         return;
     }
 
-    // D) ESTRATEGIA STALE-WHILE-REVALIDATE (Para Scripts y CSS)
+    // D) STALE-WHILE-REVALIDATE para scripts y CSS
     event.respondWith(
         caches.match(req).then((cachedResponse) => {
             const networkFetch = fetch(req).then((networkResponse) => {
-                if(networkResponse && networkResponse.status === 200) {
-                    const responseToCache = networkResponse.clone();
-                    caches.open(CORE_CACHE).then((cache) => cache.put(req, responseToCache));
+                if (networkResponse && networkResponse.status === 200) {
+                    const clone = networkResponse.clone();
+                    caches.open(CORE_CACHE).then((cache) => cache.put(req, clone));
                 }
                 return networkResponse;
-            }).catch(() => log(`Servido CSS/JS offline: ${url.pathname}`, 'warn'));
-
+            }).catch(() => log(`Servido offline: ${url.pathname}`, 'warn'));
             return cachedResponse || networkFetch;
         })
     );
 });
 
-/**
- * ------------------------------------------------------------------------------------
- * FASE 4: COMUNICACIÓN BIDIRECCIONAL (Message API)
- * Permite que el index.html le dé órdenes directas al Service Worker.
- * ------------------------------------------------------------------------------------
- */
+// FASE 4: COMUNICACIÓN BIDIRECCIONAL
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'FORCE_UPDATE') {
-        log('Orden de actualización forzosa recibida desde la interfaz.', 'err');
+        log('Actualización forzosa recibida.', 'err');
         self.skipWaiting();
     }
 });
 
-/**
- * ------------------------------------------------------------------------------------
- * FASE 5: SINCRONIZACIÓN EN SEGUNDO PLANO (Preparación para Formularios Offline)
- * ------------------------------------------------------------------------------------
- */
+// FASE 5: SINCRONIZACIÓN EN SEGUNDO PLANO
 self.addEventListener('sync', (event) => {
     if (event.tag === 'valtara-sync-expediente') {
-        log('Recuperación de señal. Iniciando sincronización de expediente en segundo plano...', 'info');
-        // Aquí iría la lógica para enviar a la base de datos si existiera un backend.
         event.waitUntil(Promise.resolve(true));
     }
 });
 
-/**
- * ------------------------------------------------------------------------------------
- * FASE 6: NOTIFICACIONES PUSH NATIVAS (Interacción)
- * ------------------------------------------------------------------------------------
- */
+// FASE 6: NOTIFICACIONES PUSH
 self.addEventListener('notificationclick', (event) => {
-    event.notification.close(); 
+    event.notification.close();
     event.waitUntil(
         clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
             for (let i = 0; i < windowClients.length; i++) {
                 const client = windowClients[i];
-                if (client.url.includes('valtara') && 'focus' in client) {
-                    return client.focus();
-                }
+                if (client.url.includes('valtara') && 'focus' in client) return client.focus();
             }
-            if (clients.openWindow) {
-                return clients.openWindow(event.notification.data.url || '/');
-            }
+            if (clients.openWindow) return clients.openWindow(event.notification.data?.url || '/');
         })
     );
 });
