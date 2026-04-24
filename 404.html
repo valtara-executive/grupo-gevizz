@@ -1,37 +1,123 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="utf-8">
-    <title>Cargando Valtara...</title>
+    <title>Valtara — Redirigiendo...</title>
+
+    <!--
+    ============================================================
+    404.html INTELIGENTE — VALTARA V40.0
+    ============================================================
+    GitHub Pages sirve este archivo cuando una URL como
+    /catalogo-masajes no existe como fichero físico.
+
+    Este script hace DOS cosas antes de redirigir:
+    1. Lee la URL que el usuario quería visitar
+    2. Inyecta los meta tags de Open Graph CORRECTOS para esa
+       sección, de modo que WhatsApp, Telegram y Facebook
+       muestren la vista previa de ESA sección y no de la portada.
+
+    Los robots de redes sociales leen este HTML antes de que
+    ocurra la redirección, por eso funciona.
+    ============================================================
+    -->
     <script>
-      // DICCIONARIO DE VISTAS PREVIAS (Open Graph)
-      const path = window.location.pathname.replace(/\/$/, ""); // Limpiar slash final
-      const seoData = {
-          '/catalogo-masajes': { title: 'Catálogo de Masajes | VALTARA', desc: 'Protocolos de descompresión muscular y biomecánica.', img: 'https://valtaraexecutive.com/gallery/r1.jpg' },
-          '/estudio-manicura': { title: 'Art & Nails Studio | VALTARA', desc: 'Estudio de estética integral y manicura de autor.', img: 'https://valtaraexecutive.com/gallery/gel1.jpg' },
-          '/sonoterapia': { title: 'Sonoterapia Inmersiva | VALTARA', desc: 'Inmersión acústica para disolver el Burnout corporativo.', img: 'https://valtaraexecutive.com/logo.png' },
-          '/ciencia-y-botanica': { title: 'Ciencia y Biomecánica | VALTARA', desc: 'Conoce los fundamentos neurobiológicos de nuestras terapias.', img: 'https://valtaraexecutive.com/logo.png' }
-      };
-      
-      const data = seoData[path] || { title: 'VALTARA | Executive Therapy', desc: 'Santuario de restauración biomecánica en CDMX.', img: 'https://valtaraexecutive.com/logo.png' };
+        // Diccionario de rutas → metadatos (espejo exacto de router.js)
+        var SEO_MAP = {
+            '/catalogo-masajes': {
+                title: 'Catálogo de Masajes y Biomecánica | VALTARA',
+                desc:  'Protocolos de descompresión muscular, masaje deportivo y rituales Lomi Lomi diseñados para el alto rendimiento ejecutivo.',
+                img:   'https://valtaraexecutive.com/gallery/r1.jpg'
+            },
+            '/estudio-manicura': {
+                title: 'Art & Nails Studio | VALTARA',
+                desc:  'Estudio de estética integral. Especialistas en sistemas Rubber Base, manicura de autor y pedicura SPA con asepsia clínica.',
+                img:   'https://valtaraexecutive.com/gallery/gel1.jpg'
+            },
+            '/sonoterapia': {
+                title: 'Sonoterapia Inmersiva | VALTARA',
+                desc:  'Inmersión acústica y terapia de ondas alfa para disolver el Burnout corporativo y restaurar tu equilibrio neuronal.',
+                img:   'https://valtaraexecutive.com/logo.png'
+            },
+            '/ciencia-y-botanica': {
+                title: 'Ciencia y Biomecánica | VALTARA',
+                desc:  'Fundamentos neurobiológicos, anatomía de la fascia y ciencia aplicada a nuestra terapia ejecutiva de precisión.',
+                img:   'https://valtaraexecutive.com/logo.png'
+            },
+            '/manifiesto-y-privacidad': {
+                title: 'Manifiesto y Privacidad | VALTARA',
+                desc:  'Transparencia corporativa, historia de la clínica, filosofía de inclusión y políticas de privacidad de Grupo Gevizz.',
+                img:   'https://valtaraexecutive.com/logo.png'
+            },
+            '/aura-ai': {
+                title: 'Aura AI — Triaje Inteligente | VALTARA',
+                desc:  'Asistente de Inteligencia Artificial para diagnóstico preventivo y personalización de tu experiencia biomecánica.',
+                img:   'https://valtaraexecutive.com/logo.png'
+            },
+            '/boveda-paciente': {
+                title: 'Mi Bóveda de Paciente | VALTARA',
+                desc:  'Santuario privado de datos. Gestiona tu expediente, aromaterapia clínica y personaliza tu próxima sesión.',
+                img:   'https://valtaraexecutive.com/logo.png'
+            }
+        };
 
-      // Inyectar etiquetas para bots que ejecutan JS
-      document.title = data.title;
-      document.write('<meta property="og:title" content="' + data.title + '">');
-      document.write('<meta property="og:description" content="' + data.desc + '">');
-      document.write('<meta property="og:image" content="' + data.img + '">');
-      document.write('<meta name="twitter:card" content="summary_large_image">');
+        // Ruta que el usuario intentó visitar
+        var requestedPath = location.pathname;
+        if (requestedPath.length > 1 && requestedPath.endsWith('/')) {
+            requestedPath = requestedPath.slice(0, -1);
+        }
 
-      // GUARDAR RUTA FANTASMA Y REDIRIGIR AL SPA (index.html)
-      sessionStorage.redirect = location.href;
-      
-      // Pequeño delay para asegurar que algunos crawlers lean el DOM inyectado
-      setTimeout(function() {
-          window.location.replace('/');
-      }, 500);
+        // Buscar metadatos para esta ruta específica
+        var meta = SEO_MAP[requestedPath] || {
+            title: 'VALTARA | Executive Therapy & Biomechanics',
+            desc:  'Santuario de masoterapia, biomecánica y bienestar corporativo en CDMX y Zona Metropolitana.',
+            img:   'https://valtaraexecutive.com/logo.png'
+        };
+
+        // Actualizar el título para que el crawler lo lea
+        document.title = meta.title;
+
+        // Inyectar Open Graph dinámicamente antes de que el crawler termine de leer
+        var head = document.head;
+        var tags = [
+            ['property', 'og:title',       meta.title],
+            ['property', 'og:description', meta.desc],
+            ['property', 'og:image',        meta.img],
+            ['property', 'og:url',          'https://valtaraexecutive.com' + requestedPath],
+            ['property', 'og:type',         'website'],
+            ['property', 'og:site_name',    'Valtara Executive Therapy'],
+            ['name',     'description',     meta.desc],
+            ['name',     'twitter:card',    'summary_large_image'],
+            ['name',     'twitter:title',   meta.title],
+            ['name',     'twitter:description', meta.desc],
+            ['name',     'twitter:image',   meta.img]
+        ];
+
+        tags.forEach(function(t) {
+            var el = document.createElement('meta');
+            el.setAttribute(t[0], t[1]);
+            el.setAttribute('content', t[2]);
+            head.appendChild(el);
+        });
+
+        // Guardar la URL en sessionStorage para que router.js
+        // navegue directo a la sección correcta al cargar index.html
+        try {
+            sessionStorage.setItem('redirect', location.href);
+        } catch(e) {}
     </script>
-  </head>
-  <body style="background-color: #050508; color: #F2C94C; text-align: center; padding-top: 20vh; font-family: sans-serif;">
-      <h2>Sincronizando con el Santuario...</h2>
-  </body>
+
+    <!-- Redirección inmediata a index.html -->
+    <meta http-equiv="refresh" content="0;URL='/'">
+
+    <!-- Canonical para que Google no indexe este 404 -->
+    <link rel="canonical" href="https://valtaraexecutive.com/">
+</head>
+<body>
+    <!-- Fallback visual mínimo por si el refresh tarda -->
+    <div style="background:#050508; color:#D4AF37; height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; font-family:serif; text-align:center; padding:2rem;">
+        <img src="/logo.png" alt="Valtara" style="height:80px; margin-bottom:2rem; filter:drop-shadow(0 0 12px rgba(212,175,55,0.5));">
+        <p style="font-size:1.2rem; color:rgba(255,255,255,0.6);">Redirigiendo a Valtara...</p>
+    </div>
+</body>
 </html>
