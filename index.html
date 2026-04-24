@@ -55,19 +55,12 @@
             "postalCode": "06500",
             "addressCountry": "MX"
           },
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 19.4298,
-            "longitude": -99.1622
-          },
-          "openingHoursSpecification": [
-            {
-              "@type": "OpeningHoursSpecification",
-              "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-              "opens": "09:00",
-              "closes": "21:00"
-            }
-          ],
+          "geo": { "@type": "GeoCoordinates", "latitude": 19.4298, "longitude": -99.1622 },
+          "openingHoursSpecification": [{
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+            "opens": "09:00", "closes": "21:00"
+          }],
           "sameAs": [
             "https://www.instagram.com/valtara.executive",
             "https://www.linkedin.com/company/grupo-gevizz"
@@ -94,7 +87,7 @@
                   { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Masaje Relajante Neuro-Adaptativo (90 min)" }, "price": "999.00", "priceCurrency": "MXN" },
                   { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Masaje Deportivo y Descompresión" }, "price": "829.00", "priceCurrency": "MXN" },
                   { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Masaje Ayurveda & Aromaterapia" }, "price": "929.00", "priceCurrency": "MXN" },
-                  { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Masaje Reductivo con Maderoterapia (Paquete 10 sesiones)" }, "price": "6199.00", "priceCurrency": "MXN" },
+                  { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Masaje Reductivo con Maderoterapia (Paquete 10)" }, "price": "6199.00", "priceCurrency": "MXN" },
                   { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ritual Lomi Lomi Supremo" }, "price": "1199.00", "priceCurrency": "MXN" },
                   { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Drenaje Linfático Manual" }, "price": "849.00", "priceCurrency": "MXN" }
                 ]
@@ -114,10 +107,7 @@
                 ]
               }
             },
-            {
-              "@type": "HealthClub",
-              "name": "Sala Inmersiva de Sonoterapia"
-            }
+            { "@type": "HealthClub", "name": "Sala Inmersiva de Sonoterapia" }
           ]
         },
         {
@@ -125,20 +115,20 @@
           "name": "AURA AI - Triaje Biomecánico",
           "applicationCategory": "HealthApplication",
           "operatingSystem": "Web",
-          "description": "Inteligencia Artificial de diagnóstico biomecánico primario y atención empática, desarrollada internamente por Grupo Gevizz para la plataforma Valtara."
+          "description": "Inteligencia Artificial de diagnóstico biomecánico y atención empática, desarrollada por Grupo Gevizz."
         }
       ]
     }
     </script>
 
     <!-- ============================================================ -->
-    <!-- SEGURIDAD — solo los que funcionan como meta tags            -->
+    <!-- SEGURIDAD                                                     -->
     <!-- ============================================================ -->
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="interest-cohort=(), camera=(), microphone=(self)">
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self';
-        connect-src 'self' https://aura-server-erfj.vercel.app;
+        connect-src 'self' https://aura-server-erfj.vercel.app https://api.anthropic.com;
         font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
         script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
@@ -153,7 +143,7 @@
     ">
 
     <!-- ============================================================ -->
-    <!-- DIAGNÓSTICO DE SISTEMA (sin auto-reload agresivo)            -->
+    <!-- DIAGNÓSTICO DE SISTEMA                                       -->
     <!-- ============================================================ -->
     <script aria-hidden="true">
         window.ValtaraDiagnostics = {
@@ -201,56 +191,91 @@
     <link rel="stylesheet" href="css/components.css?v=40.0.0">
 
     <style>
-        /* ── Reset táctil ─────────────────────────────────────────── */
+        /* ── Reset táctil ──────────────────────────────────────── */
         * { -webkit-tap-highlight-color: transparent; }
         button, a { touch-action: manipulation; }
         button:active, a:active { transform: scale(0.96) !important; transition: transform 0.1s ease !important; }
         :focus-visible { outline: 3px solid var(--valtara-cian-brillante) !important; outline-offset: 4px !important; border-radius: 4px; }
 
-        /* ── Skip link ────────────────────────────────────────────── */
+        /* ── Skip link ─────────────────────────────────────────── */
         .skip-to-content { position: absolute; top: -100px; left: 0; background: var(--valtara-oro); color: #000; padding: 15px 20px; z-index: 9999999; font-weight: bold; font-size: 1.1rem; text-decoration: none; transition: top 0.3s ease; border-bottom-right-radius: 8px; }
         .skip-to-content:focus { top: 0; }
 
-        /* ── Logo ─────────────────────────────────────────────────── */
+        /* ── Logo ──────────────────────────────────────────────── */
         .header-logo { height: 55px !important; display: flex !important; align-items: center !important; background: transparent !important; border: none !important; padding: 0 !important; width: auto !important; cursor: pointer; }
         .header-logo .logo-img { height: 100% !important; width: auto !important; max-height: 55px !important; object-fit: contain !important; filter: drop-shadow(0 0 8px rgba(212,175,55,0.4)) !important; transition: transform 0.3s ease; }
         @media (hover: hover) { .header-logo:hover .logo-img { transform: scale(1.05); } }
 
-        /* ── Ocultamos el hamburger — ya no se usa visualmente ─────── */
+        /* ── Ocultar hamburger visual (core.js lo necesita en el DOM) ─ */
         #menu-toggle-btn { display: none !important; }
 
-        /* ── Secciones de vistas ──────────────────────────────────── */
+        /* ── Botones del header: Aura y WhatsApp ──────────────── */
+        .header-quick-btns {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .hdr-action {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.06);
+            color: var(--valtara-blanco, #fff);
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease, border-color 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hdr-action:active { transform: scale(0.93) !important; }
+        .hdr-aura {
+            border-color: rgba(0, 255, 204, 0.35);
+            color: var(--valtara-cian-brillante, #00FFCC);
+        }
+        .hdr-aura:hover, .hdr-aura:focus-visible {
+            background: rgba(0, 255, 204, 0.12);
+            border-color: rgba(0, 255, 204, 0.6);
+        }
+        .hdr-ws {
+            border-color: rgba(37, 211, 102, 0.35);
+            color: #25D366;
+        }
+        .hdr-ws:hover, .hdr-ws:focus-visible {
+            background: rgba(37, 211, 102, 0.12);
+            border-color: rgba(37, 211, 102, 0.6);
+        }
+
+        /* ── Secciones de vistas ───────────────────────────────── */
         main section { min-height: 100vh; width: 100%; display: none; }
         main section.active { display: block; }
 
-        /* ── FABs flotantes ───────────────────────────────────────── */
-        .float-controls { transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease, visibility 0.4s; will-change: transform, opacity; transform-origin: bottom right; z-index: 10000; }
-        .float-controls.fab-hidden { transform: translate3d(100px,100px,0) scale(0) !important; opacity: 0 !important; pointer-events: none !important; visibility: hidden !important; }
-
-        /* ── Fondo animado ────────────────────────────────────────── */
+        /* ── Fondo animado ─────────────────────────────────────── */
         .ambient-engine { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; z-index: -1 !important; display: block !important; pointer-events: none; }
 
-        /* ── Accesibilidad: solo para lectores de pantalla ─────────── */
+        /* ── Accesibilidad ─────────────────────────────────────── */
         .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 
-        /* ── Expediente ───────────────────────────────────────────── */
+        /* ── Expediente en menú Más ────────────────────────────── */
         .btn-expediente-safe { width: 100%; display: flex; align-items: center; gap: 15px; padding: 1rem 1.5rem; border: none; background: rgba(242,201,76,0.05); color: var(--valtara-oro); font-size: 1.1rem; cursor: pointer; text-align: left; border-radius: 12px; transition: all 0.3s ease; margin-bottom: 10px; border-left: 3px solid var(--valtara-oro); }
         @media (hover: hover) { .btn-expediente-safe:hover { background: rgba(242,201,76,0.15); transform: translate3d(5px,0,0); } }
 
-        /* ═══════════════════════════════════════════════════════════ */
-        /* BARRA DE NAVEGACIÓN INFERIOR (APP MÓVIL)                   */
-        /* ═══════════════════════════════════════════════════════════ */
+        /* ══════════════════════════════════════════════════════════
+           BARRA DE NAVEGACIÓN INFERIOR
+        ══════════════════════════════════════════════════════════ */
         #bottom-nav {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             z-index: 9500;
             background: rgba(5, 5, 10, 0.97);
             border-top: 1px solid rgba(242, 201, 76, 0.18);
             display: flex;
             align-items: stretch;
             padding-bottom: env(safe-area-inset-bottom, 0px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
         .bnav-btn {
             flex: 1;
@@ -261,7 +286,7 @@
             gap: 4px;
             background: transparent;
             border: none;
-            color: rgba(255,255,255,0.4);
+            color: rgba(255,255,255,0.38);
             font-size: 0.6rem;
             font-family: 'Lato', sans-serif;
             font-weight: 400;
@@ -273,69 +298,50 @@
             transition: color 0.2s ease;
             -webkit-tap-highlight-color: transparent;
         }
-        .bnav-btn i {
-            font-size: 1.25rem;
-            transition: color 0.2s ease;
-        }
-        .bnav-btn.bnav-active,
-        .bnav-btn:focus-visible {
-            color: var(--valtara-oro, #F2C94C);
-        }
-        .bnav-btn.bnav-active i {
-            filter: drop-shadow(0 0 6px rgba(242, 201, 76, 0.6));
-        }
+        .bnav-btn i { font-size: 1.25rem; transition: color 0.2s ease; }
+        .bnav-btn.bnav-active { color: var(--valtara-oro, #F2C94C); }
+        .bnav-btn.bnav-active i { filter: drop-shadow(0 0 5px rgba(242,201,76,0.55)); }
 
-        /* ── Espacio para que el contenido no quede tapado ─────────── */
-        #main-content {
-            padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px)) !important;
-        }
-        #main-footer {
-            margin-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
-        }
-
-        /* ── El panel "Más" usa el side-menu existente del CSS ─────── */
-        /* Solo ajustamos el perfil del paciente dentro de él */
-        #menu-user-name { font-weight: 700; }
+        /* Espacio para que el contenido no quede tapado por la barra */
+        #main-content { padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px)) !important; }
+        #main-footer { margin-bottom: calc(70px + env(safe-area-inset-bottom, 0px)); }
     </style>
 </head>
 <body class="system-loading">
 
-    <!-- Contenido estático para crawlers sin JS y para SEO -->
+    <!-- Contenido estático para crawlers sin JS -->
     <noscript>
         <div style="background:#050508;color:#d4af37;padding:50px;font-family:serif;">
             <h1>VALTARA | Executive Therapy &amp; Biomechanics</h1>
-            <p>Centro de masoterapia clínica, biomecánica y bienestar corporativo de ultra-lujo. Operado por Grupo Gevizz S.A.S.</p>
-            <h2>Ubicaciones principales</h2>
-            <p>Paseo de la Reforma 195, Piso 3, CDMX. Cobertura en Tizayuca, Pachuca, Los Héroes Tizayuca, Zona Metropolitana y Morelos.</p>
-            <h2>Catálogo de servicios y precios (MXN)</h2>
+            <p>Centro de masoterapia clínica, biomecánica y bienestar corporativo. Operado por Grupo Gevizz S.A.S.</p>
+            <h2>Ubicaciones</h2>
+            <p>Paseo de la Reforma 195, Piso 3, CDMX. Cobertura: Tizayuca, Pachuca, Los Héroes Tizayuca, EDOMEX y Morelos.</p>
+            <h2>Precios (MXN)</h2>
             <ul>
-                <li>Masaje Relajante Neuro-Adaptativo 50 min — $799</li>
-                <li>Masaje Relajante Neuro-Adaptativo 90 min — $999</li>
-                <li>Masaje Deportivo y Descompresión — $829</li>
-                <li>Masaje Tailandés / Yoga Pasivo — $829</li>
-                <li>Masaje Ayurveda &amp; Aromaterapia — $929</li>
-                <li>Ritual Lomi Lomi Supremo — $1,199</li>
-                <li>Drenaje Linfático Manual — $849</li>
-                <li>Masaje Reductivo con Maderoterapia (paquete 10) — $6,199</li>
+                <li>Masaje Relajante 50 min — $799</li>
+                <li>Masaje Relajante 90 min — $999</li>
+                <li>Masaje Deportivo — $829</li>
+                <li>Masaje Ayurveda — $929</li>
+                <li>Ritual Lomi Lomi — $1,199</li>
+                <li>Drenaje Linfático — $849</li>
+                <li>Maderoterapia x10 — $6,199</li>
             </ul>
             <h2>Contacto</h2>
             <p>WhatsApp: +52 1 33 4857 2070 | hola@valtaraexecutive.com</p>
         </div>
     </noscript>
 
-    <!-- Skip link para navegación por teclado -->
-    <a href="#main-content" class="skip-to-content" aria-label="Saltar al contenido principal">Saltar al contenido principal</a>
+    <a href="#main-content" class="skip-to-content" aria-label="Saltar al contenido principal">Saltar al contenido</a>
 
-    <!-- Regiones ARIA para anuncios de accesibilidad -->
     <div aria-live="polite" aria-atomic="true" class="sr-only" id="a11y-announcer"></div>
-    <div id="aura-desc-hidden" class="sr-only">Asistente virtual de inteligencia artificial. Puede dictar o escribir sus preguntas.</div>
-    <div id="a11y-desc-hidden" class="sr-only">Menú de herramientas de inclusión visual, cognitiva y motora.</div>
+    <div id="aura-desc-hidden" class="sr-only">Asistente virtual de inteligencia artificial para triaje biomecánico.</div>
+    <div id="a11y-desc-hidden" class="sr-only">Herramientas de inclusión visual, cognitiva y motora.</div>
 
     <div id="app-wrapper">
 
-        <!-- ═══════════════════════════════════════════════════════════ -->
-        <!-- FONDO ANIMADO DE ORBES                                      -->
-        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- ══════════════════════════════════════════════════════
+             FONDO ANIMADO
+        ══════════════════════════════════════════════════════ -->
         <div aria-hidden="true" class="ambient-engine" id="ambient-bg" role="presentation">
             <div class="orb orb-1"></div>
             <div class="orb orb-2"></div>
@@ -345,32 +351,55 @@
             <div class="glass-overlay"></div>
         </div>
 
-        <!-- ═══════════════════════════════════════════════════════════ -->
-        <!-- ENCABEZADO — Logo + Accesibilidad                           -->
-        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- ══════════════════════════════════════════════════════
+             ENCABEZADO — Logo + Aura + WhatsApp
+        ══════════════════════════════════════════════════════ -->
         <header class="system-header" role="banner">
 
-            <button aria-label="Ir a la página principal de Valtara" title="Inicio" class="header-logo" id="logo-btn" onclick="if(window.Router) Router.navigate('home');" type="button">
+            <button aria-label="Ir a la página principal" title="Inicio" class="header-logo" id="logo-btn" onclick="if(window.Router) Router.navigate('home');" type="button">
                 <img src="logo.png" alt="Valtara Executive Therapy" class="logo-img" aria-hidden="true">
             </button>
 
-            <div class="header-controls">
-                <button aria-label="Abrir panel de accesibilidad" title="Accesibilidad" aria-haspopup="dialog" aria-controls="a11y-modal" class="header-action-btn a11y-btn-top" id="top-a11y-btn" onclick="document.getElementById('a11y-modal').showModal();" type="button">
-                    <i aria-hidden="true" class="fa-solid fa-universal-access"></i>
-                    <span class="sr-only">Accesibilidad</span>
+            <div class="header-controls header-quick-btns">
+
+                <!-- Aura AI en el header -->
+                <button
+                    class="hdr-action hdr-aura"
+                    aria-label="Abrir asistente Aura AI"
+                    title="Aura AI"
+                    aria-haspopup="dialog"
+                    aria-controls="aura-modal"
+                    id="fab-aura"
+                    onclick="document.getElementById('aura-modal').showModal();"
+                    type="button">
+                    <i aria-hidden="true" class="fa-solid fa-robot"></i>
+                    <span class="sr-only">Aura AI</span>
                 </button>
 
-                <!-- Botón hamburger: oculto visualmente pero presente para los scripts de core.js -->
-                <button aria-label="Abrir menú adicional" title="Más opciones" aria-expanded="false" aria-controls="main-nav" class="hamburger-btn" id="menu-toggle-btn" type="button" style="display:none !important;">
+                <!-- WhatsApp en el header -->
+                <a
+                    class="hdr-action hdr-ws"
+                    href="https://wa.me/5213348572070"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Contactar por WhatsApp"
+                    title="WhatsApp">
+                    <i aria-hidden="true" class="fa-brands fa-whatsapp"></i>
+                    <span class="sr-only">WhatsApp</span>
+                </a>
+
+                <!-- Hamburger: oculto visualmente pero presente para core.js -->
+                <button aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav" class="hamburger-btn" id="menu-toggle-btn" type="button" style="display:none !important;">
                     <i aria-hidden="true" class="fa-solid fa-bars"></i>
                 </button>
             </div>
         </header>
 
-        <!-- ═══════════════════════════════════════════════════════════ -->
-        <!-- PANEL LATERAL "MÁS" — se activa desde la barra inferior    -->
-        <!-- Contiene: secciones secundarias, perfil, footer y config    -->
-        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- ══════════════════════════════════════════════════════
+             PANEL LATERAL "MÁS"
+             Contiene: secciones secundarias, accesibilidad,
+             perfil, config, WhatsApp y footer
+        ══════════════════════════════════════════════════════ -->
         <nav aria-label="Menú adicional y configuración" class="side-menu" id="main-nav" role="navigation" aria-hidden="true">
             <div class="menu-header">
                 <div class="patient-profile-card">
@@ -382,14 +411,14 @@
                         <strong class="profile-name" id="menu-user-name" aria-live="polite">Invitado</strong>
                     </div>
                 </div>
-                <button aria-label="Cerrar menú" title="Cerrar" class="close-btn" id="menu-close-btn" onclick="document.getElementById('main-nav').classList.remove('open'); document.body.style.overflow=''; document.body.style.position='';" type="button">
+                <button aria-label="Cerrar menú" title="Cerrar" class="close-btn" id="menu-close-btn" type="button">
                     <i aria-hidden="true" class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
             <div class="menu-scroll-area">
 
-                <!-- Secciones secundarias de navegación -->
+                <!-- Secciones secundarias -->
                 <h3 class="menu-section-title" id="nav-sec-label" aria-hidden="true">Más secciones</h3>
                 <ul class="nav-list" role="menu" aria-labelledby="nav-sec-label">
                     <li role="none"><button role="menuitem" class="nav-item" data-target="science" type="button"><i aria-hidden="true" class="fa-solid fa-microscope"></i> <span>Ciencia y Botánica</span></button></li>
@@ -398,75 +427,86 @@
                     <li role="none"><button role="menuitem" class="nav-item" data-target="user-vault" type="button"><i aria-hidden="true" class="fa-solid fa-lock"></i> <span>Mi Bóveda del Paciente</span></button></li>
                 </ul>
 
-                <!-- Configuración y perfil -->
+                <!-- Accesibilidad (movida aquí desde el header) -->
+                <h3 class="menu-section-title" id="nav-a11y-label" style="margin-top:2rem;" aria-hidden="true">Accesibilidad</h3>
+                <ul class="nav-list" role="menu" aria-labelledby="nav-a11y-label">
+                    <li role="none">
+                        <button role="menuitem" class="nav-item" aria-haspopup="dialog" aria-controls="a11y-modal" id="top-a11y-btn" onclick="document.getElementById('a11y-modal').showModal();" type="button">
+                            <i aria-hidden="true" class="fa-solid fa-universal-access"></i> <span>Panel de Inclusión</span>
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Configuración -->
                 <h3 class="menu-section-title" id="nav-cfg-label" style="margin-top:2rem;" aria-hidden="true">Configuración</h3>
                 <ul class="nav-list" role="menu" aria-labelledby="nav-cfg-label">
                     <li role="none">
-                        <button role="menuitem" class="btn-expediente-safe" id="btn-open-expediente" aria-haspopup="dialog" aria-label="Abrir mi expediente clínico" title="Mi Expediente" onclick="if(window.ExpedienteEngine) window.ExpedienteEngine.openOverlay();" type="button">
+                        <button role="menuitem" class="btn-expediente-safe" id="btn-open-expediente" aria-haspopup="dialog" aria-label="Abrir mi expediente clínico" onclick="if(window.ExpedienteEngine) window.ExpedienteEngine.openOverlay();" type="button">
                             <i aria-hidden="true" class="fa-solid fa-file-signature"></i> <span>Mi Expediente Soberano</span>
                         </button>
                     </li>
-                    <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-install-app" style="display:none; color:var(--valtara-oro); border:1px solid var(--valtara-oro);" type="button" aria-label="Instalar la app Valtara"><i aria-hidden="true" class="fa-solid fa-download"></i> <span>Instalar App</span></button></li>
+                    <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-install-app" style="display:none; color:var(--valtara-oro); border:1px solid var(--valtara-oro);" type="button" aria-label="Instalar la app"><i aria-hidden="true" class="fa-solid fa-download"></i> <span>Instalar App</span></button></li>
                     <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-change-name-menu" type="button" aria-label="Cambiar mi nombre"><i aria-hidden="true" class="fa-solid fa-pen"></i> <span>Editar mi Nombre</span></button></li>
-                    <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-reset-session" type="button" aria-label="Cerrar sesión y borrar datos"><i aria-hidden="true" class="fa-solid fa-power-off"></i> <span>Cerrar sesión</span></button></li>
+                    <li role="none"><button role="menuitem" class="nav-item btn-tool" id="btn-reset-session" type="button" aria-label="Cerrar sesión"><i aria-hidden="true" class="fa-solid fa-power-off"></i> <span>Cerrar sesión</span></button></li>
                 </ul>
 
                 <!-- WhatsApp -->
-                <a role="menuitem" href="https://wa.me/5213348572070" target="_blank" rel="noopener noreferrer" class="btn-ws-massive" style="margin-top:2rem;" aria-label="Contactar por WhatsApp">
+                <a href="https://wa.me/5213348572070" target="_blank" rel="noopener noreferrer" class="btn-ws-massive" style="margin-top:2rem;" aria-label="Contactar por WhatsApp">
                     <i aria-hidden="true" class="fa-brands fa-whatsapp" style="font-size:1.8rem;"></i> <span>Chatear por WhatsApp</span>
                 </a>
 
-                <!-- Pie de página dentro del panel "Más" -->
+                <!-- Footer -->
                 <div id="main-footer" role="contentinfo" aria-label="Información de contacto y legal" style="margin-top:2rem;"></div>
 
             </div>
         </nav>
 
-        <!-- ═══════════════════════════════════════════════════════════ -->
-        <!-- MODAL DE ACCESIBILIDAD                                      -->
-        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- ══════════════════════════════════════════════════════
+             MODAL DE ACCESIBILIDAD
+        ══════════════════════════════════════════════════════ -->
         <dialog aria-labelledby="a11y-modal-title" aria-describedby="a11y-desc-hidden" class="modal-dialog mega-modal" id="a11y-modal" aria-modal="true" role="dialog">
             <div class="modal-content">
                 <header class="modal-header">
                     <h3 id="a11y-modal-title"><i aria-hidden="true" class="fa-solid fa-universal-access"></i> Panel de Inclusión</h3>
-                    <button aria-label="Cerrar panel de accesibilidad" title="Cerrar" class="close-modal-btn" onclick="document.getElementById('a11y-modal').close();" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i></button>
+                    <button aria-label="Cerrar" title="Cerrar" class="close-modal-btn" onclick="document.getElementById('a11y-modal').close();" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i></button>
                 </header>
                 <div class="modal-body">
                     <div class="a11y-grid-layout" role="group" aria-label="Herramientas de inclusión">
-                        <button class="a11y-card-btn" id="a11y-zoom-in" aria-label="Aumentar tamaño del texto" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-magnifying-glass-plus"></i> <span aria-hidden="true">Acercar</span></button>
-                        <button class="a11y-card-btn" id="a11y-zoom-out" aria-label="Reducir tamaño del texto" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-magnifying-glass-minus"></i> <span aria-hidden="true">Alejar</span></button>
-                        <button class="a11y-card-btn" id="a11y-voice" aria-label="Activar lectura en voz alta" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-volume-high"></i> <span aria-hidden="true">Voz Alta</span></button>
-                        <button class="a11y-card-btn" id="a11y-contrast" aria-label="Alto contraste" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-circle-half-stroke"></i> <span aria-hidden="true">Alto Contraste</span></button>
-                        <button class="a11y-card-btn" id="a11y-invert" aria-label="Invertir colores" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-droplet"></i> <span aria-hidden="true">Invertir Colores</span></button>
-                        <button class="a11y-card-btn" id="a11y-grayscale" aria-label="Blanco y negro" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-moon"></i> <span aria-hidden="true">Monocromo</span></button>
-                        <button class="a11y-card-btn" id="a11y-dyslexia" aria-label="Fuente para dislexia" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-font"></i> <span aria-hidden="true">Fuente Dislexia</span></button>
-                        <button class="a11y-card-btn" id="a11y-spacing" aria-label="Aumentar espaciado" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-text-width"></i> <span aria-hidden="true">Espaciado</span></button>
-                        <button class="a11y-card-btn" id="a11y-links" aria-label="Resaltar enlaces" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-link"></i> <span aria-hidden="true">Resaltar Enlaces</span></button>
-                        <button class="a11y-card-btn" id="a11y-cursor" aria-label="Cursor grande" aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-arrow-pointer"></i> <span aria-hidden="true">Cursor Grande</span></button>
-                        <button class="a11y-card-btn" id="a11y-motion" aria-label="Detener animaciones" aria-pressed="false" style="border-color:#F72585;" type="button"><i aria-hidden="true" class="fa-solid fa-stopwatch" style="color:#F72585;"></i> <span aria-hidden="true">Detener Animaciones</span></button>
-                        <button class="a11y-card-btn" id="a11y-reset" aria-label="Restablecer configuración visual" type="button" style="grid-column:1/-1; border-color:var(--valtara-oro); background:rgba(212,175,55,0.1);">
-                            <i aria-hidden="true" class="fa-solid fa-rotate-right" style="color:var(--valtara-oro);"></i> <span style="color:var(--valtara-oro); font-weight:bold;" aria-hidden="true">Restablecer todo</span>
+                        <button class="a11y-card-btn" id="a11y-zoom-in"   aria-label="Aumentar texto"      aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-magnifying-glass-plus"></i>  <span aria-hidden="true">Acercar</span></button>
+                        <button class="a11y-card-btn" id="a11y-zoom-out"  aria-label="Reducir texto"        aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-magnifying-glass-minus"></i> <span aria-hidden="true">Alejar</span></button>
+                        <button class="a11y-card-btn" id="a11y-voice"     aria-label="Lectura en voz alta"  aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-volume-high"></i>            <span aria-hidden="true">Voz Alta</span></button>
+                        <button class="a11y-card-btn" id="a11y-contrast"  aria-label="Alto contraste"       aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-circle-half-stroke"></i>     <span aria-hidden="true">Alto Contraste</span></button>
+                        <button class="a11y-card-btn" id="a11y-invert"    aria-label="Invertir colores"     aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-droplet"></i>                <span aria-hidden="true">Invertir Colores</span></button>
+                        <button class="a11y-card-btn" id="a11y-grayscale" aria-label="Blanco y negro"       aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-moon"></i>                   <span aria-hidden="true">Monocromo</span></button>
+                        <button class="a11y-card-btn" id="a11y-dyslexia"  aria-label="Fuente dislexia"      aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-font"></i>                   <span aria-hidden="true">Fuente Dislexia</span></button>
+                        <button class="a11y-card-btn" id="a11y-spacing"   aria-label="Más espaciado"        aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-text-width"></i>             <span aria-hidden="true">Espaciado</span></button>
+                        <button class="a11y-card-btn" id="a11y-links"     aria-label="Resaltar enlaces"     aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-link"></i>                   <span aria-hidden="true">Resaltar Enlaces</span></button>
+                        <button class="a11y-card-btn" id="a11y-cursor"    aria-label="Cursor grande"        aria-pressed="false" type="button"><i aria-hidden="true" class="fa-solid fa-arrow-pointer"></i>          <span aria-hidden="true">Cursor Grande</span></button>
+                        <button class="a11y-card-btn" id="a11y-motion"    aria-label="Detener animaciones"  aria-pressed="false" style="border-color:#F72585;" type="button"><i aria-hidden="true" class="fa-solid fa-stopwatch" style="color:#F72585;"></i> <span aria-hidden="true">Sin Animaciones</span></button>
+                        <button class="a11y-card-btn" id="a11y-reset"     aria-label="Restablecer visual"   type="button" style="grid-column:1/-1; border-color:var(--valtara-oro); background:rgba(212,175,55,0.1);">
+                            <i aria-hidden="true" class="fa-solid fa-rotate-right" style="color:var(--valtara-oro);"></i>
+                            <span style="color:var(--valtara-oro); font-weight:bold;" aria-hidden="true">Restablecer todo</span>
                         </button>
                     </div>
                 </div>
             </div>
         </dialog>
 
-        <!-- ═══════════════════════════════════════════════════════════ -->
-        <!-- MODAL AURA AI                                               -->
-        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- ══════════════════════════════════════════════════════
+             MODAL AURA AI
+        ══════════════════════════════════════════════════════ -->
         <dialog aria-labelledby="aura-modal-title" aria-describedby="aura-desc-hidden" class="modal-dialog mega-modal" id="aura-modal" aria-modal="true" role="dialog" style="background:rgba(5,5,10,0.45); backdrop-filter:blur(25px); border:1px solid rgba(242,201,76,0.4);">
             <div class="modal-content aura-container" style="background:transparent;">
                 <header class="modal-header">
                     <h3 id="aura-modal-title" style="color:var(--valtara-oro);"><i aria-hidden="true" class="fa-solid fa-sparkles"></i> Asistente Aura</h3>
-                    <button aria-label="Cerrar asistente Aura" title="Cerrar" class="close-modal-btn" onclick="document.getElementById('aura-modal').close();" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i></button>
+                    <button aria-label="Cerrar Aura" title="Cerrar" class="close-modal-btn" onclick="document.getElementById('aura-modal').close();" type="button"><i aria-hidden="true" class="fa-solid fa-xmark"></i></button>
                 </header>
                 <div aria-live="polite" aria-atomic="false" class="aura-chat-window" id="aura-chat-container">
                     <div id="aura-welcome-screen" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;background:transparent;z-index:50;transition:all 0.4s ease;padding:1rem;" aria-hidden="false"></div>
                     <div id="aura-chat" style="flex:1;overflow-y:auto;padding:2rem 1rem;z-index:5;display:flex;flex-direction:column;gap:1.5rem;" role="log" aria-label="Historial de conversación con Aura"></div>
                 </div>
                 <div class="aura-controls" style="display:flex;gap:10px;z-index:15;">
-                    <button aria-label="Dictar mensaje por voz" title="Micrófono" id="aura-mic-btn" style="background:rgba(255,255,255,0.05);border:1px solid var(--valtara-cian-brillante);color:var(--valtara-cian-brillante);border-radius:50%;width:50px;height:50px;" type="button">
+                    <button aria-label="Dictar por voz" title="Micrófono" id="aura-mic-btn" style="background:rgba(255,255,255,0.05);border:1px solid var(--valtara-cian-brillante);color:var(--valtara-cian-brillante);border-radius:50%;width:50px;height:50px;" type="button">
                         <i aria-hidden="true" class="fa-solid fa-microphone"></i>
                     </button>
                     <input aria-label="Escribe tu mensaje para Aura" type="text" id="aura-input" placeholder="Escribe tu consulta aquí...">
@@ -477,23 +517,9 @@
             </div>
         </dialog>
 
-        <!-- ═══════════════════════════════════════════════════════════ -->
-        <!-- BOTONES FLOTANTES (FABs) — WhatsApp y Aura                  -->
-        <!-- ═══════════════════════════════════════════════════════════ -->
-        <aside class="float-controls float-right" id="smart-fabs" aria-label="Controles rápidos">
-            <button aria-label="Abrir asistente Aura" title="Aura AI" aria-haspopup="dialog" aria-controls="aura-modal" class="fab-btn fab-aura" id="fab-aura" onclick="document.getElementById('aura-modal').showModal();" type="button">
-                <i aria-hidden="true" class="fa-solid fa-robot"></i>
-                <span class="sr-only">Aura AI</span>
-            </button>
-            <a aria-label="WhatsApp Valtara" title="WhatsApp" href="https://wa.me/5213348572070" target="_blank" rel="noopener noreferrer" class="fab-btn fab-ws">
-                <i aria-hidden="true" class="fa-brands fa-whatsapp"></i>
-                <span class="sr-only">WhatsApp</span>
-            </a>
-        </aside>
-
-        <!-- ═══════════════════════════════════════════════════════════ -->
-        <!-- PANTALLA DE ONBOARDING                                      -->
-        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- ══════════════════════════════════════════════════════
+             PANTALLA DE ONBOARDING
+        ══════════════════════════════════════════════════════ -->
         <div id="onboarding-screen" class="full-screen-overlay" aria-hidden="false" role="dialog" aria-labelledby="onboarding-title" aria-describedby="onboarding-desc">
             <div class="onboarding-content">
                 <div class="glow-icon-wrapper" style="margin-bottom:2rem;" aria-hidden="true">
@@ -510,15 +536,15 @@
                         <i aria-hidden="true" class="fa-solid fa-door-open"></i> <span aria-hidden="true">Entrar al Santuario</span>
                     </button>
                 </div>
-                <button aria-label="Continuar como invitado" id="welcome-skip-btn" class="btn-text-only" style="margin-top:2.5rem; color:#aaa; background:transparent; border:none; cursor:pointer;" type="button">
+                <button aria-label="Continuar como invitado" id="welcome-skip-btn" style="margin-top:2.5rem; color:#aaa; background:transparent; border:none; cursor:pointer; font-size:1rem;" type="button">
                     Explorar como invitado
                 </button>
             </div>
         </div>
 
-        <!-- ═══════════════════════════════════════════════════════════ -->
-        <!-- MOTOR DE VISTAS — SPA ROOT                                  -->
-        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- ══════════════════════════════════════════════════════
+             MOTOR DE VISTAS — SPA ROOT
+        ══════════════════════════════════════════════════════ -->
         <main id="main-content" role="main" aria-live="polite" tabindex="-1" style="outline:none;">
 
             <section aria-label="Inicio y Mapa Biomecánico" class="view-section active" id="view-home"></section>
@@ -533,26 +559,26 @@
 
             <section aria-label="Manifiesto, Transparencia y Políticas" class="view-section" id="view-legal"></section>
 
-            <!-- Secciones que antes faltaban — ahora el router no queda en blanco -->
+            <!-- Secciones que antes faltaban -->
             <section aria-label="Aura AI — Asistente de Inteligencia Artificial" class="view-section" id="view-aura">
                 <div style="text-align:center; padding:6rem 2rem; max-width:700px; margin:0 auto;">
                     <i aria-hidden="true" class="fa-solid fa-sparkles" style="font-size:4rem; color:var(--valtara-oro); margin-bottom:2rem; display:block;"></i>
                     <h2 style="font-family:var(--font-accent); font-size:3rem; color:var(--valtara-blanco); margin-bottom:1.5rem;">Aura AI</h2>
-                    <p style="color:var(--valtara-gris-texto); font-size:1.3rem; line-height:1.8;">Tu asistente de inteligencia artificial para triaje biomecánico está disponible en el botón flotante. Toca el ícono del robot en la esquina inferior derecha para iniciar.</p>
-                    <button onclick="document.getElementById('aura-modal').showModal();" class="btn-primary" style="margin-top:3rem;" type="button" aria-label="Abrir asistente Aura">
+                    <p style="color:var(--valtara-gris-texto); font-size:1.3rem; line-height:1.8;">Tu asistente de inteligencia artificial para triaje biomecánico. Toca el botón para iniciar la conversación.</p>
+                    <button onclick="document.getElementById('aura-modal').showModal();" class="btn-primary" style="margin-top:3rem;" type="button">
                         <i aria-hidden="true" class="fa-solid fa-robot"></i> Abrir Aura AI
                     </button>
                 </div>
             </section>
 
-            <section aria-label="Bóveda del Paciente — Expediente y Preferencias" class="view-section" id="view-user-vault">
+            <section aria-label="Bóveda del Paciente" class="view-section" id="view-user-vault">
                 <div style="text-align:center; padding:6rem 2rem; max-width:700px; margin:0 auto;">
                     <i aria-hidden="true" class="fa-solid fa-lock" style="font-size:4rem; color:var(--valtara-oro); margin-bottom:2rem; display:block;"></i>
                     <h2 style="font-family:var(--font-accent); font-size:3rem; color:var(--valtara-blanco); margin-bottom:1.5rem;">Mi Bóveda</h2>
                     <p id="vault-user-name" style="color:var(--valtara-oro); font-size:1.6rem; margin-bottom:1rem;">Paciente</p>
-                    <p style="color:var(--valtara-gris-texto); font-size:1.3rem; line-height:1.8;">Aquí encontrarás tu expediente clínico, preferencias de aromaterapia y el historial de tus sesiones.</p>
-                    <button onclick="if(window.ExpedienteEngine) window.ExpedienteEngine.openOverlay();" class="btn-primary" style="margin-top:3rem;" type="button" aria-label="Abrir expediente clínico">
-                        <i aria-hidden="true" class="fa-solid fa-file-signature"></i> Mi Expediente Soberano
+                    <p style="color:var(--valtara-gris-texto); font-size:1.3rem; line-height:1.8;">Tu expediente clínico, preferencias de aromaterapia e historial de sesiones.</p>
+                    <button onclick="if(window.ExpedienteEngine) window.ExpedienteEngine.openOverlay();" class="btn-primary" style="margin-top:3rem;" type="button">
+                        <i aria-hidden="true" class="fa-solid fa-file-signature"></i> Mi Expediente
                     </button>
                 </div>
             </section>
@@ -561,51 +587,28 @@
 
     </div><!-- /app-wrapper -->
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- BARRA DE NAVEGACIÓN INFERIOR                                    -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- ══════════════════════════════════════════════════════════
+         BARRA DE NAVEGACIÓN INFERIOR
+    ══════════════════════════════════════════════════════════ -->
     <nav id="bottom-nav" role="navigation" aria-label="Navegación principal">
-        <button class="bnav-btn bnav-active" id="bnav-home" aria-label="Inicio" onclick="window._bnavActivate('home', this);" type="button">
-            <i aria-hidden="true" class="fa-solid fa-house"></i>
-            <span aria-hidden="true">Inicio</span>
-        </button>
-        <button class="bnav-btn" id="bnav-restoration" aria-label="Catálogo de masajes" onclick="window._bnavActivate('restoration', this);" type="button">
-            <i aria-hidden="true" class="fa-solid fa-spa"></i>
-            <span aria-hidden="true">Masajes</span>
-        </button>
-        <button class="bnav-btn" id="bnav-beauty" aria-label="Estudio Art &amp; Nails" onclick="window._bnavActivate('beauty', this);" type="button">
-            <i aria-hidden="true" class="fa-solid fa-wand-magic-sparkles"></i>
-            <span aria-hidden="true">Manicura</span>
-        </button>
-        <button class="bnav-btn" id="bnav-sonotherapy" aria-label="Sonoterapia" onclick="window._bnavActivate('sonotherapy', this);" type="button">
-            <i aria-hidden="true" class="fa-solid fa-headphones-simple"></i>
-            <span aria-hidden="true">Sonido</span>
-        </button>
-        <button class="bnav-btn" id="bnav-mas" aria-label="Más secciones y opciones" onclick="document.getElementById('menu-toggle-btn').click();" type="button">
-            <i aria-hidden="true" class="fa-solid fa-grip"></i>
-            <span aria-hidden="true">Más</span>
-        </button>
+        <button class="bnav-btn bnav-active" id="bnav-home"         aria-label="Inicio"            aria-current="page" onclick="window._bnavActivate('home',        this);" type="button"><i aria-hidden="true" class="fa-solid fa-house"></i>                <span aria-hidden="true">Inicio</span></button>
+        <button class="bnav-btn"             id="bnav-restoration"  aria-label="Catálogo masajes"               onclick="window._bnavActivate('restoration',  this);" type="button"><i aria-hidden="true" class="fa-solid fa-spa"></i>                  <span aria-hidden="true">Masajes</span></button>
+        <button class="bnav-btn"             id="bnav-beauty"       aria-label="Art &amp; Nails"                onclick="window._bnavActivate('beauty',       this);" type="button"><i aria-hidden="true" class="fa-solid fa-wand-magic-sparkles"></i>   <span aria-hidden="true">Manicura</span></button>
+        <button class="bnav-btn"             id="bnav-sonotherapy"  aria-label="Sonoterapia"                    onclick="window._bnavActivate('sonotherapy',  this);" type="button"><i aria-hidden="true" class="fa-solid fa-headphones-simple"></i>     <span aria-hidden="true">Sonido</span></button>
+        <button class="bnav-btn"             id="bnav-mas"          aria-label="Más secciones"                  onclick="document.getElementById('menu-toggle-btn').click();" type="button"><i aria-hidden="true" class="fa-solid fa-grip"></i>          <span aria-hidden="true">Más</span></button>
     </nav>
 
-    <!-- Script inline para sincronizar el estado activo de la barra inferior con el router -->
+    <!-- Script de sincronización de la barra inferior con el router -->
     <script>
         window._bnavActivate = function(viewId, btnEl) {
-            // Navegar con el router
-            if (window.Router) {
-                window.Router.navigate(viewId);
-            }
-            // Actualizar estado visual de la barra
+            if (window.Router) Router.navigate(viewId);
             document.querySelectorAll('.bnav-btn').forEach(function(b) {
                 b.classList.remove('bnav-active');
                 b.removeAttribute('aria-current');
             });
-            if (btnEl) {
-                btnEl.classList.add('bnav-active');
-                btnEl.setAttribute('aria-current', 'page');
-            }
+            if (btnEl) { btnEl.classList.add('bnav-active'); btnEl.setAttribute('aria-current','page'); }
         };
-
-        // Sincronizar la barra cuando el router cambia de vista (p.ej. al hacer popstate)
+        // Llamado por router.js al cambiar de vista (popstate, links internos)
         window._syncBnav = function(viewId) {
             var map = { home:'bnav-home', restoration:'bnav-restoration', beauty:'bnav-beauty', sonotherapy:'bnav-sonotherapy' };
             document.querySelectorAll('.bnav-btn').forEach(function(b) {
@@ -615,86 +618,80 @@
             var targetId = map[viewId];
             if (targetId) {
                 var btn = document.getElementById(targetId);
-                if (btn) {
-                    btn.classList.add('bnav-active');
-                    btn.setAttribute('aria-current', 'page');
-                }
+                if (btn) { btn.classList.add('bnav-active'); btn.setAttribute('aria-current','page'); }
             }
         };
     </script>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- SCRIPTS — ARQUITECTURA MODULAR DIFERIDA V40.0.0                -->
-    <!--                                                                 -->
-    <!-- ORDEN CRÍTICO:                                                  -->
-    <!-- 1. Módulos de contenido (registran window.ValtaraModulos.*)    -->
-    <!-- 2. constructor_maestro.js (ensambla ValtaraData con esos datos) -->
-    <!-- 3. core.js (llama ValtaraData.renderAll en DOMContentLoaded)   -->
-    <!-- 4. router.js (muestra la vista DESPUÉS de que renderAll corrió) -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- ══════════════════════════════════════════════════════════
+         SCRIPTS — ARQUITECTURA MODULAR DIFERIDA V40.0.0
+         ORDEN CRÍTICO:
+         1. Módulos de contenido  → registran window.ValtaraModulos.*
+         2. constructor_maestro   → ensambla ValtaraData con esos datos
+         3. core.js               → renderAll() en DOMContentLoaded
+         4. router.js             → muestra vistas DESPUÉS de renderAll
+    ══════════════════════════════════════════════════════════ -->
 
-    <!-- Módulos de contenido: Inicio -->
-    <script src="js/inicio_bienvenida.js?v=40.0.0" defer></script>
-    <script src="js/inicio_refugio.js?v=40.0.0" defer></script>
-    <script src="js/inicio_promociones.js?v=40.0.0" defer></script>
-    <script src="js/inicio_arte_unas.js?v=40.0.0" defer></script>
-    <script src="js/inicio_mapa_cuerpo.js?v=40.0.0" defer></script>
+    <!-- Módulos: Inicio -->
+    <script src="js/inicio_bienvenida.js?v=40.0.0"    defer></script>
+    <script src="js/inicio_refugio.js?v=40.0.0"       defer></script>
+    <script src="js/inicio_promociones.js?v=40.0.0"   defer></script>
+    <script src="js/inicio_arte_unas.js?v=40.0.0"     defer></script>
+    <script src="js/inicio_mapa_cuerpo.js?v=40.0.0"   defer></script>
     <script src="js/inicio_redes_sociales.js?v=40.0.0" defer></script>
 
-    <!-- Módulos de contenido: Catálogos -->
-    <script src="js/catalogo_masajes.js?v=40.0.0" defer></script>
-    <script src="js/catalogo_belleza.js?v=40.0.0" defer></script>
+    <!-- Módulos: Catálogos -->
+    <script src="js/catalogo_masajes.js?v=40.0.0"     defer></script>
+    <script src="js/catalogo_belleza.js?v=40.0.0"     defer></script>
 
-    <!-- Módulos de contenido: Ciencia -->
-    <script src="js/ciencia_introduccion.js?v=40.0.0" defer></script>
+    <!-- Módulos: Ciencia -->
+    <script src="js/ciencia_introduccion.js?v=40.0.0"  defer></script>
     <script src="js/ciencia_neurobiologia.js?v=40.0.0" defer></script>
-    <script src="js/ciencia_fascia.js?v=40.0.0" defer></script>
-    <script src="js/ciencia_acustica.js?v=40.0.0" defer></script>
-    <script src="js/ciencia_biomecanica.js?v=40.0.0" defer></script>
-    <script src="js/ciencia_botanica.js?v=40.0.0" defer></script>
-    <script src="js/ciencia_inclusion.js?v=40.0.0" defer></script>
-    <script src="js/ciencia_referencias.js?v=40.0.0" defer></script>
+    <script src="js/ciencia_fascia.js?v=40.0.0"        defer></script>
+    <script src="js/ciencia_acustica.js?v=40.0.0"      defer></script>
+    <script src="js/ciencia_biomecanica.js?v=40.0.0"   defer></script>
+    <script src="js/ciencia_botanica.js?v=40.0.0"      defer></script>
+    <script src="js/ciencia_inclusion.js?v=40.0.0"     defer></script>
+    <script src="js/ciencia_referencias.js?v=40.0.0"   defer></script>
 
     <!-- Módulo: Juego -->
-    <script src="js/juego_alquimista.js?v=40.0.0" defer></script>
+    <script src="js/juego_alquimista.js?v=40.0.0"      defer></script>
 
-    <!-- Módulos de contenido: Legal -->
-    <script src="js/legal_historia.js?v=40.0.0" defer></script>
-    <script src="js/legal_manifiesto.js?v=40.0.0" defer></script>
-    <script src="js/legal_transparencia.js?v=40.0.0" defer></script>
-    <script src="js/legal_preguntas.js?v=40.0.0" defer></script>
-    <script src="js/modal_terminos.js?v=40.0.0" defer></script>
-    <script src="js/modal_whitepaper.js?v=40.0.0" defer></script>
+    <!-- Módulos: Legal -->
+    <script src="js/legal_historia.js?v=40.0.0"        defer></script>
+    <script src="js/legal_manifiesto.js?v=40.0.0"      defer></script>
+    <script src="js/legal_transparencia.js?v=40.0.0"   defer></script>
+    <script src="js/legal_preguntas.js?v=40.0.0"       defer></script>
+    <script src="js/modal_terminos.js?v=40.0.0"        defer></script>
+    <script src="js/modal_whitepaper.js?v=40.0.0"      defer></script>
 
-    <!-- Módulos de contenido: Sonoterapia -->
+    <!-- Módulos: Sonoterapia -->
     <script src="js/sonoterapia_introduccion.js?v=40.0.0" defer></script>
-    <script src="js/sonoterapia_videos.js?v=40.0.0" defer></script>
-    <script src="js/sonoterapia_audio.js?v=40.0.0" defer></script>
+    <script src="js/sonoterapia_videos.js?v=40.0.0"       defer></script>
+    <script src="js/sonoterapia_audio.js?v=40.0.0"        defer></script>
 
     <!-- Footer global -->
-    <script src="js/global_footer.js?v=40.0.0" defer></script>
+    <script src="js/global_footer.js?v=40.0.0"        defer></script>
 
-    <!-- Constructor maestro: ensambla todo el contenido -->
-    <script src="js/constructor_maestro.js?v=40.0.0" defer></script>
+    <!-- Constructor maestro -->
+    <script src="js/constructor_maestro.js?v=40.0.0"  defer></script>
 
-    <!-- Motor principal y accesibilidad -->
-    <script src="js/a11y.js?v=40.0.0" defer></script>
-    <script src="js/user.js?v=40.0.0" defer></script>
-    <script src="js/aura.js?v=40.0.0" defer></script>
-    <script src="js/oasis.js?v=40.0.0" defer></script>
+    <!-- Motor de accesibilidad y perfil -->
+    <script src="js/a11y.js?v=40.0.0"                 defer></script>
+    <script src="js/user.js?v=40.0.0"                 defer></script>
+    <script src="js/aura.js?v=40.0.0"                 defer></script>
+    <script src="js/oasis.js?v=40.0.0"                defer></script>
 
-    <!-- ORDEN CORREGIDO: core.js ANTES que router.js              -->
-    <!-- core.js llama renderAll() — router.js muestra las vistas  -->
-    <!-- Si router va primero, las vistas aparecen vacías           -->
-    <script src="js/core.js?v=40.0.0" defer></script>
-    <script src="js/router.js?v=40.0.0" defer></script>
+    <!-- NÚCLEO: core.js ANTES que router.js (renderAll primero, luego mostrar vistas) -->
+    <script src="js/core.js?v=40.0.0"                 defer></script>
+    <script src="js/router.js?v=40.0.0"               defer></script>
 
     <!-- PWA -->
-    <script src="js/pwa.js?v=40.0.0" defer></script>
+    <script src="js/pwa.js?v=40.0.0"                  defer></script>
 
-    <!-- Expediente clínico (depende de html2pdf) -->
+    <!-- Expediente (depende de html2pdf) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous" defer></script>
-    <script src="js/expediente_clinico.js?v=40.0.0" defer></script>
+    <script src="js/expediente_clinico.js?v=40.0.0"   defer></script>
 
 </body>
-    </html>
+                            </html>
