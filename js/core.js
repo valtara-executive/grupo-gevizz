@@ -1,84 +1,94 @@
 /**
  * ====================================================================================
- * BLOQUE 5: CORE ENGINE V38.3 (SISTEMA OPERATIVO Y ESCUDO TÉRMICO VISUAL)
+ * BLOQUE 5: CORE ENGINE V40.0 (SISTEMA OPERATIVO Y ESCUDO TÉRMICO VISUAL)
  * ------------------------------------------------------------------------------------
- * Arquitectura ampliada con manejo de errores (Try/Catch), lógica Smart FABs para
- * ocultar botones flotantes dinámicamente, y un motor de triaje biomecánico.
- * El Escudo Térmico ahora CONGELA el fondo en lugar de borrarlo, manteniendo el lujo.
+ * Correcciones V40.0:
+ * - Añadido método unlockBodyScroll() (router.js lo llamaba pero no existía)
+ * - initModals() actualizado para escuchar cierre por onclick además de data-close
+ * - Guardián anti-congelamiento mejorado
  * ====================================================================================
  */
 
 const CoreEngine = {
     init: function() {
         try {
-            if(window.ValtaraData) ValtaraData.renderAll();
-            
+            if (window.ValtaraData) ValtaraData.renderAll();
+
             this.initModals();
             this.initSideMenu();
             this.initBodyMap();
-            this.inyectarCSSAltaEficiencia(); 
-            this.initThermalShield(); 
-            
+            this.inyectarCSSAltaEficiencia();
+            this.initThermalShield();
+
             setTimeout(() => {
                 document.body.classList.remove('system-loading');
             }, 300);
-            
-            console.log("🟢 CoreEngine: Inicialización completa. Interfaz de Lujo activa.");
+
+            console.log('🟢 CoreEngine V40.0: Inicialización completa.');
         } catch (error) {
-            console.error("🔴 CoreEngine Error: Fallo en la secuencia de arranque.", error);
+            console.error('🔴 CoreEngine Error:', error);
         }
     },
 
     // ================================================================================
-    // GESTIÓN DE SMART FABS (Botones Flotantes Inteligentes)
+    // UNLOCK / LOCK BODY SCROLL — Llamados por router.js y menú lateral
+    // ================================================================================
+    lockBodyScroll: function() {
+        document.body.style.overflow = 'hidden';
+        document.body.classList.add('pausar-ambiente');
+    },
+
+    unlockBodyScroll: function() {
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.documentElement.style.overflow = '';
+        document.body.classList.remove('scroll-locked');
+        document.body.classList.remove('pausar-ambiente');
+    },
+
+    // ================================================================================
+    // SMART FABS — ya no existen FABs flotantes externos,
+    // pero mantenemos el método para que aura.js u otros módulos no fallen
     // ================================================================================
     toggleSmartFabs: function(hide) {
         const fabs = document.getElementById('smart-fabs');
-        if(fabs) {
-            if(hide) {
-                fabs.classList.add('fab-hidden');
-                fabs.style.pointerEvents = 'none'; 
-            } else {
-                fabs.classList.remove('fab-hidden');
-                fabs.style.pointerEvents = 'auto';
-            }
+        if (fabs) {
+            fabs.classList.toggle('fab-hidden', hide);
+            fabs.style.pointerEvents = hide ? 'none' : 'auto';
         }
     },
 
     // ================================================================================
-    // MOTOR TÉRMICO INTELIGENTE (LA REPARACIÓN DE LA PANTALLA NEGRA)
-    // Ahora CONGELA la animación en lugar de ocultarla, preservando el fondo hermoso.
+    // ESCUDO TÉRMICO — Pausa animaciones al hacer scroll hacia abajo
     // ================================================================================
     initThermalShield: function() {
         try {
-            const ambientBg = document.getElementById('ambient-bg');
-            if(!ambientBg) return;
+            const homeSection = document.getElementById('view-home');
+            if (!homeSection) return;
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if(entry.isIntersecting) {
-                        // El usuario está arriba: Descongelamos las luces
+                    if (entry.isIntersecting) {
                         document.body.classList.remove('pausar-ambiente');
                     } else {
-                        // El usuario bajó: Congelamos las luces, PERO NO LAS BORRAMOS.
-                        // El fondo se sigue viendo hermoso en todo momento.
                         document.body.classList.add('pausar-ambiente');
                     }
                 });
             }, { threshold: 0.01 });
 
-            const homeSection = document.getElementById('view-home');
-            if(homeSection) observer.observe(homeSection);
+            observer.observe(homeSection);
         } catch (error) {
-            console.warn("⚠️ CoreEngine: El escudo térmico no pudo inicializarse.", error);
+            console.warn('⚠️ CoreEngine: Escudo térmico no pudo inicializarse.', error);
         }
     },
 
     // ================================================================================
-    // ACCESIBILIDAD Y RENDIMIENTO CSS DINÁMICO
+    // CSS DE ALTA EFICIENCIA Y ACCESIBILIDAD
     // ================================================================================
     inyectarCSSAltaEficiencia: function() {
-        if(document.getElementById('eco-mode-styles')) return;
+        if (document.getElementById('eco-mode-styles')) return;
         const style = document.createElement('style');
         style.id = 'eco-mode-styles';
         style.innerHTML = `
@@ -90,11 +100,10 @@ const CoreEngine = {
             body.eco-mode #aura-modal,
             body.eco-mode .msg,
             body.eco-mode .glass-card {
-                backdrop-filter: none !important; 
+                backdrop-filter: none !important;
                 -webkit-backdrop-filter: none !important;
-                background: rgba(10, 10, 15, 0.98) !important; 
+                background: rgba(10, 10, 15, 0.98) !important;
             }
-            /* Regla crucial para el Escudo Térmico */
             body.pausar-ambiente .ambient-engine * {
                 animation-play-state: paused !important;
             }
@@ -104,65 +113,70 @@ const CoreEngine = {
         window.addEventListener('keydown', (e) => {
             if (e.key === 'Tab') document.body.classList.add('eco-mode');
         });
-        
         window.addEventListener('touchstart', () => {
             document.body.classList.remove('eco-mode');
         }, { passive: true });
     },
 
     // ================================================================================
-    // CONTROLADOR DE MODALES MAESTRO (Integrado con Smart Fabs)
+    // CONTROLADOR DE MODALES MAESTRO
+    // Escucha tanto data-close como clics directos en botones de cierre con onclick
     // ================================================================================
     initModals: function() {
         document.body.addEventListener('click', (e) => {
-            
-            // --- ABRIR ---
-            const openBtn = e.target.closest('[aria-haspopup="dialog"]');
-            if(openBtn) {
-                let targetId = '';
-                if(openBtn.id === 'top-a11y-btn') targetId = 'a11y-modal'; 
-                if(openBtn.id === 'fab-audio') targetId = 'audio-modal';
-                if(openBtn.id === 'fab-aura') targetId = 'aura-modal';
 
-                const dialog = document.getElementById(targetId);
-                if(dialog && !dialog.open) {
-                    dialog.showModal(); 
-                    document.body.style.overflow = 'hidden'; 
-                    document.body.classList.add('pausar-ambiente'); 
-                    
-                    this.toggleSmartFabs(true); // Oculta WhatsApp/Aura
-                    
-                    const nav = document.getElementById('main-nav');
-                    if(nav && nav.classList.contains('open')) {
-                        document.getElementById('menu-close-btn').click();
+            // ABRIR modal por aria-haspopup="dialog"
+            const openBtn = e.target.closest('[aria-haspopup="dialog"]');
+            if (openBtn) {
+                // Los botones con onclick ya manejan el showModal() ellos mismos.
+                // Solo ejecutamos la lógica de estado aquí si el modal se abrió.
+                // Damos un tick para que el onclick haya corrido primero.
+                setTimeout(() => {
+                    const openDialog = document.querySelector('dialog[open]');
+                    if (openDialog) {
+                        this.lockBodyScroll();
+                        this.toggleSmartFabs(true);
+                        const nav = document.getElementById('main-nav');
+                        if (nav && nav.classList.contains('open')) {
+                            nav.classList.remove('open');
+                            this.unlockBodyScroll();
+                        }
+                        if (window.A11yEngine) A11yEngine.announce(`Ventana abierta.`);
                     }
-                    if(window.A11yEngine) A11yEngine.announce(`Ventana abierta: ${dialog.getAttribute('aria-label')}`);
-                }
+                }, 50);
             }
 
-            // --- CERRAR ---
+            // CERRAR modal por data-close
             const closeBtn = e.target.closest('[data-close]');
-            if(closeBtn) {
+            if (closeBtn) {
                 const targetId = closeBtn.getAttribute('data-close');
                 const dialog = document.getElementById(targetId);
-                if(dialog && dialog.open) {
+                if (dialog && dialog.open) {
                     dialog.style.opacity = '0';
                     dialog.style.transform = 'translate3d(0, 50px, 0) scale(0.95)';
-                    
                     setTimeout(() => {
                         dialog.close();
                         dialog.style.opacity = '';
                         dialog.style.transform = '';
-                        document.body.style.overflow = 'auto'; 
-                        document.body.classList.remove('pausar-ambiente');
-                        
-                        this.toggleSmartFabs(false); // Regresa WhatsApp/Aura
-                        
+                        this.unlockBodyScroll();
+                        this.toggleSmartFabs(false);
                     }, 400);
-
-                    if(window.A11yEngine) A11yEngine.announce(`Ventana cerrada.`);
+                    if (window.A11yEngine) A11yEngine.announce('Ventana cerrada.');
                 }
             }
+        });
+
+        // Cuando un <dialog> se cierra por cualquier medio (onclick, Escape, programático)
+        // restauramos el scroll. Capturamos el evento nativo 'close' del elemento dialog.
+        document.querySelectorAll('dialog').forEach(dialog => {
+            dialog.addEventListener('close', () => {
+                // Solo liberar si no hay otro modal abierto
+                const stillOpen = document.querySelector('dialog[open]');
+                if (!stillOpen) {
+                    this.unlockBodyScroll();
+                    this.toggleSmartFabs(false);
+                }
+            });
         });
     },
 
@@ -174,141 +188,134 @@ const CoreEngine = {
         const closeBtn = document.getElementById('menu-close-btn');
         const nav = document.getElementById('main-nav');
 
-        if(menuBtn && closeBtn && nav) {
-            menuBtn.addEventListener('click', () => {
-                nav.classList.add('open');
-                menuBtn.setAttribute('aria-expanded', 'true');
-                nav.setAttribute('aria-hidden', 'false');
-                document.body.style.overflow = 'hidden'; 
-                document.body.classList.add('pausar-ambiente');
-                
-                this.toggleSmartFabs(true); // Limpiamos pantalla
-                
-                if(window.A11yEngine) A11yEngine.announce("Panel de control abierto.");
-            });
+        if (!menuBtn || !closeBtn || !nav) return;
 
-            closeBtn.addEventListener('click', () => {
-                nav.classList.remove('open');
-                menuBtn.setAttribute('aria-expanded', 'false');
-                nav.setAttribute('aria-hidden', 'true');
-                document.body.style.overflow = 'auto'; 
-                document.body.classList.remove('pausar-ambiente');
-                
-                this.toggleSmartFabs(false); // Restauramos pantalla
-                
-                if(window.A11yEngine) A11yEngine.announce("Panel cerrado.");
-            });
-        }
+        menuBtn.addEventListener('click', () => {
+            nav.classList.add('open');
+            menuBtn.setAttribute('aria-expanded', 'true');
+            nav.setAttribute('aria-hidden', 'false');
+            this.lockBodyScroll();
+            this.toggleSmartFabs(true);
+            if (window.A11yEngine) A11yEngine.announce('Panel de control abierto.');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            nav.classList.remove('open');
+            menuBtn.setAttribute('aria-expanded', 'false');
+            nav.setAttribute('aria-hidden', 'true');
+            this.unlockBodyScroll();
+            this.toggleSmartFabs(false);
+            if (window.A11yEngine) A11yEngine.announce('Panel cerrado.');
+        });
     },
 
     // ================================================================================
-    // MOTOR DE TRIAJE EDUCATIVO
+    // MOTOR DE TRIAJE EDUCATIVO (Mapa del cuerpo)
     // ================================================================================
     initBodyMap: function() {
         const mapContainer = document.getElementById('view-home');
-        if(!mapContainer) return;
+        if (!mapContainer) return;
 
         mapContainer.addEventListener('click', (e) => {
             const btn = e.target.closest('.zone-btn');
-            if(btn) {
-                document.querySelectorAll('.zone-btn').forEach(b => {
-                    b.classList.remove('active');
-                    b.setAttribute('aria-pressed', 'false');
-                    b.style.background = 'rgba(0,0,0,0.4)';
-                    b.style.borderColor = 'rgba(0,255,255,0.15)';
-                    b.style.transform = 'translateY(0)';
-                    b.style.boxShadow = 'none';
-                    const icon = b.querySelector('i');
-                    if(icon) icon.style.color = 'var(--valtara-cian-brillante)';
-                    const text = b.querySelector('span');
-                    if(text) text.style.color = 'var(--valtara-blanco)';
-                });
-                
-                btn.classList.add('active');
-                btn.setAttribute('aria-pressed', 'true');
-                btn.style.background = 'var(--valtara-cian-brillante)';
-                btn.style.transform = 'translateY(-4px)';
-                btn.style.boxShadow = '0 1rem 3rem rgba(0, 255, 255, 0.4)';
-                
-                const icon = btn.querySelector('i');
-                if(icon) icon.style.color = 'var(--valtara-negro-fondo)';
-                const text = btn.querySelector('span');
-                if(text) text.style.color = 'var(--valtara-negro-fondo)';
-                
-                const zone = btn.getAttribute('data-zone');
-                this.updateZoneInfo(zone);
-            }
+            if (!btn) return;
+
+            document.querySelectorAll('.zone-btn').forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+                b.style.background = 'rgba(0,0,0,0.4)';
+                b.style.borderColor = 'rgba(0,255,255,0.15)';
+                b.style.transform = 'translateY(0)';
+                b.style.boxShadow = 'none';
+                const icon = b.querySelector('i');
+                if (icon) icon.style.color = 'var(--valtara-cian-brillante)';
+                const text = b.querySelector('span');
+                if (text) text.style.color = 'var(--valtara-blanco)';
+            });
+
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+            btn.style.background = 'var(--valtara-cian-brillante)';
+            btn.style.transform = 'translateY(-4px)';
+            btn.style.boxShadow = '0 1rem 3rem rgba(0,255,255,0.4)';
+
+            const icon = btn.querySelector('i');
+            if (icon) icon.style.color = 'var(--valtara-negro-fondo)';
+            const text = btn.querySelector('span');
+            if (text) text.style.color = 'var(--valtara-negro-fondo)';
+
+            const zone = btn.getAttribute('data-zone');
+            this.updateZoneInfo(zone);
         });
     },
 
     updateZoneInfo: function(zoneId) {
         const data = {
             craneo: `
-                <i class="fa-solid fa-head-side-virus" style="font-size: 4rem; color: var(--valtara-cian-brillante); margin-bottom: 1rem;"></i>
-                <h4 style="font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem; font-family: var(--font-accent);">Cráneo, Mandíbula y Rostro</h4>
-                <p style="color: var(--valtara-gris-texto); font-size: 1.15rem; margin-bottom: 1.5rem; font-weight: 300;">El estrés somatizado en el segmento superior es silencioso pero clínicamente devastador.</p>
-                <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1rem; border: 1px solid rgba(0,255,255,0.3); cursor: pointer; transition: 0.3s; text-align: left;">
-                    <summary style="font-weight: 900; font-size: 1.2rem; color: var(--valtara-cian-brillante); outline: none;"><i class="fa-solid fa-microscope"></i> 1. El Nervio Trigémino y el Bruxismo</summary>
-                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.1rem; line-height: 1.8;">El nervio trigémino controla los músculos de la masticación. Bajo niveles sostenidos de cortisol, ejerces hasta 70kg de presión involuntaria mientras duermes, fracturando el esmalte dental.</p>
+                <i class="fa-solid fa-head-side-virus" style="font-size:4rem;color:var(--valtara-cian-brillante);margin-bottom:1rem;"></i>
+                <h4 style="font-size:2.2rem;color:var(--valtara-blanco);margin-bottom:1rem;font-family:var(--font-accent);">Cráneo, Mandíbula y Rostro</h4>
+                <p style="color:var(--valtara-gris-texto);font-size:1.15rem;margin-bottom:1.5rem;font-weight:300;">El estrés somatizado en el segmento superior es silencioso pero clínicamente devastador.</p>
+                <details style="background:rgba(255,255,255,0.05);padding:1.5rem;border-radius:1rem;margin-bottom:1rem;border:1px solid rgba(0,255,255,0.3);cursor:pointer;text-align:left;">
+                    <summary style="font-weight:900;font-size:1.2rem;color:var(--valtara-cian-brillante);outline:none;"><i class="fa-solid fa-microscope"></i> 1. El Nervio Trigémino y el Bruxismo</summary>
+                    <p style="margin-top:1.5rem;color:var(--valtara-gris-texto);font-size:1.1rem;line-height:1.8;">El nervio trigémino controla los músculos de la masticación. Bajo niveles sostenidos de cortisol, ejerces hasta 70kg de presión involuntaria mientras duermes, fracturando el esmalte dental.</p>
                 </details>
-                <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 1px solid rgba(242,201,76,0.3); cursor: pointer; transition: 0.3s; text-align: left;">
-                    <summary style="font-weight: 900; font-size: 1.2rem; color: var(--valtara-oro); outline: none;"><i class="fa-solid fa-prescription-bottle-medical"></i> 2. La Solución Clínica Valtara</summary>
-                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.1rem; line-height: 1.8;">Sugerimos la prescripción de la <strong>Rehabilitación Facial por Estrés Severo</strong>.</p>
+                <details style="background:rgba(255,255,255,0.05);padding:1.5rem;border-radius:1rem;margin-bottom:1.5rem;border:1px solid rgba(242,201,76,0.3);cursor:pointer;text-align:left;">
+                    <summary style="font-weight:900;font-size:1.2rem;color:var(--valtara-oro);outline:none;"><i class="fa-solid fa-prescription-bottle-medical"></i> 2. La Solución Clínica Valtara</summary>
+                    <p style="margin-top:1.5rem;color:var(--valtara-gris-texto);font-size:1.1rem;line-height:1.8;">Sugerimos la <strong>Rehabilitación Facial por Estrés Severo</strong>.</p>
                 </details>
             `,
             cervical: `
-                <i class="fa-solid fa-user-injured" style="font-size: 4rem; color: var(--valtara-cian-brillante); margin-bottom: 1rem;"></i>
-                <h4 style="font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem; font-family: var(--font-accent);">Cervicales, Nuca y Trapecios</h4>
-                <p style="color: var(--valtara-gris-texto); font-size: 1.15rem; margin-bottom: 1.5rem; font-weight: 300;">Conocida en biomecánica como "La Zona del Intelecto". Es el pilar maestro de la máquina biológica.</p>
-                <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1rem; border: 1px solid rgba(0,255,255,0.3); cursor: pointer; transition: 0.3s; text-align: left;">
-                    <summary style="font-weight: 900; font-size: 1.2rem; color: var(--valtara-cian-brillante); outline: none;"><i class="fa-solid fa-mobile-screen-button"></i> 1. El Síndrome Pandémico: "Text Neck"</summary>
-                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.1rem; line-height: 1.8;">Al inclinar el cuello a 60 grados para ver el móvil, tu columna soporta 27 kilos de presión, destrozando los discos intervertebrales.</p>
+                <i class="fa-solid fa-user-injured" style="font-size:4rem;color:var(--valtara-cian-brillante);margin-bottom:1rem;"></i>
+                <h4 style="font-size:2.2rem;color:var(--valtara-blanco);margin-bottom:1rem;font-family:var(--font-accent);">Cervicales, Nuca y Trapecios</h4>
+                <p style="color:var(--valtara-gris-texto);font-size:1.15rem;margin-bottom:1.5rem;font-weight:300;">Conocida en biomecánica como "La Zona del Intelecto". Pilar maestro de la máquina biológica.</p>
+                <details style="background:rgba(255,255,255,0.05);padding:1.5rem;border-radius:1rem;margin-bottom:1rem;border:1px solid rgba(0,255,255,0.3);cursor:pointer;text-align:left;">
+                    <summary style="font-weight:900;font-size:1.2rem;color:var(--valtara-cian-brillante);outline:none;"><i class="fa-solid fa-mobile-screen-button"></i> 1. El Síndrome Pandémico: "Text Neck"</summary>
+                    <p style="margin-top:1.5rem;color:var(--valtara-gris-texto);font-size:1.1rem;line-height:1.8;">Al inclinar el cuello 60 grados viendo el móvil, tu columna soporta 27 kg de presión, destrozando los discos intervertebrales.</p>
                 </details>
-                <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 1px solid rgba(242,201,76,0.3); cursor: pointer; transition: 0.3s; text-align: left;">
-                    <summary style="font-weight: 900; font-size: 1.2rem; color: var(--valtara-oro); outline: none;"><i class="fa-solid fa-dumbbell"></i> 2. La Solución Clínica Valtara</summary>
-                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.1rem; line-height: 1.8;">Recomendamos el <strong>Masaje Deportivo y Descompresión Muscular</strong>.</p>
+                <details style="background:rgba(255,255,255,0.05);padding:1.5rem;border-radius:1rem;margin-bottom:1.5rem;border:1px solid rgba(242,201,76,0.3);cursor:pointer;text-align:left;">
+                    <summary style="font-weight:900;font-size:1.2rem;color:var(--valtara-oro);outline:none;"><i class="fa-solid fa-dumbbell"></i> 2. La Solución Clínica Valtara</summary>
+                    <p style="margin-top:1.5rem;color:var(--valtara-gris-texto);font-size:1.1rem;line-height:1.8;">Recomendamos el <strong>Masaje Deportivo y Descompresión Muscular</strong>.</p>
                 </details>
             `,
             lumbar: `
-                <i class="fa-solid fa-child" style="font-size: 4rem; color: var(--valtara-cian-brillante); margin-bottom: 1rem;"></i>
-                <h4 style="font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem; font-family: var(--font-accent);">Región Lumbar y Ciática</h4>
-                <p style="color: var(--valtara-gris-texto); font-size: 1.15rem; margin-bottom: 1.5rem; font-weight: 300;">La bóveda central biomecánica. El sedentarismo de escritorio la comprime implacablemente.</p>
-                <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 1px solid rgba(0,255,255,0.3); cursor: pointer; transition: 0.3s; text-align: left;">
-                    <summary style="font-weight: 900; font-size: 1.2rem; color: var(--valtara-cian-brillante); outline: none;"><i class="fa-solid fa-bolt"></i> 1. Pinzamiento del Nervio Ciático</summary>
-                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.1rem; line-height: 1.8;">Estar sentado más de 6 horas acorta el músculo psoas, presionando el nervio ciático y enviando descargas de dolor eléctrico a la pantorrilla.</p>
+                <i class="fa-solid fa-child" style="font-size:4rem;color:var(--valtara-cian-brillante);margin-bottom:1rem;"></i>
+                <h4 style="font-size:2.2rem;color:var(--valtara-blanco);margin-bottom:1rem;font-family:var(--font-accent);">Región Lumbar y Ciática</h4>
+                <p style="color:var(--valtara-gris-texto);font-size:1.15rem;margin-bottom:1.5rem;font-weight:300;">La bóveda central biomecánica. El sedentarismo de escritorio la comprime implacablemente.</p>
+                <details style="background:rgba(255,255,255,0.05);padding:1.5rem;border-radius:1rem;margin-bottom:1.5rem;border:1px solid rgba(0,255,255,0.3);cursor:pointer;text-align:left;">
+                    <summary style="font-weight:900;font-size:1.2rem;color:var(--valtara-cian-brillante);outline:none;"><i class="fa-solid fa-bolt"></i> 1. Pinzamiento del Nervio Ciático</summary>
+                    <p style="margin-top:1.5rem;color:var(--valtara-gris-texto);font-size:1.1rem;line-height:1.8;">Más de 6 horas sentado acorta el psoas, presionando el ciático y enviando descargas eléctricas a la pantorrilla.</p>
                 </details>
-                <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 1px solid rgba(242,201,76,0.3); cursor: pointer; transition: 0.3s; text-align: left;">
-                    <summary style="font-weight: 900; font-size: 1.2rem; color: var(--valtara-oro); outline: none;"><i class="fa-solid fa-person-praying"></i> 2. La Solución Clínica Valtara</summary>
-                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.1rem; line-height: 1.8;">Recomendamos el <strong>Masaje Tailandés de Descompresión Pasiva</strong>.</p>
+                <details style="background:rgba(255,255,255,0.05);padding:1.5rem;border-radius:1rem;margin-bottom:1.5rem;border:1px solid rgba(242,201,76,0.3);cursor:pointer;text-align:left;">
+                    <summary style="font-weight:900;font-size:1.2rem;color:var(--valtara-oro);outline:none;"><i class="fa-solid fa-person-praying"></i> 2. La Solución Clínica Valtara</summary>
+                    <p style="margin-top:1.5rem;color:var(--valtara-gris-texto);font-size:1.1rem;line-height:1.8;">Recomendamos el <strong>Masaje Tailandés de Descompresión Pasiva</strong>.</p>
                 </details>
             `,
             linfa: `
-                <i class="fa-solid fa-shoe-prints" style="font-size: 4rem; color: var(--valtara-cian-brillante); margin-bottom: 1rem;"></i>
-                <h4 style="font-size: 2.2rem; color: var(--valtara-blanco); margin-bottom: 1rem; font-family: var(--font-accent);">Sistema Linfático y Extremidades</h4>
-                <p style="color: var(--valtara-gris-texto); font-size: 1.15rem; margin-bottom: 1.5rem; font-weight: 300;">Cuando falla el bombeo venoso, las piernas se convierten en reservorios de toxinas.</p>
-                <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 1px solid rgba(0,255,255,0.3); cursor: pointer; transition: 0.3s; text-align: left;">
-                    <summary style="font-weight: 900; font-size: 1.2rem; color: var(--valtara-cian-brillante); outline: none;"><i class="fa-solid fa-droplet"></i> 1. Estancamiento Linfático</summary>
-                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.1rem; line-height: 1.8;">La linfa depende del movimiento. Los viajes largos y el estrés detienen el flujo, generando inflamación severa y celulitis.</p>
+                <i class="fa-solid fa-shoe-prints" style="font-size:4rem;color:var(--valtara-cian-brillante);margin-bottom:1rem;"></i>
+                <h4 style="font-size:2.2rem;color:var(--valtara-blanco);margin-bottom:1rem;font-family:var(--font-accent);">Sistema Linfático y Extremidades</h4>
+                <p style="color:var(--valtara-gris-texto);font-size:1.15rem;margin-bottom:1.5rem;font-weight:300;">Cuando falla el bombeo venoso, las piernas se convierten en reservorios de toxinas.</p>
+                <details style="background:rgba(255,255,255,0.05);padding:1.5rem;border-radius:1rem;margin-bottom:1.5rem;border:1px solid rgba(0,255,255,0.3);cursor:pointer;text-align:left;">
+                    <summary style="font-weight:900;font-size:1.2rem;color:var(--valtara-cian-brillante);outline:none;"><i class="fa-solid fa-droplet"></i> 1. Estancamiento Linfático</summary>
+                    <p style="margin-top:1.5rem;color:var(--valtara-gris-texto);font-size:1.1rem;line-height:1.8;">La linfa depende del movimiento. Viajes largos y estrés detienen el flujo, generando inflamación severa y celulitis.</p>
                 </details>
-                <details style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1.5rem; border: 1px solid rgba(242,201,76,0.3); cursor: pointer; transition: 0.3s; text-align: left;">
-                    <summary style="font-weight: 900; font-size: 1.2rem; color: var(--valtara-oro); outline: none;"><i class="fa-solid fa-water"></i> 2. La Solución Clínica Valtara</summary>
-                    <p style="margin-top: 1.5rem; color: var(--valtara-gris-texto); font-size: 1.1rem; line-height: 1.8;">Para reducción hídrica, <strong>Masaje Reductivo Drenante</strong>. Para un enfoque suave, el <strong>Drenaje Linfático Manual</strong>.</p>
+                <details style="background:rgba(255,255,255,0.05);padding:1.5rem;border-radius:1rem;margin-bottom:1.5rem;border:1px solid rgba(242,201,76,0.3);cursor:pointer;text-align:left;">
+                    <summary style="font-weight:900;font-size:1.2rem;color:var(--valtara-oro);outline:none;"><i class="fa-solid fa-water"></i> 2. La Solución Clínica Valtara</summary>
+                    <p style="margin-top:1.5rem;color:var(--valtara-gris-texto);font-size:1.1rem;line-height:1.8;">Para reducción hídrica: <strong>Masaje Reductivo Drenante</strong>. Para enfoque suave: <strong>Drenaje Linfático Manual</strong>.</p>
                 </details>
             `
         };
 
         const htmlContent = data[zoneId];
         const display = document.getElementById('zone-display');
-        
-        if(htmlContent && display) {
+
+        if (htmlContent && display) {
             display.style.opacity = 0;
             display.style.transform = 'translateY(10px)';
-            
             setTimeout(() => {
                 display.innerHTML = htmlContent + `
-                    <div style="text-align: center; margin-top: 2.5rem;">
-                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-primary" style="background: var(--valtara-whatsapp); border-color: var(--valtara-whatsapp); color: var(--valtara-negro-fondo); box-shadow: 0 1rem 3rem rgba(37,211,102,0.4); text-decoration: none;">
-                            <i class="fa-brands fa-whatsapp"></i> Chatear Especialista
+                    <div style="text-align:center;margin-top:2.5rem;">
+                        <a href="https://wa.me/5213348572070" target="_blank" class="btn-primary" style="background:var(--valtara-whatsapp);border-color:var(--valtara-whatsapp);color:var(--valtara-negro-fondo);box-shadow:0 1rem 3rem rgba(37,211,102,0.4);text-decoration:none;">
+                            <i class="fa-brands fa-whatsapp"></i> Chatear con Especialista
                         </a>
                     </div>
                 `;
@@ -321,64 +328,54 @@ const CoreEngine = {
 };
 
 // ====================================================================================
-// GUARDIÁN MAESTRO DE MEDIOS V2 (Blindado con Try/Catch)
+// GUARDIÁN MAESTRO DE MEDIOS V2
 // ====================================================================================
 window.ValtaraMedia = {
-    activeFades: {}, 
+    activeFades: {},
 
     silenciarTodo: function(excepcion = null) {
         document.querySelectorAll('audio, video').forEach(media => {
-            if (media !== excepcion && !media.paused) {
-                this.fadeOut(media);
-            }
+            if (media !== excepcion && !media.paused) this.fadeOut(media);
         });
-        
-        const iframes = document.querySelectorAll('iframe[src*="youtube.com"]');
-        iframes.forEach(iframe => {
-            try { 
-                iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); 
-            } catch(e) { console.warn("Iframe no accesible", e); }
+        document.querySelectorAll('iframe[src*="youtube.com"]').forEach(iframe => {
+            try { iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); }
+            catch(e) { console.warn('Iframe no accesible', e); }
         });
     },
 
     fadeOut: function(media) {
-        if(this.activeFades[media.src]) clearInterval(this.activeFades[media.src]);
-        
+        if (this.activeFades[media.src]) clearInterval(this.activeFades[media.src]);
         let vol = media.volume;
         this.activeFades[media.src] = setInterval(() => {
             if (vol > 0.05) {
                 vol -= 0.05;
-                try { media.volume = vol; } catch(e){}
+                try { media.volume = vol; } catch(e) {}
             } else {
                 clearInterval(this.activeFades[media.src]);
                 media.pause();
-                try { media.volume = 1; } catch(e){} 
+                try { media.volume = 1; } catch(e) {}
             }
-        }, 30); 
+        }, 30);
     },
 
     fadeIn: function(media, targetVolume = 1) {
-        this.silenciarTodo(media); 
-        if(this.activeFades[media.src]) clearInterval(this.activeFades[media.src]);
-
-        try { media.volume = 0; } catch(e){}
+        this.silenciarTodo(media);
+        if (this.activeFades[media.src]) clearInterval(this.activeFades[media.src]);
+        try { media.volume = 0; } catch(e) {}
         const playPromise = media.play();
-        
         if (playPromise !== undefined) {
-            playPromise.then(_ => {
+            playPromise.then(() => {
                 let vol = 0;
                 this.activeFades[media.src] = setInterval(() => {
                     if (vol < targetVolume - 0.05) {
                         vol += 0.05;
-                        try { media.volume = vol; } catch(e){}
+                        try { media.volume = vol; } catch(e) {}
                     } else {
                         clearInterval(this.activeFades[media.src]);
-                        try { media.volume = targetVolume; } catch(e){}
+                        try { media.volume = targetVolume; } catch(e) {}
                     }
                 }, 50);
-            }).catch(error => {
-                console.log("Auto-play prevenido por el navegador.");
-            });
+            }).catch(() => console.log('Auto-play prevenido por el navegador.'));
         }
     }
 };
@@ -389,41 +386,37 @@ window.addEventListener('click', function(e) {
     }
 }, { capture: true, passive: true });
 
-window.addEventListener('DOMContentLoaded', () => { 
-    CoreEngine.init(); 
-});
-// ========================================================================
-// PARCHE GUARDIÁN ANTI-CONGELAMIENTO (SCROLL UNLOCKER)
-// Libera la pantalla si el sistema olvida quitar el candado físico.
-// ========================================================================
+// ====================================================================================
+// GUARDIÁN ANTI-CONGELAMIENTO DE SCROLL
+// ====================================================================================
 document.addEventListener('click', (e) => {
-    // Escuchamos si el usuario tocó un enlace de navegación o un botón para cerrar
     if (e.target.closest('[data-target]') || e.target.closest('.close-btn') || e.target.closest('.close-modal-btn')) {
-        
-        // Le damos 400 milisegundos de ventaja para que terminen las animaciones de cierre
         setTimeout(() => {
             const menuAbierto = document.querySelector('.side-menu.open');
             const modalAbierto = document.querySelector('dialog[open]');
-            
-            // Si el menú y los modales ya están cerrados, pero el cuerpo sigue congelado...
             if (!menuAbierto && !modalAbierto) {
-                // ...destruimos los candados físicos a la fuerza.
                 document.body.style.overflow = '';
                 document.body.style.position = '';
                 document.body.style.top = '';
                 document.body.style.width = '';
                 document.documentElement.style.overflow = '';
                 document.body.classList.remove('scroll-locked');
+                document.body.classList.remove('pausar-ambiente');
             }
-        }, 400); 
+        }, 450);
     }
 });
 
-// Respaldo extra: Si el usuario usa el botón "Atrás" del celular
+// Botón Atrás del celular — libera scroll
 window.addEventListener('popstate', () => {
     setTimeout(() => {
         document.body.style.overflow = '';
         document.body.style.position = '';
         document.documentElement.style.overflow = '';
+        document.body.classList.remove('pausar-ambiente');
     }, 100);
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+    CoreEngine.init();
 });
