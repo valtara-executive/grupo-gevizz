@@ -1,7 +1,7 @@
 {
   "name": "Valtara | Executive Therapy",
   "short_name": "Valtara",
-  "description": "Santuario de masajes y biomecánica corporativa.",
+  "description": "Santuario de masajes, biomecánica y bienestar corporativo de ultra-lujo.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -11,9 +11,21 @@
   "icons": [
     {
       "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "logo.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
