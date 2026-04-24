@@ -1,13 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
     <meta charset="utf-8">
-    <title>Redirigiendo Valtara...</title>
+    <title>Cargando Valtara...</title>
     <script>
-      // SALVA LA URL FANTASMA (Ej: /masaje-deportivo-reforma)
+      // DICCIONARIO DE VISTAS PREVIAS (Open Graph)
+      const path = window.location.pathname.replace(/\/$/, ""); // Limpiar slash final
+      const seoData = {
+          '/catalogo-masajes': { title: 'Catálogo de Masajes | VALTARA', desc: 'Protocolos de descompresión muscular y biomecánica.', img: 'https://valtaraexecutive.com/gallery/r1.jpg' },
+          '/estudio-manicura': { title: 'Art & Nails Studio | VALTARA', desc: 'Estudio de estética integral y manicura de autor.', img: 'https://valtaraexecutive.com/gallery/gel1.jpg' },
+          '/sonoterapia': { title: 'Sonoterapia Inmersiva | VALTARA', desc: 'Inmersión acústica para disolver el Burnout corporativo.', img: 'https://valtaraexecutive.com/logo.png' },
+          '/ciencia-y-botanica': { title: 'Ciencia y Biomecánica | VALTARA', desc: 'Conoce los fundamentos neurobiológicos de nuestras terapias.', img: 'https://valtaraexecutive.com/logo.png' }
+      };
+      
+      const data = seoData[path] || { title: 'VALTARA | Executive Therapy', desc: 'Santuario de restauración biomecánica en CDMX.', img: 'https://valtaraexecutive.com/logo.png' };
+
+      // Inyectar etiquetas para bots que ejecutan JS
+      document.title = data.title;
+      document.write('<meta property="og:title" content="' + data.title + '">');
+      document.write('<meta property="og:description" content="' + data.desc + '">');
+      document.write('<meta property="og:image" content="' + data.img + '">');
+      document.write('<meta name="twitter:card" content="summary_large_image">');
+
+      // GUARDAR RUTA FANTASMA Y REDIRIGIR AL SPA (index.html)
       sessionStorage.redirect = location.href;
+      
+      // Pequeño delay para asegurar que algunos crawlers lean el DOM inyectado
+      setTimeout(function() {
+          window.location.replace('/');
+      }, 500);
     </script>
-    <meta http-equiv="refresh" content="0;URL='/'">
   </head>
-  <body></body>
+  <body style="background-color: #050508; color: #F2C94C; text-align: center; padding-top: 20vh; font-family: sans-serif;">
+      <h2>Sincronizando con el Santuario...</h2>
+  </body>
 </html>
