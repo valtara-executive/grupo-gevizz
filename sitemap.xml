@@ -2,55 +2,65 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+          http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-    <!-- PÁGINA PRINCIPAL (Prioridad Máxima) -->
+    <!-- PÁGINA PRINCIPAL -->
     <url>
         <loc>https://valtaraexecutive.com/</loc>
-        <lastmod>2026-04-16</lastmod>
+        <lastmod>2026-04-25</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
         <image:image>
             <image:loc>https://valtaraexecutive.com/logo.png</image:loc>
-            <image:title>Valtara Executive Therapy - Clínica de Masoterapia</image:title>
-            <image:caption>Santuario de Restauración Biomecánica en CDMX y Tizayuca</image:caption>
+            <image:title>Valtara Executive Therapy — Clínica de Masoterapia CDMX y Tizayuca</image:title>
+            <image:caption>Santuario de Restauración Biomecánica en Paseo de la Reforma 195, CDMX</image:caption>
         </image:image>
     </url>
 
-    <!-- NÚCLEO DE VENTAS (Prioridad Alta) -->
+    <!-- NÚCLEO DE VENTAS -->
     <url>
         <loc>https://valtaraexecutive.com/catalogo-masajes</loc>
-        <lastmod>2026-04-16</lastmod>
+        <lastmod>2026-04-25</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.95</priority>
-    </url>
-    <url>
-        <loc>https://valtaraexecutive.com/estudio-manicura</loc>
-        <lastmod>2026-04-16</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.90</priority>
+        <image:image>
+            <image:loc>https://valtaraexecutive.com/gallery/r1.jpg</image:loc>
+            <image:title>Catálogo de Masajes Ejecutivos y Biomecánica — Valtara</image:title>
+        </image:image>
     </url>
 
-    <!-- EXPERIENCIA DIGITAL Y RETENCIÓN (Prioridad Media-Alta) -->
+    <url>
+        <loc>https://valtaraexecutive.com/estudio-manicura</loc>
+        <lastmod>2026-04-25</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.90</priority>
+        <image:image>
+            <image:loc>https://valtaraexecutive.com/gallery/gel1.jpg</image:loc>
+            <image:title>Art &amp; Nails Studio — Manicura de Autor y Alta Gama</image:title>
+        </image:image>
+    </url>
+
+    <!-- EXPERIENCIA INMERSIVA -->
     <url>
         <loc>https://valtaraexecutive.com/sonoterapia</loc>
-        <lastmod>2026-04-16</lastmod>
+        <lastmod>2026-04-25</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.85</priority>
     </url>
 
-    <!-- AUTORIDAD CLÍNICA Y CIENTÍFICA (Prioridad Media) -->
+    <!-- AUTORIDAD CIENTÍFICA -->
     <url>
         <loc>https://valtaraexecutive.com/ciencia-y-botanica</loc>
-        <lastmod>2026-04-16</lastmod>
+        <lastmod>2026-04-25</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.80</priority>
     </url>
 
-    <!-- CUMPLIMIENTO LEGAL Y CORPORATIVO (Prioridad Estándar) -->
+    <!-- LEGAL Y CORPORATIVO — CORREGIDO: era /politicas, debe ser /manifiesto-y-privacidad -->
     <url>
-        <loc>https://valtaraexecutive.com/politicas</loc>
-        <lastmod>2026-04-16</lastmod>
+        <loc>https://valtaraexecutive.com/manifiesto-y-privacidad</loc>
+        <lastmod>2026-04-25</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.50</priority>
     </url>
