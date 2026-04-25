@@ -49,8 +49,9 @@ const ValtaraPerformance = {
 
     // ── Configuración por calidad ──────────────────────────────────
     qualityConfig: {
-        HIGH:   { orbCount: 5, blurAmount: 120, opacity: 0.82, speed: 0.0004, mixBlend: true  },
-        MEDIUM: { orbCount: 3, blurAmount: 80,  opacity: 0.70, speed: 0.0003, mixBlend: false },
+        // mixBlend:false en todos — 'screen' solapaba orbs y los hacía cegadores
+        HIGH:   { orbCount: 5, blurAmount: 120, opacity: 0.38, speed: 0.0004, mixBlend: false },
+        MEDIUM: { orbCount: 3, blurAmount: 80,  opacity: 0.28, speed: 0.0003, mixBlend: false },
         ECO:    { orbCount: 0, blurAmount: 0,   opacity: 0,    speed: 0,      mixBlend: false }
     },
 
@@ -312,11 +313,11 @@ const ValtaraPerformance = {
 
         // Limpiar con fade (trail effect sutil sin repaint completo)
         this.ctx.globalCompositeOperation = 'source-over';
-        this.ctx.fillStyle = 'rgba(5, 5, 10, 0.18)';
+        this.ctx.fillStyle = 'rgba(5, 5, 10, 0.72)';
         this.ctx.fillRect(0, 0, W, H);
 
         // Modo de compositing para efecto luminoso (solo en HIGH)
-        this.ctx.globalCompositeOperation = config.mixBlend ? 'screen' : 'source-over';
+        this.ctx.globalCompositeOperation = 'source-over'; // screen eliminado: acumulaba brillo
 
         const activeOrbs = this.orbs.slice(0, config.orbCount);
 
@@ -336,9 +337,9 @@ const ValtaraPerformance = {
             const gradient = this.ctx.createRadialGradient(x, y, 0, x, y, radius);
             const { h, s, l } = orb.color;
 
-            gradient.addColorStop(0,   `hsla(${h}, ${s}%, ${Math.min(l + 15, 80)}%, ${opacity})`);
-            gradient.addColorStop(0.35, `hsla(${h}, ${s}%, ${l}%, ${opacity * 0.65})`);
-            gradient.addColorStop(0.7,  `hsla(${h}, ${s}%, ${l - 10}%, ${opacity * 0.25})`);
+            gradient.addColorStop(0,   `hsla(${h}, ${s}%, ${Math.min(l + 4, 65)}%, ${opacity})`);
+            gradient.addColorStop(0.30, `hsla(${h}, ${s}%, ${l - 5}%, ${opacity * 0.45})`);
+            gradient.addColorStop(0.60, `hsla(${h}, ${s}%, ${l - 12}%, ${opacity * 0.12})`);
             gradient.addColorStop(1,   `hsla(${h}, ${s}%, ${l - 20}%, 0)`);
 
             this.ctx.beginPath();
@@ -351,7 +352,7 @@ const ValtaraPerformance = {
         this.ctx.globalCompositeOperation = 'source-over';
         const vignette = this.ctx.createRadialGradient(W/2, H/2, H * 0.25, W/2, H/2, H * 0.85);
         vignette.addColorStop(0, 'rgba(5, 5, 10, 0)');
-        vignette.addColorStop(1, 'rgba(5, 5, 10, 0.55)');
+        vignette.addColorStop(1, 'rgba(5, 5, 10, 0.80)');
         this.ctx.fillStyle = vignette;
         this.ctx.fillRect(0, 0, W, H);
     },
