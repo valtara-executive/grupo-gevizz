@@ -120,15 +120,35 @@ const ValtaraBackgrounds = {
     },
 
     // ── LOOP PRINCIPAL ────────────────────────────────────────────────
+    // Frame skip durante scroll → menos carga térmica
+    _scrolling: false,
+    _scrollTimer: null,
+
     startLoop: function(name) {
+        // Detectar scroll activo para bajar frame rate
+        window.addEventListener('scroll', () => {
+            this._scrolling = true;
+            clearTimeout(this._scrollTimer);
+            this._scrollTimer = setTimeout(() => { this._scrolling = false; }, 180);
+        }, { passive: true });
+
+        let frameSkip = 0;
         const draw = () => {
             this.rafId = requestAnimationFrame(draw);
-            if (!document.visibilityState || document.visibilityState === 'visible') {
-                this.time += 0.012;
-                this.clearCanvas();
-                const fn = this['draw_' + name];
-                if (fn) fn.call(this);
+
+            // Pausa si la pestaña no es visible
+            if (document.visibilityState === 'hidden') return;
+
+            // Durante scroll: saltar 2 de cada 3 frames (mantiene fluidez sin sobrecalentar)
+            if (this._scrolling) {
+                frameSkip = (frameSkip + 1) % 3;
+                if (frameSkip !== 0) return;
             }
+
+            this.time += 0.012;
+            this.clearCanvas();
+            const fn = this['draw_' + name];
+            if (fn) fn.call(this);
         };
         draw();
     },
@@ -791,6 +811,7 @@ const ValtaraBackgrounds = {
                 z-index: 18999;
                 background: transparent;
                 display: none;
+                touch-action: none; /* captura el toque pero no bloquea el JS scroll */
             }
             #bg-overlay.open { display: block; }
         `;
@@ -876,11 +897,19 @@ const ValtaraBackgrounds = {
     openSelector: function() {
         document.getElementById('bg-selector-sheet')?.classList.add('open');
         document.getElementById('bg-overlay')?.classList.add('open');
+        // Guardar posición actual del scroll y bloquear solo el body (no el canvas)
+        this._scrollY = window.scrollY;
+        document.body.style.overflow = 'hidden';
     },
 
     closeSelector: function() {
         document.getElementById('bg-selector-sheet')?.classList.remove('open');
         document.getElementById('bg-overlay')?.classList.remove('open');
+        // Liberar scroll siempre — evita el bloqueo residual
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.documentElement.style.overflow = '';
+        document.body.classList.remove('scroll-locked');
     },
 
     // ── PERSISTENCIA ─────────────────────────────────────────────────
