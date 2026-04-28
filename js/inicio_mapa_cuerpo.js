@@ -904,12 +904,12 @@ window.ValtaraMapaController = (function() {
     }
 
     /* ── ARRANQUE AUTOMÁTICO ─────────────────────────────────────── */
-    function tryInit() {
+    // El canvas lo genera constructor_maestro.js DESPUÉS de que este script corre.
+    // Por eso usamos un poller que espera hasta encontrarlo en el DOM.
+
+    function loadThreeAndInit() {
         if (isInitialized) return;
-        const canvas = document.getElementById('body-map-canvas');
-        if (!canvas) return;
         if (!window.THREE) {
-            // Cargar Three.js dinámicamente
             const s = document.createElement('script');
             s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
             s.crossOrigin = 'anonymous';
@@ -921,29 +921,48 @@ window.ValtaraMapaController = (function() {
         }
     }
 
-    // Observar cuando la sección de inicio se activa
-    const sectionObserver = new MutationObserver(() => {
-        const homeSection = document.getElementById('view-home');
-        if (homeSection && homeSection.classList.contains('active')) {
-            const canvas = document.getElementById('body-map-canvas');
-            if (canvas && !isInitialized) tryInit();
-            isVisible = true;
-        } else {
-            isVisible = false;
-        }
-    });
+    // Poller: intenta cada 300ms hasta encontrar el canvas (máx 15s)
+    let pollCount = 0;
+    const canvasPoller = setInterval(() => {
+        pollCount++;
+        if (pollCount > 50) { clearInterval(canvasPoller); return; } // 15s timeout
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const homeSection = document.getElementById('view-home');
-        if (homeSection) {
-            sectionObserver.observe(homeSection, { attributes: true, attributeFilter: ['class'] });
-            // Si ya está activo al cargar
-            if (homeSection.classList.contains('active')) {
-                setTimeout(tryInit, 600);
-                isVisible = true;
-            }
+        const canvas = document.getElementById('body-map-canvas');
+        if (!canvas) return; // canvas aún no existe, seguir esperando
+
+        clearInterval(canvasPoller);
+
+        // Canvas encontrado — arrancar si la sección de inicio está activa
+        const home = document.getElementById('view-home');
+        if (home && home.classList.contains('active')) {
+            loadThreeAndInit();
         }
-    });
+
+        // Observar cambios de clase en view-home para inicializar/pausar
+        if (home) {
+            new MutationObserver(() => {
+                if (home.classList.contains('active')) {
+                    isVisible = true;
+                    if (!isInitialized) loadThreeAndInit();
+                } else {
+                    isVisible = false;
+                }
+            }).observe(home, { attributes: true, attributeFilter: ['class'] });
+        }
+
+        // Hook al router: cuando naveguen a home, inicializar
+        const _origSync = window._syncBnav;
+        window._syncBnav = function(viewId) {
+            if (_origSync) _origSync(viewId);
+            if (viewId === 'home') {
+                isVisible = true;
+                if (!isInitialized) loadThreeAndInit();
+            } else {
+                isVisible = false;
+            }
+        };
+
+    }, 300);
 
     return { setView, setVista };
 
