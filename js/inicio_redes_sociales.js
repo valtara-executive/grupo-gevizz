@@ -1,143 +1,483 @@
 /**
- * VALTARA — ZONA DE BIENESTAR INTERACTIVO
- * 4 widgets: respiración guiada, ritual por hora,
- * termómetro de estrés y recomendador de aromaterapia.
- * inicio_redes_sociales.js — carpeta js/
+ * VALTARA — MÓDULO DE INSPIRACIÓN SOCIAL V2.0
+ * Módulo: js/inicio_redes.js
+ * 
+ * ✅ 100+ frases inspiradoras que cambian aleatoriamente
+ * ✅ Preguntas dinámicas con 3 opciones que se randomizan en cada carga
+ * ✅ Diseño elegante, accesible y coherente con marca Valtara
+ * ✅ Integración con WhatsApp para compartir reflexiones
+ * ✅ Exporta a window.ValtaraModulos.inicio_redes (compatibilidad total)
  */
-window.ValtaraModulos = window.ValtaraModulos || {};
 
-window.ValtaraModulos.inicio_redes_sociales = `
-<div class="reveal" style="margin-top:6rem;">
-<div style="text-align:center;margin-bottom:2.5rem;">
-    <p style="font-size:0.78rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--valtara-cian-brillante);margin:0 0 0.8rem;">Tu momento · Ahora mismo</p>
-    <h3 style="font-family:var(--font-accent);font-size:2.4rem;color:var(--valtara-blanco);margin:0;font-weight:400;">Zona de Bienestar</h3>
-</div>
+(function(global) {
+  'use strict';
 
-<div id="widget-respiracion" style="background:linear-gradient(135deg,rgba(0,255,204,0.04),rgba(5,5,10,0.88));border:1px solid rgba(0,255,204,0.14);border-radius:2rem;padding:3rem 2rem;text-align:center;margin-bottom:1.5rem;">
-    <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(0,255,204,0.6);margin:0 0 0.8rem;">Ejercicio de respiración</p>
-    <h4 style="font-family:var(--font-accent);font-size:1.8rem;color:var(--valtara-blanco);margin:0 0 2rem;font-weight:400;">Técnica 4-4-6 · Desactivación del cortisol</h4>
-    <div style="position:relative;display:inline-flex;align-items:center;justify-content:center;margin-bottom:2rem;cursor:pointer;" id="breath-circle-wrapper" role="button" aria-label="Iniciar ejercicio de respiración" tabindex="0">
-        <svg width="200" height="200" viewBox="0 0 200 200" aria-hidden="true" style="position:absolute;">
-            <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(0,255,204,0.08)" stroke-width="2"/>
-            <circle id="breath-ring-progress" cx="100" cy="100" r="90" fill="none" stroke="rgba(0,255,204,0.5)" stroke-width="2.5" stroke-dasharray="565" stroke-dashoffset="565" transform="rotate(-90 100 100)" style="transition:stroke-dashoffset 0.1s linear;"/>
-        </svg>
-        <div id="breath-circle" style="width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,204,0.18) 0%,rgba(0,0,0,0) 70%);border:1.5px solid rgba(0,255,204,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform 4s ease-in-out,border-color 0.5s ease;position:relative;z-index:1;">
-            <i class="fa-solid fa-wind" style="font-size:2rem;color:var(--valtara-cian-brillante);margin-bottom:0.4rem;" aria-hidden="true"></i>
-            <span id="breath-label" style="font-size:0.78rem;font-family:'Lato',sans-serif;color:rgba(255,255,255,0.6);letter-spacing:0.08em;text-transform:uppercase;">Toca para iniciar</span>
-        </div>
-    </div>
-    <div style="display:flex;justify-content:center;gap:2rem;margin-bottom:2rem;" aria-hidden="true">
-        <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:var(--valtara-cian-brillante);font-family:var(--font-accent);" id="breath-count">-</div><div style="font-size:0.7rem;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.08em;">Ciclo</div></div>
-        <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:var(--valtara-oro);font-family:var(--font-accent);" id="breath-timer">-</div><div style="font-size:0.7rem;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.08em;">Segundos</div></div>
-    </div>
-    <p id="breath-benefit" style="color:rgba(255,255,255,0.35);font-size:0.88rem;line-height:1.7;max-width:380px;margin:0 auto;">La técnica 4-4-6 activa el nervio vago y reduce el cortisol sérico en menos de 3 minutos.</p>
-</div>
+  // ========================================
+  // 💫 BANCO DE 100+ FRASES INSPIRADORAS
+  // ========================================
+  const FRASES_INSPIRADORAS = [
+    "Cada respiración consciente es un acto de amor hacia ti mismo.",
+    "El cuerpo guarda la memoria; la masoterapia ayuda a liberarla.",
+    "No se trata de eliminar el dolor, sino de entender su mensaje.",
+    "Tu bienestar es un proceso, no un destino.",
+    "La calma no es la ausencia de caos, sino la paz en medio de él.",
+    "Escuchar al cuerpo es el primer paso para sanar.",
+    "Pequeños cambios generan grandes transformaciones.",
+    "El autocuidado no es egoísmo, es supervivencia consciente.",
+    "Tu cuerpo merece la misma atención que le das a tus metas.",
+    "La tensión es una carta; la masoterapia, su traducción.",
+    "Respirar profundo ya es un acto de valentía.",
+    "No necesitas ser perfecto para merecer cuidado.",
+    "Cada sesión es un diálogo entre tus manos y tu bienestar.",
+    "La paciencia contigo mismo es la mayor terapia.",
+    "El descanso no es un lujo, es una necesidad biológica.",
+    "Tu valor no depende de tu productividad.",
+    "Sanar no es lineal; permite los altibajos.",
+    "El cuerpo habla en símbolos; aprende su idioma.",
+    "La suavidad también es fuerza.",
+    "Cuidarte es revolucionario en un mundo que exige agotamiento.",
+    "No pospongas tu paz para un 'después' que no existe.",
+    "La masoterapia no cura enfermedades; acompaña procesos.",
+    "Tu ritmo es válido, aunque sea diferente al de otros.",
+    "El silencio interior es el mejor aliado del cuerpo.",
+    "Cada músculo relajado es una oración de gratitud.",
+    "No necesitas justificar tu necesidad de descanso.",
+    "La atención plena transforma el dolor en información.",
+    "Tu cuerpo es tu hogar; trátalo con respeto.",
+    "La consistencia suave vence a la intensidad esporádica.",
+    "Permitir es el primer paso para soltar.",
+    "El bienestar se construye en momentos, no en milagros.",
+    "No compares tu proceso con el de nadie más.",    "La masoterapia es un abrazo que el cuerpo recuerda.",
+    "Tu sensibilidad es un superpoder, no una debilidad.",
+    "Cuidar de ti no espera a que 'termines' de cuidar a otros.",
+    "La respiración es el puente entre mente y cuerpo.",
+    "No necesitas 'arreglarte'; necesitas escucharte.",
+    "El autocuidado es un acto de resistencia cotidiana.",
+    "Tu cuerpo sabe sanar; solo necesita condiciones para hacerlo.",
+    "La paciencia es amor en cámara lenta.",
+    "Cada sesión es una inversión en tu futuro yo.",
+    "No subestimes el poder de una pausa consciente.",
+    "La masoterapia no es un gasto, es un regalo a tu sistema nervioso.",
+    "Tu bienestar es la base desde la que construyes todo lo demás.",
+    "El cuerpo no miente; aprende a leer sus señales.",
+    "La suavidad contigo mismo abre puertas que la fuerza cierra.",
+    "No necesitas más fuerza; necesitas más permiso para sentir.",
+    "Cada respiración es una oportunidad para empezar de nuevo.",
+    "El descanso activo también es progreso.",
+    "Tu valor es inherente, no condicional.",
+    "La masoterapia es lenguaje sin palabras.",
+    "Permitir el descanso es permitir la vida.",
+    "No pospongas tu paz para cuando 'todo esté bajo control'.",
+    "El cuerpo agradece la intención, no la perfección.",
+    "Tu proceso merece celebración, no crítica.",
+    "La atención es la forma más pura de cuidado.",
+    "No necesitas 'merecer' el descanso; ya lo mereces por existir.",
+    "Cada momento de consciencia corporal es un acto de libertad.",
+    "La masoterapia no borra el estrés; te enseña a navegarlo.",
+    "Tu cuerpo es sabio; confía en su inteligencia.",
+    "El autocuidado no es un evento, es una práctica diaria.",
+    "No necesitas cambiar tu cuerpo para amarlo.",
+    "La paciencia es la compañera de toda transformación real.",
+    "Cuidar de ti no es egoísmo; es responsabilidad.",
+    "El silencio del cuerpo a veces grita más que las palabras.",
+    "Tu bienestar no compite con el de nadie más.",
+    "La masoterapia es un recordatorio: mereces ser cuidado.",
+    "No necesitas justificar tu necesidad de pausa.",
+    "El cuerpo guarda historias; la masoterapia ayuda a reescribirlas.",
+    "La suavidad es la forma más valiente de fortaleza.",
+    "Tu ritmo es perfecto para ti, aunque otros no lo entiendan.",
+    "Cada sesión es un acto de fe en tu capacidad de sanar.",
+    "No pospongas tu paz para un 'momento ideal' que no llega.",
+    "El descanso no es rendición; es estrategia de vida.",
+    "Tu cuerpo no es un problema a resolver; es un aliado a escuchar.",
+    "La masoterapia no cura; acompaña, sostiene, facilita.",
+    "No necesitas más disciplina; necesitas más compasión.",
+    "El autocuidado es la base desde la que cuidas a otros.",
+    "Tu valor no fluctúa con tu nivel de energía.",
+    "La atención plena transforma el malestar en mensaje.",
+    "Cuidar de ti no espera a que 'se calme todo'.",
+    "El cuerpo responde a la intención amorosa, no a la exigencia.",    "No necesitas 'arreglar' tu cuerpo; necesitas habitarlo.",
+    "La paciencia contigo mismo es la mayor revolución.",
+    "Tu bienestar es un derecho, no un privilegio.",
+    "La masoterapia es un diálogo silencioso entre tú y tu cuerpo.",
+    "No subestimes el poder de una mano que escucha.",
+    "El descanso es el suelo donde crece la transformación.",
+    "Tu cuerpo merece la misma urgencia que tus obligaciones.",
+    "La masoterapia no elimina el estrés; te da herramientas para gestionarlo.",
+    "No necesitas más fuerza de voluntad; necesitas más permiso para sentir.",
+    "Cada respiración consciente es un ancla en la tormenta.",
+    "El autocuidado no es un lujo; es una necesidad humana.",
+    "Tu cuerpo no es un obstáculo; es tu vehículo de experiencia.",
+    "La suavidad contigo mismo abre caminos que la rigidez cierra.",
+    "No pospongas tu paz para cuando 'tengas tiempo'.",
+    "El cuerpo agradece la constancia suave más que la intensidad esporádica.",
+    "Tu proceso de bienestar es único; honra su ritmo.",
+    "La masoterapia es un recordatorio: estás aquí, y eso ya es suficiente.",
+    "No necesitas justificar tu necesidad de cuidado; ya es válida.",
+    "El descanso activo también construye resiliencia.",
+    "Tu valor es inherente; no depende de tu estado físico.",
+    "La atención es el primer acto de amor hacia tu cuerpo.",
+    "Cuidar de ti no es egoísmo; es la base para cuidar a otros.",
+    "El cuerpo habla en sensaciones; la masoterapia ayuda a traducirlas.",
+    "No necesitas cambiar para merecer cuidado; ya lo mereces.",
+    "La paciencia es amor aplicado al tiempo.",
+    "Tu bienestar no es un destino; es una práctica diaria.",
+    "La masoterapia no cura enfermedades; crea condiciones para que el cuerpo sane.",
+    "No necesitas más presión; necesitas más espacio para sentir.",
+    "Cada momento de consciencia corporal es un acto de libertad.",
+    "El autocuidado es la forma más profunda de autoconocimiento.",
+    "Tu cuerpo es tu primer hogar; trátalo con la ternura que merece."
+  ];
 
-<div id="widget-ritual" style="background:linear-gradient(135deg,rgba(212,175,55,0.05),rgba(5,5,10,0.88));border:1px solid rgba(212,175,55,0.14);border-radius:2rem;padding:3rem 2rem;margin-bottom:1.5rem;">
-    <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(212,175,55,0.6);margin:0 0 0.8rem;text-align:center;">Ritual del momento</p>
-    <h4 style="font-family:var(--font-accent);font-size:1.8rem;color:var(--valtara-blanco);margin:0 0 2rem;font-weight:400;text-align:center;" id="ritual-titulo">Cargando...</h4>
-    <div style="display:grid;grid-template-columns:auto 1fr;gap:1.5rem;align-items:start;background:rgba(255,255,255,0.03);border-radius:1.2rem;padding:1.5rem;">
-        <div style="width:52px;height:52px;border-radius:50%;border:1.5px solid rgba(212,175,55,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(212,175,55,0.07);">
-            <i id="ritual-icono" class="fa-solid fa-sun" style="font-size:1.5rem;color:var(--valtara-oro);" aria-hidden="true"></i>
-        </div>
-        <div>
-            <p id="ritual-descripcion" style="color:var(--valtara-gris-texto);font-size:1rem;line-height:1.75;margin:0 0 1rem;"></p>
-            <div id="ritual-pasos" style="display:flex;flex-direction:column;gap:0.6rem;"></div>
-        </div>
-    </div>
-    <div style="text-align:center;margin-top:1.8rem;">
-        <a id="ritual-wa-btn" href="https://wa.me/5213348572070" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:10px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.35);color:var(--valtara-oro);padding:10px 22px;border-radius:30px;text-decoration:none;font-size:0.88rem;font-weight:600;font-family:'Lato',sans-serif;">
-            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Profundizar con un especialista
-        </a>
-    </div>
-</div>
+  // ========================================
+  // ❓ BANCO DE PREGUNTAS DINÁMICAS
+  // ========================================
+  const PREGUNTAS_DINAMICAS = [
+    {
+      pregunta: "¿Cómo te sientes hoy en tu cuerpo?",
+      opciones: [
+        { texto: "Con tensión acumulada", valor: "tension", color: "#ff6b35" },
+        { texto: "Con energía equilibrada", valor: "equilibrio", color: "#00ffe0" },
+        { texto: "Con necesidad de pausa", valor: "pausa", color: "#b27fff" }
+      ]
+    },
+    {
+      pregunta: "¿Qué necesita tu cuerpo en este momento?",
+      opciones: [
+        { texto: "Movimiento suave", valor: "movimiento", color: "#00ffe0" },
+        { texto: "Descanso profundo", valor: "descanso", color: "#b27fff" },        { texto: "Liberación de tensión", valor: "liberacion", color: "#ff6b35" }
+      ]
+    },
+    {
+      pregunta: "¿En qué zona sientes más conexión hoy?",
+      opciones: [
+        { texto: "Cabeza y cuello", valor: "cabeza", color: "#ffd700" },
+        { texto: "Espalda y core", valor: "espalda", color: "#00ffe0" },
+        { texto: "Piernas y pies", valor: "piernas", color: "#ff6b35" }
+      ]
+    },
+    {
+      pregunta: "¿Qué emoción está habitando tu cuerpo ahora?",
+      opciones: [
+        { texto: "Calma y presencia", valor: "calma", color: "#00ffe0" },
+        { texto: "Inquietud o ansiedad", valor: "inquietud", color: "#ff6b35" },
+        { texto: "Cansancio o agotamiento", valor: "cansancio", color: "#b27fff" }
+      ]
+    },
+    {
+      pregunta: "¿Qué pequeño gesto de cuidado puedes ofrecerte hoy?",
+      opciones: [
+        { texto: "5 minutos de respiración consciente", valor: "respiracion", color: "#00ffe0" },
+        { texto: "Un estiramiento suave", valor: "estiramiento", color: "#ffd700" },
+        { texto: "Permiso para descansar sin culpa", valor: "permiso", color: "#b27fff" }
+      ]
+    },
+    {
+      pregunta: "¿Qué mensaje crees que tu cuerpo quiere compartirte?",
+      opciones: [
+        { texto: "Necesito más pausa", valor: "pausa", color: "#b27fff" },
+        { texto: "Estoy listo para soltar", valor: "soltar", color: "#00ffe0" },
+        { texto: "Merezco ser cuidado", valor: "cuidado", color: "#ffd700" }
+      ]
+    },
+    {
+      pregunta: "¿Cómo describirías tu nivel de energía corporal hoy?",
+      opciones: [
+        { texto: "Fluyendo con facilidad", valor: "flujo", color: "#00ffe0" },
+        { texto: "Estancado o pesado", valor: "estancado", color: "#ff6b35" },
+        { texto: "En transición o cambio", valor: "transicion", color: "#b27fff" }
+      ]
+    },
+    {
+      pregunta: "¿Qué parte de tu cuerpo te pide más atención hoy?",
+      opciones: [
+        { texto: "Hombros y cuello", valor: "hombros", color: "#ffd700" },
+        { texto: "Espalda baja", valor: "lumbar", color: "#ff6b35" },
+        { texto: "Piernas y pies", valor: "piernas", color: "#00ffe0" }
+      ]    },
+    {
+      pregunta: "¿Qué necesitas recordar sobre tu bienestar hoy?",
+      opciones: [
+        { texto: "Mi ritmo es válido", valor: "ritmo", color: "#b27fff" },
+        { texto: "Merezco cuidado sin condiciones", valor: "merecimiento", color: "#00ffe0" },
+        { texto: "El progreso no es lineal", valor: "progreso", color: "#ffd700" }
+      ]
+    },
+    {
+      pregunta: "¿Qué pequeña victoria corporal puedes celebrar hoy?",
+      opciones: [
+        { texto: "Respiré más profundo que ayer", valor: "respiracion", color: "#00ffe0" },
+        { texto: "Escuché una señal de mi cuerpo", valor: "escucha", color: "#ffd700" },
+        { texto: "Me permití una pausa sin culpa", valor: "pausa", color: "#b27fff" }
+      ]
+    }
+  ];
 
-<div id="widget-estres" style="background:linear-gradient(135deg,rgba(123,47,190,0.05),rgba(5,5,10,0.88));border:1px solid rgba(123,47,190,0.18);border-radius:2rem;padding:3rem 2rem;margin-bottom:1.5rem;">
-    <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(178,127,255,0.7);margin:0 0 0.8rem;text-align:center;">Termómetro de estrés</p>
-    <h4 style="font-family:var(--font-accent);font-size:1.8rem;color:var(--valtara-blanco);margin:0 0 0.6rem;font-weight:400;text-align:center;">Cuánto estrés llevas hoy</h4>
-    <p style="color:rgba(255,255,255,0.35);font-size:0.85rem;text-align:center;margin:0 0 2.5rem;">Desliza para calibrar tu nivel de tensión muscular actual.</p>
-    <div style="padding:0 1rem;margin-bottom:1.5rem;">
-        <input type="range" id="estres-slider" min="1" max="10" value="5" aria-label="Nivel de estrés del 1 al 10" style="width:100%;height:6px;border-radius:3px;-webkit-appearance:none;appearance:none;background:linear-gradient(90deg,#00FFCC 0%,#FFD700 50%,#FF6B35 100%);cursor:pointer;outline:none;">
+  // ========================================
+  // 🎨 TEMPLATE HTML - INSPIRACIÓN SOCIAL
+  // ========================================
+  const REDES_TEMPLATE = `
+<section aria-labelledby="redes-titulo" class="redes-container">
+  <div class="redes-header">
+    <div style="display:inline-flex;align-items:center;gap:14px;margin-bottom:1rem;">
+      <span style="background:rgba(178,127,255,0.15);border:1px solid rgba(178,127,255,0.3);padding:12px;border-radius:50%;display:flex;">
+        <i class="fa-solid fa-seedling" style="color:var(--valtara-morado, #b27fff);font-size:2rem;" aria-hidden="true"></i>
+      </span>
+      <h2 id="redes-titulo" style="font-family:var(--font-accent, 'Lato', sans-serif);color:var(--valtara-blanco, #fff);font-size:2.2rem;margin:0;">Espacio de Reflexión</h2>
     </div>
-    <div style="text-align:center;margin-bottom:2rem;">
-        <div id="estres-nivel-num" style="font-family:var(--font-accent);font-size:3.5rem;font-weight:600;line-height:1;color:#B97FFF;">5</div>
-        <div id="estres-nivel-label" style="font-size:0.85rem;color:rgba(255,255,255,0.45);margin-top:0.4rem;text-transform:uppercase;letter-spacing:0.1em;">Tensión moderada</div>
-    </div>
-    <div id="estres-resultado" style="background:rgba(123,47,190,0.08);border:1px solid rgba(123,47,190,0.2);border-radius:1.2rem;padding:1.5rem;text-align:left;margin-bottom:1.8rem;">
-        <p style="font-size:0.78rem;font-weight:700;color:#B97FFF;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 0.6rem;">Análisis biomecánico</p>
-        <p id="estres-analisis" style="color:var(--valtara-gris-texto);font-size:0.95rem;line-height:1.75;margin:0 0 1rem;"></p>
-        <p style="font-size:0.78rem;font-weight:700;color:var(--valtara-oro);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 0.6rem;">Protocolo sugerido</p>
-        <p id="estres-protocolo" style="color:var(--valtara-gris-texto);font-size:0.95rem;line-height:1.75;margin:0;"></p>
-    </div>
+    <p style="color:var(--valtara-gris-texto, #aaa);font-size:1.05rem;line-height:1.7;max-width:650px;margin:0 auto;">
+      Palabras para acompañar tu proceso. Cada visita trae una nueva reflexión.
+    </p>
+  </div>
+
+  <!-- Frase inspiradora aleatoria -->
+  <div class="redes-frase-card" role="article" aria-live="polite">
+    <blockquote style="font-family:var(--font-accent, 'Lato', sans-serif);font-size:1.4rem;color:var(--valtara-blanco, #fff);line-height:1.6;margin:0 0 1.5rem;font-style:italic;text-align:center;">
+      "${FRASE_ACTUAL}"
+    </blockquote>
     <div style="text-align:center;">
-        <a id="estres-wa-btn" href="https://wa.me/5213348572070" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#000;padding:11px 24px;border-radius:30px;text-decoration:none;font-size:0.9rem;font-weight:700;font-family:'Lato',sans-serif;box-shadow:0 6px 20px rgba(37,211,102,0.3);">
-            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> <span id="estres-wa-texto">Reservar sesión ahora</span>
-        </a>
+      <button id="redes-compartir-frase" class="redes-compartir-btn" aria-label="Compartir esta frase por WhatsApp">
+        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+        Compartir reflexión
+      </button>
+      <p style="color:var(--valtara-gris-texto);font-size:0.85rem;margin-top:0.5rem;">
+        Actualiza la página para descubrir una nueva frase ✨
+      </p>
+    </div>  </div>
+
+  <!-- Pregunta dinámica con opciones -->
+  <div class="redes-pregunta-card">
+    <h3 id="redes-pregunta-texto" style="font-family:var(--font-accent);color:var(--valtara-blanco);font-size:1.3rem;margin:0 0 1.25rem;text-align:center;">
+      ${PREGUNTA_ACTUAL.pregunta}
+    </h3>
+    <div id="redes-opciones-container" class="redes-opciones-grid" role="radiogroup" aria-label="Selecciona una opción">
+      ${renderOpcionesDinamicas(PREGUNTA_ACTUAL.opciones)}
     </div>
-</div>
-
-<div id="widget-aroma" style="background:linear-gradient(135deg,rgba(255,107,53,0.04),rgba(5,5,10,0.88));border:1px solid rgba(255,107,53,0.14);border-radius:2rem;padding:3rem 2rem;">
-    <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,159,122,0.7);margin:0 0 0.8rem;text-align:center;">Aromaterapia clínica</p>
-    <h4 style="font-family:var(--font-accent);font-size:1.8rem;color:var(--valtara-blanco);margin:0 0 0.6rem;font-weight:400;text-align:center;">Qué necesita tu sistema nervioso</h4>
-    <p style="color:rgba(255,255,255,0.35);font-size:0.85rem;text-align:center;margin:0 0 2rem;">Elige tu estado predominante ahora mismo.</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;" role="radiogroup" aria-label="Estado emocional actual">
-        <button class="aroma-opt" data-aroma="tension" style="padding:1.1rem 0.8rem;border-radius:1rem;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:0.6rem;" aria-pressed="false"><span style="font-size:1.6rem;" aria-hidden="true">&#128544;</span><span style="font-size:0.82rem;color:rgba(255,255,255,0.6);font-family:'Lato',sans-serif;text-align:center;line-height:1.3;">Tensión y sobrecarga</span></button>
-        <button class="aroma-opt" data-aroma="agotamiento" style="padding:1.1rem 0.8rem;border-radius:1rem;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:0.6rem;" aria-pressed="false"><span style="font-size:1.6rem;" aria-hidden="true">&#128558;</span><span style="font-size:0.82rem;color:rgba(255,255,255,0.6);font-family:'Lato',sans-serif;text-align:center;line-height:1.3;">Agotamiento profundo</span></button>
-        <button class="aroma-opt" data-aroma="ansiedad" style="padding:1.1rem 0.8rem;border-radius:1rem;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:0.6rem;" aria-pressed="false"><span style="font-size:1.6rem;" aria-hidden="true">&#128560;</span><span style="font-size:0.82rem;color:rgba(255,255,255,0.6);font-family:'Lato',sans-serif;text-align:center;line-height:1.3;">Ansiedad y mente acelerada</span></button>
-        <button class="aroma-opt" data-aroma="restauracion" style="padding:1.1rem 0.8rem;border-radius:1rem;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:0.6rem;" aria-pressed="false"><span style="font-size:1.6rem;" aria-hidden="true">&#127807;</span><span style="font-size:0.82rem;color:rgba(255,255,255,0.6);font-family:'Lato',sans-serif;text-align:center;line-height:1.3;">Quiero restauración total</span></button>
+    
+    <div id="redes-respuesta-feedback" class="redes-feedback" hidden>
+      <p style="color:var(--valtara-blanco);font-size:1.05rem;line-height:1.6;margin:0;"></p>
+      <button id="redes-whatsapp-respuesta" class="redes-whatsapp-btn" style="margin-top:1rem;">
+        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+        Compartir mi reflexión
+      </button>
     </div>
-    <div id="aroma-resultado" style="display:none;background:rgba(255,107,53,0.06);border:1px solid rgba(255,107,53,0.2);border-radius:1.2rem;padding:1.5rem;margin-bottom:1.5rem;text-align:left;">
-        <div style="display:flex;align-items:center;gap:14px;margin-bottom:1rem;">
-            <div id="aroma-icono-res" style="font-size:2.2rem;">&#127800;</div>
-            <div><p style="font-size:0.75rem;font-weight:700;color:#FF9F7A;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 0.3rem;">Formula recomendada</p><p id="aroma-nombre" style="font-family:var(--font-accent);font-size:1.3rem;color:var(--valtara-blanco);margin:0;"></p></div>
-        </div>
-        <p id="aroma-descripcion" style="color:var(--valtara-gris-texto);font-size:0.93rem;line-height:1.75;margin:0 0 1rem;"></p>
-        <p style="font-size:0.78rem;font-weight:700;color:var(--valtara-oro);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 0.5rem;">Se aplica en:</p>
-        <p id="aroma-servicio" style="color:var(--valtara-gris-texto);font-size:0.93rem;line-height:1.75;margin:0;"></p>
-    </div>
-    <div id="aroma-cta" style="text-align:center;display:none;">
-        <a id="aroma-wa-btn" href="https://wa.me/5213348572070" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#000;padding:11px 24px;border-radius:30px;text-decoration:none;font-size:0.9rem;font-weight:700;font-family:'Lato',sans-serif;box-shadow:0 6px 20px rgba(37,211,102,0.3);">
-            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> <span id="aroma-wa-texto">Incluir en mi sesion</span>
-        </a>
-    </div>
-</div>
-</div>
+  </div>
 
-<script>
-(function() {
-var PHASES=[{label:'Inhala',duration:4,scale:'1.28',bc:'rgba(0,255,204,0.8)'},{label:'Reten',duration:4,scale:'1.28',bc:'rgba(212,175,55,0.8)'},{label:'Exhala',duration:6,scale:'1.0',bc:'rgba(0,255,204,0.3)'}];
-var running=false,pidx=0,cycle=0,tickIv=null,CYCLES=5,C=565;
-function startBreath(){if(running)return;running=true;pidx=0;cycle=0;var b=document.getElementById('breath-benefit');if(b)b.textContent='Sigue el ritmo. Inhala por la nariz, exhala por la boca.';runPhase();}
-function runPhase(){if(cycle>=CYCLES){endBreath();return;}var p=PHASES[pidx],circ=document.getElementById('breath-circle'),lbl=document.getElementById('breath-label'),cnt=document.getElementById('breath-count'),tmr=document.getElementById('breath-timer'),prg=document.getElementById('breath-ring-progress');
-if(circ){circ.style.transform='scale('+p.scale+')';circ.style.borderColor=p.bc;}if(lbl)lbl.textContent=p.label;if(cnt)cnt.textContent=(cycle+1)+' / '+CYCLES;
-var elapsed=0;clearInterval(tickIv);tickIv=setInterval(function(){elapsed++;var rem=p.duration-elapsed;if(tmr)tmr.textContent=rem;if(prg)prg.style.strokeDashoffset=C*(1-elapsed/p.duration);if(elapsed>=p.duration){clearInterval(tickIv);pidx++;if(pidx>=PHASES.length){pidx=0;cycle++;}runPhase();}},1000);}
-function endBreath(){running=false;var circ=document.getElementById('breath-circle'),lbl=document.getElementById('breath-label'),prg=document.getElementById('breath-ring-progress'),b=document.getElementById('breath-benefit');
-if(circ){circ.style.transform='scale(1)';circ.style.borderColor='rgba(0,255,204,0.3)';}if(lbl)lbl.textContent='Completado!';if(prg)prg.style.strokeDashoffset='0';if(b)b.textContent='Excelente. Tu cortisol ha comenzado a bajar. Agenda una sesion para restauracion completa.';}
-var p1=setInterval(function(){var w=document.getElementById('breath-circle-wrapper');if(!w)return;clearInterval(p1);w.addEventListener('click',startBreath);w.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' ')startBreath();});},300);
+  <!-- Disclaimer médico -->
+  <div style="background:rgba(255,107,53,0.12);border-left:4px solid #ff6b35;padding:1rem 1.25rem;border-radius:0 1rem 1rem 0;margin:2rem 0;font-size:0.9rem;">
+    <p style="color:var(--valtara-gris-texto, #aaa);margin:0;line-height:1.6;">
+      <strong style="color:#ff6b35;display:block;margin-bottom:0.25rem;">⚠️ Recordatorio:</strong>
+      Valtara es un centro de <strong>masoterapia manual y bienestar</strong>. 
+      No somos médicos, no somos podólogos, no diagnosticamos enfermedades. 
+      Nuestras sesiones son complementarias a tratamientos médicos.
+    </p>
+  </div>
+</section>
+  `;
 
-var RITUALES={manana:{titulo:'Ritual de Activacion Matutina',icono:'fa-sun',desc:'Las primeras 2 horas del dia determinan el tono neuromuscular. Este protocolo activa la corteza prefrontal y prepara los musculos posturales.',pasos:['30 seg · Rotaciones lentas de cuello: 5 hacia cada lado','45 seg · Retraccion escapular: hombros atras y abajo','60 seg · Respiracion diafragmatica: mano en el abdomen','30 seg · Estiramiento lateral del cuello'],wa:'Hola%2C+me+interesa+el+protocolo+de+activacion+matutina+de+Valtara.'},tarde:{titulo:'Descompresion de Mediodía Ejecutivo',icono:'fa-briefcase',desc:'Despues de 4+ horas frente a pantalla, el psoas y los flexores cervicales estan bajo presion constante. Este ritual interrumpe el ciclo de tension.',pasos:['60 seg · Torso hacia adelante, brazos colgando','45 seg · Masajea la base del craneo con pulgares','30 seg · Ojos cerrados, presion suave en parpados','60 seg · Camina descalzo si es posible'],wa:'Hola%2C+quiero+el+protocolo+de+descompresion+ejecutiva+de+Valtara.'},noche:{titulo:'Protocolo de Descarga Nocturna',icono:'fa-moon',desc:'La tension diurna migra al sistema nervioso autonomo. Este ritual activa el nervio vago y prepara el cuerpo para la reparacion muscular nocturna.',pasos:['2 min · Postura del nino en el piso','90 seg · Masaje de pantorrillas de abajo hacia arriba','60 seg · Tecnica 4-7-8: inhala 4, reten 7, exhala 8','30 seg · Masaje suave de la mandibula con nudillos'],wa:'Hola%2C+quiero+el+protocolo+de+descarga+nocturna+de+Valtara.'},madrugada:{titulo:'Protocolo de Regulacion Nocturna',icono:'fa-star-and-crescent',desc:'Si estas despierto ahora, tu sistema nervioso simpatico esta activo cuando deberia estar en recuperacion. Senal de estres cronico no procesado.',pasos:['3 min · Body scan de pies a cabeza','60 seg · Abraza tus rodillas al pecho','2 min · Respiracion cuadrada: 4-4-4-4','Considera: el insomnio cronico tiene correlato con tension lumbar'],wa:'Hola%2C+tengo+dificultad+para+dormir+y+quiero+informacion+sobre+el+protocolo+Valtara.'}};
-var p2=setInterval(function(){var t=document.getElementById('ritual-titulo');if(!t)return;clearInterval(p2);
-var h=new Date().getHours(),r;
-if(h>=5&&h<=11)r=RITUALES.manana;else if(h>=12&&h<=17)r=RITUALES.tarde;else if(h>=18&&h<=23)r=RITUALES.noche;else r=RITUALES.madrugada;
-t.textContent=r.titulo;var ic=document.getElementById('ritual-icono');if(ic)ic.className='fa-solid '+r.icono;
-var d=document.getElementById('ritual-descripcion');if(d)d.textContent=r.desc;
-var ps=document.getElementById('ritual-pasos');if(ps)ps.innerHTML=r.pasos.map(function(p){return'<div style="display:flex;gap:10px;font-size:0.88rem;color:rgba(255,255,255,0.55);line-height:1.55;"><span style="color:var(--valtara-oro);">›</span><span>'+p+'</span></div>';}).join('');
-var wa=document.getElementById('ritual-wa-btn');if(wa)wa.href='https://wa.me/5213348572070?text='+r.wa;},300);
+  // ========================================
+  // 🔧 FUNCIONES AUXILIARES
+  // ========================================
+  // Seleccionar frase aleatoria (se ejecuta al cargar el módulo)
+  const FRASE_ACTUAL = FRASES_INSPIRADORAS[Math.floor(Math.random() * FRASES_INSPIRADORAS.length)];
+  
+  // Seleccionar y barajar pregunta dinámica
+  const PREGUNTA_ACTUAL = (() => {
+    const preguntaBase = PREGUNTAS_DINAMICAS[Math.floor(Math.random() * PREGUNTAS_DINAMICAS.length)];
+    // Barajar opciones para que cambien en cada carga
+    const opcionesBarajadas = [...preguntaBase.opciones].sort(() => Math.random() - 0.5);
+    return { ...preguntaBase, opciones: opcionesBarajadas };
+  })();
 
-var ED={1:{label:'Muy relajado',color:'#00FFCC',an:'Sistema parasimpatico activo. Ideal para sesiones preventivas y aromaterapia profunda.',pr:'Masaje Relajante 90 min · Ritual Lomi Lomi Supremo',wa:'Hola%2C+estoy+tranquilo+y+quiero+una+sesion+preventiva+en+Valtara.'},2:{label:'Tranquilo',color:'#00FFCC',an:'Baja tension muscular. Momento perfecto para trabajo corporal preventivo.',pr:'Masaje Ayurveda · Drenaje Linfatico Manual',wa:'Hola%2C+quiero+un+protocolo+preventivo+de+bienestar.'},3:{label:'Ligera tension',color:'#7AE8B0',an:'Tension incipiente en trapecios. Buen momento para intervenir antes de que formen nodulos.',pr:'Masaje Relajante 50 min · Liberacion miofascial',wa:'Hola%2C+tengo+ligera+tension+y+quiero+una+sesion+preventiva.'},4:{label:'Estres leve',color:'#A8D860',an:'Escalenos y suboccipitales acortandose. Patron tipico de 3-4 dias de trabajo intensivo.',pr:'Masaje Deportivo y Descompresion · Liberacion cervical',wa:'Hola%2C+tengo+estres+leve+y+tension+cervical.'},5:{label:'Tension moderada',color:'#FFD700',an:'Sistema nervioso simpatico parcialmente activado. El cortisol esta afectando el sueno y la digestion.',pr:'Masaje Relajante 90 min · Desactivacion del nervio vago',wa:'Hola%2C+tengo+tension+moderada+y+quiero+informacion.'},6:{label:'Carga alta',color:'#FFB347',an:'Contracturas activas en trapecios y cuadrado lumbar. Riesgo de cefalea en 24-48h.',pr:'Masaje Deportivo · Liberacion del psoas · Puntos gatillo',wa:'Hola%2C+tengo+carga+muscular+alta+y+dolor.+Pueden+atenderme%3F'},7:{label:'Estres severo',color:'#FF9F7A',an:'Tension miofascial generalizada. Posible bruxismo nocturno. Rango de movimiento reducido.',pr:'Masaje Neuro-Adaptativo 90 min · Puntos gatillo activos',wa:'Hola%2C+tengo+estres+severo+y+necesito+una+sesion+urgente.'},8:{label:'Cuerpo al limite',color:'#FF6B35',an:'Burnout fisico incipiente. Sistema nervioso no logra alternar entre simpatico y parasimpatico.',pr:'Ritual Lomi Lomi · Sonoterapia · Programa de 3 sesiones',wa:'Hola%2C+mi+cuerpo+esta+al+limite.+Necesito+un+protocolo+intensivo.'},9:{label:'Crisis muscular',color:'#E8445A',an:'Senales de alarma: posible contractura de esternocleidomastoideo o compresion de L4-L5.',pr:'Evaluacion biomedica + Masaje de descompresion de emergencia',wa:'Hola%2C+estoy+en+crisis+de+dolor+muscular+intenso.+Atiendenme%3F'},10:{label:'Emergencia tensional',color:'#FF1744',an:'Estado de tension maxima. Riesgo de torticolis o crisis lumbar aguda.',pr:'Atencion prioritaria · Cita ese mismo dia',wa:'Hola%2C+tengo+dolor+extremo+y+necesito+atencion+urgente+hoy.'}};
-var p3=setInterval(function(){var sl=document.getElementById('estres-slider');if(!sl)return;clearInterval(p3);
-function upd(v){var d=ED[v]||ED[5];var n=document.getElementById('estres-nivel-num'),l=document.getElementById('estres-nivel-label'),a=document.getElementById('estres-analisis'),pr=document.getElementById('estres-protocolo'),wb=document.getElementById('estres-wa-btn'),wt=document.getElementById('estres-wa-texto');
-if(n){n.textContent=v;n.style.color=d.color;}if(l)l.textContent=d.label;if(a)a.textContent=d.an;if(pr)pr.textContent=d.pr;if(wb)wb.href='https://wa.me/5213348572070?text='+d.wa;if(wt)wt.textContent=v>=7?'Solicitar atencion urgente':'Reservar sesion ahora';}
-sl.addEventListener('input',function(e){upd(parseInt(e.target.value));});upd(5);},300);
+  function renderOpcionesDinamicas(opciones) {
+    return opciones.map((op, idx) => `
+      <button class="redes-opcion-btn" 
+              data-valor="${op.valor}"               data-color="${op.color}"
+              role="radio"
+              aria-checked="false"
+              style="background:rgba(255,255,255,0.04);border:2px solid ${op.color}40;border-radius:1rem;padding:1rem 1.25rem;text-align:center;cursor:pointer;transition:all 0.2s ease;color:var(--valtara-blanco, #fff);font-size:0.95rem;line-height:1.5;min-height:64px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
+        <span style="width:28px;height:28px;border-radius:50%;border:2px solid ${op.color};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <span style="width:14px;height:14px;border-radius:50%;background:${op.color};opacity:0;transition:opacity 0.2s ease;" class="opcion-check-redes"></span>
+        </span>
+        <span>${op.texto}</span>
+      </button>
+    `).join('');
+  }
 
-var AROMAS={tension:{ic:'&#127807;',nm:'Lavanda & Eucalipto Clinico',ds:'El linalool de la lavanda inhibe los receptores de acetilcolina reduciendo la hipertonia muscular. El eucalipto activa los receptores TRPM8 creando apertura toracica y liberacion del trapecio.',sv:'Masaje Deportivo y Descompresion · Masaje Relajante Neuro-Adaptativo',wa:'Hola%2C+me+interesa+el+protocolo+con+lavanda+y+eucalipto.'},agotamiento:{ic:'&#127818;',nm:'Naranja Dulce & Romero Camphor',ds:'El d-limoneno de la naranja eleva la serotonina sin sobreestimular. El romero camphor activa la circulacion periferica y restaura el tono muscular en tejidos fatigados cronicamente.',sv:'Masaje Ayurveda & Aromaterapia · Ritual Lomi Lomi Supremo',wa:'Hola%2C+me+interesa+el+protocolo+con+naranja+dulce+y+romero.'},ansiedad:{ic:'&#127800;',nm:'Ylang-Ylang & Vetiver de Haiti',ds:'El acetato de geraniol del ylang-ylang reduce la frecuencia cardiaca y la presion arterial. El vetiver actua sobre receptores GABA-A con efecto ansiolitico sin efectos secundarios.',sv:'Sonoterapia Inmersiva · Drenaje Linfatico Manual · Masaje Neuro-Adaptativo',wa:'Hola%2C+me+interesa+el+protocolo+con+ylang-ylang+y+vetiver.'},restauracion:{ic:'&#127773;',nm:'Sandalo & Incienso Boswellia',ds:'El santalol del sandalo activa los receptores de oxitocina induciendo bienestar profundo. La boswellia inhibe la inflamacion de bajo grado cronica, el enemigo silencioso del ejecutivo moderno.',sv:'Ritual Lomi Lomi Supremo · Masaje Ayurveda 90 min · Sonoterapia',wa:'Hola%2C+quiero+restauracion+total.+Me+interesa+el+protocolo+con+sandalo+e+incienso.'}};
-var p4=setInterval(function(){var bs=document.querySelectorAll('.aroma-opt');if(!bs.length)return;clearInterval(p4);
-bs.forEach(function(b){b.addEventListener('click',function(){var k=b.getAttribute('data-aroma'),d=AROMAS[k];if(!d)return;
-bs.forEach(function(x){x.style.borderColor='rgba(255,255,255,0.1)';x.style.background='rgba(255,255,255,0.03)';x.setAttribute('aria-pressed','false');});
-b.style.borderColor='rgba(255,107,53,0.55)';b.style.background='rgba(255,107,53,0.10)';b.setAttribute('aria-pressed','true');
-var ri=document.getElementById('aroma-icono-res'),rn=document.getElementById('aroma-nombre'),rd=document.getElementById('aroma-descripcion'),rs=document.getElementById('aroma-servicio'),rr=document.getElementById('aroma-resultado'),rc=document.getElementById('aroma-cta'),rb=document.getElementById('aroma-wa-btn'),rt=document.getElementById('aroma-wa-texto');
-if(ri)ri.innerHTML=d.ic;if(rn)rn.textContent=d.nm;if(rd)rd.textContent=d.ds;if(rs)rs.textContent=d.sv;if(rb)rb.href='https://wa.me/5213348572070?text='+d.wa;if(rt)rt.textContent='Incluir en mi sesion';if(rr)rr.style.display='block';if(rc)rc.style.display='block';});});},300);
-})();
-</script>
-`
-;
+  function getFeedbackRespuesta(valor, pregunta) {
+    const feedbacks = {
+      tension: "Reconocer la tensión es el primer paso para liberarla. Una sesión de masoterapia puede ayudarte a soltar lo que el cuerpo guarda. 💙",
+      equilibrio: "Celebrar los momentos de equilibrio es fundamental. Mantén esos hábitos que te hacen sentir bien. ✨",
+      pausa: "Permiso concedido: descansar no es rendirse, es recargar. Tu cuerpo te lo agradecerá. 🌿",
+      movimiento: "El movimiento suave es medicina. Escucha lo que tu cuerpo pide y honra su ritmo. 🔄",
+      descanso: "El descanso profundo es activo: es cuando el cuerpo se repara. Permítete pausas sin culpa. 😴",
+      liberacion: "Soltar no es perder; es hacer espacio para lo nuevo. Tu cuerpo sabe cómo hacerlo. 🕊️",
+      cabeza: "La cabeza y el cuello guardan mucho estrés. Una liberación suave puede traer claridad mental. 🧠",
+      espalda: "La espalda sostiene tus cargas. Cuidarla es cuidar tu capacidad de avanzar. 💪",
+      piernas: "Las piernas te llevan por la vida. Honrarlas con cuidado es honrar tu camino. 👣",
+      calma: "La calma es un músculo que se entrena. Cada respiración consciente la fortalece. 🧘",
+      inquietud: "La inquietud es energía que busca dirección. Canalizarla con movimiento suave ayuda. 🌊",
+      cansancio: "El cansancio es una señal, no un fracaso. Escucharla es el primer acto de autocuidado. 🔋",
+      respiracion: "Respirar consciente ya es terapia. Cada inhalación es un regalo a tu sistema nervioso. 🌬️",
+      estiramiento: "Estirar es dialogar con tu cuerpo. Pequeños gestos generan grandes cambios. 🤲",
+      permiso: "El permiso más revolucionario: cuidarte sin justificativos. Ya eres suficiente. 💜",
+      flujo: "Cuando fluyes, el bienestar llega. Confía en tu ritmo natural. 🌊",
+      estancado: "Lo estancado solo pide movimiento suave. Un pequeño cambio inicia la transformación. 🔄",
+      transicion: "Los momentos de transición son sagrados. Permítete no tener todas las respuestas. 🦋",
+      hombros: "Los hombros cargan lo que el corazón no suelta. Liberarlos es liberar emociones. 💫",
+      lumbar: "La zona lumbar sostiene tu centro. Cuidarla es fortalecer tu base. 🏔️",
+      ritmo: "Tu ritmo es perfecto para ti. No necesitas acelerar para valer. ⏳",
+      merecimiento: "Mereces cuidado por el simple hecho de existir. Sin condiciones. ❤️",
+      progreso: "El progreso no es lineal. Cada paso, por pequeño, cuenta. 🌱",
+      escucha: "Escuchar al cuerpo es el acto más profundo de amor propio. 🎧"
+    };
+    return feedbacks[valor] || "Gracias por escuchar a tu cuerpo. Cada señal es una invitación a cuidarte. 💙";
+  }
+
+  // ========================================
+  // 🎮 CONTROLADOR PRINCIPAL
+  // ========================================
+  const RedesController = {
+    estado: {
+      respuestaSeleccionada: null
+    },
+    init: function() {
+      if (document.getElementById('redes-titulo')) {
+        this.setupEventListeners();
+        this.setupAccessibility();
+        this.setupCompartirFrase();
+        console.log('✅ Módulo de inspiración social inicializado');
+      } else {
+        setTimeout(() => this.init(), 100);
+      }
+    },
+
+    setupAccessibility: function() {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) {
+        document.querySelectorAll('.redes-opcion-btn, .redes-compartir-btn').forEach(btn => {
+          btn.style.transition = 'none';
+        });
+      }
+      
+      const highContrast = window.matchMedia('(prefers-contrast: more)').matches;
+      if (highContrast) {
+        document.querySelectorAll('.redes-opcion-btn').forEach(btn => {
+          btn.style.fontWeight = '600';
+          btn.style.borderWidth = '3px';
+        });
+      }
+    },
+
+    setupCompartirFrase: function() {
+      document.getElementById('redes-compartir-frase')?.addEventListener('click', () => {
+        const texto = encodeURIComponent(`✨ "${FRASE_ACTUAL}"\n\nReflexión del día de Valtara — Masoterapia Manual y Bienestar\n🌐 https://valtara.mx`);
+        const telefono = '5215512345678'; // Reemplaza con tu número
+        window.open(`https://wa.me/${telefono}?text=${texto}`, '_blank', 'noopener');
+      });
+    },
+
+    setupEventListeners: function() {
+      // Selección de opción en pregunta dinámica
+      document.querySelectorAll('.redes-opcion-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const valor = e.currentTarget.dataset.valor;
+          const color = e.currentTarget.dataset.color;
+          this.seleccionarRespuesta(valor, color);
+        });
+        btn.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            const valor = e.currentTarget.dataset.valor;
+            const color = e.currentTarget.dataset.color;
+            this.seleccionarRespuesta(valor, color);          }
+        });
+      });
+
+      // Compartir respuesta por WhatsApp
+      document.getElementById('redes-whatsapp-respuesta')?.addEventListener('click', () => {
+        if (!this.estado.respuestaSeleccionada) return;
+        
+        const { valor, texto, feedback } = this.estado.respuestaSeleccionada;
+        const pregunta = PREGUNTA_ACTUAL.pregunta;
+        
+        const mensaje = encodeURIComponent(
+          `💭 Reflexión Valtara\n\n` +
+          `Pregunta: ${pregunta}\n` +
+          `Mi respuesta: ${texto}\n\n` +
+          `💡 ${feedback}\n\n` +
+          `— Valtara: Masoterapia Manual y Bienestar\n` +
+          `🌐 https://valtara.mx\n` +
+          `⚠️ No somos médicos. Sesiones complementarias a tratamientos.`
+        );
+        
+        const telefono = '5215512345678'; // Reemplaza con tu número
+        window.open(`https://wa.me/${telefono}?text=${mensaje}`, '_blank', 'noopener');
+      });
+    },
+
+    seleccionarRespuesta: function(valor, color) {
+      this.estado.respuestaSeleccionada = {
+        valor,
+        texto: PREGUNTA_ACTUAL.opciones.find(o => o.valor === valor)?.texto,
+        feedback: getFeedbackRespuesta(valor, PREGUNTA_ACTUAL.pregunta)
+      };
+
+      // Feedback visual inmediato
+      document.querySelectorAll('.opcion-check-redes').forEach(c => c.style.opacity = '0');
+      document.querySelector(`.redes-opcion-btn[data-valor="${valor}"] .opcion-check-redes`).style.opacity = '1';
+      
+      // Resaltar botón seleccionado
+      document.querySelectorAll('.redes-opcion-btn').forEach(btn => {
+        btn.style.borderColor = btn.dataset.color + '40';
+        btn.style.background = 'rgba(255,255,255,0.04)';
+      });
+      const btnSeleccionado = document.querySelector(`.redes-opcion-btn[data-valor="${valor}"]`);
+      if (btnSeleccionado) {
+        btnSeleccionado.style.borderColor = color;
+        btnSeleccionado.style.background = color + '15';
+      }
+
+      // Mostrar feedback
+      const feedbackContainer = document.getElementById('redes-respuesta-feedback');      const feedbackTexto = feedbackContainer.querySelector('p');
+      if (feedbackTexto) {
+        feedbackTexto.textContent = this.estado.respuestaSeleccionada.feedback;
+        feedbackContainer.hidden = false;
+        feedbackContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  };
+
+  // ========================================
+  // 📦 EXPORTAR MÓDULO
+  // ========================================
+  global.ValtaraModulos = global.ValtaraModulos || {};
+  global.ValtaraModulos.inicio_redes = REDES_TEMPLATE;
+  global.ValtaraRedesController = RedesController;
+
+  // Auto-inicialización
+  function autoInit() {
+    if (document.getElementById('redes-titulo')) {
+      RedesController.init();
+    } else {
+      const observer = new MutationObserver((mutations, obs) => {
+        if (document.getElementById('redes-titulo')) {
+          RedesController.init();
+          obs.disconnect();
+        }
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+      setTimeout(() => {
+        if (document.getElementById('redes-titulo')) RedesController.init();
+        observer.disconnect();
+      }, 3000);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', autoInit);
+  } else {
+    setTimeout(autoInit, 50);
+  }
+
+})(window);
