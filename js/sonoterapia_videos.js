@@ -4,8 +4,12 @@ window.ValtaraMedia = {
 
     silenciarTodo: function () {
 
-        document.querySelectorAll('.horizontal-carousel iframe').forEach(frame => {
-            frame.src = '';
+        document.querySelectorAll('.valtara-video-trigger iframe').forEach(frame => {
+
+            try {
+                frame.src = '';
+            } catch(e) {}
+
         });
 
     }
@@ -21,7 +25,7 @@ window.ValtaraCarousels = {
 
         const card = track.querySelector('.carousel-card');
 
-        const cardWidth = card ? card.offsetWidth + 36 : 350;
+        const cardWidth = card ? card.offsetWidth + 32 : 350;
 
         track.scrollBy({
             left: direction * cardWidth,
@@ -32,9 +36,13 @@ window.ValtaraCarousels = {
 
 window.ValtaraModulos.sonoterapia_videos = `
 
-<div style="max-width:1300px;margin:0 auto 3rem auto;">
+<div style="max-width:1300px;margin:0 auto 4rem auto;">
 
-    <div style="text-align:center;margin-bottom:2.5rem;">
+    <div style="
+        text-align:center;
+        max-width:900px;
+        margin:0 auto 3rem auto;
+    ">
 
         <h3 style="
             color:var(--valtara-oro);
@@ -47,32 +55,30 @@ window.ValtaraModulos.sonoterapia_videos = `
 
         <p style="
             color:var(--valtara-gris-texto);
-            font-size:1.08rem;
+            font-size:1.1rem;
             line-height:1.9;
-            max-width:850px;
-            margin:auto;
             font-weight:300;
-            letter-spacing:.06rem;
+            letter-spacing:.05rem;
         ">
-            Meditaciones guiadas, paisajes sonoros, frecuencias ambientales y
-            experiencias contemplativas diseñadas para ansiedad, agotamiento mental,
-            descanso profundo y restauración emocional.
+            Meditaciones guiadas, paisajes ambientales, frecuencias relajantes
+            y experiencias contemplativas diseñadas para descanso mental,
+            ansiedad, burnout y restauración emocional.
         </p>
 
     </div>
 
-    <div class="carousel-master-container reveal" style="margin-bottom:6rem;">
+    <div class="carousel-master-container reveal">
 
-        <div id="video-carousel"
-
+        <div
+            id="video-carousel"
             class="horizontal-carousel"
 
             style="
                 display:flex;
-                gap:26px;
+                gap:24px;
                 overflow-x:auto;
                 scroll-behavior:smooth;
-                padding:1rem .5rem 2rem .5rem;
+                padding:1rem .3rem 2rem .3rem;
             "
         >
 
@@ -95,12 +101,12 @@ window.ValtaraModulos.sonoterapia_videos = `
                 {
                     id:"22i6SofLVRY",
                     title:"Paz Interior",
-                    desc:"Paisaje sonoro ideal para ansiedad y descanso nocturno."
+                    desc:"Paisaje sonoro ideal para descanso y relajación nocturna."
                 },
                 {
                     id:"g5WC1OMD3NE",
                     title:"Descompresión Mental",
-                    desc:"Atmósfera auditiva para apagar la saturación mental."
+                    desc:"Atmósfera auditiva para disminuir saturación emocional."
                 },
                 {
                     id:"2UseHaw_22Q",
@@ -110,7 +116,7 @@ window.ValtaraModulos.sonoterapia_videos = `
                 {
                     id:"cq2Ef6rvL6g",
                     title:"Relajación Profunda",
-                    desc:"Experiencia inmersiva enfocada en serenidad y descanso."
+                    desc:"Experiencia inmersiva enfocada en serenidad total."
                 },
                 {
                     id:"59SSSzbGBWY",
@@ -120,23 +126,24 @@ window.ValtaraModulos.sonoterapia_videos = `
                 {
                     id:"hC8CH0Z3L54",
                     title:"Radio Nocturna",
-                    desc:"Ambiente cálido para introspección y relajación nocturna."
+                    desc:"Ambiente cálido para introspección y descanso."
                 },
                 {
                     id:"BYl7v0YsX9g",
                     title:"Meditación Guiada",
-                    desc:"Sesión enfocada en soltar tensión emocional acumulada."
+                    desc:"Experiencia enfocada en liberar tensión acumulada."
                 },
                 {
                     id:"C5bHrit6La4",
                     title:"Paisaje Sonoro",
-                    desc:"Entorno auditivo inmersivo para disminuir ansiedad."
+                    desc:"Entorno auditivo inmersivo para ansiedad y calma."
                 },
                 {
                     id:"rhrCG0Vtx3g",
                     title:"Frecuencia Ambiental",
-                    desc:"Experiencia contemplativa para respiración y calma."
+                    desc:"Experiencia contemplativa para respiración consciente."
                 }
+
             ].map(video => `
 
                 <article class="glass-card carousel-card"
@@ -145,17 +152,20 @@ window.ValtaraModulos.sonoterapia_videos = `
                         min-width:340px;
                         max-width:340px;
                         flex-shrink:0;
-                        padding:1.2rem;
                         border-radius:28px;
                         overflow:hidden;
-                        background:rgba(255,255,255,.035);
+                        background:rgba(255,255,255,.03);
                         border:1px solid rgba(255,255,255,.08);
                         backdrop-filter:blur(14px);
                         box-shadow:0 15px 40px rgba(0,0,0,.35);
+                        padding:1rem;
                     "
                 >
 
                     <div
+
+                        class="valtara-video-trigger"
+                        data-video="${video.id}"
 
                         style="
                             position:relative;
@@ -168,18 +178,14 @@ window.ValtaraModulos.sonoterapia_videos = `
                             cursor:pointer;
                             background:#000;
                         "
-
-                        onclick="
-                            if(window.ValtaraMedia)
-                                window.ValtaraMedia.silenciarTodo();
-
-                            this.innerHTML='<iframe src=\\\\'https://www.youtube.com/embed/${video.id}?autoplay=1&enablejsapi=1&rel=0&modestbranding=1\\\\' style=\\\\'position:absolute;top:0;left:0;width:100%;height:100%;border:0;z-index:10;\\\\' allowfullscreen allow=\\\\'autoplay\\\\'></iframe>'
-                        "
                     >
 
                         <img
+
                             loading="lazy"
+
                             src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg"
+
                             alt="${video.title}"
 
                             style="
@@ -189,18 +195,22 @@ window.ValtaraModulos.sonoterapia_videos = `
                                 width:100%;
                                 height:100%;
                                 object-fit:cover;
-                                opacity:.72;
+                                opacity:.78;
                                 transition:.35s;
                             "
 
                             onmouseover="this.style.opacity=1"
-                            onmouseout="this.style.opacity=.72"
+                            onmouseout="this.style.opacity=.78"
                         >
 
                         <div style="
                             position:absolute;
                             inset:0;
-                            background:linear-gradient(to top, rgba(0,0,0,.58), rgba(0,0,0,.12));
+                            background:linear-gradient(
+                                to top,
+                                rgba(0,0,0,.58),
+                                rgba(0,0,0,.12)
+                            );
                         "></div>
 
                         <div style="
@@ -208,16 +218,16 @@ window.ValtaraModulos.sonoterapia_videos = `
                             top:50%;
                             left:50%;
                             transform:translate(-50%,-50%);
-                            width:88px;
-                            height:88px;
+                            width:86px;
+                            height:86px;
                             border-radius:50%;
                             background:rgba(255,255,255,.08);
-                            border:1px solid rgba(255,255,255,.14);
+                            border:1px solid rgba(255,255,255,.15);
                             backdrop-filter:blur(12px);
                             display:flex;
                             align-items:center;
                             justify-content:center;
-                            box-shadow:0 0 35px rgba(0,255,255,.16);
+                            box-shadow:0 0 35px rgba(0,255,255,.15);
                             pointer-events:none;
                         ">
 
@@ -227,7 +237,7 @@ window.ValtaraModulos.sonoterapia_videos = `
                                     font-size:2rem;
                                     color:white;
                                     margin-left:5px;
-                                    text-shadow:0 0 30px rgba(0,255,255,.75);
+                                    text-shadow:0 0 30px rgba(0,255,255,.8);
                                 "
                             ></i>
 
@@ -247,22 +257,22 @@ window.ValtaraModulos.sonoterapia_videos = `
 
                     <p style="
                         color:var(--valtara-gris-texto);
-                        line-height:1.85;
+                        line-height:1.8;
                         font-size:.96rem;
-                        margin-bottom:1.2rem;
+                        margin-bottom:1rem;
                     ">
                         ${video.desc}
                     </p>
 
                     <div style="
                         display:flex;
-                        align-items:center;
                         justify-content:space-between;
+                        align-items:center;
                         gap:10px;
                     ">
 
                         <span style="
-                            color:rgba(255,255,255,.42);
+                            color:rgba(255,255,255,.4);
                             font-size:.78rem;
                             letter-spacing:.08rem;
                             text-transform:uppercase;
@@ -293,7 +303,7 @@ window.ValtaraModulos.sonoterapia_videos = `
                 justify-content:center;
                 align-items:center;
                 gap:18px;
-                margin-top:1.2rem;
+                margin-top:1.4rem;
             "
         >
 
@@ -347,3 +357,41 @@ window.ValtaraModulos.sonoterapia_videos = `
 
 </div>
 `;
+
+setTimeout(() => {
+
+    document.querySelectorAll('.valtara-video-trigger').forEach(trigger => {
+
+        if(trigger.dataset.listenerAttached) return;
+
+        trigger.dataset.listenerAttached = 'true';
+
+        trigger.addEventListener('click', function() {
+
+            const videoId = this.dataset.video;
+
+            if(window.ValtaraMedia)
+                window.ValtaraMedia.silenciarTodo();
+
+            this.innerHTML = `
+                <iframe
+                    src="https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1&rel=0&modestbranding=1"
+                    style="
+                        position:absolute;
+                        top:0;
+                        left:0;
+                        width:100%;
+                        height:100%;
+                        border:0;
+                        z-index:20;
+                    "
+                    allow="autoplay; encrypted-media"
+                    allowfullscreen>
+                </iframe>
+            `;
+
+        });
+
+    });
+
+}, 700);
