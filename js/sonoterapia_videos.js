@@ -2,98 +2,70 @@ window.ValtaraModulos = window.ValtaraModulos || {};
 
 window.ValtaraMedia = window.ValtaraMedia || {
 
-    currentPlayer: null,
+    activeContainer: null,
 
-    silenciarTodo: function () {
+    silenciarTodo: function() {
 
-        try {
+        document.querySelectorAll('.valtara-youtube-frame').forEach(frame => {
 
-            document.querySelectorAll('audio').forEach(audio => {
-                audio.pause();
-            });
+            try {
+                frame.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            } catch(e) {}
 
-            document.querySelectorAll('.valtara-video-active').forEach(container => {
+        });
 
-                const videoId = container.getAttribute('data-video');
-
-                container.innerHTML = `
-                    <img loading="lazy"
-                        src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg"
-                        style="
-                            position:absolute;
-                            top:0;
-                            left:0;
-                            width:100%;
-                            height:100%;
-                            object-fit:cover;
-                            opacity:.88;
-                        "
-                    />
-
-                    <div style="
-                        position:absolute;
-                        inset:0;
-                        background:linear-gradient(to top, rgba(0,0,0,.65), rgba(0,0,0,.15));
-                    "></div>
-
-                    <div style="
-                        position:absolute;
-                        top:50%;
-                        left:50%;
-                        transform:translate(-50%,-50%);
-                        width:72px;
-                        height:72px;
-                        border-radius:50%;
-                        background:rgba(255,255,255,.08);
-                        border:1px solid rgba(255,255,255,.15);
-                        backdrop-filter: blur(10px);
-                        display:flex;
-                        align-items:center;
-                        justify-content:center;
-                    ">
-                        <i class="fa-solid fa-play"
-                           style="
-                                color:white;
-                                font-size:1.7rem;
-                                margin-left:4px;
-                                text-shadow:0 0 25px rgba(0,255,255,.6);
-                           ">
-                        </i>
-                    </div>
-                `;
-
-                container.classList.remove('valtara-video-active');
-
-            });
-
-        } catch(e) {
-            console.log(e);
-        }
     },
 
-    reproducirVideo: function(elemento, videoId) {
+    reproducirVideo: function(container, videoId) {
 
-        if(!elemento) return;
+        if(!container) return;
 
+        // Pausar todos los videos anteriores
         this.silenciarTodo();
 
-        elemento.classList.add('valtara-video-active');
+        // Si ya existe iframe, solo reproducir
+        let existingIframe = container.querySelector('iframe');
 
-        elemento.innerHTML = `
-            <iframe
-                src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1"
-                style="
-                    position:absolute;
-                    top:0;
-                    left:0;
-                    width:100%;
-                    height:100%;
-                    border:0;
-                "
-                allow="autoplay; encrypted-media"
-                allowfullscreen>
-            </iframe>
-        `;
+        if(existingIframe) {
+
+            try {
+                existingIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            } catch(e) {}
+
+            return;
+        }
+
+        // Crear iframe SIN eliminar miniatura
+        const iframe = document.createElement('iframe');
+
+        iframe.className = 'valtara-youtube-frame';
+
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1&rel=0&modestbranding=1&playsinline=1`;
+
+        iframe.allow = 'autoplay; encrypted-media';
+
+        iframe.allowFullscreen = true;
+
+        iframe.style.position = 'absolute';
+        iframe.style.top = '0';
+        iframe.style.left = '0';
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.border = '0';
+        iframe.style.zIndex = '4';
+        iframe.style.opacity = '1';
+
+        container.appendChild(iframe);
+
+        // Ocultar botón play pero NO la miniatura
+        const playButton = container.querySelector('.valtara-play-button');
+
+        if(playButton) {
+            playButton.style.opacity = '0';
+            playButton.style.pointerEvents = 'none';
+        }
+
+        this.activeContainer = container;
     }
 };
 
@@ -106,7 +78,7 @@ window.ValtaraCarousels = {
 
         const card = track.querySelector('.carousel-card');
 
-        const cardWidth = card ? card.offsetWidth + 24 : 340;
+        const cardWidth = card ? card.offsetWidth + 40 : 350;
 
         track.scrollBy({
             left: direction * cardWidth,
@@ -117,281 +89,218 @@ window.ValtaraCarousels = {
 
 window.ValtaraModulos.sonoterapia_videos = `
 
-<div style="max-width:1300px;margin:0 auto 3rem auto;">
+<div style="text-align: center; max-width: 1200px; margin: 0 auto 2rem auto;">
 
-    <div style="text-align:center;margin-bottom:2.5rem;">
+    <h3 style="
+        color: var(--valtara-oro);
+        font-family: var(--font-accent);
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    ">
+        I. Experiencias Visuales
+    </h3>
 
-        <h3 style="
-            color:var(--valtara-oro);
-            font-family:var(--font-accent);
-            font-size:3rem;
-            margin-bottom:1rem;
-        ">
-            Experiencias Sonoras & Visuales
-        </h3>
+    <p style="
+        color: var(--valtara-gris-texto);
+        font-size: 1.25rem;
+        font-weight: 300;
+        letter-spacing: 0.1rem;
+        text-transform: uppercase;
+    ">
+        Meditación Guiada & Descompresión
+    </p>
 
-        <p style="
-            color:var(--valtara-gris-texto);
-            font-size:1.05rem;
-            line-height:1.9;
-            max-width:850px;
-            margin:auto;
-        ">
-            Curaduría inmersiva de meditaciones guiadas, frecuencias ambientales,
-            paisajes sonoros y experiencias contemplativas diseñadas para ansiedad,
-            burnout, descanso mental y restauración emocional.
-        </p>
+</div>
 
-    </div>
+<div class="carousel-master-container reveal" style="margin-bottom: 6rem;">
 
-    <div class="carousel-master-container reveal">
+    <div id="video-carousel" class="horizontal-carousel">
 
-        <div id="video-carousel" class="horizontal-carousel" style="
-            display:flex;
-            gap:24px;
-            overflow-x:auto;
-            scroll-behavior:smooth;
-            padding:1rem 0 1.5rem 0;
-        ">
+        ${[
+            {
+                id:"aBsnQjJ2_Nk",
+                title:"Frecuencia de Sanación"
+            },
+            {
+                id:"jpYb4AiMWCs",
+                title:"Respiración Consciente"
+            },
+            {
+                id:"IShkpOm63gg",
+                title:"Equilibrio Energético"
+            },
+            {
+                id:"22i6SofLVRY",
+                title:"Paz Interior"
+            },
+            {
+                id:"g5WC1OMD3NE",
+                title:"Descompresión Mental"
+            },
+            {
+                id:"2UseHaw_22Q",
+                title:"Ondas Alfa"
+            },
+            {
+                id:"cq2Ef6rvL6g",
+                title:"Relajación Profunda"
+            },
+            {
+                id:"59SSSzbGBWY",
+                title:"Meditación de Cierre"
+            },
+            {
+                id:"hC8CH0Z3L54",
+                title:"Radio Nocturna"
+            },
+            {
+                id:"BYl7v0YsX9g",
+                title:"Meditación Guiada"
+            },
+            {
+                id:"C5bHrit6La4",
+                title:"Paisaje Sonoro"
+            },
+            {
+                id:"rhrCG0Vtx3g",
+                title:"Frecuencia Ambiental"
+            }
+        ].map(video => `
 
-            ${[
-                {
-                    id:"aBsnQjJ2_Nk",
-                    title:"Frecuencia de Restauración Interna",
-                    desc:"Ondas suaves para bajar revoluciones mentales y entrar en calma."
-                },
-                {
-                    id:"jpYb4AiMWCs",
-                    title:"Respiración Consciente & Silencio",
-                    desc:"Meditación enfocada en respiración lenta y regulación emocional."
-                },
-                {
-                    id:"IShkpOm63gg",
-                    title:"Equilibrio Energético Profundo",
-                    desc:"Ambiente contemplativo para reconectar con el cuerpo."
-                },
-                {
-                    id:"22i6SofLVRY",
-                    title:"Paz Interior Nocturna",
-                    desc:"Paisaje sonoro relajante para ansiedad y descanso."
-                },
-                {
-                    id:"g5WC1OMD3NE",
-                    title:"Descompresión Mental Ejecutiva",
-                    desc:"Sonidos ambientales para apagar el exceso de pensamientos."
-                },
-                {
-                    id:"2UseHaw_22Q",
-                    title:"Ondas Alfa & Relajación",
-                    desc:"Frecuencias suaves para sesiones de descanso profundo."
-                },
-                {
-                    id:"cq2Ef6rvL6g",
-                    title:"Ritual Sonoro de Calma",
-                    desc:"Experiencia inmersiva para bajar tensión emocional."
-                },
-                {
-                    id:"59SSSzbGBWY",
-                    title:"Meditación de Cierre Nocturno",
-                    desc:"Ideal para terminar el día con serenidad."
-                },
-                {
-                    id:"hC8CH0Z3L54",
-                    title:"Radio Nocturna de Restauración",
-                    desc:"Atmósfera cálida para noches de introspección y descanso."
-                },
-                {
-                    id:"BYl7v0YsX9g",
-                    title:"Meditación Guiada de Soltar",
-                    desc:"Experiencia enfocada en liberar tensión acumulada."
-                },
-                {
-                    id:"C5bHrit6La4",
-                    title:"Paisaje Sonoro para Ansiedad",
-                    desc:"Ambiente contemplativo para desacelerar la mente."
-                },
-                {
-                    id:"rhrCG0Vtx3g",
-                    title:"Frecuencia Ambiental de Calma",
-                    desc:"Entorno inmersivo para respiración y descanso mental."
-                }
-            ].map(video => `
+            <article class="glass-card carousel-card"
+                style="
+                    padding:1.5rem;
+                    border-color:rgba(255,255,255,0.1);
+                "
+            >
 
-                <article class="glass-card carousel-card"
+                <div
+                    onclick="window.ValtaraMedia.reproducirVideo(this, '${video.id}')"
+
                     style="
-                        min-width:320px;
-                        max-width:320px;
-                        border-radius:26px;
+                        position:relative;
+                        width:100%;
+                        padding-bottom:56.25%;
+                        border-radius:1rem;
                         overflow:hidden;
-                        background:rgba(255,255,255,.03);
-                        border:1px solid rgba(255,255,255,.08);
-                        box-shadow:0 10px 30px rgba(0,0,0,.35);
-                        backdrop-filter:blur(12px);
-                        padding:1rem;
-                        flex-shrink:0;
+                        margin-bottom:1.5rem;
+                        box-shadow:0 10px 20px rgba(0,0,0,0.5);
+                        cursor:pointer;
+                        background:#000;
                     "
                 >
 
-                    <div
-                        class="valtara-video-container"
-                        data-video="${video.id}"
-                        onclick="window.ValtaraMedia.reproducirVideo(event.currentTarget, '${video.id}')"
+                    <img
+                        loading="lazy"
+                        src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg"
+                        alt="${video.title}"
+
                         style="
-                            position:relative;
+                            position:absolute;
+                            top:0;
+                            left:0;
                             width:100%;
-                            padding-bottom:56.25%;
-                            border-radius:20px;
-                            overflow:hidden;
-                            cursor:pointer;
-                            background:#000;
-                            margin-bottom:1.2rem;
+                            height:100%;
+                            object-fit:cover;
+                            opacity:0.6;
+                            transition:0.3s;
+                            z-index:1;
                         "
+
+                        onmouseover="this.style.opacity=1"
+                        onmouseout="this.style.opacity=0.6"
                     >
 
-                        <img
-                            loading="lazy"
-                            src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg"
-                            alt="${video.title}"
-                            style="
-                                position:absolute;
-                                top:0;
-                                left:0;
-                                width:100%;
-                                height:100%;
-                                object-fit:cover;
-                                opacity:.88;
-                                transition:.4s;
-                            "
-                        >
+                    <div style="
+                        position:absolute;
+                        inset:0;
+                        background:linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,.05));
+                        z-index:2;
+                    "></div>
 
-                        <div style="
-                            position:absolute;
-                            inset:0;
-                            background:linear-gradient(to top, rgba(0,0,0,.65), rgba(0,0,0,.15));
-                        "></div>
+                    <div class="valtara-play-button"
 
-                        <div style="
+                        style="
                             position:absolute;
                             top:50%;
                             left:50%;
-                            transform:translate(-50%,-50%);
-                            width:72px;
-                            height:72px;
-                            border-radius:50%;
-                            background:rgba(255,255,255,.08);
-                            border:1px solid rgba(255,255,255,.15);
-                            backdrop-filter: blur(10px);
-                            display:flex;
-                            align-items:center;
-                            justify-content:center;
-                            box-shadow:0 0 30px rgba(0,255,255,.18);
-                        ">
-                            <i class="fa-solid fa-play"
-                               style="
-                                    color:white;
-                                    font-size:1.7rem;
-                                    margin-left:4px;
-                                    text-shadow:0 0 25px rgba(0,255,255,.6);
-                               ">
-                            </i>
-                        </div>
+                            transform:translate(-50%, -50%);
+                            z-index:5;
+                            transition:.3s;
+                            pointer-events:none;
+                        "
+                    >
+
+                        <i class="fa-solid fa-play"
+
+                            style="
+                                font-size:4rem;
+                                color:var(--valtara-blanco);
+                                text-shadow:0 0 25px rgba(0,255,255,0.8);
+                            "
+                        ></i>
 
                     </div>
 
-                    <h4 style="
-                        color:white;
-                        font-size:1.25rem;
-                        margin-bottom:.7rem;
-                        font-family:var(--font-accent);
-                        line-height:1.4;
-                    ">
-                        ${video.title}
-                    </h4>
+                </div>
 
-                    <p style="
-                        color:var(--valtara-gris-texto);
-                        line-height:1.8;
-                        font-size:.96rem;
-                        margin-bottom:1.2rem;
-                    ">
-                        ${video.desc}
-                    </p>
+                <h4 style="
+                    color:var(--valtara-blanco);
+                    font-size:1.4rem;
+                    margin-bottom:0.5rem;
+                    font-family:var(--font-accent);
+                ">
+                    ${video.title}
+                </h4>
 
-                    <div style="
-                        display:flex;
-                        align-items:center;
-                        justify-content:space-between;
-                        gap:10px;
-                    ">
+                <p style="
+                    color:#888;
+                    font-size:0.95rem;
+                    display:flex;
+                    align-items:center;
+                    gap:8px;
+                ">
+                    <i class="fa-brands fa-youtube"
+                       style="
+                            color:#ff0000;
+                            font-size:1.2rem;
+                       ">
+                    </i>
 
-                        <span style="
-                            color:rgba(255,255,255,.45);
-                            font-size:.8rem;
-                            letter-spacing:.08rem;
-                            text-transform:uppercase;
-                        ">
-                            Experiencia inmersiva
-                        </span>
+                    Créditos al creador original
+                </p>
 
-                        <span style="
-                            color:var(--valtara-cian-brillante);
-                            font-size:.85rem;
-                            font-weight:700;
-                        ">
-                            ▶ Reproducir
-                        </span>
+            </article>
 
-                    </div>
+        `).join('')}
 
-                </article>
+    </div>
 
-            `).join('')}
+    <div class="carousel-navigation">
 
+        <button
+            aria-label="Ver video anterior"
+            class="carousel-btn"
+            onclick="window.ValtaraCarousels.scroll('video-carousel', -1)"
+        >
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div
+            class="carousel-indicator"
+            id="indicator-video"
+            aria-live="polite"
+        >
+            Experiencias inmersivas
         </div>
 
-        <div class="carousel-navigation" style="
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            gap:18px;
-            margin-top:1.5rem;
-        ">
-
-            <button
-                aria-label="Anterior"
-                class="carousel-btn"
-                onclick="window.ValtaraCarousels.scroll('video-carousel', -1)"
-                style="
-                    width:52px;
-                    height:52px;
-                    border-radius:50%;
-                    border:1px solid rgba(255,255,255,.1);
-                    background:rgba(255,255,255,.04);
-                    color:white;
-                    cursor:pointer;
-                "
-            >
-                <i class="fa-solid fa-chevron-left"></i>
-            </button>
-
-            <button
-                aria-label="Siguiente"
-                class="carousel-btn"
-                onclick="window.ValtaraCarousels.scroll('video-carousel', 1)"
-                style="
-                    width:52px;
-                    height:52px;
-                    border-radius:50%;
-                    border:1px solid rgba(255,255,255,.1);
-                    background:rgba(255,255,255,.04);
-                    color:white;
-                    cursor:pointer;
-                "
-            >
-                <i class="fa-solid fa-chevron-right"></i>
-            </button>
-
-        </div>
+        <button
+            aria-label="Ver siguiente video"
+            class="carousel-btn"
+            onclick="window.ValtaraCarousels.scroll('video-carousel', 1)"
+        >
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
 
     </div>
 
