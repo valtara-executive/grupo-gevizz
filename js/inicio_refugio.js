@@ -1,9 +1,11 @@
 /**
  * ====================================================================================
- * INICIO_PROMOCIONES.JS — CARRUSEL EDITORIAL V41
- * Arquitectura REAL compatible con Valtara
- * Basado en el patrón que SÍ renderiza:
- * inicio_refugio.js
+ * INICIO_PROMOCIONES.JS — DEFINITIVO Y COMPATIBLE
+ * Arquitectura simple EXACTAMENTE como inicio_refugio.js
+ * SIN sliders complejos
+ * SIN animaciones que rompan renderizado
+ * SIN width:max-content
+ * SIN overflow conflictivo
  * ====================================================================================
  */
 
@@ -11,420 +13,428 @@ window.ValtaraModulos = window.ValtaraModulos || {};
 
 window.ValtaraModulos.inicio_promociones = `
 
-<div style="max-width:1200px;margin:3rem auto 6rem auto;padding:0 1.2rem;">
+<div style="max-width:1200px;margin:2rem auto 6rem auto;padding:0 1.5rem;">
 
     <!-- HERO -->
     <section class="glass-card reveal"
         style="
+            padding:4rem 2rem;
+            border-radius:28px;
             position:relative;
             overflow:hidden;
-            padding:4rem 2rem;
-            border-radius:34px;
             background:
-                radial-gradient(circle at top right, rgba(242,201,76,0.12), transparent 30%),
+                radial-gradient(circle at top right, rgba(242,201,76,0.10), transparent 30%),
                 radial-gradient(circle at bottom left, rgba(0,255,204,0.08), transparent 35%),
-                linear-gradient(180deg, rgba(12,12,18,0.97), rgba(5,5,10,0.99));
+                linear-gradient(180deg, rgba(15,15,20,0.96), rgba(6,6,10,0.98));
             border:1px solid rgba(255,255,255,0.08);
+            text-align:center;
         "
     >
 
         <div style="
             position:absolute;
-            top:-120px;
-            right:-120px;
-            width:260px;
-            height:260px;
+            top:-80px;
+            right:-80px;
+            width:220px;
+            height:220px;
             border-radius:50%;
             background:radial-gradient(circle, rgba(242,201,76,0.15), transparent 70%);
         "></div>
 
-        <div style="position:relative;z-index:2;text-align:center;">
+        <div style="position:relative;z-index:2;">
 
             <div style="
                 display:inline-flex;
                 align-items:center;
-                gap:12px;
-                padding:12px 24px;
+                gap:10px;
+                padding:12px 22px;
                 border-radius:999px;
                 background:rgba(242,201,76,0.08);
-                border:1px solid rgba(242,201,76,0.22);
+                border:1px solid rgba(242,201,76,0.20);
                 margin-bottom:2rem;
             ">
-
                 <i class="fa-solid fa-sparkles fa-fade"
-                    style="
-                        color:var(--valtara-oro);
-                        font-size:1.1rem;
-                    "
-                ></i>
+                    style="color:var(--valtara-oro);"></i>
 
                 <span style="
                     color:var(--valtara-oro);
                     font-size:.82rem;
+                    font-weight:900;
                     letter-spacing:2px;
                     text-transform:uppercase;
-                    font-weight:900;
                 ">
-                    Experiencias Destacadas
+                    Promociones Valtara
                 </span>
-
             </div>
 
             <h2 style="
                 font-family:var(--font-accent);
-                font-size:clamp(2.8rem,6vw,5rem);
-                line-height:1.08;
+                font-size:clamp(2.8rem,6vw,4.8rem);
                 color:white;
+                line-height:1.05;
                 margin-bottom:1.5rem;
             ">
-                Descubre Tu
+                Experiencias que
                 <span style="color:var(--valtara-oro);">
-                    Experiencia Ideal
+                    transforman
                 </span>
             </h2>
 
             <p style="
-                max-width:820px;
+                max-width:850px;
                 margin:0 auto;
                 color:var(--valtara-gris-texto);
                 line-height:1.9;
                 font-size:1.12rem;
                 font-weight:300;
             ">
-                Promociones, aromaterapias, rituales premium
-                y experiencias biomecánicas presentadas en un
-                formato editorial inmersivo tipo galería viva.
+                Descubre promociones exclusivas, aromaterapias premium
+                y rituales biomecánicos diseñados para reducir estrés,
+                restaurar movilidad y elevar la experiencia sensorial.
             </p>
 
         </div>
 
     </section>
 
-    <!-- CARRUSEL -->
-    <section
-        class="reveal"
-        style="
-            margin-top:2.5rem;
-            overflow:hidden;
-            position:relative;
-            padding:1rem 0;
-        "
-    >
+    <!-- GRID -->
+    <div style="
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+        gap:24px;
+        margin-top:2.5rem;
+    ">
 
-        <div id="vt-track"
+        <!-- TARJETA -->
+        <article class="glass-card reveal vt-card"
             style="
-                display:flex;
-                gap:22px;
-                width:max-content;
-                animation:vtScroll 95s linear infinite;
-                align-items:stretch;
+                padding:2rem;
+                border-radius:28px;
+                position:relative;
+                overflow:hidden;
+                min-height:420px;
             "
         >
 
-            <!-- TARJETA -->
-            <article class="vt-card gold">
-
-                <div class="vt-orb"></div>
-
-                <div class="vt-icon-wrap">
-                    <i class="fa-solid fa-sun fa-spin"></i>
-                </div>
-
-                <span class="vt-badge">
-                    PROMOCIÓN
-                </span>
-
-                <h3>20% OFF</h3>
-
-                <p>
-                    Jueves a domingo antes de las 2 PM.
-                    Perfecto para rituales relajantes
-                    y experiencias premium.
-                </p>
-
-                <a
-                    href="https://wa.me/5213348572070?text=Hola,%20vi%20el%2020%%20OFF%20en%20Valtara."
-                    target="_blank"
-                    class="vt-link"
-                >
-                    <i class="fa-brands fa-whatsapp"></i>
-                    Reservar
-                </a>
-
-            </article>
-
-            <!-- TARJETA -->
-            <article class="vt-card cyan">
-
-                <div class="vt-orb"></div>
-
-                <div class="vt-icon-wrap">
-                    <i class="fa-solid fa-wind fa-beat"></i>
-                </div>
-
-                <span class="vt-badge">
-                    AROMATERAPIA
-                </span>
-
-                <h3>Lavanda</h3>
-
-                <p>
-                    Disminuye ansiedad,
-                    estrés mental y tensión emocional.
-                    Aroma favorito para descanso profundo.
-                </p>
-
-                <a
-                    href="https://wa.me/5213348572070?text=Hola,%20quiero%20una%20experiencia%20con%20Lavanda."
-                    target="_blank"
-                    class="vt-link"
-                >
-                    <i class="fa-brands fa-whatsapp"></i>
-                    Quiero Esto
-                </a>
-
-            </article>
-
-            <!-- TARJETA -->
-            <article class="vt-card red">
-
-                <div class="vt-orb"></div>
-
-                <div class="vt-icon-wrap">
-                    <i class="fa-solid fa-dumbbell fa-bounce"></i>
-                </div>
-
-                <span class="vt-badge">
-                    TERAPIA
-                </span>
-
-                <h3>Masaje Deportivo</h3>
-
-                <p>
-                    Recuperación muscular profunda,
-                    descompresión y alivio de contracturas.
-                </p>
-
-                <a
-                    href="https://wa.me/5213348572070?text=Hola,%20quiero%20el%20Masaje%20Deportivo."
-                    target="_blank"
-                    class="vt-link"
-                >
-                    <i class="fa-brands fa-whatsapp"></i>
-                    Agendar
-                </a>
-
-            </article>
-
-            <!-- TARJETA -->
-            <article class="vt-card purple">
-
-                <div class="vt-orb"></div>
-
-                <div class="vt-icon-wrap">
-                    <i class="fa-solid fa-gift fa-shake"></i>
-                </div>
-
-                <span class="vt-badge">
-                    BENEFICIO
-                </span>
-
-                <h3>$169 MXN OFF</h3>
-
-                <p>
-                    Lunes y martes después de la 1 PM.
-                    Cupos limitados por día.
-                </p>
-
-                <a
-                    href="https://wa.me/5213348572070?text=Hola,%20quiero%20la%20promoción%20de%20$169%20OFF."
-                    target="_blank"
-                    class="vt-link"
-                >
-                    <i class="fa-brands fa-whatsapp"></i>
-                    Reclamar
-                </a>
-
-            </article>
-
-            <!-- TARJETA -->
-            <article class="vt-card green">
-
-                <div class="vt-orb"></div>
-
-                <div class="vt-icon-wrap">
-                    <i class="fa-solid fa-leaf fa-fade"></i>
-                </div>
-
-                <span class="vt-badge">
-                    AROMA
-                </span>
-
-                <h3>Eucalipto</h3>
-
-                <p>
-                    Sensación fresca,
-                    respiración ligera y claridad mental.
-                </p>
-
-                <a
-                    href="https://wa.me/5213348572070?text=Hola,%20quiero%20Eucalipto%20en%20mi%20sesión."
-                    target="_blank"
-                    class="vt-link"
-                >
-                    <i class="fa-brands fa-whatsapp"></i>
-                    Me Interesa
-                </a>
-
-            </article>
-
-            <!-- TARJETA -->
-            <article class="vt-card gold">
-
-                <div class="vt-orb"></div>
-
-                <div class="vt-icon-wrap">
-                    <i class="fa-solid fa-water fa-beat-fade"></i>
-                </div>
-
-                <span class="vt-badge">
-                    RITUAL
-                </span>
-
-                <h3>Lomi Lomi</h3>
-
-                <p>
-                    Inspirado en el movimiento oceánico.
-                    Desconexión física y mental total.
-                </p>
-
-                <a
-                    href="https://wa.me/5213348572070?text=Hola,%20quiero%20el%20Ritual%20Lomi%20Lomi."
-                    target="_blank"
-                    class="vt-link"
-                >
-                    <i class="fa-brands fa-whatsapp"></i>
-                    Reservar
-                </a>
-
-            </article>
-
-            <!-- TARJETA -->
-            <article class="vt-card pink">
-
-                <div class="vt-orb"></div>
-
-                <div class="vt-icon-wrap">
-                    <i class="fa-solid fa-heart fa-beat"></i>
-                </div>
-
-                <span class="vt-badge">
-                    EXPERIENCIA
-                </span>
-
-                <h3>Frutos Rojos</h3>
-
-                <p>
-                    Aroma cálido y dulce para
-                    sesiones nocturnas premium.
-                </p>
-
-                <a
-                    href="https://wa.me/5213348572070?text=Hola,%20quiero%20Frutos%20Rojos."
-                    target="_blank"
-                    class="vt-link"
-                >
-                    <i class="fa-brands fa-whatsapp"></i>
-                    Lo Quiero
-                </a>
-
-            </article>
-
-            <!-- TARJETA -->
-            <article class="vt-card white">
-
-                <div class="vt-orb"></div>
-
-                <div class="vt-icon-wrap">
-                    <i class="fa-solid fa-droplet fa-beat"></i>
-                </div>
-
-                <span class="vt-badge">
-                    TERAPIA
-                </span>
-
-                <h3>Drenaje Linfático</h3>
-
-                <p>
-                    Ligereza corporal y sensación
-                    profunda de descanso físico.
-                </p>
-
-                <a
-                    href="https://wa.me/5213348572070?text=Hola,%20quiero%20Drenaje%20Linfático."
-                    target="_blank"
-                    class="vt-link"
-                >
-                    <i class="fa-brands fa-whatsapp"></i>
-                    Reservar
-                </a>
-
-            </article>
-
-            <!-- TARJETA -->
-            <article class="vt-card orange">
-
-                <div class="vt-orb"></div>
-
-                <div class="vt-icon-wrap">
-                    <i class="fa-solid fa-fire fa-bounce"></i>
-                </div>
-
-                <span class="vt-badge">
-                    CORPORAL
-                </span>
-
-                <h3>Maderoterapia</h3>
-
-                <p>
-                    Protocolos corporales premium
-                    con enfoque estético y bienestar físico.
-                </p>
-
-                <a
-                    href="https://wa.me/5213348572070?text=Hola,%20quiero%20Maderoterapia."
-                    target="_blank"
-                    class="vt-link"
-                >
-                    <i class="fa-brands fa-whatsapp"></i>
-                    Cotizar
-                </a>
-
-            </article>
-
-            <!-- DUPLICADAS PARA LOOP -->
-            <article class="vt-card cyan">
-                <div class="vt-orb"></div>
-                <div class="vt-icon-wrap">
-                    <i class="fa-solid fa-moon fa-fade"></i>
-                </div>
-                <span class="vt-badge">NOCTURNO</span>
-                <h3>Té Premium</h3>
-                <p>
-                    Algunas experiencias incluyen
-                    té de frutos rojos después de las 7 PM.
-                </p>
-                <a
-                    href="https://wa.me/5213348572070"
-                    target="_blank"
-                    class="vt-link"
-                >
-                    <i class="fa-brands fa-whatsapp"></i>
-                    Saber Más
-                </a>
-            </article>
-
-        </div>
+            <div class="vt-glow"
+                style="background:#F2C94C;">
+            </div>
+
+            <div class="vt-icon"
+                style="background:rgba(242,201,76,0.12);">
+                <i class="fa-solid fa-gift fa-bounce"
+                    style="color:#F2C94C;"></i>
+            </div>
+
+            <span class="vt-tag">
+                PROMOCIÓN
+            </span>
+
+            <h3 class="vt-title">
+                $169 MXN OFF
+            </h3>
+
+            <p class="vt-text">
+                Disponible lunes y martes después de la 1 PM.
+                Una cortesía diseñada para ayudarte a vivir
+                una experiencia premium a un precio preferencial.
+            </p>
+
+            <a
+                href="https://wa.me/5213348572070?text=Hola,%20quiero%20la%20promoción%20de%20$169%20OFF."
+                target="_blank"
+                class="vt-btn"
+            >
+                <i class="fa-brands fa-whatsapp"></i>
+                Reclamar Promoción
+            </a>
+
+        </article>
+
+        <!-- TARJETA -->
+        <article class="glass-card reveal vt-card"
+            style="
+                padding:2rem;
+                border-radius:28px;
+                position:relative;
+                overflow:hidden;
+                min-height:420px;
+            "
+        >
+
+            <div class="vt-glow"
+                style="background:#00ffe0;">
+            </div>
+
+            <div class="vt-icon"
+                style="background:rgba(0,255,224,0.10);">
+                <i class="fa-solid fa-wind fa-beat"
+                    style="color:#00ffe0;"></i>
+            </div>
+
+            <span class="vt-tag">
+                AROMATERAPIA
+            </span>
+
+            <h3 class="vt-title">
+                Lavanda Premium
+            </h3>
+
+            <p class="vt-text">
+                Aroma enfocado en ansiedad, estrés y descanso profundo.
+                Ideal para experiencias relajantes y rituales nocturnos.
+            </p>
+
+            <a
+                href="https://wa.me/5213348572070?text=Hola,%20quiero%20una%20sesión%20con%20Lavanda."
+                target="_blank"
+                class="vt-btn"
+            >
+                <i class="fa-brands fa-whatsapp"></i>
+                Quiero Este Aroma
+            </a>
+
+        </article>
+
+        <!-- TARJETA -->
+        <article class="glass-card reveal vt-card"
+            style="
+                padding:2rem;
+                border-radius:28px;
+                position:relative;
+                overflow:hidden;
+                min-height:420px;
+            "
+        >
+
+            <div class="vt-glow"
+                style="background:#ff5555;">
+            </div>
+
+            <div class="vt-icon"
+                style="background:rgba(255,85,85,0.12);">
+                <i class="fa-solid fa-dumbbell fa-shake"
+                    style="color:#ff5555;"></i>
+            </div>
+
+            <span class="vt-tag">
+                TERAPIA
+            </span>
+
+            <h3 class="vt-title">
+                Deportivo & Descompresión
+            </h3>
+
+            <p class="vt-text">
+                Terapia profunda enfocada en contracturas,
+                sobrecarga física y tensión acumulada
+                por estrés o entrenamiento.
+            </p>
+
+            <a
+                href="https://wa.me/5213348572070?text=Hola,%20quiero%20el%20Masaje%20Deportivo."
+                target="_blank"
+                class="vt-btn"
+            >
+                <i class="fa-brands fa-whatsapp"></i>
+                Reservar Sesión
+            </a>
+
+        </article>
+
+        <!-- TARJETA -->
+        <article class="glass-card reveal vt-card"
+            style="
+                padding:2rem;
+                border-radius:28px;
+                position:relative;
+                overflow:hidden;
+                min-height:420px;
+            "
+        >
+
+            <div class="vt-glow"
+                style="background:#ffaa00;">
+            </div>
+
+            <div class="vt-icon"
+                style="background:rgba(255,170,0,0.12);">
+                <i class="fa-solid fa-water fa-beat-fade"
+                    style="color:#ffaa00;"></i>
+            </div>
+
+            <span class="vt-tag">
+                RITUAL
+            </span>
+
+            <h3 class="vt-title">
+                Lomi Lomi Supremo
+            </h3>
+
+            <p class="vt-text">
+                Inspirado en el movimiento oceánico hawaiano.
+                Sensación profunda de desconexión mental,
+                descanso corporal y restauración emocional.
+            </p>
+
+            <a
+                href="https://wa.me/5213348572070?text=Hola,%20quiero%20el%20Ritual%20Lomi%20Lomi."
+                target="_blank"
+                class="vt-btn"
+            >
+                <i class="fa-brands fa-whatsapp"></i>
+                Agendar Ritual
+            </a>
+
+        </article>
+
+        <!-- TARJETA -->
+        <article class="glass-card reveal vt-card"
+            style="
+                padding:2rem;
+                border-radius:28px;
+                position:relative;
+                overflow:hidden;
+                min-height:420px;
+            "
+        >
+
+            <div class="vt-glow"
+                style="background:#52ffa8;">
+            </div>
+
+            <div class="vt-icon"
+                style="background:rgba(82,255,168,0.10);">
+                <i class="fa-solid fa-leaf fa-fade"
+                    style="color:#52ffa8;"></i>
+            </div>
+
+            <span class="vt-tag">
+                AROMA
+            </span>
+
+            <h3 class="vt-title">
+                Eucalipto
+            </h3>
+
+            <p class="vt-text">
+                Sensación fresca y ligera que acompaña
+                terapias respiratorias y experiencias
+                de claridad mental.
+            </p>
+
+            <a
+                href="https://wa.me/5213348572070?text=Hola,%20quiero%20Eucalipto%20en%20mi%20experiencia."
+                target="_blank"
+                class="vt-btn"
+            >
+                <i class="fa-brands fa-whatsapp"></i>
+                Elegir Aroma
+            </a>
+
+        </article>
+
+        <!-- TARJETA -->
+        <article class="glass-card reveal vt-card"
+            style="
+                padding:2rem;
+                border-radius:28px;
+                position:relative;
+                overflow:hidden;
+                min-height:420px;
+            "
+        >
+
+            <div class="vt-glow"
+                style="background:#b27fff;">
+            </div>
+
+            <div class="vt-icon"
+                style="background:rgba(178,127,255,0.10);">
+                <i class="fa-solid fa-fire fa-bounce"
+                    style="color:#b27fff;"></i>
+            </div>
+
+            <span class="vt-tag">
+                CORPORAL
+            </span>
+
+            <h3 class="vt-title">
+                Reductivo & Maderoterapia
+            </h3>
+
+            <p class="vt-text">
+                Protocolos corporales premium
+                enfocados en bienestar físico,
+                activación circulatoria y estética manual.
+            </p>
+
+            <a
+                href="https://wa.me/5213348572070?text=Hola,%20quiero%20información%20de%20Maderoterapia."
+                target="_blank"
+                class="vt-btn"
+            >
+                <i class="fa-brands fa-whatsapp"></i>
+                Cotizar
+            </a>
+
+        </article>
+
+    </div>
+
+    <!-- FOOTER -->
+    <section class="glass-card reveal"
+        style="
+            margin-top:2.5rem;
+            padding:2rem;
+            border-radius:24px;
+            text-align:center;
+        "
+    >
+
+        <h3 style="
+            color:white;
+            font-size:2rem;
+            margin-bottom:1rem;
+            font-family:var(--font-accent);
+        ">
+            Contacto Oficial
+        </h3>
+
+        <p style="
+            color:var(--valtara-gris-texto);
+            line-height:1.9;
+            max-width:760px;
+            margin:0 auto 2rem auto;
+        ">
+            Aromaterapias sujetas a disponibilidad.
+            Promociones no acumulables.
+            Sucursal principal en Reforma 195.
+            Próxima apertura cerca de Metro Eugenia.
+        </p>
+
+        <a
+            href="https://wa.me/5213348572070"
+            target="_blank"
+            style="
+                display:inline-flex;
+                align-items:center;
+                gap:14px;
+                padding:18px 34px;
+                border-radius:18px;
+                background:linear-gradient(135deg,#25D366,#1EBE5D);
+                color:white;
+                text-decoration:none;
+                font-weight:900;
+                font-size:1.05rem;
+                box-shadow:0 12px 35px rgba(37,211,102,0.30);
+            "
+        >
+            <i class="fa-brands fa-whatsapp"
+                style="font-size:1.3rem;"></i>
+
+            WhatsApp · 33 4857 2070
+        </a>
 
     </section>
 
@@ -432,164 +442,97 @@ window.ValtaraModulos.inicio_promociones = `
 
 <style>
 
-#vt-track:hover{
-    animation-play-state:paused;
-}
-
 .vt-card{
-    width:340px;
-    min-width:340px;
-    aspect-ratio:1/1;
-    border-radius:32px;
-    position:relative;
-    overflow:hidden;
-    padding:2rem;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    background:
-        linear-gradient(180deg,
-        rgba(255,255,255,0.06),
-        rgba(255,255,255,0.02));
-    border:1px solid rgba(255,255,255,0.08);
-    box-shadow:
-        0 20px 45px rgba(0,0,0,0.35),
-        inset 0 0 25px rgba(255,255,255,0.02);
-    transition:transform .4s ease;
+    transition:transform .35s ease, box-shadow .35s ease;
 }
 
 .vt-card:hover{
-    transform:translateY(-8px) scale(1.02);
+    transform:translateY(-8px);
+    box-shadow:0 25px 45px rgba(0,0,0,0.35);
 }
 
-.vt-orb{
+.vt-glow{
     position:absolute;
     width:180px;
     height:180px;
     border-radius:50%;
-    top:-80px;
-    right:-80px;
-    opacity:.25;
-    filter:blur(10px);
+    top:-70px;
+    right:-70px;
+    opacity:.15;
+    filter:blur(8px);
 }
 
-.gold .vt-orb{
-    background:#F2C94C;
-}
-
-.cyan .vt-orb{
-    background:#00ffe0;
-}
-
-.red .vt-orb{
-    background:#ff5555;
-}
-
-.purple .vt-orb{
-    background:#b27fff;
-}
-
-.green .vt-orb{
-    background:#52ffa8;
-}
-
-.pink .vt-orb{
-    background:#ff6ba6;
-}
-
-.orange .vt-orb{
-    background:#ffaa00;
-}
-
-.white .vt-orb{
-    background:#ffffff;
-}
-
-.vt-icon-wrap{
+.vt-icon{
     width:90px;
     height:90px;
-    border-radius:26px;
+    border-radius:24px;
     display:flex;
     align-items:center;
     justify-content:center;
-    background:rgba(255,255,255,0.05);
-    border:1px solid rgba(255,255,255,0.08);
-    font-size:2.4rem;
-    color:white;
     margin-bottom:1.5rem;
+    border:1px solid rgba(255,255,255,0.08);
     backdrop-filter:blur(10px);
 }
 
-.vt-badge{
+.vt-icon i{
+    font-size:2.3rem;
+}
+
+.vt-tag{
     display:inline-flex;
-    width:max-content;
     padding:8px 16px;
     border-radius:999px;
-    background:rgba(255,255,255,0.08);
+    background:rgba(255,255,255,0.05);
     border:1px solid rgba(255,255,255,0.08);
-    color:#ddd;
-    font-size:.72rem;
-    letter-spacing:2px;
+    color:#d5d5d5;
+    font-size:.75rem;
     font-weight:900;
-    text-transform:uppercase;
+    letter-spacing:2px;
     margin-bottom:1rem;
 }
 
-.vt-card h3{
+.vt-title{
     color:white;
     font-size:2rem;
+    line-height:1.1;
     margin-bottom:1rem;
     font-family:var(--font-accent);
-    line-height:1.1;
 }
 
-.vt-card p{
+.vt-text{
     color:var(--valtara-gris-texto);
     line-height:1.9;
     font-size:1rem;
-    flex:1;
+    margin-bottom:2rem;
 }
 
-.vt-link{
+.vt-btn{
     display:flex;
     align-items:center;
     justify-content:center;
     gap:12px;
-    text-decoration:none;
-    color:white;
-    background:
-        linear-gradient(135deg,
-        #25D366,
-        #1ebc59);
     padding:16px;
     border-radius:18px;
+    background:linear-gradient(135deg,#25D366,#1EBE5D);
+    color:white;
+    text-decoration:none;
     font-weight:900;
-    margin-top:2rem;
     transition:all .3s ease;
-    box-shadow:0 12px 30px rgba(37,211,102,0.35);
+    box-shadow:0 10px 28px rgba(37,211,102,0.25);
 }
 
-.vt-link:hover{
+.vt-btn:hover{
     transform:translateY(-4px);
-}
-
-@keyframes vtScroll{
-    0%{
-        transform:translateX(0);
-    }
-    100%{
-        transform:translateX(-50%);
-    }
 }
 
 @media(max-width:768px){
 
-    .vt-card{
-        width:280px;
-        min-width:280px;
+    .vt-title{
+        font-size:1.6rem;
     }
 
 }
 
 </style>
+
 `;
