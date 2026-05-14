@@ -1,142 +1,241 @@
 window.ValtaraModulos = window.ValtaraModulos || {};
-window.ValtaraAudio = window.ValtaraAudio || {};
+window.ValtaraAudioSystem = window.ValtaraAudioSystem || {};
 
-window.ValtaraAudio = {
+window.ValtaraAudioSystem = {
 
     audio: new Audio(),
-    currentCategory: null,
+    currentTrackIndex: 0,
     currentPlaylist: [],
-    currentIndex: 0,
+    currentCategory: '',
     isPlaying: false,
-    crossfadeDuration: 2500,
+    analyser: null,
+    audioContext: null,
+    source: null,
+    animationFrame: null,
 
     playlists: {
 
-        short: [],
-
-        long: [],
-
         radio: [
 
-            "nuestra_catedral.mp3",
-            "vapor_de_la_porcelana.mp3",
-            "donde_el_alma_descansa.mp3",
-            "un_respiro_en_el_andar.mp3",
-            "un_puerto_donde_descansar.mp3",
-            "refugio_entre_ramas.mp3",
-            "donde_la_piedra_se_rinde.mp3",
-            "el_sauce_y_la_piedra.mp3",
-            "islas_entintadas_azules.mp3",
-            "la_rotación_lenta (1).mp3",
-            "la_rotación_lenta.mp3",
-            "donde_el_pulso_y_el_pasto_se_encuentran.mp3",
-            "arquitectura_medianoche.mp3",
-            "cristal_y_sal.mp3",
-            "el_pulso_silencioso.mp3"
+            {
+                title: "Nuestra Catedral",
+                file: "nuestra_catedral.mp3"
+            },
+
+            {
+                title: "Steam From The Porcelain",
+                file: "steam_from_the_porcelain.mp3"
+            },
+
+            {
+                title: "Donde El Alma Descansa",
+                file: "donde_el_alma_descansa.mp3"
+            },
+
+            {
+                title: "Un Respiro En El Andar",
+                file: "un_respiro_en_el_andar.mp3"
+            },
+
+            {
+                title: "Un Puerto Donde Descansar",
+                file: "un_puerto_donde_descansar.mp3"
+            },
+
+            {
+                title: "Refugio Entre Ramas",
+                file: "refugio_entre_ramas.mp3"
+            },
+
+            {
+                title: "Donde La Piedra Se Rinde",
+                file: "donde_la_piedra_se_rinde.mp3"
+            },
+
+            {
+                title: "The Willow And The Stone",
+                file: "the_willow_and_the_stone.mp3"
+            },
+
+            {
+                title: "Blue-Inked Islands",
+                file: "blue-inked_islands.mp3"
+            },
+
+            {
+                title: "The Slow Rotation I",
+                file: "the_slow_rotation (1).mp3"
+            },
+
+            {
+                title: "The Slow Rotation",
+                file: "the_slow_rotation.mp3"
+            },
+
+            {
+                title: "Where Pulse And Pasture Meet",
+                file: "where_pulse_and_pasture_meet.mp3"
+            },
+
+            {
+                title: "Midnight Architecture",
+                file: "midnight_architecture.mp3"
+            },
+
+            {
+                title: "Cristal y Sal",
+                file: "cristal_y_sal.mp3"
+            },
+
+            {
+                title: "The Quiet Pulse",
+                file: "the_quiet_pulse.mp3"
+            }
 
         ]
     },
 
-    reproducir: async function(categoria, archivo, titulo, index = 0) {
+    init: function() {
+
+        const audio = this.audio;
+
+        audio.volume = 0.7;
+
+        const volumeSlider = document.getElementById('oasis-volume-slider');
+
+        if(volumeSlider) {
+
+            volumeSlider.addEventListener('input', (e) => {
+                audio.volume = e.target.value;
+            });
+        }
+
+        const progress = document.getElementById('oasis-progress-bar');
+
+        audio.addEventListener('timeupdate', () => {
+
+            if(progress && audio.duration) {
+
+                progress.value = (audio.currentTime / audio.duration) * 100;
+            }
+
+            const current = document.getElementById('oasis-time-current');
+            const total = document.getElementById('oasis-time-total');
+
+            if(current) current.textContent = this.formatTime(audio.currentTime);
+            if(total) total.textContent = this.formatTime(audio.duration);
+
+        });
+
+        if(progress) {
+
+            progress.addEventListener('input', (e) => {
+
+                if(audio.duration) {
+
+                    audio.currentTime = (e.target.value / 100) * audio.duration;
+                }
+            });
+        }
+
+        audio.addEventListener('ended', () => {
+
+            this.nextTrack();
+        });
+
+        const playBtn = document.getElementById('btn-master-play');
+
+        if(playBtn) {
+
+            playBtn.addEventListener('click', () => {
+
+                if(!this.currentPlaylist.length) {
+
+                    this.loadPlaylist('radio', 0);
+                    return;
+                }
+
+                if(audio.paused) {
+
+                    audio.play();
+                    this.isPlaying = true;
+
+                } else {
+
+                    audio.pause();
+                    this.isPlaying = false;
+                }
+
+                this.updatePlayButton();
+            });
+        }
+
+        this.setupVisualizer();
+
+    },
+
+    loadPlaylist: async function(type, index = 0) {
+
+        this.currentCategory = type;
+        this.currentPlaylist = this.playlists[type];
+        this.currentTrackIndex = index;
+
+        await this.playCurrentTrack();
+    },
+
+    playCurrentTrack: async function() {
+
+        const track = this.currentPlaylist[this.currentTrackIndex];
+
+        if(!track) return;
 
         try {
 
-            this.currentCategory = categoria;
-            this.currentPlaylist = this.playlists[categoria] || [];
-            this.currentIndex = index;
-
-            const nowPlaying = document.getElementById("oasis-now-playing");
-
-            if(nowPlaying) {
-                nowPlaying.innerHTML = `
-                    <span style="opacity:.7;">Reproduciendo ahora:</span><br>
-                    <strong style="color:white;">${titulo}</strong>
-                `;
-            }
-
             await this.fadeOut();
 
-            this.audio.src = `audio/${archivo}`;
-            this.audio.volume = 0;
+            this.audio.src = `./audio/${track.file}`;
 
             await this.audio.play();
 
-            this.fadeIn();
-
             this.isPlaying = true;
 
-            const playBtn = document.getElementById("btn-master-play");
-
-            if(playBtn) {
-                playBtn.innerHTML = `<i class="fa-solid fa-pause"></i>`;
-            }
-
-            localStorage.setItem("valtara_track", archivo);
-            localStorage.setItem("valtara_category", categoria);
-            localStorage.setItem("valtara_index", index);
+            this.updateNowPlaying();
+            this.updateNextPlaying();
+            this.updatePlayButton();
 
         } catch(e) {
+
             console.log(e);
         }
     },
 
-    togglePlay: function() {
+    nextTrack: function() {
 
-        if(!this.audio.src) return;
+        this.currentTrackIndex++;
 
-        const playBtn = document.getElementById("btn-master-play");
+        if(this.currentTrackIndex >= this.currentPlaylist.length) {
 
-        if(this.audio.paused) {
-
-            this.audio.play();
-
-            this.isPlaying = true;
-
-            if(playBtn) {
-                playBtn.innerHTML = `<i class="fa-solid fa-pause"></i>`;
-            }
-
-        } else {
-
-            this.audio.pause();
-
-            this.isPlaying = false;
-
-            if(playBtn) {
-                playBtn.innerHTML = `<i class="fa-solid fa-play"></i>`;
-            }
+            this.currentTrackIndex = 0;
         }
+
+        this.playCurrentTrack();
     },
 
-    siguiente: function() {
+    prevTrack: function() {
 
-        if(!this.currentPlaylist.length) return;
+        this.currentTrackIndex--;
 
-        this.currentIndex++;
+        if(this.currentTrackIndex < 0) {
 
-        if(this.currentIndex >= this.currentPlaylist.length) {
-            this.currentIndex = 0;
+            this.currentTrackIndex = this.currentPlaylist.length - 1;
         }
 
-        const archivo = this.currentPlaylist[this.currentIndex];
-
-        const titulo = archivo
-            .replace(".mp3","")
-            .replaceAll("_"," ")
-            .replaceAll("(","")
-            .replaceAll(")","");
-
-        this.reproducir(
-            this.currentCategory,
-            archivo,
-            titulo,
-            this.currentIndex
-        );
+        this.playCurrentTrack();
     },
 
     fadeOut: function() {
 
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
 
             const fade = setInterval(() => {
 
@@ -150,36 +249,162 @@ window.ValtaraAudio = {
 
                     this.audio.pause();
 
+                    this.audio.volume = parseFloat(
+                        document.getElementById('oasis-volume-slider')?.value || 0.7
+                    );
+
                     resolve();
                 }
 
-            }, 80);
+            }, 45);
 
         });
     },
 
-    fadeIn: function() {
+    updateNowPlaying: function() {
 
-        const fade = setInterval(() => {
+        const current = this.currentPlaylist[this.currentTrackIndex];
 
-            if(this.audio.volume < 0.7) {
+        const el = document.getElementById('oasis-now-playing');
 
-                this.audio.volume += 0.05;
+        if(el) {
 
-            } else {
+            el.innerHTML = `
+                <div style="font-size: .95rem; opacity:.7; margin-bottom:.5rem;">
+                    AHORA SONANDO
+                </div>
 
-                clearInterval(fade);
-            }
+                <div>
+                    ${current.title}
+                </div>
+            `;
+        }
+    },
 
-        }, 80);
+    updateNextPlaying: function() {
+
+        let nextIndex = this.currentTrackIndex + 1;
+
+        if(nextIndex >= this.currentPlaylist.length) {
+
+            nextIndex = 0;
+        }
+
+        const nextTrack = this.currentPlaylist[nextIndex];
+
+        const nextEl = document.getElementById('oasis-next-track');
+
+        if(nextEl) {
+
+            nextEl.innerHTML = `
+                <span style="opacity:.6;">
+                    A continuación:
+                </span>
+
+                <strong style="color:var(--valtara-oro);">
+                    ${nextTrack.title}
+                </strong>
+            `;
+        }
+    },
+
+    updatePlayButton: function() {
+
+        const btn = document.getElementById('btn-master-play');
+
+        if(!btn) return;
+
+        btn.innerHTML = this.audio.paused
+            ? '<i class="fa-solid fa-play"></i>'
+            : '<i class="fa-solid fa-pause"></i>';
+    },
+
+    formatTime: function(sec) {
+
+        if(isNaN(sec)) return '0:00';
+
+        const mins = Math.floor(sec / 60);
+        const secs = Math.floor(sec % 60);
+
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    },
+
+    setupVisualizer: function() {
+
+        try {
+
+            const canvas = document.getElementById('oasis-visualizer');
+
+            if(!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+
+            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+            this.analyser = this.audioContext.createAnalyser();
+
+            this.source = this.audioContext.createMediaElementSource(this.audio);
+
+            this.source.connect(this.analyser);
+
+            this.analyser.connect(this.audioContext.destination);
+
+            this.analyser.fftSize = 256;
+
+            const bufferLength = this.analyser.frequencyBinCount;
+
+            const dataArray = new Uint8Array(bufferLength);
+
+            const render = () => {
+
+                this.animationFrame = requestAnimationFrame(render);
+
+                this.analyser.getByteFrequencyData(dataArray);
+
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                const barWidth = (canvas.width / bufferLength) * 1.8;
+
+                let x = 0;
+
+                for(let i = 0; i < bufferLength; i++) {
+
+                    const barHeight = dataArray[i];
+
+                    const gradient = ctx.createLinearGradient(
+                        0,
+                        canvas.height,
+                        0,
+                        canvas.height - barHeight
+                    );
+
+                    gradient.addColorStop(0, '#00ffff');
+                    gradient.addColorStop(1, '#ff00ff');
+
+                    ctx.fillStyle = gradient;
+
+                    ctx.fillRect(
+                        x,
+                        canvas.height - barHeight,
+                        barWidth,
+                        barHeight
+                    );
+
+                    x += barWidth + 2;
+                }
+            };
+
+            render();
+
+        } catch(e) {
+
+            console.log(e);
+        }
     }
 };
-
-window.ValtaraAudio.audio.addEventListener("ended", () => {
-
-    window.ValtaraAudio.siguiente();
-
-});
 
 window.ValtaraModulos.sonoterapia_audio = `
 
@@ -196,313 +421,148 @@ window.ValtaraModulos.sonoterapia_audio = `
 
     <p style="
         color:var(--valtara-gris-texto);
-        font-size:1.15rem;
-        letter-spacing:.08rem;
+        font-size:1.1rem;
+        letter-spacing:.12rem;
         text-transform:uppercase;
     ">
-        Curaduría Sonora de Valtara
+        Curaduría Sonora Inmersiva
     </p>
 
 </div>
 
-<div class="glass-card reveal"
-     style="
-        padding:4rem;
-        max-width:1000px;
-        margin:0 auto 5rem auto;
-        border-color:rgba(0,255,255,.25);
-        background:rgba(255,255,255,.03);
-        backdrop-filter:blur(18px);
-        box-shadow:0 2rem 6rem rgba(0,255,255,.12);
-        border-radius:32px;
+<div class="glass-card reveal" style="
+    padding:4rem;
+    max-width:1000px;
+    margin:0 auto 5rem auto;
+    background:rgba(0,0,0,.45);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:2rem;
+    backdrop-filter:blur(18px);
 ">
 
-    <div id="oasis-now-playing"
-         style="
-            text-align:center;
-            color:var(--valtara-cian-brillante);
-            font-size:1.7rem;
-            font-family:var(--font-accent);
-            margin-bottom:2rem;
-            min-height:3rem;
-            line-height:1.6;
+    <div id="oasis-now-playing" style="
+        text-align:center;
+        color:var(--valtara-cian-brillante);
+        font-size:1.8rem;
+        margin-bottom:1rem;
+        font-family:var(--font-accent);
     ">
-        Selecciona una experiencia sonora
+        Selecciona una frecuencia
     </div>
 
-    <div class="canvas-audio-wrapper"
-         style="
-            margin-bottom:2.5rem;
-            border-radius:1.5rem;
-            overflow:hidden;
-            border:1px solid rgba(0,255,255,.15);
-            background:
-            radial-gradient(circle at center,
-            rgba(0,255,255,.06) 0%,
-            rgba(0,0,0,.88) 100%);
+    <div id="oasis-next-track" style="
+        text-align:center;
+        color:white;
+        margin-bottom:2rem;
+        font-size:1rem;
+        opacity:.85;
+    ">
+        A continuación: —
+    </div>
+
+    <div class="canvas-audio-wrapper" style="
+        margin-bottom:2rem;
+        border-radius:1.5rem;
+        overflow:hidden;
+        border:1px solid rgba(255,255,255,.08);
+        background:rgba(255,255,255,.03);
     ">
 
         <canvas id="oasis-visualizer"
-                style="
-                    height:180px;
-                    width:100%;
-                    display:block;
-        "></canvas>
+            style="
+                width:100%;
+                height:180px;
+                display:block;
+            ">
+        </canvas>
 
     </div>
 
     <div style="
         display:flex;
+        justify-content:space-between;
         align-items:center;
-        justify-content:center;
-        gap:2rem;
+        gap:1rem;
+        margin-bottom:2rem;
         flex-wrap:wrap;
     ">
 
-        <button id="btn-master-play"
-                onclick="window.ValtaraAudio.togglePlay()"
-                style="
-                    width:88px;
-                    height:88px;
-                    border-radius:50%;
-                    border:none;
-                    background:
-                    linear-gradient(135deg,
-                    rgba(0,255,255,.18),
-                    rgba(255,255,255,.05));
-                    color:white;
-                    font-size:2rem;
-                    cursor:pointer;
-                    backdrop-filter:blur(18px);
-                    box-shadow:0 0 35px rgba(0,255,255,.15);
-        ">
+        <span id="oasis-time-current">0:00</span>
+
+        <input
+            type="range"
+            id="oasis-progress-bar"
+            value="0"
+            min="0"
+            max="100"
+            style="
+                flex:1;
+                accent-color:var(--valtara-cian-brillante);
+            "
+        >
+
+        <span id="oasis-time-total">0:00</span>
+
+    </div>
+
+    <div style="
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        gap:1.5rem;
+        flex-wrap:wrap;
+    ">
+
+        <button onclick="window.ValtaraAudioSystem.prevTrack()" class="carousel-btn">
+            <i class="fa-solid fa-backward-step"></i>
+        </button>
+
+        <button class="master-play-btn"
+            id="btn-master-play"
+            style="
+                width:85px;
+                height:85px;
+                border-radius:50%;
+                font-size:2rem;
+            ">
             <i class="fa-solid fa-play"></i>
         </button>
 
-        <div style="
-            display:flex;
-            align-items:center;
-            gap:1rem;
-            color:white;
-        ">
+        <button onclick="window.ValtaraAudioSystem.nextTrack()" class="carousel-btn">
+            <i class="fa-solid fa-forward-step"></i>
+        </button>
 
-            <i class="fa-solid fa-volume-low"></i>
+    </div>
 
-            <input type="range"
-                   min="0"
-                   max="1"
-                   step="0.01"
-                   value="0.7"
-                   oninput="window.ValtaraAudio.audio.volume=this.value"
-                   style="
-                        width:140px;
-                        accent-color:var(--valtara-cian-brillante);
-            ">
+    <div style="
+        margin-top:2rem;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        gap:1rem;
+        color:var(--valtara-oro);
+    ">
 
-            <i class="fa-solid fa-volume-high"></i>
+        <i class="fa-solid fa-volume-low"></i>
 
-        </div>
+        <input
+            type="range"
+            id="oasis-volume-slider"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.7"
+            style="
+                width:180px;
+                accent-color:var(--valtara-oro);
+            "
+        >
+
+        <i class="fa-solid fa-volume-high"></i>
 
     </div>
 
 </div>
-
-<!-- MICRODOSIS -->
-
-<div style="
-    max-width:1200px;
-    margin:0 auto 1.5rem auto;
-    padding-left:2rem;
-    border-left:5px solid var(--valtara-verde-menta);
-">
-
-    <h4 style="
-        color:var(--valtara-verde-menta);
-        font-size:2rem;
-        font-family:var(--font-accent);
-        margin:0;
-    ">
-        Micro-Dosis Botánicas
-    </h4>
-
-    <p style="color:#aaa;">
-        Reinicios cognitivos rápidos.
-    </p>
-
-</div>
-
-<div class="horizontal-carousel"
-     id="audio-carousel-short"
-     style="
-        display:flex;
-        gap:24px;
-        overflow-x:auto;
-        padding:1rem 2rem 3rem 2rem;
-">
-
-    ${Array.from({length:9}, (_,i)=>`
-
-        <article class="glass-card carousel-card"
-                 onclick="
-                    window.ValtaraAudio.reproducir(
-                        'short',
-                        '${i+1}.mp3',
-                        'Frecuencia ${String(i+1).padStart(2,'0')}',
-                        ${i}
-                    )
-                 "
-                 style="
-                    min-width:320px;
-                    border-radius:30px;
-                    padding:2rem;
-                    cursor:pointer;
-                    background:rgba(255,255,255,.03);
-                    backdrop-filter:blur(18px);
-                    border:1px solid rgba(255,255,255,.08);
-        ">
-
-            <div style="
-                width:120px;
-                height:120px;
-                border-radius:50%;
-                margin:auto;
-                margin-bottom:2rem;
-                background:
-                radial-gradient(circle,
-                rgba(0,255,255,.18),
-                rgba(0,0,0,.1));
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-size:3rem;
-                color:var(--valtara-cian-brillante);
-            ">
-                <i class="fa-solid fa-leaf"></i>
-            </div>
-
-            <h4 style="
-                color:white;
-                font-size:2rem;
-                font-family:var(--font-accent);
-                margin-bottom:.8rem;
-            ">
-                Frecuencia ${String(i+1).padStart(2,'0')}
-            </h4>
-
-            <p style="
-                color:rgba(255,255,255,.65);
-                letter-spacing:.15rem;
-                text-transform:uppercase;
-            ">
-                Micro-Dosis
-            </p>
-
-        </article>
-
-    `).join("")}
-
-</div>
-
-<!-- INMERSIÓN -->
-
-<div style="
-    max-width:1200px;
-    margin:0 auto 1.5rem auto;
-    padding-left:2rem;
-    border-left:5px solid #E58CFF;
-">
-
-    <h4 style="
-        color:#E58CFF;
-        font-size:2rem;
-        font-family:var(--font-accent);
-        margin:0;
-    ">
-        Inmersión Profunda
-    </h4>
-
-    <p style="color:#aaa;">
-        Meditación acústica extendida.
-    </p>
-
-</div>
-
-<div class="horizontal-carousel"
-     id="audio-carousel-long"
-     style="
-        display:flex;
-        gap:24px;
-        overflow-x:auto;
-        padding:1rem 2rem 3rem 2rem;
-">
-
-    ${[
-        "bajo_el_vidrio.mp3",
-        "manto_sin_orillas.mp3"
-    ].map((track,index)=>`
-
-        <article class="glass-card carousel-card"
-                 onclick="
-                    window.ValtaraAudio.reproducir(
-                        'long',
-                        '${track}',
-                        '${track.replace(".mp3","").replaceAll("_"," ")}',
-                        ${index}
-                    )
-                 "
-                 style="
-                    min-width:320px;
-                    border-radius:30px;
-                    padding:2rem;
-                    cursor:pointer;
-                    background:rgba(255,255,255,.03);
-                    backdrop-filter:blur(18px);
-                    border:1px solid rgba(255,255,255,.08);
-        ">
-
-            <div style="
-                width:120px;
-                height:120px;
-                border-radius:50%;
-                margin:auto;
-                margin-bottom:2rem;
-                background:
-                radial-gradient(circle,
-                rgba(229,140,255,.2),
-                rgba(0,0,0,.1));
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-size:3rem;
-                color:#E58CFF;
-            ">
-                <i class="fa-solid fa-water"></i>
-            </div>
-
-            <h4 style="
-                color:white;
-                font-size:1.7rem;
-                font-family:var(--font-accent);
-                margin-bottom:.8rem;
-            ">
-                ${track.replace(".mp3","").replaceAll("_"," ")}
-            </h4>
-
-            <p style="
-                color:rgba(255,255,255,.65);
-                letter-spacing:.15rem;
-                text-transform:uppercase;
-            ">
-                Inmersión
-            </p>
-
-        </article>
-
-    `).join("")}
-
-</div>
-
-<!-- RADIO -->
 
 <div style="
     max-width:1200px;
@@ -514,108 +574,118 @@ window.ValtaraModulos.sonoterapia_audio = `
     <h4 style="
         color:var(--valtara-oro);
         font-size:2rem;
-        font-family:var(--font-accent);
         margin:0;
+        font-family:var(--font-accent);
     ">
         Radio Valtara
     </h4>
 
-    <p style="color:#aaa;">
-        Paisajes contemplativos para acompañar la noche.
+    <p style="
+        color:#aaa;
+        margin-top:.5rem;
+    ">
+        Estación inmersiva continua • 15 frecuencias botánicas originales
     </p>
 
 </div>
 
-<div class="horizontal-carousel"
-     id="audio-carousel-radio"
-     style="
-        display:flex;
-        gap:24px;
-        overflow-x:auto;
-        padding:1rem 2rem 5rem 2rem;
-">
+<div class="carousel-master-container reveal" style="margin-bottom:6rem;">
 
-    ${window.ValtaraAudio.playlists.radio.map((track,index)=>`
-
-        <article class="glass-card carousel-card"
-                 onclick="
-                    window.ValtaraAudio.reproducir(
-                        'radio',
-                        '${track}',
-                        '${track.replace(".mp3","").replaceAll("_"," ")}',
-                        ${index}
-                    )
-                 "
-                 style="
-                    min-width:340px;
-                    border-radius:32px;
-                    padding:2rem;
-                    cursor:pointer;
-                    background:rgba(255,255,255,.03);
-                    backdrop-filter:blur(18px);
-                    border:1px solid rgba(255,255,255,.08);
-                    position:relative;
-                    overflow:hidden;
+    <div id="audio-carousel-radio"
+        class="horizontal-carousel"
+        style="
+            display:flex;
+            gap:24px;
+            overflow-x:auto;
+            scroll-behavior:smooth;
+            padding:1rem;
         ">
 
-            <div style="
-                position:absolute;
-                inset:0;
-                background:
-                radial-gradient(circle at top right,
-                rgba(255,215,0,.08),
-                transparent 60%);
-            "></div>
+        ${window.ValtaraAudioSystem.playlists.radio.map((track, index) => `
 
-            <div style="
-                width:120px;
-                height:120px;
-                border-radius:50%;
-                margin:auto;
-                margin-bottom:2rem;
-                background:
-                radial-gradient(circle,
-                rgba(255,215,0,.16),
-                rgba(0,0,0,.1));
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-size:3rem;
-                color:var(--valtara-oro);
-                position:relative;
-                z-index:2;
-            ">
-                <i class="fa-solid fa-radio"></i>
-            </div>
+            <article class="glass-card carousel-card"
+                onclick="window.ValtaraAudioSystem.loadPlaylist('radio', ${index})"
+                style="
+                    min-width:320px;
+                    max-width:320px;
+                    padding:2rem;
+                    border-radius:2rem;
+                    background:rgba(255,255,255,.03);
+                    border:1px solid rgba(255,255,255,.08);
+                    cursor:pointer;
+                    transition:.35s;
+                    flex-shrink:0;
+                "
+            >
 
-            <h4 style="
-                color:white;
-                font-size:1.6rem;
-                font-family:var(--font-accent);
-                margin-bottom:.9rem;
-                position:relative;
-                z-index:2;
-                line-height:1.5;
-            ">
-                ${track
-                    .replace(".mp3","")
-                    .replaceAll("_"," ")
-                    .replaceAll("(","")
-                    .replaceAll(")","")}
-            </h4>
+                <div style="
+                    width:90px;
+                    height:90px;
+                    border-radius:50%;
+                    margin:0 auto 2rem auto;
+                    background:radial-gradient(circle,
+                    rgba(0,255,255,.2),
+                    rgba(255,0,255,.12));
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    font-size:2rem;
+                    color:var(--valtara-cian-brillante);
+                ">
+                    <i class="fa-solid fa-wave-square"></i>
+                </div>
 
-            <p style="
-                color:rgba(255,255,255,.65);
-                line-height:1.8;
-                position:relative;
-                z-index:2;
-            ">
-                Radio contemplativa de restauración emocional y desaceleración mental.
-            </p>
+                <h4 style="
+                    color:white;
+                    font-size:1.3rem;
+                    margin-bottom:1rem;
+                    line-height:1.5;
+                    text-align:center;
+                    font-family:var(--font-accent);
+                ">
+                    ${track.title}
+                </h4>
 
-        </article>
+                <p style="
+                    text-align:center;
+                    color:rgba(255,255,255,.55);
+                    line-height:1.8;
+                ">
+                    Radio Ambiental Valtara
+                </p>
 
-    `).join("")}
+            </article>
+
+        `).join('')}
+
+    </div>
+
+    <div class="carousel-navigation">
+
+        <button class="carousel-btn"
+            onclick="window.ValtaraCarousels.scroll('audio-carousel-radio', -1)">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="carousel-indicator">
+            15 Frecuencias
+        </div>
+
+        <button class="carousel-btn"
+            onclick="window.ValtaraCarousels.scroll('audio-carousel-radio', 1)">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+    </div>
 
 </div>
 `;
+
+setTimeout(() => {
+
+    if(window.ValtaraAudioSystem) {
+
+        window.ValtaraAudioSystem.init();
+    }
+
+}, 700);
