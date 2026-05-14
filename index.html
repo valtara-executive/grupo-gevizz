@@ -698,6 +698,153 @@
     <script src="js/performance.js?v=40.0.0"        defer></script>
     <script src="js/gestures.js?v=40.0.0"           defer></script>
     <script src="js/backgrounds.js?v=40.0.0"        defer></script>
+<script>
 
+document.addEventListener('DOMContentLoaded', () => {
+
+  function initPromos(){
+
+    const terapiaSelect =
+      document.getElementById('vp-terapia');
+
+    if(!terapiaSelect) return;
+
+    const aromaSelect =
+      document.getElementById('vp-aroma');
+
+    const subtotalEl =
+      document.getElementById('vp-subtotal');
+
+    const benefitEl =
+      document.getElementById('vp-benefit');
+
+    const totalEl =
+      document.getElementById('vp-total');
+
+    const benefitLabel =
+      document.getElementById('vp-benefit-label');
+
+    const whatsappBtn =
+      document.getElementById('vp-whatsapp-btn');
+
+    const cards =
+      document.querySelectorAll('.vp-card');
+
+    let promo = '169';
+
+    function currency(value){
+      return '$' + value.toFixed(0) + ' MXN';
+    }
+
+    function update(){
+
+      const subtotal =
+        Number(terapiaSelect.value);
+
+      let descuento = 169;
+
+      if(promo === '20'){
+        descuento = subtotal * 0.20;
+        benefitLabel.textContent =
+        '20% matutino';
+      }else{
+        benefitLabel.textContent =
+        'Cortesía Valtara';
+      }
+
+      const total =
+        subtotal - descuento;
+
+      subtotalEl.textContent =
+        currency(subtotal);
+
+      benefitEl.textContent =
+        '-' + currency(descuento);
+
+      totalEl.textContent =
+        currency(total);
+
+      const terapiaTexto =
+        terapiaSelect.options[
+          terapiaSelect.selectedIndex
+        ].text;
+
+      const aroma =
+        aromaSelect.value;
+
+      const promoTexto =
+        promo === '20'
+        ? '20% matutino'
+        : '$169 MXN de cortesía';
+
+      const mensaje =
+        encodeURIComponent(
+          'Hola, me interesa una experiencia terapéutica en Valtara.\\n\\n' +
+          'Terapia: ' + terapiaTexto + '\\n' +
+          'Aromaterapia: ' + aroma + '\\n' +
+          'Promoción seleccionada: ' + promoTexto + '\\n\\n' +
+          'Sucursal principal: Reforma 195\\n' +
+          'Próxima apertura: cerca de Metro Eugenia.'
+        );
+
+      whatsappBtn.href =
+        'https://wa.me/523348572070?text=' +
+        mensaje;
+
+    }
+
+    cards.forEach(card => {
+
+      card.addEventListener('click', () => {
+
+        cards.forEach(c =>
+          c.classList.remove('active')
+        );
+
+        card.classList.add('active');
+
+        promo =
+          card.dataset.promo;
+
+        update();
+
+      });
+
+    });
+
+    terapiaSelect.addEventListener(
+      'change',
+      update
+    );
+
+    aromaSelect.addEventListener(
+      'change',
+      update
+    );
+
+    update();
+
+  }
+
+  const observer = new MutationObserver(() => {
+
+    if(document.getElementById('vp-terapia')){
+
+      initPromos();
+
+      observer.disconnect();
+
+    }
+
+  });
+
+  observer.observe(document.body,{
+    childList:true,
+    subtree:true
+  });
+
+});
+
+            </script>
 </body>
                                                                                                                         </html>
