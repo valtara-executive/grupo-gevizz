@@ -1,96 +1,48 @@
 /**
  * ====================================================================================
- * MÓDULO: INICIO PROMOCIONES — EDITORIAL EXPERIENCE
- * Arquitectura compatible con Sovereign OS / Constructor Maestro
+ * MÓDULO: INICIO PROMOCIONES — VISUAL FIX FINAL
+ * Compatible con constructor_maestro.js / core.js / renderAll()
  * ====================================================================================
  */
 
 window.ValtaraModulos = window.ValtaraModulos || {};
 
 window.ValtaraModulos.inicio_promociones = `
-<section id="valtara-editorial-experience" style="
-    width:100%;
-    max-width:1100px;
-    margin:0 auto;
-    padding:1rem 1.5rem 2rem 1.5rem;
-    position:relative;
-    overflow:hidden;
-">
+<div style="max-width:1100px;margin:2rem auto 4rem auto;padding:0 1.2rem;">
 
     <style>
 
-        #valtara-editorial-experience *{
+        .vtx-promo-shell *{
             box-sizing:border-box;
         }
 
-        .vt-editorial-wrapper{
-            display:flex;
-            flex-direction:column;
-            gap:1.5rem;
+        .vtx-promo-shell{
+            width:100%;
         }
 
-        .vt-editorial-hero{
+        .vtx-main-card{
             position:relative;
             overflow:hidden;
-            border-radius:34px;
+            border-radius:32px;
             padding:2.5rem;
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255,255,255,0.05),
-                    rgba(255,255,255,0.015)
-                );
-            backdrop-filter:blur(18px);
-            -webkit-backdrop-filter:blur(18px);
+            background:rgba(255,255,255,0.035);
             border:1px solid rgba(255,255,255,0.08);
+            backdrop-filter:blur(16px);
+            -webkit-backdrop-filter:blur(16px);
+            margin-bottom:1.4rem;
         }
 
-        .vt-editorial-hero::before{
+        .vtx-main-card::before{
             content:'';
             position:absolute;
             inset:0;
             background:
-                radial-gradient(circle at top right, rgba(242,201,76,0.12), transparent 28%),
-                radial-gradient(circle at bottom left, rgba(0,255,204,0.10), transparent 25%);
+                radial-gradient(circle at top right, rgba(242,201,76,0.12), transparent 30%),
+                radial-gradient(circle at bottom left, rgba(0,255,204,0.08), transparent 25%);
             pointer-events:none;
         }
 
-        .vt-floating-orb{
-            position:absolute;
-            border-radius:50%;
-            filter:blur(20px);
-            opacity:0.25;
-            animation:vtFloat 8s ease-in-out infinite;
-            pointer-events:none;
-        }
-
-        .vt-orb-1{
-            width:120px;
-            height:120px;
-            background:#F2C94C;
-            top:-40px;
-            right:-30px;
-        }
-
-        .vt-orb-2{
-            width:90px;
-            height:90px;
-            background:#00FFCC;
-            bottom:-20px;
-            left:-20px;
-            animation-delay:2s;
-        }
-
-        @keyframes vtFloat{
-            0%,100%{
-                transform:translateY(0px);
-            }
-            50%{
-                transform:translateY(-12px);
-            }
-        }
-
-        .vt-kicker{
+        .vtx-badge{
             display:inline-flex;
             align-items:center;
             gap:10px;
@@ -99,110 +51,111 @@ window.ValtaraModulos.inicio_promociones = `
             background:rgba(242,201,76,0.10);
             border:1px solid rgba(242,201,76,0.22);
             color:var(--valtara-oro);
-            font-size:0.78rem;
+            font-size:0.8rem;
+            font-weight:900;
             letter-spacing:2px;
             text-transform:uppercase;
             margin-bottom:1.5rem;
-            font-weight:800;
         }
 
-        .vt-main-title{
+        .vtx-title{
             font-family:var(--font-accent);
-            font-size:clamp(2.5rem,5vw,4.4rem);
+            font-size:clamp(2.4rem,5vw,4.2rem);
             line-height:1.05;
             color:white;
             margin-bottom:1.4rem;
-            max-width:760px;
+            max-width:780px;
             position:relative;
             z-index:2;
         }
 
-        .vt-main-text{
+        .vtx-text{
             color:var(--valtara-gris-texto);
-            font-size:1.15rem;
             line-height:1.9;
+            font-size:1.1rem;
             max-width:760px;
             position:relative;
             z-index:2;
         }
 
-        .vt-story-card{
-            margin-top:2.5rem;
+        .vtx-highlight-card{
+            margin-top:2rem;
+            padding:1.8rem;
+            border-radius:26px;
+            background:rgba(255,255,255,0.04);
+            border:1px solid rgba(255,255,255,0.08);
             position:relative;
             z-index:2;
-            display:flex;
-            flex-direction:column;
-            gap:1.4rem;
         }
 
-        .vt-story-badge{
-            display:inline-flex;
-            align-items:center;
-            gap:10px;
-            width:max-content;
-            padding:10px 18px;
-            border-radius:999px;
-            background:rgba(255,255,255,0.06);
-            border:1px solid rgba(255,255,255,0.08);
+        .vtx-highlight-card h3{
             color:white;
-            font-size:0.9rem;
-        }
-
-        .vt-story-title{
             font-size:2rem;
-            color:white;
-            font-weight:800;
+            margin-bottom:1rem;
             line-height:1.2;
         }
 
-        .vt-story-description{
+        .vtx-highlight-card p{
             color:#d7d7d7;
             line-height:2;
-            font-size:1.05rem;
-            max-width:780px;
+            font-size:1rem;
+            margin-bottom:1.2rem;
         }
 
-        .vt-highlight{
+        .vtx-price{
             color:var(--valtara-oro);
-            font-weight:800;
+            font-weight:900;
         }
 
-        .vt-meta-grid{
+        .vtx-grid{
             display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
             gap:1rem;
-            margin-top:1rem;
+            margin-top:1.4rem;
         }
 
-        .vt-meta-card{
-            padding:1.2rem;
-            border-radius:22px;
-            background:rgba(255,255,255,0.04);
-            border:1px solid rgba(255,255,255,0.06);
+        .vtx-mini{
+            border-radius:24px;
+            padding:1.4rem;
+            background:rgba(255,255,255,0.03);
+            border:1px solid rgba(255,255,255,0.08);
             backdrop-filter:blur(12px);
         }
 
-        .vt-meta-card strong{
-            display:block;
-            color:white;
-            margin-bottom:0.5rem;
-            font-size:1rem;
+        .vtx-mini-icon{
+            width:58px;
+            height:58px;
+            border-radius:18px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:rgba(255,255,255,0.06);
+            border:1px solid rgba(255,255,255,0.08);
+            color:var(--valtara-oro);
+            font-size:1.4rem;
+            margin-bottom:1rem;
         }
 
-        .vt-meta-card span{
+        .vtx-mini h4{
+            color:white;
+            font-size:1.15rem;
+            margin-bottom:0.8rem;
+        }
+
+        .vtx-mini p{
             color:#d0d0d0;
-            line-height:1.7;
+            line-height:1.8;
             font-size:0.95rem;
         }
 
-        .vt-cta-row{
+        .vtx-buttons{
             display:flex;
             flex-wrap:wrap;
             gap:1rem;
             margin-top:2rem;
         }
 
-        .vt-btn-primary{
+        .vtx-btn-primary{
             display:inline-flex;
             align-items:center;
             justify-content:center;
@@ -213,17 +166,15 @@ window.ValtaraModulos.inicio_promociones = `
             color:#050508;
             font-weight:900;
             text-decoration:none;
-            border:none;
-            cursor:pointer;
-            transition:transform 0.3s ease, box-shadow 0.3s ease;
+            transition:all 0.3s ease;
             box-shadow:0 10px 30px rgba(242,201,76,0.25);
         }
 
-        .vt-btn-primary:hover{
+        .vtx-btn-primary:hover{
             transform:translateY(-4px);
         }
 
-        .vt-btn-secondary{
+        .vtx-btn-secondary{
             display:inline-flex;
             align-items:center;
             justify-content:center;
@@ -233,121 +184,41 @@ window.ValtaraModulos.inicio_promociones = `
             background:rgba(255,255,255,0.05);
             border:1px solid rgba(255,255,255,0.12);
             color:white;
-            text-decoration:none;
             font-weight:700;
+            text-decoration:none;
             transition:all 0.3s ease;
+            cursor:pointer;
         }
 
-        .vt-btn-secondary:hover{
+        .vtx-btn-secondary:hover{
             background:rgba(255,255,255,0.10);
             transform:translateY(-4px);
         }
 
-        .vt-mini-grid{
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-            gap:1rem;
-        }
-
-        .vt-mini-card{
-            position:relative;
-            overflow:hidden;
-            border-radius:28px;
-            padding:1.6rem;
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(255,255,255,0.05),
-                    rgba(255,255,255,0.015)
-                );
-            border:1px solid rgba(255,255,255,0.08);
-            backdrop-filter:blur(14px);
-        }
-
-        .vt-mini-card::before{
-            content:'';
-            position:absolute;
-            inset:0;
-            background:
-                radial-gradient(circle at top right, rgba(255,255,255,0.08), transparent 35%);
-            pointer-events:none;
-        }
-
-        .vt-mini-icon{
-            width:60px;
-            height:60px;
-            border-radius:18px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            margin-bottom:1rem;
-            font-size:1.4rem;
-            background:rgba(255,255,255,0.06);
-            border:1px solid rgba(255,255,255,0.08);
-            color:var(--valtara-oro);
-        }
-
-        .vt-mini-title{
-            color:white;
-            font-size:1.2rem;
-            font-weight:800;
-            margin-bottom:0.9rem;
-        }
-
-        .vt-mini-text{
-            color:#d2d2d2;
-            line-height:1.9;
-            font-size:0.97rem;
-        }
-
-        .vt-mini-link{
-            display:inline-flex;
-            align-items:center;
-            gap:10px;
-            margin-top:1.3rem;
-            color:var(--valtara-cian-brillante);
-            text-decoration:none;
-            font-weight:800;
-            transition:opacity 0.3s ease;
-        }
-
-        .vt-mini-link:hover{
-            opacity:0.8;
-        }
-
-        .vt-footer-note{
-            margin-top:1rem;
-            color:#a8a8a8;
+        .vtx-note{
+            margin-top:1.4rem;
+            color:#aaaaaa;
             line-height:1.8;
             font-size:0.92rem;
-            text-align:center;
         }
 
         @media(max-width:768px){
 
-            .vt-editorial-hero{
+            .vtx-main-card{
                 padding:2rem 1.4rem;
                 border-radius:28px;
             }
 
-            .vt-main-title{
-                font-size:2.4rem;
-            }
-
-            .vt-story-title{
+            .vtx-highlight-card h3{
                 font-size:1.6rem;
             }
 
-            .vt-story-description{
-                font-size:1rem;
-            }
-
-            .vt-cta-row{
+            .vtx-buttons{
                 flex-direction:column;
             }
 
-            .vt-btn-primary,
-            .vt-btn-secondary{
+            .vtx-btn-primary,
+            .vtx-btn-secondary{
                 width:100%;
             }
 
@@ -355,100 +226,120 @@ window.ValtaraModulos.inicio_promociones = `
 
     </style>
 
-    <div class="vt-editorial-wrapper">
+    <section class="vtx-promo-shell reveal">
 
-        <!-- HERO -->
-        <article class="vt-editorial-hero reveal">
+        <article class="vtx-main-card">
 
-            <div class="vt-floating-orb vt-orb-1"></div>
-            <div class="vt-floating-orb vt-orb-2"></div>
-
-            <div class="vt-kicker">
+            <div class="vtx-badge">
                 <i class="fa-solid fa-sparkles"></i>
                 EXPERIENCIAS DESTACADAS
             </div>
 
-            <h2 class="vt-main-title">
-                Terapias que no solo relajan tu cuerpo…
-                también cambian cómo se siente tu día.
+            <h2 class="vtx-title">
+                Hay días donde el cuerpo solo necesita
+                sentirse cuidado otra vez.
             </h2>
 
-            <p class="vt-main-text">
-                Valtara combina biomecánica, aromaterapia y experiencias sensoriales
-                para transformar el estrés físico en descanso profundo.
-                Cada sesión está diseñada para sentirse íntima, elegante,
-                cálida y completamente personalizada.
+            <p class="vtx-text">
+                Valtara combina biomecánica, masaje terapéutico,
+                aromaterapia y experiencias sensoriales premium
+                para transformar agotamiento físico en descanso profundo.
+                Todo dentro de una experiencia elegante,
+                íntima y emocionalmente reconfortante.
             </p>
 
-            <div class="vt-story-card">
+            <div class="vtx-highlight-card">
 
-                <div class="vt-story-badge">
-                    <i class="fa-solid fa-crown"></i>
-                    EXPERIENCIA RECOMENDADA DE ESTA SEMANA
-                </div>
+                <h3>
+                    Ritual Lomi Lomi Supremo ·
+                    <span class="vtx-price">$999 MXN</span>
+                </h3>
 
-                <div class="vt-story-title">
-                    Ritual Lomi Lomi Supremo · <span class="vt-highlight">$999 MXN</span>
-                </div>
+                <p>
+                    Inspirado en las tradiciones hawaianas,
+                    este ritual utiliza movimientos largos,
+                    envolventes y continuos acompañados
+                    por pétalos de rosas,
+                    flores aromáticas
+                    y aceites tibios cuidadosamente seleccionados.
 
-                <div class="vt-story-description">
-                    Imagina entrar a una habitación donde el sonido ambiental,
-                    la temperatura cálida y el aroma botánico hacen que tu cuerpo
-                    deje de sentirse en alerta.
+                    El objetivo no es solamente relajar músculos:
+                    es ayudarle al cuerpo a salir del estado de alerta constante.
+                </p>
 
-                    El <strong>Lomi Lomi Supremo</strong> utiliza movimientos largos,
-                    envolventes y continuos inspirados en el oleaje hawaiano,
-                    acompañados por <strong>pétalos de rosas, flores aromáticas
-                    y aceites tibios</strong> que convierten la sesión en una experiencia
-                    emocional además de física.
+                <div class="vtx-grid">
 
-                    Diseñado para quienes viven bajo presión constante,
-                    agotamiento mental o burnout ejecutivo.
-                </div>
+                    <div class="vtx-mini">
 
-                <div class="vt-meta-grid">
+                        <div class="vtx-mini-icon">
+                            <i class="fa-solid fa-fire"></i>
+                        </div>
 
-                    <div class="vt-meta-card">
-                        <strong>
-                            <i class="fa-solid fa-clock"></i>
-                            Duración
-                        </strong>
-                        <span>
-                            Sesión profunda premium enfocada en relajación
-                            inmersiva y restauración emocional.
-                        </span>
+                        <h4>
+                            Veloterapia & Esferas Chinas
+                        </h4>
+
+                        <p>
+                            Terapia inmersiva con esferas terapéuticas,
+                            vibración sonora y velas de soya aromáticas.
+                            Diseñada para ansiedad,
+                            sensibilidad emocional
+                            y descanso profundo.
+                            <strong style="color:white;">$819 MXN</strong>
+                        </p>
+
                     </div>
 
-                    <div class="vt-meta-card">
-                        <strong>
+                    <div class="vtx-mini">
+
+                        <div class="vtx-mini-icon">
                             <i class="fa-solid fa-leaf"></i>
-                            Aroma sugerido
-                        </strong>
-                        <span>
-                            Lavanda + Té Blanco para inducir calma,
-                            respiración lenta y descanso profundo.
-                        </span>
+                        </div>
+
+                        <h4>
+                            Aromaterapias incluidas
+                        </h4>
+
+                        <p>
+                            Lavanda,
+                            Jazmín,
+                            Té Blanco,
+                            Eucalipto,
+                            Vainilla y más.
+                            Todas las esencias están incluidas
+                            sin costo adicional
+                            y sujetas a disponibilidad.
+                        </p>
+
                     </div>
 
-                    <div class="vt-meta-card">
-                        <strong>
+                    <div class="vtx-mini">
+
+                        <div class="vtx-mini-icon">
                             <i class="fa-solid fa-gift"></i>
-                            Beneficio activo
-                        </strong>
-                        <span>
-                            20% OFF en horarios matutinos seleccionados
-                            antes de las 2 PM.
-                        </span>
+                        </div>
+
+                        <h4>
+                            Promociones activas
+                        </h4>
+
+                        <p>
+                            $169 MXN de cortesía
+                            lunes y martes en horarios seleccionados
+                            y 20% OFF matutino antes de las 2 PM
+                            en experiencias participantes.
+                        </p>
+
                     </div>
 
                 </div>
 
-                <div class="vt-cta-row">
+                <div class="vtx-buttons">
 
                     <a
-                        href="https://wa.me/5213348572070?text=Hola,%20vi%20la%20experiencia%20Ritual%20Lomi%20Lomi%20Supremo%20en%20la%20página%20de%20Valtara%20y%20me%20gustaría%20agendar."
+                        href="https://wa.me/5213348572070?text=Hola,%20vi%20las%20experiencias%20destacadas%20de%20Valtara%20y%20me%20gustaría%20agendar."
                         target="_blank"
-                        class="vt-btn-primary">
+                        class="vtx-btn-primary">
 
                         <i class="fa-brands fa-whatsapp"></i>
                         Reservar experiencia
@@ -457,7 +348,7 @@ window.ValtaraModulos.inicio_promociones = `
 
                     <button
                         onclick="if(window.Router){window.Router.navigate('restoration');}"
-                        class="vt-btn-secondary">
+                        class="vtx-btn-secondary">
 
                         <i class="fa-solid fa-book-open"></i>
                         Explorar catálogo completo
@@ -466,82 +357,18 @@ window.ValtaraModulos.inicio_promociones = `
 
                 </div>
 
+                <p class="vtx-note">
+                    Promociones sujetas a disponibilidad y horario.
+                    Aromaterapias incluidas sin costo adicional.
+                    Contacto oficial Valtara:
+                    <strong style="color:white;">33 4857 2070</strong>.
+                </p>
+
             </div>
 
         </article>
 
-        <!-- MINI CARDS -->
-        <div class="vt-mini-grid">
+    </section>
 
-            <article class="vt-mini-card reveal">
-
-                <div class="vt-mini-icon">
-                    <i class="fa-solid fa-fire"></i>
-                </div>
-
-                <div class="vt-mini-title">
-                    Veloterapia & Esferas Chinas · $819 MXN
-                </div>
-
-                <div class="vt-mini-text">
-                    Vibración sonora, esferas terapéuticas y el calor delicado
-                    de velas de soya aromáticas crean una experiencia
-                    profundamente envolvente.
-                    Ideal para ansiedad, agotamiento emocional
-                    y sensibilidad sensorial elevada.
-                </div>
-
-                <a
-                    href="https://wa.me/5213348572070?text=Hola,%20quiero%20información%20sobre%20Veloterapia%20y%20Esferas%20Chinas."
-                    target="_blank"
-                    class="vt-mini-link">
-
-                    <i class="fa-brands fa-whatsapp"></i>
-                    Solicitar información
-
-                </a>
-
-            </article>
-
-            <article class="vt-mini-card reveal">
-
-                <div class="vt-mini-icon">
-                    <i class="fa-solid fa-leaf"></i>
-                </div>
-
-                <div class="vt-mini-title">
-                    Aromaterapias incluidas sin costo adicional
-                </div>
-
-                <div class="vt-mini-text">
-                    Lavanda para descanso profundo.
-                    Jazmín para equilibrio emocional.
-                    Té Blanco para calma elegante.
-                    Eucalipto para respiración ligera.
-                    Todas las esencias están sujetas a disponibilidad.
-                </div>
-
-                <a
-                    href="https://wa.me/5213348572070?text=Hola,%20quiero%20conocer%20las%20aromaterapias%20disponibles."
-                    target="_blank"
-                    class="vt-mini-link">
-
-                    <i class="fa-brands fa-whatsapp"></i>
-                    Ver esencias disponibles
-
-                </a>
-
-            </article>
-
-        </div>
-
-        <p class="vt-footer-note">
-            Promociones sujetas a disponibilidad y horario.
-            Algunas experiencias incluyen cortesías sensoriales nocturnas.
-            Contacto oficial Valtara: <strong>33 4857 2070</strong>.
-        </p>
-
-    </div>
-
-</section>
+</div>
 `;
