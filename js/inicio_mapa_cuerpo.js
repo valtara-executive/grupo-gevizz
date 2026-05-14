@@ -1,787 +1,957 @@
-/**
- * OASIK / VALTARA — MÓDULO: DIAGNÓSTICO SENSORIAL (MAPA DEL CUERPO) V3.0
- * Archivo: js/inicio_mapa_cuerpo.js
- *
- * CORRECCIONES v3.0:
- *  ✅ Exporta placeholder a window.ValtaraModulos.inicio_mapa_cuerpo (fix crítico)
- *  ✅ MutationObserver para inicializar cuando el constructor inyecte el div
- *  ✅ Nombre de paciente desde localStorage (valtara_user_name)
- *  ✅ Banner WhatsApp personalizado con nombre y mensaje específico por condición
- *  ✅ 8 zonas / condiciones expandidas (antes 4)
- *  ✅ Número WhatsApp oficial: 523348572070
- */
+const InicioMapaCuerpo = (function () {
+  const WHATSAPP_NUMBER = '523348572070';
 
-(function (global) {
-    'use strict';
+  const storedName = () => {
+    try {
+      const direct = localStorage.getItem('valtara_user_name');
+      if (direct && direct.trim()) return direct.trim();
+      const profile = localStorage.getItem('valtara_sovereign_profile');
+      if (profile) {
+        const parsed = JSON.parse(profile);
+        if (parsed?.name && String(parsed.name).trim()) return String(parsed.name).trim();
+      }
+    } catch (e) {
+      // silencioso
+    }
+    return 'Paciente';
+  };
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // 1. REGISTRO EN ValtaraModulos (CRÍTICO — sin esto el div nunca existe)
-    // ─────────────────────────────────────────────────────────────────────────
-    global.ValtaraModulos = global.ValtaraModulos || {};
-    global.ValtaraModulos.inicio_mapa_cuerpo = `
-        <div id="inicio_mapa_cuerpo" role="region" aria-label="Diagnóstico Sensorial Oasik"></div>
+  const EMERGENCY_NOTE = 'Si existe dolor agudo, lesión reciente, fiebre, inflamación importante o síntomas que no encajan con una molestia muscular común, primero acude con un profesional de la salud calificado.';
+
+  const triageData = {
+    cabeza_cuello: {
+      id: 'cabeza_cuello',
+      title: 'Cabeza, Cuello y Mandíbula',
+      icon: '🧠',
+      intro: 'Cuando la mente se acelera, esta zona suele cargar la tensión más rápido.',
+      symptoms: [
+        {
+          id: 'cefalea_tensional',
+          label: 'Dolor de cabeza por tensión o presión en sienes',
+          why: 'Suele aparecer cuando el cuello, la mandíbula y la parte alta de la espalda permanecen contraídos por muchas horas. El sistema nervioso recibe demasiada información y el cuerpo responde endureciéndose.',
+          how: 'Trabajamos liberación suave de cuello, base del cráneo y hombros, con ritmos lentos para bajar la sobrecarga.',
+          therapies: [
+            {
+              label: 'Terapia relajante',
+              benefit: 'Disminuye la sensación de presión y ayuda a aflojar la guardia del cuerpo.',
+              message: 'Me gustaría agendar una terapia relajante enfocada en cabeza y cuello.'
+            },
+            {
+              label: 'Masaje deportivo',
+              benefit: 'Ayuda cuando además hay carga muscular intensa por postura, ejercicio o esfuerzo repetitivo.',
+              message: 'Quisiera una terapia deportiva para liberar la tensión de cabeza, cuello y hombros.'
+            }
+          ]
+        },
+        {
+          id: 'mandibula_apretada',
+          label: 'Mandíbula apretada, rechinamiento o rigidez facial',
+          why: 'La mandíbula suele tensarse cuando el estrés no encuentra salida. Esa contracción puede irradiar hacia sienes, oídos, cuello y dientes.',
+          how: 'Liberamos la zona de forma respetuosa, sin forzar, buscando que el rostro deje de sostener tanta tensión.',
+          therapies: [
+            {
+              label: 'Terapia relajante',
+              benefit: 'Invita al rostro a soltar y permite una sensación general de descanso.',
+              message: 'Me gustaría una terapia relajante para mandíbula, rostro y cuello.'
+            },
+            {
+              label: 'Descontracturante suave',
+              benefit: 'Es útil cuando la rigidez se siente muy marcada y constante.',
+              message: 'Quisiera una terapia descontracturante suave para liberar mandíbula y cuello.'
+            }
+          ]
+        },
+        {
+          id: 'pesadez_mental',
+          label: 'Mente saturada, dificultad para concentrarte o sensación de nube mental',
+          why: 'Cuando hay demasiadas tareas, la respiración se vuelve corta y la cabeza trabaja sin pausa. Eso se siente como pesadez, distracción o agotamiento mental.',
+          how: 'Buscamos un descenso de ritmo corporal para que la mente deje de sostener todo al mismo tiempo.',
+          therapies: [
+            {
+              label: 'Terapia relajante',
+              benefit: 'Favorece una pausa profunda y una mejor regulación del estrés.',
+              message: 'Quisiera agendar una terapia relajante para aliviar la saturación mental.'
+            },
+            {
+              label: 'Liberación cervical',
+              benefit: 'Enfoca la zona donde la tensión de escritorio y pantalla se acumula más.',
+              message: 'Me interesa una liberación cervical para descargar cabeza y cuello.'
+            }
+          ]
+        }
+      ]
+    },
+    espalda_lumbar: {
+      id: 'espalda_lumbar',
+      title: 'Espalda Alta, Media y Baja',
+      icon: '🧘',
+      intro: 'La espalda sostiene el peso físico y también una parte importante del esfuerzo emocional.',
+      symptoms: [
+        {
+          id: 'nudos_contracturas',
+          label: 'Nudos, contracturas o puntos muy duros al tocar',
+          why: 'Los músculos se protegen cuando permanecen en esfuerzo, postura cerrada o estrés prolongado. Esa protección termina sintiéndose como nudos y rigidez.',
+          how: 'Aplicamos trabajo profundo y progresivo para ayudar a que el músculo recupere movilidad sin agresión.',
+          therapies: [
+            {
+              label: 'Masaje deportivo',
+              benefit: 'Trabaja zonas cargadas por esfuerzo, postura o actividad repetitiva.',
+              message: 'Me gustaría una terapia deportiva para contracturas y nudos en la espalda.'
+            },
+            {
+              label: 'Descontracturante profundo',
+              benefit: 'Es una excelente opción cuando la rigidez ya limita el movimiento cotidiano.',
+              message: 'Quisiera agendar una terapia descontracturante profunda para espalda.'
+            }
+          ]
+        },
+        {
+          id: 'lumbar_cansada',
+          label: 'Cansancio o ardor en la zona lumbar',
+          why: 'La zona baja compensa muchas posturas inestables. Si pasas mucho tiempo sentado, parado o cargando peso, la parte lumbar suele resentirse primero.',
+          how: 'Liberamos la carga de la zona baja y acompañamos la musculatura para que deje de sostener tanto.',
+          therapies: [
+            {
+              label: 'Masaje deportivo',
+              benefit: 'Ayuda a descargar la musculatura de soporte y mejora la sensación de sostén.',
+              message: 'Me interesa una terapia deportiva enfocada en zona lumbar.'
+            },
+            {
+              label: 'Terapia relajante',
+              benefit: 'Ideal cuando el cansancio lumbar también viene con estrés o agotamiento general.',
+              message: 'Quisiera una terapia relajante para aliviar la espalda baja.'
+            }
+          ]
+        },
+        {
+          id: 'postura_dolor',
+          label: 'Dolor por mala postura o muchas horas en el mismo lugar',
+          why: 'Cuando la postura se sostiene por demasiado tiempo, ciertos músculos hacen el trabajo de otros y terminan fatigándose.',
+          how: 'Buscamos equilibrar la carga de la espalda y devolverle movilidad al tronco.',
+          therapies: [
+            {
+              label: 'Masaje deportivo',
+              benefit: 'Ayuda a reactivar la movilidad y a corregir la sensación de rigidez postural.',
+              message: 'Me gustaría una terapia deportiva por dolor de postura y rigidez en espalda.'
+            },
+            {
+              label: 'Liberación miofascial',
+              benefit: 'Puede ayudar cuando la tensión se siente como una capa que no deja soltar.',
+              message: 'Quisiera una liberación miofascial para la espalda y el tronco.'
+            }
+          ]
+        }
+      ]
+    },
+    manos_antebrazos: {
+      id: 'manos_antebrazos',
+      title: 'Manos y Antebrazos',
+      icon: '🤲',
+      intro: 'Las manos trabajan, sostienen, escriben y sostienen gran parte del esfuerzo diario.',
+      symptoms: [
+        {
+          id: 'tension_dedos',
+          label: 'Dedos cansados, agarre rígido o manos tensas',
+          why: 'El uso repetitivo de celular, teclado, herramientas o trabajo manual puede saturar los tendones y generar cansancio en toda la cadena del brazo.',
+          how: 'Liberamos el trayecto de mano a antebrazo con maniobras suaves y ordenadas.',
+          therapies: [
+            {
+              label: 'Masaje deportivo',
+              benefit: 'Ideal cuando hay sobreuso muscular y agarre constante durante el día.',
+              message: 'Me gustaría una terapia deportiva para manos y antebrazos cansados.'
+            },
+            {
+              label: 'Terapia relajante',
+              benefit: 'Útil si la tensión de manos viene acompañada de saturación y prisa.',
+              message: 'Quisiera una terapia relajante enfocada en manos y brazos.'
+            }
+          ]
+        },
+        {
+          id: 'brazos_cargados',
+          label: 'Brazos pesados o sensación de cansancio al final del día',
+          why: 'Cuando el esfuerzo diario no se distribuye bien, los brazos terminan cargando más de lo que deberían.',
+          how: 'Destrabamos la musculatura para que el movimiento vuelva a sentirse más ligero.',
+          therapies: [
+            {
+              label: 'Masaje deportivo',
+              benefit: 'Ayuda a descargar el trabajo acumulado en la parte superior de los brazos.',
+              message: 'Quisiera una terapia deportiva para brazos pesados y cansados.'
+            },
+            {
+              label: 'Terapia relajante',
+              benefit: 'Acompaña muy bien cuando el cansancio se mezcla con estrés mental.',
+              message: 'Me gustaría una terapia relajante para liberar los brazos.'
+            }
+          ]
+        },
+        {
+          id: 'mano_rigida',
+          label: 'Sensación de rigidez o falta de movilidad fina',
+          why: 'La tensión constante reduce la libertad de movimiento de dedos, muñecas y manos.',
+          how: 'Se trabaja la movilidad con suavidad para devolverle amplitud a la zona.',
+          therapies: [
+            {
+              label: 'Masaje deportivo',
+              benefit: 'Favorece la movilidad funcional cuando la mano ya se siente limitada.',
+              message: 'Quisiera una terapia deportiva para recuperar movilidad en las manos.'
+            },
+            {
+              label: 'Liberación suave',
+              benefit: 'Ayuda a que la mano deje de sentirse dura y pesada.',
+              message: 'Me interesa una liberación suave para manos y muñecas.'
+            }
+          ]
+        }
+      ]
+    },
+    piernas_pies: {
+      id: 'piernas_pies',
+      title: 'Piernas y Pies',
+      icon: '👣',
+      intro: 'Son la base del movimiento y suelen resentir la carga acumulada de todo el día.',
+      symptoms: [
+        {
+          id: 'piernas_pesadas',
+          label: 'Pesadez, cansancio o sensación de piernas llenas',
+          why: 'La circulación y la permanencia en la misma postura pueden hacer que las piernas se sientan más pesadas.',
+          how: 'Ayudamos a descargar la zona para que vuelva la sensación de ligereza y descanso.',
+          therapies: [
+            {
+              label: 'Masaje deportivo',
+              benefit: 'Ayuda cuando las piernas vienen de actividad, esfuerzo o muchas horas de pie.',
+              message: 'Me gustaría una terapia deportiva para piernas pesadas.'
+            },
+            {
+              label: 'Terapia relajante',
+              benefit: 'Buena opción si el cansancio de piernas también se mezcla con estrés.',
+              message: 'Quisiera una terapia relajante para liberar la pesadez de piernas y pies.'
+            }
+          ]
+        },
+        {
+          id: 'pies_tensos',
+          label: 'Pies tensos, duros o muy castigados por el día',
+          why: 'Los pies soportan todo el cuerpo y muchas veces no reciben el cuidado necesario al final de la jornada.',
+          how: 'Trabajamos pies y pantorrillas para devolverles descanso y una sensación más amable.',
+          therapies: [
+            {
+              label: 'Terapia relajante',
+              benefit: 'Ideal para bajar el agotamiento general desde la base del cuerpo.',
+              message: 'Quisiera una terapia relajante para pies y piernas cansadas.'
+            },
+            {
+              label: 'Masaje deportivo',
+              benefit: 'Útil cuando los pies cargan mucho esfuerzo físico o actividad continua.',
+              message: 'Me gustaría una terapia deportiva para pies y pantorrillas.'
+            }
+          ]
+        },
+        {
+          id: 'retencion_carga',
+          label: 'Sensación de carga, inflamación o falta de descanso en la parte baja',
+          why: 'Cuando el cuerpo permanece sin pausa suficiente, la parte baja suele sentirse más limitada y agotada.',
+          how: 'La sesión busca aliviar la carga y devolver una sensación de mayor fluidez corporal.',
+          therapies: [
+            {
+              label: 'Masaje deportivo',
+              benefit: 'Ayuda a la descarga muscular y al alivio del exceso de esfuerzo.',
+              message: 'Quisiera una terapia deportiva para la parte baja del cuerpo.'
+            },
+            {
+              label: 'Terapia relajante',
+              benefit: 'Permite una pausa más profunda cuando todo el cuerpo se siente sobrecargado.',
+              message: 'Me gustaría una terapia relajante para bajar la sensación de carga.'
+            }
+          ]
+        }
+      ]
+    },
+    estres_sueno: {
+      id: 'estres_sueno',
+      title: 'Estrés, Sueño y Sistema Nervioso',
+      icon: '🌙',
+      intro: 'Aquí entra lo que no siempre duele, pero sí se siente profundamente en el cuerpo.',
+      symptoms: [
+        {
+          id: 'insomnio',
+          label: 'Dificultad para dormir o sueño poco reparador',
+          why: 'Cuando el sistema nervioso sigue en alerta, el descanso no alcanza a consolidarse y el sueño se vuelve ligero o fragmentado.',
+          how: 'Bajamos el ritmo corporal para ayudar a que el cuerpo entienda que ya puede descansar.',
+          therapies: [
+            {
+              label: 'Terapia relajante',
+              benefit: 'Es la opción más natural cuando el sueño no está descansando como debería.',
+              message: 'Me gustaría una terapia relajante porque me cuesta dormir bien.'
+            },
+            {
+              label: 'Masaje deportivo',
+              benefit: 'Útil si el insomnio viene acompañado de rigidez física por tensión acumulada.',
+              message: 'Quisiera una terapia deportiva para descargar el cuerpo y descansar mejor.'
+            }
+          ]
+        },
+        {
+          id: 'ansiedad',
+          label: 'Sensación de ansiedad, inquietud o dificultad para apagar la mente',
+          why: 'La ansiedad suele notarse como respiración corta, cuerpo rígido y mente que no se detiene.',
+          how: 'Buscamos una experiencia de contención que ayude al cuerpo a salir del modo alerta.',
+          therapies: [
+            {
+              label: 'Terapia relajante',
+              benefit: 'Acompaña la necesidad de calma y regula el ritmo interno con suavidad.',
+              message: 'Quisiera una terapia relajante para ansiedad e inquietud.'
+            },
+            {
+              label: 'Liberación cervical',
+              benefit: 'Ayuda cuando la ansiedad se manifiesta en cuello, hombros y mandíbula.',
+              message: 'Me interesa una liberación cervical para ansiedad y tensión.'
+            }
+          ]
+        },
+        {
+          id: 'agotamiento',
+          label: 'Agotamiento general o sensación de ya no poder con más',
+          why: 'El cuerpo puede pedir freno antes de que la mente lo acepte. Cuando el cansancio se acumula, todo se siente más pesado.',
+          how: 'Acompañamos la pausa para que el organismo recupere algo de energía y claridad.',
+          therapies: [
+            {
+              label: 'Terapia relajante',
+              benefit: 'Permite una pausa profunda y muy amable con tu energía.',
+              message: 'Quisiera una terapia relajante porque me siento muy agotado.'
+            },
+            {
+              label: 'Masaje deportivo',
+              benefit: 'Cuando el agotamiento viene acompañado de sobreuso físico, ayuda a descargar.',
+              message: 'Me gustaría una terapia deportiva para bajar el agotamiento físico.'
+            }
+          ]
+        }
+      ]
+    },
+    cuerpo_total: {
+      id: 'cuerpo_total',
+      title: 'Cuerpo Completo y Recuperación',
+      icon: '🫶',
+      intro: 'A veces no es una sola zona: es el cuerpo entero pidiendo un respiro más profundo.',
+      symptoms: [
+        {
+          id: 'tension_general',
+          label: 'Tensión repartida en varias zonas del cuerpo',
+          why: 'Cuando el estrés se sostiene durante mucho tiempo, varias zonas comienzan a compensar al mismo tiempo.',
+          how: 'Se diseña una sesión integral para que el cuerpo tenga un alivio más completo.',
+          therapies: [
+            {
+              label: 'Terapia relajante',
+              benefit: 'Ideal para reconectar con una sensación de descanso integral.',
+              message: 'Me gustaría una terapia relajante de cuerpo completo.'
+            },
+            {
+              label: 'Masaje deportivo',
+              benefit: 'Ayuda cuando la carga se siente física, repetitiva y generalizada.',
+              message: 'Quisiera una terapia deportiva de cuerpo completo para liberar tensión.'
+            }
+          ]
+        },
+        {
+          id: 'recuperacion_activa',
+          label: 'Necesito recuperarme después de mucho esfuerzo físico o rutina intensa',
+          why: 'Después de periodos de mucha carga, el cuerpo necesita una recuperación guiada para volver a su mejor rango de movimiento.',
+          how: 'Combinamos descarga y recuperación para que el organismo no siga trabajando de más.',
+          therapies: [
+            {
+              label: 'Masaje deportivo',
+              benefit: 'Pensado para quienes buscan volver a moverse con más soltura.',
+              message: 'Me gustaría una terapia deportiva para recuperación muscular.'
+            },
+            {
+              label: 'Terapia relajante',
+              benefit: 'Útil si además de esfuerzo físico existe agotamiento emocional.',
+              message: 'Quisiera una terapia relajante para recuperación integral.'
+            }
+          ]
+        },
+        {
+          id: 'pausa_profunda',
+          label: 'Solo necesito detenerme y sentirme cuidado',
+          why: 'Hay días en los que el cuerpo no pide corrección: pide pausa, contención y descanso.',
+          how: 'Creamos una sesión tranquila, lenta y centrada en que salgas más liviano.',
+          therapies: [
+            {
+              label: 'Terapia relajante',
+              benefit: 'Es la mejor opción cuando el cuerpo solo pide bajar la intensidad.',
+              message: 'Me gustaría una terapia relajante para una pausa profunda.'
+            },
+            {
+              label: 'Descarga suave',
+              benefit: 'Ayuda si quieres sentir alivio sin trabajar demasiado profundo.',
+              message: 'Quisiera una descarga suave para sentirme cuidado.'
+            }
+          ]
+        }
+      ]
+    }
+  };
+
+  let state = {
+    step: 1,
+    zone: null,
+    symptom: null,
+    therapy: null
+  };
+
+  const skeleton = `
+    <section class="inicio-mapa-cuerpo-shell" aria-label="Mapa corporal de bienestar">
+      <div id="inicio_mapa_cuerpo" class="triage-wrapper" aria-live="polite">
+        <div class="triage-loading">Preparando tu mapa corporal...</div>
+      </div>
+    </section>
+  `;
+
+  const initStyles = () => {
+    if (document.getElementById('oasik-triage-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'oasik-triage-styles';
+    style.textContent = `
+      .inicio-mapa-cuerpo-shell {
+        padding: 1rem 0 2rem;
+      }
+
+      #inicio_mapa_cuerpo {
+        width: 100%;
+        background: linear-gradient(145deg, rgba(17,18,22,1) 0%, rgba(10,10,12,1) 100%);
+        color: #e0e0e0;
+        box-sizing: border-box;
+      }
+
+      .triage-wrapper {
+        max-width: 1080px;
+        margin: 0 auto;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(212, 175, 55, 0.12);
+        border-radius: 28px;
+        padding: 28px;
+        box-shadow: 0 22px 60px rgba(0,0,0,0.45);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .triage-loading {
+        min-height: 300px;
+        display: grid;
+        place-items: center;
+        color: var(--valtara-gris-texto, #aaa);
+        letter-spacing: .08em;
+      }
+
+      .t-hero {
+        display: grid;
+        grid-template-columns: 1.3fr .9fr;
+        gap: 1rem;
+        margin-bottom: 1.4rem;
+      }
+
+      .t-hero-card,
+      .t-step,
+      .t-banner,
+      .t-disclaimer {
+        border-radius: 22px;
+        border: 1px solid rgba(255,255,255,.08);
+        background: rgba(255,255,255,.03);
+        box-shadow: 0 16px 36px rgba(0,0,0,.2);
+      }
+
+      .t-hero-card { padding: 1.2rem; }
+      .t-banner { padding: 1rem 1.1rem; }
+
+      .t-hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: .5rem;
+        margin-bottom: .8rem;
+        padding: .45rem .8rem;
+        border-radius: 999px;
+        background: rgba(0,255,224,.08);
+        color: var(--valtara-cian-brillante, #00ffe0);
+        font-size: .76rem;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+      }
+
+      .t-hero h2 {
+        margin: 0;
+        color: var(--valtara-blanco, #fff);
+        font-family: var(--font-accent, 'Lato', sans-serif);
+        font-size: clamp(1.8rem, 3.6vw, 2.9rem);
+        line-height: 1.1;
+      }
+
+      .t-hero p,
+      .t-banner p,
+      .t-disclaimer,
+      .t-note,
+      .t-step p,
+      .t-step li {
+        color: var(--valtara-gris-texto, #bdbdbd);
+        line-height: 1.75;
+      }
+
+      .t-name-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: .55rem;
+        margin-top: .95rem;
+        padding: .7rem .9rem;
+        border-radius: 999px;
+        background: rgba(242,201,76,.12);
+        border: 1px solid rgba(242,201,76,.15);
+        color: var(--valtara-oro, #f2c94c);
+      }
+
+      .t-quick-stats {
+        display: grid;
+        gap: .8rem;
+      }
+
+      .t-quick-stat {
+        padding: 1rem;
+        border-radius: 18px;
+        background: rgba(255,255,255,.035);
+        border: 1px solid rgba(255,255,255,.07);
+      }
+
+      .t-quick-stat strong { color: var(--valtara-blanco, #fff); }
+
+      .t-step { display: none; padding: 1rem; margin-top: 1rem; }
+      .t-step.active { display: block; animation: tFadeIn .25s ease; }
+
+      .t-header { text-align: center; margin-bottom: 1rem; }
+      .t-header h3,
+      .t-header h2 {
+        margin: 0;
+        color: var(--valtara-blanco, #fff);
+        font-family: var(--font-accent, 'Lato', sans-serif);
+      }
+
+      .t-header p { margin: .35rem auto 0; max-width: 720px; }
+
+      .t-grid-zones,
+      .t-list-symptoms,
+      .t-therapy-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: .9rem;
+      }
+
+      .t-card,
+      .t-symptom-btn,
+      .t-therapy-card {
+        min-height: 82px;
+        border-radius: 18px;
+        padding: 1rem;
+        background: rgba(255,255,255,.04);
+        border: 1px solid rgba(255,255,255,.08);
+        color: var(--valtara-blanco, #fff);
+        transition: transform .18s ease, border-color .18s ease, background .18s ease;
+      }
+
+      .t-card:hover,
+      .t-symptom-btn:hover,
+      .t-therapy-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(242,201,76,.35);
+      }
+
+      .t-card {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: .9rem;
+      }
+
+      .t-card .icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        background: rgba(0,255,224,.08);
+        font-size: 1.35rem;
+        flex: 0 0 auto;
+      }
+
+      .t-card .title { font-weight: 700; line-height: 1.45; }
+
+      .t-symptom-btn,
+      .t-therapy-card {
+        cursor: pointer;
+        text-align: left;
+        width: 100%;
+      }
+
+      .t-symptom-btn { display: flex; align-items: center; }
+      .t-symptom-btn span { display:block; }
+      .t-symptom-label { font-weight: 700; color: var(--valtara-blanco, #fff); }
+      .t-symptom-sub { margin-top: .35rem; font-size: .92rem; }
+
+      .t-back-btn {
+        border: 0;
+        background: transparent;
+        color: var(--valtara-oro, #f2c94c);
+        cursor: pointer;
+        font-weight: 700;
+        margin-bottom: .9rem;
+      }
+
+      .t-therapy-card { display: grid; gap: .55rem; }
+      .t-therapy-card strong { font-size: 1.02rem; }
+      .t-therapy-card p { margin: 0; }
+      .t-therapy-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: .45rem;
+        width: fit-content;
+        padding: .35rem .65rem;
+        border-radius: 999px;
+        background: rgba(0,255,224,.08);
+        color: var(--valtara-cian-brillante, #00ffe0);
+        font-size: .76rem;
+      }
+
+      .t-result-card {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .t-result-banner {
+        padding: 1rem 1.1rem;
+        border-radius: 18px;
+        background: linear-gradient(135deg, rgba(0,255,224,.12), rgba(178,127,255,.12));
+        border: 1px solid rgba(255,255,255,.08);
+      }
+
+      .t-result-banner h3 { margin: 0 0 .45rem; color: var(--valtara-blanco, #fff); }
+      .t-result-banner p { margin: 0; }
+
+      .t-result-grid {
+        display: grid;
+        grid-template-columns: 1.2fr .8fr;
+        gap: 1rem;
+      }
+
+      .t-info-box,
+      .t-recomm-box,
+      .t-wa-box {
+        padding: 1rem;
+        border-radius: 18px;
+        background: rgba(255,255,255,.04);
+        border: 1px solid rgba(255,255,255,.08);
+      }
+
+      .t-info-box strong,
+      .t-recomm-box strong,
+      .t-wa-box strong {
+        display: block;
+        margin-bottom: .35rem;
+        color: var(--valtara-blanco, #fff);
+      }
+
+      .t-therapy-selected {
+        margin-top: .75rem;
+        padding: .85rem 1rem;
+        border-left: 3px solid var(--valtara-oro, #f2c94c);
+        background: rgba(242,201,76,.08);
+        color: var(--valtara-blanco, #fff);
+        border-radius: 0 14px 14px 0;
+      }
+
+      .t-wa-banner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .t-wa-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: .65rem;
+        padding: .95rem 1.2rem;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #22c55e, #00b36a);
+        color: #fff;
+        font-weight: 800;
+        white-space: nowrap;
+        text-decoration: none;
+      }
+
+      .t-breadcrumb {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .55rem;
+        margin: 0 0 1rem;
+      }
+
+      .t-breadcrumb span {
+        padding: .45rem .75rem;
+        border-radius: 999px;
+        background: rgba(255,255,255,.04);
+        border: 1px solid rgba(255,255,255,.08);
+        color: var(--valtara-gris-texto, #bbb);
+        font-size: .86rem;
+      }
+
+      .t-disclaimer {
+        margin-top: 1rem;
+        padding: 1rem 1.1rem;
+        border-left: 4px solid #ff6b35;
+      }
+
+      .t-note {
+        font-size: .92rem;
+        margin: 0;
+      }
+
+      @keyframes tFadeIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      @media (max-width: 840px) {
+        .t-hero,
+        .t-result-grid,
+        .t-wa-banner {
+          grid-template-columns: 1fr;
+          display: grid;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .triage-wrapper { padding: 18px; border-radius: 22px; }
+        .t-step { padding: .85rem; }
+      }
+    `;
+    document.head.appendChild(style);
+  };
+
+  const getZone = () => triageData[state.zone] || null;
+  const getSymptom = () => {
+    const zone = getZone();
+    if (!zone) return null;
+    return zone.symptoms[state.symptom] || null;
+  };
+  const getTherapy = () => {
+    const symptom = getSymptom();
+    if (!symptom) return null;
+    return symptom.therapies[state.therapy] || null;
+  };
+
+  const renderHTML = () => {
+    const container = document.getElementById('inicio_mapa_cuerpo');
+    if (!container) return;
+
+    const name = storedName();
+    const zone = getZone();
+    const symptom = getSymptom();
+    const therapy = getTherapy();
+
+    let html = `
+      <div class="triage-wrapper">
+        <div class="t-hero">
+          <div class="t-hero-card">
+            <span class="t-hero-badge"><i class="fa-solid fa-heart-circle-check"></i> Exploración corporal guiada</span>
+            <h2>Tu mapa de alivio, paso a paso</h2>
+            <p>Selecciona primero la zona, luego la molestia y finalmente la terapia que mejor se sienta para ti. El mensaje de WhatsApp se preparará con lo que elegiste.</p>
+            <div class="t-name-chip"><i class="fa-solid fa-user"></i> ${name}</div>
+          </div>
+          <div class="t-quick-stats">
+            <div class="t-quick-stat"><strong>Contacto oficial</strong><br><span>+52 33 4857 2070</span></div>
+            <div class="t-quick-stat"><strong>Objetivo</strong><br><span>Entender el porqué, ver cómo se atiende y elegir tu terapia.</span></div>
+          </div>
+        </div>
     `;
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // 2. CONFIGURACIÓN GLOBAL
-    // ─────────────────────────────────────────────────────────────────────────
-    const WHATSAPP_NUMBER = '523348572070';
+    html += `
+      <div class="t-step ${state.step === 1 ? 'active' : ''}">
+        <div class="t-header">
+          <h3>1. Elige la zona donde sientes más carga</h3>
+          <p>Así podemos llevarte por una cascada clara: zona, síntoma, solución y contacto directo.</p>
+        </div>
+        <div class="t-grid-zones">
+    `;
 
-    function getPatientName() {
-        try {
-            const stored = localStorage.getItem('valtara_sovereign_profile');
-            if (stored) {
-                const parsed = JSON.parse(stored);
-                if (parsed && parsed.name && parsed.name !== 'Invitado') return parsed.name;
-            }
-            const simple = localStorage.getItem('valtara_user_name');
-            if (simple && simple !== 'Invitado') return simple;
-        } catch (e) { /* silent */ }
-        return null;
-    }
+    Object.values(triageData).forEach((data) => {
+      html += `
+        <button type="button" class="t-card" onclick="window.InicioMapaCuerpoAPI.setZone('${data.id}')">
+          <span class="icon">${data.icon}</span>
+          <span class="title">${data.title}</span>
+        </button>
+      `;
+    });
+    html += `</div></div>`;
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // 3. OPCIONES DE AROMATERAPIA
-    // ─────────────────────────────────────────────────────────────────────────
-    const aromatherapyOptions = [
-        { id: 'lavanda',    name: 'Lavanda (Calma Profunda)',    desc: 'Ideal para insomnio, ansiedad y estrés agudo.' },
-        { id: 'eucalipto',  name: 'Eucalipto (Respiración Libre)', desc: 'Despeja la mente y las vías respiratorias.' },
-        { id: 'citricos',   name: 'Cítricos (Energía Vital)',    desc: 'Revitaliza y eleva el estado de ánimo.' },
-        { id: 'romero',     name: 'Romero (Claridad Mental)',    desc: 'Mejora la concentración y alivia la fatiga muscular.' },
-        { id: 'bergamota',  name: 'Bergamota (Equilibrio)',      desc: 'Regula el sistema nervioso y reduce la irritabilidad.' },
-        { id: 'menta',      name: 'Menta (Foco y Alivio)',       desc: 'Alivia la pesadez y activa la circulación.' },
-        { id: 'sin_aroma',  name: 'Sin Aroma',                   desc: 'Prefiero una experiencia neutra.' }
-    ];
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // 4. BASE DE DATOS DE ZONAS / CONDICIONES
-    // ─────────────────────────────────────────────────────────────────────────
-    const triageData = {
-
-        cabeza_cuello: {
-            id: 'cabeza_cuello',
-            title: 'Cabeza, Cuello y Hombros',
-            icon: '💆‍♀️',
-            description: 'El centro de tus pensamientos y la carga del día a día.',
-            symptoms: [
-                {
-                    id: 'tension_alta',
-                    label: 'Tensión rígida y rigidez constante en cuello/hombros',
-                    why: 'El estrés sostenido y las horas frente a pantallas acumulan tensión directamente en tus trapecios y la base del cráneo. Tu cuerpo construye una "armadura muscular" como respuesta de protección ante el agotamiento mental crónico.',
-                    recommendation: 'Masaje de Relajación Profunda + Sonoterapia',
-                    terapia_clave: 'masaje relajante y Sonoterapia',
-                    whatsapp_base: 'Hola Oasik, siento mucha tensión y rigidez en mi cuello y hombros por el estrés acumulado. Me gustaría agendar una sesión de masaje relajante para liberar esta carga.'
-                },
-                {
-                    id: 'dolor_cabeza',
-                    label: 'Migraña tensional, pesadez mental y dolores de cabeza recurrentes',
-                    why: 'La contracción muscular constante en el cuello y la base del cráneo restringe el flujo sanguíneo y linfático hacia la cabeza. Combinado con la tensión ocular de pantallas, genera esa presión opresiva característica.',
-                    recommendation: 'Masaje Craneofacial + Aromaterapia con Lavanda o Menta',
-                    terapia_clave: 'Masaje Craneofacial',
-                    whatsapp_base: 'Hola Oasik, sufro de dolores de cabeza tensionales y pesadez mental con frecuencia. Quisiera información sobre el masaje craneofacial y sus beneficios.'
-                },
-                {
-                    id: 'insomnio',
-                    label: 'Insomnio, mente acelerada y dificultad para descansar',
-                    why: 'El sistema nervioso simpático (modo "alerta") se queda activo incluso de noche. La tensión muscular en cuello y hombros mantiene señales de alarma corporales que impiden la transición hacia el sueño profundo.',
-                    recommendation: 'Sonoterapia Reparadora + Masaje de Relajación con Lavanda',
-                    terapia_clave: 'Sonoterapia y masaje nocturno',
-                    whatsapp_base: 'Hola Oasik, tengo problemas de insomnio y mi mente no para. Me gustaría explorar la Sonoterapia y un masaje relajante para recuperar mi descanso.'
-                }
-            ]
-        },
-
-        espalda: {
-            id: 'espalda',
-            title: 'Espalda (Alta, Media y Baja)',
-            icon: '🧘‍♀️',
-            description: 'El pilar que sostiene tu estructura, tus emociones y tu historia.',
-            symptoms: [
-                {
-                    id: 'nudos',
-                    label: 'Nudos, contracturas y dolor punzante en espalda alta/media',
-                    why: 'Los nódulos miofasciales (conocidos como "nudos") son fibras musculares atrapadas en contracción permanente. Se forman por malas posturas sostenidas, cargas físicas repetitivas y también por tensión emocional no procesada que el cuerpo "guarda" en los músculos.',
-                    recommendation: 'Masaje Descontracturante de Tejido Profundo',
-                    terapia_clave: 'Masaje Descontracturante',
-                    whatsapp_base: 'Hola Oasik, tengo contracturas y nudos muy marcados en la espalda. Necesito un masaje descontracturante de tejido profundo para liberarme.'
-                },
-                {
-                    id: 'fatiga_lumbar',
-                    label: 'Fatiga, cansancio y quemazón en la zona lumbar (espalda baja)',
-                    why: 'La zona lumbar es el centro de gravedad de tu cuerpo. Pasar horas sentado o de pie desequilibra los flexores de cadera y debilita el core, obligando a los músculos lumbares a trabajar el doble para mantenerte en pie. Esa sobrecarga genera la sensación de quemazón y pesadez.',
-                    recommendation: 'Masaje Lumbar de Tejido Profundo + Calor Terapéutico',
-                    terapia_clave: 'Masaje Lumbar Profundo',
-                    whatsapp_base: 'Hola Oasik, siento mucha fatiga y tensión en mi espalda baja. Me gustaría agendar una sesión de masaje lumbar profundo para recuperar esta zona.'
-                },
-                {
-                    id: 'postura',
-                    label: 'Desequilibrio postural, cifosis o sensación de carga pesada en la espalda',
-                    why: 'El trabajo sedentario y el uso excesivo de dispositivos inclina el cuerpo hacia adelante, creando un patrón de "cabeza adelantada" y hombros caídos. La fascia (tejido conectivo) se adapta a esta postura desfavorable, haciendo que el cuerpo sienta ese peso constante.',
-                    recommendation: 'Masaje Miofascial + Sesión de Corrección Postural',
-                    terapia_clave: 'Masaje Miofascial y corrección postural',
-                    whatsapp_base: 'Hola Oasik, noto que mi postura se ha deteriorado y siento una carga constante en la espalda. Me gustaría conocer sus terapias de corrección postural y liberación miofascial.'
-                }
-            ]
-        },
-
-        sistema_nervioso: {
-            id: 'sistema_nervioso',
-            title: 'Sistema Nervioso y Estrés Mental',
-            icon: '🧠',
-            description: 'Tu sistema de alerta trabaja demasiado. Es hora de darle permiso de pausar.',
-            symptoms: [
-                {
-                    id: 'ansiedad',
-                    label: 'Ansiedad, nerviosismo constante o sensación de "hiperalerta"',
-                    why: 'El sistema nervioso en estado de ansiedad libera cortisol y adrenalina de forma crónica, lo que tensiona todo el cuerpo: mandíbula, diafragma, manos y pies. El trabajo manual en masoterapia activa el nervio vago, la vía directa para salir del modo alerta y entrar en calma.',
-                    recommendation: 'Sonoterapia + Masaje Holístico de Integración',
-                    terapia_clave: 'Sonoterapia y masaje holístico',
-                    whatsapp_base: 'Hola Oasik, vivo con ansiedad y un estado constante de alerta. Quisiera saber cómo la Sonoterapia y el masaje pueden ayudarme a regular mi sistema nervioso.'
-                },
-                {
-                    id: 'burnout',
-                    label: 'Burnout, agotamiento emocional o sensación de estar "vaciado"',
-                    why: 'El burnout no es solo cansancio: es un agotamiento profundo de los recursos adaptativos del cuerpo. Las reservas de serotonina y dopamina se deplecionan, los músculos cargan la fatiga de semanas o meses. El cuerpo necesita un ritual de recarga, no solo un descanso pasivo.',
-                    recommendation: 'Ritual de Bienestar Integral (Masaje + Sonoterapia + Aromaterapia)',
-                    terapia_clave: 'Ritual de Bienestar Integral',
-                    whatsapp_base: 'Hola Oasik, siento que he llegado al límite con el burnout. Necesito un ritual completo de recarga, quiero conocer sus opciones de bienestar integral.'
-                },
-                {
-                    id: 'fatiga_cronica',
-                    label: 'Fatiga crónica, falta de energía y niebla mental',
-                    why: 'La fatiga crónica refleja una desincronización entre el sistema nervioso central y el cuerpo físico. El músculo no recibe señales de recuperación eficientes y el cerebro permanece en modo "bajo rendimiento". La estimulación sensorial regulada (tacto + sonido + aroma) resetea este ciclo.',
-                    recommendation: 'Masaje Energizante + Aromaterapia con Cítricos o Romero',
-                    terapia_clave: 'Masaje Energizante',
-                    whatsapp_base: 'Hola Oasik, tengo fatiga crónica y me cuesta mucho recuperar energía. Me gustaría explorar sus terapias para revitalizar mi cuerpo y mente.'
-                }
-            ]
-        },
-
-        sistema_digestivo: {
-            id: 'sistema_digestivo',
-            title: 'Sistema Digestivo y Abdomen',
-            icon: '🌿',
-            description: 'El "segundo cerebro". El estrés vive también aquí.',
-            symptoms: [
-                {
-                    id: 'tension_abdominal',
-                    label: 'Tensión abdominal, hinchazón o estreñimiento relacionado con estrés',
-                    why: 'El intestino y el cerebro están directamente conectados por el eje gut-brain. Cuando el estrés activa el sistema nervioso simpático, el sistema digestivo se "apaga" parcialmente: la motilidad se reduce, el diafragma se tensa y los gases se acumulan. No es solo digestivo, es neurológico.',
-                    recommendation: 'Masaje Abdominal Terapéutico + Reflexología',
-                    terapia_clave: 'Masaje Abdominal Terapéutico',
-                    whatsapp_base: 'Hola Oasik, tengo mucha tensión abdominal y problemas digestivos relacionados con el estrés. Quisiera información sobre el masaje abdominal terapéutico.'
-                },
-                {
-                    id: 'retencion',
-                    label: 'Retención de líquidos, inflamación corporal y sensación de pesadez generalizada',
-                    why: 'El sistema linfático, a diferencia del circulatorio, no tiene bomba propia: necesita el movimiento muscular para circular. La vida sedentaria y el estrés crónico frenan el drenaje linfático, acumulando líquidos intersticiales que generan esa sensación de "globo" o pesadez en todo el cuerpo.',
-                    recommendation: 'Drenaje Linfático Manual + Masaje de Activación Circulatoria',
-                    terapia_clave: 'Drenaje Linfático Manual',
-                    whatsapp_base: 'Hola Oasik, tengo retención de líquidos e inflamación notoria. Me gustaría agendar un drenaje linfático para activar mi circulación y sentirme más liviana.'
-                }
-            ]
-        },
-
-        manos_brazos: {
-            id: 'manos_brazos',
-            title: 'Manos y Brazos',
-            icon: '💅',
-            description: 'Tus herramientas de conexión, creación y expresión diaria.',
-            symptoms: [
-                {
-                    id: 'manos_secas',
-                    label: 'Resequedad extrema, cutículas dañadas o uñas frágiles',
-                    why: 'Las manos son las más expuestas a químicos, agua, clima y fricción. La pérdida de aceites naturales y la deshidratación profunda generan fragilidad. El cuidado profesional no es estético: es restaurar la barrera protectora natural de tu piel.',
-                    recommendation: 'Manicura Spa con Hidratación Profunda (Gelish / Acrílico opcional)',
-                    terapia_clave: 'Manicura Spa con hidratación profunda',
-                    whatsapp_base: 'Hola Oasik, mis manos y uñas necesitan un cuidado intensivo y mucha hidratación. Me gustaría agendar una Manicura Spa.'
-                },
-                {
-                    id: 'tension_brazos',
-                    label: 'Tensión en antebrazos, codo de tenista o manos cansadas por trabajo repetitivo',
-                    why: 'El uso constante de teclado, mouse y celular genera microinflamaciones en los tendones del antebrazo (síndrome del túnel carpiano leve, epicondilitis). La tensión parte desde los codos y viaja hasta los dedos, generando esa sensación de "brazos apretados".',
-                    recommendation: 'Masaje Reflexológico de Manos + Manicura Oasik',
-                    terapia_clave: 'Masaje reflexológico de manos',
-                    whatsapp_base: 'Hola Oasik, mis antebrazos y manos están muy tensos por el trabajo. Me gustaría una sesión de masaje reflexológico de manos con manicura incluida.'
-                },
-                {
-                    id: 'renovacion_unas',
-                    label: 'Uñas con material previo, diseño desgastado o deseo de renovación estética',
-                    why: 'Las uñas cumplen ciclos naturales. El retiro incorrecto de acrílico o gel puede dañar la lámina ungueal. Un proceso profesional de limpieza y rediseño no solo embellece: protege y fortalece la uña natural, devolviendo su vitalidad.',
-                    recommendation: 'Diseño Artístico de Uñas (Acrílico / Gel) + Cuidado de Cutícula',
-                    terapia_clave: 'Diseño artístico de uñas',
-                    whatsapp_base: 'Hola Oasik, quiero renovar el diseño de mis uñas con un retiro profesional y un nuevo diseño. Me gustaría agendar una cita de Manicura / Diseño.'
-                }
-            ]
-        },
-
-        pies_piernas: {
-            id: 'pies_piernas',
-            title: 'Piernas y Pies',
-            icon: '👣',
-            description: 'Tus raíces. Los que soportan tu peso y te llevan por el mundo.',
-            symptoms: [
-                {
-                    id: 'pies_pesados',
-                    label: 'Pesadez, hinchazón, sensación de "piernas de plomo" o mala circulación',
-                    why: 'La gravedad trabaja en contra del retorno venoso. Pasar horas de pie o sentado reduce la eficiencia de las válvulas venosas, permitiendo que la sangre se "estanque" en las extremidades. El resultado: esa sensación de cargar bloques en las piernas que empeora al final del día.',
-                    recommendation: 'Masaje de Drenaje Linfático + Reflexología Podal',
-                    terapia_clave: 'Drenaje linfático y reflexología podal',
-                    whatsapp_base: 'Hola Oasik, mis piernas y pies se sienten muy pesados e hinchados. Quisiera agendar un masaje de drenaje linfático para mejorar mi circulación.'
-                },
-                {
-                    id: 'pies_asperos',
-                    label: 'Callosidades, resequedad severa, talones agrietados o uñas descuidadas',
-                    why: 'Los pies soportan el 100% del peso corporal durante horas. La fricción continua con el calzado genera hiperqueratosis (engrosamiento de piel) como mecanismo de defensa. Esta piel endurecida, si no se trata, genera fisuras dolorosas y puede afectar la marcha.',
-                    recommendation: 'Pedicura Spa Renovadora Integral con Exfoliación y Nutrición',
-                    terapia_clave: 'Pedicura Spa integral',
-                    whatsapp_base: 'Hola Oasik, mis pies necesitan atención profunda: exfoliación, hidratación y cuidado de uñas. Me gustaría agendar una Pedicura Spa completa.'
-                },
-                {
-                    id: 'calambres',
-                    label: 'Calambres nocturnos, contracturas en gemelos o tensión en pantorrillas',
-                    why: 'Los calambres nocturnos ocurren cuando el músculo, deshidratado o con desequilibrio de electrolitos, se contrae involuntariamente. La tensión acumulada en gemelos y sóleo durante el día se "descarga" durante la noche. El masaje profundo en estas zonas regulariza el umbral de excitabilidad muscular.',
-                    recommendation: 'Masaje de Tejido Profundo en Piernas + Reflexología de Puntos de Alivio',
-                    terapia_clave: 'Masaje profundo de piernas y reflexología',
-                    whatsapp_base: 'Hola Oasik, sufro calambres nocturnos y tensión frecuente en las pantorrillas. Quisiera agendar un masaje de tejido profundo en piernas.'
-                }
-            ]
-        },
-
-        emociones_energia: {
-            id: 'emociones_energia',
-            title: 'Emociones y Bienestar Energético',
-            icon: '🌊',
-            description: 'Lo que sientes en el alma, el cuerpo lo carga. Aquí encontramos la raíz.',
-            symptoms: [
-                {
-                    id: 'bajo_animo',
-                    label: 'Bajo estado de ánimo, tristeza silenciosa o falta de motivación',
-                    why: 'El cuerpo y las emociones son indisolubles. La tristeza y el desgaste emocional se manifiestan físicamente en el pecho contraído, la postura encorvada y el flujo energético reducido. La masoterapia activa la liberación de serotonina y oxitocina, neurotransmisores que literalmente "mejoran el ánimo".',
-                    recommendation: 'Masaje Sueco Relajante + Sonoterapia con Frecuencias de Bienestar',
-                    terapia_clave: 'Masaje Sueco y Sonoterapia',
-                    whatsapp_base: 'Hola Oasik, he estado con un estado de ánimo muy bajo y me gustaría usar la terapia como apoyo. Quisiera saber qué sesiones pueden ayudarme emocionalmente.'
-                },
-                {
-                    id: 'dispersion',
-                    label: 'Dispersión mental, incapacidad para concentrarse o "niebla cerebral"',
-                    why: 'La corteza prefrontal (área de concentración y decisiones) se ve afectada directamente por los niveles de cortisol elevados. El cuerpo, al sentirse en alerta constante, prioriza la supervivencia sobre el pensamiento analítico. El masaje y la aromaterapia regulan el cortisol y devuelven claridad al sistema.',
-                    recommendation: 'Aromaterapia con Romero o Bergamota + Masaje Cráneo-Cervical',
-                    terapia_clave: 'Aromaterapia y masaje cráneo-cervical',
-                    whatsapp_base: 'Hola Oasik, tengo mucha niebla mental y dificultad para concentrarme. Me gustaría una sesión de aromaterapia y masaje para recuperar claridad y enfoque.'
-                },
-                {
-                    id: 'desconexion',
-                    label: 'Sensación de desconexión corporal, "piloto automático" o entumecimiento emocional',
-                    why: 'La disociación leve (desconexión mente-cuerpo) es una respuesta natural ante el estrés crónico o el trauma acumulado. El cuerpo "apaga" la sensación para protegerse. El toque consciente y el trabajo sensorial en masoterapia reestablecen la comunicación cuerpo-mente de forma segura y gradual.',
-                    recommendation: 'Masaje de Integración Sensorial + Sonoterapia con Cuencos Tibetanos',
-                    terapia_clave: 'Masaje de integración sensorial',
-                    whatsapp_base: 'Hola Oasik, siento que vivo en piloto automático y desconectado de mi cuerpo. Quisiera explorar las terapias de integración sensorial y sonoterapia.'
-                }
-            ]
-        },
-
-        deportistas: {
-            id: 'deportistas',
-            title: 'Recuperación Deportiva y Física',
-            icon: '🏃‍♀️',
-            description: 'El cuerpo activo también necesita restauración. La recuperación ES el entrenamiento.',
-            symptoms: [
-                {
-                    id: 'agujetas',
-                    label: 'Dolor muscular post-ejercicio intenso (DOMS) o recuperación lenta',
-                    why: 'Las agujetas son micro-roturas musculares acompañadas de inflamación localizada. Sin un protocolo de recuperación activo, el proceso natural de reparación es más lento y puede limitar tu siguiente entrenamiento. El masaje deportivo acelera el drenaje de metabolitos y facilita la síntesis de colágeno.',
-                    recommendation: 'Masaje Deportivo de Recuperación + Drenaje Linfático Post-Esfuerzo',
-                    terapia_clave: 'Masaje deportivo de recuperación',
-                    whatsapp_base: 'Hola Oasik, tuve un entrenamiento intenso y necesito recuperación muscular eficiente. Me gustaría agendar un masaje deportivo post-esfuerzo.'
-                },
-                {
-                    id: 'lesion_leve',
-                    label: 'Lesión muscular leve, esguince en recuperación o zona sobreentrenada',
-                    why: 'Las lesiones leves (distensiones, sobrecargas, fascitis incipiente) responden excelentemente al trabajo manual en etapas subagudas. El masaje dirigido rompe adherencias de tejido cicatricial, mejora la vascularización local y acelera la vuelta a la funcionalidad completa.',
-                    recommendation: 'Masaje de Tejido Profundo Focalizado + Liberación Miofascial',
-                    terapia_clave: 'Masaje de tejido profundo y liberación miofascial',
-                    whatsapp_base: 'Hola Oasik, tengo una zona muscular lesionada en recuperación. Quisiera agendar un masaje terapéutico focalizado para acelerar mi recuperación.'
-                }
-            ]
-        }
-
-    };
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // 5. ESTADO REACTIVO
-    // ─────────────────────────────────────────────────────────────────────────
-    let state = {
-        step: 1,
-        zone: null,
-        symptom: null,
-        aroma: null
-    };
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // 6. ESTILOS
-    // ─────────────────────────────────────────────────────────────────────────
-    function initStyles() {
-        if (document.getElementById('oasik-triage-styles')) return;
-        const style = document.createElement('style');
-        style.id = 'oasik-triage-styles';
-        style.innerHTML = `
-            #inicio_mapa_cuerpo {
-                font-family: 'Helvetica Neue', Arial, sans-serif;
-                width: 100%;
-                background: linear-gradient(145deg, rgba(17,18,22,1) 0%, rgba(10,10,12,1) 100%);
-                color: #e0e0e0;
-                padding: 40px 20px;
-                box-sizing: border-box;
-            }
-            .triage-wrapper {
-                max-width: 960px;
-                margin: 0 auto;
-                background: rgba(255,255,255,0.02);
-                border: 1px solid rgba(212,175,55,0.15);
-                border-radius: 20px;
-                padding: 40px;
-                box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-                position: relative;
-                min-height: 400px;
-            }
-            .t-header { text-align: center; margin-bottom: 30px; animation: tFadeIn 0.6s ease; }
-            .t-header h2 { color: #d4af37; font-size: 2rem; margin: 0 0 8px; font-weight: 300; letter-spacing: 2px; }
-            .t-header p { font-size: 1.05rem; color: #aaa; margin: 0; }
-            .t-header .t-greeting { font-size: 1.2rem; color: #d4af37; margin-bottom: 8px; font-weight: 500; }
-
-            .t-step { display: none; animation: tSlideUp 0.5s ease forwards; }
-            .t-step.active { display: block; }
-
-            .t-grid-zones {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 16px;
-            }
-            .t-card {
-                background: rgba(0,0,0,0.4);
-                border: 1px solid rgba(212,175,55,0.1);
-                border-radius: 15px;
-                padding: 28px 16px;
-                text-align: center;
-                cursor: pointer;
-                transition: all 0.35s cubic-bezier(0.175,0.885,0.32,1.275);
-                color: #fff;
-            }
-            .t-card:hover {
-                background: rgba(212,175,55,0.08);
-                border-color: #d4af37;
-                transform: translateY(-7px);
-                box-shadow: 0 10px 24px rgba(212,175,55,0.12);
-            }
-            .t-card:focus { outline: 2px solid #d4af37; }
-            .t-card .icon { font-size: 3rem; display: block; margin-bottom: 12px; }
-            .t-card .title { font-size: 1.05rem; font-weight: 500; letter-spacing: 0.5px; line-height: 1.3; }
-
-            .t-list-symptoms { display: flex; flex-direction: column; gap: 14px; max-width: 720px; margin: 0 auto; }
-            .t-symptom-btn {
-                background: rgba(0,0,0,0.4);
-                border: 1px solid rgba(255,255,255,0.06);
-                padding: 18px 20px;
-                border-radius: 12px;
-                text-align: left;
-                color: #e0e0e0;
-                font-size: 1.05rem;
-                cursor: pointer;
-                transition: all 0.3s;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 12px;
-            }
-            .t-symptom-btn:hover {
-                background: rgba(212,175,55,0.1);
-                border-color: rgba(212,175,55,0.5);
-                color: #fff;
-            }
-            .t-symptom-btn::after { content: '→'; color: #d4af37; font-size: 1.4rem; opacity: 0; transform: translateX(-10px); transition: all 0.3s; flex-shrink: 0; }
-            .t-symptom-btn:hover::after { opacity: 1; transform: translateX(0); }
-
-            .t-aroma-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 20px; }
-            .t-aroma-card {
-                background: rgba(0,0,0,0.3);
-                border: 1px solid rgba(255,255,255,0.1);
-                padding: 15px;
-                border-radius: 10px;
-                cursor: pointer;
-                transition: all 0.3s;
-                text-align: center;
-            }
-            .t-aroma-card:hover, .t-aroma-card.selected {
-                background: rgba(212,175,55,0.18);
-                border-color: #d4af37;
-            }
-            .t-aroma-card h4 { color: #fff; margin: 0 0 5px; font-size: 0.95rem; }
-            .t-aroma-card p { color: #aaa; font-size: 0.82rem; margin: 0; line-height: 1.4; }
-
-            .t-result-card {
-                background: linear-gradient(180deg, rgba(212,175,55,0.06) 0%, rgba(0,0,0,0) 100%);
-                border-top: 2px solid #d4af37;
-                padding: 30px;
-                border-radius: 15px;
-                text-align: center;
-                max-width: 720px;
-                margin: 0 auto;
-            }
-            .t-result-card h3 { color: #d4af37; font-size: 1.7rem; margin: 0 0 18px; font-weight: 300; }
-            .t-result-why {
-                font-size: 1.1rem;
-                line-height: 1.8;
-                color: #ccc;
-                margin-bottom: 28px;
-                font-style: italic;
-                padding: 0 10px;
-                border-left: 3px solid rgba(212,175,55,0.3);
-                text-align: left;
-            }
-            .t-recomm-box {
-                background: rgba(0,0,0,0.5);
-                padding: 20px;
-                border-radius: 12px;
-                margin-bottom: 28px;
-                border: 1px solid rgba(212,175,55,0.2);
-            }
-            .t-recomm-box strong { color: #888; display: block; margin-bottom: 8px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; }
-            .t-recomm-box span { color: #fff; font-size: 1.3rem; font-weight: 400; }
-            .t-recomm-aroma { margin-top: 10px; font-size: 0.9rem; color: #d4af37; }
-
-            /* ── BANNER WHATSAPP PERSONALIZADO ── */
-            .t-wa-banner {
-                background: linear-gradient(135deg, #0d3320 0%, #0a2018 100%);
-                border: 1px solid rgba(37,211,102,0.3);
-                border-radius: 16px;
-                padding: 24px;
-                margin-bottom: 20px;
-                text-align: center;
-            }
-            .t-wa-banner .banner-titulo {
-                color: #25D366;
-                font-size: 0.85rem;
-                text-transform: uppercase;
-                letter-spacing: 2px;
-                font-weight: 700;
-                margin-bottom: 6px;
-            }
-            .t-wa-banner .banner-nombre {
-                color: #fff;
-                font-size: 1.4rem;
-                font-weight: 600;
-                margin-bottom: 8px;
-            }
-            .t-wa-banner .banner-desc {
-                color: rgba(255,255,255,0.7);
-                font-size: 0.95rem;
-                margin-bottom: 18px;
-                line-height: 1.5;
-            }
-            .t-wa-btn {
-                display: inline-flex;
-                align-items: center;
-                gap: 12px;
-                background: #25D366;
-                color: #fff;
-                text-decoration: none;
-                padding: 14px 32px;
-                border-radius: 40px;
-                font-size: 1.1rem;
-                font-weight: bold;
-                transition: all 0.3s;
-                border: none;
-                cursor: pointer;
-                box-shadow: 0 5px 20px rgba(37,211,102,0.25);
-            }
-            .t-wa-btn:hover {
-                background: #1ebc59;
-                transform: translateY(-3px);
-                box-shadow: 0 8px 28px rgba(37,211,102,0.4);
-            }
-
-            .t-back-btn {
-                background: transparent;
-                border: none;
-                color: #888;
-                cursor: pointer;
-                font-size: 0.95rem;
-                margin-bottom: 20px;
-                display: inline-flex;
-                align-items: center;
-                gap: 6px;
-                transition: color 0.3s;
-                padding: 0;
-            }
-            .t-back-btn:hover { color: #d4af37; }
-
-            .t-disclaimer {
-                margin-top: 36px;
-                padding: 18px 20px;
-                background: rgba(0,0,0,0.3);
-                border-left: 4px solid #555;
-                font-size: 0.87rem;
-                line-height: 1.65;
-                color: #777;
-                border-radius: 0 10px 10px 0;
-                text-align: left;
-            }
-            .t-disclaimer strong { color: #aaa; }
-
-            .t-action-row {
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-                margin-top: 28px;
-                max-width: 720px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .t-next-btn {
-                background: #d4af37;
-                color: #000;
-                border: none;
-                padding: 12px 28px;
-                border-radius: 25px;
-                font-weight: bold;
-                cursor: pointer;
-                transition: all 0.3s;
-                opacity: 0.45;
-                pointer-events: none;
-                font-size: 1rem;
-            }
-            .t-next-btn.active { opacity: 1; pointer-events: auto; }
-            .t-next-btn:hover { background: #f0c94a; transform: scale(1.04); }
-
-            @keyframes tSlideUp {
-                from { opacity: 0; transform: translateY(28px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-            @keyframes tFadeIn {
-                from { opacity: 0; } to { opacity: 1; }
-            }
-            @media (max-width: 600px) {
-                .triage-wrapper { padding: 20px; }
-                .t-header h2 { font-size: 1.7rem; }
-                .t-grid-zones { grid-template-columns: repeat(2, 1fr); }
-                .t-action-row { justify-content: center; }
-            }
-        `;
-        document.head.appendChild(style);
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // 7. RENDER PRINCIPAL
-    // ─────────────────────────────────────────────────────────────────────────
-    function renderHTML() {
-        const container = document.getElementById('inicio_mapa_cuerpo');
-        if (!container) return;
-
-        const patientName = getPatientName();
-        const greeting = patientName
-            ? `<p class="t-greeting">Hola, <strong>${patientName}</strong> 👋</p>`
-            : '';
-
-        let html = `<div class="triage-wrapper">`;
-
-        // ── PASO 1: Selección de Zona ──────────────────────────────────────
+    if (zone) {
+      html += `
+        <div class="t-step ${state.step === 2 ? 'active' : ''}">
+          <button class="t-back-btn" type="button" onclick="window.InicioMapaCuerpoAPI.goBack(1)">← Cambiar zona</button>
+          <div class="t-header">
+            <h3>2. ${zone.icon} ${zone.title}</h3>
+            <p>${zone.intro}</p>
+          </div>
+          <div class="t-list-symptoms">
+      `;
+      zone.symptoms.forEach((s, idx) => {
         html += `
-            <div class="t-step ${state.step === 1 ? 'active' : ''}">
-                <div class="t-header">
-                    ${greeting}
-                    <h2>¿Qué siente tu cuerpo hoy?</h2>
-                    <p>Selecciona la zona donde sientes mayor tensión, cansancio o malestar.</p>
-                </div>
-                <div class="t-grid-zones">
+          <button type="button" class="t-symptom-btn" onclick="window.InicioMapaCuerpoAPI.setSymptom(${idx})">
+            <span>
+              <span class="t-symptom-label">${s.label}</span>
+              <span class="t-symptom-sub">Lee el motivo y cómo lo atendemos.</span>
+            </span>
+          </button>
         `;
-        for (const [key, data] of Object.entries(triageData)) {
-            html += `
-                <div class="t-card" role="button" tabindex="0"
-                     onclick="window.InicioMapaCuerpoAPI.setZone('${key}')"
-                     onkeydown="if(event.key==='Enter'||event.key===' ')window.InicioMapaCuerpoAPI.setZone('${key}')">
-                    <span class="icon">${data.icon}</span>
-                    <span class="title">${data.title}</span>
+      });
+      html += `</div></div>`;
+    }
+
+    if (symptom) {
+      html += `
+        <div class="t-step ${state.step === 3 ? 'active' : ''}">
+          <button class="t-back-btn" type="button" onclick="window.InicioMapaCuerpoAPI.goBack(2)">← Cambiar síntoma</button>
+          <div class="t-header">
+            <h3>3. Elige tu terapia sugerida</h3>
+            <p>${symptom.label}</p>
+          </div>
+          <div class="t-therapy-grid">
+      `;
+      symptom.therapies.forEach((t, idx) => {
+        html += `
+          <button type="button" class="t-therapy-card" onclick="window.InicioMapaCuerpoAPI.setTherapy(${idx})">
+            <span class="t-therapy-badge"><i class="fa-solid fa-spa"></i> ${t.label}</span>
+            <strong>${t.benefit}</strong>
+            <p>${t.message}</p>
+          </button>
+        `;
+      });
+      html += `</div></div>`;
+    }
+
+    if (therapy && symptom && zone) {
+      const waMessage = encodeURIComponent(
+        `Hola, soy ${name}.\n\n` +
+        `Seleccioné la zona: ${zone.title}.\n` +
+        `Molestia principal: ${symptom.label}.\n` +
+        `Terapia elegida: ${therapy.label}.\n\n` +
+        `${therapy.message}\n\n` +
+        `Me interesa agendar y recibir más información.\n` +
+        `Contacto oficial: +52 33 4857 2070`
+      );
+      const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`;
+
+      html += `
+        <div class="t-step active">
+          <button class="t-back-btn" type="button" onclick="window.InicioMapaCuerpoAPI.goBack(3)">← Cambiar terapia</button>
+          <div class="t-result-card">
+            <div class="t-result-banner">
+              <h3>Tu banner listo para WhatsApp</h3>
+              <p>Ya quedó armado el mensaje con tu nombre, la condición seleccionada y la terapia elegida.</p>
+            </div>
+
+            <div class="t-result-grid">
+              <div class="t-info-box">
+                <strong>Por qué sucede</strong>
+                <p>${symptom.why}</p>
+                <strong>Cómo lo abordamos</strong>
+                <p>${symptom.how}</p>
+              </div>
+
+              <div class="t-recomm-box">
+                <strong>Terapia seleccionada</strong>
+                <div class="t-therapy-selected">
+                  <div>${therapy.label}</div>
+                  <div style="margin-top:.45rem; color: var(--valtara-gris-texto, #bbb);">${therapy.benefit}</div>
                 </div>
-            `;
-        }
-        html += `</div></div>`;
+                <p class="t-note" style="margin-top: .85rem;">${therapy.message}</p>
+              </div>
+            </div>
 
-        // ── PASO 2: Síntomas ──────────────────────────────────────────────
-        if (state.zone) {
-            const zone = triageData[state.zone];
-            html += `
-                <div class="t-step ${state.step === 2 ? 'active' : ''}">
-                    <button class="t-back-btn" onclick="window.InicioMapaCuerpoAPI.goBack(1)">← Cambiar Zona</button>
-                    <div class="t-header">
-                        <h2>${zone.icon} ${zone.title}</h2>
-                        <p>¿Cuál de estas afirmaciones describe mejor lo que sientes?</p>
-                    </div>
-                    <div class="t-list-symptoms">
-            `;
-            zone.symptoms.forEach((symp, idx) => {
-                html += `
-                    <button class="t-symptom-btn" onclick="window.InicioMapaCuerpoAPI.setSymptom(${idx})">
-                        <span>${symp.label}</span>
-                    </button>
-                `;
-            });
-            html += `</div></div>`;
-        }
+            <div class="t-wa-box t-wa-banner">
+              <div>
+                <strong>Contacto directo</strong>
+                <p style="margin:0;">WhatsApp oficial con mensaje precargado.</p>
+              </div>
+              <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="t-wa-btn">
+                <i class="fa-brands fa-whatsapp"></i>
+                Agendar por WhatsApp
+              </a>
+            </div>
 
-        // ── PASO 3: Aromaterapia ──────────────────────────────────────────
-        if (state.zone && state.symptom !== null) {
-            html += `
-                <div class="t-step ${state.step === 3 ? 'active' : ''}">
-                    <button class="t-back-btn" onclick="window.InicioMapaCuerpoAPI.goBack(2)">← Cambiar Síntoma</button>
-                    <div class="t-header">
-                        <h2>Elige tu Atmósfera</h2>
-                        <p>Personaliza tu experiencia con un aceite esencial. ¿Cuál te llama más hoy?</p>
-                    </div>
-                    <div class="t-aroma-grid">
-            `;
-            aromatherapyOptions.forEach(aroma => {
-                const sel = state.aroma === aroma.name ? 'selected' : '';
-                html += `
-                    <div class="t-aroma-card ${sel}" role="button" tabindex="0"
-                         onclick="window.InicioMapaCuerpoAPI.setAroma('${aroma.name}')"
-                         onkeydown="if(event.key==='Enter'||event.key===' ')window.InicioMapaCuerpoAPI.setAroma('${aroma.name}')">
-                        <h4>${aroma.name}</h4>
-                        <p>${aroma.desc}</p>
-                    </div>
-                `;
-            });
-            html += `
-                    </div>
-                    <div class="t-action-row">
-                        <button class="t-next-btn ${state.aroma ? 'active' : ''}"
-                                onclick="window.InicioMapaCuerpoAPI.finalize()">
-                            Ver mi Ritual Sugerido →
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        // ── PASO 4: Resultado + Banner WhatsApp Personalizado ─────────────
-        if (state.step === 4) {
-            const zone = triageData[state.zone];
-            const data = zone.symptoms[state.symptom];
-            const patName = getPatientName();
-
-            // Construir mensaje de WhatsApp personalizado
-            let finalMsg = data.whatsapp_base;
-            if (patName) {
-                // Reemplazar "Hola Oasik" por "Hola Oasik, soy [Nombre]"
-                finalMsg = finalMsg.replace('Hola Oasik,', `Hola Oasik, soy ${patName} y`);
-            }
-            if (state.aroma && state.aroma !== 'Sin Aroma') {
-                finalMsg += ` Me gustaría incluir aromaterapia de ${state.aroma}.`;
-            } else if (state.aroma === 'Sin Aroma') {
-                finalMsg += ` Prefiero la sesión sin aromaterapia.`;
-            }
-
-            const encodedMsg = encodeURIComponent(finalMsg);
-            const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMsg}`;
-
-            // Nombre para el banner
-            const bannerNombre = patName ? `Tu ritual está listo, <strong>${patName}</strong>` : 'Tu ritual personalizado está listo';
-            const bannerDesc = `Te conectamos con nuestro equipo para agendar <strong>${data.terapia_clave}</strong>.`;
-
-            html += `
-                <div class="t-step active">
-                    <button class="t-back-btn" onclick="window.InicioMapaCuerpoAPI.goBack(3)">← Cambiar Aromaterapia</button>
-                    <div class="t-result-card">
-                        <h3>¿Por qué sientes esto?</h3>
-                        <p class="t-result-why">${data.why}</p>
-
-                        <div class="t-recomm-box">
-                            <strong>Ritual Oasik Sugerido para ti</strong>
-                            <span>${data.recommendation}</span>
-                            ${state.aroma ? `<div class="t-recomm-aroma">🌿 Atmósfera seleccionada: ${state.aroma}</div>` : ''}
-                        </div>
-
-                        <!-- BANNER WHATSAPP PERSONALIZADO -->
-                        <div class="t-wa-banner">
-                            <p class="banner-titulo">📲 Tu enlace de contacto directo</p>
-                            <p class="banner-nombre">${bannerNombre}</p>
-                            <p class="banner-desc">${bannerDesc}<br>
-                               Haz clic y tu mensaje llega precargado con todos los detalles.
-                            </p>
-                            <a href="${waLink}" target="_blank" rel="noopener" class="t-wa-btn">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.487-1.761-1.663-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
-                                </svg>
-                                Agendar mi Ritual por WhatsApp
-                            </a>
-                        </div>
-
-                        <div class="t-disclaimer">
-                            <strong>Aclaración importante sobre tu salud:</strong><br>
-                            En Oasik somos especialistas en bienestar integral, relajación profunda y cuidado estético profesional (Masajes, Manicura, Pedicura, Sonoterapia).
-                            <strong>No somos médicos, fisioterapeutas ni podólogos.</strong>
-                            Nuestros servicios están diseñados para aliviar la tensión diaria y acompañar tu bienestar.
-                            Si presentas dolor crónico, lesiones agudas, infecciones o problemas estructurales, consulta primero con un especialista de salud calificado.
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        html += `</div>`;
-        container.innerHTML = html;
+            <div class="t-disclaimer">
+              <strong>Aclaración importante:</strong> ${EMERGENCY_NOTE}
+            </div>
+          </div>
+        </div>
+      `;
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // 8. API GLOBAL (usada por los onclick inline del HTML renderizado)
-    // ─────────────────────────────────────────────────────────────────────────
-    global.InicioMapaCuerpoAPI = {
-        setZone: function (z) { state.zone = z; state.step = 2; state.symptom = null; state.aroma = null; renderHTML(); },
-        setSymptom: function (s) { state.symptom = s; state.step = 3; state.aroma = null; renderHTML(); },
-        setAroma: function (a) { state.aroma = a; renderHTML(); },
-        finalize: function () { if (state.aroma) { state.step = 4; renderHTML(); } },
-        goBack: function (step) {
-            state.step = step;
-            if (step === 1) { state.zone = null; state.symptom = null; state.aroma = null; }
-            if (step === 2) { state.symptom = null; state.aroma = null; }
-            if (step === 3) { state.aroma = null; }
-            renderHTML();
-        }
-    };
+    html += `
+        <div class="t-banner">
+          <strong style="color: var(--valtara-blanco, #fff); display:block; margin-bottom:.4rem;">Nombre del paciente: ${name}</strong>
+          <p class="t-note">Cuando elijas una terapia, aparecerá aquí el banner final con el enlace oficial de WhatsApp y el mensaje listo para enviar.</p>
+        </div>
+      </div>
+    `;
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // 9. INICIALIZACIÓN — espera al div inyectado por constructor_maestro.js
-    // ─────────────────────────────────────────────────────────────────────────
-    function tryInit() {
-        const container = document.getElementById('inicio_mapa_cuerpo');
-        if (container) {
-            initStyles();
-            renderHTML();
-            return true;
-        }
-        return false;
+    container.innerHTML = html;
+  };
+
+  window.InicioMapaCuerpoAPI = {
+    setZone(z) {
+      state.zone = z;
+      state.symptom = null;
+      state.therapy = null;
+      state.step = 2;
+      renderHTML();
+    },
+    setSymptom(s) {
+      state.symptom = s;
+      state.therapy = null;
+      state.step = 3;
+      renderHTML();
+    },
+    setTherapy(t) {
+      state.therapy = t;
+      state.step = 4;
+      renderHTML();
+    },
+    goBack(step) {
+      state.step = step;
+      if (step === 1) {
+        state.zone = null;
+        state.symptom = null;
+        state.therapy = null;
+      } else if (step === 2) {
+        state.symptom = null;
+        state.therapy = null;
+      } else if (step === 3) {
+        state.therapy = null;
+      }
+      renderHTML();
     }
+  };
 
-    function autoInit() {
-        if (tryInit()) return;
+  window.ValtaraModulos = window.ValtaraModulos || {};
+  window.ValtaraModulos.inicio_mapa_cuerpo = skeleton;
 
-        // El div lo crea constructor_maestro → esperamos que aparezca
-        const observer = new MutationObserver(function (_, obs) {
-            if (tryInit()) obs.disconnect();
-        });
-        observer.observe(document.body || document.documentElement, { childList: true, subtree: true });
-
-        // Fallback de seguridad
-        setTimeout(function () {
-            tryInit();
-            observer.disconnect();
-        }, 4000);
+  return {
+    init() {
+      initStyles();
+      renderHTML();
     }
+  };
+})();
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', autoInit);
-    } else {
-        setTimeout(autoInit, 50);
-    }
-
-})(window);
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('inicio_mapa_cuerpo')) {
+    InicioMapaCuerpo.init();
+  }
+});
