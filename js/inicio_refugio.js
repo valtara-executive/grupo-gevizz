@@ -1,32 +1,32 @@
 /**
  * ====================================================================================
- * MÓDULO: INICIO_PROMOCIONES.JS
- * Arquitectura compatible con TODOS los módulos Valtara existentes
- * NO usa listeners globales complejos
- * NO usa constructores externos
- * NO rompe renderizado SPA
- * TODO funciona inline igual que inicio_refugio.js
+ * INICIO_PROMOCIONES.JS — VERSIÓN CARRUSEL CINEMÁTICO V40
+ * Arquitectura 100% compatible con Valtara
+ * Basado en el patrón REAL que sí renderiza:
+ * inicio_refugio.js
  * ====================================================================================
  */
 
 window.ValtaraModulos = window.ValtaraModulos || {};
 
 window.ValtaraModulos.inicio_promociones = `
-<div style="max-width:1100px;margin:3rem auto 6rem auto;padding:0 1.5rem;">
+
+<div style="max-width:950px;margin:3rem auto 6rem auto;padding:0 1.2rem;">
 
     <!-- HERO -->
     <section class="glass-card reveal"
         style="
+            position:relative;
+            overflow:hidden;
             padding:4rem 2rem;
             border-radius:28px;
-            overflow:hidden;
-            position:relative;
             background:
                 radial-gradient(circle at top right, rgba(242,201,76,0.12), transparent 30%),
                 radial-gradient(circle at bottom left, rgba(0,255,204,0.08), transparent 35%),
-                linear-gradient(180deg, rgba(15,15,20,0.96), rgba(5,5,10,0.98));
+                linear-gradient(180deg, rgba(10,10,15,0.96), rgba(5,5,10,0.98));
             border:1px solid rgba(255,255,255,0.08);
-        ">
+        "
+    >
 
         <div style="
             position:absolute;
@@ -39,480 +39,408 @@ window.ValtaraModulos.inicio_promociones = `
             pointer-events:none;
         "></div>
 
-        <div style="text-align:center;position:relative;z-index:2;">
+        <div style="position:relative;z-index:2;text-align:center;">
 
             <div style="
                 display:inline-flex;
                 align-items:center;
                 gap:10px;
-                padding:10px 22px;
+                padding:12px 24px;
                 border-radius:999px;
                 background:rgba(242,201,76,0.08);
                 border:1px solid rgba(242,201,76,0.25);
-                color:var(--valtara-oro);
-                font-size:.85rem;
-                font-weight:900;
-                letter-spacing:2px;
-                text-transform:uppercase;
                 margin-bottom:2rem;
             ">
-                <i class="fa-solid fa-gift fa-bounce"></i>
-                Promociones Inteligentes
+                <i class="fa-solid fa-fire-flame-curved fa-bounce"
+                    style="
+                        color:var(--valtara-oro);
+                        font-size:1.2rem;
+                    "
+                ></i>
+
+                <span style="
+                    color:var(--valtara-oro);
+                    font-size:.85rem;
+                    font-weight:900;
+                    letter-spacing:2px;
+                    text-transform:uppercase;
+                ">
+                    Experiencias Destacadas
+                </span>
             </div>
 
             <h2 style="
                 font-family:var(--font-accent);
-                font-size:clamp(2.5rem,5vw,4.4rem);
+                font-size:clamp(2.7rem,6vw,4.6rem);
                 color:white;
-                margin-bottom:1.5rem;
                 line-height:1.1;
+                margin-bottom:1.5rem;
             ">
-                Cotiza Tu Experiencia
+                Descubre Tu
                 <span style="color:var(--valtara-oro);">
-                    Valtara
+                    Experiencia Ideal
                 </span>
             </h2>
 
             <p style="
-                color:var(--valtara-gris-texto);
-                font-size:1.2rem;
-                line-height:1.9;
-                max-width:820px;
+                max-width:760px;
                 margin:0 auto 3rem auto;
+                color:var(--valtara-gris-texto);
+                line-height:1.9;
+                font-size:1.15rem;
                 font-weight:300;
             ">
-                Elige tu terapia, selecciona tu aromaterapia favorita y descubre
-                automáticamente las promociones disponibles según la hora y el día.
-                Todo en tiempo real y con enlace directo a WhatsApp.
+                Explora promociones activas, terapias premium,
+                aromaterapias sugeridas y beneficios especiales
+                mediante una experiencia visual inmersiva.
             </p>
 
-            <!-- BENEFICIOS -->
-            <div style="
-                display:grid;
-                grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-                gap:18px;
-                margin-bottom:3rem;
-            ">
-
-                <div class="glass-card"
-                    style="
-                        padding:1.5rem;
-                        border-radius:22px;
-                        background:rgba(255,255,255,0.03);
-                    ">
-
-                    <i class="fa-solid fa-sun"
-                        style="
-                            font-size:2rem;
-                            color:var(--valtara-oro);
-                            margin-bottom:1rem;
-                            animation: pulse 2s infinite;
-                        "></i>
-
-                    <h3 style="color:white;margin-bottom:.7rem;">
-                        20% OFF
-                    </h3>
-
-                    <p style="
-                        color:var(--valtara-gris-texto);
-                        line-height:1.7;
-                        margin:0;
-                    ">
-                        Jueves a domingo antes de las 2 PM.
-                    </p>
-                </div>
-
-                <div class="glass-card"
-                    style="
-                        padding:1.5rem;
-                        border-radius:22px;
-                        background:rgba(255,255,255,0.03);
-                    ">
-
-                    <i class="fa-solid fa-gift"
-                        style="
-                            font-size:2rem;
-                            color:var(--valtara-cian-brillante);
-                            margin-bottom:1rem;
-                            animation: floaty 3s ease-in-out infinite;
-                        "></i>
-
-                    <h3 style="color:white;margin-bottom:.7rem;">
-                        $169 MXN OFF
-                    </h3>
-
-                    <p style="
-                        color:var(--valtara-gris-texto);
-                        line-height:1.7;
-                        margin:0;
-                    ">
-                        Lunes y martes después de la 1 PM.
-                    </p>
-                </div>
-
-                <div class="glass-card"
-                    style="
-                        padding:1.5rem;
-                        border-radius:22px;
-                        background:rgba(255,255,255,0.03);
-                    ">
-
-                    <i class="fa-solid fa-wind"
-                        style="
-                            font-size:2rem;
-                            color:#8EF6E4;
-                            margin-bottom:1rem;
-                            animation: pulse 3s infinite;
-                        "></i>
-
-                    <h3 style="color:white;margin-bottom:.7rem;">
-                        Aromaterapia
-                    </h3>
-
-                    <p style="
-                        color:var(--valtara-gris-texto);
-                        line-height:1.7;
-                        margin:0;
-                    ">
-                        Incluida sin costo adicional.
-                    </p>
-                </div>
-
-            </div>
-
-            <!-- BOTÓN -->
-            <button
-                id="vt-start-btn"
-                onclick="
-                    document.getElementById('vt-cotizador').style.display='block';
-                    this.style.display='none';
-                    setTimeout(function(){
-                        document.getElementById('vt-cotizador').scrollIntoView({
-                            behavior:'smooth',
-                            block:'start'
-                        });
-                    },150);
-                "
-                style="
-                    background:linear-gradient(135deg,#F2C94C,#F2994A);
-                    color:#050508;
-                    border:none;
-                    padding:18px 34px;
-                    border-radius:16px;
-                    font-size:1.1rem;
-                    font-weight:900;
-                    cursor:pointer;
-                    box-shadow:0 12px 35px rgba(242,201,76,0.35);
-                    transition:all .3s ease;
-                "
-                onmouseover="
-                    this.style.transform='translateY(-4px)';
-                    this.style.boxShadow='0 18px 45px rgba(242,201,76,0.45)';
-                "
-                onmouseout="
-                    this.style.transform='translateY(0)';
-                    this.style.boxShadow='0 12px 35px rgba(242,201,76,0.35)';
-                "
-            >
-                <i class="fa-solid fa-spa"></i>
-                Comencemos Mi Experiencia
-            </button>
-
         </div>
+
     </section>
 
-    <!-- COTIZADOR -->
-    <section
-        id="vt-cotizador"
-        class="glass-card reveal"
+    <!-- CARRUSEL -->
+    <section class="glass-card reveal"
         style="
             margin-top:2rem;
-            padding:3rem 2rem;
-            border-radius:28px;
-            display:none;
+            border-radius:30px;
+            overflow:hidden;
+            position:relative;
             background:
                 linear-gradient(180deg,
                 rgba(12,12,18,0.97),
                 rgba(5,5,10,0.99));
+            border:1px solid rgba(255,255,255,0.08);
         "
     >
 
-        <div style="text-align:center;margin-bottom:3rem;">
+        <!-- CONTENEDOR -->
+        <div id="vt-carrusel"
+            style="
+                position:relative;
+                width:100%;
+                aspect-ratio:1/1;
+                overflow:hidden;
+            "
+        >
 
-            <h3 style="
-                color:white;
-                font-size:2.4rem;
-                font-family:var(--font-accent);
-                margin-bottom:1rem;
-            ">
-                Cotizador Inteligente
-            </h3>
+            <!-- SLIDE 1 -->
+            <div class="vt-slide active"
+                style="
+                    background:
+                        radial-gradient(circle at top right, rgba(242,201,76,0.18), transparent 30%),
+                        linear-gradient(180deg, #111, #050508);
+                "
+            >
 
-            <p style="
-                color:var(--valtara-gris-texto);
-                max-width:760px;
-                margin:0 auto;
-                line-height:1.9;
-            ">
-                El total cambia automáticamente según la terapia,
-                promociones activas y horario actual.
-            </p>
+                <div class="vt-slide-content">
+
+                    <div class="vt-icon gold">
+                        <i class="fa-solid fa-sun fa-spin"></i>
+                    </div>
+
+                    <h3>20% OFF Matutino</h3>
+
+                    <p>
+                        Jueves a domingo antes de las 2 PM.
+                        Ideal para sesiones relajantes y rituales premium.
+                    </p>
+
+                    <a
+                        href="https://wa.me/5213348572070?text=Hola,%20vi%20la%20promoción%20del%2020%%20OFF%20matutino%20en%20la%20web%20de%20Valtara%20y%20quiero%20más%20información."
+                        target="_blank"
+                        class="vt-btn"
+                    >
+                        <i class="fa-brands fa-whatsapp"></i>
+                        Reservar Ahora
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- SLIDE 2 -->
+            <div class="vt-slide">
+
+                <div class="vt-slide-content">
+
+                    <div class="vt-icon cyan">
+                        <i class="fa-solid fa-wind fa-beat"></i>
+                    </div>
+
+                    <h3>Aromaterapia Lavanda</h3>
+
+                    <p>
+                        Diseñada para disminuir ansiedad,
+                        tensión emocional e insomnio.
+                        Incluida sin costo adicional.
+                    </p>
+
+                    <a
+                        href="https://wa.me/5213348572070?text=Hola,%20me%20interesa%20una%20sesión%20con%20aromaterapia%20de%20Lavanda."
+                        target="_blank"
+                        class="vt-btn"
+                    >
+                        <i class="fa-brands fa-whatsapp"></i>
+                        Quiero Esta Experiencia
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- SLIDE 3 -->
+            <div class="vt-slide">
+
+                <div class="vt-slide-content">
+
+                    <div class="vt-icon red">
+                        <i class="fa-solid fa-dumbbell fa-bounce"></i>
+                    </div>
+
+                    <h3>Masaje Deportivo</h3>
+
+                    <p>
+                        Recuperación muscular profunda para
+                        contracturas, agotamiento físico y estrés acumulado.
+                    </p>
+
+                    <a
+                        href="https://wa.me/5213348572070?text=Hola,%20quiero%20agendar%20el%20Masaje%20Deportivo%20y%20Descompresión."
+                        target="_blank"
+                        class="vt-btn"
+                    >
+                        <i class="fa-brands fa-whatsapp"></i>
+                        Agendar Terapia
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- SLIDE 4 -->
+            <div class="vt-slide">
+
+                <div class="vt-slide-content">
+
+                    <div class="vt-icon purple">
+                        <i class="fa-solid fa-gift fa-shake"></i>
+                    </div>
+
+                    <h3>$169 MXN OFF</h3>
+
+                    <p>
+                        Lunes y martes después de la 1 PM.
+                        Disponible en experiencias seleccionadas.
+                    </p>
+
+                    <a
+                        href="https://wa.me/5213348572070?text=Hola,%20vi%20la%20promoción%20de%20$169%20MXN%20OFF%20en%20Valtara."
+                        target="_blank"
+                        class="vt-btn"
+                    >
+                        <i class="fa-brands fa-whatsapp"></i>
+                        Reclamar Beneficio
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- SLIDE 5 -->
+            <div class="vt-slide">
+
+                <div class="vt-slide-content">
+
+                    <div class="vt-icon green">
+                        <i class="fa-solid fa-leaf fa-fade"></i>
+                    </div>
+
+                    <h3>Eucalipto Premium</h3>
+
+                    <p>
+                        Sensación respiratoria fresca,
+                        claridad mental y relajación profunda.
+                    </p>
+
+                    <a
+                        href="https://wa.me/5213348572070?text=Hola,%20quiero%20una%20experiencia%20con%20aromaterapia%20de%20Eucalipto."
+                        target="_blank"
+                        class="vt-btn"
+                    >
+                        <i class="fa-brands fa-whatsapp"></i>
+                        Quiero Probarlo
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- SLIDE 6 -->
+            <div class="vt-slide">
+
+                <div class="vt-slide-content">
+
+                    <div class="vt-icon gold">
+                        <i class="fa-solid fa-water fa-beat-fade"></i>
+                    </div>
+
+                    <h3>Lomi Lomi Supremo</h3>
+
+                    <p>
+                        El ritual más inmersivo de Valtara.
+                        Inspirado en el movimiento del océano.
+                    </p>
+
+                    <a
+                        href="https://wa.me/5213348572070?text=Hola,%20quiero%20información%20sobre%20el%20Ritual%20Lomi%20Lomi%20Supremo."
+                        target="_blank"
+                        class="vt-btn"
+                    >
+                        <i class="fa-brands fa-whatsapp"></i>
+                        Reservar Ritual
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- SLIDE 7 -->
+            <div class="vt-slide">
+
+                <div class="vt-slide-content">
+
+                    <div class="vt-icon white">
+                        <i class="fa-solid fa-moon fa-fade"></i>
+                    </div>
+
+                    <h3>Sesiones Nocturnas</h3>
+
+                    <p>
+                        Algunas experiencias incluyen té de frutos rojos
+                        después de las 7 PM.
+                    </p>
+
+                    <a
+                        href="https://wa.me/5213348572070?text=Hola,%20quiero%20información%20sobre%20las%20sesiones%20nocturnas."
+                        target="_blank"
+                        class="vt-btn"
+                    >
+                        <i class="fa-brands fa-whatsapp"></i>
+                        Más Información
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- SLIDE 8 -->
+            <div class="vt-slide">
+
+                <div class="vt-slide-content">
+
+                    <div class="vt-icon cyan">
+                        <i class="fa-solid fa-droplet fa-beat"></i>
+                    </div>
+
+                    <h3>Drenaje Linfático</h3>
+
+                    <p>
+                        Sensación de ligereza corporal mediante
+                        movimientos suaves y relajantes.
+                    </p>
+
+                    <a
+                        href="https://wa.me/5213348572070?text=Hola,%20quiero%20agendar%20un%20Drenaje%20Linfático."
+                        target="_blank"
+                        class="vt-btn"
+                    >
+                        <i class="fa-brands fa-whatsapp"></i>
+                        Agendar
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- SLIDE 9 -->
+            <div class="vt-slide">
+
+                <div class="vt-slide-content">
+
+                    <div class="vt-icon pink">
+                        <i class="fa-solid fa-heart fa-beat"></i>
+                    </div>
+
+                    <h3>Frutos Rojos</h3>
+
+                    <p>
+                        Aroma dulce y envolvente para experiencias
+                        cálidas y emocionalmente reconfortantes.
+                    </p>
+
+                    <a
+                        href="https://wa.me/5213348572070?text=Hola,%20quiero%20una%20sesión%20con%20aroma%20Frutos%20Rojos."
+                        target="_blank"
+                        class="vt-btn"
+                    >
+                        <i class="fa-brands fa-whatsapp"></i>
+                        Lo Quiero
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- SLIDE 10 -->
+            <div class="vt-slide">
+
+                <div class="vt-slide-content">
+
+                    <div class="vt-icon orange">
+                        <i class="fa-solid fa-fire fa-bounce"></i>
+                    </div>
+
+                    <h3>Reductivo & Maderoterapia</h3>
+
+                    <p>
+                        Protocolos corporales premium para
+                        acompañar objetivos estéticos y bienestar físico.
+                    </p>
+
+                    <a
+                        href="https://wa.me/5213348572070?text=Hola,%20quiero%20información%20sobre%20Reductivo%20y%20Maderoterapia."
+                        target="_blank"
+                        class="vt-btn"
+                    >
+                        <i class="fa-brands fa-whatsapp"></i>
+                        Cotizar Experiencia
+                    </a>
+
+                </div>
+
+            </div>
 
         </div>
 
-        <!-- GRID -->
+        <!-- CONTROLES -->
         <div style="
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-            gap:2rem;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:14px;
+            padding:1.5rem;
         ">
 
-            <!-- IZQUIERDA -->
-            <div>
+            <button id="vt-prev"
+                class="vt-nav-btn">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
 
-                <!-- TERAPIA -->
-                <div style="margin-bottom:2rem;">
-
-                    <label style="
-                        display:block;
-                        color:white;
-                        margin-bottom:1rem;
-                        font-weight:bold;
-                        font-size:1rem;
-                    ">
-                        <i class="fa-solid fa-spa"></i>
-                        Elige Tu Terapia
-                    </label>
-
-                    <select
-                        id="vt-terapia"
-                        onchange="window.actualizarCotizadorValtara();"
-                        style="
-                            width:100%;
-                            background:#0d0d12;
-                            color:white;
-                            border:1px solid rgba(255,255,255,0.08);
-                            padding:18px;
-                            border-radius:18px;
-                            font-size:1.05rem;
-                        "
-                    >
-
-                        <option value="699">Relajante 50 Min · $699</option>
-                        <option value="899">Relajante 90 Min · $899</option>
-                        <option value="729">Deportivo y Descompresión · $729</option>
-                        <option value="729">Tailandés Yoga Pasivo · $729</option>
-                        <option value="829">Ayurveda & Aromaterapia · $829</option>
-                        <option value="829">Holístico Integrativo · $829</option>
-                        <option value="799">Reductivo & Maderoterapia · $799</option>
-                        <option value="999">Ritual Lomi Lomi Supremo · $999</option>
-                        <option value="819">Esferas Chinas & Velas · $819</option>
-                        <option value="749">Drenaje Linfático · $749</option>
-                        <option value="529">Parálisis Facial · $529</option>
-
-                    </select>
-
-                </div>
-
-                <!-- AROMA -->
-                <div style="margin-bottom:2rem;">
-
-                    <label style="
-                        display:block;
-                        color:white;
-                        margin-bottom:1rem;
-                        font-weight:bold;
-                    ">
-                        <i class="fa-solid fa-leaf"></i>
-                        Aromaterapia
-                    </label>
-
-                    <select
-                        id="vt-aroma"
-                        onchange="window.actualizarCotizadorValtara();"
-                        style="
-                            width:100%;
-                            background:#0d0d12;
-                            color:white;
-                            border:1px solid rgba(255,255,255,0.08);
-                            padding:18px;
-                            border-radius:18px;
-                            font-size:1.05rem;
-                        "
-                    >
-
-                        <option>Lavanda</option>
-                        <option>Vainilla</option>
-                        <option>Menta</option>
-                        <option>Eucalipto</option>
-                        <option>Jazmín</option>
-                        <option>Rosas Blancas</option>
-                        <option>Frutos Rojos</option>
-                        <option>Té Blanco</option>
-                        <option>Coco</option>
-                        <option>Neutra</option>
-
-                    </select>
-
-                    <p style="
-                        margin-top:1rem;
-                        color:var(--valtara-cian-brillante);
-                        font-size:.9rem;
-                    ">
-                        * Aromaterapias sujetas a disponibilidad.
-                    </p>
-
-                </div>
-
-                <!-- DESCRIPCIÓN -->
-                <div
-                    id="vt-descripcion"
-                    class="glass-card"
-                    style="
-                        padding:1.5rem;
-                        border-radius:20px;
-                        background:rgba(255,255,255,0.03);
-                        color:var(--valtara-gris-texto);
-                        line-height:1.8;
-                    "
-                ></div>
-
-            </div>
-
-            <!-- DERECHA -->
-            <div>
-
-                <div class="glass-card"
-                    style="
-                        padding:2rem;
-                        border-radius:24px;
-                        background:rgba(255,255,255,0.03);
-                    "
-                >
-
-                    <div style="
-                        display:flex;
-                        justify-content:space-between;
-                        margin-bottom:1rem;
-                        color:white;
-                    ">
-                        <span>Subtotal</span>
-                        <strong id="vt-subtotal">$699 MXN</strong>
-                    </div>
-
-                    <div style="
-                        display:flex;
-                        justify-content:space-between;
-                        margin-bottom:1rem;
-                        color:white;
-                    ">
-                        <span>Promoción</span>
-                        <strong
-                            id="vt-promocion"
-                            style="color:var(--valtara-cian-brillante);"
-                        >
-                            Verificando...
-                        </strong>
-                    </div>
-
-                    <div style="
-                        display:flex;
-                        justify-content:space-between;
-                        margin-bottom:2rem;
-                        color:white;
-                    ">
-                        <span>Descuento</span>
-                        <strong
-                            id="vt-descuento"
-                            style="color:#67ff9b;"
-                        >
-                            -$0 MXN
-                        </strong>
-                    </div>
-
-                    <div style="
-                        border-top:1px solid rgba(255,255,255,0.08);
-                        padding-top:2rem;
-                        display:flex;
-                        justify-content:space-between;
-                        align-items:center;
-                    ">
-
-                        <span style="
-                            color:white;
-                            font-size:1.3rem;
-                            font-weight:bold;
-                        ">
-                            Total Estimado
-                        </span>
-
-                        <strong
-                            id="vt-total"
-                            style="
-                                font-size:2.2rem;
-                                color:var(--valtara-oro);
-                            "
-                        >
-                            $699 MXN
-                        </strong>
-
-                    </div>
-
-                    <a
-                        id="vt-wa-link"
-                        href="https://wa.me/5213348572070"
-                        target="_blank"
-                        style="
-                            margin-top:2rem;
-                            width:100%;
-                            display:flex;
-                            justify-content:center;
-                            align-items:center;
-                            gap:12px;
-                            background:linear-gradient(135deg,#25D366,#1ebc59);
-                            color:white;
-                            text-decoration:none;
-                            padding:18px;
-                            border-radius:18px;
-                            font-weight:900;
-                            font-size:1.05rem;
-                            box-shadow:0 12px 35px rgba(37,211,102,0.35);
-                        "
-                    >
-                        <i class="fa-brands fa-whatsapp"></i>
-                        Continuar por WhatsApp
-                    </a>
-
-                    <!-- TÉRMINOS -->
-                    <div style="
-                        margin-top:2rem;
-                        padding-top:1.5rem;
-                        border-top:1px solid rgba(255,255,255,0.08);
-                        color:#aaa;
-                        line-height:1.8;
-                        font-size:.9rem;
-                    ">
-
-                        <strong style="color:white;">
-                            Términos y Condiciones
-                        </strong>
-
-                        <ul style="
-                            margin-top:1rem;
-                            padding-left:1.2rem;
-                        ">
-                            <li>Promociones no acumulables.</li>
-                            <li>20% OFF aplica antes de las 2 PM.</li>
-                            <li>$169 OFF aplica lunes y martes después de la 1 PM.</li>
-                            <li>Aromaterapias sujetas a disponibilidad.</li>
-                            <li>Contacto oficial: 33 4857 2070.</li>
-                        </ul>
-
-                    </div>
-
-                </div>
-
-            </div>
+            <button id="vt-next"
+                class="vt-nav-btn">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
 
         </div>
 
@@ -522,147 +450,242 @@ window.ValtaraModulos.inicio_promociones = `
 
 <style>
 
-@keyframes floaty{
-    0%{transform:translateY(0px);}
-    50%{transform:translateY(-8px);}
-    100%{transform:translateY(0px);}
+.vt-slide{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    visibility:hidden;
+    transition:all .6s ease;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:2rem;
 }
 
-@keyframes pulse{
-    0%{transform:scale(1);}
-    50%{transform:scale(1.08);}
-    100%{transform:scale(1);}
+.vt-slide.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.vt-slide-content{
+    width:100%;
+    max-width:520px;
+    text-align:center;
+}
+
+.vt-icon{
+    width:120px;
+    height:120px;
+    margin:0 auto 2rem auto;
+    border-radius:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:3rem;
+    position:relative;
+    overflow:hidden;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+.vt-icon::before{
+    content:'';
+    position:absolute;
+    inset:-30%;
+    animation:spin 10s linear infinite;
+}
+
+.gold::before{
+    background:conic-gradient(from 0deg,
+    rgba(242,201,76,0.7),
+    transparent,
+    rgba(242,201,76,0.7));
+}
+
+.cyan::before{
+    background:conic-gradient(from 0deg,
+    rgba(0,255,204,0.7),
+    transparent,
+    rgba(0,255,204,0.7));
+}
+
+.red::before{
+    background:conic-gradient(from 0deg,
+    rgba(255,85,85,0.7),
+    transparent,
+    rgba(255,85,85,0.7));
+}
+
+.green::before{
+    background:conic-gradient(from 0deg,
+    rgba(82,255,168,0.7),
+    transparent,
+    rgba(82,255,168,0.7));
+}
+
+.purple::before{
+    background:conic-gradient(from 0deg,
+    rgba(178,127,255,0.7),
+    transparent,
+    rgba(178,127,255,0.7));
+}
+
+.orange::before{
+    background:conic-gradient(from 0deg,
+    rgba(255,170,0,0.7),
+    transparent,
+    rgba(255,170,0,0.7));
+}
+
+.white::before{
+    background:conic-gradient(from 0deg,
+    rgba(255,255,255,0.7),
+    transparent,
+    rgba(255,255,255,0.7));
+}
+
+.pink::before{
+    background:conic-gradient(from 0deg,
+    rgba(255,105,180,0.7),
+    transparent,
+    rgba(255,105,180,0.7));
+}
+
+.vt-icon i{
+    position:relative;
+    z-index:2;
+    color:white;
+}
+
+.vt-slide h3{
+    color:white;
+    font-size:2.2rem;
+    margin-bottom:1rem;
+    font-family:var(--font-accent);
+}
+
+.vt-slide p{
+    color:var(--valtara-gris-texto);
+    line-height:1.9;
+    font-size:1.08rem;
+    margin-bottom:2rem;
+}
+
+.vt-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    background:linear-gradient(135deg,#25D366,#1ebc59);
+    color:white;
+    text-decoration:none;
+    padding:16px 30px;
+    border-radius:18px;
+    font-weight:900;
+    transition:all .3s ease;
+    box-shadow:0 12px 35px rgba(37,211,102,0.35);
+}
+
+.vt-btn:hover{
+    transform:translateY(-4px);
+}
+
+.vt-nav-btn{
+    width:54px;
+    height:54px;
+    border-radius:50%;
+    border:none;
+    background:rgba(255,255,255,0.06);
+    color:white;
+    cursor:pointer;
+    font-size:1.1rem;
+    transition:all .3s ease;
+}
+
+.vt-nav-btn:hover{
+    background:rgba(255,255,255,0.12);
+    transform:scale(1.08);
+}
+
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
 }
 
 </style>
 
 <script>
 
-window.actualizarCotizadorValtara = function(){
+setTimeout(function(){
 
-    var terapia = document.getElementById('vt-terapia');
-    var aroma = document.getElementById('vt-aroma');
+    var slides = document.querySelectorAll('.vt-slide');
 
-    if(!terapia || !aroma){
+    if(!slides.length){
         return;
     }
 
-    var subtotal = Number(terapia.value);
+    var index = 0;
 
-    var descripcion = '';
+    function showSlide(i){
 
-    switch(subtotal){
+        slides.forEach(function(slide){
+            slide.classList.remove('active');
+        });
 
-        case 699:
-            descripcion = 'Relajación profunda diseñada para ansiedad, agotamiento emocional y estrés acumulado.';
-        break;
-
-        case 899:
-            descripcion = 'Versión extendida para una desconexión mental y corporal completa.';
-        break;
-
-        case 729:
-            descripcion = 'Liberación muscular profunda y recuperación física intensiva.';
-        break;
-
-        case 829:
-            descripcion = 'Aceites tibios, aromaterapia premium y restauración emocional.';
-        break;
-
-        case 799:
-            descripcion = 'Protocolos corporales reductivos y maderoterapia estética.';
-        break;
-
-        case 999:
-            descripcion = 'La experiencia más inmersiva y lujosa de Valtara.';
-        break;
-
-        case 819:
-            descripcion = 'Estimulación sonora y sensorial mediante esferas y luz cálida.';
-        break;
-
-        case 749:
-            descripcion = 'Ligereza corporal y movilización suave de líquidos.';
-        break;
-
-        case 529:
-            descripcion = 'Estimulación neuromuscular enfocada en recuperación facial.';
-        break;
+        slides[i].classList.add('active');
 
     }
 
-    var now = new Date();
+    showSlide(index);
 
-    var day = now.getDay();
-    var hour = now.getHours();
+    // AUTO PLAY
+    setInterval(function(){
 
-    var promo = 'Sin promoción activa';
-    var descuento = 0;
+        index++;
 
-    // LUNES Y MARTES
-    if((day === 1 || day === 2) && hour >= 13){
+        if(index >= slides.length){
+            index = 0;
+        }
 
-        promo = '$169 MXN OFF';
-        descuento = 169;
+        showSlide(index);
+
+    },7000);
+
+    // NEXT
+    var nextBtn = document.getElementById('vt-next');
+
+    if(nextBtn){
+
+        nextBtn.onclick = function(){
+
+            index++;
+
+            if(index >= slides.length){
+                index = 0;
+            }
+
+            showSlide(index);
+
+        };
 
     }
 
-    // JUEVES A DOMINGO
-    else if(
-        (day === 4 || day === 5 || day === 6 || day === 0)
-        && hour < 14
-    ){
+    // PREV
+    var prevBtn = document.getElementById('vt-prev');
 
-        promo = '20% OFF Matutino';
-        descuento = Math.round(subtotal * 0.20);
+    if(prevBtn){
 
-    }
+        prevBtn.onclick = function(){
 
-    var total = subtotal - descuento;
+            index--;
 
-    document.getElementById('vt-subtotal').innerHTML =
-        '$' + subtotal.toLocaleString('es-MX') + ' MXN';
+            if(index < 0){
+                index = slides.length - 1;
+            }
 
-    document.getElementById('vt-promocion').innerHTML =
-        promo;
+            showSlide(index);
 
-    document.getElementById('vt-descuento').innerHTML =
-        '-$' + descuento.toLocaleString('es-MX') + ' MXN';
-
-    document.getElementById('vt-total').innerHTML =
-        '$' + total.toLocaleString('es-MX') + ' MXN';
-
-    document.getElementById('vt-descripcion').innerHTML =
-        descripcion;
-
-    // WHATSAPP
-
-    var terapiaTexto =
-        terapia.options[terapia.selectedIndex].text;
-
-    var aromaTexto =
-        aroma.options[aroma.selectedIndex].text;
-
-    var mensaje =
-        'Hola, quiero reservar una experiencia Valtara.%0A%0A' +
-
-        '✨ Terapia: ' + terapiaTexto + '%0A' +
-        '🌿 Aromaterapia: ' + aromaTexto + '%0A' +
-        '🎁 Promoción: ' + promo + '%0A' +
-        '💰 Total estimado: $' + total + ' MXN';
-
-    document.getElementById('vt-wa-link').href =
-        'https://wa.me/5213348572070?text=' + mensaje;
-
-};
-
-// INIT
-
-setTimeout(function(){
-
-    if(window.actualizarCotizadorValtara){
-
-        window.actualizarCotizadorValtara();
+        };
 
     }
 
