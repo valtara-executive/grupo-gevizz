@@ -1,105 +1,183 @@
-// ============================================================
-// INICIO_PROMOCIONES.JS — CORREGIDO
-// Bugs corregidos:
-//   BUG 1: El template literal contenía placeholders literales
-//           {therapies_html}, {aromas_html}, {promos_html} que
-//           JavaScript NO sustituye. Se reemplazaron por
-//           interpolaciones reales con ${...}.
-//
-//   BUG 2: El template literal se asignaba DIRECTAMENTE a
-//           window.ValtaraModulos.inicio_promociones en la línea
-//           154, pero al final del archivo (línea 597) se volvía
-//           a asignar con || VT_PROMOCIONES_HTML, donde
-//           VT_PROMOCIONES_HTML no existe en ningún lado del
-//           proyecto — referencia a variable indefinida que
-//           lanzaba ReferenceError silencioso (porque ya había
-//           un valor previo, el || lo ocultaba, pero la variable
-//           nunca se construyó con las tarjetas reales).
-//           Se eliminó esa línea duplicada y errónea.
-//
-//   BUG 3: renderSelection() y renderSummary() se llamaban al
-//           final del archivo, ANTES de que el HTML estuviera
-//           en el DOM (el constructor_maestro lo inserta
-//           después, en DOMContentLoaded). Esos calls son
-//           inútiles aquí y generan errores silenciosos porque
-//           los elementos #vtp-summary, #vtp-selected-therapy,
-//           etc. no existen todavía. Se removieron.
-//           La inicialización correcta ocurre dentro de
-//           ValtaraPromoBook.init(), que debe llamarse desde
-//           core.js DESPUÉS de que ValtaraData.renderAll() haya
-//           insertado el HTML en el DOM.
-//
-//   BUG 4: Los aromas tenían precios extra ($49, $39, $59).
-//           Según tu definición de negocio, las aromaterapias
-//           NO tienen costo adicional. Se igualaron todos a 0.
-//           También se amplió el catálogo de aromas.
-// ============================================================
-
 window.ValtaraModulos = window.ValtaraModulos || {};
 
 window.ValtaraPromoBook = window.ValtaraPromoBook || {
-
   state: {
     therapyId: 'relajante50',
-    aromaName:  'Lavanda',
-    promoId:    'off169'
+    aromaName: 'Lavanda',
+    promoId: 'off169'
   },
 
   therapies: [
-    { id: 'relajante50',  name: 'Masaje Relajante Neuro Adaptativo', duration: '50 Minutos',      price: 699,  icon: 'fa-spa',              color: '#00ffe0', desc: 'Relajación profunda para disminuir ansiedad, estrés físico y agotamiento emocional. Movimientos fluidos, ritmos lentos y una sensación de descanso real para el sistema nervioso.' },
-    { id: 'relajante90',  name: 'Masaje Relajante Neuro Adaptativo', duration: '90 Minutos',      price: 899,  icon: 'fa-moon',             color: '#6ee7ff', desc: 'Versión extendida para quienes necesitan más tiempo de contención, silencio corporal y restauración profunda. Ideal para burnout y sobrecarga mental.' },
-    { id: 'deportivo',    name: 'Masaje Deportivo & Descompresión',   duration: '50 Minutos',      price: 729,  icon: 'fa-dumbbell',         color: '#ff5555', desc: 'Liberación muscular profunda para contracturas, sobrecarga física y rigidez acumulada por entrenamiento, trabajo repetitivo o tensión sostenida.' },
-    { id: 'tailandes',    name: 'Masaje Tailandés · Yoga Pasivo',     duration: '50 Minutos',      price: 729,  icon: 'fa-person-praying',   color: '#4cc9f0', desc: 'Estiramientos asistidos y presión estratégica para recuperar movilidad, aflojar cadenas musculares y disminuir sensación de cuerpo pesado.' },
-    { id: 'ayurveda',     name: 'Ayurveda & Aromaterapia',            duration: '50 Minutos',      price: 829,  icon: 'fa-leaf',             color: '#F2C94C', desc: 'Aceites tibios, aromas botánicos y maniobras calmantes para ansiedad, fatiga emocional y necesidad de reconectar con el cuerpo.' },
-    { id: 'holistico',    name: 'Masaje Holístico Integrativo',       duration: '50 Minutos',      price: 829,  icon: 'fa-yin-yang',         color: '#FFD700', desc: 'Experiencia enfocada en equilibrio físico y emocional, con presión media y una intención profunda de armonizar cuerpo, respiración y mente.' },
-    { id: 'lomi',         name: 'Ritual Lomi Lomi Supremo',           duration: 'Sesión Premium',  price: 999,  icon: 'fa-water',            color: '#ffaa00', desc: 'Ritual inmersivo inspirado en el oleaje hawaiano. Movimientos continuos, fluidez sensorial y una sensación de desconexión total del estrés.' },
-    { id: 'esferas',      name: 'Esferas Chinas & Velas Aromáticas',  duration: '60 Minutos',      price: 719,  icon: 'fa-circle-notch',     color: '#ffffff', desc: 'Vibración sonora, luz cálida y una atmósfera de calma diseñada para regular el ritmo interno y relajar profundamente el sistema nervioso.' },
-    { id: 'facial',       name: 'Terapia para Parálisis Facial',      duration: '45 Minutos',      price: 529,  icon: 'fa-face-smile',       color: '#4361EE', desc: 'Estimulación neuromuscular enfocada en recuperación funcional, relajación de compensaciones y apoyo al retorno de movilidad facial.' },
-    { id: 'drenaje',      name: 'Drenaje Linfático Manual',           duration: '60 Minutos',      price: 749,  icon: 'fa-droplet',          color: '#d6d6d6', desc: 'Movilización suave para sensación de ligereza, apoyo al retorno de líquidos y una experiencia corporal delicada y respetuosa.' },
-    { id: 'reductivo',    name: 'Reductivo & Maderoterapia',          duration: 'Sesión / Paquete',price: 799,  icon: 'fa-child-reaching',   color: '#b27fff', desc: 'Protocolos corporales de estética manual con geles especializados y maderoterapia para acompañar objetivos de bienestar corporal.' },
-    { id: 'shiatsu',      name: 'Shiatsu en Cama · Complemento',      duration: '20 Minutos',      price: 199,  icon: 'fa-chair',            color: '#ffffff', desc: 'Complemento ideal para acompañantes o como extensión en terapias elegibles. Presión estratégica en cuello, hombros y espalda alta.' }
+    {
+      id: 'relajante50',
+      name: 'Masaje Relajante Neuro Adaptativo',
+      duration: '50 Minutos',
+      price: 699,
+      icon: 'fa-spa',
+      color: '#00ffe0',
+      desc: 'Relajación profunda para disminuir ansiedad, estrés físico y agotamiento emocional. Movimientos fluidos, ritmos lentos y una sensación de descanso real para el sistema nervioso.'
+    },
+    {
+      id: 'relajante90',
+      name: 'Masaje Relajante Neuro Adaptativo',
+      duration: '90 Minutos',
+      price: 899,
+      icon: 'fa-moon',
+      color: '#6ee7ff',
+      desc: 'Versión extendida para quienes necesitan más tiempo de contención, silencio corporal y restauración profunda. Ideal para burnout y sobrecarga mental.'
+    },
+    {
+      id: 'deportivo',
+      name: 'Masaje Deportivo & Descompresión',
+      duration: '50 Minutos',
+      price: 729,
+      icon: 'fa-dumbbell',
+      color: '#ff5555',
+      desc: 'Liberación muscular profunda para contracturas, sobrecarga física y rigidez acumulada por entrenamiento, trabajo repetitivo o tensión sostenida.'
+    },
+    {
+      id: 'tailandes',
+      name: 'Masaje Tailandés · Yoga Pasivo',
+      duration: '50 Minutos',
+      price: 729,
+      icon: 'fa-person-praying',
+      color: '#4cc9f0',
+      desc: 'Estiramientos asistidos y presión estratégica para recuperar movilidad, aflojar cadenas musculares y disminuir sensación de cuerpo pesado.'
+    },
+    {
+      id: 'ayurveda',
+      name: 'Ayurveda & Aromaterapia',
+      duration: '50 Minutos',
+      price: 829,
+      icon: 'fa-leaf',
+      color: '#F2C94C',
+      desc: 'Aceites tibios, aromas botánicos y maniobras calmantes para ansiedad, fatiga emocional y necesidad de reconectar con el cuerpo.'
+    },
+    {
+      id: 'holistico',
+      name: 'Masaje Holístico Integrativo',
+      duration: '50 Minutos',
+      price: 829,
+      icon: 'fa-yin-yang',
+      color: '#FFD700',
+      desc: 'Experiencia enfocada en equilibrio físico y emocional, con presión media y una intención profunda de armonizar cuerpo, respiración y mente.'
+    },
+    {
+      id: 'lomi',
+      name: 'Ritual Lomi Lomi Supremo',
+      duration: 'Sesión Premium',
+      price: 999,
+      icon: 'fa-water',
+      color: '#ffaa00',
+      desc: 'Ritual inmersivo inspirado en el oleaje hawaiano. Movimientos continuos, fluidez sensorial y una sensación de desconexión total del estrés.'
+    },
+    {
+      id: 'esferas',
+      name: 'Esferas Chinas & Velas Aromáticas',
+      duration: '60 Minutos',
+      price: 819,
+      icon: 'fa-circle-notch',
+      color: '#ffffff',
+      desc: 'Vibración sonora, luz cálida y una atmósfera de calma diseñada para regular el ritmo interno y relajar profundamente el sistema nervioso.'
+    },
+    {
+      id: 'facial',
+      name: 'Terapia para Parálisis Facial',
+      duration: '45 Minutos',
+      price: 529,
+      icon: 'fa-face-smile',
+      color: '#4361EE',
+      desc: 'Estimulación neuromuscular enfocada en recuperación funcional, relajación de compensaciones y apoyo al retorno de movilidad facial.'
+    },
+    {
+      id: 'drenaje',
+      name: 'Drenaje Linfático Manual',
+      duration: '60 Minutos',
+      price: 749,
+      icon: 'fa-droplet',
+      color: '#d6d6d6',
+      desc: 'Movilización suave para sensación de ligereza, apoyo al retorno de líquidos y una experiencia corporal delicada y respetuosa.'
+    },
+    {
+      id: 'reductivo',
+      name: 'Reductivo & Maderoterapia',
+      duration: 'Sesión / Paquete',
+      price: 799,
+      icon: 'fa-child-reaching',
+      color: '#b27fff',
+      desc: 'Protocolos corporales de estética manual con geles especializados y maderoterapia para acompañar objetivos de bienestar corporal.'
+    },
+    {
+      id: 'shiatsu',
+      name: 'Shiatsu en Cama · Complemento',
+      duration: '20 Minutos',
+      price: 199,
+      icon: 'fa-chair',
+      color: '#ffffff',
+      desc: 'Complemento ideal para acompañantes o como extensión en terapias elegibles. Presión estratégica en cuello, hombros y espalda alta.'
+    }
   ],
 
-  // BUG 4 CORREGIDO: extra siempre en 0 — aromaterapia sin costo adicional
   aromas: [
-    { name: 'Lavanda',        extra: 0, note: 'Relajación profunda'        },
-    { name: 'Vainilla',       extra: 0, note: 'Calidez y suavidad'         },
-    { name: 'Menta',          extra: 0, note: 'Sensación fresca'           },
-    { name: 'Eucalipto',      extra: 0, note: 'Respiración despejada'      },
-    { name: 'Rosas Blancas',  extra: 0, note: 'Experiencia premium'        },
-    { name: 'Frutos Rojos',   extra: 0, note: 'Dulce y envolvente'         },
-    { name: 'Cítricos Suaves',extra: 0, note: 'Energía ligera'             },
-    { name: 'Jazmín',         extra: 0, note: 'Florece la calma'           },
-    { name: 'Naranja Dulce',  extra: 0, note: 'Alegría y luminosidad'      },
-    { name: 'Sándalo',        extra: 0, note: 'Tierra y profundidad'       },
-    { name: 'Té Blanco',      extra: 0, note: 'Delicadeza serena'          },
-    { name: 'Romero',         extra: 0, note: 'Claridad mental'            },
-    { name: 'Cacao',          extra: 0, note: 'Calidez envolvente'         },
-    { name: 'Coco',           extra: 0, note: 'Ligereza tropical'          },
-    { name: 'Flor de Azahar', extra: 0, note: 'Dulzura tranquila'          },
-    { name: 'Neutra',         extra: 0, note: 'Sin aroma añadido'          }
+    { name: 'Lavanda', extra: 0, note: 'Relajación profunda' },
+    { name: 'Vainilla', extra: 0, note: 'Calidez y suavidad' },
+    { name: 'Menta', extra: 0, note: 'Sensación fresca' },
+    { name: 'Eucalipto', extra: 0, note: 'Respiración despejada' },
+    { name: 'Rosas Blancas', extra: 0, note: 'Experiencia premium' },
+    { name: 'Frutos Rojos', extra: 0, note: 'Dulce y envolvente' },
+    { name: 'Cítricos Suaves', extra: 0, note: 'Energía ligera' },
+    { name: 'Jazmín', extra: 0, note: 'Florece la calma' },
+    { name: 'Naranja Dulce', extra: 0, note: 'Alegría y luminosidad' },
+    { name: 'Sándalo', extra: 0, note: 'Tierra y profundidad' },
+    { name: 'Té Blanco', extra: 0, note: 'Delicadeza serena' },
+    { name: 'Romero', extra: 0, note: 'Claridad mental' },
+    { name: 'Cacao', extra: 0, note: 'Calidez envolvente' },
+    { name: 'Coco', extra: 0, note: 'Ligereza tropical' },
+    { name: 'Flor de Azahar', extra: 0, note: 'Dulzura tranquila' },
+    { name: 'Neutra', extra: 0, note: 'Sin aroma añadido' }
   ],
 
   promos: [
-    { id: 'off169', name: '$169 de cortesía',  detail: 'Lunes y martes, primeras 10 sesiones después de la 1 PM.', value: 169, type: 'fixed'   },
-    { id: 'off20',  name: '20% OFF matutino',  detail: 'Jueves a domingo antes de las 2 PM.',                      value: 20,  type: 'percent' }
+    {
+      id: 'off169',
+      name: '$169 de cortesía',
+      detail: 'Lunes y martes, primeras 10 sesiones después de la 1 PM.',
+      value: 169,
+      type: 'fixed'
+    },
+    {
+      id: 'off20',
+      name: '20% OFF matutino',
+      detail: 'Jueves a domingo antes de las 2 PM.',
+      value: 20,
+      type: 'percent'
+    }
   ],
 
   money(value) {
     return '$' + Number(value).toLocaleString('es-MX') + ' MXN';
   },
 
-  getTherapy(id) { return this.therapies.find(t => t.id === id) || this.therapies[0]; },
-  getAroma(name) { return this.aromas.find(a => a.name === name) || this.aromas[0]; },
-  getPromo(id)   { return this.promos.find(p => p.id === id) || null; },
+  getTherapy(id) {
+    return this.therapies.find((t) => t.id === id) || this.therapies[0];
+  },
+
+  getAroma(name) {
+    return this.aromas.find((a) => a.name === name) || this.aromas[0];
+  },
+
+  getPromo(id) {
+    return this.promos.find((p) => p.id === id) || null;
+  },
 
   calc() {
-    const therapy  = this.getTherapy(this.state.therapyId);
-    const aroma    = this.getAroma(this.state.aromaName);
-    const promo    = this.getPromo(this.state.promoId);
-    const subtotal = therapy.price; // aroma.extra siempre es 0
+    const therapy = this.getTherapy(this.state.therapyId);
+    const aroma = this.getAroma(this.state.aromaName);
+    const promo = this.getPromo(this.state.promoId);
 
+    const subtotal = therapy.price;
     let discount = 0;
+
     if (promo) {
       discount = promo.type === 'fixed'
         ? promo.value
@@ -115,14 +193,14 @@ window.ValtaraPromoBook = window.ValtaraPromoBook || {
     return [
       'Hola, quiero agendar una experiencia Valtara.',
       '',
-      'Terapia: '         + r.therapy.name,
-      'Duración: '        + r.therapy.duration,
-      'Aromaterapia: '    + r.aroma.name,
-      'Promoción: '       + (r.promo ? r.promo.name : 'Sin promoción'),
+      'Terapia: ' + r.therapy.name,
+      'Duración: ' + r.therapy.duration,
+      'Aromaterapia: ' + r.aroma.name,
+      'Promoción: ' + (r.promo ? r.promo.name : 'Sin promoción'),
       '',
-      'Subtotal: '        + this.money(r.subtotal),
-      'Descuento: '       + this.money(r.discount),
-      'Total estimado: '  + this.money(r.total),
+      'Subtotal: ' + this.money(r.subtotal),
+      'Descuento: ' + this.money(r.discount),
+      'Total estimado: ' + this.money(r.total),
       '',
       'Sucursal principal: Reforma 195',
       'Próxima apertura: cerca de Metro Eugenia.',
@@ -135,7 +213,10 @@ window.ValtaraPromoBook = window.ValtaraPromoBook || {
   },
 
   go(step) {
-    document.querySelectorAll('.vtp-step').forEach(el => { el.hidden = true; });
+    document.querySelectorAll('.vtp-step').forEach((el) => {
+      el.hidden = true;
+    });
+
     const current = document.getElementById('vtp-step-' + step);
     if (current) {
       current.hidden = false;
@@ -146,7 +227,7 @@ window.ValtaraPromoBook = window.ValtaraPromoBook || {
   selectTherapy(id) {
     this.state.therapyId = id;
     this.state.aromaName = 'Lavanda';
-    this.state.promoId   = 'off169';
+    this.state.promoId = 'off169';
     this.renderSelection();
     this.renderSummary();
     this.go(2);
@@ -168,7 +249,7 @@ window.ValtaraPromoBook = window.ValtaraPromoBook || {
   renderSelection() {
     const r = this.calc();
     const therapyBox = document.getElementById('vtp-selected-therapy');
-    const aromaBox   = document.getElementById('vtp-selected-aroma');
+    const aromaBox = document.getElementById('vtp-selected-aroma');
 
     if (therapyBox) {
       therapyBox.innerHTML = `
@@ -193,7 +274,7 @@ window.ValtaraPromoBook = window.ValtaraPromoBook || {
   },
 
   renderSummary() {
-    const r       = this.calc();
+    const r = this.calc();
     const summary = document.getElementById('vtp-summary');
     if (!summary) return;
 
@@ -209,38 +290,13 @@ window.ValtaraPromoBook = window.ValtaraPromoBook || {
 
     const link = document.getElementById('vtp-whatsapp');
     if (link) link.href = this.waHref();
-  },
-
-  // ---------------------------------------------------------------
-  // BUG 3 CORREGIDO: init() es el punto de entrada correcto.
-  // core.js debe llamar window.ValtaraPromoBook.init() DESPUÉS de
-  // que ValtaraData.renderAll() haya insertado el HTML en el DOM.
-  // ---------------------------------------------------------------
-  init() {
-    this.renderSelection();
-    this.renderSummary();
   }
 };
 
-// ---------------------------------------------------------------
-// BUG 1 CORREGIDO: los placeholders {therapies_html}, {aromas_html}
-// y {promos_html} dentro del template literal ahora son
-// interpolaciones reales: ${...} evaluadas en tiempo de ejecución.
-//
-// BUG 2 CORREGIDO: se eliminó la línea duplicada errónea al final:
-//   window.ValtaraModulos.inicio_promociones =
-//     window.ValtaraModulos.inicio_promociones || VT_PROMOCIONES_HTML;
-// VT_PROMOCIONES_HTML nunca fue declarada en el proyecto, y la
-// asignación ya ocurrió correctamente aquí abajo con el template
-// literal completo. Esa segunda línea era una reliquia de una
-// versión anterior y generaba ambigüedad.
-// ---------------------------------------------------------------
 window.ValtaraModulos.inicio_promociones = (() => {
-
   const book = window.ValtaraPromoBook;
 
-  // --- Tarjetas de terapias ---
-  const therapies_html = book.therapies.map(t => `
+  const therapies_html = book.therapies.map((t) => `
     <button class="vtp-choice" type="button"
             style="--accent:${t.color}"
             onclick="window.ValtaraPromoBook.selectTherapy('${t.id}')">
@@ -254,8 +310,7 @@ window.ValtaraModulos.inicio_promociones = (() => {
     </button>
   `).join('');
 
-  // --- Tarjetas de aromas (sin costo extra) ---
-  const aromas_html = book.aromas.map(a => `
+  const aromas_html = book.aromas.map((a) => `
     <button class="vtp-choice" type="button"
             onclick="window.ValtaraPromoBook.selectAroma('${a.name}')">
       <div class="vtp-choice-visual">
@@ -267,8 +322,7 @@ window.ValtaraModulos.inicio_promociones = (() => {
     </button>
   `).join('');
 
-  // --- Tarjetas de promociones ---
-  const promos_html = book.promos.map(p => `
+  const promos_html = book.promos.map((p) => `
     <button class="vtp-choice" type="button"
             onclick="window.ValtaraPromoBook.selectPromo('${p.id}')">
       <div class="vtp-choice-visual">
@@ -342,9 +396,19 @@ window.ValtaraModulos.inicio_promociones = (() => {
       line-height: 1.65;
       box-shadow: 0 16px 34px rgba(0,0,0,.15);
     }
-    .vtp-chip strong { display: block; color: var(--valtara-blanco); margin-bottom: .35rem; }
-    .vtp-chip i      { margin-right: .35rem; color: var(--valtara-oro); }
-    .vtp-book  { display: grid; gap: 1rem; }
+    .vtp-chip strong {
+      display: block;
+      color: var(--valtara-blanco);
+      margin-bottom: .35rem;
+    }
+    .vtp-chip i {
+      margin-right: .35rem;
+      color: var(--valtara-oro);
+    }
+    .vtp-book {
+      display: grid;
+      gap: 1rem;
+    }
     .vtp-step {
       border-radius: 30px;
       border: 1px solid rgba(255,255,255,.08);
@@ -355,7 +419,7 @@ window.ValtaraModulos.inicio_promociones = (() => {
     }
     @keyframes vtpFade {
       from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0);    }
+      to { opacity: 1; transform: translateY(0); }
     }
     .vtp-step-head {
       display: grid;
@@ -365,33 +429,42 @@ window.ValtaraModulos.inicio_promociones = (() => {
       padding: 1.25rem;
     }
     .vtp-visual {
-      width: 110px; height: 110px;
+      width: 110px;
+      height: 110px;
       border-radius: 28px;
-      display: grid; place-items: center;
-      position: relative; overflow: hidden;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
       background: rgba(255,255,255,.04);
       border: 1px solid rgba(255,255,255,.08);
     }
     .vtp-visual::before {
-      content: ''; position: absolute; inset: -35%;
+      content: '';
+      position: absolute;
+      inset: -35%;
       background: conic-gradient(from 0deg, var(--accent), transparent, rgba(255,255,255,.05), transparent, var(--accent));
       animation: vtpSpin 10s linear infinite;
       opacity: .95;
     }
     .vtp-visual::after {
-      content: ''; position: absolute;
-      width: 56%; height: 56%;
+      content: '';
+      position: absolute;
+      width: 56%;
+      height: 56%;
       border-radius: 50%;
       background: rgba(255,255,255,.09);
       backdrop-filter: blur(10px);
     }
     .vtp-visual i {
-      position: relative; z-index: 2;
-      font-size: 2.5rem; color: var(--accent);
+      position: relative;
+      z-index: 2;
+      font-size: 2.5rem;
+      color: var(--accent);
       animation: vtpFloat 5.5s ease-in-out infinite;
       filter: drop-shadow(0 0 16px rgba(255,255,255,.12));
     }
-    @keyframes vtpSpin  { from { transform: rotate(0deg);    } to { transform: rotate(360deg); } }
+    @keyframes vtpSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     @keyframes vtpFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     .vtp-step-label {
       margin: 0 0 .35rem;
@@ -422,9 +495,12 @@ window.ValtaraModulos.inicio_promociones = (() => {
       background: rgba(255,255,255,.03);
       border: 1px solid rgba(255,255,255,.08);
       box-shadow: 0 16px 34px rgba(0,0,0,.12);
-      display: grid; gap: .75rem;
-      cursor: pointer; text-align: left;
-      width: 100%; color: inherit;
+      display: grid;
+      gap: .75rem;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      color: inherit;
       transition: transform .18s ease, border-color .18s ease, filter .18s ease;
     }
     .vtp-choice:hover {
@@ -433,16 +509,18 @@ window.ValtaraModulos.inicio_promociones = (() => {
       border-color: rgba(242,201,76,.20);
     }
     .vtp-choice-visual {
-      width: 54px; height: 54px;
+      width: 54px;
+      height: 54px;
       border-radius: 18px;
-      display: inline-grid; place-items: center;
+      display: inline-grid;
+      place-items: center;
       background: rgba(255,255,255,.05);
       color: var(--accent, var(--valtara-oro));
       border: 1px solid rgba(255,255,255,.08);
       font-size: 1.2rem;
     }
     .vtp-choice strong { color: var(--valtara-blanco); font-size: 1.02rem; }
-    .vtp-choice span   { color: var(--valtara-gris-texto); line-height: 1.7; font-size: .95rem; }
+    .vtp-choice span { color: var(--valtara-gris-texto); line-height: 1.7; font-size: .95rem; }
     .vtp-note {
       margin-top: 1rem;
       padding: 1rem;
@@ -462,35 +540,52 @@ window.ValtaraModulos.inicio_promociones = (() => {
       margin-top: 1rem;
     }
     .vtp-selected-chip {
-      display: flex; gap: .55rem; flex-wrap: wrap; margin-bottom: .7rem;
+      display: flex;
+      gap: .55rem;
+      flex-wrap: wrap;
+      margin-bottom: .7rem;
     }
     .vtp-selected-chip strong { color: var(--valtara-blanco); }
-    .vtp-selected-chip span   { color: var(--valtara-cian-brillante); }
+    .vtp-selected-chip span { color: var(--valtara-cian-brillante); }
     .vtp-line {
-      display: flex; justify-content: space-between; gap: 1rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
       padding: .8rem 0;
       border-bottom: 1px solid rgba(255,255,255,.08);
     }
     .vtp-line:last-child { border-bottom: none; }
     .vtp-total {
       margin-top: 1.2rem;
-      font-size: 1.8rem; font-weight: 900;
-      color: var(--valtara-oro); text-align: right;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--valtara-oro);
+      text-align: right;
     }
     .vtp-actions {
-      display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .7rem;
+      margin-top: 1rem;
     }
     .vtp-btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      gap: .55rem; padding: .9rem 1.05rem;
-      border-radius: 999px; border: 0;
-      text-decoration: none; font-weight: 800; cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .55rem;
+      padding: .9rem 1.05rem;
+      border-radius: 999px;
+      border: 0;
+      text-decoration: none;
+      font-weight: 800;
+      cursor: pointer;
     }
-    .vtp-btn.back    { background: rgba(255,255,255,.06); color: white; }
+    .vtp-btn.back { background: rgba(255,255,255,.06); color: white; }
     .vtp-btn.primary { background: linear-gradient(135deg,#22c55e,#00b36a); color: white; }
-    /* Etiqueta disponibilidad aromas */
     .vtp-avail {
-      display: inline-flex; align-items: center; gap: .4rem;
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
       padding: .32rem .7rem;
       border-radius: 999px;
       background: rgba(0,255,224,.06);
@@ -508,7 +603,6 @@ window.ValtaraModulos.inicio_promociones = (() => {
     }
   </style>
 
-  <!-- HERO -->
   <section class="vtp-hero">
     <div class="vtp-kicker"><i class="fa-solid fa-book-open fa-fade"></i> Promociones vigentes</div>
     <h2>Elige terapia, aroma y cortesía en un solo recorrido</h2>
@@ -519,18 +613,16 @@ window.ValtaraModulos.inicio_promociones = (() => {
     </p>
   </section>
 
-  <!-- RESUMEN DE CORTESÍAS -->
   <div class="vtp-board">
     <div class="vtp-chip"><strong><i class="fa-solid fa-gift"></i> Cortesía $169</strong>Lunes y martes, primeras 10 sesiones después de la 1 PM.</div>
     <div class="vtp-chip"><strong><i class="fa-solid fa-sun"></i> 20% matutino</strong>Jueves a domingo antes de las 2 PM.</div>
     <div class="vtp-chip"><strong><i class="fa-solid fa-mug-hot"></i> Té nocturno</strong>Algunas experiencias incluyen frutos rojos después de las 7 PM.</div>
     <div class="vtp-chip"><strong><i class="fa-solid fa-map-location-dot"></i> Ubicaciones</strong>Reforma 195 · Próxima apertura cerca de Metro Eugenia.</div>
+    <div class="vtp-chip"><strong><i class="fa-brands fa-whatsapp"></i> Contacto oficial</strong>33 4857 2070</div>
   </div>
 
-  <!-- LIBRO DE PASOS -->
   <div class="vtp-book">
 
-    <!-- PASO 1: TERAPIAS -->
     <section class="vtp-step" id="vtp-step-1">
       <div class="vtp-step-head">
         <div class="vtp-visual" style="--accent:#f2c94c">
@@ -552,7 +644,6 @@ window.ValtaraModulos.inicio_promociones = (() => {
       </div>
     </section>
 
-    <!-- PASO 2: AROMATERAPIA -->
     <section class="vtp-step" id="vtp-step-2" hidden>
       <div class="vtp-step-head">
         <div class="vtp-visual" style="--accent:#00ffe0">
@@ -578,7 +669,6 @@ window.ValtaraModulos.inicio_promociones = (() => {
       </div>
     </section>
 
-    <!-- PASO 3: PROMOCIONES -->
     <section class="vtp-step" id="vtp-step-3" hidden>
       <div class="vtp-step-head">
         <div class="vtp-visual" style="--accent:#b27fff">
@@ -606,7 +696,6 @@ window.ValtaraModulos.inicio_promociones = (() => {
       </div>
     </section>
 
-    <!-- PASO 4: RESUMEN -->
     <section class="vtp-step" id="vtp-step-4" hidden>
       <div class="vtp-step-head">
         <div class="vtp-visual" style="--accent:#f2c94c">
@@ -615,7 +704,7 @@ window.ValtaraModulos.inicio_promociones = (() => {
         <div>
           <p class="vtp-step-label">Paso 4 · Resumen</p>
           <h3>Confirma tu experiencia y continúa por WhatsApp</h3>
-          <p class="vtp-desc">Subtotal, descuento y total estimado calculados con la terapia, el aroma y la promoción elegidos. El contacto oficial es <strong>33 4857 2070</strong>.</p>
+          <p class="vtp-desc">Aquí verás el subtotal, el descuento y el total estimado calculado con la terapia, el aroma y la promoción elegida. El contacto oficial es <strong>33 4857 2070</strong>.</p>
         </div>
       </div>
       <div class="vtp-step-body">
@@ -635,11 +724,3 @@ window.ValtaraModulos.inicio_promociones = (() => {
 </section>
 `;
 })();
-// ---------------------------------------------------------------
-// NOTA PARA core.js:
-// Después de que ValtaraData.renderAll() inserte el HTML en el DOM,
-// llama: window.ValtaraPromoBook.init();
-// Ejemplo en CoreEngine.init():
-//   if (window.ValtaraData) ValtaraData.renderAll();
-//   if (window.ValtaraPromoBook) ValtaraPromoBook.init();
-// ---------------------------------------------------------------
