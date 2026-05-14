@@ -8,12 +8,10 @@ window.ValtaraMedia = window.ValtaraMedia || {
 
         try {
 
-            // Pausar audios HTML5
             document.querySelectorAll('audio').forEach(audio => {
                 audio.pause();
             });
 
-            // Detener iframes activos
             document.querySelectorAll('.valtara-video-active').forEach(container => {
 
                 const videoId = container.getAttribute('data-video');
@@ -21,7 +19,15 @@ window.ValtaraMedia = window.ValtaraMedia || {
                 container.innerHTML = `
                     <img loading="lazy"
                         src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg"
-                        style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:.88;"
+                        style="
+                            position:absolute;
+                            top:0;
+                            left:0;
+                            width:100%;
+                            height:100%;
+                            object-fit:cover;
+                            opacity:.88;
+                        "
                     />
 
                     <div style="
@@ -66,6 +72,8 @@ window.ValtaraMedia = window.ValtaraMedia || {
     },
 
     reproducirVideo: function(elemento, videoId) {
+
+        if(!elemento) return;
 
         this.silenciarTodo();
 
@@ -146,7 +154,6 @@ window.ValtaraModulos.sonoterapia_videos = `
             padding:1rem 0 1.5rem 0;
         ">
 
-            <!-- VIDEO -->
             ${[
                 {
                     id:"aBsnQjJ2_Nk",
@@ -228,7 +235,7 @@ window.ValtaraModulos.sonoterapia_videos = `
                     <div
                         class="valtara-video-container"
                         data-video="${video.id}"
-                        onclick="window.ValtaraMedia.reproducirVideo(this, '${video.id}')"
+                        onclick="window.ValtaraMedia.reproducirVideo(event.currentTarget, '${video.id}')"
                         style="
                             position:relative;
                             width:100%;
