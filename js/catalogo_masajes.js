@@ -1,188 +1,453 @@
 window.ValtaraModulos = window.ValtaraModulos || {};
+
 window.ValtaraModulos.catalogo_masajes = `
-    <div style="text-align: center; max-width: 950px; margin: 0 auto 5rem auto;">
-        <h2 style="font-family: var(--font-accent); font-size: 4rem; color: var(--valtara-blanco); margin-bottom: 2rem;" class="reveal">Catálogo de Masajes</h2>
-        <p style="color: var(--valtara-gris-texto); font-size: 1.4rem; line-height: 1.9; font-weight: 300;" class="reveal">Toda sesión presencial incluye un análisis postural preliminar. Nuestras tarifas y duraciones están diseñadas para ofrecerte el máximo rigor clínico.</p>
-        <p style="font-size: 1.1rem; color: var(--valtara-oro); margin-top: 1rem; font-style: italic;">* Para agendar las terapias "Próximamente", consulta directamente con el Concierge.</p>
+<div style="text-align:center;max-width:1000px;margin:0 auto 5rem auto;">
+
+    <div style="
+        display:inline-flex;
+        align-items:center;
+        gap:.7rem;
+        padding:.7rem 1.2rem;
+        border-radius:999px;
+        background:rgba(242,201,76,.08);
+        border:1px solid rgba(242,201,76,.18);
+        margin-bottom:1.5rem;
+        color:var(--valtara-oro);
+        letter-spacing:.14em;
+        text-transform:uppercase;
+        font-size:.8rem;
+    ">
+        <i class="fa-solid fa-crown fa-beat"></i>
+        EXPERIENCIAS TERAPÉUTICAS VALTARA
     </div>
-    
-    <div class="grid-container">
-        
-        <article class="glass-card zig-zag reveal">
-            <div class="card-icon-wrapper" style="color: var(--valtara-cian-brillante); border-color: var(--valtara-cian-brillante);"><i class="fa-solid fa-spa"></i></div>
-            <div class="card-content-wrapper">
-                <h3>Masaje Relajante</h3>
-                <div class="card-meta-info">
-                    <span class="duracion"><i class="fa-solid fa-clock"></i> 50 Min / 90 Min</span>
-                    <span class="precio">$799 / $999 MXN</span>
-                </div>
-                <p class="marketing-text"><strong>El Arte del Contacto Sanador.</strong> Utiliza movimientos fluidos y rítmicos para calmar tu mente y relajar cada fibra muscular. Es el antídoto perfecto para el ritmo acelerado de la vida moderna, activando el sistema parasimpático para reducir la presión arterial.</p>
-                <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-cian-brillante); color: var(--valtara-negro-fondo); border-color: var(--valtara-cian-brillante);"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
-            </div>
-        </article>
 
-        <article class="glass-card zig-zag reveal">
-            <div class="card-icon-wrapper" style="color: #ff5555; border-color: #ff5555;"><i class="fa-solid fa-dumbbell"></i></div>
-            <div class="card-content-wrapper">
-                <h3>Masaje Deportivo y Descompresión</h3>
-                <div class="card-meta-info">
-                    <span class="duracion"><i class="fa-solid fa-clock"></i> Máximo 50 Minutos</span>
-                    <span class="precio">$829 MXN</span>
-                </div>
-                <p class="marketing-text"><strong>El antídoto contra la "armadura" de estrés.</strong> Diseñado para quienes exigen lo máximo de sus músculos. Utilizamos antebrazos, codos y ventosas de silicón médico de alta succión (sin dejar hematomas feos) para romper la tensión extrema y oxigenar tejidos asfixiados.</p>
-                <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: #ff5555; color: white; border-color: #ff5555;"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
-            </div>
-        </article>
+    <h2 style="
+        font-family:var(--font-accent);
+        font-size:clamp(2.8rem,6vw,4.5rem);
+        color:var(--valtara-blanco);
+        margin-bottom:2rem;
+        line-height:1.05;
+    " class="reveal">
+        Catálogo de Terapias
+    </h2>
 
-        <article class="glass-card zig-zag reveal">
-            <div class="card-icon-wrapper" style="color: var(--valtara-verde-menta); border-color: var(--valtara-verde-menta);"><i class="fa-solid fa-person-praying"></i></div>
-            <div class="card-content-wrapper">
-                <h3>Masaje Tailandés (Yoga Pasivo)</h3>
-                <div class="card-meta-info">
-                    <span class="duracion"><i class="fa-solid fa-clock"></i> Máximo 50 Minutos</span>
-                    <span class="precio">$829 MXN</span>
-                </div>
-                <p class="marketing-text"><strong>Yoga asistido para combatir el sedentarismo.</strong> Tú no haces esfuerzo. Nosotros utilizamos nuestro peso, palancas y pies para estirar tus cadenas musculares posteriores al límite seguro, descomprimiendo el espacio entre las vértebras lumbares para salvar a tu nervio ciático.</p>
-                <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-verde-menta); color: var(--valtara-negro-fondo); border-color: var(--valtara-verde-menta);"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
-            </div>
-        </article>
+    <p style="
+        color:var(--valtara-gris-texto);
+        font-size:1.25rem;
+        line-height:1.9;
+        font-weight:300;
+        max-width:850px;
+        margin:auto;
+    " class="reveal">
 
-        <article class="glass-card zig-zag reveal">
-            <div class="card-icon-wrapper" style="color: var(--valtara-oro); border-color: var(--valtara-oro);"><i class="fa-solid fa-leaf"></i></div>
-            <div class="card-content-wrapper">
-                <h3>Masaje Ayurveda & Aromaterapia</h3>
-                <div class="card-meta-info">
-                    <span class="duracion"><i class="fa-solid fa-clock"></i> 50 Minutos</span>
-                    <span class="precio">$929 MXN</span>
-                </div>
-                <p class="marketing-text"><strong>La Ciencia de la Vida.</strong> Tratamiento personalizado con aceites tibios y esencias botánicas que nutren profundamente la piel, interactuando con tu sistema límbico. Efectivo para calmar la sensibilidad extrema y la ansiedad.</p>
-                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="flex: 1;"><i class="fa-brands fa-whatsapp"></i> Agendar</a>
-                    <a href="https://youtu.be/qmRr05954h4?si=JlWdpbQ0gsquRJZp" target="_blank" class="btn-agenda-ahora" style="background: transparent; border: 1px solid var(--valtara-oro); color: var(--valtara-oro); width: auto;"><i class="fa-brands fa-youtube"></i> Ver Experiencia</a>
-                </div>
-            </div>
-        </article>
+        Cada experiencia terapéutica está diseñada para disminuir tensión muscular,
+        fatiga emocional y sobrecarga física utilizando biomecánica,
+        terapia manual avanzada, aromaterapia y protocolos sensoriales de relajación profunda.
 
-        <article class="glass-card zig-zag reveal">
-            <div class="card-icon-wrapper" style="color: #FFD700; border-color: #FFD700;"><i class="fa-solid fa-yin-yang"></i></div>
-            <div class="card-content-wrapper">
-                <h3>Masaje Holístico Integrativo</h3>
-                <div class="card-meta-info">
-                    <span class="duracion"><i class="fa-solid fa-clock"></i> 50 Minutos</span>
-                    <span class="precio">$929 MXN</span>
-                </div>
-                <p class="marketing-text"><strong>Restauración tras crisis o luto.</strong> Fusión precisa que amalgama la fluidez de las manipulaciones para bajar la presión arterial, con presiones medias en puntos específicos para liberar bloqueos emocionales somatizados en el pecho y el diafragma.</p>
-                <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: #FFD700; color: var(--valtara-negro-fondo); border-color: #FFD700;"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
-            </div>
-        </article>
+    </p>
 
-        <article class="glass-card zig-zag reveal">
-            <div class="card-icon-wrapper" style="color: var(--valtara-morado-vivo); border-color: var(--valtara-morado-vivo);"><i class="fa-solid fa-child-reaching"></i></div>
-            <div class="card-content-wrapper">
-                <h3>Masaje Reductivo (Geles y Madera)</h3>
-                <div class="card-meta-info">
-                    <span class="duracion"><i class="fa-solid fa-clock"></i> Sesión Individual / Paquete</span>
-                    <span class="precio">$899 / $6,199 (10 Sesiones)</span>
-                </div>
-                <p class="marketing-text"><strong>El Taller del Cuerpo.</strong> Ingeniería estética de alto impacto sin bisturí. Combinamos la vigorosa fricción de geles reductivos con Maderoterapia (rodillos, copas) para romper nódulos de celulitis. <em>*Paquete disponible a 3 plazos.</em></p>
-                <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-morado-vivo); color: white; border-color: var(--valtara-morado-vivo);"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
-            </div>
-        </article>
+    <div style="
+        margin-top:2rem;
+        display:flex;
+        justify-content:center;
+        gap:1rem;
+        flex-wrap:wrap;
+    ">
 
-        <article class="glass-card zig-zag reveal">
-            <div class="card-icon-wrapper" style="color: #ffaa00; border-color: #ffaa00;"><i class="fa-solid fa-crown"></i></div>
-            <div class="card-content-wrapper">
-                <h3>Ritual Lomi Lomi Supremo</h3>
-                <div class="card-meta-info">
-                    <span class="duracion"><i class="fa-solid fa-clock"></i> Sesión Profunda</span>
-                    <span class="precio">$1,199 MXN</span>
-                </div>
-                <p class="marketing-text"><strong>La Danza de Aloha.</strong> Un cortocircuito al Burnout. Protocolo ininterrumpido usando antebrazos que simula el oleaje del océano Pacífico. Induce ondas Theta de sueño profundo y regeneración absoluta.</p>
-                <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: #ffaa00; color: var(--valtara-negro-fondo); border-color: #ffaa00;"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
-            </div>
-        </article>
-        
-        <article class="glass-card zig-zag reveal">
-            <div class="card-icon-wrapper" style="color: var(--valtara-blanco); border-color: var(--valtara-blanco);"><i class="fa-solid fa-chair"></i></div>
-            <div class="card-content-wrapper">
-                <h3>Masaje en Silla (Shiatsu en Cama)</h3>
-                <div class="card-meta-info">
-                    <span class="duracion"><i class="fa-solid fa-clock"></i> 20 Minutos</span>
-                    <span class="precio">$199 MXN (Adicional)</span>
-                </div>
-                <p class="marketing-text"><strong>Renacer Urbano.</strong> Enfocado en el "cuello tecnológico" y espalda alta. Es una terapia breve pero profunda. <em>*NOTA: Este masaje solo está disponible como complemento bajo la contratación de una terapia tradicional.</em></p>
-                <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-blanco); color: var(--valtara-negro-fondo); border-color: var(--valtara-blanco);"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
-            </div>
-        </article>
+        <div style="
+            padding:.8rem 1.2rem;
+            border-radius:999px;
+            background:rgba(0,255,224,.08);
+            border:1px solid rgba(0,255,224,.18);
+            color:var(--valtara-cian-brillante);
+            font-size:.95rem;
+        ">
+            <i class="fa-solid fa-mug-hot fa-fade"></i>
+            Té nocturno después de las 7 PM
+        </div>
 
-        <article class="glass-card zig-zag reveal">
-            <div class="card-icon-wrapper" style="color: #FFB6C1; border-color: #FFB6C1;"><i class="fa-solid fa-masks-theater"></i></div>
-            <div class="card-content-wrapper">
-                <h3>Relajación Facial (Chocolaterapia)</h3>
-                <div class="card-meta-info">
-                    <span class="duracion"><i class="fa-solid fa-clock"></i> 45 Minutos</span>
-                    <span class="precio">$419 MXN</span>
-                </div>
-                <p class="marketing-text"><strong>Borra las huellas del cansancio.</strong> Limpieza y relajación que incluye una mascarilla especializada de Cacao puro para revitalizar la musculatura de tu rostro, hidratarlo y desatar endorfinas de felicidad.</p>
-                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: #FFB6C1; color: var(--valtara-negro-fondo); border-color: #FFB6C1; flex: 1;"><i class="fa-brands fa-whatsapp"></i> Agendar</a>
-                    <a href="https://youtu.be/Uc5wVxOW46o?si=XKjptVUjcshkAAY9" target="_blank" class="btn-agenda-ahora" style="background: transparent; border: 1px solid #FFB6C1; color: #FFB6C1; width: auto;"><i class="fa-brands fa-youtube"></i> Ver Experiencia</a>
-                </div>
-            </article>
-
-        <article class="glass-card zig-zag reveal">
-            <div class="card-icon-wrapper" style="color: #4361EE; border-color: #4361EE;"><i class="fa-solid fa-face-smile"></i></div>
-            <div class="card-content-wrapper">
-                <h3>Masaje para Parálisis Facial</h3>
-                <div class="card-meta-info">
-                    <span class="duracion"><i class="fa-solid fa-clock"></i> 45 Minutos</span>
-                    <span class="precio">$529 MXN</span>
-                </div>
-                <p class="marketing-text"><strong>Rehabilitación Neuromuscular.</strong> Trabajamos de forma opuesta en cada lado: relajando el lado sano que está contracturado y estimulando el lado paralizado mediante frío, calor y tacto clínico para "despertar" el nervio y recuperar la simetría.</p>
-                <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: #4361EE; color: var(--valtara-blanco); border-color: #4361EE;"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
-            </div>
-        </article>
-
-        <article class="glass-card zig-zag reveal">
-            <div class="card-icon-wrapper" style="color: var(--valtara-blanco); border-color: var(--valtara-blanco);"><i class="fa-solid fa-droplet"></i></div>
-            <div class="card-content-wrapper">
-                <h3>Drenaje Linfático Manual</h3>
-                <div class="card-meta-info">
-                    <span class="duracion"><i class="fa-solid fa-clock"></i> 60 Minutos</span>
-                    <span class="precio">$849 MXN</span>
-                </div>
-                <p class="marketing-text">El fluir de la vida. Ayuda a movilizar líquidos y toxinas post-quirúrgicas con toques tan suaves como el aleteo de una mariposa. <strong>*Requiere autorización médica en condiciones específicas.</strong></p>
-                <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-blanco); color: var(--valtara-negro-fondo); border-color: var(--valtara-blanco);"><i class="fa-brands fa-whatsapp"></i> Agendar por WhatsApp</a>
-            </div>
-        </article>
-        
-        <article class="glass-card zig-zag reveal">
-            <div class="card-icon-wrapper" style="color: var(--valtara-blanco); border-color: var(--valtara-blanco);"><i class="fa-solid fa-circle-notch"></i></div>
-            <div class="card-content-wrapper">
-                <h3>Esferas Chinas & Luz Cálida</h3>
-                <div class="card-meta-info">
-                    <span class="duracion"><i class="fa-solid fa-clock"></i> 60 Minutos</span>
-                    <span class="precio">$929 MXN</span>
-                </div>
-                <p class="marketing-text">La vibración sonora y el contacto circular estimulan puntos reflejos induciendo ondas cerebrales Alfa, acompañadas por la calidez de velas aromáticas. El estímulo sonoro es fantástico para pacientes neurodivergentes o con discapacidad visual.</p>
-                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                    <a href="https://wa.me/5213348572070" target="_blank" class="btn-agenda-ahora" style="background: var(--valtara-blanco); color: var(--valtara-negro-fondo); border-color: var(--valtara-blanco); flex: 1;"><i class="fa-brands fa-whatsapp"></i> Agendar</a>
-                    <a href="https://youtube.com/shorts/DjxDYgBbgic?si=FoJQmCf9Wi3JXR7F" target="_blank" class="btn-agenda-ahora" style="background: transparent; border: 1px solid var(--valtara-blanco); color: var(--valtara-blanco); width: auto;"><i class="fa-brands fa-youtube"></i> Ver Experiencia</a>
-                </div>
-            </div>
-        </article>
-
-        <article class="glass-card zig-zag reveal" style="opacity: 0.6;">
-            <div class="card-icon-wrapper" style="color: #666;"><i class="fa-solid fa-hammer"></i></div>
-            <div class="card-content-wrapper">
-                <h3>Cámara de Innovación (Próximamente)</h3>
-                <div class="card-meta-info">
-                    <span class="duracion"><i class="fa-solid fa-lock"></i> Construcción</span>
-                    <span class="precio" style="color: #ff5555;">No Disponible</span>
-                </div>
-                <p class="marketing-text">Estamos adaptando nuestra arquitectura para ofrecer pronto el <strong>Ritual Geotermal (Piedras de Obsidiana)</strong>, <strong>Shiatsu Tradicional</strong> y <strong>Reflexología Podal</strong>. Nuestro rigor exige adaptar el espacio al 100% antes de lanzar un servicio.</p>
-            </div>
-        </article>
+        <div style="
+            padding:.8rem 1.2rem;
+            border-radius:999px;
+            background:rgba(242,201,76,.08);
+            border:1px solid rgba(242,201,76,.18);
+            color:var(--valtara-oro);
+            font-size:.95rem;
+        ">
+            <i class="fa-solid fa-gift fa-bounce"></i>
+            Promociones activas y cortesías
+        </div>
 
     </div>
+
+</div>
+
+<div class="grid-container">
+
+<!-- RELAJANTE -->
+
+<article class="glass-card zig-zag reveal">
+
+    <div class="card-icon-wrapper"
+    style="
+        color:var(--valtara-cian-brillante);
+        border-color:var(--valtara-cian-brillante);
+    ">
+        <i class="fa-solid fa-spa fa-fade"></i>
+    </div>
+
+    <div class="card-content-wrapper">
+
+        <h3>
+            Masaje Relajante Neuro Adaptativo
+        </h3>
+
+        <div class="card-meta-info">
+            <span class="duracion">
+                <i class="fa-solid fa-clock"></i>
+                50 Min / 90 Min
+            </span>
+
+            <span class="precio">
+                $699 / $899 MXN
+            </span>
+        </div>
+
+        <p class="marketing-text">
+
+            <strong>
+                🌙 El protocolo más solicitado para desconectar mente y cuerpo.
+            </strong>
+
+            Movimientos lentos, presiones suaves y transiciones fluidas diseñadas
+            para bajar la actividad del sistema nervioso, disminuir ansiedad,
+            reducir tensión acumulada en cuello, espalda y hombros
+            y ayudarte a sentir una sensación real de descanso profundo.
+
+            Ideal para personas con agotamiento mental,
+            estrés corporativo, cansancio emocional o dificultad para dormir.
+
+        </p>
+
+        <div style="
+            display:flex;
+            gap:1rem;
+            flex-wrap:wrap;
+            margin-top:1.5rem;
+        ">
+
+            <a
+                href="https://wa.me/5213348572070?text=Hola,%20me%20gustaría%20agendar%20el%20Masaje%20Relajante%20Neuro%20Adaptativo."
+                target="_blank"
+                class="btn-agenda-ahora"
+                style="
+                    background:var(--valtara-cian-brillante);
+                    color:var(--valtara-negro-fondo);
+                    border-color:var(--valtara-cian-brillante);
+                    flex:1;
+                ">
+
+                <i class="fa-brands fa-whatsapp fa-beat"></i>
+                Reservar experiencia
+
+            </a>
+
+        </div>
+
+    </div>
+
+</article>
+
+<!-- DEPORTIVO -->
+
+<article class="glass-card zig-zag reveal">
+
+    <div class="card-icon-wrapper"
+    style="
+        color:#ff5555;
+        border-color:#ff5555;
+    ">
+        <i class="fa-solid fa-dumbbell fa-bounce"></i>
+    </div>
+
+    <div class="card-content-wrapper">
+
+        <h3>
+            Masaje Deportivo & Descompresión
+        </h3>
+
+        <div class="card-meta-info">
+
+            <span class="duracion">
+                <i class="fa-solid fa-clock"></i>
+                50 Minutos
+            </span>
+
+            <span class="precio">
+                $729 MXN
+            </span>
+
+        </div>
+
+        <p class="marketing-text">
+
+            <strong>
+                ⚡ Recuperación muscular profunda para cuerpos exigidos.
+            </strong>
+
+            Diseñado para liberar contracturas severas,
+            puntos gatillo, sobrecarga muscular y rigidez acumulada
+            por entrenamiento intenso, largas jornadas laborales o estrés físico constante.
+
+            Utilizamos técnicas de presión profunda,
+            ventosas terapéuticas y biomecánica aplicada
+            para restaurar movilidad y oxigenación muscular.
+
+        </p>
+
+        <a
+            href="https://wa.me/5213348572070?text=Hola,%20quiero%20agendar%20el%20Masaje%20Deportivo%20y%20Descompresión."
+            target="_blank"
+            class="btn-agenda-ahora"
+            style="
+                background:#ff5555;
+                color:white;
+                border-color:#ff5555;
+            ">
+
+            <i class="fa-brands fa-whatsapp fa-beat"></i>
+            Agendar recuperación muscular
+
+        </a>
+
+    </div>
+
+</article>
+
+<!-- TAILANDÉS -->
+
+<article class="glass-card zig-zag reveal">
+
+    <div class="card-icon-wrapper"
+    style="
+        color:var(--valtara-verde-menta);
+        border-color:var(--valtara-verde-menta);
+    ">
+        <i class="fa-solid fa-person-praying fa-fade"></i>
+    </div>
+
+    <div class="card-content-wrapper">
+
+        <h3>
+            Masaje Tailandés • Yoga Pasivo
+        </h3>
+
+        <div class="card-meta-info">
+
+            <span class="duracion">
+                <i class="fa-solid fa-clock"></i>
+                50 Minutos
+            </span>
+
+            <span class="precio">
+                $729 MXN
+            </span>
+
+        </div>
+
+        <p class="marketing-text">
+
+            <strong>
+                🧘‍♂️ Movilidad, elasticidad y descompresión corporal.
+            </strong>
+
+            Una experiencia terapéutica inspirada en técnicas ancestrales tailandesas
+            donde el cuerpo es movilizado mediante estiramientos asistidos,
+            presión estratégica y desbloqueo de cadenas musculares.
+
+            Perfecto para personas con rigidez,
+            dolor lumbar,
+            ciática,
+            cansancio postural
+            o sensación constante de cuerpo pesado.
+
+        </p>
+
+        <a
+            href="https://wa.me/5213348572070?text=Hola,%20me%20interesa%20el%20Masaje%20Tailandés%20Yoga%20Pasivo."
+            target="_blank"
+            class="btn-agenda-ahora"
+            style="
+                background:var(--valtara-verde-menta);
+                color:var(--valtara-negro-fondo);
+                border-color:var(--valtara-verde-menta);
+            ">
+
+            <i class="fa-brands fa-whatsapp fa-beat"></i>
+            Quiero liberar tensión
+
+        </a>
+
+    </div>
+
+</article>
+
+<!-- AYURVEDA -->
+
+<article class="glass-card zig-zag reveal">
+
+    <div class="card-icon-wrapper"
+    style="
+        color:var(--valtara-oro);
+        border-color:var(--valtara-oro);
+    ">
+        <i class="fa-solid fa-leaf fa-fade"></i>
+    </div>
+
+    <div class="card-content-wrapper">
+
+        <h3>
+            Ayurveda & Aromaterapia
+        </h3>
+
+        <div class="card-meta-info">
+
+            <span class="duracion">
+                <i class="fa-solid fa-clock"></i>
+                50 Minutos
+            </span>
+
+            <span class="precio">
+                $829 MXN
+            </span>
+
+        </div>
+
+        <p class="marketing-text">
+
+            <strong>
+                🌿 Terapia sensorial para ansiedad, agotamiento y sobrecarga emocional.
+            </strong>
+
+            Aceites tibios,
+            presión armonizada,
+            respiración guiada
+            y estímulos botánicos diseñados para inducir tranquilidad profunda.
+
+            Esta experiencia busca regular el sistema nervioso,
+            mejorar descanso,
+            disminuir estrés acumulado
+            y devolver sensación de calma física y mental.
+
+        </p>
+
+        <div style="
+            display:flex;
+            gap:1rem;
+            flex-wrap:wrap;
+        ">
+
+            <a
+                href="https://wa.me/5213348572070?text=Hola,%20quiero%20agendar%20Ayurveda%20y%20Aromaterapia."
+                target="_blank"
+                class="btn-agenda-ahora"
+                style="flex:1;">
+
+                <i class="fa-brands fa-whatsapp fa-beat"></i>
+                Reservar experiencia
+
+            </a>
+
+            <a
+                href="https://youtu.be/qmRr05954h4?si=JlWdpbQ0gsquRJZp"
+                target="_blank"
+                class="btn-agenda-ahora"
+                style="
+                    background:transparent;
+                    border:1px solid var(--valtara-oro);
+                    color:var(--valtara-oro);
+                    width:auto;
+                ">
+
+                <i class="fa-brands fa-youtube fa-fade"></i>
+                Ver experiencia
+
+            </a>
+
+        </div>
+
+    </div>
+
+</article>
+
+<!-- LOMI -->
+
+<article class="glass-card zig-zag reveal">
+
+    <div class="card-icon-wrapper"
+    style="
+        color:#ffaa00;
+        border-color:#ffaa00;
+    ">
+        <i class="fa-solid fa-crown fa-bounce"></i>
+    </div>
+
+    <div class="card-content-wrapper">
+
+        <h3>
+            Ritual Lomi Lomi Supremo
+        </h3>
+
+        <div class="card-meta-info">
+
+            <span class="duracion">
+                <i class="fa-solid fa-clock"></i>
+                Sesión Profunda
+            </span>
+
+            <span class="precio">
+                $999 MXN
+            </span>
+
+        </div>
+
+        <p class="marketing-text">
+
+            <strong>
+                🌊 La experiencia premium más inmersiva de Valtara.
+            </strong>
+
+            Un ritual corporal inspirado en el oleaje hawaiano
+            que combina movimientos continuos con antebrazos,
+            aromaterapia,
+            relajación profunda
+            y estimulación sensorial.
+
+            Ideal para burnout,
+            agotamiento extremo,
+            saturación emocional
+            y necesidad profunda de desconexión total.
+
+        </p>
+
+        <a
+            href="https://wa.me/5213348572070?text=Hola,%20quiero%20reservar%20el%20Ritual%20Lomi%20Lomi%20Supremo."
+            target="_blank"
+            class="btn-agenda-ahora"
+            style="
+                background:#ffaa00;
+                color:var(--valtara-negro-fondo);
+                border-color:#ffaa00;
+            ">
+
+            <i class="fa-brands fa-whatsapp fa-beat"></i>
+            Reservar ritual premium
+
+        </a>
+
+    </div>
+
+</article>
+
+</div>
 `;
