@@ -1,447 +1,556 @@
-// Archivo completo generado para Valtara
-// Reemplaza completamente inicio_promociones.js
+window.ValtaraModulos = window.ValtaraModulos || {};
 
-(function (global) {
-  'use strict';
+window.ValtaraModulos.inicio_promociones = `
+<section class="valtara-promociones-wrapper">
 
-  const WHATSAPP_NUMBER = '523348572070';
-
-  const PROMO_169 = {
-    id: 'promo169',
-    title: 'Inicia tu semana más ligero',
-    subtitle: 'Valtara aporta $169 MXN de cortesía hacia tu experiencia terapéutica.',
-    days: ['Monday', 'Tuesday'],
-    startsAt: 13,
-    discount: 169,
-    limitText: 'Válido para las primeras 10 sesiones de la semana.',
-    notCombinable: true
-  };
-
-  const PROMO_20 = {
-    id: 'promo20',
-    title: '20% de cortesía matutina',
-    subtitle: 'Algunas pausas funcionan mejor cuando el día apenas comienza.',
-    days: ['Thursday', 'Friday', 'Saturday', 'Sunday'],
-    untilHour: 13,
-    percent: 20,
-    notCombinable: true
-  };
-
-  const AROMAS = [
-    'Lavanda',
-    'Vainilla',
-    'Menta',
-    'Eucalipto',
-    'Frutos Rojos',
-    'Neutra'
-  ];
-
-  const TERAPIAS = [
-    {
-      id: 'relajante60',
-      nombre: 'Terapia Relajante',
-      duracion: '60 minutos',
-      categoria: 'Relajación',
-      precio: 799,
-      descripcion: 'Experiencia enfocada en descanso profundo y regulación del estrés.'
-    },
-    {
-      id: 'relajante90',
-      nombre: 'Terapia Relajante Premium',
-      duracion: '90 minutos',
-      categoria: 'Relajación',
-      precio: 1099,
-      descripcion: 'Sesión prolongada para liberar tensión física y emocional.'
-    },
-    {
-      id: 'deportiva60',
-      nombre: 'Masaje Deportivo',
-      duracion: '60 minutos',
-      categoria: 'Recuperación',
-      precio: 899,
-      descripcion: 'Descarga muscular enfocada en recuperación física y movilidad.'
-    },
-    {
-      id: 'descontracturante',
-      nombre: 'Terapia Descontracturante',
-      duracion: '60 minutos',
-      categoria: 'Liberación muscular',
-      precio: 999,
-      descripcion: 'Ideal para contracturas, rigidez y acumulación de tensión.'
-    },
-    {
-      id: 'cervical',
-      nombre: 'Liberación Cervical',
-      duracion: '45 minutos',
-      categoria: 'Cuello y hombros',
-      precio: 699,
-      descripcion: 'Alivio enfocado en cuello, hombros y base del cráneo.'
+  <style>
+    .valtara-promociones-wrapper{
+      width:100%;
+      max-width:1200px;
+      margin:0 auto;
+      padding:1rem;
+      display:grid;
+      gap:1.2rem;
+      box-sizing:border-box;
     }
-  ];
 
-  const FRASES = [
+    .vp-glass{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:28px;
+      padding:1.4rem;
+      box-shadow:0 18px 45px rgba(0,0,0,.28);
+      backdrop-filter:blur(18px);
+    }
+
+    .vp-hero{
+      position:relative;
+      overflow:hidden;
+      background:
+      radial-gradient(circle at top right, rgba(0,255,224,.12), transparent 35%),
+      radial-gradient(circle at bottom left, rgba(242,201,76,.12), transparent 35%),
+      rgba(255,255,255,.03);
+    }
+
+    .vp-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      padding:.45rem .9rem;
+      border-radius:999px;
+      background:rgba(0,255,224,.12);
+      color:#00ffe0;
+      font-size:.76rem;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      margin-bottom:1rem;
+    }
+
+    .vp-hero h2{
+      margin:0;
+      color:#fff;
+      font-size:clamp(2rem,5vw,3.5rem);
+      line-height:1.1;
+      font-family:'Lato',sans-serif;
+    }
+
+    .vp-hero p{
+      color:#bdbdbd;
+      line-height:1.8;
+      margin-top:1rem;
+      max-width:760px;
+    }
+
+    .vp-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:1rem;
+    }
+
+    .vp-card{
+      cursor:pointer;
+      transition:.25s ease;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .vp-card:hover{
+      transform:translateY(-4px);
+      border-color:rgba(242,201,76,.25);
+    }
+
+    .vp-card.active{
+      border-color:#f2c94c;
+      box-shadow:0 0 0 1px rgba(242,201,76,.2);
+    }
+
+    .vp-card h3{
+      color:#fff;
+      margin:.7rem 0;
+      font-size:1.4rem;
+    }
+
+    .vp-card p{
+      color:#bcbcbc;
+      line-height:1.7;
+    }
+
+    .vp-tag{
+      display:inline-flex;
+      padding:.4rem .8rem;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      color:#f2c94c;
+      font-size:.78rem;
+      margin-bottom:.7rem;
+    }
+
+    .vp-selector{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:1rem;
+    }
+
+    .vp-field{
+      display:grid;
+      gap:.5rem;
+    }
+
+    .vp-field label{
+      color:#fff;
+      font-size:.95rem;
+    }
+
+    .vp-field select{
+      width:100%;
+      border:none;
+      outline:none;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      color:#fff;
+      padding:1rem;
+      border-radius:16px;
+      font-size:1rem;
+    }
+
+    .vp-field option{
+      background:#121212;
+      color:#fff;
+    }
+
+    .vp-summary h3{
+      margin-top:0;
+      color:#fff;
+      font-size:1.5rem;
+    }
+
+    .vp-line{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:.9rem 0;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      color:#fff;
+    }
+
+    .vp-line:last-child{
+      border-bottom:none;
+    }
+
+    .vp-line.total{
+      font-size:1.15rem;
+      font-weight:700;
+      color:#f2c94c;
+    }
+
+    .vp-note{
+      margin-top:1rem;
+      padding:1rem;
+      border-radius:18px;
+      background:rgba(255,255,255,.04);
+      color:#bcbcbc;
+      line-height:1.7;
+    }
+
+    .vp-whatsapp{
+      width:100%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:.7rem;
+      text-decoration:none;
+      margin-top:1.2rem;
+      padding:1rem;
+      border-radius:999px;
+      background:linear-gradient(135deg,#22c55e,#00b36a);
+      color:white;
+      font-weight:700;
+      transition:.2s ease;
+      box-sizing:border-box;
+    }
+
+    .vp-whatsapp:hover{
+      transform:translateY(-2px);
+    }
+
+    .vp-raffle h3{
+      color:#fff;
+      margin-top:.5rem;
+    }
+
+    .vp-raffle p{
+      color:#bdbdbd;
+      line-height:1.8;
+    }
+
+    .vp-secondary{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      margin-top:1rem;
+      width:100%;
+      padding:1rem;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      color:#fff;
+      text-decoration:none;
+      font-weight:700;
+      box-sizing:border-box;
+    }
+
+    .vp-terms h4{
+      margin-top:0;
+      color:#fff;
+    }
+
+    .vp-terms ul{
+      margin:0;
+      padding-left:1rem;
+      color:#bdbdbd;
+      line-height:1.8;
+    }
+
+    .vp-night{
+      border-left:3px solid #f2c94c;
+    }
+
+    @media(max-width:720px){
+
+      .vp-glass{
+        border-radius:22px;
+      }
+
+      .vp-hero h2{
+        font-size:2rem;
+      }
+
+    }
+  </style>
+
+  <div class="vp-glass vp-hero">
+    <span class="vp-badge">VALTARA EXPERIENCIAS</span>
+
+    <h2 id="vp-random-title">
+      Tu cuerpo no debería acostumbrarse al cansancio.
+    </h2>
+
+    <p>
+      Experiencias terapéuticas diseñadas para aliviar tensión física,
+      emocional y mental en un entorno elegante, inmersivo y profundamente relajante.
+    </p>
+  </div>
+
+  <div class="vp-grid">
+
+    <article class="vp-card vp-glass active" data-promo="169">
+      <span class="vp-tag">Lunes y martes • Después de la 1 PM</span>
+
+      <h3>
+        Inicia tu semana más ligero
+      </h3>
+
+      <p>
+        Valtara aporta $169 MXN de cortesía hacia tu experiencia terapéutica
+        para ayudarte a comenzar la semana con una sensación más ligera y renovada.
+      </p>
+
+      <small style="color:#888;">
+        Válido para las primeras 10 sesiones de la semana.
+      </small>
+    </article>
+
+    <article class="vp-card vp-glass" data-promo="20">
+      <span class="vp-tag">Jueves a domingo • Hasta la 1 PM</span>
+
+      <h3>
+        20% de cortesía matutina
+      </h3>
+
+      <p>
+        Algunas pausas funcionan mejor cuando el día apenas comienza.
+        Disfruta una experiencia terapéutica con un beneficio especial del 20%.
+      </p>
+
+      <small style="color:#888;">
+        No acumulable con otras cortesías activas.
+      </small>
+    </article>
+
+  </div>
+
+  <div class="vp-selector vp-glass">
+
+    <div class="vp-field">
+      <label>
+        Selecciona tu terapia
+      </label>
+
+      <select id="vp-terapia">
+        <option value="699">Liberación Cervical — 45 min — $699 MXN</option>
+        <option value="799">Terapia Relajante — 60 min — $799 MXN</option>
+        <option value="899">Masaje Deportivo — 60 min — $899 MXN</option>
+        <option value="999">Terapia Descontracturante — 60 min — $999 MXN</option>
+        <option value="1099">Terapia Relajante Premium — 90 min — $1099 MXN</option>
+      </select>
+    </div>
+
+    <div class="vp-field">
+      <label>
+        Aromaterapia
+      </label>
+
+      <select id="vp-aroma">
+        <option>Lavanda</option>
+        <option>Vainilla</option>
+        <option>Menta</option>
+        <option>Eucalipto</option>
+        <option>Frutos Rojos</option>
+        <option>Neutra</option>
+      </select>
+    </div>
+
+  </div>
+
+  <div class="vp-summary vp-glass">
+
+    <h3>
+      Resumen estimado
+    </h3>
+
+    <div class="vp-line">
+      <span>Subtotal</span>
+      <strong id="vp-subtotal">$699 MXN</strong>
+    </div>
+
+    <div class="vp-line">
+      <span id="vp-benefit-label">Cortesía Valtara</span>
+      <strong id="vp-benefit">-$169 MXN</strong>
+    </div>
+
+    <div class="vp-line total">
+      <span>Total estimado</span>
+      <strong id="vp-total">$530 MXN</strong>
+    </div>
+
+    <div class="vp-note vp-night">
+      <strong style="color:#fff;">
+        Experiencia nocturna Valtara
+      </strong>
+
+      <br><br>
+
+      Después de las 7:00 PM algunas experiencias incluyen una cortesía
+      de té de frutos rojos para extender la sensación de bienestar y relajación.
+    </div>
+
+    <a
+      id="vp-whatsapp-btn"
+      class="vp-whatsapp"
+      target="_blank"
+      href="#"
+    >
+      Continuar por WhatsApp
+    </a>
+
+  </div>
+
+  <div class="vp-raffle vp-glass">
+
+    <span class="vp-tag">
+      SORTEO MENSUAL
+    </span>
+
+    <h3>
+      Cada mes regalamos experiencias completas
+    </h3>
+
+    <p>
+      Participa para ganar una terapia relajante o deportiva totalmente de cortesía.
+    </p>
+
+    <a
+      class="vp-secondary"
+      target="_blank"
+      href="https://wa.me/523348572070?text=Hola,%20me%20gustaría%20participar%20en%20el%20sorteo%20mensual%20de%20Valtara."
+    >
+      Participar
+    </a>
+
+  </div>
+
+  <div class="vp-terms vp-glass">
+
+    <h4>
+      Términos y condiciones
+    </h4>
+
+    <ul>
+      <li>Las cortesías no son acumulables entre sí.</li>
+      <li>Promociones sujetas a disponibilidad semanal.</li>
+      <li>La cortesía de $169 MXN aplica lunes y martes después de la 1 PM.</li>
+      <li>Beneficio válido para las primeras 10 sesiones de la semana.</li>
+      <li>El 20% matutino aplica jueves a domingo hasta la 1 PM.</li>
+      <li>Beneficios válidos en Reforma 195.</li>
+      <li>Próxima apertura cerca de Metro Eugenia.</li>
+    </ul>
+
+  </div>
+
+</section>
+
+<script>
+
+(function(){
+
+  const frases = [
     'Tu cuerpo no debería acostumbrarse al cansancio.',
     'Hay tensiones que el descanso normal ya no libera.',
-    'El bienestar también es una decisión.',
-    'Tu cuerpo merece algo más que sobrevivir la semana.',
-    'Haz una pausa antes de que el cuerpo la exija.'
+    'Haz una pausa antes de que el cuerpo la exija.',
+    'El bienestar también puede sentirse elegante.',
+    'Una experiencia terapéutica puede cambiar tu semana.'
   ];
 
-  function randomPhrase() {
-    return FRASES[Math.floor(Math.random() * FRASES.length)];
+  const title = document.getElementById('vp-random-title');
+
+  if(title){
+    title.textContent =
+      frases[Math.floor(Math.random() * frases.length)];
   }
 
-  function getName() {
-    try {
-      const saved = localStorage.getItem('valtara_user_name');
-      if (saved) return saved;
-    } catch (e) {}
-    return 'Paciente';
+  const cards = document.querySelectorAll('.vp-card');
+
+  const terapiaSelect = document.getElementById('vp-terapia');
+
+  const aromaSelect = document.getElementById('vp-aroma');
+
+  const subtotalEl = document.getElementById('vp-subtotal');
+
+  const benefitEl = document.getElementById('vp-benefit');
+
+  const totalEl = document.getElementById('vp-total');
+
+  const benefitLabel = document.getElementById('vp-benefit-label');
+
+  const whatsappBtn = document.getElementById('vp-whatsapp-btn');
+
+  let promo = '169';
+
+  function currency(value){
+    return '$' + value.toFixed(0) + ' MXN';
   }
 
-  const state = {
-    terapia: TERAPIAS[0],
-    aroma: 'Lavanda',
-    promo: 'promo169'
-  };
+  function update(){
 
-  function currency(value) {
-    return new Intl.NumberFormat('es-MX', {
-      style: 'currency',
-      currency: 'MXN'
-    }).format(value);
-  }
+    const subtotal =
+      Number(terapiaSelect.value);
 
-  function calculate() {
-    const subtotal = state.terapia.precio;
-    let descuento = 0;
-    let label = '';
+    let descuento = 169;
 
-    if (state.promo === 'promo169') {
-      descuento = 169;
-      label = 'Cortesía Valtara';
-    }
-
-    if (state.promo === 'promo20') {
+    if(promo === '20'){
       descuento = subtotal * 0.20;
-      label = '20% matutino';
+      benefitLabel.textContent =
+      '20% matutino';
+    }else{
+      benefitLabel.textContent =
+      'Cortesía Valtara';
     }
 
-    const total = Math.max(subtotal - descuento, 0);
+    const total =
+      subtotal - descuento;
 
-    return {
-      subtotal,
-      descuento,
-      total,
-      label
-    };
+    subtotalEl.textContent =
+      currency(subtotal);
+
+    benefitEl.textContent =
+      '-'+currency(descuento);
+
+    totalEl.textContent =
+      currency(total);
+
+    const terapiaTexto =
+      terapiaSelect.options[
+        terapiaSelect.selectedIndex
+      ].text;
+
+    const aroma =
+      aromaSelect.value;
+
+    const promoTexto =
+      promo === '20'
+      ? '20% matutino'
+      : '$169 MXN de cortesía';
+
+    const mensaje =
+      encodeURIComponent(
+        'Hola, me interesa una experiencia terapéutica en Valtara.\\n\\n' +
+        'Terapia: ' + terapiaTexto + '\\n' +
+        'Aromaterapia: ' + aroma + '\\n' +
+        'Promoción seleccionada: ' + promoTexto + '\\n\\n' +
+        'Subtotal: ' + currency(subtotal) + '\\n' +
+        'Beneficio aplicado: -' + currency(descuento) + '\\n' +
+        'Total estimado: ' + currency(total) + '\\n\\n' +
+        'Sucursal principal: Reforma 195\\n' +
+        'Próxima apertura: cerca de Metro Eugenia.\\n\\n' +
+        'Me gustaría consultar disponibilidad.'
+      );
+
+    whatsappBtn.href =
+      'https://wa.me/523348572070?text=' +
+      mensaje;
   }
 
-  function createWhatsAppMessage() {
-    const totals = calculate();
+  cards.forEach(card => {
 
-    return encodeURIComponent(
-      `Hola, soy ${getName()}.\n\n` +
-      `Me interesa la experiencia ${state.terapia.nombre}.\n` +
-      `Duración: ${state.terapia.duracion}.\n` +
-      `Aromaterapia: ${state.aroma}.\n` +
-      `Promoción elegida: ${totals.label}.\n\n` +
-      `Subtotal: ${currency(totals.subtotal)}\n` +
-      `Beneficio aplicado: -${currency(totals.descuento)}\n` +
-      `Total estimado: ${currency(totals.total)}\n\n` +
-      `Sucursal principal: Reforma 195\n` +
-      `Próxima apertura: cerca de Metro Eugenia.\n\n` +
-      `Me gustaría consultar disponibilidad.`
-    );
-  }
+    card.addEventListener('click', () => {
 
-  function renderPromos() {
-    const totals = calculate();
+      cards.forEach(c =>
+        c.classList.remove('active')
+      );
 
-    return `
-      <section class="valtara-promos-shell">
-        <div class="vp-hero glass-card">
-          <div>
-            <span class="vp-badge">VALTARA EXPERIENCIAS</span>
-            <h2>${randomPhrase()}</h2>
-            <p>
-              Terapias diseñadas para aliviar tensión física, mental y emocional
-              en una experiencia elegante, personalizada y profundamente relajante.
-            </p>
-          </div>
-        </div>
+      card.classList.add('active');
 
-        <div class="vp-grid-promos">
-          <article class="vp-card promo169 ${state.promo === 'promo169' ? 'active' : ''}" data-promo="promo169">
-            <span class="vp-tag">Lunes y martes</span>
-            <h3>${PROMO_169.title}</h3>
-            <p>${PROMO_169.subtitle}</p>
-            <small>${PROMO_169.limitText}</small>
-          </article>
+      promo =
+        card.dataset.promo;
 
-          <article class="vp-card promo20 ${state.promo === 'promo20' ? 'active' : ''}" data-promo="promo20">
-            <span class="vp-tag">Jueves a domingo</span>
-            <h3>${PROMO_20.title}</h3>
-            <p>${PROMO_20.subtitle}</p>
-            <small>Disponible hasta la 1:00 PM.</small>
-          </article>
-        </div>
+      update();
 
-        <div class="vp-selector glass-card">
-          <div class="vp-field">
-            <label>Terapia</label>
-            <select id="vp-terapia-select">
-              ${TERAPIAS.map(t => `
-                <option value="${t.id}" ${state.terapia.id === t.id ? 'selected' : ''}>
-                  ${t.nombre} — ${t.duracion} — ${currency(t.precio)}
-                </option>
-              `).join('')}
-            </select>
-          </div>
-
-          <div class="vp-field">
-            <label>Aromaterapia</label>
-            <select id="vp-aroma-select">
-              ${AROMAS.map(a => `
-                <option value="${a}" ${state.aroma === a ? 'selected' : ''}>${a}</option>
-              `).join('')}
-            </select>
-          </div>
-        </div>
-
-        <div class="vp-summary glass-card">
-          <h3>Resumen estimado</h3>
-
-          <div class="vp-line">
-            <span>Subtotal</span>
-            <strong>${currency(totals.subtotal)}</strong>
-          </div>
-
-          <div class="vp-line benefit">
-            <span>${totals.label}</span>
-            <strong>-${currency(totals.descuento)}</strong>
-          </div>
-
-          <div class="vp-line total">
-            <span>Total estimado</span>
-            <strong>${currency(totals.total)}</strong>
-          </div>
-
-          <div class="vp-experience-note">
-            <strong>Experiencia nocturna:</strong>
-            Después de las 7:00 PM algunas experiencias incluyen una cortesía
-            de té de frutos rojos.
-          </div>
-
-          <a
-            class="vp-whatsapp-btn"
-            href="https://wa.me/${WHATSAPP_NUMBER}?text=${createWhatsAppMessage()}"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Continuar por WhatsApp
-          </a>
-        </div>
-
-        <div class="vp-raffle glass-card">
-          <span class="vp-tag gold">SORTEO MENSUAL</span>
-          <h3>Cada mes regalamos experiencias completas</h3>
-          <p>
-            Participa para ganar una terapia relajante o deportiva
-            totalmente de cortesía.
-          </p>
-
-          <a
-            class="vp-secondary-btn"
-            href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola, me gustaría participar en el sorteo mensual de Valtara.')}"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Participar
-          </a>
-        </div>
-
-        <div class="vp-terms glass-card">
-          <h4>Términos y condiciones</h4>
-          <ul>
-            <li>Las cortesías no son acumulables entre sí.</li>
-            <li>Promociones sujetas a disponibilidad.</li>
-            <li>La cortesía de $169 MXN aplica lunes y martes después de la 1 PM para las primeras 10 sesiones.</li>
-            <li>El 20% matutino aplica jueves a domingo hasta la 1 PM.</li>
-            <li>Beneficios válidos en Reforma 195.</li>
-            <li>Próxima apertura cerca de Metro Eugenia.</li>
-          </ul>
-        </div>
-      </section>
-    `;
-  }
-
-  function render() {
-    const container = document.getElementById('inicio_promociones');
-    if (!container) return;
-
-    container.innerHTML = renderPromos();
-
-    document.querySelectorAll('.vp-card').forEach(card => {
-      card.addEventListener('click', () => {
-        state.promo = card.dataset.promo;
-        render();
-      });
     });
 
-    document.getElementById('vp-terapia-select')?.addEventListener('change', e => {
-      state.terapia = TERAPIAS.find(t => t.id === e.target.value) || TERAPIAS[0];
-      render();
-    });
-
-    document.getElementById('vp-aroma-select')?.addEventListener('change', e => {
-      state.aroma = e.target.value;
-      render();
-    });
-  }
-
-  function injectStyles() {
-    if (document.getElementById('vp-styles')) return;
-
-    const style = document.createElement('style');
-    style.id = 'vp-styles';
-    style.textContent = `
-      .valtara-promos-shell {
-        display: grid;
-        gap: 1.2rem;
-        max-width: 1180px;
-        margin: 0 auto;
-      }
-
-      .glass-card {
-        background: rgba(255,255,255,.03);
-        border: 1px solid rgba(255,255,255,.08);
-        border-radius: 28px;
-        padding: 1.3rem;
-        box-shadow: 0 18px 40px rgba(0,0,0,.25);
-      }
-
-      .vp-hero h2,
-      .vp-card h3,
-      .vp-summary h3,
-      .vp-raffle h3 {
-        color: #fff;
-      }
-
-      .vp-grid-promos {
-        display: grid;
-        grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
-        gap: 1rem;
-      }
-
-      .vp-card {
-        cursor: pointer;
-        transition: .2s ease;
-      }
-
-      .vp-card.active {
-        border-color: #f2c94c;
-        transform: translateY(-2px);
-      }
-
-      .vp-tag {
-        display: inline-flex;
-        padding: .35rem .7rem;
-        border-radius: 999px;
-        background: rgba(0,255,224,.12);
-        color: #00ffe0;
-        font-size: .75rem;
-      }
-
-      .vp-tag.gold {
-        background: rgba(242,201,76,.12);
-        color: #f2c94c;
-      }
-
-      .vp-selector {
-        display: grid;
-        grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
-        gap: 1rem;
-      }
-
-      .vp-field {
-        display: grid;
-        gap: .5rem;
-      }
-
-      .vp-field label {
-        color: #fff;
-      }
-
-      .vp-field select {
-        background: rgba(255,255,255,.05);
-        color: #fff;
-        border: 1px solid rgba(255,255,255,.08);
-        border-radius: 14px;
-        padding: .9rem;
-      }
-
-      .vp-line {
-        display: flex;
-        justify-content: space-between;
-        margin: .75rem 0;
-        color: #fff;
-      }
-
-      .vp-line.total {
-        font-size: 1.15rem;
-      }
-
-      .vp-whatsapp-btn,
-      .vp-secondary-btn {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        padding: 1rem;
-        border-radius: 999px;
-        text-decoration: none;
-        font-weight: 700;
-        margin-top: 1rem;
-      }
-
-      .vp-whatsapp-btn {
-        background: linear-gradient(135deg,#22c55e,#00b36a);
-        color: white;
-      }
-
-      .vp-secondary-btn {
-        background: rgba(255,255,255,.06);
-        color: white;
-      }
-
-      .vp-terms ul {
-        margin: 1rem 0 0;
-        padding-left: 1rem;
-        color: #bbb;
-        line-height: 1.7;
-      }
-
-      @media(max-width:720px){
-        .glass-card {
-          border-radius: 22px;
-        }
-      }
-    `;
-
-    document.head.appendChild(style);
-  }
-
-  function init() {
-    injectStyles();
-    render();
-  }
-
-  global.ValtaraModulos = global.ValtaraModulos || {};
-  global.ValtaraModulos.inicio_promociones = '<section id="inicio_promociones"></section>';
-
-  document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(init, 100);
   });
 
-})(window);
+  terapiaSelect.addEventListener(
+    'change',
+    update
+  );
+
+  aromaSelect.addEventListener(
+    'change',
+    update
+  );
+
+  update();
+
+})();
+
+</script>
+`;
