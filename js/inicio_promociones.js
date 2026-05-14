@@ -1,276 +1,270 @@
-/**
- * VALTARA — INICIO PROMOCIONES V5
- * Arquitectura segura compatible con core.js y constructor_maestro.js
- * Render tipo “libro interactivo”
- */
+window.ValtaraModulos = window.ValtaraModulos || {};
 
-(function (global) {
-'use strict';
+window.ValtaraPromoBook = {
 
-const WHATSAPP_NUMBER = '5213348572070';
+step: 1,
 
-const TERAPIAS = [
-
-{
-id:'relajante50',
-nombre:'Masaje Relajante Neuro Adaptativo',
-duracion:'50 Minutos',
-precio:699,
-icono:'fa-spa',
-color:'#00ffe0',
-descripcion:'Relajación profunda para disminuir ansiedad, estrés físico y agotamiento emocional.'
+data: {
+therapy: null,
+aroma: null,
+promo: null
 },
 
-{
-id:'relajante90',
-nombre:'Masaje Relajante Neuro Adaptativo',
-duracion:'90 Minutos',
-precio:899,
-icono:'fa-moon',
-color:'#6ee7ff',
-descripcion:'Experiencia extendida enfocada en descanso nervioso y restauración corporal integral.'
+therapies: {
+
+relajante50: {
+nombre: 'Masaje Relajante Neuro Adaptativo',
+duracion: '50 Minutos',
+precio: 699
 },
 
-{
-id:'deportivo',
-nombre:'Masaje Deportivo & Descompresión',
-duracion:'50 Minutos',
-precio:729,
-icono:'fa-dumbbell',
-color:'#ff5555',
-descripcion:'Liberación muscular profunda para contracturas, sobrecarga física y fatiga muscular.'
+relajante90: {
+nombre: 'Masaje Relajante Neuro Adaptativo',
+duracion: '90 Minutos',
+precio: 899
 },
 
-{
-id:'ayurveda',
-nombre:'Ayurveda & Aromaterapia',
-duracion:'50 Minutos',
-precio:829,
-icono:'fa-leaf',
-color:'#F2C94C',
-descripcion:'Aceites tibios y aromas relajantes para ansiedad, tensión y agotamiento emocional.'
+deportivo: {
+nombre: 'Masaje Deportivo & Descompresión',
+duracion: '50 Minutos',
+precio: 729
 },
 
-{
-id:'holistico',
-nombre:'Masaje Holístico Integrativo',
-duracion:'50 Minutos',
-precio:829,
-icono:'fa-yin-yang',
-color:'#ffd700',
-descripcion:'Terapia emocional y corporal enfocada en equilibrio físico y mental.'
+ayurveda: {
+nombre: 'Ayurveda & Aromaterapia',
+duracion: '50 Minutos',
+precio: 829
 },
 
-{
-id:'lomi',
-nombre:'Ritual Lomi Lomi Supremo',
-duracion:'Premium',
-precio:999,
-icono:'fa-water',
-color:'#ffaa00',
-descripcion:'Experiencia hawaiana inmersiva para desconexión profunda y relajación total.'
+holistico: {
+nombre: 'Masaje Holístico Integrativo',
+duracion: '50 Minutos',
+precio: 829
 },
 
-{
-id:'esferas',
-nombre:'Esferas Chinas & Velas',
-duracion:'60 Minutos',
-precio:819,
-icono:'fa-circle-notch',
-color:'#ffffff',
-descripcion:'Estimulación sensorial con vibración sonora, velas cálidas y relajación profunda.'
+lomi: {
+nombre: 'Ritual Lomi Lomi Supremo',
+duracion: 'Premium',
+precio: 999
 },
 
-{
-id:'drenaje',
-nombre:'Drenaje Linfático Manual',
-duracion:'60 Minutos',
-precio:749,
-icono:'fa-droplet',
-color:'#d6d6d6',
-descripcion:'Movilización suave de líquidos y relajación postural.'
+esferas: {
+nombre: 'Esferas Chinas & Velas',
+duracion: '60 Minutos',
+precio: 819
 },
 
-{
-id:'facial',
-nombre:'Parálisis Facial',
-duracion:'45 Minutos',
-precio:529,
-icono:'fa-face-smile',
-color:'#4361EE',
-descripcion:'Estimulación neuromuscular facial y recuperación funcional.'
+drenaje: {
+nombre: 'Drenaje Linfático Manual',
+duracion: '60 Minutos',
+precio: 749
 },
 
-{
-id:'reductivo',
-nombre:'Reductivo & Maderoterapia',
-duracion:'Sesión',
-precio:799,
-icono:'fa-child-reaching',
-color:'#b27fff',
-descripcion:'Estimulación corporal estética con maderoterapia y geles especializados.'
+facial: {
+nombre: 'Parálisis Facial',
+duracion: '45 Minutos',
+precio: 529
+},
+
+reductivo: {
+nombre: 'Reductivo & Maderoterapia',
+duracion: 'Sesión',
+precio: 799
 }
 
-];
-
-const AROMAS = [
-
-{
-nombre:'Lavanda',
-extra:0,
-descripcion:'Relajación emocional profunda'
 },
 
-{
-nombre:'Menta',
-extra:39,
-descripcion:'Sensación fresca y estimulante'
+aromas: {
+
+lavanda: {
+nombre: 'Lavanda',
+extra: 0
 },
 
-{
-nombre:'Eucalipto',
-extra:39,
-descripcion:'Respiración y sensación despejada'
+vainilla: {
+nombre: 'Vainilla',
+extra: 49
 },
 
-{
-nombre:'Vainilla',
-extra:49,
-descripcion:'Ambiente cálido y relajante'
+rosas: {
+nombre: 'Rosas Blancas',
+extra: 59
 },
 
-{
-nombre:'Rosas Blancas',
-extra:59,
-descripcion:'Experiencia premium romántica'
+menta: {
+nombre: 'Menta',
+extra: 39
 }
 
-];
-
-const PROMOCIONES = [
-
-{
-id:'lunes169',
-nombre:'Cortesía Inicio de Semana',
-descripcion:'💎 Lunes y martes. Primeras 10 sesiones después de la 1 PM.',
-tipo:'descuento',
-monto:169,
-dias:['Monday','Tuesday'],
-combinable:false
 },
 
-{
-id:'morning20',
-nombre:'20% OFF Matutino',
-descripcion:'☀️ Jueves a domingo antes de las 2 PM.',
-tipo:'porcentaje',
-monto:20,
-dias:['Thursday','Friday','Saturday','Sunday'],
-combinable:false
+promos: {
+
+off169: {
+nombre: 'Cortesía Inicio de Semana',
+tipo: 'fijo',
+cantidad: 169
+},
+
+off20: {
+nombre: '20% OFF Matutino',
+tipo: 'porcentaje',
+cantidad: 20
 }
 
-];
+},
 
-function money(value){
-return '$' + value.toLocaleString('es-MX') + ' MXN';
+money(value){
+return '$' + Number(value).toLocaleString('es-MX') + ' MXN';
+},
+
+go(step){
+
+this.step = step;
+
+document.querySelectorAll('.promo-step-book').forEach((el)=>{
+el.style.display = 'none';
+});
+
+const target = document.getElementById('promo-step-' + step);
+
+if(target){
+target.style.display = 'block';
+target.scrollIntoView({
+behavior:'smooth',
+block:'start'
+});
 }
 
-function buildTherapies(){
+},
 
-return TERAPIAS.map((t)=>`
+selectTherapy(id){
 
-<button
-class="promo-therapy-card"
-data-id="${t.id}">
+this.data.therapy = this.therapies[id];
 
-<div class="promo-card-glow"
-style="background:${t.color};"></div>
+document.getElementById('promo-selected-therapy').innerHTML = `
+<strong>${this.data.therapy.nombre}</strong><br>
+${this.data.therapy.duracion}<br>
+${this.money(this.data.therapy.precio)}
+`;
 
-<div class="promo-icon-wrap">
+this.go(2);
 
-<i
-class="fa-solid ${t.icono} promo-icon"
-style="color:${t.color};"></i>
+},
 
+selectAroma(id){
+
+this.data.aroma = this.aromas[id];
+
+document.getElementById('promo-selected-aroma').innerHTML = `
+<strong>${this.data.aroma.nombre}</strong><br>
+${this.data.aroma.extra > 0
+? '+' + this.money(this.data.aroma.extra)
+: 'Incluido'}
+`;
+
+this.go(3);
+
+},
+
+selectPromo(id){
+
+this.data.promo = this.promos[id];
+
+this.calculate();
+
+this.go(4);
+
+},
+
+calculate(){
+
+const therapy = this.data.therapy || {};
+const aroma = this.data.aroma || {};
+const promo = this.data.promo || {};
+
+let subtotal = therapy.precio || 0;
+
+subtotal += aroma.extra || 0;
+
+let descuento = 0;
+
+if(promo.tipo === 'fijo'){
+descuento = promo.cantidad;
+}
+
+if(promo.tipo === 'porcentaje'){
+descuento = subtotal * (promo.cantidad / 100);
+}
+
+const total = Math.max(subtotal - descuento, 0);
+
+document.getElementById('promo-summary').innerHTML = `
+
+<div class="promo-summary-line">
+<span>Terapia</span>
+<strong>${therapy.nombre}</strong>
 </div>
 
-<div class="promo-card-content">
-
-<h3>${t.nombre}</h3>
-
-<p class="promo-duration">
-<i class="fa-solid fa-clock"></i>
-${t.duracion}
-</p>
-
-<p class="promo-desc">
-${t.descripcion}
-</p>
-
-<div class="promo-price">
-${money(t.precio)}
+<div class="promo-summary-line">
+<span>Duración</span>
+<strong>${therapy.duracion}</strong>
 </div>
 
+<div class="promo-summary-line">
+<span>Aromaterapia</span>
+<strong>${aroma.nombre}</strong>
 </div>
 
-</button>
+<div class="promo-summary-line">
+<span>Promoción</span>
+<strong>${promo.nombre}</strong>
+</div>
 
-`).join('');
+<div class="promo-summary-line">
+<span>Subtotal</span>
+<strong>${this.money(subtotal)}</strong>
+</div>
 
-}
+<div class="promo-summary-line">
+<span>Descuento</span>
+<strong>- ${this.money(descuento)}</strong>
+</div>
 
-function buildAromas(){
+<div class="promo-summary-total">
+${this.money(total)}
+</div>
 
-return AROMAS.map((a)=>`
+`;
 
-<button
-class="promo-mini-card"
-data-aroma="${a.nombre}"
-data-extra="${a.extra}">
+const message = encodeURIComponent(
 
-<h4>${a.nombre}</h4>
+`Hola, quiero agendar una experiencia Valtara.%0A%0A` +
 
-<p>${a.descripcion}</p>
+`🌿 Terapia: ${therapy.nombre}%0A` +
+`⏱️ Duración: ${therapy.duracion}%0A` +
+`🕯️ Aromaterapia: ${aroma.nombre}%0A` +
+`🎁 Promoción: ${promo.nombre}%0A%0A` +
 
-<span>${a.extra > 0 ? '+' + money(a.extra) : 'Incluido'}</span>
+`💰 Total estimado: ${this.money(total)}%0A%0A` +
 
-</button>
+`Sucursal principal: Reforma 195%0A` +
+`Próxima apertura: Metro Eugenia`
 
-`).join('');
+);
 
-}
-
-function buildPromos(){
-
-return PROMOCIONES.map((p)=>`
-
-<button
-class="promo-mini-card"
-data-promo="${p.id}">
-
-<h4>${p.nombre}</h4>
-
-<p>${p.descripcion}</p>
-
-<span>
-${p.tipo === 'porcentaje'
-? p.monto + '% OFF'
-: money(p.monto) + ' OFF'}
-</span>
-
-</button>
-
-`).join('');
+document.getElementById('promo-wa-btn').href =
+'https://wa.me/5213348572070?text=' + message;
 
 }
 
-global.ValtaraModulos = global.ValtaraModulos || {};
+};
 
-global.ValtaraModulos.inicio_promociones = `
+window.ValtaraModulos.inicio_promociones = `
 
 <style>
 
-.promo-book-wrap{
+.promo-book-wrapper{
 max-width:1200px;
 margin:auto;
 padding:2rem 1rem 5rem;
@@ -282,47 +276,33 @@ margin-bottom:3rem;
 }
 
 .promo-book-header h2{
-font-size:clamp(2.5rem,6vw,4.4rem);
 font-family:var(--font-accent);
+font-size:clamp(2.8rem,6vw,4.5rem);
 color:white;
 margin-bottom:1rem;
 }
 
 .promo-book-header p{
-max-width:860px;
+max-width:850px;
 margin:auto;
 line-height:1.9;
+color:#b6b6b6;
 font-size:1.1rem;
-color:#b8b8b8;
 }
 
 .promo-book{
-position:relative;
-overflow:hidden;
-border-radius:36px;
 padding:2rem;
-background:
-linear-gradient(
-145deg,
-rgba(255,255,255,.04),
-rgba(255,255,255,.02)
-);
-
+border-radius:36px;
+background:rgba(255,255,255,.03);
 border:1px solid rgba(255,255,255,.08);
-backdrop-filter:blur(14px);
-min-height:720px;
+backdrop-filter:blur(12px);
 }
 
-.promo-step{
-display:none;
-animation:fadeBook .45s ease;
+.promo-step-book{
+animation:promoFade .35s ease;
 }
 
-.promo-step.active{
-display:block;
-}
-
-@keyframes fadeBook{
+@keyframes promoFade{
 
 from{
 opacity:0;
@@ -336,59 +316,68 @@ transform:none;
 
 }
 
+.promo-step-book h3{
+font-size:2rem;
+color:white;
+margin-bottom:2rem;
+}
+
 .promo-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 gap:1.2rem;
 }
 
-.promo-therapy-card{
+.promo-card{
 position:relative;
 overflow:hidden;
-border:none;
-cursor:pointer;
-padding:1.6rem;
+padding:1.5rem;
 border-radius:28px;
 background:rgba(255,255,255,.03);
 border:1px solid rgba(255,255,255,.08);
-text-align:left;
+cursor:pointer;
 transition:.25s ease;
-min-height:300px;
 }
 
-.promo-therapy-card:hover{
+.promo-card:hover{
 transform:translateY(-6px);
-border-color:rgba(255,255,255,.2);
+border-color:rgba(255,255,255,.18);
 }
 
-.promo-card-glow{
+.promo-card::before{
+content:'';
 position:absolute;
-inset:auto -20% -40% auto;
 width:180px;
 height:180px;
-filter:blur(60px);
-opacity:.16;
 border-radius:50%;
+background:var(--card-color);
+filter:blur(70px);
+opacity:.12;
+top:-50px;
+right:-50px;
 }
 
-.promo-icon-wrap{
-width:88px;
-height:88px;
+.promo-icon{
+position:relative;
+z-index:2;
+width:90px;
+height:90px;
 border-radius:24px;
 display:flex;
 align-items:center;
 justify-content:center;
-background:rgba(255,255,255,.03);
-border:1px solid rgba(255,255,255,.06);
-margin-bottom:1.2rem;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.08);
+margin-bottom:1.3rem;
 }
 
-.promo-icon{
-font-size:2.3rem;
-animation:floatPromo 5s ease-in-out infinite;
+.promo-icon i{
+font-size:2.5rem;
+color:var(--card-color);
+animation:promoFloat 5s ease-in-out infinite;
 }
 
-@keyframes floatPromo{
+@keyframes promoFloat{
 
 0%{
 transform:translateY(0px);
@@ -404,98 +393,64 @@ transform:translateY(0px);
 
 }
 
-.promo-card-content h3{
+.promo-card h4{
 color:white;
-font-size:1.2rem;
+font-size:1.15rem;
 margin-bottom:.8rem;
 }
 
-.promo-duration{
-color:#d2d2d2;
-font-size:.9rem;
-margin-bottom:1rem;
-}
-
-.promo-desc{
+.promo-card p{
 line-height:1.8;
-color:#afafaf;
-font-size:.96rem;
+font-size:.95rem;
+color:#b8b8b8;
 }
 
 .promo-price{
-margin-top:1.4rem;
-font-size:1.35rem;
+margin-top:1.3rem;
+font-size:1.4rem;
 font-weight:800;
 color:var(--valtara-oro);
 }
 
-.promo-mini-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:1rem;
+.promo-actions{
 margin-top:2rem;
-}
-
-.promo-mini-card{
-padding:1.3rem;
-border-radius:22px;
-border:1px solid rgba(255,255,255,.08);
-background:rgba(255,255,255,.03);
-cursor:pointer;
-transition:.2s ease;
-text-align:left;
-}
-
-.promo-mini-card:hover{
-transform:translateY(-4px);
-}
-
-.promo-mini-card h4{
-color:white;
-margin-bottom:.7rem;
-}
-
-.promo-mini-card p{
-color:#afafaf;
-line-height:1.7;
-font-size:.93rem;
-margin-bottom:1rem;
-}
-
-.promo-mini-card span{
-color:var(--valtara-oro);
-font-weight:700;
-}
-
-.promo-nav{
 display:flex;
 justify-content:space-between;
 gap:1rem;
-margin-top:2rem;
 flex-wrap:wrap;
 }
 
-.promo-nav button{
+.promo-btn{
+padding:1rem 1.5rem;
 border:none;
-cursor:pointer;
-padding:1rem 1.4rem;
 border-radius:999px;
 font-weight:700;
+cursor:pointer;
 }
 
-.promo-back{
+.promo-btn-back{
 background:rgba(255,255,255,.06);
 color:white;
 }
 
-.promo-next{
+.promo-btn-next{
 background:var(--valtara-oro);
 color:black;
 }
 
-.promo-summary{
+.promo-selected-box{
+margin-top:1.4rem;
+padding:1.3rem;
+border-radius:20px;
+background:rgba(255,255,255,.03);
+border:1px solid rgba(255,255,255,.08);
+color:#d8d8d8;
+line-height:1.8;
+}
+
+.promo-summary-box{
 padding:2rem;
-border-radius:28px;
+border-radius:30px;
 background:rgba(255,255,255,.03);
 border:1px solid rgba(255,255,255,.08);
 }
@@ -504,50 +459,44 @@ border:1px solid rgba(255,255,255,.08);
 display:flex;
 justify-content:space-between;
 gap:1rem;
-padding:.8rem 0;
-border-bottom:1px solid rgba(255,255,255,.06);
-color:#d6d6d6;
+padding:1rem 0;
+border-bottom:1px solid rgba(255,255,255,.08);
+color:#d8d8d8;
 }
 
-.promo-total{
-font-size:1.7rem;
+.promo-summary-total{
+margin-top:2rem;
+font-size:2rem;
 font-weight:900;
 color:var(--valtara-oro);
-margin-top:1.6rem;
 text-align:right;
 }
 
-.promo-cta{
+.promo-wa{
 margin-top:2rem;
-display:flex;
-flex-wrap:wrap;
-gap:1rem;
-}
-
-.promo-cta a{
-flex:1;
+display:block;
 text-align:center;
-padding:1.1rem 1.5rem;
+padding:1.2rem;
 border-radius:999px;
-text-decoration:none;
-font-weight:800;
 background:#25D366;
 color:white;
+font-weight:800;
+text-decoration:none;
 }
 
 .promo-note{
 margin-top:2rem;
-padding:1.3rem;
-border-radius:20px;
-background:rgba(242,201,76,.06);
+padding:1.5rem;
+border-radius:24px;
+background:rgba(242,201,76,.05);
 border:1px solid rgba(242,201,76,.14);
-color:#d4d4d4;
-line-height:1.8;
+color:#cfcfcf;
+line-height:1.9;
 }
 
 </style>
 
-<section class="promo-book-wrap">
+<section class="promo-book-wrapper">
 
 <div class="promo-book-header">
 
@@ -557,11 +506,11 @@ Promociones Inteligentes
 
 <p>
 
-Selecciona tu terapia,
-personaliza tu experiencia
-y obtén beneficios exclusivos
-disponibles en Reforma 195
-y próxima apertura cerca de Metro Eugenia.
+Personaliza tu experiencia,
+elige tu terapia,
+agrega aromaterapia
+y obtén promociones exclusivas válidas
+en Reforma 195 y próxima apertura cerca de Metro Eugenia.
 
 </p>
 
@@ -572,16 +521,129 @@ y próxima apertura cerca de Metro Eugenia.
 <!-- STEP 1 -->
 
 <div
-class="promo-step active"
+class="promo-step-book"
 id="promo-step-1">
 
-<h3 style="color:white;font-size:2rem;margin-bottom:2rem;">
+<h3>
 1. Elige tu terapia
 </h3>
 
 <div class="promo-grid">
 
-${buildTherapies()}
+<!-- RELAJANTE -->
+
+<div
+class="promo-card"
+style="--card-color:#00ffe0;"
+onclick="ValtaraPromoBook.selectTherapy('relajante50')">
+
+<div class="promo-icon">
+<i class="fa-solid fa-spa"></i>
+</div>
+
+<h4>
+Masaje Relajante
+</h4>
+
+<p>
+
+Relajación profunda,
+estrés,
+ansiedad
+y descanso corporal.
+
+</p>
+
+<div class="promo-price">
+$699 MXN
+</div>
+
+</div>
+
+<!-- DEPORTIVO -->
+
+<div
+class="promo-card"
+style="--card-color:#ff5555;"
+onclick="ValtaraPromoBook.selectTherapy('deportivo')">
+
+<div class="promo-icon">
+<i class="fa-solid fa-dumbbell"></i>
+</div>
+
+<h4>
+Masaje Deportivo
+</h4>
+
+<p>
+
+Liberación muscular profunda
+y descompresión biomecánica.
+
+</p>
+
+<div class="promo-price">
+$729 MXN
+</div>
+
+</div>
+
+<!-- AYURVEDA -->
+
+<div
+class="promo-card"
+style="--card-color:#F2C94C;"
+onclick="ValtaraPromoBook.selectTherapy('ayurveda')">
+
+<div class="promo-icon">
+<i class="fa-solid fa-leaf"></i>
+</div>
+
+<h4>
+Ayurveda
+</h4>
+
+<p>
+
+Aceites tibios,
+aromaterapia
+y relajación emocional.
+
+</p>
+
+<div class="promo-price">
+$829 MXN
+</div>
+
+</div>
+
+<!-- LOMI -->
+
+<div
+class="promo-card"
+style="--card-color:#ffaa00;"
+onclick="ValtaraPromoBook.selectTherapy('lomi')">
+
+<div class="promo-icon">
+<i class="fa-solid fa-water"></i>
+</div>
+
+<h4>
+Lomi Lomi Supremo
+</h4>
+
+<p>
+
+Experiencia premium hawaiana
+de relajación profunda.
+
+</p>
+
+<div class="promo-price">
+$999 MXN
+</div>
+
+</div>
 
 </div>
 
@@ -590,29 +652,99 @@ ${buildTherapies()}
 <!-- STEP 2 -->
 
 <div
-class="promo-step"
-id="promo-step-2">
+class="promo-step-book"
+id="promo-step-2"
+style="display:none;">
 
-<h3 style="color:white;font-size:2rem;">
+<h3>
 2. Aromaterapia
 </h3>
 
-<p style="color:#aaa;line-height:1.8;">
-Complementa tu experiencia sensorial.
+<div
+class="promo-selected-box"
+id="promo-selected-therapy">
+</div>
+
+<div
+class="promo-grid"
+style="margin-top:2rem;">
+
+<div
+class="promo-card"
+style="--card-color:#b27fff;"
+onclick="ValtaraPromoBook.selectAroma('lavanda')">
+
+<div class="promo-icon">
+<i class="fa-solid fa-spa"></i>
+</div>
+
+<h4>
+Lavanda
+</h4>
+
+<p>
+Relajación profunda.
 </p>
 
-<div class="promo-mini-grid">
-
-${buildAromas()}
+<div class="promo-price">
+Incluido
+</div>
 
 </div>
 
-<div class="promo-nav">
+<div
+class="promo-card"
+style="--card-color:#ffb6c1;"
+onclick="ValtaraPromoBook.selectAroma('vainilla')">
+
+<div class="promo-icon">
+<i class="fa-solid fa-candle-holder"></i>
+</div>
+
+<h4>
+Vainilla
+</h4>
+
+<p>
+Sensación cálida y suave.
+</p>
+
+<div class="promo-price">
++$49 MXN
+</div>
+
+</div>
+
+<div
+class="promo-card"
+style="--card-color:#ffffff;"
+onclick="ValtaraPromoBook.selectAroma('rosas')">
+
+<div class="promo-icon">
+<i class="fa-solid fa-heart"></i>
+</div>
+
+<h4>
+Rosas Blancas
+</h4>
+
+<p>
+Experiencia premium romántica.
+</p>
+
+<div class="promo-price">
++$59 MXN
+</div>
+
+</div>
+
+</div>
+
+<div class="promo-actions">
 
 <button
-class="promo-back"
-type="button"
-onclick="ValtaraPromoBook.prev()">
+class="promo-btn promo-btn-back"
+onclick="ValtaraPromoBook.go(1)">
 
 ← Regresar
 
@@ -625,42 +757,97 @@ onclick="ValtaraPromoBook.prev()">
 <!-- STEP 3 -->
 
 <div
-class="promo-step"
-id="promo-step-3">
+class="promo-step-book"
+id="promo-step-3"
+style="display:none;">
 
-<h3 style="color:white;font-size:2rem;">
-3. Promociones disponibles
+<h3>
+3. Promoción
 </h3>
 
-<p style="color:#aaa;line-height:1.8;">
-Las promociones no son acumulables entre sí.
+<div
+class="promo-selected-box"
+id="promo-selected-aroma">
+</div>
+
+<div
+class="promo-grid"
+style="margin-top:2rem;">
+
+<div
+class="promo-card"
+style="--card-color:#F2C94C;"
+onclick="ValtaraPromoBook.selectPromo('off169')">
+
+<div class="promo-icon">
+<i class="fa-solid fa-gift"></i>
+</div>
+
+<h4>
+$169 de Cortesía
+</h4>
+
+<p>
+
+Válido lunes y martes.
+Primeras 10 sesiones
+después de la 1 PM.
+
 </p>
 
-<div class="promo-mini-grid">
+<div class="promo-price">
+- $169 MXN
+</div>
 
-${buildPromos()}
+</div>
+
+<div
+class="promo-card"
+style="--card-color:#00ffe0;"
+onclick="ValtaraPromoBook.selectPromo('off20')">
+
+<div class="promo-icon">
+<i class="fa-solid fa-sun"></i>
+</div>
+
+<h4>
+20% OFF Matutino
+</h4>
+
+<p>
+
+Jueves a domingo
+antes de las 2 PM.
+
+</p>
+
+<div class="promo-price">
+20% OFF
+</div>
+
+</div>
 
 </div>
 
 <div class="promo-note">
 
-<strong>Condiciones:</strong><br><br>
+<strong>Términos:</strong><br><br>
 
-💎 Cortesía de $169 válida únicamente lunes y martes
-en las primeras 10 sesiones después de la 1 PM.<br><br>
+💎 Promociones no acumulables.<br><br>
 
-☀️ 20% OFF válido jueves a domingo antes de las 2 PM.<br><br>
+☀️ Después de las 7 PM algunas terapias incluyen té de frutos rojos de cortesía.<br><br>
 
-🍵 Después de las 7 PM algunas terapias incluyen té de frutos rojos de cortesía.
+📍 Sede principal: Reforma 195.<br><br>
+
+✨ Próxima apertura: Metro Eugenia.
 
 </div>
 
-<div class="promo-nav">
+<div class="promo-actions">
 
 <button
-class="promo-back"
-type="button"
-onclick="ValtaraPromoBook.prev()">
+class="promo-btn promo-btn-back"
+onclick="ValtaraPromoBook.go(2)">
 
 ← Regresar
 
@@ -673,45 +860,34 @@ onclick="ValtaraPromoBook.prev()">
 <!-- STEP 4 -->
 
 <div
-class="promo-step"
-id="promo-step-4">
+class="promo-step-book"
+id="promo-step-4"
+style="display:none;">
 
-<h3 style="color:white;font-size:2rem;margin-bottom:2rem;">
-Resumen de tu experiencia
+<h3>
+4. Resumen
 </h3>
 
-<div class="promo-summary">
-
-<div id="promo-summary-content"></div>
-
 <div
-class="promo-total"
-id="promo-total">
-$0 MXN
+class="promo-summary-box"
+id="promo-summary">
 </div>
 
-<div class="promo-cta">
-
 <a
-id="promo-whatsapp-link"
-target="_blank"
-href="#">
+id="promo-wa-btn"
+class="promo-wa"
+target="_blank">
 
 <i class="fa-brands fa-whatsapp"></i>
 Continuar por WhatsApp
 
 </a>
 
-</div>
-
-</div>
-
-<div class="promo-nav">
+<div class="promo-actions">
 
 <button
-class="promo-back"
-type="button"
-onclick="ValtaraPromoBook.prev()">
+class="promo-btn promo-btn-back"
+onclick="ValtaraPromoBook.go(3)">
 
 ← Regresar
 
@@ -726,231 +902,3 @@ onclick="ValtaraPromoBook.prev()">
 </section>
 
 `;
-
-const state = {
-
-step:1,
-therapy:null,
-aroma:null,
-promo:null
-
-};
-
-function go(step){
-
-state.step = step;
-
-document.querySelectorAll('.promo-step').forEach((el)=>{
-el.classList.remove('active');
-});
-
-document
-.getElementById('promo-step-' + step)
-?.classList.add('active');
-
-}
-
-function calculate(){
-
-if(!state.therapy) return;
-
-let subtotal = state.therapy.precio;
-
-if(state.aroma){
-subtotal += state.aroma.extra;
-}
-
-let discount = 0;
-
-if(state.promo){
-
-if(state.promo.tipo === 'descuento'){
-discount = state.promo.monto;
-}
-
-if(state.promo.tipo === 'porcentaje'){
-discount = subtotal * (state.promo.monto / 100);
-}
-
-}
-
-const total = Math.max(subtotal - discount,0);
-
-const container =
-document.getElementById('promo-summary-content');
-
-if(container){
-
-container.innerHTML = `
-
-<div class="promo-summary-line">
-<span>Terapia</span>
-<strong>${state.therapy.nombre}</strong>
-</div>
-
-<div class="promo-summary-line">
-<span>Duración</span>
-<strong>${state.therapy.duracion}</strong>
-</div>
-
-<div class="promo-summary-line">
-<span>Aromaterapia</span>
-<strong>
-${state.aroma
-? state.aroma.nombre
-: 'Sin aromaterapia'}
-</strong>
-</div>
-
-<div class="promo-summary-line">
-<span>Promoción</span>
-<strong>
-${state.promo
-? state.promo.nombre
-: 'Sin promoción'}
-</strong>
-</div>
-
-<div class="promo-summary-line">
-<span>Subtotal</span>
-<strong>${money(subtotal)}</strong>
-</div>
-
-<div class="promo-summary-line">
-<span>Descuento</span>
-<strong>-${money(discount)}</strong>
-</div>
-
-`;
-
-}
-
-const totalNode =
-document.getElementById('promo-total');
-
-if(totalNode){
-totalNode.textContent = money(total);
-}
-
-const link =
-document.getElementById('promo-whatsapp-link');
-
-if(link){
-
-const message = encodeURIComponent(
-
-`Hola, quiero agendar:\n\n` +
-`🌿 Terapia: ${state.therapy.nombre}\n` +
-`⏱️ Duración: ${state.therapy.duracion}\n` +
-`🕯️ Aromaterapia: ${state.aroma ? state.aroma.nombre : 'No'}\n` +
-`🎁 Promoción: ${state.promo ? state.promo.nombre : 'Ninguna'}\n\n` +
-`💰 Total estimado: ${money(total)}\n\n` +
-`Sucursal principal: Reforma 195\n` +
-`Próxima apertura: Metro Eugenia`
-
-);
-
-link.href =
-'https://wa.me/' +
-WHATSAPP_NUMBER +
-'?text=' +
-message;
-
-}
-
-}
-
-global.ValtaraPromoBook = {
-
-next(){
-go(state.step + 1);
-},
-
-prev(){
-go(state.step - 1);
-},
-
-init(){
-
-document.addEventListener('click',(e)=>{
-
-const therapy =
-e.target.closest('.promo-therapy-card');
-
-if(therapy){
-
-const id = therapy.dataset.id;
-
-state.therapy =
-TERAPIAS.find((t)=>t.id === id);
-
-go(2);
-
-}
-
-const aroma =
-e.target.closest('[data-aroma]');
-
-if(aroma){
-
-state.aroma = {
-
-nombre: aroma.dataset.aroma,
-extra: Number(aroma.dataset.extra)
-
-};
-
-go(3);
-
-}
-
-const promo =
-e.target.closest('[data-promo]');
-
-if(promo){
-
-const id = promo.dataset.promo;
-
-state.promo =
-PROMOCIONES.find((p)=>p.id === id);
-
-calculate();
-
-go(4);
-
-}
-
-});
-
-}
-
-};
-
-function autoInit(){
-
-if(document.querySelector('.promo-book')){
-
-global.ValtaraPromoBook.init();
-
-return;
-
-}
-
-setTimeout(autoInit,120);
-
-}
-
-if(document.readyState === 'loading'){
-
-document.addEventListener(
-'DOMContentLoaded',
-autoInit
-);
-
-}else{
-
-setTimeout(autoInit,120);
-
-}
-
-})(window);
