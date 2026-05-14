@@ -1,23 +1,198 @@
 window.ValtaraModulos = window.ValtaraModulos || {};
 
 window.ValtaraModulos.catalogo_masajes = `
+
+<style>
+
+.vt-therapy-visual{
+    width:110px;
+    height:110px;
+    border-radius:28px;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:1.6rem;
+    isolation:isolate;
+}
+
+.vt-therapy-visual::before{
+    content:'';
+    position:absolute;
+    inset:-30%;
+    opacity:.8;
+    animation:vtRotate 10s linear infinite;
+}
+
+.vt-therapy-visual::after{
+    content:'';
+    position:absolute;
+    width:55%;
+    height:55%;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(12px);
+}
+
+.vt-therapy-icon{
+    position:relative;
+    z-index:2;
+    font-size:2.6rem;
+    animation:vtFloat 5s ease-in-out infinite;
+}
+
+.vt-relax::before{
+    background:
+    conic-gradient(
+    from 0deg,
+    rgba(0,255,224,.8),
+    transparent,
+    rgba(0,255,224,.15),
+    transparent,
+    rgba(0,255,224,.7)
+    );
+}
+
+.vt-sport::before{
+    background:
+    conic-gradient(
+    from 0deg,
+    rgba(255,85,85,.9),
+    transparent,
+    rgba(255,85,85,.2),
+    transparent,
+    rgba(255,85,85,.9)
+    );
+}
+
+.vt-ayurveda::before{
+    background:
+    conic-gradient(
+    from 0deg,
+    rgba(242,201,76,.9),
+    transparent,
+    rgba(242,201,76,.2),
+    transparent,
+    rgba(242,201,76,.8)
+    );
+}
+
+.vt-lomi::before{
+    background:
+    conic-gradient(
+    from 0deg,
+    rgba(255,170,0,.95),
+    transparent,
+    rgba(255,170,0,.2),
+    transparent,
+    rgba(255,170,0,.95)
+    );
+}
+
+.vt-neuro::before{
+    background:
+    conic-gradient(
+    from 0deg,
+    rgba(67,97,238,.95),
+    transparent,
+    rgba(67,97,238,.2),
+    transparent,
+    rgba(67,97,238,.95)
+    );
+}
+
+.vt-energy::before{
+    background:
+    conic-gradient(
+    from 0deg,
+    rgba(255,255,255,.9),
+    transparent,
+    rgba(255,255,255,.15),
+    transparent,
+    rgba(255,255,255,.9)
+    );
+}
+
+.vt-reductive::before{
+    background:
+    conic-gradient(
+    from 0deg,
+    rgba(155,89,255,.95),
+    transparent,
+    rgba(155,89,255,.2),
+    transparent,
+    rgba(155,89,255,.95)
+    );
+}
+
+@keyframes vtRotate{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+@keyframes vtFloat{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+}
+
+.vt-premium-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:.6rem;
+    padding:.7rem 1.2rem;
+    border-radius:999px;
+    background:rgba(242,201,76,.08);
+    border:1px solid rgba(242,201,76,.18);
+    color:var(--valtara-oro);
+    font-size:.8rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    margin-bottom:1.4rem;
+}
+
+.vt-cta{
+    margin-top:1.4rem;
+    display:flex;
+    gap:1rem;
+    flex-wrap:wrap;
+}
+
+.vt-note{
+    margin-top:1rem;
+    padding:1rem;
+    border-radius:18px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.06);
+    color:#bbb;
+    line-height:1.8;
+    font-size:.95rem;
+}
+
+</style>
+
 <div style="text-align:center;max-width:1000px;margin:0 auto 5rem auto;">
 
-    <div style="
-        display:inline-flex;
-        align-items:center;
-        gap:.7rem;
-        padding:.7rem 1.2rem;
-        border-radius:999px;
-        background:rgba(242,201,76,.08);
-        border:1px solid rgba(242,201,76,.18);
-        margin-bottom:1.5rem;
-        color:var(--valtara-oro);
-        letter-spacing:.14em;
-        text-transform:uppercase;
-        font-size:.8rem;
-    ">
-        <i class="fa-solid fa-crown fa-beat"></i>
+    <div class="vt-premium-badge">
+        <i class="fa-solid fa-crown fa-fade"></i>
         EXPERIENCIAS TERAPÉUTICAS VALTARA
     </div>
 
@@ -28,57 +203,24 @@ window.ValtaraModulos.catalogo_masajes = `
         margin-bottom:2rem;
         line-height:1.05;
     " class="reveal">
+
         Catálogo de Terapias
+
     </h2>
 
     <p style="
         color:var(--valtara-gris-texto);
         font-size:1.25rem;
         line-height:1.9;
-        font-weight:300;
-        max-width:850px;
+        max-width:860px;
         margin:auto;
-    " class="reveal">
-
-        Cada experiencia terapéutica está diseñada para disminuir tensión muscular,
-        fatiga emocional y sobrecarga física utilizando biomecánica,
-        terapia manual avanzada, aromaterapia y protocolos sensoriales de relajación profunda.
-
-    </p>
-
-    <div style="
-        margin-top:2rem;
-        display:flex;
-        justify-content:center;
-        gap:1rem;
-        flex-wrap:wrap;
     ">
 
-        <div style="
-            padding:.8rem 1.2rem;
-            border-radius:999px;
-            background:rgba(0,255,224,.08);
-            border:1px solid rgba(0,255,224,.18);
-            color:var(--valtara-cian-brillante);
-            font-size:.95rem;
-        ">
-            <i class="fa-solid fa-mug-hot fa-fade"></i>
-            Té nocturno después de las 7 PM
-        </div>
+        Terapias biomecánicas, relajantes y sensoriales diseñadas
+        para aliviar tensión física, emocional y mental
+        mediante experiencias inmersivas de restauración corporal.
 
-        <div style="
-            padding:.8rem 1.2rem;
-            border-radius:999px;
-            background:rgba(242,201,76,.08);
-            border:1px solid rgba(242,201,76,.18);
-            color:var(--valtara-oro);
-            font-size:.95rem;
-        ">
-            <i class="fa-solid fa-gift fa-bounce"></i>
-            Promociones activas y cortesías
-        </div>
-
-    </div>
+    </p>
 
 </div>
 
@@ -88,366 +230,613 @@ window.ValtaraModulos.catalogo_masajes = `
 
 <article class="glass-card zig-zag reveal">
 
-    <div class="card-icon-wrapper"
-    style="
-        color:var(--valtara-cian-brillante);
-        border-color:var(--valtara-cian-brillante);
-    ">
-        <i class="fa-solid fa-spa fa-fade"></i>
-    </div>
+<div class="vt-therapy-visual vt-relax">
+    <i class="fa-solid fa-spa vt-therapy-icon"
+    style="color:var(--valtara-cian-brillante);"></i>
+</div>
 
-    <div class="card-content-wrapper">
+<div class="card-content-wrapper">
 
-        <h3>
-            Masaje Relajante Neuro Adaptativo
-        </h3>
+<h3>
+Masaje Relajante Neuro Adaptativo
+</h3>
 
-        <div class="card-meta-info">
-            <span class="duracion">
-                <i class="fa-solid fa-clock"></i>
-                50 Min / 90 Min
-            </span>
+<div class="card-meta-info">
 
-            <span class="precio">
-                $699 / $899 MXN
-            </span>
-        </div>
+<span class="duracion">
+<i class="fa-solid fa-clock"></i>
+50 Min / 90 Min
+</span>
 
-        <p class="marketing-text">
+<span class="precio">
+$699 / $899 MXN
+</span>
 
-            <strong>
-                🌙 El protocolo más solicitado para desconectar mente y cuerpo.
-            </strong>
+</div>
 
-            Movimientos lentos, presiones suaves y transiciones fluidas diseñadas
-            para bajar la actividad del sistema nervioso, disminuir ansiedad,
-            reducir tensión acumulada en cuello, espalda y hombros
-            y ayudarte a sentir una sensación real de descanso profundo.
+<p class="marketing-text">
 
-            Ideal para personas con agotamiento mental,
-            estrés corporativo, cansancio emocional o dificultad para dormir.
+🌙 Diseñado para disminuir ansiedad,
+estrés acumulado,
+sobrecarga emocional
+y tensión corporal profunda.
 
-        </p>
+Movimientos fluidos,
+presiones suaves
+y estimulación sensorial relajante
+que ayudan al cuerpo a salir del estado de alerta constante.
 
-        <div style="
-            display:flex;
-            gap:1rem;
-            flex-wrap:wrap;
-            margin-top:1.5rem;
-        ">
+</p>
 
-            <a
-                href="https://wa.me/5213348572070?text=Hola,%20me%20gustaría%20agendar%20el%20Masaje%20Relajante%20Neuro%20Adaptativo."
-                target="_blank"
-                class="btn-agenda-ahora"
-                style="
-                    background:var(--valtara-cian-brillante);
-                    color:var(--valtara-negro-fondo);
-                    border-color:var(--valtara-cian-brillante);
-                    flex:1;
-                ">
+<div class="vt-note">
 
-                <i class="fa-brands fa-whatsapp fa-beat"></i>
-                Reservar experiencia
+✨ Ideal para personas con agotamiento mental,
+burnout,
+fatiga corporativa
+o dificultad para desconectar.
 
-            </a>
+</div>
 
-        </div>
+<div class="vt-cta">
 
-    </div>
+<a
+href="https://wa.me/5213348572070?text=Hola,%20quiero%20agendar%20el%20Masaje%20Relajante."
+target="_blank"
+class="btn-agenda-ahora"
+style="
+background:var(--valtara-cian-brillante);
+color:var(--valtara-negro-fondo);
+border-color:var(--valtara-cian-brillante);
+flex:1;
+">
 
+<i class="fa-brands fa-whatsapp fa-beat"></i>
+Reservar experiencia
+
+</a>
+
+</div>
+
+</div>
 </article>
 
 <!-- DEPORTIVO -->
 
 <article class="glass-card zig-zag reveal">
 
-    <div class="card-icon-wrapper"
-    style="
-        color:#ff5555;
-        border-color:#ff5555;
-    ">
-        <i class="fa-solid fa-dumbbell fa-bounce"></i>
-    </div>
+<div class="vt-therapy-visual vt-sport">
+    <i class="fa-solid fa-dumbbell vt-therapy-icon"
+    style="color:#ff5555;"></i>
+</div>
 
-    <div class="card-content-wrapper">
+<div class="card-content-wrapper">
 
-        <h3>
-            Masaje Deportivo & Descompresión
-        </h3>
+<h3>
+Masaje Deportivo & Descompresión
+</h3>
 
-        <div class="card-meta-info">
+<div class="card-meta-info">
 
-            <span class="duracion">
-                <i class="fa-solid fa-clock"></i>
-                50 Minutos
-            </span>
+<span class="duracion">
+<i class="fa-solid fa-clock"></i>
+50 Minutos
+</span>
 
-            <span class="precio">
-                $729 MXN
-            </span>
+<span class="precio">
+$729 MXN
+</span>
 
-        </div>
+</div>
 
-        <p class="marketing-text">
+<p class="marketing-text">
 
-            <strong>
-                ⚡ Recuperación muscular profunda para cuerpos exigidos.
-            </strong>
+⚡ Terapia profunda enfocada en liberar contracturas,
+fatiga muscular,
+rigidez
+y sobrecarga física acumulada.
 
-            Diseñado para liberar contracturas severas,
-            puntos gatillo, sobrecarga muscular y rigidez acumulada
-            por entrenamiento intenso, largas jornadas laborales o estrés físico constante.
+Ideal para entrenamiento intenso,
+largas jornadas laborales
+o tensión muscular persistente.
 
-            Utilizamos técnicas de presión profunda,
-            ventosas terapéuticas y biomecánica aplicada
-            para restaurar movilidad y oxigenación muscular.
+</p>
 
-        </p>
+<div class="vt-note">
 
-        <a
-            href="https://wa.me/5213348572070?text=Hola,%20quiero%20agendar%20el%20Masaje%20Deportivo%20y%20Descompresión."
-            target="_blank"
-            class="btn-agenda-ahora"
-            style="
-                background:#ff5555;
-                color:white;
-                border-color:#ff5555;
-            ">
+🔥 Incluye técnicas biomecánicas,
+presión profunda
+y descompresión muscular avanzada.
 
-            <i class="fa-brands fa-whatsapp fa-beat"></i>
-            Agendar recuperación muscular
+</div>
 
-        </a>
+<div class="vt-cta">
 
-    </div>
+<a
+href="https://wa.me/5213348572070?text=Hola,%20quiero%20agendar%20el%20Masaje%20Deportivo."
+target="_blank"
+class="btn-agenda-ahora"
+style="
+background:#ff5555;
+color:white;
+border-color:#ff5555;
+">
 
-</article>
+<i class="fa-brands fa-whatsapp fa-beat"></i>
+Agendar recuperación
 
-<!-- TAILANDÉS -->
+</a>
 
-<article class="glass-card zig-zag reveal">
+</div>
 
-    <div class="card-icon-wrapper"
-    style="
-        color:var(--valtara-verde-menta);
-        border-color:var(--valtara-verde-menta);
-    ">
-        <i class="fa-solid fa-person-praying fa-fade"></i>
-    </div>
-
-    <div class="card-content-wrapper">
-
-        <h3>
-            Masaje Tailandés • Yoga Pasivo
-        </h3>
-
-        <div class="card-meta-info">
-
-            <span class="duracion">
-                <i class="fa-solid fa-clock"></i>
-                50 Minutos
-            </span>
-
-            <span class="precio">
-                $729 MXN
-            </span>
-
-        </div>
-
-        <p class="marketing-text">
-
-            <strong>
-                🧘‍♂️ Movilidad, elasticidad y descompresión corporal.
-            </strong>
-
-            Una experiencia terapéutica inspirada en técnicas ancestrales tailandesas
-            donde el cuerpo es movilizado mediante estiramientos asistidos,
-            presión estratégica y desbloqueo de cadenas musculares.
-
-            Perfecto para personas con rigidez,
-            dolor lumbar,
-            ciática,
-            cansancio postural
-            o sensación constante de cuerpo pesado.
-
-        </p>
-
-        <a
-            href="https://wa.me/5213348572070?text=Hola,%20me%20interesa%20el%20Masaje%20Tailandés%20Yoga%20Pasivo."
-            target="_blank"
-            class="btn-agenda-ahora"
-            style="
-                background:var(--valtara-verde-menta);
-                color:var(--valtara-negro-fondo);
-                border-color:var(--valtara-verde-menta);
-            ">
-
-            <i class="fa-brands fa-whatsapp fa-beat"></i>
-            Quiero liberar tensión
-
-        </a>
-
-    </div>
-
+</div>
 </article>
 
 <!-- AYURVEDA -->
 
 <article class="glass-card zig-zag reveal">
 
-    <div class="card-icon-wrapper"
-    style="
-        color:var(--valtara-oro);
-        border-color:var(--valtara-oro);
-    ">
-        <i class="fa-solid fa-leaf fa-fade"></i>
-    </div>
+<div class="vt-therapy-visual vt-ayurveda">
+    <i class="fa-solid fa-leaf vt-therapy-icon"
+    style="color:var(--valtara-oro);"></i>
+</div>
 
-    <div class="card-content-wrapper">
+<div class="card-content-wrapper">
 
-        <h3>
-            Ayurveda & Aromaterapia
-        </h3>
+<h3>
+Ayurveda & Aromaterapia
+</h3>
 
-        <div class="card-meta-info">
+<div class="card-meta-info">
 
-            <span class="duracion">
-                <i class="fa-solid fa-clock"></i>
-                50 Minutos
-            </span>
+<span class="duracion">
+<i class="fa-solid fa-clock"></i>
+50 Minutos
+</span>
 
-            <span class="precio">
-                $829 MXN
-            </span>
+<span class="precio">
+$829 MXN
+</span>
 
-        </div>
+</div>
 
-        <p class="marketing-text">
+<p class="marketing-text">
 
-            <strong>
-                🌿 Terapia sensorial para ansiedad, agotamiento y sobrecarga emocional.
-            </strong>
+🌿 Experiencia sensorial diseñada para relajar mente,
+cuerpo
+y sistema nervioso mediante aceites tibios,
+aromaterapia
+y masaje manual profundo.
 
-            Aceites tibios,
-            presión armonizada,
-            respiración guiada
-            y estímulos botánicos diseñados para inducir tranquilidad profunda.
+</p>
 
-            Esta experiencia busca regular el sistema nervioso,
-            mejorar descanso,
-            disminuir estrés acumulado
-            y devolver sensación de calma física y mental.
+<div class="vt-note">
 
-        </p>
+🕯️ Perfecto para ansiedad,
+agotamiento emocional
+y necesidad de calma profunda.
 
-        <div style="
-            display:flex;
-            gap:1rem;
-            flex-wrap:wrap;
-        ">
+</div>
 
-            <a
-                href="https://wa.me/5213348572070?text=Hola,%20quiero%20agendar%20Ayurveda%20y%20Aromaterapia."
-                target="_blank"
-                class="btn-agenda-ahora"
-                style="flex:1;">
+<div class="vt-cta">
 
-                <i class="fa-brands fa-whatsapp fa-beat"></i>
-                Reservar experiencia
+<a
+href="https://wa.me/5213348572070?text=Hola,%20quiero%20Ayurveda%20y%20Aromaterapia."
+target="_blank"
+class="btn-agenda-ahora"
+style="flex:1;">
 
-            </a>
+<i class="fa-brands fa-whatsapp fa-beat"></i>
+Reservar experiencia
 
-            <a
-                href="https://youtu.be/qmRr05954h4?si=JlWdpbQ0gsquRJZp"
-                target="_blank"
-                class="btn-agenda-ahora"
-                style="
-                    background:transparent;
-                    border:1px solid var(--valtara-oro);
-                    color:var(--valtara-oro);
-                    width:auto;
-                ">
+</a>
 
-                <i class="fa-brands fa-youtube fa-fade"></i>
-                Ver experiencia
+</div>
 
-            </a>
+</div>
+</article>
 
-        </div>
+<!-- ESFERAS -->
 
-    </div>
+<article class="glass-card zig-zag reveal">
 
+<div class="vt-therapy-visual vt-energy">
+    <i class="fa-solid fa-circle-notch vt-therapy-icon"
+    style="color:white;"></i>
+</div>
+
+<div class="card-content-wrapper">
+
+<h3>
+Esferas Chinas & Velas Aromáticas
+</h3>
+
+<div class="card-meta-info">
+
+<span class="duracion">
+<i class="fa-solid fa-clock"></i>
+60 Minutos
+</span>
+
+<span class="precio">
+$819 MXN
+</span>
+
+</div>
+
+<p class="marketing-text">
+
+🔮 Vibración sonora,
+luz cálida,
+estimulación sensorial
+y relajación profunda en una experiencia inmersiva.
+
+</p>
+
+<div class="vt-note">
+
+✨ Especialmente agradable para personas neurodivergentes,
+hipersensibilidad sensorial
+o estrés elevado.
+
+</div>
+
+<div class="vt-cta">
+
+<a
+href="https://wa.me/5213348572070?text=Hola,%20quiero%20Esferas%20Chinas%20y%20Velas."
+target="_blank"
+class="btn-agenda-ahora"
+style="
+background:white;
+color:black;
+border-color:white;
+">
+
+<i class="fa-brands fa-whatsapp fa-beat"></i>
+Reservar experiencia sensorial
+
+</a>
+
+</div>
+
+</div>
+</article>
+
+<!-- REDUCTIVO -->
+
+<article class="glass-card zig-zag reveal">
+
+<div class="vt-therapy-visual vt-reductive">
+    <i class="fa-solid fa-child-reaching vt-therapy-icon"
+    style="color:#b27fff;"></i>
+</div>
+
+<div class="card-content-wrapper">
+
+<h3>
+Reductivo & Maderoterapia
+</h3>
+
+<div class="card-meta-info">
+
+<span class="duracion">
+<i class="fa-solid fa-clock"></i>
+Sesión / Paquete
+</span>
+
+<span class="precio">
+$799 / $5,999 MXN
+</span>
+
+</div>
+
+<p class="marketing-text">
+
+✨ Terapia estética corporal enfocada en estimular circulación,
+mejorar textura corporal
+y complementar objetivos de bienestar físico.
+
+</p>
+
+<div class="vt-note">
+
+🌸 Incluye maderoterapia,
+estimulación manual
+y geles reductivos especializados.
+
+</div>
+
+<div class="vt-cta">
+
+<a
+href="https://wa.me/5213348572070?text=Hola,%20quiero%20información%20de%20Reductivo%20y%20Maderoterapia."
+target="_blank"
+class="btn-agenda-ahora"
+style="
+background:#b27fff;
+color:white;
+border-color:#b27fff;
+">
+
+<i class="fa-brands fa-whatsapp fa-beat"></i>
+Consultar tratamiento
+
+</a>
+
+</div>
+
+</div>
+</article>
+
+<!-- PARÁLISIS -->
+
+<article class="glass-card zig-zag reveal">
+
+<div class="vt-therapy-visual vt-neuro">
+    <i class="fa-solid fa-face-smile vt-therapy-icon"
+    style="color:#4361EE;"></i>
+</div>
+
+<div class="card-content-wrapper">
+
+<h3>
+Terapia para Parálisis Facial
+</h3>
+
+<div class="card-meta-info">
+
+<span class="duracion">
+<i class="fa-solid fa-clock"></i>
+45 Minutos
+</span>
+
+<span class="precio">
+$529 MXN
+</span>
+
+</div>
+
+<p class="marketing-text">
+
+⚕️ Estimulación neuromuscular enfocada en recuperación funcional,
+movilidad
+y relajación muscular facial.
+
+</p>
+
+<div class="vt-note">
+
+🧠 Protocolo adaptado según sensibilidad,
+evolución
+y necesidades del paciente.
+
+</div>
+
+<div class="vt-cta">
+
+<a
+href="https://wa.me/5213348572070?text=Hola,%20quiero%20información%20de%20Parálisis%20Facial."
+target="_blank"
+class="btn-agenda-ahora"
+style="
+background:#4361EE;
+color:white;
+border-color:#4361EE;
+">
+
+<i class="fa-brands fa-whatsapp fa-beat"></i>
+Consultar valoración
+
+</a>
+
+</div>
+
+</div>
+</article>
+
+<!-- SHIATSU -->
+
+<article class="glass-card zig-zag reveal">
+
+<div class="vt-therapy-visual vt-energy">
+    <i class="fa-solid fa-chair vt-therapy-icon"
+    style="color:white;"></i>
+</div>
+
+<div class="card-content-wrapper">
+
+<h3>
+Shiatsu en Cama • Complemento
+</h3>
+
+<div class="card-meta-info">
+
+<span class="duracion">
+<i class="fa-solid fa-clock"></i>
+20 Minutos
+</span>
+
+<span class="precio">
+$199 MXN
+</span>
+
+</div>
+
+<p class="marketing-text">
+
+🪷 Complemento relajante enfocado en cuello,
+espalda alta,
+hombros
+y presión estratégica tipo Shiatsu.
+
+</p>
+
+<div class="vt-note">
+
+✨ Disponible para acompañantes
+o terapias participantes dentro de Valtara.
+
+</div>
+
+<div class="vt-cta">
+
+<a
+href="https://wa.me/5213348572070?text=Hola,%20quiero%20agregar%20Shiatsu%20en%20Cama."
+target="_blank"
+class="btn-agenda-ahora"
+style="
+background:white;
+color:black;
+border-color:white;
+">
+
+<i class="fa-brands fa-whatsapp fa-beat"></i>
+Agregar complemento
+
+</a>
+
+</div>
+
+</div>
 </article>
 
 <!-- LOMI -->
 
 <article class="glass-card zig-zag reveal">
 
-    <div class="card-icon-wrapper"
-    style="
-        color:#ffaa00;
-        border-color:#ffaa00;
-    ">
-        <i class="fa-solid fa-crown fa-bounce"></i>
-    </div>
+<div class="vt-therapy-visual vt-lomi">
+    <i class="fa-solid fa-crown vt-therapy-icon"
+    style="color:#ffaa00;"></i>
+</div>
 
-    <div class="card-content-wrapper">
+<div class="card-content-wrapper">
 
-        <h3>
-            Ritual Lomi Lomi Supremo
-        </h3>
+<h3>
+Ritual Lomi Lomi Supremo
+</h3>
 
-        <div class="card-meta-info">
+<div class="card-meta-info">
 
-            <span class="duracion">
-                <i class="fa-solid fa-clock"></i>
-                Sesión Profunda
-            </span>
+<span class="duracion">
+<i class="fa-solid fa-clock"></i>
+Sesión Premium
+</span>
 
-            <span class="precio">
-                $999 MXN
-            </span>
+<span class="precio">
+$999 MXN
+</span>
 
-        </div>
+</div>
 
-        <p class="marketing-text">
+<p class="marketing-text">
 
-            <strong>
-                🌊 La experiencia premium más inmersiva de Valtara.
-            </strong>
+🌊 Experiencia corporal premium inspirada en movimientos hawaianos,
+aromaterapia,
+fluidez oceánica
+y relajación profunda.
 
-            Un ritual corporal inspirado en el oleaje hawaiano
-            que combina movimientos continuos con antebrazos,
-            aromaterapia,
-            relajación profunda
-            y estimulación sensorial.
+</p>
 
-            Ideal para burnout,
-            agotamiento extremo,
-            saturación emocional
-            y necesidad profunda de desconexión total.
+<div class="vt-note">
 
-        </p>
+👑 Ideal para burnout,
+agotamiento extremo
+y desconexión total.
 
-        <a
-            href="https://wa.me/5213348572070?text=Hola,%20quiero%20reservar%20el%20Ritual%20Lomi%20Lomi%20Supremo."
-            target="_blank"
-            class="btn-agenda-ahora"
-            style="
-                background:#ffaa00;
-                color:var(--valtara-negro-fondo);
-                border-color:#ffaa00;
-            ">
+</div>
 
-            <i class="fa-brands fa-whatsapp fa-beat"></i>
-            Reservar ritual premium
+<div class="vt-cta">
 
-        </a>
+<a
+href="https://wa.me/5213348572070?text=Hola,%20quiero%20reservar%20Lomi%20Lomi."
+target="_blank"
+class="btn-agenda-ahora"
+style="
+background:#ffaa00;
+color:black;
+border-color:#ffaa00;
+">
 
-    </div>
+<i class="fa-brands fa-whatsapp fa-beat"></i>
+Reservar ritual premium
 
+</a>
+
+</div>
+
+</div>
+</article>
+
+<!-- PRÓXIMAMENTE -->
+
+<article
+class="glass-card zig-zag reveal"
+style="opacity:.82;">
+
+<div class="vt-therapy-visual vt-ayurveda">
+    <i class="fa-solid fa-hammer vt-therapy-icon"
+    style="color:var(--valtara-oro);"></i>
+</div>
+
+<div class="card-content-wrapper">
+
+<h3>
+Cámara de Innovación Terapéutica
+</h3>
+
+<div class="card-meta-info">
+
+<span class="duracion">
+<i class="fa-solid fa-sparkles"></i>
+Próximamente
+</span>
+
+<span class="precio">
+Nuevos rituales
+</span>
+
+</div>
+
+<p class="marketing-text">
+
+🚧 Próximamente:
+Ritual Geotermal,
+Reflexología,
+Shiatsu Tradicional,
+Craneosacral
+y experiencias sensoriales avanzadas.
+
+</p>
+
+<div class="vt-note">
+
+✨ Desarrollados bajo estándares biomecánicos
+y sensoriales Valtara.
+
+</div>
+
+<div class="vt-cta">
+
+<a
+href="https://wa.me/5213348572070?text=Hola,%20quiero%20entrar%20a%20lista%20de%20espera%20de%20nuevas%20terapias."
+target="_blank"
+class="btn-agenda-ahora"
+style="
+background:rgba(242,201,76,.12);
+border:1px solid var(--valtara-oro);
+color:var(--valtara-oro);
+">
+
+<i class="fa-brands fa-whatsapp fa-beat"></i>
+Entrar a lista de espera
+
+</a>
+
+</div>
+
+</div>
 </article>
 
 </div>
+
 `;
