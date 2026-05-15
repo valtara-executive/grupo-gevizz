@@ -1,6 +1,6 @@
 window.ValtaraModulos = window.ValtaraModulos || {};
 
-window.ValtaraModulos.sonoterapia_inicio = `
+window.ValtaraModulos.sonoterapia_introducción = `
 
 <style>
     @keyframes sono-pulse {
