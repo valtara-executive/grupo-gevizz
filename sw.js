@@ -1,17 +1,17 @@
 /**
  * ====================================================================================
- * VALTARA EXECUTIVE THERAPY - SERVICE WORKER SOBERANO V40.0
- * Arquitectura: Multi-Bóveda, Network-First Híbrido y Bypass de Streaming.
+ * VALTARA EXECUTIVE THERAPY - SERVICE WORKER SOBERANO V40.1
+ * Arquitectura: Multi-Bóveda, Network-First Híbrido y Bypass estricto de Streaming.
  * ====================================================================================
  */
 
-const VERSION = '40.0';
+const VERSION = '40.1';
 const CORE_CACHE = `valtara-core-v${VERSION}`;
 const IMAGE_CACHE = `valtara-images-v${VERSION}`;
 const MAX_IMAGES = 60;
 const DEBUG_MODE = false;
 
-// ACTIVOS CRÍTICOS — versión sincronizada con index.html (?v=40.0.0)
+// ACTIVOS CRÍTICOS
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -44,19 +44,16 @@ const trimCache = async (cacheName, maxItems) => {
     } catch (e) { log(`GC Error: ${e}`, 'err'); }
 };
 
-// FASE 1: INSTALACIÓN
 self.addEventListener('install', (event) => {
     log('Instalación iniciada. Sellando bóvedas...', 'info');
     event.waitUntil(
         caches.open(CORE_CACHE).then((cache) => {
-            log('Pre-cargando activos críticos...', 'cache');
             return cache.addAll(CORE_ASSETS);
         })
     );
     self.skipWaiting();
 });
 
-// FASE 2: ACTIVACIÓN — elimina bóvedas de versiones anteriores
 self.addEventListener('activate', (event) => {
     log('Activación. Limpiando bóvedas obsoletas...', 'info');
     const validCaches = [CORE_CACHE, IMAGE_CACHE];
@@ -65,7 +62,6 @@ self.addEventListener('activate', (event) => {
             Promise.all(
                 cacheNames.map((cacheName) => {
                     if (!validCaches.includes(cacheName)) {
-                        log(`Destruyendo bóveda obsoleta: ${cacheName}`, 'err');
                         return caches.delete(cacheName);
                     }
                 })
@@ -75,21 +71,22 @@ self.addEventListener('activate', (event) => {
     self.clients.claim();
 });
 
-// FASE 3: INTERCEPTOR DE RED
 self.addEventListener('fetch', (event) => {
     const req = event.request;
     const url = new URL(req.url);
 
     if (req.method !== 'GET') return;
     if (url.protocol.startsWith('chrome-extension')) return;
-
-    // Recursos externos (fonts, CDN, APIs): dejar que el navegador decida
     if (url.hostname !== location.hostname) return;
 
-    // A) BYPASS DE AUDIO — evita error 206 en streaming
-    if (req.url.match(/\.(mp3|wav|ogg)$/)) {
-        log(`Streaming audio bypass: ${url.pathname}`, 'warn');
-        return;
+    // ============================================================================
+    // A) BYPASS ABSOLUTO DE AUDIO (LA SOLUCIÓN AL ERROR DEL CACHÉ FANTASMA)
+    // 1. url.pathname ignora el "?v=123" que rompió la regla anterior.
+    // 2. req.headers.get('range') evita que guarde audios a la mitad (HTTP 206).
+    // ============================================================================
+    if (url.pathname.match(/\.(mp3|wav|ogg)$/i) || req.headers.get('range')) {
+        log(`Streaming audio bypass estricto: ${url.pathname}`, 'warn');
+        return; // Deja que el navegador haga el streaming nativo sin intervenir.
     }
 
     // B) NETWORK-FIRST para HTML y navegación
@@ -100,7 +97,6 @@ self.addEventListener('fetch', (event) => {
                 caches.open(CORE_CACHE).then((cache) => cache.put(req, clone));
                 return networkResponse;
             }).catch(() => {
-                log('Sin red. Entregando HTML desde bóveda (Modo Bunker)', 'warn');
                 return caches.match(req).then(cached => cached || caches.match('./index.html'));
             })
         );
@@ -108,7 +104,7 @@ self.addEventListener('fetch', (event) => {
     }
 
     // C) CACHE-FIRST para imágenes
-    if (req.destination === 'image' || req.url.match(/\.(jpg|jpeg|png|webp|gif|svg)$/)) {
+    if (req.destination === 'image' || url.pathname.match(/\.(jpg|jpeg|png|webp|gif|svg)$/i)) {
         event.respondWith(
             caches.match(req).then((cachedResponse) => {
                 const fetchPromise = fetch(req).then((networkResponse) => {
@@ -149,22 +145,18 @@ self.addEventListener('fetch', (event) => {
     );
 });
 
-// FASE 4: COMUNICACIÓN BIDIRECCIONAL
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'FORCE_UPDATE') {
-        log('Actualización forzosa recibida.', 'err');
         self.skipWaiting();
     }
 });
 
-// FASE 5: SINCRONIZACIÓN EN SEGUNDO PLANO
 self.addEventListener('sync', (event) => {
     if (event.tag === 'valtara-sync-expediente') {
         event.waitUntil(Promise.resolve(true));
     }
 });
 
-// FASE 6: NOTIFICACIONES PUSH
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
     event.waitUntil(
