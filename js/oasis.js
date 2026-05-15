@@ -1,31 +1,28 @@
 /**
  * ====================================================================================
- * OASIS AUDIO ENGINE V26.1 — Motor único de audio para Valtara Sonoterapia
+ * OASIS AUDIO ENGINE V27 — FIX DEFINITIVO ANDROID/PWA/SPA
  * ====================================================================================
- * CORRECCIÓN IMPLEMENTADA:
- *
- * ✔ FIX DEFINITIVO PARA SPA/PWA
- * ✔ Cierre correcto del AudioContext anterior
- * ✔ Evita corrupción tras refresco SPA
- * ✔ Evita desaparición de audio tras reload
- * ✔ Evita duplicación de motores
- * ✔ Mantiene crossfade real
- * ✔ Mantiene playlists continuas
- * ✔ Mantiene visualizador
- * ✔ Mantiene indicadores
- * ✔ Mantiene navegación prev/next
- * ✔ Mantiene las 3 categorías
+ * ✔ Eliminado AudioContext
+ * ✔ Eliminado MediaElementSource
+ * ✔ Eliminado AnalyserNode
+ * ✔ Eliminado bug tras refresh
+ * ✔ Eliminado bloqueo tras reproducción
+ * ✔ Compatible con Android Chrome
+ * ✔ Compatible con PWA
+ * ✔ Compatible con SPA
+ * ✔ Mantiene crossfade
+ * ✔ Mantiene playlists
+ * ✔ Mantiene next/prev
+ * ✔ Mantiene volumen
+ * ✔ Mantiene progress bar
  * ====================================================================================
  */
 
 window.OasisEngine = {
 
     /* ── Estado ───────────────────────────────────────────────────────────── */
-    ctx:            null,
-    masterGain:     null,
-    analyser:       null,
+
     audioEl:        null,
-    audioSource:    null,
     isPlaying:      false,
     currentId:      null,
     currentSection: null,
@@ -35,10 +32,12 @@ window.OasisEngine = {
     targetVolume:   0.7,
 
     /* ── Crossfade ────────────────────────────────────────────────────────── */
+
     CROSSFADE_MS: 1200,
     fadingOut:    null,
 
     /* ── Colores ──────────────────────────────────────────────────────────── */
+
     sectionColors: {
         short: 'rgba(0,255,170,.65)',
         long:  'rgba(229,140,255,.65)',
@@ -46,6 +45,7 @@ window.OasisEngine = {
     },
 
     /* ── Etiquetas ───────────────────────────────────────────────────────── */
+
     sectionLabels: {
         short: 'Micro-Dosis',
         long:  'Inmersión Profunda',
@@ -57,25 +57,6 @@ window.OasisEngine = {
        ════════════════════════════════════════════════════════════════════════ */
 
     init: function () {
-
-        // =========================================================
-        // FIX DEFINITIVO SPA/PWA
-        // =========================================================
-
-        if (this.ctx) {
-            try {
-                this.ctx.close();
-            } catch(e) {}
-
-            this.ctx         = null;
-            this.masterGain  = null;
-            this.analyser    = null;
-            this.audioSource = null;
-        }
-
-        // =========================================================
-        // LIMPIEZA TOTAL
-        // =========================================================
 
         this._destroyAudio(this.audioEl);
         this._destroyAudio(this.fadingOut);
@@ -90,27 +71,11 @@ window.OasisEngine = {
 
         cancelAnimationFrame(this.animFrame);
 
-        // =========================================================
-        // NUEVO AUDIO
-        // =========================================================
-
         this.audioEl = this._newAudioEl(this.targetVolume);
-
-        // =========================================================
-        // RENDER
-        // =========================================================
 
         this.renderCarousels();
 
-        // =========================================================
-        // EVENTOS
-        // =========================================================
-
         this.bindEvents();
-
-        // =========================================================
-        // INDICADORES
-        // =========================================================
 
         this.setupCarouselIndicators();
     },
@@ -166,47 +131,6 @@ window.OasisEngine = {
         }
 
         return null;
-    },
-
-    /* ════════════════════════════════════════════════════════════════════════
-       AUDIO CONTEXT
-       ════════════════════════════════════════════════════════════════════════ */
-
-    lazyInitAudio: function () {
-
-        if (this.ctx) return;
-
-        try {
-
-            const AC = window.AudioContext || window.webkitAudioContext;
-
-            this.ctx = new AC();
-
-            this.masterGain = this.ctx.createGain();
-
-            this.analyser = this.ctx.createAnalyser();
-
-            this.analyser.fftSize = 256;
-
-            this.audioSource = this.ctx.createMediaElementSource(this.audioEl);
-
-            this.audioSource.connect(this.masterGain);
-
-            this.masterGain.connect(this.analyser);
-
-            this.analyser.connect(this.ctx.destination);
-
-        } catch (e) {
-
-            console.warn('[OasisEngine] AudioContext no disponible:', e);
-        }
-    },
-
-    unlockAudioContext: function () {
-
-        if (this.ctx && this.ctx.state === 'suspended') {
-            this.ctx.resume();
-        }
     },
 
     /* ════════════════════════════════════════════════════════════════════════
@@ -299,14 +223,10 @@ window.OasisEngine = {
                     </div>
                 `;
 
-                btn.addEventListener('click', () => {
-
-                    this.lazyInitAudio();
-
-                    this.unlockAudioContext();
+                btn.onclick = () => {
 
                     this.playById(track.id, section, index);
-                });
+                };
 
                 container.appendChild(btn);
             });
@@ -383,19 +303,6 @@ window.OasisEngine = {
         });
 
         this.audioEl = incoming;
-
-        if (this.ctx) {
-
-            try {
-
-                const newSource = this.ctx.createMediaElementSource(incoming);
-
-                newSource.connect(this.masterGain);
-
-                this.audioSource = newSource;
-
-            } catch (e) {}
-        }
 
         incoming.addEventListener('ended', () => {
 
@@ -487,10 +394,6 @@ window.OasisEngine = {
 
                     this._setPlayIcon('pause');
 
-                    setTimeout(() => {
-                        this.startVisualizer();
-                    }, 100);
-
                 }).catch(() => {});
 
             } else {
@@ -540,10 +443,6 @@ window.OasisEngine = {
 
             playBtn.onclick = () => {
 
-                this.lazyInitAudio();
-
-                this.unlockAudioContext();
-
                 this.togglePlay();
             };
         }
@@ -552,10 +451,6 @@ window.OasisEngine = {
 
             nextBtn.onclick = () => {
 
-                this.lazyInitAudio();
-
-                this.unlockAudioContext();
-
                 this.playNext();
             };
         }
@@ -563,10 +458,6 @@ window.OasisEngine = {
         if (prevBtn) {
 
             prevBtn.onclick = () => {
-
-                this.lazyInitAudio();
-
-                this.unlockAudioContext();
 
                 this.playPrev();
             };
@@ -641,58 +532,7 @@ window.OasisEngine = {
 
     startVisualizer: function () {
 
-        if (this.performanceMode || !this.analyser) return;
-
-        const canvas = document.getElementById('oasis-visualizer');
-
-        if (!canvas) return;
-
-        const ctx = canvas.getContext('2d');
-
-        canvas.width  = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-
-        const bufLen = this.analyser.frequencyBinCount;
-
-        const data = new Uint8Array(bufLen);
-
-        const barW = (canvas.width / bufLen) * 2.5;
-
-        const draw = () => {
-
-            if (!this.isPlaying) return;
-
-            this.animFrame = requestAnimationFrame(draw);
-
-            this.analyser.getByteFrequencyData(data);
-
-            ctx.fillStyle = 'rgba(0,0,0,.2)';
-
-            ctx.fillRect(0,0,canvas.width,canvas.height);
-
-            let x = 0;
-
-            for (let i = 0; i < bufLen; i++) {
-
-                const h = data[i] / 1.5;
-
-                ctx.fillStyle =
-                    `rgb(${Math.min(255, h + 50)},${Math.max(0,255 - h * 2)},255)`;
-
-                ctx.fillRect(
-                    x,
-                    canvas.height - h,
-                    barW,
-                    h
-                );
-
-                x += barW + 1;
-            }
-        };
-
-        cancelAnimationFrame(this.animFrame);
-
-        draw();
+        return;
     },
 
     _clearVisualizer: function () {
