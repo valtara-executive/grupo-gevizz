@@ -1,313 +1,583 @@
 /**
  * ====================================================================================
- * BLOQUE 9: OASIS AUDIO ENGINE V25.1 (MAPEO EXACTO DE ARCHIVOS GITHUB)
- * Motor acústico de doble carrusel con scroll magnético, UI de tarjetas y A11y.
+ * OASIS AUDIO ENGINE V26 — Motor único de audio para Valtara Sonoterapia
+ * ====================================================================================
+ *
+ * CAMBIOS V26 respecto a V25.1:
+ *
+ *   1. LEE DESDE window.ValtaraPlaylists (definido en sonoterapia_audio.js)
+ *      Ya no tiene tracks hardcodeados. Fuente de verdad centralizada.
+ *      Soporta las tres secciones: short (9 pistas), long (14 pistas),
+ *      radio (15 pistas).
+ *
+ *   2. CROSSFADE REAL entre pistas
+ *      Al cambiar de pista (manual o automático al terminar la cola),
+ *      se crean dos elementos <audio> simultáneos:
+ *        - El saliente baja de volumen_actual → 0 en CROSSFADE_MS milisegundos.
+ *        - El entrante sube de 0 → volumen_deseado en CROSSFADE_MS milisegundos.
+ *      Ambas rampas corren al mismo tiempo. Sin corte, sin silencio intermedio.
+ *      El elemento saliente se destruye al terminar su rampa.
+ *
+ *   3. COLA CONTINUA POR SECCIÓN
+ *      Cada sección es una playlist independiente. Al terminar la última pista
+ *      vuelve a la primera (loop infinito). El avance automático usa crossfade.
+ *
+ *   4. PREV / NEXT RESPETAN LA COLA ACTIVA
+ *      Si estás en "radio" y pulsas next, avanza dentro de radio.
+ *      Si estás en "short" y pulsas prev, retrocede dentro de short.
+ *
+ *   5. RENDERIZA LAS TRES SECCIONES DE CARRUSEL
+ *      audio-carousel-short, audio-carousel-long, audio-carousel-radio.
+ *      Cada tarjeta recibe el color de acento de su sección.
+ *
+ *   6. SIN DOBLE MOTOR
+ *      sonoterapia_audio.js ya no define ValtaraAudioEngine.
+ *      Este es el único motor. Sin interferencias.
+ *
+ *   7. SIN ?v=Date.now() EN LAS URLs DE AUDIO
+ *      El bypass del SW (sw.js V40.1) garantiza que el audio nunca
+ *      pasa por el caché del Service Worker. No se necesita cache-busting.
+ *
  * ====================================================================================
  */
 
 window.OasisEngine = {
-    ctx: null, 
-    masterGain: null, 
-    analyser: null,
-    audioEl: null,       
-    audioSource: null,   
-    isPlaying: false, 
-    currentTrack: -1, 
-    animFrame: null, 
-    performanceMode: false,
 
-    // Bóveda de Sonido: 23 Pistas con mapeo exacto a los nombres del repositorio
-    tracks: [
-        // --- CATEGORÍA 1: MICRO-DOSIS (30 SEGUNDOS) ---
-        { id: 1, type: 'short', name: "Frecuencia 01", icon: "fa-leaf", file: "audio/1.mp3" },
-        { id: 2, type: 'short', name: "Frecuencia 02", icon: "fa-leaf", file: "audio/2.mp3" },
-        { id: 3, type: 'short', name: "Frecuencia 03", icon: "fa-leaf", file: "audio/3.mp3" },
-        { id: 4, type: 'short', name: "Frecuencia 04", icon: "fa-leaf", file: "audio/4.mp3" },
-        { id: 5, type: 'short', name: "Frecuencia 05", icon: "fa-leaf", file: "audio/5.mp3" },
-        { id: 6, type: 'short', name: "Frecuencia 06", icon: "fa-leaf", file: "audio/6.mp3" },
-        { id: 7, type: 'short', name: "Frecuencia 07", icon: "fa-leaf", file: "audio/7.mp3" },
-        { id: 8, type: 'short', name: "Frecuencia 08", icon: "fa-leaf", file: "audio/8.mp3" },
-        { id: 9, type: 'short', name: "Frecuencia 09", icon: "fa-leaf", file: "audio/9.mp3" },
-        
-        // --- CATEGORÍA 2: INMERSIÓN PROFUNDA (14 PISTAS LARGAS) ---
-        // El 'name' es lo que ve el paciente. El 'file' es el nombre exacto en GitHub.
-        { id: 10, type: 'long', name: "Bajo el Vidrio (Extended)", icon: "fa-icicles", file: "audio/bajo_el_vidrio (1).mp3" },
-        { id: 11, type: 'long', name: "Bajo el Vidrio", icon: "fa-snowflake", file: "audio/bajo_el_vidrio.mp3" },
-        { id: 12, type: 'long', name: "Bajo una Marea Oscura", icon: "fa-water", file: "audio/beneath_a_darkened_tide.mp3" },
-        { id: 13, type: 'long', name: "Disolviendo el Índigo", icon: "fa-droplet", file: "audio/dissolving_the_indigo.mp3" },
-        { id: 14, type: 'long', name: "El Umbral de Cristal", icon: "fa-cube", file: "audio/el_umbral_de_cristal.mp3" },
-        { id: 15, type: 'long', name: "Flujo de Sal y de Piel", icon: "fa-wind", file: "audio/flujo_de_sal_y_de_piel.mp3" },
-        { id: 16, type: 'long', name: "Canoas Doradas", icon: "fa-sailboat", file: "audio/gilded_canopy.mp3" },
-        { id: 17, type: 'long', name: "La Geometría del Silencio", icon: "fa-shapes", file: "audio/la_geometr_a_del_silencio.mp3" },
-        { id: 18, type: 'long', name: "Manto Sin Orillas", icon: "fa-cloud", file: "audio/manto_sin_orillas.mp3" },
-        { id: 19, type: 'long', name: "Marea de Terciopelo", icon: "fa-water", file: "audio/marea_de_terciopelo.mp3" },
-        { id: 20, type: 'long', name: "Piedra y Sal", icon: "fa-gem", file: "audio/piedra_y_sal.mp3" },
-        { id: 21, type: 'long', name: "Sombra Divina", icon: "fa-moon", file: "audio/sombra_divina.mp3" },
-        { id: 22, type: 'long', name: "Marea bajo el Crepúsculo", icon: "fa-sun", file: "audio/tide_beneath_the_twilight.mp3" },
-        { id: 23, type: 'long', name: "Un Hilo de Oro", icon: "fa-ring", file: "audio/un_hilo_de_oro.mp3" }
-    ],
+    /* ── Estado ───────────────────────────────────────────────────────────── */
+    ctx:            null,
+    masterGain:     null,
+    analyser:       null,
+    audioEl:        null,       // elemento <audio> activo (el que suena ahora)
+    audioSource:    null,       // MediaElementSource del audioEl actual
+    isPlaying:      false,
+    currentId:      null,       // id de la pista activa  (e.g. 'r1', 'l3', 's5')
+    currentSection: null,       // 'short' | 'long' | 'radio'
+    currentIndex:   -1,         // índice dentro de la sección activa
+    animFrame:      null,
+    performanceMode:false,
+    targetVolume:   0.7,        // volumen que controla el slider
 
-    init: function() {
-        this.audioEl = new Audio();
-        this.audioEl.crossOrigin = "anonymous";
-        this.audioEl.loop = true; 
-        this.audioEl.volume = 0.7;
-        
-        this.renderTrackLists();
-        this.bindEvents();
-        setTimeout(() => this.setupCarouselIndicators(), 1000);
+    /* ── Crossfade ────────────────────────────────────────────────────────── */
+    CROSSFADE_MS: 1200,         // duración del fundido en milisegundos
+    fadingOut:    null,         // elemento <audio> saliente durante crossfade
+
+    /* ── Colores de acento por sección ───────────────────────────────────── */
+    sectionColors: {
+        short: 'rgba(0,255,170,.65)',
+        long:  'rgba(229,140,255,.65)',
+        radio: 'rgba(212,175,55,.65)'
     },
 
-    lazyInitAudio: function() {
-        if(this.ctx) return;
+    /* ── Etiquetas de sección ─────────────────────────────────────────────── */
+    sectionLabels: {
+        short: 'Micro-Dosis',
+        long:  'Inmersión Profunda',
+        radio: 'Valtara Radio'
+    },
+
+    /* ════════════════════════════════════════════════════════════════════════
+       INIT — Punto de entrada llamado por constructor_maestro.js
+       ════════════════════════════════════════════════════════════════════════ */
+    init: function () {
+
+        // Limpiar motor anterior si existe (SPA re-render)
+        this._destroyAudio(this.audioEl);
+        this._destroyAudio(this.fadingOut);
+        this.fadingOut     = null;
+        this.audioEl       = null;
+        this.audioSource   = null;
+        this.ctx           = null;
+        this.isPlaying     = false;
+        this.currentId     = null;
+        this.currentSection= null;
+        this.currentIndex  = -1;
+        cancelAnimationFrame(this.animFrame);
+
+        // Crear elemento de audio primario
+        this.audioEl = this._newAudioEl(this.targetVolume);
+
+        // Renderizar carruseles con datos de ValtaraPlaylists
+        this.renderCarousels();
+
+        // Vincular controles del player
+        this.bindEvents();
+    },
+
+    /* ════════════════════════════════════════════════════════════════════════
+       HELPERS INTERNOS
+       ════════════════════════════════════════════════════════════════════════ */
+
+    /** Crea un nuevo elemento <audio> limpio con crossOrigin y volumen dado */
+    _newAudioEl: function (vol) {
+        const el = new Audio();
+        el.crossOrigin = 'anonymous';
+        el.volume      = vol;
+        el.preload     = 'auto';
+        return el;
+    },
+
+    /** Destruye un elemento <audio> de forma segura */
+    _destroyAudio: function (el) {
+        if (!el) return;
+        try { el.pause(); el.src = ''; el.load(); } catch (e) {}
+    },
+
+    /** Retorna la playlist de la sección indicada (array) */
+    _playlist: function (section) {
+        const pl = window.ValtaraPlaylists;
+        return (pl && pl[section]) ? pl[section] : [];
+    },
+
+    /** Retorna el track por id buscando en todas las secciones */
+    _findTrack: function (id) {
+        const pl = window.ValtaraPlaylists;
+        if (!pl) return null;
+        for (const section of ['short', 'long', 'radio']) {
+            const found = pl[section].find(t => t.id === id);
+            if (found) return { track: found, section };
+        }
+        return null;
+    },
+
+    /* ════════════════════════════════════════════════════════════════════════
+       LAZY INIT AUDIO CONTEXT (solo tras gesto del usuario)
+       ════════════════════════════════════════════════════════════════════════ */
+    lazyInitAudio: function () {
+        if (this.ctx) return;
         try {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            this.ctx = new AudioContext();
-            
+            const AC    = window.AudioContext || window.webkitAudioContext;
+            this.ctx    = new AC();
             this.masterGain = this.ctx.createGain();
-            this.analyser = this.ctx.createAnalyser();
+            this.analyser   = this.ctx.createAnalyser();
             this.analyser.fftSize = 256;
 
             this.audioSource = this.ctx.createMediaElementSource(this.audioEl);
             this.audioSource.connect(this.masterGain);
             this.masterGain.connect(this.analyser);
             this.analyser.connect(this.ctx.destination);
-        } catch(e) {
-            console.error("El navegador bloqueó la conexión de audio:", e);
+        } catch (e) {
+            console.warn('[OasisEngine] AudioContext no disponible:', e);
         }
     },
 
-    unlockAudioContext: function() {
-        if (!this.ctx) return;
-        if (this.ctx.state === 'suspended') {
-            this.ctx.resume();
-        }
+    unlockAudioContext: function () {
+        if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
     },
 
-    formatTime: function(seconds) {
-        if (isNaN(seconds)) return "0:00";
-        const min = Math.floor(seconds / 60);
-        const sec = Math.floor(seconds % 60);
-        return `${min}:${sec < 10 ? '0' : ''}${sec}`;
-    },
+    /* ════════════════════════════════════════════════════════════════════════
+       RENDERIZADO DE CARRUSELES
+       ════════════════════════════════════════════════════════════════════════ */
+    renderCarousels: function () {
+        const sections = ['short', 'long', 'radio'];
+        const ids      = {
+            short: 'audio-carousel-short',
+            long:  'audio-carousel-long',
+            radio: 'audio-carousel-radio'
+        };
 
-    bindEvents: function() {
-        const playBtn = document.getElementById('btn-master-play');
-        if(playBtn) {
-            playBtn.addEventListener('click', () => {
-                this.lazyInitAudio();
-                this.unlockAudioContext();
-                this.togglePlay();
-            });
-        }
-        
-        const volumeSlider = document.getElementById('oasis-volume-slider');
-        if(volumeSlider) {
-            volumeSlider.addEventListener('input', (e) => {
-                if(this.audioEl) this.audioEl.volume = e.target.value;
-            });
-        }
+        sections.forEach(section => {
+            const container = document.getElementById(ids[section]);
+            if (!container) return;
 
-        const progressBar = document.getElementById('oasis-progress-bar');
-        const timeCurrent = document.getElementById('oasis-time-current');
-        const timeTotal = document.getElementById('oasis-time-total');
+            container.innerHTML = '';
+            const color = this.sectionColors[section];
+            const label = this.sectionLabels[section];
 
-        if(this.audioEl && progressBar && timeCurrent && timeTotal) {
-            this.audioEl.addEventListener('loadedmetadata', () => {
-                progressBar.max = this.audioEl.duration;
-                timeTotal.textContent = this.formatTime(this.audioEl.duration);
-            });
+            this._playlist(section).forEach((track, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'track-btn carousel-card glass-card';
+                btn.setAttribute('data-id', track.id);
+                btn.setAttribute('data-section', section);
+                btn.setAttribute('data-index', index);
+                btn.setAttribute('aria-label', `Reproducir ${track.title}`);
+                btn.style.cssText = `
+                    flex-direction:column;
+                    padding:2.5rem 1.5rem;
+                    justify-content:center;
+                    min-width:250px;
+                    border-radius:2rem;
+                    gap:1.5rem;
+                    cursor:pointer;
+                    background:rgba(255,255,255,.04);
+                    border:1px solid ${color};
+                    color:white;
+                    text-align:left;
+                `;
 
-            this.audioEl.addEventListener('timeupdate', () => {
-                if(!this.audioEl.duration) return;
-                progressBar.value = this.audioEl.currentTime;
-                timeCurrent.textContent = this.formatTime(this.audioEl.currentTime);
-            });
+                btn.innerHTML = `
+                    <div style="
+                        width:90px;height:90px;border-radius:50%;
+                        background:linear-gradient(135deg,rgba(0,0,0,.6),rgba(0,0,0,.85));
+                        display:flex;justify-content:center;align-items:center;
+                        border:1px solid ${color};
+                        box-shadow:inset 0 0 25px ${color.replace('.65)', '.12)')};
+                        margin:0 auto;transition:.3s;
+                    ">
+                        <i class="fa-solid ${track.icon}" style="font-size:2.8rem;color:${color};"></i>
+                    </div>
+                    <div style="width:100%;">
+                        <h4 style="
+                            color:var(--valtara-blanco);
+                            font-size:1.35rem;margin:0;
+                            font-family:var(--font-accent);
+                            line-height:1.3;
+                        ">${track.title}</h4>
+                        <span style="
+                            color:#aaa;font-size:.85rem;
+                            letter-spacing:1px;text-transform:uppercase;
+                            display:block;margin-top:8px;
+                        ">${label}</span>
+                    </div>
+                `;
 
-            progressBar.addEventListener('input', (e) => {
-                this.audioEl.currentTime = e.target.value;
-            });
-        }
-    },
-
-    renderTrackLists: function() {
-        const containerShort = document.getElementById('audio-carousel-short');
-        const containerLong = document.getElementById('audio-carousel-long');
-        
-        if(containerShort) containerShort.innerHTML = '';
-        if(containerLong) containerLong.innerHTML = '';
-
-        this.tracks.forEach(t => {
-            const btn = document.createElement('button');
-            btn.className = 'track-btn carousel-card glass-card';
-            btn.setAttribute('data-id', t.id);
-            btn.style.cssText = 'flex-direction: column; padding: 2.5rem 1.5rem; justify-content: center; min-width: 250px; border-radius: 2rem; gap: 1.5rem;';
-            
-            const durationText = t.type === 'short' ? 'Micro-Dosis' : 'Inmersión';
-            
-            btn.innerHTML = `
-                <div style="width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, rgba(0,255,255,0.1), rgba(0,0,0,0.6)); display: flex; justify-content: center; align-items: center; border: 1px solid rgba(0,255,255,0.3); box-shadow: inset 0 0 25px rgba(0,255,255,0.15); margin: 0 auto; transition: 0.3s;">
-                    <i class="fa-solid ${t.icon}" style="font-size: 2.8rem; color: var(--valtara-cian-brillante);"></i>
-                </div>
-                <div style="width: 100%;">
-                    <h4 style="color: var(--valtara-blanco); font-size: 1.4rem; margin: 0; font-family: var(--font-accent); line-height: 1.3;">${t.name}</h4>
-                    <span style="color: #aaa; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; display: block; margin-top: 8px;">${durationText}</span>
-                </div>
-            `;
-            
-            btn.addEventListener('click', () => {
-                this.lazyInitAudio();
-                this.unlockAudioContext(); 
-                this.selectTrack(t.id);
-            });
-            
-            if(t.type === 'short' && containerShort) {
-                containerShort.appendChild(btn);
-            } else if(t.type === 'long' && containerLong) {
-                containerLong.appendChild(btn);
-            }
-        });
-    },
-
-    setupCarouselIndicators: function() {
-        const setups = [
-            { id: 'video-carousel', indId: 'indicator-video', total: 8 },
-            { id: 'audio-carousel-short', indId: 'indicator-audio-short', total: 9 },
-            { id: 'audio-carousel-long', indId: 'indicator-audio-long', total: 14 }
-        ];
-
-        setups.forEach(setup => {
-            const carousel = document.getElementById(setup.id);
-            const indicator = document.getElementById(setup.indId);
-            
-            if (carousel && indicator) {
-                carousel.addEventListener('scroll', () => {
-                    const scrollLeft = carousel.scrollLeft;
-                    const card = carousel.querySelector('.carousel-card');
-                    if(!card) return;
-                    
-                    const cardWidth = card.offsetWidth + 40; 
-                    const currentIndex = Math.round(scrollLeft / cardWidth) + 1;
-                    
-                    let finalIndex = Math.min(Math.max(currentIndex, 1), setup.total);
-                    indicator.textContent = finalIndex + " de " + setup.total;
+                btn.addEventListener('click', () => {
+                    this.lazyInitAudio();
+                    this.unlockAudioContext();
+                    this.playById(track.id, section, index);
                 });
-            }
+
+                container.appendChild(btn);
+            });
         });
     },
 
-    startVisualizer: function() {
-        if(this.performanceMode || !this.analyser) return;
-        
+    /* ════════════════════════════════════════════════════════════════════════
+       CROSSFADE — el corazón del cambio de pista
+       ════════════════════════════════════════════════════════════════════════ */
+
+    /**
+     * Hace crossfade desde el audio activo actual hacia una nueva pista.
+     * @param {string} src  - Ruta del archivo (e.g. 'audio/1.mp3')
+     * @param {number} vol  - Volumen objetivo (0–1)
+     * @param {function} onStart - Callback cuando el nuevo audio empieza a sonar
+     */
+    _crossfadeTo: function (src, vol, onStart) {
+        const STEPS    = 30;
+        const INTERVAL = this.CROSSFADE_MS / STEPS;
+        const outgoing = this.audioEl;   // guardar referencia al elemento saliente
+
+        // Crear elemento entrante
+        const incoming = this._newAudioEl(0);  // empieza en silencio
+        incoming.src = encodeURI(src);
+
+        // Arrancar reproducción del entrante
+        incoming.play().then(() => {
+
+            if (onStart) onStart();
+
+            // Rampas simultáneas
+            let step = 0;
+            const timer = setInterval(() => {
+                step++;
+                const ratio = step / STEPS;
+
+                // Entrante: 0 → vol
+                try { incoming.volume = Math.min(vol * ratio, vol); } catch (e) {}
+
+                // Saliente: volActual → 0
+                if (outgoing) {
+                    try { outgoing.volume = Math.max(outgoing.volume * (1 - ratio / (1 - ratio + 0.01)), 0); } catch (e) {}
+                }
+
+                if (step >= STEPS) {
+                    clearInterval(timer);
+                    // Destruir el saliente
+                    this._destroyAudio(outgoing);
+                    if (this.fadingOut === outgoing) this.fadingOut = null;
+                    // Asegurar volumen exacto
+                    try { incoming.volume = vol; } catch (e) {}
+                }
+            }, INTERVAL);
+
+            // Guardar referencia al saliente para limpieza si se interrumpe
+            this.fadingOut = outgoing;
+
+        }).catch(err => {
+            console.warn('[OasisEngine] No se pudo iniciar la pista:', src, err);
+            this._destroyAudio(incoming);
+            this._showPlayError();
+        });
+
+        // El nuevo elemento se convierte en el activo
+        this.audioEl = incoming;
+
+        // Reconectar AudioContext al nuevo elemento si existe
+        if (this.ctx) {
+            try {
+                const newSource = this.ctx.createMediaElementSource(incoming);
+                newSource.connect(this.masterGain);
+                this.audioSource = newSource;
+            } catch (e) {
+                // Si falla la reconexión de contexto, el audio sigue funcionando
+                // sin visualizador hasta el próximo gesto del usuario
+            }
+        }
+
+        // Registrar evento 'ended' para avance automático de cola
+        incoming.addEventListener('ended', () => {
+            if (this.isPlaying) this.playNext();
+        });
+    },
+
+    /* ════════════════════════════════════════════════════════════════════════
+       API PÚBLICA DE REPRODUCCIÓN
+       ════════════════════════════════════════════════════════════════════════ */
+
+    /** Reproduce una pista por su id. section e index son opcionales (se calculan). */
+    playById: function (id, section, index) {
+        if (this.performanceMode) return;
+
+        // Resolver sección e índice si no se pasaron
+        if (!section || index === undefined) {
+            const found = this._findTrack(id);
+            if (!found) return;
+            section = found.section;
+            index   = window.ValtaraPlaylists[section].findIndex(t => t.id === id);
+        }
+
+        const playlist = this._playlist(section);
+        const track    = playlist[index];
+        if (!track) return;
+
+        // Actualizar estado
+        this.currentId      = id;
+        this.currentSection = section;
+        this.currentIndex   = index;
+        this.isPlaying      = true;
+
+        // UI inmediata
+        this._updateNowPlaying(track, section, playlist, index);
+        this._setPlayIcon('pause');
+        this._highlightCard(id);
+
+        // Crossfade al nuevo src
+        this._crossfadeTo(track.src, this.targetVolume, () => {
+            // Puede ser útil para analytics o UI futura
+        });
+
+        // Visualizador
+        setTimeout(() => this.startVisualizer(), this.CROSSFADE_MS / 2);
+    },
+
+    /** Siguiente pista dentro de la cola activa (con wrap) */
+    playNext: function () {
+        if (!this.currentSection) return;
+        const pl   = this._playlist(this.currentSection);
+        const next = (this.currentIndex + 1) % pl.length;
+        this.playById(pl[next].id, this.currentSection, next);
+    },
+
+    /** Pista anterior dentro de la cola activa (con wrap) */
+    playPrev: function () {
+        if (!this.currentSection) return;
+        const pl   = this._playlist(this.currentSection);
+        const prev = (this.currentIndex - 1 + pl.length) % pl.length;
+        this.playById(pl[prev].id, this.currentSection, prev);
+    },
+
+    /** Play / Pause del botón maestro */
+    togglePlay: function () {
+        if (this.isPlaying) {
+            this.pause();
+        } else {
+            if (this.currentId) {
+                // Reanudar lo que estaba
+                this.audioEl.play().then(() => {
+                    this.isPlaying = true;
+                    this._setPlayIcon('pause');
+                    setTimeout(() => this.startVisualizer(), 100);
+                }).catch(() => {});
+            } else {
+                // Primera vez: arrancar con la primera pista de radio
+                const pl = this._playlist('radio');
+                if (pl.length) this.playById(pl[0].id, 'radio', 0);
+            }
+        }
+    },
+
+    pause: function () {
+        this.isPlaying = false;
+        if (this.audioEl) this.audioEl.pause();
+        this._setPlayIcon('play');
+        document.querySelectorAll('.track-btn').forEach(b => b.classList.remove('playing'));
+        cancelAnimationFrame(this.animFrame);
+        this._clearVisualizer();
+    },
+
+    /* ════════════════════════════════════════════════════════════════════════
+       EVENTOS DE CONTROLES
+       ════════════════════════════════════════════════════════════════════════ */
+    bindEvents: function () {
+        const get = id => document.getElementById(id);
+
+        const playBtn    = get('btn-master-play');
+        const nextBtn    = get('btn-next-track');
+        const prevBtn    = get('btn-prev-track');
+        const volSlider  = get('oasis-volume-slider');
+        const progressBar= get('oasis-progress-bar');
+        const timeCurr   = get('oasis-time-current');
+        const timeTotal  = get('oasis-time-total');
+
+        if (playBtn)  playBtn.addEventListener('click',  () => { this.lazyInitAudio(); this.unlockAudioContext(); this.togglePlay(); });
+        if (nextBtn)  nextBtn.addEventListener('click',  () => { this.lazyInitAudio(); this.unlockAudioContext(); this.playNext(); });
+        if (prevBtn)  prevBtn.addEventListener('click',  () => { this.lazyInitAudio(); this.unlockAudioContext(); this.playPrev(); });
+
+        if (volSlider) {
+            volSlider.addEventListener('input', e => {
+                this.targetVolume = parseFloat(e.target.value);
+                if (this.audioEl) {
+                    try { this.audioEl.volume = this.targetVolume; } catch(_) {}
+                }
+            });
+        }
+
+        // Progress bar — usa delegación en audioEl actual
+        // Se actualiza en startVisualizer/timeupdate loop
+        if (progressBar) {
+            progressBar.addEventListener('input', e => {
+                if (this.audioEl && this.audioEl.duration) {
+                    this.audioEl.currentTime = (e.target.value / 100) * this.audioEl.duration;
+                }
+            });
+        }
+
+        // Actualizar barra de progreso y tiempos mediante polling en animFrame
+        // (evita múltiples listeners al cambiar audioEl)
+        this._startProgressPoll(progressBar, timeCurr, timeTotal);
+    },
+
+    _startProgressPoll: function (bar, curr, total) {
+        const tick = () => {
+            const el = this.audioEl;
+            if (el && el.duration && this.isPlaying) {
+                const pct = (el.currentTime / el.duration) * 100;
+                if (bar)   bar.value        = pct;
+                if (curr)  curr.textContent = this._fmt(el.currentTime);
+                if (total) total.textContent= this._fmt(el.duration);
+            }
+            requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+    },
+
+    /* ════════════════════════════════════════════════════════════════════════
+       VISUALIZADOR
+       ════════════════════════════════════════════════════════════════════════ */
+    startVisualizer: function () {
+        if (this.performanceMode || !this.analyser) return;
+
         const canvas = document.getElementById('oasis-visualizer');
-        if(!canvas) return;
-        
-        const canvasCtx = canvas.getContext('2d');
+        if (!canvas) return;
+
+        const ctx    = canvas.getContext('2d');
         canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-        
-        const bufferLength = this.analyser.frequencyBinCount;
-        const dataArray = new Uint8Array(bufferLength);
-        
+        canvas.height= canvas.offsetHeight;
+
+        const bufLen  = this.analyser.frequencyBinCount;
+        const data    = new Uint8Array(bufLen);
+        const barW    = (canvas.width / bufLen) * 2.5;
+
         const draw = () => {
-            if(!this.isPlaying) return;
+            if (!this.isPlaying) return;
             this.animFrame = requestAnimationFrame(draw);
-            
-            this.analyser.getByteFrequencyData(dataArray);
-            
-            canvasCtx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            const barWidth = (canvas.width / bufferLength) * 2.5;
-            let barHeight;
+
+            this.analyser.getByteFrequencyData(data);
+
+            ctx.fillStyle = 'rgba(0,0,0,.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
             let x = 0;
-            
-            for(let i = 0; i < bufferLength; i++) {
-                barHeight = dataArray[i] / 1.5;
-                
-                const r = Math.min(255, barHeight + 50); 
-                const g = Math.max(0, 255 - barHeight * 2); 
-                const b = 255; 
-                
-                canvasCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-                canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
-                
-                x += barWidth + 1;
+            for (let i = 0; i < bufLen; i++) {
+                const h = data[i] / 1.5;
+                ctx.fillStyle = `rgb(${Math.min(255, h + 50)},${Math.max(0, 255 - h * 2)},255)`;
+                ctx.fillRect(x, canvas.height - h, barW, h);
+                x += barW + 1;
             }
         };
+
         cancelAnimationFrame(this.animFrame);
         draw();
     },
 
-    togglePlay: function() {
-        if(this.isPlaying) {
-            this.stopAll();
-        } else {
-            this.selectTrack(this.currentTrack === -1 ? 10 : this.currentTrack);
-        }
-    },
-
-    stopAll: function() {
-        this.isPlaying = false;
-        if(this.audioEl) this.audioEl.pause();
-        
-        const playBtnIcon = document.querySelector('#btn-master-play i');
-        if(playBtnIcon && !playBtnIcon.classList.contains('fa-triangle-exclamation')) {
-            playBtnIcon.className = 'fa-solid fa-play';
-        }
-        
-        document.querySelectorAll('.track-btn').forEach(b => b.classList.remove('playing'));
-        cancelAnimationFrame(this.animFrame);
-        
+    _clearVisualizer: function () {
         const canvas = document.getElementById('oasis-visualizer');
-        if(canvas) {
+        if (canvas) {
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
     },
 
-    selectTrack: function(trackId) {
-        if(this.performanceMode || document.body.classList.contains('reduced-motion')) return;
+    /* ════════════════════════════════════════════════════════════════════════
+       HELPERS DE UI
+       ════════════════════════════════════════════════════════════════════════ */
+    _setPlayIcon: function (state) {
+        const icon = document.querySelector('#btn-master-play i');
+        if (icon) icon.className = `fa-solid fa-${state === 'pause' ? 'pause' : 'play'}`;
+    },
 
-        if(this.ctx && this.ctx.state === 'suspended') {
-            this.ctx.resume();
+    _highlightCard: function (id) {
+        document.querySelectorAll('.track-btn').forEach(b => {
+            b.classList.toggle('playing', b.getAttribute('data-id') === id);
+        });
+    },
+
+    _updateNowPlaying: function (track, section, playlist, index) {
+        const nowEl  = document.getElementById('oasis-now-playing');
+        const nextEl = document.getElementById('oasis-next-track');
+
+        if (nowEl) {
+            nowEl.innerHTML = `<i class="fa-solid fa-music" style="margin-right:8px;"></i>${track.title}`;
         }
-        
-        this.stopAll();
-        this.currentTrack = trackId;
-        this.isPlaying = true;
-        
-        document.querySelectorAll('.track-btn').forEach(b => b.classList.remove('playing'));
-        const activeBtn = document.querySelector(`.track-btn[data-id="${trackId}"]`);
-        if(activeBtn) activeBtn.classList.add('playing');
-        
-        const playBtnIcon = document.querySelector('#btn-master-play i');
-        if(playBtnIcon) playBtnIcon.className = 'fa-solid fa-pause';
-        
-        const trackObj = this.tracks.find(t => t.id === trackId);
-        if(trackObj) {
-            const nowPlayingText = document.getElementById('oasis-now-playing');
-            if(nowPlayingText) {
-                nowPlayingText.innerHTML = `<i class="fa-solid fa-music" style="margin-right: 8px;"></i> ${trackObj.name}`;
-            }
 
-            this.audioEl.src = encodeURI(trackObj.file);
-            
-            this.audioEl.play().catch(e => {
-                console.error("Error al cargar la canción desde el directorio:", e);
-                this.stopAll();
-                
-                if(playBtnIcon) {
-                    playBtnIcon.className = 'fa-solid fa-triangle-exclamation';
-                    playBtnIcon.style.color = '#ff5555';
-                    setTimeout(() => {
-                        playBtnIcon.className = 'fa-solid fa-play';
-                        playBtnIcon.style.color = '';
-                    }, 3000);
-                }
+        if (nextEl) {
+            const nextIndex = (index + 1) % playlist.length;
+            const nextTrack = playlist[nextIndex];
+            nextEl.textContent = nextTrack
+                ? `A continuación: ${nextTrack.title}`
+                : '';
+        }
+    },
+
+    _showPlayError: function () {
+        const icon = document.querySelector('#btn-master-play i');
+        if (!icon) return;
+        icon.className    = 'fa-solid fa-triangle-exclamation';
+        icon.style.color  = '#ff5555';
+        setTimeout(() => {
+            icon.className   = 'fa-solid fa-play';
+            icon.style.color = '';
+        }, 3000);
+    },
+
+    _fmt: function (s) {
+        if (isNaN(s) || !isFinite(s)) return '0:00';
+        const m = Math.floor(s / 60);
+        const sec = Math.floor(s % 60);
+        return `${m}:${sec < 10 ? '0' : ''}${sec}`;
+    },
+
+    /* ════════════════════════════════════════════════════════════════════════
+       SETUP DE INDICADORES DE CARRUSEL (funcionalidad original conservada)
+       ════════════════════════════════════════════════════════════════════════ */
+    setupCarouselIndicators: function () {
+        const setups = [
+            { id: 'audio-carousel-short', indId: 'indicator-audio-short', total: 9  },
+            { id: 'audio-carousel-long',  indId: 'indicator-audio-long',  total: 14 },
+            { id: 'audio-carousel-radio', indId: 'indicator-audio-radio', total: 15 }
+        ];
+
+        setups.forEach(setup => {
+            const carousel  = document.getElementById(setup.id);
+            const indicator = document.getElementById(setup.indId);
+            if (!carousel || !indicator) return;
+
+            carousel.addEventListener('scroll', () => {
+                const card = carousel.querySelector('.carousel-card');
+                if (!card) return;
+                const cardWidth  = card.offsetWidth + 40;
+                const idx        = Math.round(carousel.scrollLeft / cardWidth) + 1;
+                indicator.textContent = Math.min(Math.max(idx, 1), setup.total) + ' de ' + setup.total;
             });
-        }
-        
-        setTimeout(() => this.startVisualizer(), 200);
+        });
     }
 };
