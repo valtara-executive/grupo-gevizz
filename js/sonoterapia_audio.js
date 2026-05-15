@@ -1,11 +1,14 @@
 /**
  * ====================================================================================
- * MÓDULO: SONOTERAPIA AUDIO (V43.0 - Triple Sección & Anti-Caché)
+ * MÓDULO: SONOTERAPIA AUDIO (V43.1 - Blindaje Anti-Caché Tainted Canvas)
+ * ------------------------------------------------------------------------------------
+ * Reproductor inmersivo con Playlist continua y protección contra bloqueos CORS.
  * ====================================================================================
  */
 
 window.ValtaraModulos = window.ValtaraModulos || {};
 
+// 1. INYECCIÓN HTML AL CONSTRUCTOR MAESTRO (Intacta con las 3 secciones)
 window.ValtaraModulos.sonoterapia_audio = `
     <div style="text-align: center; max-width: 1200px; margin: 4rem auto 2rem auto;">
         <h3 style="color: var(--valtara-cian-brillante); font-family: var(--font-accent); font-size: 3rem; margin-bottom: 1rem;">II. Frecuencias Acústicas</h3>
@@ -31,15 +34,19 @@ window.ValtaraModulos.sonoterapia_audio = `
             </div>
 
             <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; flex-wrap: wrap;">
-                <div style="display: flex; align-items: center; gap: 1.2rem; color: var(--valtara-oro-suave); font-size: 1.4rem;">
-                    <i class="fa-solid fa-volume-low"></i>
-                    <input type="range" id="oasis-volume-slider" min="0" max="1" step="0.01" value="0.7" style="width: 120px; accent-color: var(--valtara-oro); cursor: pointer; height: 6px;">
-                    <i class="fa-solid fa-volume-high"></i>
-                </div>
-                
+                <button class="radio-nav-btn" id="btn-prev-track" aria-label="Pista anterior" style="background: transparent; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; transition: 0.3s;"><i class="fa-solid fa-backward-step"></i></button>
+
                 <button class="master-play-btn" id="btn-master-play" aria-label="Reproducir o Pausar Audio" style="margin: 0; width: 85px; height: 85px; font-size: 2.5rem; flex-shrink: 0; background: transparent; border: none; color: white; cursor: pointer;">
                     <i class="fa-solid fa-play"></i>
                 </button>
+
+                <button class="radio-nav-btn" id="btn-next-track" aria-label="Siguiente pista" style="background: transparent; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; transition: 0.3s;"><i class="fa-solid fa-forward-step"></i></button>
+
+                <div style="display: flex; align-items: center; gap: 1.2rem; color: var(--valtara-oro-suave); font-size: 1.4rem; margin-left: 1.5rem;">
+                    <i class="fa-solid fa-volume-low"></i>
+                    <input type="range" id="oasis-volume-slider" min="0" max="1" step="0.01" value="0.7" style="width: 100px; accent-color: var(--valtara-oro); cursor: pointer; height: 6px;">
+                    <i class="fa-solid fa-volume-high"></i>
+                </div>
             </div>
         </div>
     </div>
@@ -84,7 +91,7 @@ window.ValtaraModulos.sonoterapia_audio = `
     </div>
 `;
 
-// BASES DE DATOS DE PISTAS (Categorizadas)
+// 2. BASES DE DATOS DE PISTAS
 const playlists = {
     short: [
         { title: "Reseteo Alfa I", src: "audio/1.mp3" }, { title: "Reseteo Alfa II", src: "audio/2.mp3" }, { title: "Reseteo Alfa III", src: "audio/3.mp3" },
@@ -111,8 +118,9 @@ const playlists = {
     ]
 };
 
+// 3. MOTOR DE AUDIO BLINDADO (Desacoplado)
 window.ValtaraAudioEngine = {
-    audio: new Audio(),
+    audio: null, // Se inicializará dinámicamente para evitar corrupción de memoria
     currentPlaylist: 'radio',
     currentIndex: 0,
     isPlaying: false,
@@ -122,23 +130,29 @@ window.ValtaraAudioEngine = {
     animationId: null,
 
     init: function() {
+        console.log("🎵 [AUDIO ENGINE V43.1] Inicializando reproductor anti-caché...");
         this.renderCarousels();
         this.bindEvents();
-        
-        // BLINDAJE CONTRA HTTP 206 (Caché Roto)
-        this.audio.crossOrigin = "anonymous"; 
-        this.audio.preload = "metadata";
-        this.audio.volume = 0.7;
 
-        // AUTO-PLAY: Pasa a la siguiente canción al terminar
-        this.audio.addEventListener('ended', () => {
-            this.playNext();
-        });
+        if (!this.audio) {
+            this.audio = new Audio();
+            // ⚠️ ELIMINAMOS crossOrigin="anonymous" PARA EVITAR EL BLOQUEO DEL CACHÉ EN GITHUB PAGES
+            this.audio.volume = 0.7;
 
-        this.audio.addEventListener('timeupdate', () => this.updateProgress());
-        this.audio.addEventListener('loadedmetadata', () => {
-            document.getElementById('oasis-time-total').textContent = this.formatTime(this.audio.duration);
-        });
+            // Lógica de Auto-Play Continuo
+            this.audio.addEventListener('ended', () => this.playNext());
+            this.audio.addEventListener('timeupdate', () => this.updateProgress());
+            this.audio.addEventListener('loadedmetadata', () => {
+                const totalSpan = document.getElementById('oasis-time-total');
+                if(totalSpan) totalSpan.textContent = this.formatTime(this.audio.duration);
+            });
+            
+            // Seguro de vida: Si el audio falla, salta a la siguiente canción
+            this.audio.addEventListener('error', (e) => {
+                console.warn("Error al cargar pista. Saltando a la siguiente...", e);
+                setTimeout(() => this.playNext(), 1500);
+            });
+        }
     },
 
     renderCarousels: function() {
@@ -168,9 +182,8 @@ window.ValtaraAudioEngine = {
         
         this.audio.pause();
         
-        // PARCHE CACHÉ: ?v=timestamp
-        const cacheBuster = `?v=${Date.now()}`;
-        this.audio.src = track.src + cacheBuster;
+        // Carga pura sin queries extraños
+        this.audio.src = track.src;
         this.audio.load();
 
         this.audio.play().then(() => {
@@ -178,21 +191,31 @@ window.ValtaraAudioEngine = {
             document.getElementById('oasis-now-playing').textContent = track.title;
             const btn = document.getElementById('btn-master-play');
             if(btn) btn.innerHTML = '<i class="fa-solid fa-pause" style="color: var(--valtara-cian-brillante);"></i>';
-            this.initVisualizer();
-        }).catch(e => console.warn("Interacción requerida", e));
+            
+            // Inicializar visualizador de forma segura
+            this.initVisualizerSafe();
+        }).catch(e => console.warn("Interacción requerida por el navegador:", e));
     },
 
     playNext: function() {
         this.currentIndex++;
         if (this.currentIndex >= playlists[this.currentPlaylist].length) {
-            this.currentIndex = 0; // Loop de playlist
+            this.currentIndex = 0; // Loop de la playlist actual
+        }
+        this.playTrack(this.currentPlaylist, this.currentIndex);
+    },
+
+    playPrev: function() {
+        this.currentIndex--;
+        if (this.currentIndex < 0) {
+            this.currentIndex = playlists[this.currentPlaylist].length - 1;
         }
         this.playTrack(this.currentPlaylist, this.currentIndex);
     },
 
     togglePlay: function() {
         if (!this.audio.src) {
-            this.playTrack('radio', 0); // Default a radio si no hay nada
+            this.playTrack('radio', 0); // Empieza por la radio por defecto
             return;
         }
 
@@ -202,10 +225,11 @@ window.ValtaraAudioEngine = {
             btn.innerHTML = '<i class="fa-solid fa-play" style="color: white;"></i>';
             this.isPlaying = false;
         } else {
-            this.audio.play();
-            btn.innerHTML = '<i class="fa-solid fa-pause" style="color: var(--valtara-cian-brillante);"></i>';
-            this.isPlaying = true;
-            this.initVisualizer();
+            this.audio.play().then(() => {
+                btn.innerHTML = '<i class="fa-solid fa-pause" style="color: var(--valtara-cian-brillante);"></i>';
+                this.isPlaying = true;
+                this.initVisualizerSafe();
+            }).catch(e => console.error("Error al reproducir:", e));
         }
     },
 
@@ -224,7 +248,9 @@ window.ValtaraAudioEngine = {
 
     seekTo: function() {
         const bar = document.getElementById('oasis-progress-bar');
-        this.audio.currentTime = (bar.value / 100) * this.audio.duration;
+        if (bar && this.audio.duration) {
+            this.audio.currentTime = (bar.value / 100) * this.audio.duration;
+        }
     },
 
     formatTime: function(seconds) {
@@ -237,6 +263,8 @@ window.ValtaraAudioEngine = {
     bindEvents: function() {
         document.body.addEventListener('click', (e) => {
             if (e.target.closest('#btn-master-play')) this.togglePlay();
+            if (e.target.closest('#btn-next-track')) this.playNext();
+            if (e.target.closest('#btn-prev-track')) this.playPrev();
         });
 
         document.body.addEventListener('input', (e) => {
@@ -247,52 +275,67 @@ window.ValtaraAudioEngine = {
         });
     },
 
-    initVisualizer: function() {
-        if (this.audioCtx && this.audioCtx.state === 'suspended') {
-            this.audioCtx.resume();
-        }
-        if (this.audioCtx) return; 
-        
+    // 4. EL BLINDAJE (Aislamiento del Visualizador)
+    initVisualizerSafe: function() {
         try {
-            this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const source = this.audioCtx.createMediaElementSource(this.audio);
-            this.analyser = this.audioCtx.createAnalyser();
-            
-            source.connect(this.analyser);
-            this.analyser.connect(this.audioCtx.destination);
-            
-            this.analyser.fftSize = 256;
-            const bufferLength = this.analyser.frequencyBinCount;
-            const dataArray = new Uint8Array(bufferLength);
-            
-            const canvas = document.getElementById("oasis-visualizer");
-            if(!canvas) return;
-            this.canvasCtx = canvas.getContext("2d");
-            
-            const draw = () => {
-                if(!canvas) return;
-                const width = canvas.width;
-                const height = canvas.height;
+            if (!this.audioCtx) {
+                this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 
-                this.animationId = requestAnimationFrame(draw);
-                this.analyser.getByteFrequencyData(dataArray);
+                // Si el caché no tiene headers CORS, esta línea fallaría y detendría todo.
+                // Al estar dentro del try/catch, si falla, el error es contenido y LA MÚSICA SIGUE.
+                const source = this.audioCtx.createMediaElementSource(this.audio);
+                this.analyser = this.audioCtx.createAnalyser();
                 
-                this.canvasCtx.fillStyle = "rgba(0, 0, 0, 0.2)";
-                this.canvasCtx.fillRect(0, 0, width, height);
+                source.connect(this.analyser);
+                this.analyser.connect(this.audioCtx.destination);
                 
-                const barWidth = (width / bufferLength) * 2.5;
-                let barHeight;
-                let x = 0;
-                
-                for(let i = 0; i < bufferLength; i++) {
-                    barHeight = dataArray[i] / 2;
-                    this.canvasCtx.fillStyle = `rgb(0, ${barHeight + 100}, 255)`;
-                    this.canvasCtx.fillRect(x, height - barHeight, barWidth, barHeight);
-                    x += barWidth + 1;
-                }
-            };
-            draw();
-        } catch(e) {}
+                this.analyser.fftSize = 256;
+                const canvas = document.getElementById("oasis-visualizer");
+                if(canvas) this.canvasCtx = canvas.getContext("2d");
+            }
+            
+            if (this.audioCtx.state === 'suspended') {
+                this.audioCtx.resume();
+            }
+
+            this.drawVisualizer();
+            
+        } catch(e) { 
+            console.warn("🛡️ Valtara Audio: Visualizador en pausa por seguridad del Caché. Reproducción asegurada.", e); 
+        }
+    },
+
+    drawVisualizer: function() {
+        if (!this.canvasCtx || !this.analyser) return;
+        
+        const canvas = document.getElementById("oasis-visualizer");
+        if(!canvas) return;
+        
+        const width = canvas.width;
+        const height = canvas.height;
+        const bufferLength = this.analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+        
+        const draw = () => {
+            if(!this.isPlaying) return; // Pausar animación si no hay música
+            this.animationId = requestAnimationFrame(draw);
+            this.analyser.getByteFrequencyData(dataArray);
+            
+            this.canvasCtx.fillStyle = "rgba(0, 0, 0, 0.2)";
+            this.canvasCtx.fillRect(0, 0, width, height);
+            
+            const barWidth = (width / bufferLength) * 2.5;
+            let barHeight;
+            let x = 0;
+            
+            for(let i = 0; i < bufferLength; i++) {
+                barHeight = dataArray[i] / 2;
+                this.canvasCtx.fillStyle = `rgb(0, ${barHeight + 100}, 255)`;
+                this.canvasCtx.fillRect(x, height - barHeight, barWidth, barHeight);
+                x += barWidth + 1;
+            }
+        };
+        draw();
     }
 };
 
