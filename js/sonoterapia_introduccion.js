@@ -1,225 +1,314 @@
 window.ValtaraModulos = window.ValtaraModulos || {};
 
-window.ValtaraModulos.sonoterapia_introducción = `
+window.ValtaraModulos.sonoterapia_introduccion = `
 
-<style>
-    @keyframes sono-pulse {
-        0%, 100% { transform: scale(1);    opacity: 1;    }
-        50%       { transform: scale(1.08); opacity: 0.85; }
-    }
-    @keyframes sono-bars {
-        0%, 100% { height: 8px;  }
-        25%       { height: 28px; }
-        50%       { height: 16px; }
-        75%       { height: 34px; }
-    }
-    @keyframes sono-ring {
-        0%   { transform: scale(0.92); opacity: 0.15; }
-        100% { transform: scale(1.55); opacity: 0;    }
-    }
-    @keyframes sono-float {
-        0%, 100% { transform: translateY(0px);   }
-        50%       { transform: translateY(-10px); }
-    }
-    @keyframes sono-glow {
-        0%, 100% { box-shadow: 0 0 40px rgba(0,255,224,.18), 0 0 80px rgba(0,255,224,.06); }
-        50%       { box-shadow: 0 0 70px rgba(0,255,224,.32), 0 0 120px rgba(0,255,224,.12); }
-    }
-    @keyframes sono-fade-up {
-        from { opacity: 0; transform: translateY(22px); }
-        to   { opacity: 1; transform: translateY(0);    }
-    }
-</style>
-
-<section style="
-    max-width:1100px;
+<section class="reveal" style="
+    position:relative;
+    overflow:hidden;
+    padding:8rem 2rem 7rem;
     margin:0 auto 5rem auto;
-    padding:0 1.5rem;
-    text-align:center;
+    max-width:1400px;
 ">
 
-    <!-- Icono animado central -->
+    <!-- FONDO ATMOSFÉRICO -->
+    <div style="
+        position:absolute;
+        inset:0;
+        border-radius:3rem;
+        overflow:hidden;
+        background:
+            radial-gradient(circle at 20% 30%, rgba(0,255,255,.08), transparent 35%),
+            radial-gradient(circle at 80% 20%, rgba(212,175,55,.08), transparent 30%),
+            radial-gradient(circle at 50% 80%, rgba(255,255,255,.03), transparent 35%),
+            linear-gradient(180deg, rgba(5,10,15,.98), rgba(0,0,0,.92));
+        border:1px solid rgba(255,255,255,.05);
+        box-shadow:
+            0 3rem 8rem rgba(0,0,0,.65),
+            inset 0 0 6rem rgba(0,255,255,.03);
+    "></div>
+
+    <!-- PARTÍCULAS -->
+    <div style="
+        position:absolute;
+        inset:0;
+        pointer-events:none;
+        overflow:hidden;
+    ">
+        <div class="valtara-particle" style="
+            top:15%;
+            left:12%;
+            animation-delay:0s;
+        "></div>
+
+        <div class="valtara-particle" style="
+            top:70%;
+            left:18%;
+            animation-delay:2s;
+        "></div>
+
+        <div class="valtara-particle" style="
+            top:22%;
+            right:15%;
+            animation-delay:4s;
+        "></div>
+
+        <div class="valtara-particle" style="
+            top:65%;
+            right:12%;
+            animation-delay:1s;
+        "></div>
+    </div>
+
+    <!-- CONTENIDO -->
     <div style="
         position:relative;
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        margin-bottom:3rem;
-        animation: sono-float 6s ease-in-out infinite;
-    ">
-
-        <!-- Anillos expansivos -->
-        <div style="
-            position:absolute;
-            width:130px;height:130px;
-            border-radius:50%;
-            border:1px solid rgba(0,255,224,.35);
-            animation: sono-ring 2.4s ease-out infinite;
-        "></div>
-        <div style="
-            position:absolute;
-            width:130px;height:130px;
-            border-radius:50%;
-            border:1px solid rgba(0,255,224,.2);
-            animation: sono-ring 2.4s ease-out infinite;
-            animation-delay:.8s;
-        "></div>
-        <div style="
-            position:absolute;
-            width:130px;height:130px;
-            border-radius:50%;
-            border:1px solid rgba(0,255,224,.1);
-            animation: sono-ring 2.4s ease-out infinite;
-            animation-delay:1.6s;
-        "></div>
-
-        <!-- Círculo principal con glow -->
-        <div style="
-            position:relative;
-            width:110px;height:110px;
-            border-radius:50%;
-            background:radial-gradient(circle at 38% 38%,
-                rgba(0,255,224,.18),
-                rgba(0,0,0,.75));
-            border:1px solid rgba(0,255,224,.4);
-            display:flex;align-items:center;justify-content:center;
-            animation: sono-glow 3.5s ease-in-out infinite;
-            z-index:2;
-        ">
-            <!-- Barras de ecualizador animadas -->
-            <div style="display:flex;align-items:flex-end;gap:5px;height:42px;">
-                <div style="width:5px;border-radius:3px;background:var(--valtara-cian-brillante);animation:sono-bars 1.1s ease-in-out infinite;animation-delay:0s;"></div>
-                <div style="width:5px;border-radius:3px;background:var(--valtara-cian-brillante);animation:sono-bars 1.1s ease-in-out infinite;animation-delay:.18s;"></div>
-                <div style="width:5px;border-radius:3px;background:var(--valtara-cian-brillante);animation:sono-bars 1.1s ease-in-out infinite;animation-delay:.36s;"></div>
-                <div style="width:5px;border-radius:3px;background:var(--valtara-cian-brillante);animation:sono-bars 1.1s ease-in-out infinite;animation-delay:.54s;"></div>
-                <div style="width:5px;border-radius:3px;background:var(--valtara-cian-brillante);animation:sono-bars 1.1s ease-in-out infinite;animation-delay:.72s;"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Kicker -->
-    <div style="
-        display:inline-flex;align-items:center;gap:.6rem;
-        padding:.42rem 1rem;border-radius:999px;
-        background:rgba(0,255,224,.06);
-        border:1px solid rgba(0,255,224,.18);
-        color:var(--valtara-cian-brillante);
-        font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
-        margin-bottom:1.6rem;
-        animation: sono-fade-up .7s ease both;
-        animation-delay:.1s;
-    ">
-        <i class="fa-solid fa-wave-square fa-fade" style="--fa-animation-duration:2s;"></i>
-        Sonoterapia Botánica · Valtara
-    </div>
-
-    <!-- Título principal -->
-    <h2 style="
-        font-family:var(--font-accent);
-        font-size:clamp(2.6rem,5.5vw,5rem);
-        line-height:1.05;
-        color:var(--valtara-blanco);
-        margin:0 0 1.6rem;
-        animation: sono-fade-up .7s ease both;
-        animation-delay:.2s;
-    ">
-        El sonido también<br>
-        <span style="color:var(--valtara-cian-brillante);">sana el cuerpo</span>
-    </h2>
-
-    <!-- Subtítulo -->
-    <p style="
-        color:var(--valtara-gris-texto);
-        font-size:clamp(1rem,2vw,1.22rem);
-        line-height:1.95;
-        max-width:720px;
-        margin:0 auto 3rem;
-        font-weight:300;
-        letter-spacing:.015em;
-        animation: sono-fade-up .7s ease both;
-        animation-delay:.32s;
-    ">
-        La sonoterapia es la disciplina que utiliza frecuencias acústicas específicas para
-        reducir la activación del sistema nervioso simpático, facilitar la recuperación muscular
-        y profundizar los estados de descanso. No es música de fondo. Es una herramienta clínica
-        con fundamento neurocientífico integrada en cada sesión de Valtara.
-    </p>
-
-    <!-- Tres pilares -->
-    <div style="
-        display:grid;
-        grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-        gap:1.2rem;
-        margin-bottom:3.5rem;
-        animation: sono-fade-up .7s ease both;
-        animation-delay:.44s;
-    ">
-
-        <div style="
-            padding:2rem 1.6rem;
-            border-radius:24px;
-            background:rgba(0,255,224,.04);
-            border:1px solid rgba(0,255,224,.12);
-            text-align:left;
-        ">
-            <i class="fa-solid fa-brain" style="font-size:1.6rem;color:var(--valtara-cian-brillante);margin-bottom:1rem;display:block;"></i>
-            <strong style="color:var(--valtara-blanco);font-size:1.05rem;display:block;margin-bottom:.5rem;">
-                Regulación neurológica
-            </strong>
-            <p style="color:var(--valtara-gris-texto);font-size:.92rem;line-height:1.8;margin:0;">
-                Las frecuencias theta y alpha modulan la actividad cortical, reduciendo el estado de alerta sostenida y facilitando el paso al descanso profundo.
-            </p>
-        </div>
-
-        <div style="
-            padding:2rem 1.6rem;
-            border-radius:24px;
-            background:rgba(212,175,55,.04);
-            border:1px solid rgba(212,175,55,.12);
-            text-align:left;
-        ">
-            <i class="fa-solid fa-heart-pulse" style="font-size:1.6rem;color:var(--valtara-oro);margin-bottom:1rem;display:block;"></i>
-            <strong style="color:var(--valtara-blanco);font-size:1.05rem;display:block;margin-bottom:.5rem;">
-                Recuperación muscular
-            </strong>
-            <p style="color:var(--valtara-gris-texto);font-size:.92rem;line-height:1.8;margin:0;">
-                La vibración acústica aplicada durante el masaje potencia la vasodilatación periférica y acelera la eliminación de metabolitos del tejido trabajado.
-            </p>
-        </div>
-
-        <div style="
-            padding:2rem 1.6rem;
-            border-radius:24px;
-            background:rgba(178,127,255,.04);
-            border:1px solid rgba(178,127,255,.12);
-            text-align:left;
-        ">
-            <i class="fa-solid fa-wind" style="font-size:1.6rem;color:#b27fff;margin-bottom:1rem;display:block;"></i>
-            <strong style="color:var(--valtara-blanco);font-size:1.05rem;display:block;margin-bottom:.5rem;">
-                Coherencia emocional
-            </strong>
-            <p style="color:var(--valtara-gris-texto);font-size:.92rem;line-height:1.8;margin:0;">
-                El entorno sonoro diseñado por Valtara reduce los marcadores de cortisol y facilita la coherencia cardiaca, generando un estado de presencia plena y bienestar sostenido.
-            </p>
-        </div>
-
-    </div>
-
-    <!-- Cita final -->
-    <p style="
-        font-family:var(--font-accent);
-        font-size:clamp(1.1rem,2.2vw,1.45rem);
-        color:rgba(255,255,255,.55);
-        font-style:italic;
-        line-height:1.7;
-        max-width:680px;
+        z-index:2;
+        max-width:1100px;
         margin:0 auto;
-        animation: sono-fade-up .7s ease both;
-        animation-delay:.55s;
+        text-align:center;
     ">
-        &ldquo; Cada pista fue compuesta o seleccionada con un propósito terapéutico preciso.
-        Nada aquí es decorativo. &rdquo;
-    </p>
+
+        <!-- BADGE -->
+        <div style="
+            display:inline-flex;
+            align-items:center;
+            gap:.8rem;
+            padding:.75rem 1.4rem;
+            border-radius:999px;
+            margin-bottom:2rem;
+            background:rgba(255,255,255,.04);
+            border:1px solid rgba(255,255,255,.08);
+            backdrop-filter:blur(12px);
+            -webkit-backdrop-filter:blur(12px);
+        ">
+            <div class="valtara-pulse-dot"></div>
+
+            <span style="
+                color:rgba(255,255,255,.78);
+                font-size:.75rem;
+                letter-spacing:.22em;
+                text-transform:uppercase;
+                font-weight:600;
+            ">
+                Therapeutic Frequency System
+            </span>
+        </div>
+
+        <!-- TÍTULO -->
+        <h2 style="
+            margin:0 0 2rem 0;
+            font-size:clamp(3rem,7vw,6.5rem);
+            line-height:.95;
+            font-family:var(--font-accent);
+            font-weight:900;
+            letter-spacing:-.04em;
+            color:var(--valtara-blanco);
+            text-shadow:0 0 40px rgba(0,255,255,.12);
+        ">
+            Sonoterapia
+            <span style="
+                display:block;
+                margin-top:.5rem;
+                background:linear-gradient(
+                    90deg,
+                    var(--valtara-cian-brillante),
+                    var(--valtara-oro),
+                    var(--valtara-cian-brillante)
+                );
+                background-size:200% auto;
+                -webkit-background-clip:text;
+                -webkit-text-fill-color:transparent;
+                animation:valtaraGradient 8s linear infinite;
+            ">
+                Valtara
+            </span>
+        </h2>
+
+        <!-- FRASE PRINCIPAL -->
+        <p style="
+            max-width:850px;
+            margin:0 auto 2.5rem auto;
+            color:rgba(255,255,255,.82);
+            font-size:clamp(1.05rem,2vw,1.35rem);
+            line-height:2;
+            font-weight:300;
+            letter-spacing:.02em;
+        ">
+            Algunas frecuencias no buscan distraerte del mundo.
+            <span style="color:var(--valtara-cian-brillante);">
+                Buscan devolverte lentamente a ti.
+            </span>
+            <br><br>
+            Diseñamos este espacio sonoro para acompañar estados de descanso,
+            concentración, regulación emocional y recuperación mental profunda.
+            Respira despacio. El resto puede esperar unos minutos.
+        </p>
+
+        <!-- BLOQUES SENSORIALES -->
+        <div style="
+            display:flex;
+            justify-content:center;
+            gap:1rem;
+            flex-wrap:wrap;
+            margin-bottom:4rem;
+        ">
+
+            <div class="valtara-sensory-card">
+                <i class="fa-solid fa-brain"></i>
+                <span>Enfoque Profundo</span>
+            </div>
+
+            <div class="valtara-sensory-card">
+                <i class="fa-solid fa-moon"></i>
+                <span>Descanso Mental</span>
+            </div>
+
+            <div class="valtara-sensory-card">
+                <i class="fa-solid fa-water"></i>
+                <span>Calma Nerviosa</span>
+            </div>
+
+            <div class="valtara-sensory-card">
+                <i class="fa-solid fa-spa"></i>
+                <span>Recuperación Sensorial</span>
+            </div>
+
+        </div>
+
+        <!-- FRASE INFERIOR -->
+        <div style="
+            max-width:700px;
+            margin:0 auto;
+        ">
+            <div style="
+                width:70px;
+                height:1px;
+                margin:0 auto 2rem;
+                background:linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(212,175,55,.6),
+                    transparent
+                );
+            "></div>
+
+            <p style="
+                color:rgba(255,255,255,.45);
+                font-size:.92rem;
+                line-height:1.9;
+                letter-spacing:.08em;
+                text-transform:uppercase;
+            ">
+                Micro-Dosis • Inmersión Profunda • Valtara Sessions
+            </p>
+        </div>
+    </div>
+
+    <!-- CSS INTERNO -->
+    <style>
+
+        @keyframes valtaraFloat {
+            0% {
+                transform:translateY(0px);
+                opacity:.15;
+            }
+            50% {
+                transform:translateY(-18px);
+                opacity:.35;
+            }
+            100% {
+                transform:translateY(0px);
+                opacity:.15;
+            }
+        }
+
+        @keyframes valtaraGradient {
+            0% {
+                background-position:0% center;
+            }
+            100% {
+                background-position:200% center;
+            }
+        }
+
+        @keyframes valtaraPulse {
+            0% {
+                transform:scale(1);
+                opacity:.6;
+            }
+            50% {
+                transform:scale(1.25);
+                opacity:1;
+            }
+            100% {
+                transform:scale(1);
+                opacity:.6;
+            }
+        }
+
+        .valtara-particle{
+            position:absolute;
+            width:220px;
+            height:220px;
+            border-radius:50%;
+            background:radial-gradient(
+                circle,
+                rgba(0,255,255,.12),
+                transparent 70%
+            );
+            filter:blur(20px);
+            animation:valtaraFloat 10s ease-in-out infinite;
+        }
+
+        .valtara-pulse-dot{
+            width:10px;
+            height:10px;
+            border-radius:50%;
+            background:var(--valtara-cian-brillante);
+            box-shadow:0 0 20px rgba(0,255,255,.8);
+            animation:valtaraPulse 2s ease infinite;
+        }
+
+        .valtara-sensory-card{
+            display:flex;
+            align-items:center;
+            gap:.75rem;
+            padding:1rem 1.4rem;
+            border-radius:1.2rem;
+            background:rgba(255,255,255,.04);
+            border:1px solid rgba(255,255,255,.06);
+            backdrop-filter:blur(10px);
+            -webkit-backdrop-filter:blur(10px);
+            transition:.4s ease;
+        }
+
+        .valtara-sensory-card:hover{
+            transform:translateY(-6px);
+            border-color:rgba(0,255,255,.22);
+            box-shadow:0 1rem 2rem rgba(0,255,255,.08);
+        }
+
+        .valtara-sensory-card i{
+            color:var(--valtara-oro);
+            font-size:1rem;
+        }
+
+        .valtara-sensory-card span{
+            color:rgba(255,255,255,.78);
+            font-size:.92rem;
+            letter-spacing:.04em;
+        }
+
+        @media (max-width:768px){
+
+            .valtara-sensory-card{
+                width:100%;
+                justify-content:center;
+            }
+
+        }
+
+    </style>
 
 </section>
 
