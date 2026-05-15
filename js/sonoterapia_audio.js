@@ -1,8 +1,8 @@
 /**
  * ====================================================================================
- * MÓDULO: SONOTERAPIA AUDIO (Valtara Radio V42.0)
+ * MÓDULO: SONOTERAPIA AUDIO (Valtara Radio V42.1 - Parche de Resiliencia)
  * ------------------------------------------------------------------------------------
- * Reproductor inmersivo con visualizador Canvas y Playlist continua.
+ * Soluciona el bloqueo de Caché (HTTP 206) en recargas de SPA/PWA.
  * ====================================================================================
  */
 
@@ -52,7 +52,6 @@ window.ValtaraModulos.sonoterapia_audio = `
         </div>
     </div>
 
-    <!-- Carrusel Visual Opcional -->
     <div style="max-width: 1200px; margin: 0 auto 1.5rem auto; padding-left: 2rem; border-left: 5px solid var(--valtara-verde-menta);">
         <h4 style="color: var(--valtara-verde-menta); font-size: 2rem; font-family: var(--font-accent); margin: 0;">Catálogo de Pistas</h4>
         <p style="color: #aaa; font-size: 1.1rem; margin: 0;">Valtara Radio fluye automáticamente.</p>
@@ -63,7 +62,7 @@ window.ValtaraModulos.sonoterapia_audio = `
     </div>
 `;
 
-// 2. BASE DE DATOS DE PISTAS (Valtara Radio)
+// 2. BASE DE DATOS DE PISTAS
 const radioPlaylist = [
     { title: "Nuestra Catedral", src: "audio/nuestra_catedral.mp3" },
     { title: "Steam From The Porcelain", src: "audio/steam_from_the_porcelain.mp3" },
@@ -79,7 +78,6 @@ const radioPlaylist = [
     { title: "Midnight Architecture", src: "audio/midnight_architecture.mp3" },
     { title: "Cristal y Sal", src: "audio/cristal_y_sal.mp3" },
     { title: "The Quiet Pulse", src: "audio/the_quiet_pulse.mp3" },
-    // Pistas previas
     { title: "Beneath a Darkened Tide", src: "audio/beneath_a_darkened_tide.mp3" },
     { title: "Dissolving the Indigo", src: "audio/dissolving_the_indigo.mp3" },
     { title: "El Umbral de Cristal", src: "audio/el_umbral_de_cristal.mp3" },
@@ -92,7 +90,7 @@ const radioPlaylist = [
     { title: "Sombra Divina", src: "audio/sombra_divina.mp3" }
 ];
 
-// 3. MOTOR DE RADIO CONTINUA
+// 3. MOTOR DE RADIO CONTINUA CON BLINDAJE DE CACHÉ
 window.ValtaraRadioEngine = {
     audio: new Audio(),
     currentIndex: 0,
@@ -103,20 +101,22 @@ window.ValtaraRadioEngine = {
     animationId: null,
 
     init: function() {
-        console.log("📻 [VALTARA RADIO] Encendiendo frecuencias...");
+        console.log("📻 [VALTARA RADIO] Encendiendo frecuencias blindadas...");
         this.renderCarousel();
         this.bindEvents();
         
-        // Configuraciones de audio global
+        // Configuraciones de seguridad para evitar bloqueos del navegador
+        this.audio.crossOrigin = "anonymous"; 
+        this.audio.preload = "metadata";
         this.audio.volume = 0.7;
         
-        // Evento crítico: AUTO-PLAY (Flujo Continuo)
+        // AUTO-PLAY: Cuando termina una canción, pasa a la siguiente
         this.audio.addEventListener('ended', () => {
-            console.log("Pista terminada. Cambiando a la siguiente...");
+            console.log("Pista terminada. Fluyendo a la siguiente...");
             this.playNext();
         });
 
-        // Actualizar barra de progreso
+        // Eventos de la barra de progreso
         this.audio.addEventListener('timeupdate', () => this.updateProgress());
         this.audio.addEventListener('loadedmetadata', () => {
             document.getElementById('oasis-time-total').textContent = this.formatTime(this.audio.duration);
@@ -143,9 +143,15 @@ window.ValtaraRadioEngine = {
         this.currentIndex = index;
         const track = radioPlaylist[this.currentIndex];
         
-        // Efecto Crossfade básico simulado
         this.audio.pause();
-        this.audio.src = track.src;
+        
+        // PARCHE DE CACHÉ FANTASMA: Se agrega un parámetro invisible para que el Service Worker no rompa el MP3 al recargar
+        const cacheBuster = `?v=${Date.now()}`;
+        this.audio.src = track.src + cacheBuster;
+        
+        // Obligamos al navegador a borrar el buffer de memoria viejo
+        this.audio.load();
+
         this.audio.play()
             .then(() => {
                 this.isPlaying = true;
@@ -154,7 +160,10 @@ window.ValtaraRadioEngine = {
                 if(btn) btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
                 this.initVisualizer();
             })
-            .catch(err => console.log("Bloqueo del navegador para autoplay:", err));
+            .catch(err => {
+                console.warn("Autoplay bloqueado por el navegador o caché corrupto. Requiere interacción manual.", err);
+                this.isPlaying = false;
+            });
     },
 
     playNext: function() {
@@ -171,7 +180,7 @@ window.ValtaraRadioEngine = {
 
     togglePlay: function() {
         if (!this.audio.src) {
-            this.playTrack(0); // Si no hay nada, empieza con la 1
+            this.playTrack(0); 
             return;
         }
 
@@ -181,10 +190,11 @@ window.ValtaraRadioEngine = {
             btn.innerHTML = '<i class="fa-solid fa-play"></i>';
             this.isPlaying = false;
         } else {
-            this.audio.play();
-            btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-            this.isPlaying = true;
-            this.initVisualizer();
+            this.audio.play().then(() => {
+                btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                this.isPlaying = true;
+                this.initVisualizer();
+            }).catch(e => console.error("Error al reproducir:", e));
         }
     },
 
@@ -201,20 +211,20 @@ window.ValtaraRadioEngine = {
         if (timeStr) timeStr.textContent = this.formatTime(current);
     },
 
-    seekTo: function(e) {
+    seekTo: function() {
         const bar = document.getElementById('oasis-progress-bar');
         const seekTime = (bar.value / 100) * this.audio.duration;
         this.audio.currentTime = seekTime;
     },
 
     formatTime: function(seconds) {
+        if(isNaN(seconds)) return "0:00";
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     },
 
     bindEvents: function() {
-        // Escucha en Body para que no importe si el HTML tardó en dibujar (Delegación)
         document.body.addEventListener('click', (e) => {
             if (e.target.closest('#btn-master-play')) this.togglePlay();
             if (e.target.closest('#btn-next-track')) this.playNext();
@@ -230,7 +240,12 @@ window.ValtaraRadioEngine = {
     },
 
     initVisualizer: function() {
-        if (this.audioCtx) return; // Solo inicializar una vez
+        // Rescatar el Contexto si el navegador lo suspendió al refrescar
+        if (this.audioCtx && this.audioCtx.state === 'suspended') {
+            this.audioCtx.resume();
+            return;
+        }
+        if (this.audioCtx) return; 
         
         try {
             this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -271,11 +286,10 @@ window.ValtaraRadioEngine = {
                 }
             };
             draw();
-        } catch(e) { console.warn("Visualizador bloqueado (Safari/iOS) hasta primera interacción.", e); }
+        } catch(e) { console.warn("Visualizador bloqueado temporalmente por política del navegador.", e); }
     }
 };
 
-// AUTO-ARRANQUE
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         window.ValtaraRadioEngine.init();
