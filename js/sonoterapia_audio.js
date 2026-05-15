@@ -1,32 +1,5 @@
-/**
- * ====================================================================================
- * MÓDULO: SONOTERAPIA AUDIO (V46 — Playlists completas + radio real)
- * ====================================================================================
- *
- * Este archivo hace SOLO dos cosas:
- *   1. Define window.ValtaraPlaylists con las tres listas reales de pistas.
- *   2. Define window.ValtaraModulos.sonoterapia_audio con el HTML del bloque.
- *
- * El motor de reproducción vive enteramente en oasis.js (OasisEngine V26).
- * NO hay ningún segundo motor aquí. Sin conflictos, sin doble-binding.
- *
- * Arquitectura de reproducción (implementada en oasis.js):
- *   - Cada sección (short / long / radio) es una cola independiente.
- *   - Al terminar una pista avanza automáticamente a la siguiente
- *     dentro de la misma cola, en bucle infinito.
- *   - Cambio de pista (manual o automático) dispara crossfade:
- *     la pista actual baja a 0 en 1.2 s, la nueva sube al volumen
- *     deseado en 1.2 s de forma simultánea y sin corte.
- *   - prev / next respetan la cola activa.
- *
- * ====================================================================================
- */
-
 window.ValtaraModulos = window.ValtaraModulos || {};
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   FUENTE DE DATOS — leída por OasisEngine (oasis.js)
-   ───────────────────────────────────────────────────────────────────────────── */
 window.ValtaraPlaylists = {
 
     short: [
@@ -56,30 +29,9 @@ window.ValtaraPlaylists = {
         { id: 'l12', title: 'Un Hilo de Oro',            src: 'audio/un_hilo_de_oro.mp3',            icon: 'fa-ring'      },
         { id: 'l13', title: 'Bajo el Vidrio',            src: 'audio/bajo_el_vidrio.mp3',            icon: 'fa-snowflake' },
         { id: 'l14', title: 'Bajo el Vidrio (Extended)', src: 'audio/bajo_el_vidrio (1).mp3',        icon: 'fa-icicles'   }
-    ],
-
-    radio: [
-        { id: 'r1',  title: 'Nuestra Catedral',             src: 'audio/nuestra_catedral.mp3',               icon: 'fa-tower-broadcast' },
-        { id: 'r2',  title: 'Steam from the Porcelain',     src: 'audio/steam_from_the_porcelain.mp3',       icon: 'fa-tower-broadcast' },
-        { id: 'r3',  title: 'Donde el Alma Descansa',       src: 'audio/donde_el_alma_descansa.mp3',         icon: 'fa-tower-broadcast' },
-        { id: 'r4',  title: 'Un Respiro en el Andar',       src: 'audio/un_respiro_en_el_andar.mp3',         icon: 'fa-tower-broadcast' },
-        { id: 'r5',  title: 'Un Puerto Donde Descansar',    src: 'audio/un_puerto_donde_descansar.mp3',      icon: 'fa-tower-broadcast' },
-        { id: 'r6',  title: 'Refugio entre Ramas',          src: 'audio/refugio_entre_ramas.mp3',            icon: 'fa-tower-broadcast' },
-        { id: 'r7',  title: 'Donde la Piedra se Rinde',     src: 'audio/donde_la_piedra_se_rinde.mp3',       icon: 'fa-tower-broadcast' },
-        { id: 'r8',  title: 'The Willow and the Stone',     src: 'audio/the_willow_and_the_stone.mp3',       icon: 'fa-tower-broadcast' },
-        { id: 'r9',  title: 'Blue-Inked Islands',           src: 'audio/blue-inked_islands.mp3',             icon: 'fa-tower-broadcast' },
-        { id: 'r10', title: 'The Slow Rotation',            src: 'audio/the_slow_rotation.mp3',              icon: 'fa-tower-broadcast' },
-        { id: 'r11', title: 'The Slow Rotation (Extended)', src: 'audio/the_slow_rotation (1).mp3',          icon: 'fa-tower-broadcast' },
-        { id: 'r12', title: 'Where Pulse and Pasture Meet', src: 'audio/where_pulse_and_pasture_meet.mp3',   icon: 'fa-tower-broadcast' },
-        { id: 'r13', title: 'Midnight Architecture',        src: 'audio/midnight_architecture.mp3',          icon: 'fa-tower-broadcast' },
-        { id: 'r14', title: 'Cristal y Sal',                src: 'audio/cristal_y_sal.mp3',                  icon: 'fa-tower-broadcast' },
-        { id: 'r15', title: 'The Quiet Pulse',              src: 'audio/the_quiet_pulse.mp3',                icon: 'fa-tower-broadcast' }
     ]
 };
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   HTML DEL MÓDULO
-   ───────────────────────────────────────────────────────────────────────────── */
 window.ValtaraModulos.sonoterapia_audio = `
 
 <div style="text-align:center;max-width:1200px;margin:4rem auto 2rem auto;">
@@ -218,14 +170,154 @@ window.ValtaraModulos.sonoterapia_audio = `
     <div id="audio-carousel-long" class="horizontal-carousel"></div>
 </div>
 
-<!-- SECCIÓN 3: VALTARA RADIO -->
+<!-- SECCIÓN 3: VALTARA RADIO — YouTube -->
 <div style="max-width:1200px;margin:0 auto 1.5rem auto;padding-left:2rem;border-left:5px solid var(--valtara-oro);">
     <h4 style="color:var(--valtara-oro);font-size:2rem;font-family:var(--font-accent);margin:0;">
         Valtara Radio
     </h4>
 </div>
-<div class="carousel-master-container reveal" style="margin-bottom:6rem;">
-    <div id="audio-carousel-radio" class="horizontal-carousel"></div>
+
+<div class="reveal" style="max-width:1200px;margin:0 auto 6rem auto;padding:0 1rem;">
+
+    <style>
+        @media (max-width:760px) {
+            .valtara-radio-grid {
+                grid-template-columns: 1fr !important;
+            }
+            .valtara-radio-video {
+                padding-bottom: 100% !important;
+            }
+        }
+    </style>
+
+    <div class="valtara-radio-grid" style="
+        background:rgba(0,0,0,.72);
+        border:1px solid rgba(212,175,55,.25);
+        border-radius:28px;
+        overflow:hidden;
+        box-shadow:0 2rem 6rem rgba(212,175,55,.12);
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        min-height:480px;
+    ">
+
+        <!-- Video cuadrado -->
+        <div class="valtara-radio-video" style="
+            position:relative;
+            width:100%;
+            padding-bottom:100%;
+            background:#000;
+        ">
+            <iframe
+                src="https://www.youtube.com/embed/AioVZKTOLAI?rel=0&modestbranding=1&color=white"
+                title="Valtara Sessions Vol. 1"
+                style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <!-- Info lateral -->
+        <div style="
+            padding:3rem 2.5rem;
+            display:flex;
+            flex-direction:column;
+            justify-content:space-between;
+            gap:2rem;
+        ">
+            <div>
+                <div style="
+                    display:inline-flex;align-items:center;gap:.5rem;
+                    padding:.35rem .85rem;border-radius:999px;
+                    background:rgba(212,175,55,.08);
+                    border:1px solid rgba(212,175,55,.2);
+                    color:var(--valtara-oro);
+                    font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;
+                    margin-bottom:1.2rem;
+                ">
+                    <i class="fa-brands fa-youtube"></i>&nbsp;Valtara Sessions Vol. 1
+                </div>
+
+                <h3 style="
+                    color:var(--valtara-blanco);
+                    font-family:var(--font-accent);
+                    font-size:clamp(1.3rem,2vw,1.9rem);
+                    line-height:1.2;
+                    margin:0 0 1rem;
+                ">
+                    Música Ambiental para Relajación, Enfoque y Bienestar Profundo
+                </h3>
+
+                <p style="color:var(--valtara-gris-texto);line-height:1.85;font-size:.95rem;margin:0 0 1.5rem;">
+                    Una experiencia sonora diseñada meticulosamente para armonizar tus espacios, reducir el estrés diario y potenciar tus momentos de enfoque, meditación o descanso profundo.
+                </p>
+
+                <p style="color:var(--valtara-oro);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 .75rem;">
+                    Índice de pistas
+                </p>
+
+                <div style="display:flex;flex-direction:column;gap:.5rem;">
+                    <div style="display:flex;gap:.75rem;align-items:baseline;">
+                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">00:00</span>
+                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">Refugio entre Ramas</span>
+                    </div>
+                    <div style="display:flex;gap:.75rem;align-items:baseline;">
+                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">02:51</span>
+                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">Donde la Piedra se Rinde</span>
+                    </div>
+                    <div style="display:flex;gap:.75rem;align-items:baseline;">
+                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">05:33</span>
+                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">Un Puerto Donde Descansar</span>
+                    </div>
+                    <div style="display:flex;gap:.75rem;align-items:baseline;">
+                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">08:20</span>
+                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">The Willow and the Stone</span>
+                    </div>
+                    <div style="display:flex;gap:.75rem;align-items:baseline;">
+                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">11:01</span>
+                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">Blue-Inked Islands</span>
+                    </div>
+                    <div style="display:flex;gap:.75rem;align-items:baseline;">
+                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">13:49</span>
+                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">Midnight Architecture</span>
+                    </div>
+                    <div style="display:flex;gap:.75rem;align-items:baseline;">
+                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">16:16</span>
+                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">The Slow Rotation</span>
+                    </div>
+                    <div style="display:flex;gap:.75rem;align-items:baseline;">
+                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">18:55</span>
+                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">Where Pulse and Pasture Meet</span>
+                    </div>
+                    <div style="display:flex;gap:.75rem;align-items:baseline;">
+                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">24:19</span>
+                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">Steam from the Porcelain</span>
+                    </div>
+                </div>
+            </div>
+
+            
+                href="https://youtu.be/AioVZKTOLAI?si=Wr2eurAtslh-fLGa"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="
+                    display:inline-flex;align-items:center;justify-content:center;
+                    gap:.6rem;padding:.9rem 1.6rem;border-radius:999px;
+                    background:linear-gradient(135deg,#c00,#e00);
+                    color:white;font-weight:800;font-size:.95rem;
+                    text-decoration:none;
+                    box-shadow:0 8px 24px rgba(200,0,0,.3);
+                    align-self:flex-start;
+                    transition:filter .2s;
+                "
+                onmouseover="this.style.filter='brightness(1.12)'"
+                onmouseout="this.style.filter=''"
+            >
+                <i class="fa-brands fa-youtube"></i>&nbsp;Ver en YouTube
+            </a>
+
+        </div>
+    </div>
 </div>
 
 `;
