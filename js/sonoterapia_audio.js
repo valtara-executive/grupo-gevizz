@@ -170,7 +170,7 @@ window.ValtaraModulos.sonoterapia_audio = `
     <div id="audio-carousel-long" class="horizontal-carousel"></div>
 </div>
 
-<!-- SECCIÓN 3: VALTARA RADIO — YouTube -->
+<!-- SECCIÓN 3: VALTARA RADIO -->
 <div style="max-width:1200px;margin:0 auto 1.5rem auto;padding-left:2rem;border-left:5px solid var(--valtara-oro);">
     <h4 style="color:var(--valtara-oro);font-size:2rem;font-family:var(--font-accent);margin:0;">
         Valtara Radio
@@ -181,32 +181,24 @@ window.ValtaraModulos.sonoterapia_audio = `
 
     <style>
         @media (max-width:760px) {
-            .valtara-radio-grid {
-                grid-template-columns: 1fr !important;
-            }
-            .valtara-radio-video {
-                padding-bottom: 100% !important;
-            }
+            .valtara-radio-grid { grid-template-columns:1fr !important; }
+            .valtara-radio-video { padding-bottom:100% !important; }
         }
     </style>
 
+    <!-- Reproductor + info lateral -->
     <div class="valtara-radio-grid" style="
         background:rgba(0,0,0,.72);
         border:1px solid rgba(212,175,55,.25);
-        border-radius:28px;
+        border-radius:28px 28px 0 0;
         overflow:hidden;
-        box-shadow:0 2rem 6rem rgba(212,175,55,.12);
         display:grid;
         grid-template-columns:1fr 1fr;
         min-height:480px;
     ">
-
-        <!-- Video cuadrado -->
         <div class="valtara-radio-video" style="
-            position:relative;
-            width:100%;
-            padding-bottom:100%;
-            background:#000;
+            position:relative;width:100%;
+            padding-bottom:100%;background:#000;
         ">
             <iframe
                 src="https://www.youtube.com/embed/AioVZKTOLAI?rel=0&modestbranding=1&color=white"
@@ -217,106 +209,116 @@ window.ValtaraModulos.sonoterapia_audio = `
             </iframe>
         </div>
 
-        <!-- Info lateral -->
         <div style="
             padding:3rem 2.5rem;
-            display:flex;
-            flex-direction:column;
-            justify-content:space-between;
-            gap:2rem;
+            display:flex;flex-direction:column;
+            justify-content:center;gap:1.5rem;
         ">
-            <div>
-                <div style="
-                    display:inline-flex;align-items:center;gap:.5rem;
-                    padding:.35rem .85rem;border-radius:999px;
-                    background:rgba(212,175,55,.08);
-                    border:1px solid rgba(212,175,55,.2);
-                    color:var(--valtara-oro);
-                    font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;
-                    margin-bottom:1.2rem;
-                ">
-                    <i class="fa-brands fa-youtube"></i>&nbsp;Valtara Sessions Vol. 1
-                </div>
-
-                <h3 style="
-                    color:var(--valtara-blanco);
-                    font-family:var(--font-accent);
-                    font-size:clamp(1.3rem,2vw,1.9rem);
-                    line-height:1.2;
-                    margin:0 0 1rem;
-                ">
-                    Música Ambiental para Relajación, Enfoque y Bienestar Profundo
-                </h3>
-
-                <p style="color:var(--valtara-gris-texto);line-height:1.85;font-size:.95rem;margin:0 0 1.5rem;">
-                    Una experiencia sonora diseñada meticulosamente para armonizar tus espacios, reducir el estrés diario y potenciar tus momentos de enfoque, meditación o descanso profundo.
-                </p>
-
-                <p style="color:var(--valtara-oro);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 .75rem;">
-                    Índice de pistas
-                </p>
-
-                <div style="display:flex;flex-direction:column;gap:.5rem;">
-                    <div style="display:flex;gap:.75rem;align-items:baseline;">
-                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">00:00</span>
-                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">Refugio entre Ramas</span>
-                    </div>
-                    <div style="display:flex;gap:.75rem;align-items:baseline;">
-                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">02:51</span>
-                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">Donde la Piedra se Rinde</span>
-                    </div>
-                    <div style="display:flex;gap:.75rem;align-items:baseline;">
-                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">05:33</span>
-                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">Un Puerto Donde Descansar</span>
-                    </div>
-                    <div style="display:flex;gap:.75rem;align-items:baseline;">
-                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">08:20</span>
-                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">The Willow and the Stone</span>
-                    </div>
-                    <div style="display:flex;gap:.75rem;align-items:baseline;">
-                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">11:01</span>
-                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">Blue-Inked Islands</span>
-                    </div>
-                    <div style="display:flex;gap:.75rem;align-items:baseline;">
-                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">13:49</span>
-                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">Midnight Architecture</span>
-                    </div>
-                    <div style="display:flex;gap:.75rem;align-items:baseline;">
-                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">16:16</span>
-                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">The Slow Rotation</span>
-                    </div>
-                    <div style="display:flex;gap:.75rem;align-items:baseline;">
-                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">18:55</span>
-                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">Where Pulse and Pasture Meet</span>
-                    </div>
-                    <div style="display:flex;gap:.75rem;align-items:baseline;">
-                        <span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">24:19</span>
-                        <span style="color:rgba(255,255,255,.75);font-size:.9rem;">Steam from the Porcelain</span>
-                    </div>
-                </div>
+            <div style="
+                display:inline-flex;align-items:center;gap:.5rem;
+                padding:.35rem .85rem;border-radius:999px;
+                background:rgba(212,175,55,.08);
+                border:1px solid rgba(212,175,55,.2);
+                color:var(--valtara-oro);
+                font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;
+                align-self:flex-start;
+            ">
+                <i class="fa-brands fa-youtube"></i>&nbsp;Valtara Sessions Vol. 1
             </div>
 
-            
-                href="https://youtu.be/AioVZKTOLAI?si=Wr2eurAtslh-fLGa"
-                target="_blank"
-                rel="noopener noreferrer"
-                style="
-                    display:inline-flex;align-items:center;justify-content:center;
-                    gap:.6rem;padding:.9rem 1.6rem;border-radius:999px;
-                    background:linear-gradient(135deg,#c00,#e00);
-                    color:white;font-weight:800;font-size:.95rem;
-                    text-decoration:none;
-                    box-shadow:0 8px 24px rgba(200,0,0,.3);
-                    align-self:flex-start;
-                    transition:filter .2s;
-                "
-                onmouseover="this.style.filter='brightness(1.12)'"
-                onmouseout="this.style.filter=''"
-            >
-                <i class="fa-brands fa-youtube"></i>&nbsp;Ver en YouTube
-            </a>
+            <h3 style="
+                color:var(--valtara-blanco);
+                font-family:var(--font-accent);
+                font-size:clamp(1.3rem,2vw,1.9rem);
+                line-height:1.2;margin:0;
+            ">
+                Música Ambiental para Relajación, Enfoque y Bienestar Profundo
+            </h3>
 
+            <p style="color:var(--valtara-gris-texto);line-height:1.85;font-size:.95rem;margin:0;">
+                Una experiencia sonora diseñada meticulosamente para armonizar tus espacios, reducir el estrés diario y potenciar tus momentos de enfoque, meditación o descanso profundo.
+            </p>
         </div>
+    </div>
+
+    <!-- Bloque inferior -->
+    <div style="
+        background:rgba(0,0,0,.68);
+        border:1px solid rgba(212,175,55,.18);
+        border-top:none;
+        border-radius:0 0 28px 28px;
+        padding:3rem 3.5rem 3.5rem;
+        box-shadow:0 2rem 6rem rgba(212,175,55,.10);
+    ">
+
+        <p style="
+            color:rgba(255,255,255,.82);
+            font-size:1.05rem;line-height:2;
+            font-weight:300;letter-spacing:.02em;
+            max-width:860px;margin:0 auto 2.5rem;
+            text-align:center;
+        ">
+            Bienvenido a <span style="color:var(--valtara-oro);font-weight:600;">Valtara Sessions</span>.
+            Cada frecuencia aquí ha sido elegida para guiar tu sistema nervioso hacia un estado de
+            calma activa — ese punto donde el pensamiento se despeja, el cuerpo se suelta y el tiempo
+            deja de pesar. Encuentra un espacio cómodo, respira profundo y permite que estas
+            frecuencias hagan el resto.
+        </p>
+
+        <div style="
+            width:60px;height:1px;
+            background:linear-gradient(90deg,transparent,rgba(212,175,55,.5),transparent);
+            margin:0 auto 2.5rem;
+        "></div>
+
+        <p style="
+            color:var(--valtara-oro);font-size:.75rem;
+            letter-spacing:.22em;text-transform:uppercase;
+            text-align:center;margin:0 0 1.5rem;
+        ">
+            Índice de pistas
+        </p>
+
+        <div style="
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:.55rem .5rem;
+            max-width:860px;margin:0 auto 3rem;
+        ">
+            <div style="display:flex;gap:.75rem;align-items:baseline;"><span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">00:00</span><span style="color:rgba(255,255,255,.75);font-size:.9rem;">Refugio entre Ramas</span></div>
+            <div style="display:flex;gap:.75rem;align-items:baseline;"><span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">02:51</span><span style="color:rgba(255,255,255,.75);font-size:.9rem;">Donde la Piedra se Rinde</span></div>
+            <div style="display:flex;gap:.75rem;align-items:baseline;"><span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">05:33</span><span style="color:rgba(255,255,255,.75);font-size:.9rem;">Un Puerto Donde Descansar</span></div>
+            <div style="display:flex;gap:.75rem;align-items:baseline;"><span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">08:20</span><span style="color:rgba(255,255,255,.75);font-size:.9rem;">The Willow and the Stone</span></div>
+            <div style="display:flex;gap:.75rem;align-items:baseline;"><span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">11:01</span><span style="color:rgba(255,255,255,.75);font-size:.9rem;">Blue-Inked Islands</span></div>
+            <div style="display:flex;gap:.75rem;align-items:baseline;"><span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">13:49</span><span style="color:rgba(255,255,255,.75);font-size:.9rem;">Midnight Architecture</span></div>
+            <div style="display:flex;gap:.75rem;align-items:baseline;"><span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">16:16</span><span style="color:rgba(255,255,255,.75);font-size:.9rem;">The Slow Rotation</span></div>
+            <div style="display:flex;gap:.75rem;align-items:baseline;"><span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">18:55</span><span style="color:rgba(255,255,255,.75);font-size:.9rem;">Where Pulse and Pasture Meet</span></div>
+            <div style="display:flex;gap:.75rem;align-items:baseline;"><span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">24:19</span><span style="color:rgba(255,255,255,.75);font-size:.9rem;">Steam from the Porcelain</span></div>
+            <div style="display:flex;gap:.75rem;align-items:baseline;"><span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">26:40</span><span style="color:rgba(255,255,255,.75);font-size:.9rem;">Unfolding the Crease</span></div>
+            <div style="display:flex;gap:.75rem;align-items:baseline;"><span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">29:21</span><span style="color:rgba(255,255,255,.75);font-size:.9rem;">The Copper Line</span></div>
+            <div style="display:flex;gap:.75rem;align-items:baseline;"><span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">31:48</span><span style="color:rgba(255,255,255,.75);font-size:.9rem;">Echoes of Ochre</span></div>
+            <div style="display:flex;gap:.75rem;align-items:baseline;"><span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">34:54</span><span style="color:rgba(255,255,255,.75);font-size:.9rem;">El Rumor de la Marea</span></div>
+            <div style="display:flex;gap:.75rem;align-items:baseline;"><span style="color:var(--valtara-oro);font-size:.8rem;min-width:3.2rem;font-weight:700;font-variant-numeric:tabular-nums;">38:07</span><span style="color:rgba(255,255,255,.75);font-size:.9rem;">Resuena el Viento</span></div>
+        </div>
+
+        <div style="
+            width:60px;height:1px;
+            background:linear-gradient(90deg,transparent,rgba(212,175,55,.4),transparent);
+            margin:0 auto 2rem;
+        "></div>
+
+        <p style="
+            text-align:center;
+            color:rgba(255,255,255,.4);
+            font-size:.88rem;letter-spacing:.06em;
+            line-height:1.9;margin:0;
+        ">
+            Gracias por escuchar Valtara Radio.<br>
+            <span style="color:rgba(212,175,55,.55);font-style:italic;">
+                Próximamente nuevas estaciones.
+            </span>
+        </p>
+
     </div>
 </div>
 
